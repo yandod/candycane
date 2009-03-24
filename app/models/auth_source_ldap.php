@@ -19,7 +19,8 @@
 #require 'net/ldap'
 #require 'iconv'
 #
-#class AuthSourceLdap < AuthSource 
+class AuthSourceLdap extends AuthSource
+{
 #  validates_presence_of :host, :port, :attr_login
 #  validates_length_of :name, :host, :account_password, :maximum => 60, :allow_nil => true
 #  validates_length_of :account, :base_dn, :maximum => 255, :allow_nil => true
@@ -96,4 +97,5 @@
 #      entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
 #    end
 #  end
-#end
+}
+

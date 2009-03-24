@@ -1,6 +1,7 @@
 <?php
 class News extends AppModel
 {
+	var $belongsTo = array('Project');
 //  belongs_to :project
 //  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
 //  has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_on"
@@ -16,7 +17,10 @@ class News extends AppModel
 //  
 //  # returns latest news for projects visible by user
 //  def self.latest(user = User.current, count = 5)
+	function latest($user,$count = 5)
+	{
+		return $this->find('all');
 //    find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")	
-//  end
+	}
 //end
 }

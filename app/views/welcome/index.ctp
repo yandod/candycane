@@ -1,14 +1,14 @@
-<h2><%= l(:label_home) %></h2>
+<h2><?php __('label_home') ?></h2>
 
 <div class="splitcontentleft">
-  <%= textilizable Setting.welcome_text %>
-  <% if @news.any? %>
+  <!-- TODO: <%= textilizable Setting.welcome_text %> -->
+  <?php if (!empty($news)): ?>
   <div class="box">
-	<h3><%=l(:label_news_latest)%></h3>
-		<%= render :partial => 'news/news', :collection => @news %>
-		<%= link_to l(:label_news_view_all), :controller => 'news' %>
+	<h3><?php __('label_news_latest')?></h3>
+		<?php echo $this->renderElement('news',aa('news',$news)) ?>
+		<?php echo $html->link(__('label_news_view_all',true),'/news/') ?>
   </div>
-  <% end %>
+  <?php endif; ?>
 </div>
 
 <div class="splitcontentright">

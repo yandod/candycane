@@ -18,7 +18,8 @@
 #
 #require "digest/md5"
 #
-#class Attachment < ActiveRecord::Base
+class Attachment extends AppModel
+{
 #  belongs_to :container, :polymorphic => true
 #  belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 #  
@@ -149,4 +150,5 @@
 #      Digest::MD5.hexdigest(f.read)
 #    end
 #  end
-#end
+}
+
