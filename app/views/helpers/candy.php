@@ -2,7 +2,8 @@
 class CandyHelper extends AppHelper
 {
 	var $helpers = array('Html');
-	function link($user){
+	function link($user)
+	{
 		return $this->Html->link($user['name'],'/account/show/'.$user['id']);
 	}
 	function accesskey($key)
@@ -13,8 +14,6 @@ class CandyHelper extends AppHelper
 		);
 		return $map[$key];
 	}
-}
-
 #require 'coderay'
 #require 'coderay/helpers/file_type'
 #require 'forwardable'
@@ -166,14 +165,17 @@ class CandyHelper extends AppHelper
 #    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
 #  end
 #
-#  def authoring(created, author, options={})
+	function authoring($created, $author, $options = array())
+	{
+		//TODO:port
 #    time_tag = @project.nil? ? content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created)) :
 #                               link_to(distance_of_time_in_words(Time.now, created), 
 #                                       {:controller => 'projects', :action => 'activity', :id => @project, :from => created.to_date},
 #                                       :title => format_time(created))
 #    author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
 #    l(options[:label] || :label_added_time_by, author_tag, time_tag)
-#  end
+		return "foo added on var day";
+	}
 #
 #  def l_or_humanize(s, options={})
 #    k = "#{options[:prefix]}#{s}".to_sym
@@ -624,5 +626,4 @@ class CandyHelper extends AppHelper
 #    extend helper
 #    return self
 #  end
-#end
-#
+}

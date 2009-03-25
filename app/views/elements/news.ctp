@@ -7,5 +7,5 @@
 <br />
 <?php if (!empty($item['News']['summary'])): ?>
 <span class="summary"><?php echo h($item['News']['summary']) ?></span><br /><?php endif; ?>
-<span class="author"><%= authoring news.created_on, news.author %></span></p>
+<span class="author"><?php echo $candy->authoring($item['News']['created_on'],$item['Author']) ?></span></p>
 <?php endforeach; ?>

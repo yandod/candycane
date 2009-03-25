@@ -1,8 +1,13 @@
 <?php
 class News extends AppModel
 {
-	var $belongsTo = array('Project');
-//  belongs_to :project
+	var $belongsTo = array(
+		'Project' => array(),
+		'Author' => array(
+			'className' => 'User',
+			'foreginKey' => 'author_id',
+		),
+	);
 //  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
 //  has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_on"
 //  
