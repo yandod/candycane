@@ -96,6 +96,8 @@ class CandyHelper extends AppHelper
 #    date.strftime(@date_format)
 #  end
 #
+	function format_time()
+	{
 #  def format_time(time, include_date = true)
 #    return nil unless time
 #    time = time.to_time if time.is_a?(String)
@@ -105,6 +107,8 @@ class CandyHelper extends AppHelper
 #    @time_format ||= (Setting.time_format.blank? ? l(:general_fmt_time) : Setting.time_format)
 #    include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
 #  end
+		return "2009/4/1 12:12 AM";
+	}
 #  
 #  def format_activity_title(text)
 #    h(truncate_single_line(text, 100))

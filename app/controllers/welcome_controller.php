@@ -1,7 +1,7 @@
 <?php
 class WelcomeController extends AppController
 {
-  var $uses = array('News'/*,'Project'*/);
+  var $uses = array('News','Project');
   function index(){
   	$user = array(
   		'id' => 3,
@@ -9,6 +9,6 @@ class WelcomeController extends AppController
   		'logged' => true,
   	);
     $this->set('news',$this->News->latest($user));
-    //$projects = $this->Project->latest($this->User->current());
+    $this->set('projects',$this->Project->latest($user));
   }
 }

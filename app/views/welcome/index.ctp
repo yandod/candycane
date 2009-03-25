@@ -12,24 +12,26 @@
 </div>
 
 <div class="splitcontentright">
-    <% if @projects.any? %>
+	<?php if (!empty($projects)): ?>
 	<div class="box">
-	<h3 class="icon22 icon22-projects"><%=l(:label_project_latest)%></h3>
+	<h3 class="icon22 icon22-projects"><?php __('label_project_latest') ?></h3>
 		<ul>
-		<% for project in @projects %>
+		<?php foreach ($projects as $project): ?>
 			<li>
-			<%= link_to h(project.name), :controller => 'projects', :action => 'show', :id => project %> (<%= format_time(project.created_on) %>)
-			<%= textilizable project.short_description, :project => project %>
+			<?php echo $html->link(h($project['Project']['name']),"/projects/show/{$project['Project']['id']}") ?>(<?php echo $candy->format_time($project['Project']['created_on'])?>)
+<!--  			<%= textilizable project.short_description, :project => project %> -->
+				<?php echo "<p>".$project['Project']['description']."</p>" ?>
 			</li>
-		<% end %>
+		<?php endforeach; ?>
 		</ul>
 	</div>
-	<% end %>
+	<?php endif; ?>
 </div>	
 
-<% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
+<!--  <% content_for :header_tags do %> -->
+<!--  <%= auto_discovery_link_tag(:atom, {:controller => 'news', :action => 'index', :key => User.current.rss_key, :format => 'atom'},
                                    :title => "#{Setting.app_title}: #{l(:label_news_latest)}") %>
 <%= auto_discovery_link_tag(:atom, {:controller => 'projects', :action => 'activity', :key => User.current.rss_key, :format => 'atom'},
                                    :title => "#{Setting.app_title}: #{l(:label_activity)}") %>
-<% end %>
+-->
+<!-- <% end %> -->
