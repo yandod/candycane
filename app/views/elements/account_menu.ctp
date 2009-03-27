@@ -1,2 +1,4 @@
-<ul><li><a href="/my/account" class="my-account"><?php __('myaccount') ?></a></li>
-<li><a href="/logout" class="logout"><?php __('logout') ?></a></li></ul>
+<ul>
+  <li><?php echo($html->link(_('myaccount'), '/my/account', array('class' => 'my-account'))); ?></li>
+  <li><?php echo($html->link(_('logout'), '/logout', array('class' => 'logout'))); ?></li>
+</ul>
