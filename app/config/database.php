@@ -84,7 +84,7 @@ class DATABASE_CONFIG {
 		'host' => 'localhost',
 		'login' => 'root',
 		'password' => '',
-		'database' => 'candycane',
+		'database' => 'redmine_development',
 		'prefix' => '',
 	);
 
