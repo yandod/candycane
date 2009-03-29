@@ -92,3 +92,54 @@
 #    }
 #  end  
 #end
+
+class AdminController extends AppController {
+	var $name = 'Admin';
+	var $uses = array();
+	var $helpers = array('Candy');
+
+	function beforeFilter()
+	{
+		// require_admin
+	}
+
+	function index()
+	{
+		// this is dummy user
+		$this->set('currentuser','suzuki');
+	}
+
+	function projects()
+	{
+		// this is dummy user
+		$this->set('currentuser','suzuki');
+		$this->set('status' , array('hoge', 'fuga'));
+		
+
+		$this->set('projects', array(array(
+										   'id' => 1,
+										   'name' => 'hoge',
+										   'short_description' => 'descriprion',
+										   'active' => TRUE,
+										   'created_on' => '2009-03-29 14:23:24',
+										   'is_public' => TRUE)));
+	}
+
+	function plugins()
+	{
+	}
+
+	function default_configration()
+	{
+	}
+
+	function test_email()
+	{
+	}
+
+	function info()
+	{
+	}
+
+
+}

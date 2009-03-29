@@ -14,6 +14,37 @@ class CandyHelper extends AppHelper
 		);
 		return $map[$key];
 	}
+
+
+	function html_title($str)
+	{
+#  def html_title(*args)
+#    if args.empty?
+#      title = []
+#      title << @project.name if @project
+#      title += @html_title if @html_title
+#      title << Setting.app_title
+#      title.compact.join(' - ')
+#    else
+#      @html_title ||= []
+#      @html_title += args
+#    end
+#  end
+		if (empty($str)) {
+			$title = array();
+			if (! empty($this->project)) {
+				$title[0] = $this->project['name'];
+				if (! empty($this->html_title)) {
+					$title[0] .= $this->html_title;
+				}
+				$title = join(' - ', $title);
+			}
+		} else {
+			$this->html_title = array();
+			$this->html_title .= $str;
+		}
+	}
+
 #require 'coderay'
 #require 'coderay/helpers/file_type'
 #require 'forwardable'
