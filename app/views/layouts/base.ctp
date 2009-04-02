@@ -26,7 +26,7 @@
         <!-- <%= render_menu :account_menu -%> -->
         <?php echo $this->renderElement('account_menu') ?>
     </div>
-    <?php if ($currentuser['logged']) echo $html->tag('div',__('label_logged_as',true).' '.$candy->link($currentuser),array('id'=>'loggedas')); ?>
+    <?php if ($currentuser['logged']) echo $html->tag('div',__('Logged in as',true).' '.$candy->link($currentuser),array('id'=>'loggedas')); ?>
     <?php echo $this->renderElement('top_menu') ?>
 </div>
       
@@ -34,7 +34,7 @@
     <div id="quick-search">
         <?php echo $form->create(null,aa('url','/search/index','type','get')) ?>
         <!-- <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %> -->
-        <?php echo $html->link(__('search',true).':','/search/index',$candy->accesskey('search')) ?>
+        <?php echo $html->link(__('Search',true).':','/search/index',$candy->accesskey('search')) ?>
         <?php echo $form->input('q',aa('type','text','size',20,'class','small','accesskey',$candy->accesskey('quick_search'),'div',false,'label',false)) ?>
 <!--        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %> -->
         <?php echo $form->end() ?>
@@ -60,7 +60,7 @@
     </div>
 </div>
 
-<div id="ajax-indicator" style="display:none;"><span><?php __('label_loading') ?></span></div>
+<div id="ajax-indicator" style="display:none;"><span><?php __('Loading...') ?></span></div>
 	
 <div id="footer">
     Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> &copy; 2009 candycane team

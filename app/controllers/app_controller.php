@@ -2,12 +2,14 @@
 #require 'uri'
 #require 'cgi'
 #
+		App::import('Core', 'l10n');
 class AppController extends Controller {
 	var $layout = 'base';
 	var $helpers = array('Html','Form','Javascript','Candy');
 
 	function beforeFilter()
 	{
+
 		$this->user_setup();
 		//$this->check_if_login_required();
 		//$this->set_localzation();

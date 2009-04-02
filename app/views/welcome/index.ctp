@@ -1,12 +1,12 @@
-<h2><?php __('label_home') ?></h2>
+<h2><?php __('Home') ?></h2>
 
 <div class="splitcontentleft">
   <!-- TODO: <%= textilizable Setting.welcome_text %> -->
   <?php if (!empty($news)): ?>
   <div class="box">
-	<h3><?php __('label_news_latest')?></h3>
+	<h3><?php __('Latest news')?></h3>
 		<?php echo $this->renderElement('news',aa('news',$news)) ?>
-		<?php echo $html->link(__('label_news_view_all',true),'/news/') ?>
+		<?php echo $html->link(__('View all news',true),'/news/') ?>
   </div>
   <?php endif; ?>
 </div>
@@ -14,7 +14,7 @@
 <div class="splitcontentright">
 	<?php if (!empty($projects)): ?>
 	<div class="box">
-	<h3 class="icon22 icon22-projects"><?php __('label_project_latest') ?></h3>
+	<h3 class="icon22 icon22-projects"><?php __('Latest projects') ?></h3>
 		<ul>
 		<?php foreach ($projects as $project): ?>
 			<li>
