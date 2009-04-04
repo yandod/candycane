@@ -306,6 +306,12 @@ class CandyHelper extends AppHelper
 #  # * with a String: textilizable(text, options)
 #  # * with an object and one of its attribute: textilizable(issue, :description, options)
 #  def textilizable(*args)
+  function textilizable($text, $options=array())
+  {
+  	 App::import('Vendor','Textile',aa('file','textile-2.0.0/classTextile.php'));
+  	 $Textile = new Textile();
+  	 return $Textile->TextileThis($text);
+
 #    options = args.last.is_a?(Hash) ? args.pop : {}
 #    case args.size
 #    when 1
@@ -507,6 +513,7 @@ class CandyHelper extends AppHelper
 #
 #    text
 #  end
+  }
 #
 #  # Same as Rails' simple_format helper without using paragraphs
 #  def simple_format_without_paragraph(text)

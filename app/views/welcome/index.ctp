@@ -2,6 +2,7 @@
 
 <div class="splitcontentleft">
   <!-- TODO: <%= textilizable Setting.welcome_text %> -->
+  <?php echo $candy->textilizable("welcome text") ?>
   <?php if (!empty($news)): ?>
   <div class="box">
 	<h3><?php __('Latest news')?></h3>
@@ -20,7 +21,7 @@
 			<li>
 			<?php echo $html->link(h($project['Project']['name']),"/projects/show/{$project['Project']['id']}") ?>(<?php echo $candy->format_time($project['Project']['created_on'])?>)
 <!--  			<%= textilizable project.short_description, :project => project %> -->
-				<?php echo "<p>".$project['Project']['description']."</p>" ?>
+				<?php echo $candy->textilizable($project['Project']['description']) ?>
 			</li>
 		<?php endforeach; ?>
 		</ul>
