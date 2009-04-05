@@ -133,14 +133,23 @@ class AppController extends Controller {
         return true;
     }
     
-#  def require_admin
-#    return unless require_login
-#    if !User.current.admin?
-#      render_403
-#      return false
-#    end
-#    true
-#  end
+    /**
+     * require_admin
+     *
+     */
+    function require_admin()
+    {
+        if (!$this->require_login()) {
+            return false;
+        }
+
+        if ($this->current_user['admin'] != 1) {
+            $this->redirect(null, 403);
+            return false;
+        }
+
+        return true;
+    }
 #  
 #  def deny_access
 #    User.current.logged? ? render_403 : require_login
