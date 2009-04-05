@@ -193,3 +193,101 @@
 #    end
 #  end
 #end
+
+/**
+ * AccountController
+ *
+ * @todo implement yet
+ */
+class AccountController extends AppController {
+
+    var $uses = array('User');
+
+    /**
+     * login
+     *
+     * Login request and validation
+     *
+     * @todo implement yet
+     */
+    function login()
+    {
+        if (!$this->data) {
+            return $this->logout();
+        }
+
+        // Authenticate user
+        $user = $this->User->tryToLogin($this->data);
+
+        if ($user === false) {
+            // Invalid credentials
+            $this->cakeError('error', array('message' => _('notice_account_invalid_creditentials')));
+        }
+
+#      if user.nil?
+#        # Invalid credentials
+#        flash.now[:error] = l(:notice_account_invalid_creditentials)
+#      elsif user.new_record?
+#        # Onthefly creation failed, display the registration form to fill/fix attributes
+#        @user = user
+#        session[:auth_source_registration] = {:login => user.login, :auth_source_id => user.auth_source_id }
+#        render :action => 'register'
+#      else
+#        # Valid user
+#        self.logged_user = user
+#        # generate a key and set cookie if autologin
+#        if params[:autologin] && Setting.autologin?
+#          token = Token.create(:user => user, :action => 'autologin')
+#          cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
+#        end
+#        redirect_back_or_default :controller => 'my', :action => 'page'
+#      end
+    }
+
+    /**
+     * logout
+     *
+     * Log out current user and redirect to welcome page
+     *
+     * @todo implement yet
+     */
+    function logout()
+    {
+        #cookies.delete :autologin
+        #Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin']) if User.current.logged?
+        #self.logged_user = nil
+        $this->redirect('/');
+        exit;
+    }
+
+    /**
+     * show
+     *
+     * Show user's account
+     *
+     * @todo implement yet
+     */
+    function show($id)
+    {
+        $id = (int)$id;
+
+        $user = $this->User->findById($id);
+        if (!is_array($user)) {
+            $this->cakeError('error', array('message' => "user id {$id} not found."));
+        }
+
+        $this->set('user', $user);
+        #@custom_values = @user.custom_values
+        
+        # show only public projects and private projects that the logged in user is also a member of
+        #    @memberships = @user.memberships.select do |membership|
+        #      membership.project.is_public? || (User.current.member_of?(membership.project))
+        #    end
+        
+        #    events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
+        #    @events_by_day = events.group_by(&:event_date)
+        #  rescue ActiveRecord::RecordNotFound
+        #    render_404
+    }
+    
+}
