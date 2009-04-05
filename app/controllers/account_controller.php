@@ -204,6 +204,19 @@ class AccountController extends AppController {
     var $uses = array('User');
 
     /**
+     * beforeFilter
+     *
+     * skip_before_filter :check_if_login_required, :only => [:login, :lost_password, :register, :activate]
+     */
+    function beforeFilter()
+    {
+        $skip_action = array('login', 'lost_password', 'register', 'activate');
+        if (!in_array($this->action, $skip_action)) {
+            parent::beforeFilter();
+        }
+    }
+
+    /**
      * login
      *
      * Login request and validation
@@ -213,27 +226,26 @@ class AccountController extends AppController {
     function login()
     {
         if (!$this->data) {
+            return;
             return $this->logout();
         }
 
         // Authenticate user
-        $user = $this->User->tryToLogin($this->data);
+        $user = $this->User->tryToLogin($this->data['User']['username'], $this->data['User']['password']);
 
         if ($user === false) {
             // Invalid credentials
-            $this->cakeError('error', array('message' => _('notice_account_invalid_creditentials')));
-        }
-
-#      if user.nil?
-#        # Invalid credentials
 #        flash.now[:error] = l(:notice_account_invalid_creditentials)
-#      elsif user.new_record?
-#        # Onthefly creation failed, display the registration form to fill/fix attributes
+            $this->cakeError('error', array('message' => 'notice_account_invalid_creditentials'));
+        } else if ((bool)$this->User->data) {
+            // (bool)$this->User->data == new_record
+            // Onthefly creation failed, display the registration form to fill/fix attributes
 #        @user = user
 #        session[:auth_source_registration] = {:login => user.login, :auth_source_id => user.auth_source_id }
 #        render :action => 'register'
-#      else
-#        # Valid user
+            return 'register';
+        } else {
+            // Valid user
 #        self.logged_user = user
 #        # generate a key and set cookie if autologin
 #        if params[:autologin] && Setting.autologin?
@@ -241,7 +253,9 @@ class AccountController extends AppController {
 #          cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
 #        end
 #        redirect_back_or_default :controller => 'my', :action => 'page'
-#      end
+            $this->Session->write('user_id', $user['id']); // @todo atode kesu
+            $this->redirect('/');        
+        }
     }
 
     /**
@@ -253,6 +267,7 @@ class AccountController extends AppController {
      */
     function logout()
     {
+        $this->Session->destroy();
         #cookies.delete :autologin
         #Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin']) if User.current.logged?
         #self.logged_user = nil

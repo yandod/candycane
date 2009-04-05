@@ -1,20 +1,28 @@
 <?php
 #require 'uri'
 #require 'cgi'
-#
-		App::import('Core', 'l10n');
+
+App::import('Core', 'l10n');
+
 class AppController extends Controller {
-	var $layout = 'base';
-	var $helpers = array('Html','Form','Javascript','Candy');
 
-	function beforeFilter()
-	{
+    var $layout = 'base';
+    var $helpers = array('Html', 'Form', 'Javascript', 'Candy');
+    var $components = array('Cookie');
 
-		$this->user_setup();
-		//$this->check_if_login_required();
-		//$this->set_localzation();
-		
-	}
+    var $current_user; // alternate User.current
+
+    /**
+     * beforeFilter
+     *
+     * @todo set_localzation
+     */
+    function beforeFilter()
+    {
+        $this->user_setup();
+        $this->check_if_login_required();
+        //$this->set_localzation();
+    }
 #  filter_parameter_logging :password
 #  
 #  include Redmine::MenuManager::MenuController
@@ -28,39 +36,70 @@ class AppController extends Controller {
 #    @current_role ||= User.current.role_for_project(@project)
 #  end
 #
-	function user_setup()
-	{
-		$this->set('currentuser',$this->find_current_user());
-#  def user_setup
+    /**
+     * user_setup
+     *
+     * @todo Setting.check_cache
+     */
+    function user_setup()
+    {
 #    # Check the settings cache for each request
 #    Setting.check_cache
-#    # Find the current user
-#    User.current = find_current_user
-#  end
-	}
-	function find_current_user() {
-#  # Returns the current user or nil if no user is logged in
-#  def find_current_user
-#    if session[:user_id]
-#      # existing session
+        
+        // Find the current user
+        $this->current_user = $this->find_current_user();
+        $this->set('currentuser', $this->current_user);
+    }
+
+    /**
+     * find_current_user
+     *
+     * Returns the current user or nil if no user is logged in
+     *
+     * @todo Setting.autologin
+     * @todo auto_login
+     * @todo rss key authentication
+     */
+    function find_current_user() {
+        if ($this->Session->read('user_id')) {
+            // existing session
+            $user = $this->User->findById($this->Session->read('user_id'));
+            $user['User']['logged'] = true; // @todo fixme
+            $user['User']['name'] = $user['User']['login']; // @todo fixme
+            return $user['User'];
 #      (User.active.find(session[:user_id]) rescue nil)
+        } else if ($this->Cookie->read('autologin')) {
 #    elsif cookies[:autologin] && Setting.autologin?
 #      # auto-login feature
 #      User.find_by_autologin_key(cookies[:autologin])
 #    elsif params[:key] && accept_key_auth_actions.include?(params[:action])
 #      # RSS key authentication
 #      User.find_by_rss_key(params[:key])
-#    end
-#  end
-		return array('id' => 3,'name' => 'yando','logged' => true);
-	}
-#  # check if login is globally required to access the application
-#  def check_if_login_required
-#    # no check needed if user is already logged in
-#    return true if User.current.logged?
-#    require_login if Setting.login_required?
-#  end 
-#  
+        }
+
+        return null;
+    }
+
+    /**
+     * check_if_login_required
+     *
+     * check if login is globally required to access the application
+     *
+     * @todo implement Setting.login_required
+     * @todo logged?
+     */
+    function check_if_login_required()
+    {
+        // no check needed if user is already logged in
+        if ($this->current_user['logged']) {
+            return true;
+        }
+
+        //if (Setting.login_required) {
+            $this->require_login();
+        //}
+    }
+
 #  def set_localization
 #    User.current.language = nil unless User.current.logged?
 #    lang = begin
@@ -78,14 +117,22 @@ class AppController extends Controller {
 #    set_language_if_valid(lang)    
 #  end
 #  
-#  def require_login
-#    if !User.current.logged?
+    /**
+     * require_login
+     *
+     * @todo set back_url
+     */
+    function require_login()
+    {
+        if (!$this->current_user) {
+            $this->redirect('/account/login');
 #      redirect_to :controller => "account", :action => "login", :back_url => url_for(params)
-#      return false
-#    end
-#    true
-#  end
-#
+            return false;
+        }
+
+        return true;
+    }
+    
 #  def require_admin
 #    return unless require_login
 #    if !User.current.admin?

@@ -290,7 +290,7 @@ class User extends AppModel
      *
      * Returns the user that matches provided login and password, or nil
      *
-     * @todo not implement yet.
+     * @todo implement auth_source
      */
     function tryToLogin($login, $password)
     {
@@ -300,6 +300,8 @@ class User extends AppModel
         }
 
         $user = $this->findByLogin($login);
+        $user = $user['User'];
+
         if (is_array($user)) {
             // user is already in local database
             # return nil if !user.active?
@@ -307,10 +309,10 @@ class User extends AppModel
                 return false;
             }
 
-            if ($user['auth_source']) {
+            if (isset($user['auth_source']) && $user['auth_source']) {
                 // user has an external authentication method
                 # return nil unless user.auth_source.authenticate(login, password)
-                return false;
+                //return false;
             } else {
                 // authentication with local password
                 # return nil unless User.hash_password(password) == user.hashed_password        
@@ -347,6 +349,6 @@ class User extends AppModel
     function updateAttribute($user, $last_login_on)
     {
         $user['last_login_on'] = $last_login_on;
-        $this->User->save($user);
+        $this->save($user);
     }
 }
