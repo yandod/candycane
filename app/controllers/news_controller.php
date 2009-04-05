@@ -107,3 +107,20 @@
 #    render_404
 #  end
 #end
+class NewsController extends AppController {
+	var $name = 'News';
+	var $helpers = array('Html', 'Form', 'Candy');
+	
+	function show($id = null)
+	{
+#  def show
+#    @comments = @news.comments
+#    @comments.reverse! if User.current.wants_comments_in_reverse_order?
+#  end
+		if (!$id) {
+			// TODO: error
+		}
+
+		$this->set('news', $this->News->read(null, $id));
+	}
+}
