@@ -92,10 +92,12 @@
 #    }
 #  end  
 #end
+Configure::write('Config.language',"ja");
 
 class AdminController extends AppController {
+
 	var $name = 'Admin';
-	var $uses = array();
+	var $uses = array('Project');
 	var $helpers = array('Candy');
 
 	function beforeFilter()
@@ -114,19 +116,16 @@ class AdminController extends AppController {
 		// this is dummy user
 		$this->set('currentuser','suzuki');
 		$this->set('status' , array('hoge', 'fuga'));
-		
 
-		$this->set('projects', array(array(
-										   'id' => 1,
-										   'name' => 'hoge',
-										   'short_description' => 'descriprion',
-										   'active' => TRUE,
-										   'created_on' => '2009-03-29 14:23:24',
-										   'is_public' => TRUE)));
+
+		$projects = $this->Project->find('all');
+		$this->set('projects', $projects);
 	}
 
 	function plugins()
 	{
+		$this->set('currentuser','suzuki');
+		
 	}
 
 	function default_configration()
@@ -139,6 +138,12 @@ class AdminController extends AppController {
 
 	function info()
 	{
+
+/* 		$this->set('currentuser','suzuki'); */
+/* 		App::import('Vendor', 'candycane'); */
+/* 		$Candycane = new Candycane; */
+/* 		$this->set('Candycane', $Candycane); */
+
 	}
 
 

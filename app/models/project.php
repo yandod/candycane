@@ -16,6 +16,10 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
+
+define('PROJECT_STATUS_ACTIVE', 1);
+define('PROJECT_ARCHIVED', 9);
+
 class Project extends AppModel
 {
 #  # Project statuses
@@ -229,10 +233,34 @@ class Project extends AppModel
 #    name
 #  end
 #  
-#  # Returns a short description of the projects (first lines)
-#  def short_description(length = 255)
-#    description.gsub(/^(.{#{length}}[^\n]*).*$/m, '\1').strip if description
-#  end
+
+	/**
+	 * Returns a short description of the projects (first lines)
+	 * @param string  $description  Description
+	 * @param integer $length short description length
+	 * @return string
+	 */
+	function short_description($description, $length = 255)
+	{
+		$short_description = '';
+		if ($description != '') {
+			$short_description = preg_replace("/^(.{$length}[^\n]*).*$/um", "$1", $description);
+		}
+		return $short_description;
+	}
+
+	function afterFind($results)
+	{
+		foreach ($results as $key => $val) {
+			if (isset($val['Project']['description'])) {
+				$results[$key]['Project']['short_description'] = $this->short_description($val['Project']['description']);
+			} else {
+				$results[$key]['Project']['short_description'] = '';
+			}
+		}
+		return $results;
+	}
+
 #  
 #  def allows_to?(action)
 #    if action.is_a? Hash

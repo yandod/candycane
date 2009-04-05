@@ -29,7 +29,7 @@
 <table class="list">
   <thead><tr>
 	<!-- <%= sort_header_tag('name', :caption => l(:label_project)) %> -->
-    <th><?php echo h(__('Project', TRUE)); ?></th>
+	<th><?php echo h(__('Project', TRUE)); ?></th>
 	<th><?php echo h(__('Description',TRUE)); ?></th>
 	<th><?php echo h(__('Subprojects', TRUE)); ?></th>
 <!--	<%= sort_header_tag('is_public', :caption => l(:field_is_public), :default_order => 'desc') %>
@@ -62,16 +62,17 @@
 -->
 
   <?php foreach ($projects as $project): ?>
-	 <tr class="odd">
+  <tr class="odd">
      <td>
-	 <?php echo (($project['active'] == TRUE) ? ($html->link(h($project['name']), array('controller' => 'projects', 'action' => 'settings', 'id' => 'project'))) : h($project['name'])); ?>
-	 <td><?php echo $project['short_description']; ?></td>
+	 <?php echo (($project['Project']['status'] == PROJECT_STATUS_ACTIVE) ? ($html->link(h($project['Project']['name']), array('controller' => 'projects', 'action' => 'settings', 'id' => $project['Project']['id']))) : h($project['Project']['name'])); ?>
+	 <td><?php echo nl2br($project['Project']['short_description']); ?></td>
 	 <td align="center">project.children.size
-	 <td align="center"><?php if ($project['is_public'] == TRUE) { echo $html->image('true.png'); } ?>
-	 <td align="center"><?php echo $project['created_on']; ?>
+	 <td align="center"><?php if ($project['Project']['is_public'] == TRUE) { echo $html->image('true.png'); } ?>
+	 <td align="center"><?php echo $project['Project']['created_on']; ?>
 	 <td align="center" style="width:10%">
 	 <small>
-	 <?php echo $html->link(__('Archive', TRUE), array('controller' => 'projects', 'action' => 'archive', 'id' => $project['id'])); ?>
+	 <?php echo $html->link(__('Archive', TRUE), array('controller' => 'projects', 'action' => 'archive', 'id' => $project['Project']['id'])); ?>
+	 <?php echo $html->link(__('Unarchive', TRUE), array('controller' => 'projects', 'action' => 'unarchive', 'id' => $project['Project']['id'])); ?>
 <!--
     <%= link_to(l(:button_archive), { :controller => 'projects', :action => 'archive', :id => project }, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-lock') if project.active? %>
     <%= link_to(l(:button_unarchive), { :controller => 'projects', :action => 'unarchive', :id => project }, :method => :post, :class => 'icon icon-unlock') if !project.active? && (project.parent.nil? || project.parent.active?) %>
@@ -79,7 +80,10 @@
     </small>
 	 </td>
 	 <td align="center" style="width:10%">
+<!--
     <small><%= link_to(l(:button_delete), { :controller => 'projects', :action => 'destroy', :id => project }, :class => 'icon icon-del') %></small>
+-->
+	 <small><?php echo $html->link(__('Delete', TRUE), array('controller' => 'projects', 'action' => 'destroy', 'id' => $project['Project']['id'], 'class' => 'icon icon-del')); ?></small>
   </td>
   </tr>
   <?php endforeach; ?>
