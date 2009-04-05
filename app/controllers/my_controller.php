@@ -38,43 +38,6 @@
 #         :session => :page_layout,
 #         :only => [:add_block, :remove_block, :order_blocks]
 #
-#  def index
-#    page
-#    render :action => 'page'
-#  end
-#
-#  # Show user's page
-#  def page
-#    @user = User.current
-#    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
-#  end
-#
-#  # Edit user's account
-#  def account
-#    @user = User.current
-#    @pref = @user.pref
-#    if request.post?
-#      @user.attributes = params[:user]
-#      @user.mail_notification = (params[:notification_option] == 'all')
-#      @user.pref.attributes = params[:pref]
-#      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
-#      if @user.save
-#        @user.pref.save
-#        @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
-#        set_language_if_valid @user.language
-#        flash[:notice] = l(:notice_account_updated)
-#        redirect_to :action => 'account'
-#        return
-#      end
-#    end
-#    @notification_options = [[l(:label_user_mail_option_all), 'all'],
-#                             [l(:label_user_mail_option_none), 'none']]
-#    # Only users that belong to more than 1 project can select projects for which they are notified
-#    # Note that @user.membership.size would fail since AR ignores :include association option when doing a count
-#    @notification_options.insert 1, [l(:label_user_mail_option_selected), 'selected'] if @user.memberships.length > 1
-#    @notification_option = @user.mail_notification? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')    
-#  end
-#
 #  # Manage user's password
 #  def password
 #    @user = User.current
@@ -159,3 +122,58 @@
 #    redirect_to :action => 'page'
 #  end
 #end
+
+class MyController extends AppController
+{
+    var $uses = array('User');
+
+    function index()
+    {
+        $this->page();
+        return 'page';
+    }
+
+    /**
+     * page
+     *
+     * Show user's page
+     */
+    function page()
+    {
+#    @user = User.current
+#    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
+    }
+
+    /**
+     * account
+     *
+     * Edit user's account
+     */
+    function account()
+    {
+#    @user = User.current
+#    @pref = @user.pref
+    
+        if ($this->data) {
+#      @user.attributes = params[:user]
+#      @user.mail_notification = (params[:notification_option] == 'all')
+#      @user.pref.attributes = params[:pref]
+#      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
+#      if @user.save
+#        @user.pref.save
+#        @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
+#        set_language_if_valid @user.language
+#        flash[:notice] = l(:notice_account_updated)
+#        redirect_to :action => 'account'
+#        return
+#      end
+        }
+
+#    @notification_options = [[l(:label_user_mail_option_all), 'all'],
+#                             [l(:label_user_mail_option_none), 'none']]
+#    # Only users that belong to more than 1 project can select projects for which they are notified
+#    # Note that @user.membership.size would fail since AR ignores :include association option when doing a count
+#    @notification_options.insert 1, [l(:label_user_mail_option_selected), 'selected'] if @user.memberships.length > 1
+#    @notification_option = @user.mail_notification? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')    
+    }
+}
