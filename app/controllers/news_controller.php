@@ -16,6 +16,10 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
+class NewsController extends AppController {
+	var $name = 'News';
+	var $helpers = array('Html', 'Form', 'Candy');
+
 #class NewsController < ApplicationController
 #  before_filter :find_news, :except => [:new, :index, :preview]
 #  before_filter :find_project, :only => [:new, :preview]
@@ -35,11 +39,19 @@
 #    end
 #  end
 #  
+	function show($id = null)
+	{
 #  def show
 #    @comments = @news.comments
 #    @comments.reverse! if User.current.wants_comments_in_reverse_order?
 #  end
-#
+		if (!$id) {
+			// TODO: error
+		}
+
+		$this->set('news', $this->News->read(null, $id));
+	}
+
 #  def new
 #    @news = News.new(:project => @project, :author => User.current)
 #    if request.post?
@@ -107,20 +119,4 @@
 #    render_404
 #  end
 #end
-class NewsController extends AppController {
-	var $name = 'News';
-	var $helpers = array('Html', 'Form', 'Candy');
-	
-	function show($id = null)
-	{
-#  def show
-#    @comments = @news.comments
-#    @comments.reverse! if User.current.wants_comments_in_reverse_order?
-#  end
-		if (!$id) {
-			// TODO: error
-		}
-
-		$this->set('news', $this->News->read(null, $id));
-	}
 }
