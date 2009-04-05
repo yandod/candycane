@@ -1,8 +1,10 @@
 <?php
+/**
+ * user.php
+ *
+ */
 #require "digest/sha1"
 #
-class User extends AppModel
-{
 #
 #  # Account statuses
 #  STATUS_ANONYMOUS  = 0
@@ -276,4 +278,75 @@ class User extends AppModel
 #  def mail; nil end
 #  def time_zone; nil end
 #  def rss_key; nil end
+
+/**
+ * User
+ *
+ */
+class User extends AppModel
+{
+    /**
+     * tryToLogin
+     *
+     * Returns the user that matches provided login and password, or nil
+     *
+     * @todo not implement yet.
+     */
+    function tryToLogin($login, $password)
+    {
+        // Make sure no one can sign in with an empty password
+        if (strlen($password) <= 0) {
+            return false;
+        }
+
+        $user = $this->findByLogin($login);
+        if (is_array($user)) {
+            // user is already in local database
+            # return nil if !user.active?
+            if ($user['status'] != 1) {
+                return false;
+            }
+
+            if ($user['auth_source']) {
+                // user has an external authentication method
+                # return nil unless user.auth_source.authenticate(login, password)
+                return false;
+            } else {
+                // authentication with local password
+                # return nil unless User.hash_password(password) == user.hashed_password        
+                if (Security::hash($password) != $user['hashed_password']) {
+                    return false;
+                }
+            }
+        } else {
+            // user is not yet registered, try to authenticate with available sources
+            #      attrs = AuthSource.authenticate(login, password)
+            #      if attrs
+            #        user = new(*attrs)
+            #        user.login = login
+            #        user.language = Setting.default_language
+            #        if user.save
+            #          user.reload
+            #          logger.info("User '#{user.login}' created from the LDAP") if logger
+            #        end
+            #      end
+        }
+
+        // user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
+        if ($user) {
+            $this->updateAttribute($user, time());
+        }
+
+        return $user;
+    }
+
+    /**
+     * updateAttribute
+     *
+     */
+    function updateAttribute($user, $last_login_on)
+    {
+        $user['last_login_on'] = $last_login_on;
+        $this->User->save($user);
+    }
 }
