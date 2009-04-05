@@ -16,7 +16,9 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-#class ProjectsController < ApplicationController
+class ProjectsController extends AppController
+{
+    var $uses = array('User');
 #  menu_item :overview
 #  menu_item :activity, :only => :activity
 #  menu_item :roadmap, :only => :roadmap
@@ -24,10 +26,39 @@
 #  menu_item :settings, :only => :settings
 #  menu_item :issues, :only => [:changelog]
 #  
-#  before_filter :find_project, :except => [ :index, :list, :add, :activity ]
-#  before_filter :find_optional_project, :only => :activity
-#  before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy, :activity ]
-#  before_filter :require_admin, :only => [ :add, :archive, :unarchive, :destroy ]
+    /**
+     * beforeFilter
+     *
+     * before_filter :find_project, :except => [ :index, :list, :add, :activity ]
+     * before_filter :find_optional_project, :only => :activity
+     * before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy, :activity ]
+     * before_filter :require_admin, :only => [ :add, :archive, :unarchive, :destroy ]
+     *
+     */
+    function beforeFilter()
+    {
+        parent::beforeFilter();
+
+        $except = array('index', 'list', 'add', 'activity');
+        if (!in_array($this->action, $except)) {
+            $this->find_project();
+        }
+
+        if ($this->action == 'activity') {
+            $this->find_optional_project();
+        }
+
+        $except = array('index', 'list', 'add', 'archive', 'unarchive', 'destroy', 'activity');
+        if (!in_array($this->action, $except)) {
+            $this->authorize();
+        }
+
+        $only = array('add', 'archive', 'unarchive', 'destroy');
+        if (in_array($this->action, $only)) {
+            $this->require_admin();
+        }
+
+    }
 #  accept_key_auth :activity
 #  
 #  helper :sort
@@ -294,4 +325,4 @@
 #      @selected_tracker_ids = selectable_trackers.collect {|t| t.id.to_s }
 #    end
 #  end
-#end
+}

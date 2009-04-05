@@ -53,23 +53,7 @@
 #    render :action => "list", :layout => false if request.xhr?	
 #  end
 #
-#  def add
-#    if request.get?
-#      @user = User.new(:language => Setting.default_language)
-#    else
-#      @user = User.new(params[:user])
-#      @user.admin = params[:user][:admin] || false
-#      @user.login = params[:user][:login]
-#      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless @user.auth_source_id
-#      if @user.save
-#        Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
-#        flash[:notice] = l(:notice_successful_create)
-#        redirect_to :action => 'list'
-#      end
-#    end
-#    @auth_sources = AuthSource.find(:all)
-#  end
-#
+
 #  def edit
 #    @user = User.find(params[:id])
 #    if request.post?
@@ -103,3 +87,38 @@
 #    redirect_to :action => 'edit', :id => @user, :tab => 'memberships'
 #  end
 #end
+
+/**
+ * UsersController
+ *
+ */
+class UsersController extends AppController
+{
+    /**
+     * beforeFilter
+     *
+     */
+    function beforeFilter()
+    {
+        parent::beforeFilter();
+        $this->require_admin();
+    }
+
+    function add()
+    {
+        if (!$this->data) {
+#      @user = User.new(:language => Setting.default_language)
+        } else {
+#      @user = User.new(params[:user])
+#      @user.admin = params[:user][:admin] || false
+#      @user.login = params[:user][:login]
+#      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless @user.auth_source_id
+#      if @user.save
+#        Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
+#        flash[:notice] = l(:notice_successful_create)
+#        redirect_to :action => 'list'
+#      end
+        }
+#    @auth_sources = AuthSource.find(:all)
+    }
+}
