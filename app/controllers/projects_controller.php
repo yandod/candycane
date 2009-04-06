@@ -18,14 +18,16 @@
 #
 class ProjectsController extends AppController
 {
-    var $uses = array('User');
+    var $name = 'Projects';
+    var $uses = array('Project', 'User');
+
 #  menu_item :overview
 #  menu_item :activity, :only => :activity
 #  menu_item :roadmap, :only => :roadmap
 #  menu_item :files, :only => [:list_files, :add_file]
 #  menu_item :settings, :only => :settings
 #  menu_item :issues, :only => [:changelog]
-#  
+  
     /**
      * beforeFilter
      *
@@ -89,6 +91,22 @@ class ProjectsController extends AppController
 #      }
 #    end
 #  end
+	function index()
+	{
+		$projects = $this->Project->find('all'); // *not implement* => User.current
+ 		foreach ($projects as $key => $val) {
+ 			foreach ($val as $key2 => $val2) {
+				if (empty($val2['parent_id'])) {
+					$project_tree[] = $val2;
+				} else {
+					$sub_project_tree[ $val2['parent_id'] ][] = $val2;
+				}
+			}
+		}
+		$this->set('project_tree', $project_tree);
+		$this->set('sub_project_tree', $sub_project_tree);
+	}
+
 #  
 #  # Add a new project
 #  def add
@@ -325,4 +343,6 @@ class ProjectsController extends AppController
 #      @selected_tracker_ids = selectable_trackers.collect {|t| t.id.to_s }
 #    end
 #  end
+#end
 }
+?>
