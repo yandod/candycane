@@ -16,6 +16,9 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
+class ProjectsController extends AppController {
+	var $name = 'Projects';
+
 #class ProjectsController < ApplicationController
 #  menu_item :overview
 #  menu_item :activity, :only => :activity
@@ -58,6 +61,22 @@
 #      }
 #    end
 #  end
+	function index()
+	{
+		$projects = $this->Project->find('all'); // *not implement* => User.current
+ 		foreach ($projects as $key => $val) {
+ 			foreach ($val as $key2 => $val2) {
+				if (empty($val2['parent_id'])) {
+					$project_tree[] = $val2;
+				} else {
+					$sub_project_tree[ $val2['parent_id'] ][] = $val2;
+				}
+			}
+		}
+		$this->set('project_tree', $project_tree);
+		$this->set('sub_project_tree', $sub_project_tree);
+	}
+
 #  
 #  # Add a new project
 #  def add
@@ -295,3 +314,5 @@
 #    end
 #  end
 #end
+}
+?>
