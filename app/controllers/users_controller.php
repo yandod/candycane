@@ -24,36 +24,6 @@
 #  helper :custom_fields
 #  include CustomFieldsHelper   
 #
-#  def index
-#    list
-#    render :action => 'list' unless request.xhr?
-#  end
-#
-#  def list
-#    sort_init 'login', 'asc'
-#    sort_update %w(login firstname lastname mail admin created_on last_login_on)
-#    
-#    @status = params[:status] ? params[:status].to_i : 1
-#    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
-#
-#    unless params[:name].blank?
-#      name = "%#{params[:name].strip.downcase}%"
-#      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?", name, name, name]
-#    end
-#    
-#    @user_count = User.count(:conditions => c.conditions)
-#    @user_pages = Paginator.new self, @user_count,
-#								per_page_option,
-#								params['page']								
-#    @users =  User.find :all,:order => sort_clause,
-#                        :conditions => c.conditions,
-#						:limit  =>  @user_pages.items_per_page,
-#						:offset =>  @user_pages.current.offset
-#
-#    render :action => "list", :layout => false if request.xhr?	
-#  end
-#
-
 #  def edit
 #    @user = User.find(params[:id])
 #    if request.post?
@@ -102,6 +72,44 @@ class UsersController extends AppController
     {
         parent::beforeFilter();
         $this->require_admin();
+    }
+
+    function index()
+    {
+        $this->list_();
+        $this->render('list'); // unless request.xhr?
+#    render :action => 'list' unless request.xhr?
+    }
+
+    /**
+     * list
+     *
+     * @todo list is reserved word
+     */
+    function list_()
+    {
+#    sort_init 'login', 'asc'
+#    sort_update %w(login firstname lastname mail admin created_on last_login_on)
+#    
+#    @status = params[:status] ? params[:status].to_i : 1
+#    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
+#
+#    unless params[:name].blank?
+#      name = "%#{params[:name].strip.downcase}%"
+#      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?", name, name, name]
+#    end
+#    
+#    @user_count = User.count(:conditions => c.conditions)
+#    @user_pages = Paginator.new self, @user_count,
+#								per_page_option,
+#								params['page']								
+#    @users =  User.find :all,:order => sort_clause,
+#                        :conditions => c.conditions,
+#						:limit  =>  @user_pages.items_per_page,
+#						:offset =>  @user_pages.current.offset
+#
+#    render :action => "list", :layout => false if request.xhr?	
+	return 'list';
     }
 
     function add()
