@@ -164,4 +164,3 @@ class Setting extends AppModel
 #    setting ||= new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
 #  end
 }
-
