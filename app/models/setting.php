@@ -16,7 +16,8 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-#class Setting < ActiveRecord::Base
+class Setting extends AppModel
+{
 #
 #  DATE_FORMATS = [
 #	'%Y-%m-%d',
@@ -162,4 +163,5 @@
 #    setting = find_by_name(name)
 #    setting ||= new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
 #  end
-#end
+}
+
