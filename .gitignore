@@ -9,4 +9,11 @@ app/tmp/cache/persistent/cake_core_dir_map
 app/tmp/cache/persistent/cake_core_file_map
 app/tmp/logs/debug.log
 app/tmp/logs/error.log
-
+.cache/
+.project
+.settings/
+app/tmp/cache/models/
+app/tmp/cache/models/cake_model_default_attachments
+app/tmp/cache/models/cake_model_default_auth_sources
+app/tmp/cache/models/cake_model_default_comments
+app/tmp/cache/persistent/cake_core_default_en_us
