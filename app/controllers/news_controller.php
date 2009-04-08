@@ -19,7 +19,7 @@
 class NewsController extends AppController {
 	var $name = 'News';
 	var $uses = array( 'News', 'User', 'Project' ) ;
-	var $helpers = array('Html', 'Form', 'Candy');
+	var $helpers = array('Html', 'Form', 'Candy', 'Ajax');
 
 #class NewsController < ApplicationController
 #  before_filter :find_news, :except => [:new, :index, :preview]

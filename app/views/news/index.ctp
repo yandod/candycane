@@ -1,12 +1,15 @@
 <div class="contextual">
-<%= link_to_if_authorized(l(:label_news_new),
+<!-- <% link_to_if_authorized(l(:label_news_new),
                           {:controller => 'news', :action => 'new', :project_id => @project},
                           :class => 'icon icon-add',
-                          :onclick => 'Element.show("add-news"); return false;') if @project %>
+                          :onclick => 'Element.show("add-news"); return false;') if @project %> -->
+
+<!-- TODO: link_to_if_authorized を作る -->
+<?php echo $ajax->link( __('Add news', true), '/news/new', aa( 'class', 'icon icon-add', 'onclick', 'Element.show("add-news"); return false;') ) ; ?>
 </div>
 
 <div id="add-news" style="display:none;">
-<h2><%=l(:label_news_new)%></h2>
+<h2><? __('Add news') ; ?></h2>
 <% labelled_tabular_form_for :news, @news, :url => { :controller => 'news', :action => 'new', :project_id => @project },
                                            :html => { :id => 'news-form' } do |f| %>
 <%= render :partial => 'news/form', :locals => { :f => f } %>
@@ -21,6 +24,7 @@
 <% end if @project %>
 <div id="preview" class="wiki"></div>
 </div>
+
 
 <h2><?php __('News'); ?></h2>
 
@@ -46,7 +50,10 @@
 
 <p class="other-formats">
 <?php __("'Also available in:'") ; ?>
-<span><%= link_to 'Atom', {:format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
+<!-- <span><%= link_to 'Atom', {:format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span> -->
+<!-- TODO: CekePHP的には下記な感じかなぁ? http://candycane.kaz.e-2j.com/projects/hoge/news/format:atom/key:1 
+		   User.current.rss_keyを設定する -->
+<span><?php echo $html->link('Atom', aa('format', 'atom', 'key', 1), aa('format', 'atom', 'key', 1, 'class', 'feed')) ; ?></span>
 </p>
 
 <% content_for :header_tags do %>
