@@ -9,7 +9,7 @@ class AppController extends Controller {
     var $layout = 'base';
     var $helpers = array('Html', 'Form', 'Javascript', 'Candy');
     var $components = array('Cookie');
-
+	var $uses = array('User');
     var $current_user; // alternate User.current
 
     /**
@@ -96,7 +96,7 @@ class AppController extends Controller {
         }
 
         //if (Setting.login_required) {
-            $this->require_login();
+            //$this->require_login();
         //}
     }
 
