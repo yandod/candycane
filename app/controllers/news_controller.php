@@ -28,6 +28,9 @@ class NewsController extends AppController {
 #  before_filter :find_optional_project, :only => :index
 #  accept_key_auth :index
 #  
+
+	function index()
+	{
 #  def index
 #    @news_pages, @newss = paginate :news,
 #                                   :per_page => 10,
@@ -39,6 +42,9 @@ class NewsController extends AppController {
 #      format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
 #    end
 #  end
+			// TODO: project id, view format
+		$this->set('newss', $this->paginate('News', array('News.project_id' => 1 )));
+	}
 #  
 	function show($id = null)
 	{

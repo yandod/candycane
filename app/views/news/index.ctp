@@ -22,25 +22,30 @@
 <div id="preview" class="wiki"></div>
 </div>
 
-<h2><%=l(:label_news_plural)%></h2>
+<h2><?php __('News'); ?></h2>
 
-<% if @newss.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% else %>
-<% @newss.each do |news| %>
-    <h3><%= link_to(h(news.project.name), :controller => 'projects', :action => 'show', :id => news.project) + ': ' unless news.project == @project %>
+<?php if ( !isset($newss) || !count($newss) ) : ?>
+<p class="nodata"><?php __('No data to display'); ?></p>
+<?php else: ?>
+<?php foreach( $newss as $news ) : ?>
+<!--    <h3><%= link_to(h(news.project.name), :controller => 'projects', :action => 'show', :id => news.project) + ': ' unless news.project == @project %>
     <%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
-    <%= "(#{news.comments_count} #{lwr(:label_comment, news.comments_count).downcase})" if news.comments_count > 0 %></h3>
-    <p class="author"><%= authoring news.created_on, news.author %></p>
+    <%= "(#{news.comments_count} #{lwr(:label_comment, news.comments_count).downcase})" if news.comments_count > 0 %></h3> -->
+    <h3><?php echo $html->link( h($news['Project']['name']), array( 'controller' => 'projects', 'action' => 'show', 'id' => $news['Project']['id'])) . ': '; ?>
+    <?php echo $html->link( h($news['News']['title']), array( 'controller' => 'news', 'action' => 'show', 'id' => $news['News']['id'] ) ) ; ?>
+    <?php if ( $news['News']['comments_count'] > 0 ) : echo "(".$news['News']['comments_count'] . ' ' . __('Comments',true) . ')' ; endif; ?></h3>
+
+    <p class="author"><?php echo $candy->authoring( $news['News']['created_on'], $news['Author'] ) ; ?></p>
     <div class="wiki">
-    <%= textilizable(news.description) %>
+    <?php echo $candy->textilizable($news['News']['description']); ?>
     </div>
-<% end %>
-<% end %>
-<p class="pagination"><%= pagination_links_full @news_pages %></p>
+<?php endforeach; ?>
+<?php endif; ?>
+<p class="pagination"><?php echo $paginator->prev('<< '.__('Previous', true), array(), null, array('style'=>'display:none;'));?><?php echo $paginator->numbers();?><?php echo ' ' . $paginator->next(__('Next', true).' >>', array(), null, array('style'=>'display:none;'));?>
+</p>
 
 <p class="other-formats">
-<%= l(:label_export_to) %>
+<?php __("'Also available in:'") ; ?>
 <span><%= link_to 'Atom', {:format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
 </p>
 
@@ -48,4 +53,4 @@
   <%= auto_discovery_link_tag(:atom, params.merge({:format => 'atom', :page => nil, :key => User.current.rss_key})) %>
 <% end %>
 
-<% html_title(l(:label_news_plural)) -%>
+<?php $candy->html_title(__('News', true)) ; ?>
