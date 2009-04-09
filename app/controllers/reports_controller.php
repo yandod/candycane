@@ -235,3 +235,6 @@
 #    @issues_by_subproject ||= []
 #  end
 #end
+class ReportsController extends AppController
+{
+}
