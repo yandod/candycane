@@ -1,4 +1,4 @@
-<h2><?php echo __('Version') ?></h2>
+<h2><?php __('Version') ?></h2>
 
 <?php echo $form->create('Version', array('action'=>'edit')) ?>
 

@@ -18,22 +18,16 @@
     <td width="130px" align="right"><?php echo __('Estimated time') ?></td>
     <td width="240px" class="total-hours"width="130px" align="right">
       <?php echo $candy->lwr('%.2f hour', $this->data['Version']['estimated_hours']) ?>
-<?php /*
-    <%= html_hours(lwr(:label_f_hour, @version.estimated_hours)) %>
- */ ?>
     </td>
 </tr>
-<?php if ($current_user): ?>
+<?php if (true): ?>
 <?php /*
 <% if User.current.allowed_to?(:view_time_entries, @project) %>
  */ ?>
 <tr>
     <td width="130px" align="right"><?php echo __('Spent time') ?></td>
     <td width="240px" class="total-hours">
-      <?php echo 'FIXME' ?>
-<?php /*
-      <%= html_hours(lwr(:label_f_hour, @version.spent_hours)) %>
- */ ?>
+      <?php echo $candy->html_hours($candy->lwr('%.2f hour', $this->data['Version']['spent_hours'])) ?>
     </td>
 </tr>
 <?php endif ?>
@@ -42,7 +36,9 @@
 <?php endif ?>
 
 <div id="status_by">
-<%= render_issue_status_by(@version, params[:status_by]) if @version.fixed_issues.count > 0 %>
+<?php if (count($this->data['FixedIssue']) > 0): ?>
+<%= render_issue_status_by(@version, params[:status_by]) %>
+<?php endif ?>
 </div>
 </div>
 
@@ -54,10 +50,10 @@
  */ ?>
 
 <?php if (count($issues) > 0): ?>
-<fieldset class="related-issues"><legend><%= l(:label_related_issues) %></legend>
+<fieldset class="related-issues"><legend><?php __('Related issues') ?></legend>
 <ul>
 <?php foreach ($issues as $issue): ?>
-    <li><%= link_to_issue(issue) %>: <?php echo h($issue['Issue']['subject']) ?></li>
+    <li><%= link_to_issue(issue) %>: <?php echo h($issue['FixedIssue']['subject']) ?></li>
 <?php endforeach ?>
 </ul>
 </fieldset>

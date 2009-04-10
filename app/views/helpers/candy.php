@@ -191,7 +191,9 @@ class CandyHelper extends AppHelper
   {
     $from_date = strtotime($from_date);
     $to_date = strtotime($to_date);
-    $distance_in_days = abs($to_date - $from_date);
+    $distance_in_days = abs($to_date - $from_date) / (60*60*24);
+
+    return $this->lwr_r('', $distance_in_days);
   }
 #
 #  def due_date_distance_in_words(date)
@@ -249,6 +251,10 @@ class CandyHelper extends AppHelper
 #  def html_hours(text)
 #    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
 #  end
+  function html_hours($text)
+  {
+    return preg_replace('/(\d+)\.(\d+)/', '<span class="hours hours-int">$1</span><span class="hours hours-dec">.$2</span>', $text);
+  }
 #
 	function authoring($created, $author, $options = array())
 	{

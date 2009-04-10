@@ -1,7 +1,7 @@
 <?php if ($this->data['Version']['completed']): ?>
   <p><?php echo $time->nice($this->data['Version']['effective_date']) ?></p>
 <?php elseif ($this->data['Version']['effective_date']): ?>
-  <p><strong><%= due_date_distance_in_words(version.effective_date) %></strong> (<?php echo $time->nice($this->data['Version']['effective_date']) ?>)</p>
+  <p><strong><?php echo $candy->due_date_distance_in_words($this->data['Version']['effective_date']) ?></strong> (<?php echo $time->nice($this->data['Version']['effective_date']) ?>)</p>
 <?php endif ?>
 
 <p><?php echo h($this->data['Version']['description']) ?></p>
