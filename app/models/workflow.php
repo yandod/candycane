@@ -17,6 +17,12 @@
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 #class Workflow < ActiveRecord::Base
+class Workflow extends AppModel {
+  var $name = 'Workflow';
+  //  var $belongsTo = array('Role' => array('className' => 'Role',
+  //                                         'foreignKey' => 'id'));
+
+  
 #  belongs_to :role
 #  belongs_to :old_status, :class_name => 'IssueStatus', :foreign_key => 'old_status_id'
 #  belongs_to :new_status, :class_name => 'IssueStatus', :foreign_key => 'new_status_id'
@@ -25,8 +31,18 @@
 #  
 #  # Returns workflow transitions count by tracker and role
 #  def self.count_by_tracker_and_role
+  function count_by_tracker_and_role() {
 #    counts = connection.select_all("SELECT role_id, tracker_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, tracker_id")
+//		$counts = $this->query("SELECT role_id, tracker_id, count(id) AS c FROM workflows GROUP BY role_id, tracker_id");
+    $counts = $this->find('all' ,  array('group' => 'role_id, tracker_id',
+                                         'fields' => array('Workflow.role_id', 'Workflow.tracker_id', 'count(id) AS "Workflow__c"')));
+
+    
 #    roles = Role.find(:all, :order => 'builtin, position')
+
+#    $roles = $this->Role->find('all', array('order' => array('builtin','position')));
+#    pr($roles);
+    
 #    trackers = Tracker.find(:all, :order => 'position')
 #    
 #    result = []
@@ -42,3 +58,6 @@
 #    result
 #  end
 #end
+  }
+}
+?>

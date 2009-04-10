@@ -17,6 +17,8 @@
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 #class Tracker < ActiveRecord::Base
+class Tracker extends AppModel {
+  var $name = 'Tracker';
 #  before_destroy :check_integrity  
 #  has_many :issues
 #  has_many :workflows, :dependent => :delete_all do
@@ -55,3 +57,5 @@
 #    raise "Can't delete tracker" if Issue.find(:first, :conditions => ["tracker_id=?", self.id])
 #  end
 #end
+}
+?>
