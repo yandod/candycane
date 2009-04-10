@@ -1,4 +1,12 @@
 <?php
+class QueriesController extends AppController
+{
+  var $name = 'Queries';
+  function edit()
+  {
+  }
+}
+
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
 ##

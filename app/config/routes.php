@@ -35,6 +35,7 @@
 
 	Router::connect('/login', array('controller' => 'account', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'account', 'action' => 'logout'));
+	Router::connect('/projects/:project_id/issues/:action/', array('controller' => 'issues'));
 	
 #ActionController::Routing::Routes.draw do |map|
 #  # Add your own custom routes here.
