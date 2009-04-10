@@ -2,7 +2,7 @@
 
 <div class="splitcontentleft">
   <!-- TODO: <%= textilizable Setting.welcome_text %> -->
-  <?php echo $candy->textilizable("welcome text") ?>
+  <?php echo $candy->textilizable($Settings->welcome_text) ?>
   <?php if (!empty($news)): ?>
   <div class="box">
 	<h3><?php __('Latest news')?></h3>
