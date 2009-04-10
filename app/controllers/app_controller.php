@@ -64,7 +64,9 @@ class AppController extends Controller {
     function find_current_user() {
         if ($this->Session->read('user_id')) {
             // existing session
-            $user = $this->User->findById($this->Session->read('user_id'));
+            //$user = $this->User->findById($this->Session->read('user_id'));
+            $cond = aa('id',$this->Session->read('user_id'));
+            $user = $this->User->find('first',aa('recursive', 2,'conditions',$cond));
             $user['User']['logged'] = true; // @todo fixme
             $user['User']['name'] = $user['User']['login']; // @todo fixme
             $user['User']['memberships'] = $user['Membership'];

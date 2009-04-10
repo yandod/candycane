@@ -39,7 +39,7 @@
 <!--        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %> -->
         <?php echo $form->end() ?>
         <?php if( !empty($currentuser['memberships']) ): ?>
-        <?php echo $this->renderElement('project_selector') ?>
+        <?php echo $this->renderElement('project_selector',aa('currentuser',$currentuser)) ?>
         <!-- <%= render :partial => 'layouts/project_selector' if User.current.memberships.any? %> -->
         <?php endif; ?>
     </div>
