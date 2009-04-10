@@ -99,9 +99,9 @@ class AppController extends Controller {
             return true;
         }
 
-        //if (Setting.login_required) {
-            //$this->require_login();
-        //}
+        if ($this->Setting->login_required) {
+            $this->require_login();
+        }
     }
 
 #  def set_localization
