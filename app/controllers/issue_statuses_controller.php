@@ -103,5 +103,26 @@ class IssueStatusesController extends AppController {
       $this->render("list", "ajax");
     }
   }
+  function move($id) {
+    $this->IssueStatus->read(null, $id);
+    if(!empty($this->params['named']['position'])) {
+      switch($this->params['named']['position']) {
+      case 'highest' :
+        $this->IssueStatus->move_to_top();
+        break;
+      case 'higher' :
+        $this->IssueStatus->move_higher();
+        break;
+      case 'lower' :
+        $this->IssueStatus->move_lower();
+        break;
+      case 'lowest' :
+        $this->IssueStatus->move_to_bottom();
+        break;
+      }
+      $this->index();
+    }
+  }
+  
 }
 ?>

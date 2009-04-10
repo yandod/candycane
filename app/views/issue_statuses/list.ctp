@@ -19,10 +19,10 @@
   <td align="center"><?php if($status['IssueStatus']['is_default']){ echo $html->image('true.png'); } ?></td>
   <td align="center"><?php if($status['IssueStatus']['is_closed']){ echo $html->image('true.png'); } ?></td>
   <td align="center" style="width:15%;">
-    <?php echo $ajax->link($html->image('2uparrow.png',  array('alt'=>__('Move to top',true))),   array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'highest'), array('method'=>'post', 'title'=>__('Move to top', true)), null, false); ?>
-    <?php echo $ajax->link($html->image('1uparrow.png',  array('alt'=>__('Move up',true))),       array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'higher'),  array('method'=>'post', 'title'=>__('Move up', true))    , null, false); ?> -
-    <?php echo $ajax->link($html->image('1downarrow.png',array('alt'=>__('Move down',true))),     array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'lower'),   array('method'=>'post', 'title'=>__('Move down', true))  , null, false); ?>
-    <?php echo $ajax->link($html->image('2downarrow.png',array('alt'=>__('Move to bottom',true))),array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'lowest'),  array('method'=>'post', 'title'=>__('Move to bottom',true)),null,false); ?>
+    <?php echo $html->link($html->image('2uparrow.png',  array('alt'=>__('Move to top',true))),   array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'highest'), array('title'=>__('Move to top', true)), null, false); ?>
+    <?php echo $html->link($html->image('1uparrow.png',  array('alt'=>__('Move up',true))),       array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'higher'),  array('title'=>__('Move up', true))    , null, false); ?> -
+    <?php echo $html->link($html->image('1downarrow.png',array('alt'=>__('Move down',true))),     array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'lower'),   array('title'=>__('Move down', true))  , null, false); ?>
+    <?php echo $html->link($html->image('2downarrow.png',array('alt'=>__('Move to bottom',true))),array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'lowest'),  array('title'=>__('Move to bottom',true)),null,false); ?>
   </td>
   <td align="center" style="width:10%;">
     <?php 
