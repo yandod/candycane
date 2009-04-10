@@ -173,18 +173,43 @@ class CandyHelper extends AppHelper
   }
 #
   
-  function format_time()
+  /**
+   * format_time
+   *
+   * @todo time_zone
+   */
+  function format_time($time, $include_date = true)
   {
-#  def format_time(time, include_date = true)
-#    return nil unless time
-#    time = time.to_time if time.is_a?(String)
+    if (empty($time)) {
+      return null;
+    }
+
+    if (is_string($time) && !is_numeric($time)) {
+      $time = strtotime($time);
+    }
+
 #    zone = User.current.time_zone
 #    local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
-#    @date_format ||= (Setting.date_format.blank? || Setting.date_format.size < 2 ? l(:general_fmt_date) : Setting.date_format)
-#    @time_format ||= (Setting.time_format.blank? ? l(:general_fmt_time) : Setting.time_format)
-#    include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
-#  end
-    return "2009/4/1 12:12 AM";
+
+    if (empty($this->Settings->date_format) || (strlen($this->Settings->date_format) < 2)) {
+      $date_format = __('general_fmt_date', true);
+    } else {
+      $date_format = $this->Settings->date_format;
+    }
+
+    if (empty($this->Settings->time_format)) {
+      $time_format = __('general_fmt_time', true);
+    } else {
+      $time_format = $this->Settings->time_format;
+    }
+
+    if ($include_date) {
+      return strftime("{$date_format} {$time_format}");
+      // return strftime("{$date_format} {$time_format}", $local);
+    } else {
+      return strftime("{$time_format}");
+      // return strftime("{$time_format}", $local);
+    }
   }
 #  
 #  def format_activity_title(text)
