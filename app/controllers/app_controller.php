@@ -67,6 +67,7 @@ class AppController extends Controller {
             $user = $this->User->findById($this->Session->read('user_id'));
             $user['User']['logged'] = true; // @todo fixme
             $user['User']['name'] = $user['User']['login']; // @todo fixme
+            $user['User']['memberships'] = $user['Membership'];
             return $user['User'];
 #      (User.active.find(session[:user_id]) rescue nil)
         } else if ($this->Cookie->read('autologin')) {

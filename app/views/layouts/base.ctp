@@ -38,7 +38,10 @@
         <?php echo $form->input('q',aa('type','text','size',20,'class','small','accesskey',$candy->accesskey('quick_search'),'div',false,'label',false)) ?>
 <!--        <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %> -->
         <?php echo $form->end() ?>
+        <?php if( !empty($currentuser['memberships']) ): ?>
+        <?php echo $this->renderElement('project_selector') ?>
         <!-- <%= render :partial => 'layouts/project_selector' if User.current.memberships.any? %> -->
+        <?php endif; ?>
     </div>
          <h1><?php if (isset($Project)) { h($Project['name']); } else { echo $Settings->app_title; } ?></h1>
 <!--     <h1><%= h(@project && !@project.new_record? ? @project.name : Setting.app_title) %></h1> -->

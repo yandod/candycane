@@ -285,6 +285,11 @@
  */
 class User extends AppModel
 {
+  var $hasMany = array(
+    'Membership' =>array(
+      'className' => 'Member'
+      )
+	);
     /**
      * tryToLogin
      *
