@@ -24,7 +24,7 @@
 <div id="top-menu">
     <div id="account">
         <!-- <%= render_menu :account_menu -%> -->
-        <?php echo $this->renderElement('account_menu') ?>
+        <?php echo $this->renderElement('account_menu',aa('currentuser',$currentuser)) ?>
     </div>
     <?php if ($currentuser['logged']) echo $html->tag('div',__('Logged in as',true).' '.$candy->link($currentuser),array('id'=>'loggedas')); ?>
     <?php echo $this->renderElement('top_menu') ?>
@@ -63,7 +63,7 @@
 <div id="ajax-indicator" style="display:none;"><span><?php __('Loading...') ?></span></div>
 	
 <div id="footer">
-    Powered by <%= link_to Redmine::Info.app_name, Redmine::Info.url %> &copy; 2009 candycane team
+    Powered by <?php echo $html->link('candycane','https://www.ohloh.net/p/candycane') ?> &copy; 2009 candycane team
 			<br/><?php echo $html->link(
 					$html->image('cake.power.gif', array('alt'=> __("CakePHP: the rapid development php framework", true), 'border'=>"0")),
 					'http://www.cakephp.org/',
