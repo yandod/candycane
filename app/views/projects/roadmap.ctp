@@ -6,25 +6,18 @@
 <div id="roadmap">
 <?php foreach($this->data['Version'] as $version): ?>
     <?php echo $html->tag('a', null, array('name' => $version['name'])) ?>
-    <h3 class="icon22 icon22-package"><?php echo $html->link(h($version['name']), array('/versions/show/'.$version['id'])) ?></h3>
+    <h3 class="icon22 icon22-package"><?php echo $html->link(h($version['name']), '/versions/show/'.$version['id']) ?></h3>
     <?php echo $this->element('versions/overview', array('version' => $version)) ?>
     <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>
-
-    <% issues = version.fixed_issues.find(:all,
-                                          :include => [:status, :tracker],
-                                          :conditions => ["tracker_id in (#{@selected_tracker_ids.join(',')})"],
-                                          :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id") unless @selected_tracker_ids.empty?
-       issues ||= []
-    %>
-    <% if issues.size > 0 %>
+    <?php if (count($issues) > 0): ?>
     <fieldset class="related-issues"><legend><?php __('Related issues') ?></legend>
     <ul>
-    <%- issues.each do |issue| -%>
-        <li><%= link_to_issue(issue) %>: <%=h issue.subject %></li>
-    <%- end -%>
+    <?php foreach($issues as $issue): ?>
+      <li><%= link_to_issue(issue) %>: <?php echo h($issue['Issue']['subject']) ?></li>
+    <?php endforeach ?>
     </ul>
     </fieldset>
-    <% end %>
+    <?php endif ?>
 <?php endforeach ?>
 </div>
 <?php endif ?>
@@ -47,4 +40,4 @@
 <?php endforeach ?>
 <% end %>
 
-<% html_title(l(:label_roadmap)) %>
+<?php $candy->html_title(__('Roadmap', true)) ?>

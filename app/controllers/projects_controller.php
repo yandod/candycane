@@ -257,6 +257,10 @@ class ProjectsController extends AppController
 #    end
 #    @versions = @project.versions.sort
 #  end
+  function add_file()
+  {
+
+  }
 #  
 #  def list_files
 #    sort_init 'filename', 'asc'
@@ -269,6 +273,11 @@ class ProjectsController extends AppController
 #    @containers += @project.versions.find(:all, :include => :attachments, :order => sort_clause).sort.reverse
 #    render :layout => !request.xhr?
 #  end
+  function list_files()
+  {
+    $containers = array();
+    $this->set('containers', $containers);
+  }
 #  
 #  # Show changelog for @project
 #  def changelog
@@ -276,6 +285,10 @@ class ProjectsController extends AppController
 #    retrieve_selected_tracker_ids(@trackers)    
 #    @versions = @project.versions.sort
 #  end
+  function changelog()
+  {
+
+  }
 #
 #  def roadmap
 #    @trackers = @project.trackers.find(:all, :conditions => ["is_in_roadmap=?", true])
@@ -285,6 +298,17 @@ class ProjectsController extends AppController
 #  end
   function roadmap()
   {
+    // $issues = $this->Version->FixedIssue->find('all', 
+    $this->set('issues', array());
+
+    /*
+    <% issues = version.fixed_issues.find(:all,
+                                          :include => [:status, :tracker],
+                                          :conditions => ["tracker_id in (#{@selected_tracker_ids.join(',')})"],
+                                          :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id") unless @selected_tracker_ids.empty?
+       issues ||= []
+    %>
+     */
 
   }
 #  
