@@ -106,3 +106,92 @@
 #    raise "Can't delete version" if self.fixed_issues.find(:first)
 #  end
 #end
+
+
+class Version extends AppModel
+{
+  var $name = 'Version';
+
+  var $belongsTo = array(
+    'Project',
+  );
+  var $hasMany = array(
+    'FixedIssue' => array(
+      'className'=>'Issue',
+      'foreignKey'=>'fixed_version_id',
+    ),
+  );
+  var $validate = array(
+    'name' => array(
+      'rule' => array('maxLength', 60),
+    ),
+  );
+
+  function afterFind($results, $primary)
+  {
+    if ($primary) {
+      foreach($results as $key=>$result) {
+        $results[$key] = $this->afterFindOne($results[$key]);
+      }
+    } else {
+      $results = $this->afterFindOne($results);
+    }
+
+    return $results;
+  }
+
+  function afterFindOne($result)
+  {
+    $result['Version']['start_date'] = $result['Version']['effective_date'];
+    $result['Version']['due_date'] = $result['Version']['effective_date'];
+
+    $this->bindModel(array('hasOne'=>array('TimeEntry'=>array())));
+    $time_entries = $this->TimeEntry->find('all', array(
+      'conditions'=>array(
+        ),
+    ));
+    $this->unbindModel(array('hasOne'=>array('TimeEntry')), false);
+    $sum = 0;
+    foreach($time_entries as $entry) {
+      $sum += $entry['TimeEntry']['hours'];
+    }
+    $result['Version']['spent_hours'] = $sum;
+    $result['Version']['open_issues_count'] = $this->FixedIssue->find('count', array(
+      'conditions'=>array(
+        'fixed_version_id'=>$result['Version']['id'],
+        'Status.is_closed'=>false,
+      ),
+    ));
+
+    if (empty($result['Version']['effective_date'])) {
+      $result['Version']['completed'] = false;
+    } else if (strtotime($result['Version']['effective_date']) <= time()) {
+      $result['Version']['completed'] = false;
+    } else {
+      $result['Version']['completed'] = ($result['Version']['open_issues_count'] == 0);
+    }
+#  def estimated_hours
+#    @estimated_hours ||= fixed_issues.sum(:estimated_hours).to_f
+#  end
+    $issues = $this->FixedIssue->find('all', array('fields'=>'estimated_hours'));
+    $sum = 0;
+    foreach($issues as $issue) {
+      $sum += $issue['FixedIssues']['estimated_hours'];
+    }
+    $result['Version']['estimated_hours'] = $sum;
+
+#  def spent_hours
+#    @spent_hours ||= TimeEntry.sum(:hours, :include => :issue, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
+#  end
+
+#  def completed?
+#    effective_date && (effective_date <= Date.today) && (open_issues_count == 0)
+#  end
+#  def open_issues_count
+#    @open_issues_count ||= Issue.count(:all, :conditions => ["fixed_version_id = ? AND is_closed = ?", self.id, false], :include => :status)
+#  end
+    return $result;
+  }
+
+}
+

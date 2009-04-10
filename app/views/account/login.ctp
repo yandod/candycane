@@ -21,17 +21,17 @@
 <tr>
   <td></td>
   <td align="left">
-    <% if Setting.autologin? %>
+    <?php if (isset($setting->autologin)): ?>
     <label for="autologin"><%= check_box_tag 'autologin' %><?php __('label_stay_logged_in'); ?></label>
-    <% end %>
+    <?php endif; ?>
     </td>
 </tr>
 
 <tr>
   <td align="left">
-    <% if Setting.lost_password? %>
-      <%= link_to l(:label_password_lost), :controller => 'account', :action => 'lost_password' %>
-    <% end %>
+    <?php if (isset($setting->lost_password)): ?>
+      <?php e($html->link(__('label_password_lost', true), '/account/lost_password')); ?>
+    <?php endif; ?>
   </td>
   <td align="right">
     <?php e($form->submit('button_login' . ' &#187', array('name' => 'login'))); ?>

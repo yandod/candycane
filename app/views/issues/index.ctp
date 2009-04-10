@@ -40,6 +40,7 @@
 <% if @issues.empty? %>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <% else %>
+<?php echo $this->renderElement('issues/list', array('issues' => $issues, 'query' => $query)) ?>
 <%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
 

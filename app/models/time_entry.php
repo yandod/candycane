@@ -78,3 +78,11 @@
 #    end
 #  end
 #end
+
+// 他に作っている人がいたら消していいです
+class TimeEntry extends AppModel
+{
+  var $name = 'TimeEntry';
+
+}
+

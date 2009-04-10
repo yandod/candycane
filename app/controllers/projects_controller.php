@@ -344,5 +344,15 @@ class ProjectsController extends AppController
 #    end
 #  end
 #end
+	
+	function settings($project_name)
+	{
+
+	}
+
+	function add_version($project_name)
+	{
+
+	}
 }
 ?>
