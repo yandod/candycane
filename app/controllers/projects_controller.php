@@ -285,6 +285,17 @@ class ProjectsController extends AppController
 #  end
   function roadmap()
   {
+    // $issues = $this->Version->FixedIssue->find('all', 
+    $this->set('issues', array());
+
+    /*
+    <% issues = version.fixed_issues.find(:all,
+                                          :include => [:status, :tracker],
+                                          :conditions => ["tracker_id in (#{@selected_tracker_ids.join(',')})"],
+                                          :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id") unless @selected_tracker_ids.empty?
+       issues ||= []
+    %>
+     */
 
   }
 #  

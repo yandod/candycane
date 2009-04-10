@@ -10,7 +10,7 @@
   <li><?php __('Subprojects') ?>: <%= @subprojects.collect{|p| link_to(h(p.name), :action => 'show', :id => p)}.join(", ") %></li>
     <% end %>
   <?php if ($this->data['Parent']['id'] != null): ?>
-  <li><?php __('Subproject of') ?>: <?php echo $html->link(h($this->data['Parent']['name']), array('/projects/show/'.$this->data['Parent']['id'])) ?></li>
+  <li><?php __('Subproject of') ?>: <?php echo $html->link(h($this->data['Parent']['name']), '/projects/show/'.$this->data['Parent']['id']) ?></li>
   <?php endif ?>
 	<% @project.custom_values.each do |custom_value| %>
 	<% if !custom_value.value.empty? %>
