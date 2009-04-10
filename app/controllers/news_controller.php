@@ -18,6 +18,7 @@
 #
 class NewsController extends AppController {
 	var $name = 'News';
+	var $uses = array( 'News', 'User', 'Project' ) ;
 	var $helpers = array('Html', 'Form', 'Candy');
 
 #class NewsController < ApplicationController

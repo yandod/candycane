@@ -25,13 +25,13 @@
 
 
 <?php foreach($project_tree as $project): ?>
-<h3><?php echo $html->link($project['name'], array('action' => 'show', 'id' => $project['id']), array('class' => 'icon icon-fav')); ?></h3>
+<h3><?php echo $html->link($project['name'], array('action' => 'show', 'id' => $project['identifier']), array('class' => 'icon icon-fav')); ?></h3>
 <?php echo $candy->textilizable($project['short_description']); ?>
 <?php if (!empty($sub_project_tree[ $project['id'] ])): ?>
   <p><?php __('Subprojects'); ?>:
   <?php
   foreach ($sub_project_tree[ $project['id'] ] as $key => $subproject) {
-	  echo $html->link($subproject['name'], array('action' => 'show', 'id' => $subproject['id']), array('class' => 'icon icon-fav'));
+	  echo $html->link($subproject['name'], array('action' => 'show', 'id' => $subproject['identifier']), array('class' => 'icon icon-fav'));
   }
 ?></p>
 <!-- <%= @project_tree[project].sort.collect {|subproject| 

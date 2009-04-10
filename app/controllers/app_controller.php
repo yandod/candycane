@@ -9,7 +9,7 @@ class AppController extends Controller {
     var $layout = 'base';
     var $helpers = array('Html', 'Form', 'Javascript', 'Candy');
     var $components = array('Cookie');
-
+	var $uses = array('User','Setting');
     var $current_user; // alternate User.current
 
     /**
@@ -21,6 +21,7 @@ class AppController extends Controller {
     {
         $this->user_setup();
         $this->check_if_login_required();
+        $this->setSettings();
         //$this->set_localzation();
     }
 #  filter_parameter_logging :password
@@ -96,7 +97,7 @@ class AppController extends Controller {
         }
 
         //if (Setting.login_required) {
-            $this->require_login();
+            //$this->require_login();
         //}
     }
 
@@ -285,4 +286,8 @@ class AppController extends Controller {
 #  def filename_for_content_disposition(name)
 #    request.env['HTTP_USER_AGENT'] =~ %r{MSIE} ? ERB::Util.url_encode(name) : name
 #  end
+  function setSettings()
+  {
+  	$this->set('Settings',$this->Setting);
+  }
 }
