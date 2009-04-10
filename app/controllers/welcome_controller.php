@@ -13,6 +13,7 @@ class WelcomeController extends AppController
      */
     function index()
     {
+      /*
         $user = $this->User->findById(3);
 
         if ($user == false) {
@@ -22,8 +23,9 @@ class WelcomeController extends AppController
                 'logged' => true,
             );
         }
+       */
 
-        $this->set('news',$this->News->latest($user));
-        $this->set('projects',$this->Project->latest($user));
+        $this->set('news',$this->News->latest($this->current_user));
+        $this->set('projects',$this->Project->latest($this->current_user));
     }
 }
