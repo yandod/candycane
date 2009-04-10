@@ -34,6 +34,13 @@ class Project extends AppModel
     'Version',
     'TimeEntry',
   );
+  var $hasAndBelongsToMany = array('Tracker' => array(
+    'class'=>'Tracker',
+    'joinTable'=>'projects_trackers',
+    'with'=>'ProjectsTracker',
+    'foreignKey'=>'project_id',
+    'associationForeignKey'=>'tracker_id',
+  ));
 #  # Project statuses
 #  STATUS_ACTIVE     = 1
 #  STATUS_ARCHIVED   = 9

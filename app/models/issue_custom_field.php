@@ -26,3 +26,12 @@
 #  end
 #end
 #
+
+class IssueCustomField extends CustomField
+{
+  var $name = 'IssueCustomField';
+  var $useTable = 'custom_fields';
+
+
+}
+

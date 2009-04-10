@@ -19,7 +19,7 @@
 class ProjectsController extends AppController
 {
   var $name = 'Projects';
-  var $uses = array('Project', 'User');
+  var $uses = array('Project', 'User', 'Tracker');
   var $helpers = array('Time');
 
 #  menu_item :overview
@@ -56,12 +56,12 @@ class ProjectsController extends AppController
     if (!in_array($this->action, $except)) {
       $this->authorize();
     }
+     */
 
     $only = array('add', 'archive', 'unarchive', 'destroy');
     if (in_array($this->action, $only)) {
       $this->require_admin();
     }
-     */
   }
 #  accept_key_auth :activity
 #  
@@ -93,22 +93,30 @@ class ProjectsController extends AppController
 #      }
 #    end
 #  end
-	function index()
-	{
-		$projects = $this->Project->find('all'); // *not implement* => User.current
- 		foreach ($projects as $key => $val) {
- 			foreach ($val as $key2 => $val2) {
-				if (empty($val2['parent_id'])) {
-					$project_tree[] = $val2;
-				} else {
-					$sub_project_tree[ $val2['parent_id'] ][] = $val2;
-				}
-			}
-		}
-		$this->set('project_tree', $project_tree);
-		$this->set('sub_project_tree', $sub_project_tree);
-	}
+  function index()
+  {
+    $projects = $this->Project->find('all'); // *not implement* => User.current
+    foreach ($projects as $key => $val) {
+      foreach ($val as $key2 => $val2) {
+        if (empty($val2['parent_id'])) {
+          $project_tree[] = $val2;
+        } else {
+          $sub_project_tree[ $val2['parent_id'] ][] = $val2;
+        }
+      }
+    }
+    $this->set('project_tree', $project_tree);
+    $this->set('sub_project_tree', $sub_project_tree);
+  }
 
+  function add()
+  {
+    $trackers = $this->Tracker->find('all');
+    $this->set('trackers', $trackers);
+
+#    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    $issue_custom_fields = $this->IssueCustomField->find('all');
+  }
 #  
 #  # Add a new project
 #  def add
@@ -244,6 +252,15 @@ class ProjectsController extends AppController
 #      redirect_to :action => 'settings', :tab => 'versions', :id => @project
 #  	end
 #  end
+  function add_version()
+  {
+    if(!empty($this->data)) {
+      if($this->Version->save($this->data, true, array('name', 'description', 'wiki_page_title', 'effective_date'))) {
+        $this->Session->setFlash(__('Successful create.'));
+        $this->redirect('/settings/versions/'.$this->data['Project']['id']);
+      }
+    }
+  }
 #
 #  def add_file
 #    if request.post?
@@ -398,9 +415,5 @@ class ProjectsController extends AppController
 
 	}
 
-	function add_version($project_name)
-	{
-
-	}
 }
 ?>
