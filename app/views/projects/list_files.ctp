@@ -1,8 +1,13 @@
 <div class="contextual">
+<?php if (true): ?>
+<?php echo $html->link(__('New file', true), '/projects/add_file/'.$this->data['Project']['id'], array('class'=>'icon icon-add')) ?>
+<?php /*
 <%= link_to_if_authorized l(:label_attachment_new), {:controller => 'projects', :action => 'add_file', :id => @project}, :class => 'icon icon-add' %>
+ */ ?>
+<?php endif ?>
 </div>
 
-<h2><%=l(:label_attachment_plural)%></h2>
+<h2><?php __('Files') ?></h2>
 
 <% delete_allowed = User.current.allowed_to?(:manage_files, @project) %>
 

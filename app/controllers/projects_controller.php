@@ -257,6 +257,10 @@ class ProjectsController extends AppController
 #    end
 #    @versions = @project.versions.sort
 #  end
+  function add_file()
+  {
+
+  }
 #  
 #  def list_files
 #    sort_init 'filename', 'asc'
@@ -269,6 +273,11 @@ class ProjectsController extends AppController
 #    @containers += @project.versions.find(:all, :include => :attachments, :order => sort_clause).sort.reverse
 #    render :layout => !request.xhr?
 #  end
+  function list_files()
+  {
+    $containers = array();
+    $this->set('containers', $containers);
+  }
 #  
 #  # Show changelog for @project
 #  def changelog
