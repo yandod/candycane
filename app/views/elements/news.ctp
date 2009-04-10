@@ -1,6 +1,6 @@
 <?php foreach ($news as $item): ?>
-<p><?php echo $html->link($item['Project']['name'],'/projects/show/'.$item['Project']['id']) ?>:
-<?php echo $html->link($item['News']['title'],'/news/show/'.$item['News']['id']) ?>
+<p><?php echo $html->link($item['Project']['name'], array('controller' => 'projects', 'action' => 'show', 'id' => $item['Project']['identifier'])) ?>:
+<?php echo $html->link($item['News']['title'], array('controller' => 'news', 'action' => 'show', 'id' => $item['News']['id'])) ?>
 <!--
 <%= "(#{news.comments_count} #{lwr(:label_comment, news.comments_count).downcase})" if news.comments_count > 0 %>  
 -->

@@ -17,9 +17,14 @@
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 #class Role < ActiveRecord::Base
+class Role extends AppModel {
+  var $name = 'Role';
 #  # Built-in roles
 #  BUILTIN_NON_MEMBER = 1
 #  BUILTIN_ANONYMOUS  = 2
+  var $BUILTIN_NON_MEMBER = 1;
+  var $BUILTIN_ANONYMOUS  = 2;
+
 #
 #  named_scope :builtin, lambda { |*args|
 #    compare = 'not' if args.first == true
@@ -146,3 +151,5 @@
 #    raise "Can't delete builtin role" if builtin?
 #  end
 #end
+}
+?>

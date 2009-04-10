@@ -36,6 +36,18 @@
 	Router::connect('/login', array('controller' => 'account', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'account', 'action' => 'logout'));
 	Router::connect('/projects/:project_id/issues/:action/', array('controller' => 'issues'));
+	Router::connect('/projects/:action/:project_id', array('controller' => 'projects'));
+	Router::connect('/projects/:project_id/news/:action/', array('controller' => 'news'));
+	Router::connect('/projects/:project_id/documents/:action/', array('controller' => 'documents'));
+	Router::connect('/projects/:project_id/boards/:action/:id/', array('controller' => 'boards'));
+	Router::connect('/projects/:project_id/timelog/:action/:id/', array('controller' => 'timelog'), array('project_id' => '.+'));
+
+#  map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
+#  map.connect 'projects/:project_id/news/:action', :controller => 'news'
+#  map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
+#  map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
+#  map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
+#
 	
 #ActionController::Routing::Routes.draw do |map|
 #  # Add your own custom routes here.

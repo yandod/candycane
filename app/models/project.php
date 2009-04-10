@@ -22,6 +22,18 @@ define('PROJECT_ARCHIVED', 9);
 
 class Project extends AppModel
 {
+  var $name = 'Project';
+
+  var $belongsTo = array(
+    'Parent' => array(
+      'className'=>'Project',
+      'foreignKey'=>'parent_id',
+    ),
+  );
+  var $hasMany = array(
+    'Version',
+    'TimeEntry',
+  );
 #  # Project statuses
 #  STATUS_ACTIVE     = 1
 #  STATUS_ARCHIVED   = 9
@@ -249,8 +261,16 @@ class Project extends AppModel
 		return $short_description;
 	}
 
-	function afterFind($results)
+	function afterFind($result,$primary= false )
 	{
+//		pr(func_get_args());
+//		pr($results);
+//		exit;
+		if ($primary) {
+		  $results = $result;
+		} else {
+		 $results = array(aa('Project',$result));
+		}
 		foreach ($results as $key => $val) {
 			if (isset($val['Project']['description'])) {
 				$results[$key]['Project']['short_description'] = $this->short_description($val['Project']['description']);

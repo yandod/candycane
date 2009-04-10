@@ -70,6 +70,8 @@ class VersionsController extends AppController
 
     $issues = $this->Version->FixedIssue->find('all');
     $this->set('issues', $issues); // @FIXME
+    $fixed_issue_count = 1;
+    $this->set('fixed_issue_count', $fixed_issue_count);
     /*
 <% issues = @version.fixed_issues.find(:all,
                                        :include => [:status, :tracker],
@@ -92,7 +94,9 @@ class VersionsController extends AppController
       }
     }
 
-    $this->data = $this->Version->read();
+    if ($id !== null) {
+      $this->data = $this->Version->read();
+    }
   }
 
   function destroy($id)

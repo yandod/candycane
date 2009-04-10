@@ -1,15 +1,17 @@
-<h2><%=l(:label_overview)%></h2> 
-	
+<h2><?php __('Overview') ?></h2> 
+
 <div class="splitcontentleft">
-	<%= textilizable @project.description %>	
-	<ul>
-	<% unless @project.homepage.blank? %><li><%=l(:field_homepage)%>: <%= link_to(h(@project.homepage), @project.homepage) %></li><% end %>
+  <?php echo $candy->textilizable($this->data['Project']['description']) ?>	
+  <ul>
+<?php if (!empty($this->data['Project']['homepage'])): ?>
+    <li><?php __('Homepage') ?>: <a href="<?php echo h($this->data['Project']['homepage']) ?>"><?php echo h($this->data['Project']['homepage']) ?></a></li>
+<?php endif ?>
     <% if @subprojects.any? %>
- 	<li><%=l(:label_subproject_plural)%>: <%= @subprojects.collect{|p| link_to(h(p.name), :action => 'show', :id => p)}.join(", ") %></li>
+  <li><?php __('Subprojects') ?>: <%= @subprojects.collect{|p| link_to(h(p.name), :action => 'show', :id => p)}.join(", ") %></li>
     <% end %>
-	<% if @project.parent %>
-	<li><%=l(:field_parent)%>: <%= link_to h(@project.parent.name), :controller => 'projects', :action => 'show', :id => @project.parent %></li>
-	<% end %>
+  <?php if ($this->data['Parent']['id'] != null): ?>
+  <li><?php __('Subproject of') ?>: <?php echo $html->link(h($this->data['Parent']['name']), '/projects/show/'.$this->data['Parent']['id']) ?></li>
+  <?php endif ?>
 	<% @project.custom_values.each do |custom_value| %>
 	<% if !custom_value.value.empty? %>
 	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
@@ -19,17 +21,17 @@
 
   <% if User.current.allowed_to?(:view_issues, @project) %>
   <div class="box">    
-    <h3 class="icon22 icon22-tracker"><%=l(:label_issue_tracking)%></h3>
+    <h3 class="icon22 icon22-tracker"><?php __('Issue tracking') ?></h3>
     <ul>
     <% for tracker in @trackers %>    
       <li><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
                                                 :set_filter => 1, 
                                                 "tracker_id" => tracker.id %>:
       <%= @open_issues_by_tracker[tracker] || 0 %> <%= lwr(:label_open_issues, @open_issues_by_tracker[tracker] || 0) %>
-      <%= l(:label_on) %> <%= @total_issues_by_tracker[tracker] || 0 %></li>
+      <?php __("'on'") ?> <%= @total_issues_by_tracker[tracker] || 0 %></li>
     <% end %>
     </ul>
-    <p><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 %></p>
+    <p><?php echo $html->link(__('View all issues', true), array('/issues/index/'.$this->data['Project']['id'].'?set_filter=1')) ?></p>
   </div>
   <% end %>
 </div>
@@ -37,7 +39,7 @@
 <div class="splitcontentright">
     <% if @members_by_role.any? %>
 	<div class="box">
-		<h3 class="icon22 icon22-users"><%=l(:label_member_plural)%></h3>	
+  <h3 class="icon22 icon22-users"><?php __('Members') ?></h3>	
 		<p><% @members_by_role.keys.sort.each do |role| %>
 		<%= role.name %>:
 		<%= @members_by_role[role].collect(&:user).sort.collect{|u| link_to_user u}.join(", ") %>
@@ -48,9 +50,12 @@
     
   <% if @news.any? && authorize_for('news', 'index') %>
   <div class="box">
-    <h3><%=l(:label_news_latest)%></h3>  
+    <h3><?php  __('Latest news') ?></h3>  
+    <?php echo $this->element('news/news') ?>
+<?php /*
     <%= render :partial => 'news/news', :collection => @news %>
-    <p><%= link_to l(:label_news_view_all), :controller => 'news', :action => 'index', :project_id => @project %></p>
+ */ ?>
+    <p><?php echo $html->link(__('View all news', true), array('/news/index/'.$this->data['Project']['id'])) ?></p>
   </div>  
   <% end %>
 </div>
@@ -61,15 +66,15 @@
       planning_links << link_to_if_authorized(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project)
       planning_links.compact!
       unless planning_links.empty? %>
-    <h3><%= l(:label_planning) %></h3>
+    <h3><?php __('Planning') ?></h3>
     <p><%= planning_links.join(' | ') %></p>
     <% end %>
     
     <% if @total_hours && User.current.allowed_to?(:view_time_entries, @project) %>
-    <h3><%= l(:label_spent_time) %></h3>
+    <h3><?php __('Spent time') ?></h3>
     <p><span class="icon icon-time"><%= lwr(:label_f_hour, @total_hours) %></span></p>
-    <p><%= link_to(l(:label_details), {:controller => 'timelog', :action => 'details', :project_id => @project}) %> |
-    <%= link_to(l(:label_report), {:controller => 'timelog', :action => 'report', :project_id => @project}) %></p>
+    <p><?php echo $html->link(__('Details', true), array('/timelog/details/'.$this->data['Project']['id'])) ?> |
+       <?php echo $html->link(__('Report', true), array('/timelog/report/'.$this->data['Project']['id'])) ?></p>
     <% end %>
 <% end %>
 
@@ -77,4 +82,4 @@
 <%= auto_discovery_link_tag(:atom, {:action => 'activity', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
 <% end %>
 
-<% html_title(l(:label_overview)) -%>
+<?php $candy->html_title(__('Overview', true)) ?>

@@ -36,14 +36,14 @@
 <?php endif ?>
 
 <div id="status_by">
-<?php if (count($this->data['FixedIssue']) > 0): ?>
+<?php if ($fixed_issue_count > 0): ?>
 <%= render_issue_status_by(@version, params[:status_by]) %>
 <?php endif ?>
 </div>
 </div>
 
 <div id="roadmap">
-<?php echo $this->element('versions/overview') ?>
+<?php echo $this->element('versions/overview', array('version'=>$this->data['Version'])) ?>
 <?php echo $this->element('wiki/content') ?>
 <?php /*
 <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>

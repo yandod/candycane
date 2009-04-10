@@ -702,6 +702,10 @@ msgstr "パスワードが更新されました。"
 msgid "Issue"
 msgstr "チケット"
 
+# label_issue_tracking
+msgid "Issue tracking"
+msgstr "チケットトラッキング"
+
 # button_delete
 msgid "Delete"
 msgstr "削除"

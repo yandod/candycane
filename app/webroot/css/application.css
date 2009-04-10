@@ -97,8 +97,8 @@ tr.entry td.size { text-align: right; font-size: 90%; }
 tr.entry td.revision, tr.entry td.author { text-align: center; }
 tr.entry td.age { text-align: right; }
 
-tr.entry span.expander {background-image: url(../images/bullet_toggle_plus.png); padding-left: 8px; margin-left: 0; cursor: pointer;}
-tr.entry.open span.expander {background-image: url(../images/bullet_toggle_minus.png);}
+tr.entry span.expander {background-image: url(../img/bullet_toggle_plus.png); padding-left: 8px; margin-left: 0; cursor: pointer;}
+tr.entry.open span.expander {background-image: url(../img/bullet_toggle_minus.png);}
 tr.entry.file td.filename a { margin-left: 16px; }
 
 tr.changeset td.author { text-align: center; width: 15%; }
@@ -106,8 +106,8 @@ tr.changeset td.committed_on { text-align: center; width: 15%; }
 
 tr.message { height: 2.6em; }
 tr.message td.last_message { font-size: 80%; }
-tr.message.locked td.subject a { background-image: url(../images/locked.png); }
-tr.message.sticky td.subject a { background-image: url(../images/sticky.png); font-weight: bold; }
+tr.message.locked td.subject a { background-image: url(../img/locked.png); }
+tr.message.sticky td.subject a { background-image: url(../img/sticky.png); font-weight: bold; }
 
 tr.user td { width:13%; }
 tr.user td.email { width:18%; }
@@ -199,18 +199,18 @@ div#search-results-counts {float:right;}
 div#search-results-counts ul { margin-top: 0.5em; }
 div#search-results-counts  li { list-style-type:none; float: left; margin-left: 1em; }
   
-dt.issue { background-image: url(../images/ticket.png); }
-dt.issue-edit { background-image: url(../images/ticket_edit.png); }
-dt.issue-closed { background-image: url(../images/ticket_checked.png); }
-dt.issue-note { background-image: url(../images/ticket_note.png); }
-dt.changeset { background-image: url(../images/changeset.png); }
-dt.news { background-image: url(../images/news.png); }
-dt.message { background-image: url(../images/message.png); }
-dt.reply { background-image: url(../images/comments.png); }
-dt.wiki-page { background-image: url(../images/wiki_edit.png); }
-dt.attachment { background-image: url(../images/attachment.png); }
-dt.document { background-image: url(../images/document.png); }
-dt.project { background-image: url(../images/projects.png); }
+dt.issue { background-image: url(../img/ticket.png); }
+dt.issue-edit { background-image: url(../img/ticket_edit.png); }
+dt.issue-closed { background-image: url(../img/ticket_checked.png); }
+dt.issue-note { background-image: url(../img/ticket_note.png); }
+dt.changeset { background-image: url(../img/changeset.png); }
+dt.news { background-image: url(../img/news.png); }
+dt.message { background-image: url(../img/message.png); }
+dt.reply { background-image: url(../img/comments.png); }
+dt.wiki-page { background-image: url(../img/wiki_edit.png); }
+dt.attachment { background-image: url(../img/attachment.png); }
+dt.document { background-image: url(../img/document.png); }
+dt.project { background-image: url(../img/projects.png); }
 
 div#roadmap fieldset.related-issues { margin-bottom: 1em; }
 div#roadmap fieldset.related-issues ul { margin-top: 0.3em; margin-bottom: 0.3em; }
@@ -270,7 +270,7 @@ width: 270px;
 
 input#time_entry_comments { width: 90%;}
 
-#preview fieldset {margin-top: 1em; background: url(../images/draft.png)}
+#preview fieldset {margin-top: 1em; background: url(../img/draft.png)}
 
 .tabular.settings p{ padding-left: 300px; }
 .tabular.settings label{ margin-left: -300px; width: 295px; }
@@ -288,7 +288,7 @@ div.attachments span.author { font-size: 0.9em; color: #888; }
 p.other-formats { text-align: right; font-size:0.9em; color: #666; }
 .other-formats span + span:before { content: "| "; }
 
-a.feed { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
+a.feed { background: url(../img/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
 
 /***** Flash & error messages ****/
 #errorExplanation, div.flash, .nodata, .warning {
@@ -301,21 +301,21 @@ a.feed { background: url(../images/feed.png) no-repeat 1px 50%; padding: 2px 0px
 div.flash {margin-top: 8px;}
 
 div.flash.error, #errorExplanation {
-    background: url(../images/false.png) 8px 5px no-repeat;
+    background: url(../img/false.png) 8px 5px no-repeat;
 	background-color: #ffe3e3;
 	border-color: #dd0000;
 	color: #550000;
 }
 
 div.flash.notice {
-    background: url(../images/true.png) 8px 5px no-repeat;
+    background: url(../img/true.png) 8px 5px no-repeat;
 	background-color: #dfffdf;
 	border-color: #9fcf9f;
 	color: #005f00;
 }
 
 div.flash.warning {
-  background: url(../images/warning.png) 8px 5px no-repeat;
+  background: url(../img/warning.png) 8px 5px no-repeat;
 	background-color: #FFEBC1;
 	border-color: #FDBF3B;
 	color: #A6750C;
@@ -352,7 +352,7 @@ html>body #ajax-indicator { position: fixed; }
 #ajax-indicator span {
 background-position: 0% 40%;
 background-repeat: no-repeat;
-background-image: url(../images/loading.gif);
+background-image: url(../img/loading.gif);
 padding-left: 26px;
 vertical-align: bottom;
 }
@@ -461,7 +461,7 @@ div.wiki .external {
     background-position: 0% 60%;
     background-repeat: no-repeat;
     padding-left: 12px;
-    background-image: url(../images/external.png);
+    background-image: url(../img/external.png);
 }
 
 div.wiki a.new {
@@ -532,11 +532,11 @@ width:12px;
 height:12px;
 background-repeat: no-repeat;
 cursor:pointer;
-background-image:url('../images/close.png');
+background-image:url('../img/close.png');
 }
 
 a.close-icon:hover {
-background-image:url('../images/close_hl.png');
+background-image:url('../img/close_hl.png');
 }
 
 /***** Gantt chart *****/
@@ -561,7 +561,7 @@ background-image:url('../images/close_hl.png');
   line-height:0.8em;
 }
 
-.task_late { background:#f66 url(../images/task_late.png); border: 1px solid #f66; }
+.task_late { background:#f66 url(../img/task_late.png); border: 1px solid #f66; }
 .task_done { background:#66f url(../img/task_done.png); border: 1px solid #66f; }  
 .task_todo { background:#aaa url(../img/task_todo.png); border: 1px solid #aaa; }
 .milestone { background-image:url(../img/milestone.png); background-repeat: no-repeat; border: 0; }

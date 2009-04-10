@@ -1,22 +1,24 @@
-<h2><%=l(:label_workflow)%></h2>
+<h2><?php __('Workflow'); ?></h2>
 
-<% if @workflow_counts.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% else %>
+<?php if (empty($workflow_counts)): ?>
+<p class="nodata"><?php __('No data to display'); ?></p>
+<?php else: ?>
 <table class="list">
 <thead>
     <tr>
     <th></th>
-    <% @workflow_counts.first.last.each do |role, count| %>
+<!--    <% @workflow_counts.first.last.each do |role, count| %> -->
+
+
     <th>
-        <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
+<!--        <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>  -->
     </th>
     
-    <% end %>
+<!--    <% end %> -->
     </tr>
 </thead>
 <tbody>
-<% @workflow_counts.each do |tracker, roles| -%>
+<!-- <% @workflow_counts.each do |tracker, roles| -%> -->
 <tr class="<%= cycle('odd', 'even') %>">
   <td><%= h tracker %></td>
   <% roles.each do |role, count| -%>
@@ -28,4 +30,5 @@
 <% end -%>
 </tbody>
 </table>
-<% end %>
+<?php endif; ?>
+?>

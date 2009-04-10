@@ -20,6 +20,12 @@
 #
 class Attachment extends AppModel
 {
+  var $belongsTo = array(
+    'Author' => array(
+      'className'=>'User',
+      'foreignKey'=>'author_id',
+    ),
+  );
 #  belongs_to :container, :polymorphic => true
 #  belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 #  

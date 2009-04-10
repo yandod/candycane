@@ -1,4 +1,12 @@
 <?php
+class Tracker extends AppModel
+{
+  var $name = 'Tracker';
+  var $hasMany = array(
+    'Issue',
+  );
+}
+
 ## redMine - project management software
 ## Copyright (C) 2006  Jean-Philippe Lang
 ##
@@ -55,3 +63,5 @@
 #    raise "Can't delete tracker" if Issue.find(:first, :conditions => ["tracker_id=?", self.id])
 #  end
 #end
+
+

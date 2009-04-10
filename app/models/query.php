@@ -1,9 +1,4 @@
 <?php
-class Query extends AppModel
-{
-  var $name = 'Query';
-}
-
 ## Redmine - project management software
 ## Copyright (C) 2006-2008  Jean-Philippe Lang
 ##
@@ -54,10 +49,18 @@ class Query extends AppModel
 #  end
 #end
 #
+class Query extends AppModel
+{
+  var $name = 'Query';
+  var $belongsTo = array(
+    'User',
+    'Project',
+  );
 #class Query < ActiveRecord::Base
 #  belongs_to :project
 #  belongs_to :user
 #  serialize :filters
+  var $column_names = null;
 #  serialize :column_names
 #  
 #  attr_protected :project_id, :user_id
@@ -410,3 +413,4 @@ class Query extends AppModel
 #    s.join(' AND ')
 #  end
 #end
+}
