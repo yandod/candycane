@@ -20,6 +20,7 @@ class ProjectsController extends AppController
 {
   var $name = 'Projects';
   var $uses = array('Project', 'User');
+  var $helpers = array('Time');
 
 #  menu_item :overview
 #  menu_item :activity, :only => :activity
@@ -282,6 +283,10 @@ class ProjectsController extends AppController
 #    @versions = @project.versions.sort
 #    @versions = @versions.select {|v| !v.completed? } unless params[:completed]
 #  end
+  function roadmap()
+  {
+
+  }
 #  
 #  def activity
 #    @days = Setting.activity_days_default.to_i
@@ -322,6 +327,10 @@ class ProjectsController extends AppController
 #  rescue ActiveRecord::RecordNotFound
 #    render_404
 #  end
+  function activity()
+  {
+
+  }
 #  
 #private
 #  # Find project of id params[:id]

@@ -43,7 +43,7 @@
 </div>
 
 <div id="roadmap">
-<?php echo $this->element('versions/overview', array('fixed_issue_count', $fixed_issue_count)) ?>
+<?php echo $this->element('versions/overview', array('version'=>$this->data['Version'])) ?>
 <?php echo $this->element('wiki/content') ?>
 <?php /*
 <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>

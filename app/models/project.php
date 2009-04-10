@@ -30,6 +30,10 @@ class Project extends AppModel
       'foreignKey'=>'parent_id',
     ),
   );
+  var $hasMany = array(
+    'Version',
+    'TimeEntry',
+  );
 #  # Project statuses
 #  STATUS_ACTIVE     = 1
 #  STATUS_ARCHIVED   = 9

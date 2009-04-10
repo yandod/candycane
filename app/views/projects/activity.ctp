@@ -1,4 +1,6 @@
-<h2><%= @author.nil? ? l(:label_activity) : l(:label_user_activity, link_to_user(@author)) %></h2>
+<?php /*
+<h2><%= @author.nil? ? __('Activity') : $candy->lwr("\"%s's activity\"", $link_to_user(@author)) %></h2>
+ */ ?>
 <p class="subtitle"><%= "#{l(:label_date_from)} #{format_date(@date_to - @days)} #{l(:label_date_to).downcase} #{format_date(@date_to-1)}" %></p>
 
 <div id="activity">
@@ -34,7 +36,7 @@
 </div>
 &nbsp;
 <p class="other-formats">
-    <%= l(:label_export_to) %>
+    <?php __("'Also available in:'") ?>
     <%= link_to 'Atom', params.merge(:format => :atom, :from => nil, :key => User.current.rss_key), :class => 'feed' %>
 </p>
 
@@ -43,8 +45,8 @@
 <% end %>
 
 <% content_for :sidebar do %>
-<% form_tag({}, :method => :get) do %>
-<h3><%= l(:label_activity) %></h3>
+<?php echo $form->create('Project', array('action'=>'activity', 'method'=>'get')) ?>
+<h3><?php __('Activity') ?></h3>
 <p><% @activity.event_types.each do |t| %>
 <label><%= check_box_tag "show_#{t}", 1, @activity.scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%></label><br />
 <% end %></p>
@@ -53,8 +55,8 @@
     <%= hidden_field_tag 'with_subprojects', 0 %>
 <% end %>
 <%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
-<p><%= submit_tag l(:button_apply), :class => 'button-small', :name => nil %></p>
-<% end %>
+<p><?php echo $form->submit(__('Apply', true), array('class'=>'button-small')) ?></p>
+<?php echo $form->end() ?>
 <% end %>
 
 <% html_title(l(:label_activity), @author) -%>

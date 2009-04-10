@@ -129,12 +129,14 @@ class Version extends AppModel
 
   function afterFind($results, $primary)
   {
-    if ($primary) {
-      foreach($results as $key=>$result) {
-        $results[$key] = $this->afterFindOne($results[$key]);
+    foreach($results as $key=>$result) {
+      if (isset($result[$this->alias][0])) {
+        foreach($result[$this->alias] as $key2=>$version) {
+          $results[$key][$this->alias][$key2] = $this->afterFindOne($version);
+        }
+      } else {
+        $results[$key][$this->alias] = $this->afterFindOne($results[$key][$this->alias]);
       }
-    } else {
-      $results = $this->afterFindOne($results);
     }
 
     return $results;
@@ -142,8 +144,8 @@ class Version extends AppModel
 
   function afterFindOne($result)
   {
-    $result['Version']['start_date'] = $result['Version']['effective_date'];
-    $result['Version']['due_date'] = $result['Version']['effective_date'];
+    $result['start_date'] = $result['effective_date'];
+    $result['due_date'] = $result['effective_date'];
 
     $this->bindModel(array('hasOne'=>array('TimeEntry'=>array())));
     $time_entries = $this->TimeEntry->find('all', array(
@@ -155,26 +157,26 @@ class Version extends AppModel
     foreach($time_entries as $entry) {
       $sum += $entry['TimeEntry']['hours'];
     }
-    $result['Version']['spent_hours'] = $sum;
-    $result['Version']['open_issues_count'] = $this->FixedIssue->find('count', array(
+    $result['spent_hours'] = $sum;
+    $result['open_issues_count'] = $this->FixedIssue->find('count', array(
       'conditions'=>array(
-        'fixed_version_id'=>$result['Version']['id'],
+        'fixed_version_id'=>$result['id'],
         'Status.is_closed'=>false,
       ),
     ));
-    $result['Version']['closed_issues_count'] = $this->FixedIssue->find('count', array(
+    $result['closed_issues_count'] = $this->FixedIssue->find('count', array(
       'conditions'=>array(
-        'fixed_version_id'=>$result['Version']['id'],
+        'fixed_version_id'=>$result['id'],
         'Status.is_closed'=>true,
       ),
     ));
 
-    if (empty($result['Version']['effective_date'])) {
-      $result['Version']['completed'] = false;
-    } else if (strtotime($result['Version']['effective_date']) <= time()) {
-      $result['Version']['completed'] = false;
+    if (empty($result['effective_date'])) {
+      $result['completed'] = false;
+    } else if (strtotime($result['effective_date']) <= time()) {
+      $result['completed'] = false;
     } else {
-      $result['Version']['completed'] = ($result['Version']['open_issues_count'] == 0);
+      $result['completed'] = ($result['open_issues_count'] == 0);
     }
 #  def estimated_hours
 #    @estimated_hours ||= fixed_issues.sum(:estimated_hours).to_f
@@ -184,7 +186,7 @@ class Version extends AppModel
     foreach($issues as $issue) {
       $sum += $issue['FixedIssue']['estimated_hours'];
     }
-    $result['Version']['estimated_hours'] = $sum;
+    $result['estimated_hours'] = $sum;
 
 #  def spent_hours
 #    @spent_hours ||= TimeEntry.sum(:hours, :include => :issue, :conditions => ["#{Issue.table_name}.fixed_version_id = ?", id]).to_f
