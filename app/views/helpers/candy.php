@@ -204,10 +204,10 @@ class CandyHelper extends AppHelper
     }
 
     if ($include_date) {
-      return strftime("{$date_format} {$time_format}");
+      return strftime("{$date_format} {$time_format}", $time);
       // return strftime("{$date_format} {$time_format}", $local);
     } else {
-      return strftime("{$time_format}");
+      return strftime("{$time_format}", $time);
       // return strftime("{$time_format}", $local);
     }
   }
