@@ -1,3 +1,4 @@
+<?php /* ?>
 <% if @query.new_record? %>
     <h2><%=l(:label_issue_plural)%></h2>
     <% html_title(l(:label_issue_plural)) %>
@@ -25,6 +26,7 @@
     </fieldset>
     <% end %>
 <% else %>
+<?php */ ?>
     <div class="contextual">
     <% if @query.editable_by?(User.current) %>
     <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'icon icon-edit' %>
@@ -37,11 +39,10 @@
 <% end %>
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
-<% if @issues.empty? %>
+<?php if (!$issues): ?>
 <p class="nodata"><%= l(:label_no_data) %></p>
-<% else %>
+<?php else: ?>
 <?php echo $this->renderElement('issues/list', array('issues' => $issues, 'query' => $query)) ?>
-<%= render :partial => 'issues/list', :locals => {:issues => @issues, :query => @query} %>
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
 
 <p class="other-formats">
@@ -50,7 +51,7 @@
 <span><%= link_to 'CSV', {:format => 'csv'}, :class => 'csv' %></span>
 <span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
 </p>
-<% end %>
+<?php endif ?>
 <% end %>
 
 <% content_for :sidebar do %>
