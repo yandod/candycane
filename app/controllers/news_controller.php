@@ -56,9 +56,12 @@ class NewsController extends AppController {
 			// TODO: error
 		}
 
-		$this->set('news', $this->News->read(null, $id));
+		$this->data = $this->News->read(null, $id);
+		$this->set('news', $this->data);
 	}
 
+  function add()
+  {
 #  def new
 #    @news = News.new(:project => @project, :author => User.current)
 #    if request.post?
@@ -70,13 +73,41 @@ class NewsController extends AppController {
 #      end
 #    end
 #  end
-#  
+		if (!empty($this->data)) {
+			$this->News->create();
+        // TODO: project_id, author_idを正しく設定する！
+      $this->News->set( 'author_id', 1 ) ;
+      $this->News->set( 'project_id', 1 ) ;
+      $this->News->set( 'created_on', date('Y-m-d H:i:s',time()) ) ;
+
+			if ($this->News->save($this->data)) {
+				$this->Session->setFlash(__('Successful creation.', true));
+				$this->redirect(array('action'=>'index'));
+			}
+		}
+  }
+
+  function edit($id = null)
+  {
 #  def edit
 #    if request.post? and @news.update_attributes(params[:news])
 #      flash[:notice] = l(:notice_successful_update)
 #      redirect_to :action => 'show', :id => @news
 #    end
 #  end
+		if (!empty($this->data)) {
+        // TODO: project_id, author_idを正しく設定する！
+      $this->News->set( 'id', $id ) ;
+      $this->News->set( 'author_id', 1 ) ;
+      $this->News->set( 'project_id', 1 ) ;
+      $this->News->set( 'created_on', date('Y-m-d H:i:s',time()) ) ;
+		    // TODO: パーミッションのチェック,request methodのチェック
+			if ($this->News->save($this->data)) {
+				$this->Session->setFlash(__('Successful update.', true));
+				$this->redirect(array('action'=>'show', 'id' => $id));
+			}
+		}
+  }
 #  
 #  def add_comment
 #    @comment = Comment.new(params[:comment])
