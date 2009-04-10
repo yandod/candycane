@@ -18,7 +18,7 @@
 #
 class NewsController extends AppController {
 	var $name = 'News';
-	var $uses = array( 'News', 'User', 'Project' ) ;
+	var $uses = array( 'News', 'User', 'Project', 'Comment' ) ;
 	var $helpers = array('Html', 'Form', 'Candy', 'Ajax');
 
 #class NewsController < ApplicationController
@@ -108,7 +108,9 @@ class NewsController extends AppController {
 			}
 		}
   }
-#  
+
+  function add_comment($id = null)
+  {
 #  def add_comment
 #    @comment = Comment.new(params[:comment])
 #    @comment.author = User.current
@@ -119,16 +121,41 @@ class NewsController extends AppController {
 #      render :action => 'show'
 #    end
 #  end
+		if (!empty($this->data)) {
+			$this->Comment->create();
+        // TODO: author_idを正しく設定する！
+      $this->Comment->set( 'commented_type', 'News' ) ;
+      $this->Comment->set( 'commented_id', $id ) ;
+      $this->Comment->set( 'author_id', 1 ) ;
+        // $this->data['News'] って気持ち悪いけどどうしたら良い？
+      $this->Comment->set( 'comments', $this->data['News']['comments'] ) ;
+      $this->Comment->set( 'created_on', date('Y-m-d H:i:s',time()) ) ;
+      $this->Comment->set( 'updated_on', date('Y-m-d H:i:s',time()) ) ;
+
+			if ($this->Comment->save($this->data)) {
+				$this->Session->setFlash(__('Successful creation.', true));
+				$this->redirect(array('action'=>'show', 'id' => $id));
+			}
+		}
+  }
 #
 #  def destroy_comment
 #    @news.comments.find(params[:comment_id]).destroy
 #    redirect_to :action => 'show', :id => @news
 #  end
 #
+  function destroy( $id = null ) 
+  {
 #  def destroy
 #    @news.destroy
 #    redirect_to :action => 'index', :project_id => @project
 #  end
+		if ($this->News->del($id)) {
+        // TODO: project_idを正しく設定する！
+			$this->Session->setFlash(__('News deleted', true));
+			$this->redirect(array('action'=>'index'));
+		}
+  }
 #  
 #  def preview
 #    @text = (params[:news] ? params[:news][:description] : nil)
