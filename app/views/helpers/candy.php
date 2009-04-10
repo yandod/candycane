@@ -721,20 +721,70 @@ class CandyHelper extends AppHelper
 #    (@has_content && @has_content[name]) || false
 #  end
 #
-#  # Returns the avatar image tag for the given +user+ if avatars are enabled
-#  # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-#  def avatar(user, options = { })
-#    if Setting.gravatar_enabled?
-#      email = nil
+
+  /**
+   * avatar
+   *
+   * Returns the avatar image tag for the given +user+ if avatars are enabled
+   * +user+ can be a User or a string that will be scanned for an email address
+   * (eg. 'joe <joe@foo.bar>')
+   */
+  function avatar($user, $options = array())
+  {
+    if ($this->Settings->gravatar_enabled) {
+
+      if (isset($user['User'])) {
+        $user = $user['User'];
+      }
+
+      if (empty($user['email'])) {
+        $email = null;
+      } else {
+        $email = $user['email'];
+      }
+
 #      if user.respond_to?(:mail)
 #        email = user.mail
 #      elsif user.to_s =~ %r{<(.+?)>}
 #        email = $1
 #      end
-#      return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
-#    end
-#  end
-#
+
+      if ($email == null) {
+        return null;
+      }
+
+      // def gravatar_url
+      $email_hash = md5($email);
+      $options_default = array(
+        'default' => null,
+        'rating' => 'PG',
+        'alt' => 'avatar',
+        'class' => 'gravatar'
+      );
+      $options = array_merge($options, $options_default);
+      if (!empty($options['default'])) {
+        $options['default'] = htmlspecialchars($options['default'], ENT_QUOTES);
+      }
+
+      $url = "http://www.gravatar.com/avatar.php?gravatar_id=#{email_hash}";
+
+      foreach (array('rating', 'size', 'default') as $opt) {
+        if (!empty($opt)) {
+          $value = htmlspecialchars($options[$opt], ENT_QUOTES);
+          $url .= "&{$opt}={$value}";
+        }
+      }
+      // end gravatar_url
+
+      # Return the HTML img tag for the given email address's gravatar.
+      foreach (array('class', 'alt', 'size') as $opt) {
+        $options[$opt] = htmlspecialchars($options[$opt], ENT_QUOTES);
+      }
+      
+      return "<img class=\"{$options['class']}\" alt=\"{$options['alt']}\" width=\"{$options['size']}\" height=\"{$options['size']}\" src=\"{$url}\" />"      
+;    }
+  }
+
 #  private
 #
 #  def wiki_helper
