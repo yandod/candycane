@@ -163,4 +163,16 @@ class Setting extends AppModel
 #    setting = find_by_name(name)
 #    setting ||= new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
 #  end
+  function __construct()
+  {
+    parent::__construct();
+    $var = include CONFIGS.DS.'settings.php';
+    foreach ($var as $k => $v) {
+    	$this->{$k} = $v;
+    }
+    $data = $this->find('all');
+    foreach ($data as $k => $v) {
+    	$this->{$v['Setting']['name']} = $v['Setting']['value'];
+    }
+  }
 }

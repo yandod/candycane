@@ -40,7 +40,7 @@
         <?php echo $form->end() ?>
         <!-- <%= render :partial => 'layouts/project_selector' if User.current.memberships.any? %> -->
     </div>
-         <h1><?php if (isset($Project)) { h($Project['name']); } else { echo Configure::read('app_title'); } ?></h1>
+         <h1><?php if (isset($Project)) { h($Project['name']); } else { echo $Settings->app_title; } ?></h1>
 <!--     <h1><%= h(@project && !@project.new_record? ? @project.name : Setting.app_title) %></h1> -->
     
     <div id="main-menu">
