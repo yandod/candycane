@@ -64,57 +64,51 @@ $vars = array(
 'commit_fix_done_ratio' =>
   '100',
 'autologin' =>
-  '0',/*
-# date format
-date_format' =>
-  '''
-time_format' =>
-  '''
-user_format' =>
-  ':firstname_lastname
-  format: symbol
-cross_project_issue_relations' =>
-  '0
-notified_events' =>
-  serialized: true
-  '
-  - issue_added
-  - issue_updated
-mail_handler_api_enabled' =>
-  '0
-mail_handler_api_key' =>
-  '
-issue_list_default_columns' =>
-  serialized: true
-  '
-  - tracker
-  - status
-  - priority
-  - subject
-  - assigned_to
-  - updated_on
-display_subprojects_issues' =>
-  '1
-default_projects_public' =>
-  '1
-sequential_project_identifiers' =>
-  '0
-# encodings used to convert repository files content to UTF-8
-# multiple values accepted, comma separated
-repositories_encodings' =>
-  '''
-# encoding used to convert commit logs to UTF-8
-commit_logs_encoding' =>
-  ''UTF-8'
-ui_theme' =>
-  '''
-emails_footer' =>
+  '0',
+'date_format' =>
+  '',
+'time_format' =>
+  '',
+'user_format' =>
+  ':firstname_lastname',
+'cross_project_issue_relations' =>
+  '0',
+'notified_events' =>
+  array(
+    'issue_added',
+    'issue_updated',
+  ),
+'mail_handler_api_enabled' =>
+  '0',
+'mail_handler_api_key' =>
+  '',
+'issue_list_default_columns' =>
+  array(
+   'tracker',
+   'status',
+   'priority',
+   'subject',
+   'assigned_to',
+   'updated_on',
+  ),
+'display_subprojects_issues' =>
+  '1',
+'default_projects_public' =>
+  '1',
+'sequential_project_identifiers' =>
+  '0',
+'repositories_encodings' =>
+  '',
+'commit_logs_encoding' =>
+  'UTF-8',
+'ui_theme' =>
+  '',
+'emails_footer' =>
   '|-
     You have received this notification because you have either subscribed to it, or are involved in it.
-    To change your notification preferences, please click here: http://hostname/my/account
-gravatar_enabled:  
-  '0
-*/
+    To change your notification preferences, please click here: http://hostname/my/account',
+'gravatar_enabled' => 
+  '0',
 );
 return $vars;
 ?>
