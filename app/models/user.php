@@ -36,6 +36,7 @@
 #  
 #  attr_accessor :password, :password_confirmation
 #  attr_accessor :last_before_login_on
+#
 #  # Prevents unauthorized assignments
 #  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
 #	
@@ -286,19 +287,17 @@
 class User extends AppModel
 {
 
-#  validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
-#  validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
-#  validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }
-#  # Login must contain lettres, numbers, underscores only
-#  validates_length_of :login, :maximum => 30
-#  validates_length_of :firstname, :lastname, :maximum => 30
-#  validates_length_of :mail, :maximum => 60, :allow_nil => true
-#  validates_length_of :password, :minimum => 4, :allow_nil => true
-#  validates_confirmation_of :password, :allow_nil => true
-
   /**
-   *
-   *
+   * no implement:
+   * validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
+   * validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
+   * validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }
+   * # Login must contain lettres, numbers, underscores only
+   * validates_length_of :login, :maximum => 30
+   * validates_length_of :firstname, :lastname, :maximum => 30
+   * validates_length_of :mail, :maximum => 60, :allow_nil => true
+   * validates_length_of :password, :minimum => 4, :allow_nil => true
+   * validates_confirmation_of :password, :allow_nil => true
    *
    * implemented:
    * validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
