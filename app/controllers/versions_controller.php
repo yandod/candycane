@@ -94,7 +94,9 @@ class VersionsController extends AppController
       }
     }
 
-    $this->data = $this->Version->read();
+    if ($id !== null) {
+      $this->data = $this->Version->read();
+    }
   }
 
   function destroy($id)
