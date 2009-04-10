@@ -213,6 +213,9 @@ class AccountController extends AppController {
         $skip_action = array('login', 'lost_password', 'register', 'activate');
         if (!in_array($this->action, $skip_action)) {
             parent::beforeFilter();
+        } else {
+        	 $this->setSettings(); // todo: kimoi
+        	 $this->set('currentuser',aa('logged',false));
         }
     }
 

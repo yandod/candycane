@@ -92,7 +92,7 @@
 #    }
 #  end  
 #end
-Configure::write('Config.language',"ja");
+//Configure::write('Config.language',"ja");
 
 class AdminController extends AppController {
 
@@ -100,22 +100,20 @@ class AdminController extends AppController {
 	var $uses = array('Project');
 	var $helpers = array('Candy');
 
-	function beforeFilter()
+/*	function beforeFilter()
 	{
 		// require_admin
-	}
+	}*/
 
 	function index()
 	{
 		// this is dummy user
-		$this->set('currentuser','suzuki');
+		//$this->set('currentuser','suzuki');
 	}
 
 	function projects()
 	{
-		// this is dummy user
-		$this->set('currentuser','suzuki');
-		$this->set('status' , array('hoge', 'fuga'));
+		$this->set('status' , array('hoge', 'fuga')); //todo:hoge
 
 
 		$projects = $this->Project->find('all');
