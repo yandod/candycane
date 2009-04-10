@@ -83,3 +83,25 @@
 #    redirect_to :action => 'list'
 #  end  	
 #end
+class IssueStatusesController extends AppController {
+  var $name = 'IssueStatuses';
+  var $components = array('RequestHandler');
+
+  function index() {
+    $this->lists();
+    if(!$this->RequestHandler->isAjax()) {
+      $this->render("list");
+    }
+  }
+  function lists() {
+    $this->params['show'] = 25;
+    $this->params['sort'] = "position";
+    $issue_statuses = $this->paginate();
+    $issue_status_pages = $issue_statuses;
+    $this->set(compact('issue_statuses', 'issue_status_pages'));
+    if($this->RequestHandler->isAjax()) {
+      $this->render("list", "ajax");
+    }
+  }
+}
+?>
