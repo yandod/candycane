@@ -300,14 +300,14 @@ a.feed { background: url(../img/feed.png) no-repeat 1px 50%; padding: 2px 0px 3p
 
 div.flash {margin-top: 8px;}
 
-div.flash.error, #errorExplanation {
+div.flash.error, #errorExplanation, div.flash_error {
     background: url(../img/false.png) 8px 5px no-repeat;
 	background-color: #ffe3e3;
 	border-color: #dd0000;
 	color: #550000;
 }
 
-div.flash.notice {
+div.flash.notice, div.flash_notice {
     background: url(../img/true.png) 8px 5px no-repeat;
 	background-color: #dfffdf;
 	border-color: #9fcf9f;

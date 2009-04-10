@@ -421,5 +421,18 @@ class ListBehavior extends ModelBehavior {
     return $Model->saveField($position_column, $position);
 
   }
+  
+  function beforeSave(&$Model) {
+    $position_column = $this->settings[$Model->alias]['column'];
+    $conditions = $this->settings[$Model->alias]['scope'];
+    $result = $Model->find('first', array('conditions'=>$conditions, 'order'=>"$position_column DESC"));
+    if($result) {
+      $Model->data[$Model->alias][$position_column] = $result[$Model->alias][$position_column] + 1;
+    }
+    return $result;
+  }
+  
+  
+  
 }
 ?>
