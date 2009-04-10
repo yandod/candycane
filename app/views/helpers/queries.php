@@ -2,14 +2,10 @@
 class QueriesHelper extends AppHelper
 {
   var $name = 'Queries';
-  var $columns = array('tracker', 'status', 'priority', 'subject', 'assigned_to', 'update_on');
+  var $helpers = array(
+    'Html',
+  );
   
-  function column_content($column, $issue)
-  {
-    return isset($issue['Issue'][$column]) ? $issue['Issue'][$column] : null;
-  }
-}
-
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
 ##
@@ -38,7 +34,31 @@ class QueriesHelper extends AppHelper
 #                                                        :default_order => column.default_order) : 
 #                      content_tag('th', column.caption)
 #  end
-#  
+#
+  function columns($query = null)
+  {
+    if (!$query) return $this->Settings->issue_list_default_columns;
+  }
+
+  function column_content($column, $issue)
+  {
+    switch ($column) {
+    case 'subject':
+      return $this->Html->link($issue['Issue']['subject'], array('controller' => 'issues', 'action' => 'show', 'id' => $issue['Issue']['id']));
+    case 'tracker':
+      return h($issue['Tracker']['name']);
+    case 'status':
+      return h($issue['Status']['name']);
+    case 'priority':
+      return h($issue['Priority']['name']);
+    case 'assigned_to':
+      return h($issue['AssignedTo']['firstname'] . ' ' . $issue['AssignedTo']['lastname']);
+    case 'updated_on':
+      return h($issue['Issue']['updated_on']);
+    default:
+      return $column;
+    }
+  }
 #  def column_content(column, issue)
 #    if column.is_a?(QueryCustomFieldColumn)
 #      cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}
@@ -65,3 +85,4 @@ class QueriesHelper extends AppHelper
 #    end
 #  end
 #end
+}

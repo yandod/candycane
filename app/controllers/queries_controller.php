@@ -2,6 +2,7 @@
 class QueriesController extends AppController
 {
   var $name = 'Queries';
+  
   function edit()
   {
   }

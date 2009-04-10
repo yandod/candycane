@@ -86,6 +86,7 @@ class DATABASE_CONFIG {
 		'password' => '',
 		'database' => 'redmine_development',
 		'prefix' => '',
+		'encoding' => 'utf8'
 	);
 
 	var $test = array(

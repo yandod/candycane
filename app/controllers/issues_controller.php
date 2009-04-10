@@ -3,30 +3,9 @@ class IssuesController extends AppController
 {
   var $name = 'Issues';
   var $uses = array('User', 'Issue', 'Query');
-  var $helpers = array('Queries');
+  var $helpers = array('Queries', 'Paginator');
   var $_query;
   
-  function index()
-  {
-    $this->_retrieve_query();
-    $this->set('issues', $this->Issue->find('all', array(
-      'order' => 'Issue.id DESC',
-    )));
-  }
-  
-  function _retrieve_query()
-  {
-    $query = a();
-    $cond = a();
-    if (isset($this->params['project_id'])) $cond[] = array('Query.project_id' => $this->params['project_id']);
-    if ($cond) {
-      $query = $this->Query->find('first', array(
-        'conditions' => $cond,
-      ));
-    }
-    $this->set('query', $query);
-  }
-}
 ## Redmine - project management software
 ## Copyright (C) 2006-2008  Jean-Philippe Lang
 ##
@@ -71,7 +50,15 @@ class IssuesController extends AppController
 #  include IssuesHelper
 #  helper :timelog
 #  include Redmine::Export::PDF
-#
+#  
+  function index()
+  {
+    $this->_retrieve_query();
+    $this->paginate = array('Issue' => array(
+      'order' => 'Issue.id DESC',
+    ));
+    $this->set('issues', $this->paginate('Issue'));
+  }
 #  def index
 #    retrieve_query
 #    sort_init 'id', 'desc'
@@ -484,6 +471,18 @@ class IssuesController extends AppController
 #  end
 #  
 #  # Retrieve query from session or build a new query
+  function _retrieve_query()
+  {
+    $query = a();
+    $cond = a();
+    if (isset($this->params['project_id'])) $cond[] = array('Query.project_id' => $this->params['project_id']);
+    if ($cond) {
+      $query = $this->Query->find('first', array(
+        'conditions' => $cond,
+      ));
+    }
+    $this->set('query', $query);
+  }
 #  def retrieve_query
 #    if !params[:query_id].blank?
 #      cond = "project_id IS NULL"
@@ -514,3 +513,4 @@ class IssuesController extends AppController
 #    end
 #  end
 #end
+}

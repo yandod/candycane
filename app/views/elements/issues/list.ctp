@@ -4,6 +4,8 @@
         <th><!--<%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
         --></th>
+        <?php echo $html->tag('th', $paginator->sort('id', '#')) ?>
+        <?php foreach ($queries->columns($query) as $column): ?><?php echo $html->tag('th', $paginator->sort($column)) ?><?php endforeach ?>
         <!--
 		<%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
         <% query.columns.each do |column| %>
@@ -14,11 +16,11 @@
 	<tbody>
 	<% issues.each do |issue| -%>
   <?php foreach ($issues as $issue): ?>
-	<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= css_issue_classes(issue) %>">
-	    <td class="checkbox"><!--<%= check_box_tag("ids[]", issue.id, false, :id => nil) %>--></td>
-		<td><!--<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %>--></td>
-        <?php foreach ($queries->columns as $column): ?><?php echo $html->tag('td', $queries->column_content($column, $issue), array('class' => $column)) ?><?php endforeach ?><!--<% query.columns.each do |column| %><%= content_tag 'td', column_content(column, issue), :class => column.name %><% end %>-->
-	</tr>
+	<tr id="issue-<?php echo h($issue['Issue']['id']) ?>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= css_issue_classes(issue) %>">
+	    <td class="checkbox"><input type="checkbox" name="ids[]" value="<?php echo h($issue['Issue']['id']) ?>" /></td>
+		<td><?php echo $html->link($issue['Issue']['id'], array('controller' => 'issues', 'action' => 'show', 'id' => $issue['Issue']['id'])) ?></td>
+        <?php foreach ($queries->columns($query) as $column): ?><?php echo $html->tag('td', $queries->column_content($column, $issue), array('class' => $column)) ?><?php endforeach ?>
+  </tr>
 	<?php endforeach ?>
 	<% end -%>
 	</tbody>

@@ -1,22 +1,39 @@
 <?php
-## redMine - project management software
-## Copyright (C) 2006-2007  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
-#class Issue < ActiveRecord::Base
+class Issue extends AppModel
+{
+  var $name = 'Issue';
+  var $belongsTo = array(
+    'Project',
+    'Tracker',
+    'Status' => array(
+      'className'  => 'IssueStatus',
+      'foreignKey' => 'status_id',
+    ),
+    'Author' => array(
+      'className'  => 'User',
+      'foreignKey' => 'author_id',
+    ),
+    'AssignedTo' => array(
+      'className'  => 'User',
+      'foreignKey' => 'assigned_to_id',
+    ),
+    'FixedVersion' => array(
+      'className'  => 'Version',
+      'foreignKey' => 'fixed_version_id',
+    ),
+    'Status' => array(
+      'className'  => 'IssueStatus',
+      'foreignKey' => 'status_id',
+    ),
+    'Priority' => array(
+      'className'  => 'Enumeration',
+      'foreignKey' => 'priority_id',
+    ),
+    'Category' => array(
+      'className'  => 'IssueCategory',
+      'foreignKey' => 'category_id',
+    ),
+  );
 #  belongs_to :project
 #  belongs_to :tracker
 #  belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
@@ -280,17 +297,4 @@
 #  end
 #end
 #
-
-// 他に作っている人がいたら消していいです
-class Issue extends AppModel
-{
-  var $name = 'Issue';
-  var $belongsTo = array(
-    'Status'=>array(
-      'className'=>'IssueStatus',
-      'foreignKey'=>'status_id',
-    ),
-  );
-
 }
-
