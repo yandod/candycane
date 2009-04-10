@@ -74,6 +74,7 @@
 class IssueStatus extends AppModel
 {
   var $name = 'IssueStatus';
+  var $actsAs = array('List');
 
 }
 
