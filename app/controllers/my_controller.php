@@ -125,7 +125,7 @@
 
 class MyController extends AppController
 {
-    var $uses = array('User');
+    var $uses = array('User', 'Project');
 
     function index()
     {
@@ -140,7 +140,7 @@ class MyController extends AppController
      */
     function page()
     {
-#    @user = User.current
+      $this->set('user', $this->current_user);
 #    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
     }
 
@@ -159,14 +159,15 @@ class MyController extends AppController
 #      @user.mail_notification = (params[:notification_option] == 'all')
 #      @user.pref.attributes = params[:pref]
 #      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
-#      if @user.save
+          if($this->User->save($this->data)) {
 #        @user.pref.save
 #        @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
 #        set_language_if_valid @user.language
 #        flash[:notice] = l(:notice_account_updated)
 #        redirect_to :action => 'account'
+            $this->redirect('account');
 #        return
-#      end
+          }
         }
 
 #    @notification_options = [[l(:label_user_mail_option_all), 'all'],

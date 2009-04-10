@@ -1,40 +1,55 @@
 <div class="contextual">
 <%= link_to(l(:button_change_password), :action => 'password') unless @user.auth_source_id %>
 </div>
-<h2><%=l(:label_my_account)%></h2>
-<%= error_messages_for 'user' %>
 
+<h2><?php e(__('label_my_account')); ?></h2>
+<!--
+@todo implement
+<%= error_messages_for 'user' %>
+-->
+
+<!--
+@todo implement
 <% form_for :user, @user, :url => { :action => "account" }, 
                           :builder => TabularFormBuilder, 
                           :lang => current_language,
                           :html => { :id => 'my_account_form' } do |f| %>
+-->
+<?php e($form->create()); ?>
 <div class="splitcontentleft">
-<h3><%=l(:label_information_plural)%></h3>
-<div class="box tabular">
-<p><%= f.text_field :firstname, :required => true %></p>
-<p><%= f.text_field :lastname, :required => true %></p>
-<p><%= f.text_field :mail, :required => true %></p>
-<p><%= f.select :language, lang_options_for_select %></p>
-</div>
+  <h3><?php e(__('label_information_plural')); ?></h3>
+  <div class="box tabular">
+    <p><?php e($form->input('firstname')); ?></p>
+    <p><?php e($form->input('lastname')); ?></p>
+    <p><?php e($form->input('mail')); ?></p>
+    <p><%= f.select :language, lang_options_for_select %></p>
+  </div>
 
-<%= submit_tag l(:button_save) %>
+  <?php e($form->submit('button_save')); ?>
 </div>
 
 <div class="splitcontentright">
-<h3><%=l(:field_mail_notification)%></h3>
-<div class="box">
-<%= select_tag 'notification_option', options_for_select(@notification_options, @notification_option),
-                                      :onchange => 'if ($("notification_option").value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
-<% content_tag 'div', :id => 'notified-projects', :style => (@notification_option == 'selected' ? '' : 'display:none;') do %>
-<p><% User.current.projects.each do |project| %>
+  <h3><?php e(__('field_mail_notification')); ?></h3>
+  <div class="box">
+  <%= select_tag 'notification_option',
+  options_for_select(@notification_options, @notification_option),
+  :onchange => 'if ($("notification_option").value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
+
+  <% content_tag 'div', :id => 'notified-projects', :style => (@notification_option == 'selected' ? '' : 'display:none;') do %>
+
+  <p>
+    <% User.current.projects.each do |project| %>
     <label><%= check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %> <%=h project.name %></label><br />
-<% end %></p>
-<p><em><%= l(:text_user_mail_option) %></em></p>
+    <% end %>
+  </p>
+
+  <p><em><?php e(__('text_user_mail_option')); ?></em></p>
 <% end %>
-<p><label><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %> <%= l(:label_user_mail_no_self_notified) %></label></p>
+
+  <p><label><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %> <%= l(:label_user_mail_no_self_notified) %></label></p>
 </div>
 
-<h3><%=l(:label_preferences)%></h3>
+<h3><?php e(__('label_preferences')); ?></h3>
 <div class="box tabular">
 <% fields_for :pref, @user.pref, :builder => TabularFormBuilder, :lang => current_language do |pref_fields| %>
 <p><%= pref_fields.check_box :hide_mail %></p>
