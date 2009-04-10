@@ -18,8 +18,9 @@
 #
 class ProjectsController extends AppController
 {
-    var $name = 'Projects';
-    var $uses = array('Project', 'User');
+  var $name = 'Projects';
+  var $uses = array('Project', 'User');
+  var $helpers = array('Time');
 
 #  menu_item :overview
 #  menu_item :activity, :only => :activity
@@ -28,39 +29,40 @@ class ProjectsController extends AppController
 #  menu_item :settings, :only => :settings
 #  menu_item :issues, :only => [:changelog]
   
-    /**
-     * beforeFilter
-     *
-     * before_filter :find_project, :except => [ :index, :list, :add, :activity ]
-     * before_filter :find_optional_project, :only => :activity
-     * before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy, :activity ]
-     * before_filter :require_admin, :only => [ :add, :archive, :unarchive, :destroy ]
-     *
-     */
-    function beforeFilter()
-    {
-        parent::beforeFilter();
+  /**
+   * beforeFilter
+   *
+   * before_filter :find_project, :except => [ :index, :list, :add, :activity ]
+   * before_filter :find_optional_project, :only => :activity
+   * before_filter :authorize, :except => [ :index, :list, :add, :archive, :unarchive, :destroy, :activity ]
+   * before_filter :require_admin, :only => [ :add, :archive, :unarchive, :destroy ]
+   *
+   */
+  function beforeFilter()
+  {
+    parent::beforeFilter();
 
-        $except = array('index', 'list', 'add', 'activity');
-        if (!in_array($this->action, $except)) {
-            $this->find_project();
-        }
-
-        if ($this->action == 'activity') {
-            $this->find_optional_project();
-        }
-
-        $except = array('index', 'list', 'add', 'archive', 'unarchive', 'destroy', 'activity');
-        if (!in_array($this->action, $except)) {
-            $this->authorize();
-        }
-
-        $only = array('add', 'archive', 'unarchive', 'destroy');
-        if (in_array($this->action, $only)) {
-            $this->require_admin();
-        }
-
+    $except = array('index', 'list', 'add', 'activity');
+    if (!in_array($this->action, $except)) {
+      $this->find_project();
     }
+    /*
+
+    if ($this->action == 'activity') {
+      $this->find_optional_project();
+    }
+
+    $except = array('index', 'list', 'add', 'archive', 'unarchive', 'destroy', 'activity');
+    if (!in_array($this->action, $except)) {
+      $this->authorize();
+    }
+
+    $only = array('add', 'archive', 'unarchive', 'destroy');
+    if (in_array($this->action, $only)) {
+      $this->require_admin();
+    }
+     */
+  }
 #  accept_key_auth :activity
 #  
 #  helper :sort
@@ -158,6 +160,10 @@ class ProjectsController extends AppController
 #    end
 #    @key = User.current.rss_key
 #  end
+  function show()
+  {
+
+  }
 #
 #  def settings
 #    @root_projects = Project.find(:all,
@@ -277,6 +283,10 @@ class ProjectsController extends AppController
 #    @versions = @project.versions.sort
 #    @versions = @versions.select {|v| !v.completed? } unless params[:completed]
 #  end
+  function roadmap()
+  {
+
+  }
 #  
 #  def activity
 #    @days = Setting.activity_days_default.to_i
@@ -317,6 +327,10 @@ class ProjectsController extends AppController
 #  rescue ActiveRecord::RecordNotFound
 #    render_404
 #  end
+  function activity()
+  {
+
+  }
 #  
 #private
 #  # Find project of id params[:id]
@@ -327,6 +341,16 @@ class ProjectsController extends AppController
 #  rescue ActiveRecord::RecordNotFound
 #    render_404
 #  end
+  function find_project()
+  {
+    if (!empty($this->params['project_id'])) {
+      $this->data = $this->Project->findByIdentifier($this->params['project_id']);
+      $this->id = $this->data['Project']['id'];
+    } else if (!empty($this->params['id'])) {
+      $this->id = $this->params['id'];
+      $this->data = $this->Project->read();
+    }
+  }
 #  
 #  def find_optional_project
 #    return true unless params[:id]

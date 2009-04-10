@@ -64,34 +64,40 @@
  */
 class UsersController extends AppController
 {
-    /**
-     * beforeFilter
-     *
-     */
-    function beforeFilter()
-    {
-        parent::beforeFilter();
-        $this->require_admin();
-    }
+  /**
+   * beforeFilter
+   *
+   */
+  function beforeFilter()
+  {
+    parent::beforeFilter();
+    $this->require_admin();
+  }
 
-    function index()
-    {
-        $this->list_();
-        $this->render('list'); // unless request.xhr?
-#    render :action => 'list' unless request.xhr?
-    }
+  function index()
+  {
+    $this->list_();
+    $this->render('list'); // unless request.xhr?
+    # render :action => 'list' unless request.xhr?
+  }
 
-    /**
-     * list
-     *
-     * @todo list is reserved word
-     */
-    function list_()
-    {
+  /**
+   * list_
+   *
+   * @todo list is reserved word
+   */
+  function list_()
+  {
 #    sort_init 'login', 'asc'
 #    sort_update %w(login firstname lastname mail admin created_on last_login_on)
-#    
-#    @status = params[:status] ? params[:status].to_i : 1
+
+     
+    if (isset($this->params['url']['status'])) {
+      $this->set('status', (int)$this->params['url']['status']);
+    } else {
+      $this->set('status', 1);
+    }
+
 #    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
 #
 #    unless params[:name].blank?
@@ -103,30 +109,47 @@ class UsersController extends AppController
 #    @user_pages = Paginator.new self, @user_count,
 #								per_page_option,
 #								params['page']								
+ 
 #    @users =  User.find :all,:order => sort_clause,
 #                        :conditions => c.conditions,
-#						:limit  =>  @user_pages.items_per_page,
-#						:offset =>  @user_pages.current.offset
-#
-#    render :action => "list", :layout => false if request.xhr?	
-	return 'list';
+#                        :limit  =>  @user_pages.items_per_page,
+#                        :offset =>  @user_pages.current.offset
+    $users = $this->User->find('all');
+
+    $this->set('users', $users);
+
+
+    if (isset($request->xhr)) {
+      $this->layout = false;
     }
 
+    return 'list';
+  }
+
+    /**
+     * add
+     *
+     */
     function add()
     {
-        if (!$this->data) {
-#      @user = User.new(:language => Setting.default_language)
-        } else {
-#      @user = User.new(params[:user])
-#      @user.admin = params[:user][:admin] || false
-#      @user.login = params[:user][:login]
-#      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless @user.auth_source_id
-#      if @user.save
-#        Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
-#        flash[:notice] = l(:notice_successful_create)
-#        redirect_to :action => 'list'
-#      end
+      if (!$this->data) {
+        # @user = User.new(:language => Setting.default_language)
+      } else {
+        # @user = User.new(params[:user])
+        # @user.admin = params[:user][:admin] || false
+        # @user.login = params[:user][:login]
+        if (!isset($user['auth_source_id']) || !is_numeric($user['auth_source_id'])) {
+          // @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
         }
-#    @auth_sources = AuthSource.find(:all)
+
+        $result = $this->User->save($this->data);
+        if ($result) {
+          #        Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
+          #        flash[:notice] = l(:notice_successful_create)
+          #        redirect_to :action => 'list'
+          $this->redirect('index');
+        }
+      }
+      #    @auth_sources = AuthSource.find(:all)
     }
 }
