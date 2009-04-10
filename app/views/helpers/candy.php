@@ -1,4 +1,8 @@
 <?php
+/**
+ * CandyHelper
+ *
+ */
 class CandyHelper extends AppHelper
 {
 	var $helpers = array('Html');
@@ -14,36 +18,67 @@ class CandyHelper extends AppHelper
 		);
 		return $map[$key];
 	}
+  function lwr_e()
+  {
+    $argv = func_get_args();
+    $ret = call_user_func_array(array($this, 'lwr_r'), $argv);
+    echo $ret;
+  }
+  function lwr_r()
+  {
+    $argc = func_num_args();
+    $argv = func_get_args();
+    $return = false;
+    if ($argc == 0) {
+      return null;
+    } else {
+      $singular = $argv[0];
+      if ($argc > 1) {
+        array_shift($argv);
+        $singular = vsprintf(__($singular, true), $argv);
+      }
+    }
 
+    return $singular;
+  }
+  function lwr()
+  {
+    $argv = func_get_args();
+    call_user_func_array(array($this, 'lwr_e'), $argv);
+  }
 
-	function html_title($str)
-	{
-#  def html_title(*args)
-#    if args.empty?
-#      title = []
-#      title << @project.name if @project
-#      title += @html_title if @html_title
-#      title << Setting.app_title
-#      title.compact.join(' - ')
-#    else
-#      @html_title ||= []
-#      @html_title += args
-#    end
-#  end
-		if (empty($str)) {
-			$title = array();
-			if (! empty($this->project)) {
-				$title[0] = $this->project['name'];
-				if (! empty($this->html_title)) {
-					$title[0] .= $this->html_title;
-				}
-				$title = join(' - ', $title);
-			}
-		} else {
-			$this->html_title = array();
-			$this->html_title .= $str;
-		}
-	}
+  /**
+   * html_title
+   *
+   */
+  function html_title($str)
+  {
+    #  def html_title(*args)
+    #    if args.empty?
+    #      title = []
+    #      title << @project.name if @project
+    #      title += @html_title if @html_title
+    #      title << Setting.app_title
+    #      title.compact.join(' - ')
+    #    else
+    #      @html_title ||= []
+    #      @html_title += args
+    #    end
+    #  end
+    if (empty($str)) {
+      $title = array();
+      if (! empty($this->project)) {
+        $title[0] = $this->project['name'];
+        if (! empty($this->html_title)) {
+          $title[0] .= $this->html_title;
+        }
+        $title = join(' - ', $title);
+      }
+    } else {
+      $this->html_title = array();
+      $this->html_title .= $str;
+    }
+  }
 
 #require 'coderay'
 #require 'coderay/helpers/file_type'
@@ -120,15 +155,26 @@ class CandyHelper extends AppHelper
 #    link_to name, {}, html_options
 #  end
 #
-#  def format_date(date)
-#    return nil unless date
-#    # "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
+  /**
+   * format_date
+   *
+   * @todo implement Setting
+   */
+  function format_date($date) 
+  {
+    if (!$date) {
+      return null;
+    }
+
+    // "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
 #    @date_format ||= (Setting.date_format.blank? || Setting.date_format.size < 2 ? l(:general_fmt_date) : Setting.date_format)
 #    date.strftime(@date_format)
-#  end
+    return $date;
+  }
 #
-	function format_time()
-	{
+  
+  function format_time()
+  {
 #  def format_time(time, include_date = true)
 #    return nil unless time
 #    time = time.to_time if time.is_a?(String)
@@ -138,8 +184,8 @@ class CandyHelper extends AppHelper
 #    @time_format ||= (Setting.time_format.blank? ? l(:general_fmt_time) : Setting.time_format)
 #    include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
 #  end
-		return "2009/4/1 12:12 AM";
-	}
+    return "2009/4/1 12:12 AM";
+  }
 #  
 #  def format_activity_title(text)
 #    h(truncate_single_line(text, 100))
@@ -159,12 +205,36 @@ class CandyHelper extends AppHelper
 #    distance_in_days = (to_date - from_date).abs
 #    lwr(:actionview_datehelper_time_in_words_day, distance_in_days)
 #  end
+  function distance_of_date_in_words($from_date, $to_date = 0)
+  {
+    $from_date = strtotime($from_date);
+    $to_date = strtotime($to_date);
+    $distance_in_days = abs($to_date - $from_date) / (60*60*24);
+
+    return $this->lwr_r('', $distance_in_days);
+  }
 #
 #  def due_date_distance_in_words(date)
 #    if date
 #      l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
 #    end
 #  end
+  function due_date_distance_in_words($date)
+  {
+    $ret = null;
+
+    if ($date) {
+      $time = strtotime($date);
+      $now = time();
+      if ($date < $now) {
+        $ret = '%s late';
+      } else {
+        $ret = 'Due in %s';
+      }
+    }
+
+    return null;
+  }
 #
 #  def render_page_hierarchy(pages, node=nil)
 #    content = ''
@@ -199,6 +269,10 @@ class CandyHelper extends AppHelper
 #  def html_hours(text)
 #    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
 #  end
+  function html_hours($text)
+  {
+    return preg_replace('/(\d+)\.(\d+)/', '<span class="hours hours-int">$1</span><span class="hours hours-dec">.$2</span>', $text);
+  }
 #
 	function authoring($created, $author, $options = array())
 	{
