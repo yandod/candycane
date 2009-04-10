@@ -5,3 +5,4 @@ app/tmp/logs/error.log
 .cache/
 .project
 .settings/
+app/config/database.php
