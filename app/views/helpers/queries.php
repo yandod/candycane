@@ -37,7 +37,7 @@ class QueriesHelper extends AppHelper
 #
   function columns($query = null)
   {
-    if (!$query) return $this->Settings->issue_list_default_columns;
+    return $this->Settings->issue_list_default_columns;
   }
 
   function column_content($column, $issue)
