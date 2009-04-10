@@ -1,10 +1,10 @@
 <div class="contextual">
-<?php if ($current_user['admin'] == 1): ?>
-  <?php e($html->link(__('button_edit', true), '/users/edit/'.$current_user['id'], array('class' => 'icon icon-edit'))); ?>
+<?php if ($currentuser['admin'] == 1): ?>
+  <?php e($html->link(__('button_edit', true), '/users/edit/'.$currentuser['id'], array('class' => 'icon icon-edit'))); ?>
 <?php endif; ?>
 </div>
 
-<h2><%= avatar @user %> <?php e(h($current_user['name'])); ?></h2>
+<h2><%= avatar @user %> <?php e(h($currentuser['name'])); ?></h2>
 
 <div class="splitcontentleft">
 <ul>
@@ -18,10 +18,10 @@
     <% end %>
   <% end %>
 
-  <li><?php __('label_registered_on'); ?>: <?php e($candy->format_date($current_user['created_on'])); ?></li>
+  <li><?php __('label_registered_on'); ?>: <?php e($candy->format_date($currentuser['created_on'])); ?></li>
 
-  <?php if (!empty($current_user['last_login_on'])): ?>
-  <li><?php __('field_last_login_on'); ?>: <?php e($candy->format_date($current_user['last_login_on'])); ?></li>
+  <?php if (!empty($currentuser['last_login_on'])): ?>
+  <li><?php __('field_last_login_on'); ?>: <?php e($candy->format_date($currentuser['last_login_on'])); ?></li>
   <?php endif; ?>
 </ul>
 
@@ -72,4 +72,4 @@
 <% end %>
 </div>
 
-<?php $candy->html_title($current_user['name'], true); ?>
+<?php $candy->html_title($currentuser['name'], true); ?>
