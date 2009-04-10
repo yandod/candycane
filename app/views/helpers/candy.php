@@ -14,6 +14,34 @@ class CandyHelper extends AppHelper
 		);
 		return $map[$key];
 	}
+  function lwr_e()
+  {
+    $argv = func_get_args();
+    $ret = call_user_func_array(array($this, 'lwr_r'), $argv);
+    echo $ret;
+  }
+  function lwr_r()
+  {
+    $argc = func_num_args();
+    $argv = func_get_args();
+    $return = false;
+    if ($argc == 0) {
+      return null;
+    } else {
+      $singular = $argv[0];
+      if ($argc > 1) {
+        array_shift($argv);
+        $singular = vsprintf(__($singular, true), $argv);
+      }
+    }
+
+    return $singular;
+  }
+  function lwr()
+  {
+    $argv = func_get_args();
+    call_user_func_array(array($this, 'lwr_e'), $argv);
+  }
 
 
 	function html_title($str)
@@ -159,12 +187,34 @@ class CandyHelper extends AppHelper
 #    distance_in_days = (to_date - from_date).abs
 #    lwr(:actionview_datehelper_time_in_words_day, distance_in_days)
 #  end
+  function distance_of_date_in_words($from_date, $to_date = 0)
+  {
+    $from_date = strtotime($from_date);
+    $to_date = strtotime($to_date);
+    $distance_in_days = abs($to_date - $from_date);
+  }
 #
 #  def due_date_distance_in_words(date)
 #    if date
 #      l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
 #    end
 #  end
+  function due_date_distance_in_words($date)
+  {
+    $ret = null;
+
+    if ($date) {
+      $time = strtotime($date);
+      $now = time();
+      if ($date < $now) {
+        $ret = '%s late';
+      } else {
+        $ret = 'Due in %s';
+      }
+    }
+
+    return null;
+  }
 #
 #  def render_page_hierarchy(pages, node=nil)
 #    content = ''

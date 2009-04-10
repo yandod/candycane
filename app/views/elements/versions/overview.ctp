@@ -1,12 +1,12 @@
-<% if version.completed? %>
-  <p><%= format_date(version.effective_date) %></p>
-<% elsif version.effective_date %>
-  <p><strong><%= due_date_distance_in_words(version.effective_date) %></strong> (<%= format_date(version.effective_date) %>)</p>
-<% end %>
+<?php if ($this->data['Version']['completed']): ?>
+  <p><?php echo $time->nice($this->data['Version']['effective_date']) ?></p>
+<?php elseif ($this->data['Version']['effective_date']): ?>
+  <p><strong><%= due_date_distance_in_words(version.effective_date) %></strong> (<?php echo $time->nice($this->data['Version']['effective_date']) ?>)</p>
+<?php endif ?>
 
-<p><%=h version.description %></p>
+<p><?php echo h($this->data['Version']['description']) ?></p>
 
-<% if version.fixed_issues.count > 0 %>
+<?php if (count($this->data['FixedIssue']) > 0): ?>
     <%= progress_bar([version.closed_pourcent, version.completed_pourcent], :width => '40em', :legend => ('%0.0f%' % version.completed_pourcent)) %>
     <p class="progress-info">
         <%= link_to(version.closed_issues_count, :controller => 'issues', :action => 'index', :project_id => version.project, :status_id => 'c', :fixed_version_id => version, :set_filter => 1) %>
@@ -17,6 +17,7 @@
         <%= lwr(:label_open_issues, version.open_issues_count)%>
         (<%= '%0.0f' % (version.open_issues_count.to_f / version.fixed_issues.count * 100) %>%)
     </p>
-<% else %>
-    <p><em><%= l(:label_roadmap_no_issues) %></em></p>
-<% end %>
+<?php else: ?>
+    <p><em><?php echo __('No issues for this version') ?></em></p>
+<?php endif ?>
+
