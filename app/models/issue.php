@@ -284,3 +284,18 @@ class Issue extends AppModel
 #    journal.save
 #  end
 #end
+#
+
+// 他に作っている人がいたら消していいです
+class Issue extends AppModel
+{
+  var $name = 'Issue';
+  var $belongsTo = array(
+    'Status'=>array(
+      'className'=>'IssueStatus',
+      'foreignKey'=>'status_id',
+    ),
+  );
+
+}
+

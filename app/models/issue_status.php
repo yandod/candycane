@@ -68,3 +68,12 @@
 #    raise "Can't delete status" if Issue.find(:first, :conditions => ["status_id=?", self.id])
 #  end
 #end
+#
+
+// 他に作っている人がいたら消していいです
+class IssueStatus extends AppModel
+{
+  var $name = 'IssueStatus';
+
+}
+
