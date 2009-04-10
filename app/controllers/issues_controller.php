@@ -1,4 +1,32 @@
 <?php
+class IssuesController extends AppController
+{
+  var $name = 'Issues';
+  var $uses = array('User', 'Issue', 'Query');
+  var $helpers = array('Queries');
+  var $_query;
+  
+  function index()
+  {
+    $this->_retrieve_query();
+    $this->set('issues', $this->Issue->find('all', array(
+      'order' => 'Issue.id DESC',
+    )));
+  }
+  
+  function _retrieve_query()
+  {
+    $query = a();
+    $cond = a();
+    if (isset($this->params['project_id'])) $cond[] = array('Query.project_id' => $this->params['project_id']);
+    if ($cond) {
+      $query = $this->Query->find('first', array(
+        'conditions' => $cond,
+      ));
+    }
+    $this->set('query', $query);
+  }
+}
 ## Redmine - project management software
 ## Copyright (C) 2006-2008  Jean-Philippe Lang
 ##
