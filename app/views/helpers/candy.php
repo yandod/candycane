@@ -1,4 +1,8 @@
 <?php
+/**
+ * CandyHelper
+ *
+ */
 class CandyHelper extends AppHelper
 {
 	var $helpers = array('Html');
@@ -43,35 +47,38 @@ class CandyHelper extends AppHelper
     call_user_func_array(array($this, 'lwr_e'), $argv);
   }
 
-
-	function html_title($str)
-	{
-#  def html_title(*args)
-#    if args.empty?
-#      title = []
-#      title << @project.name if @project
-#      title += @html_title if @html_title
-#      title << Setting.app_title
-#      title.compact.join(' - ')
-#    else
-#      @html_title ||= []
-#      @html_title += args
-#    end
-#  end
-		if (empty($str)) {
-			$title = array();
-			if (! empty($this->project)) {
-				$title[0] = $this->project['name'];
-				if (! empty($this->html_title)) {
-					$title[0] .= $this->html_title;
-				}
-				$title = join(' - ', $title);
-			}
-		} else {
-			$this->html_title = array();
-			$this->html_title .= $str;
-		}
-	}
+  /**
+   * html_title
+   *
+   */
+  function html_title($str)
+  {
+    #  def html_title(*args)
+    #    if args.empty?
+    #      title = []
+    #      title << @project.name if @project
+    #      title += @html_title if @html_title
+    #      title << Setting.app_title
+    #      title.compact.join(' - ')
+    #    else
+    #      @html_title ||= []
+    #      @html_title += args
+    #    end
+    #  end
+    if (empty($str)) {
+      $title = array();
+      if (! empty($this->project)) {
+        $title[0] = $this->project['name'];
+        if (! empty($this->html_title)) {
+          $title[0] .= $this->html_title;
+        }
+        $title = join(' - ', $title);
+      }
+    } else {
+      $this->html_title = array();
+      $this->html_title .= $str;
+    }
+  }
 
 #require 'coderay'
 #require 'coderay/helpers/file_type'
@@ -148,15 +155,26 @@ class CandyHelper extends AppHelper
 #    link_to name, {}, html_options
 #  end
 #
-#  def format_date(date)
-#    return nil unless date
-#    # "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
+  /**
+   * format_date
+   *
+   * @todo implement Setting
+   */
+  function format_date($date) 
+  {
+    if (!$date) {
+      return null;
+    }
+
+    // "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
 #    @date_format ||= (Setting.date_format.blank? || Setting.date_format.size < 2 ? l(:general_fmt_date) : Setting.date_format)
 #    date.strftime(@date_format)
-#  end
+    return $date;
+  }
 #
-	function format_time()
-	{
+  
+  function format_time()
+  {
 #  def format_time(time, include_date = true)
 #    return nil unless time
 #    time = time.to_time if time.is_a?(String)
@@ -166,8 +184,8 @@ class CandyHelper extends AppHelper
 #    @time_format ||= (Setting.time_format.blank? ? l(:general_fmt_time) : Setting.time_format)
 #    include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
 #  end
-		return "2009/4/1 12:12 AM";
-	}
+    return "2009/4/1 12:12 AM";
+  }
 #  
 #  def format_activity_title(text)
 #    h(truncate_single_line(text, 100))

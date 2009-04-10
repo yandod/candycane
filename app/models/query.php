@@ -1,4 +1,9 @@
 <?php
+class Query extends AppModel
+{
+  var $name = 'Query';
+}
+
 ## Redmine - project management software
 ## Copyright (C) 2006-2008  Jean-Philippe Lang
 ##
