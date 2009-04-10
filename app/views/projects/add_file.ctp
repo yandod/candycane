@@ -1,4 +1,4 @@
-<h2><?php __('Add file') ?></h2>
+<h2><?php __('New file') ?></h2>
 
 <%= error_messages_for 'attachment' %>
 <div class="box">

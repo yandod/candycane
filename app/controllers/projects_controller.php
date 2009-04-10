@@ -285,6 +285,10 @@ class ProjectsController extends AppController
 #    retrieve_selected_tracker_ids(@trackers)    
 #    @versions = @project.versions.sort
 #  end
+  function changelog()
+  {
+
+  }
 #
 #  def roadmap
 #    @trackers = @project.trackers.find(:all, :conditions => ["is_in_roadmap=?", true])

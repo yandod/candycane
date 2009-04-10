@@ -1,15 +1,18 @@
-<h2><%=l(:label_change_log)%></h2>
+<?php /*
+vim: filetype=php
+ */ ?>
+<h2><?php __('Change log') ?></h2>
 
-<% if @versions.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
+<?php if (count($this->data['Version']) == 0): ?>
+<p class="nodata"><?php __('No data to display') ?></p>
+<?php endif ?>
 
-<% @versions.each do |version| %>   
-    <a name="<%= version.name %>"><h3 class="icon22 icon22-package"><%= version.name %></h3></a>
-    <% if version.effective_date %>
+<?php foreach($this->data['Version'] as $version): ?>
+    <a name="<?php echo h($version['name']) ?>"><h3 class="icon22 icon22-package"><?php echo h($version['name']) ?></h3></a>
+    <?php if ($version['effective_date']): ?>
       <p><%= format_date(version.effective_date) %></p>
-    <% end %>
-    <p><%=h version.description %></p>
+    <?php endif ?>
+    <p><?php echo h($version['description']) ?></p>
     <% issues = version.fixed_issues.find(:all,
                                  :include => [:status, :tracker],
                                  :conditions => ["#{IssueStatus.table_name}.is_closed=? AND #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", true],
@@ -23,7 +26,7 @@
       <% end %>
     </ul>
     <% end %>
-<% end %>
+<?php endforeach ?>
 
 <% content_for :sidebar do %>
 <% form_tag do %>
