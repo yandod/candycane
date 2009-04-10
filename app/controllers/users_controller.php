@@ -81,17 +81,23 @@ class UsersController extends AppController
     # render :action => 'list' unless request.xhr?
   }
 
-    /**
-     * list
-     *
-     * @todo list is reserved word
-     */
-    function list_()
-    {
+  /**
+   * list_
+   *
+   * @todo list is reserved word
+   */
+  function list_()
+  {
 #    sort_init 'login', 'asc'
 #    sort_update %w(login firstname lastname mail admin created_on last_login_on)
 #    
-#    @status = params[:status] ? params[:status].to_i : 1
+     
+    if (isset($this->params['url']['status'])) {
+      $this->set('status', (int)$this->params['url']['status']);
+    } else {
+      $this->set('status', 1);
+    }
+
 #    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
 #
 #    unless params[:name].blank?
@@ -107,10 +113,14 @@ class UsersController extends AppController
 #                        :conditions => c.conditions,
 #						:limit  =>  @user_pages.items_per_page,
 #						:offset =>  @user_pages.current.offset
-#
-#    render :action => "list", :layout => false if request.xhr?	
-	return 'list';
+
+
+    if (isset($request->xhr)) {
+      $this->layout = false;
     }
+
+    return 'list';
+  }
 
     /**
      * add
