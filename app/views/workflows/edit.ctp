@@ -1,66 +1,78 @@
 <div class="contextual">
-<%= link_to l(:field_summary), :action => 'index' %>
+<?php echo $html->link(__('Summary', TRUE), array('action' => 'index')); ?>
 </div>
 
-<h2><%=l(:label_workflow)%></h2>
+<h2><?php __('Workflow'); ?></h2>
 
-<p><%=l(:text_workflow_edit)%>:</p>
+<p><?php __('Select a role and a tracker to edit the workflow'); ?>:</p>
 
-<% form_tag({}, :method => 'get') do %>
-<p><label for="role_id"><%=l(:label_role)%>:</label>
-<select name="role_id">
-  <%= options_from_collection_for_select @roles, "id", "name", (@role.id unless @role.nil?) %>
-</select>
+<?php echo $form->create('Workflow', array('type' => 'get','action' => 'edit')); ?>
+<p><label for="role_id"><?php __('Role'); ?>:</label>
+<!-- <select name="role_id">  -->
+  <!-- <%= options_from_collection_for_select @roles, "id", "name", (@role.id unless @role.nil?) %> -->
+<!-- </select> -->
+<?php echo $form->input('role_id',array('type' => 'select', 'options' => $roles_options,'div' => FALSE, 'label' => FALSE)); ?>
 
-<label for="tracker_id"><%=l(:label_tracker)%>:</label>
-<select name="tracker_id">
+
+<label for="tracker_id"><?php __('Tracker'); ?>:</label>
+<!-- <select name="tracker_id">
   <%= options_from_collection_for_select @trackers, "id", "name", (@tracker.id unless @tracker.nil?) %>
-</select>
-<%= submit_tag l(:button_edit), :name => nil %>
-</p>
-<% end %>
-  
-  
+</select> -->
+   <?php echo $form->input('tracker_id', array('type' => 'select','options' => $trackers_options, 'div' => FALSE, 'label' => FALSE)); ?>
 
-<% unless @tracker.nil? or @role.nil? or @statuses.empty? %>
-<% form_tag({}, :id => 'workflow_form' ) do %>
-<%= hidden_field_tag 'tracker_id', @tracker.id %>
-<%= hidden_field_tag 'role_id', @role.id %>
+<!-- <%= submit_tag l(:button_edit), :name => nil %> -->
+<?php echo $form->submit(__('Edit', TRUE), array('name' => '', 'div' => FALSE)); ?>
+</p>
+<!-- <% end %> -->
+<?php echo $form->end(); ?>
+  
+<!-- <% unless @tracker.nil? or @role.nil? or @statuses.empty? %> -->
+<?php if (TRUE): ?>
+
+<!-- <% form_tag({}, :id => 'workflow_form' ) do %> -->
+<?php echo $form->create('Workflow'); ?>
+<?php echo $form->input('tracker_id', array('type' => 'hidden', 'value' => $tracker['Tracker']['id'])); ?>
+<?php echo $form->input('role_id', array('type' => 'hidden', 'value' => $role['Role']['id'])); ?>
 <table class="list">
 <thead>
 	<tr>
-	<th align="left"><%=l(:label_current_status)%></th>
-	<th align="center" colspan="<%= @statuses.length %>"><%=l(:label_new_statuses_allowed)%></th>
+    <th align="left"><?php __('Current status'); ?></th>
+    <th align="center" colspan="<?php echo count($statuses); ?>"><?php __('New statuses allowed'); ?></th>
 	</tr>
 	<tr>
 	<td></td>
-	<% for new_status in @statuses %>
-		<td width="<%= 75 / @statuses.size %>%" align="center"><%= new_status.name %></td>
-	<% end %>
+  <?php foreach ($statuses as $new_status): ?>
+  <td width="<?php echo intval(75 / count($statuses)); ?>%" align="center"><?php echo h($new_status['IssueStatus']['name']); ?></td>
+  <?php endforeach; ?>
 	</tr>
 </thead>
 <tbody>
-	<% for old_status in @statuses %>
-		<tr class="<%= cycle("odd", "even") %>">
-		<td><%= old_status.name %></td>
-		<% new_status_ids_allowed = old_status.find_new_statuses_allowed_to(@role, @tracker).collect(&:id) -%>
-		<% for new_status in @statuses -%>
+  <?php foreach($statuses as $old_status): ?>
+<?php
+//  <tr class="<%= cycle("odd", "even") %>">
+?>
+    <tr class="">
+
+      <td><?php echo h($old_status['IssueStatus']['name']); ?></td>
+<!--		<% new_status_ids_allowed = old_status.find_new_statuses_allowed_to(@role, @tracker).collect(&:id) -%> -->
+      <?php foreach ($statuses as $new_status): ?>
 			<td align="center">
       <input type="checkbox"
-      name="issue_status[<%= old_status.id %>][]"
-      value="<%= new_status.id %>"
-      <%= 'checked="checked"' if new_status_ids_allowed.include? new_status.id %> />			
+      name="issue_status[<?php echo h($old_status['IssueStatus']['id']); ?>][]"
+      value="<?php echo h($new_status['IssueStatus']['id']); ?>"
+      <?php echo 'checked="checked"' ?> />
+      <!-- <%= 'checked="checked"' if new_status_ids_allowed.include? new_status.id %> />	-->
 			</td>
-		<% end -%>
+      <?php endforeach; ?>
 		</tr>
-	<% end %>
+   <?php endforeach; ?>
 </tbody>
 </table>
 <p><%= check_all_links 'workflow_form' %></p>
 
-<%= submit_tag l(:button_save) %>
-<% end %>
+<?php echo $form->submit(__('Save', TRUE)); ?>
+<?php echo $form->end(); ?>
 
-<% end %>
+<?php endif; ?>
 
-<% html_title(l(:label_workflow)) -%>
+<!-- <% html_title(l(:label_workflow)) -%> -->
