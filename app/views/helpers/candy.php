@@ -1,4 +1,8 @@
 <?php
+/**
+ * CandyHelper
+ *
+ */
 class CandyHelper extends AppHelper
 {
   var $helpers = array('Html');
@@ -17,6 +21,10 @@ class CandyHelper extends AppHelper
     return $map[$key];
   }
 
+  /**
+   * html_title
+   *
+   */
   function html_title($str)
   {
     #  def html_title(*args)
