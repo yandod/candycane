@@ -162,6 +162,12 @@ class Version extends AppModel
         'Status.is_closed'=>false,
       ),
     ));
+    $result['Version']['closed_issues_count'] = $this->FixedIssue->find('count', array(
+      'conditions'=>array(
+        'fixed_version_id'=>$result['Version']['id'],
+        'Status.is_closed'=>true,
+      ),
+    ));
 
     if (empty($result['Version']['effective_date'])) {
       $result['Version']['completed'] = false;
@@ -176,7 +182,7 @@ class Version extends AppModel
     $issues = $this->FixedIssue->find('all', array('fields'=>'estimated_hours'));
     $sum = 0;
     foreach($issues as $issue) {
-      $sum += $issue['FixedIssues']['estimated_hours'];
+      $sum += $issue['FixedIssue']['estimated_hours'];
     }
     $result['Version']['estimated_hours'] = $sum;
 
