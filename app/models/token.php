@@ -1,4 +1,10 @@
 <?php
+/**
+ * token.php
+ *
+ *
+ */
+
 ## redMine - project management software
 ## Copyright (C) 2006  Jean-Philippe Lang
 ##
@@ -15,8 +21,13 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
-#class Token < ActiveRecord::Base
+
+/**
+ * Token
+ *
+ */
+class Token extends AppModel
+{
 #  belongs_to :user
 #  
 #  @@validity_time = 1.day
@@ -35,11 +46,19 @@
 #    Token.delete_all ["action <> 'feeds' AND created_on < ?", Time.now - @@validity_time]
 #  end
 #  
-#private
-#  def self.generate_token_value
+  /**
+   * _generate_token_value
+   *
+   * @access private
+   * @todo fix token generate algorithm
+   */
+  function _generate_token_value()
+  {
+    return sha1(microtime());
 #    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 #    token_value = ''
 #    40.times { |i| token_value << chars[rand(chars.size-1)] }
 #    token_value
-#  end
-#end
+  }
+}
+

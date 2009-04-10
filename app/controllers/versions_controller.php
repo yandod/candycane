@@ -53,3 +53,83 @@
 #    render_404
 #  end  
 #end
+
+
+class VersionsController extends AppController
+{
+  var $name = 'Versions';
+  var $uses = array('User', 'Version');
+  var $helpers = array('Time');
+#  menu_item :roadmap
+#  before_filter :find_project, :authorize
+
+  function show($id)
+  {
+    $this->Version->id = $id;
+    $this->data = $this->Version->read();
+
+    $issues = $this->Version->FixedIssue->find('all');
+    $this->set('issues', $issues); // @FIXME
+    /*
+<% issues = @version.fixed_issues.find(:all,
+                                       :include => [:status, :tracker],
+                                       :order => "#{Tracker.table_name}.position, #{Issue.table_name}.id") %>
+     */
+  }
+
+  function edit($id)
+  {
+#    if request.post? and @version.update_attributes(params[:version])
+#      flash[:notice] = l(:notice_successful_update)
+#      redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+#    end
+    $this->Version->id = $id;
+
+    if(!empty($this->data)) {
+      if($this->Version->save($this->data, true, array('name', 'description', 'wiki_page_title', 'effective_date'))) {
+        $this->Session->setFlash(__('Successful update.'));
+        $this->redirect('/versions/show/'.$this->Version->id);
+      }
+    }
+
+    $this->data = $this->Version->read();
+  }
+
+  function destroy($id)
+  {
+    if ($this->Version->del($id)) {
+      $this->redirect('/versions/show/'.$this->Version->id);
+    } else {
+      $this->Session->setFlash(__('Unable to delete version.'));
+      $this->redirect('/versions/show/'.$this->Version->id);
+    }
+#    @version.destroy
+#    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+#  rescue
+#    flash[:error] = l(:notice_unable_delete_version)
+#    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
+  }
+
+  function status_by($id)
+  {
+#    respond_to do |format|
+#      format.html { render :action => 'show' }
+#      format.js { render(:update) {|page| page.replace_html 'status_by', render_issue_status_by(@version, params[:status_by])} }
+#    end
+
+  }
+
+  // private
+  function find_project($id)
+  {
+    $this->version = $this->Version->findById($id);
+    $this->project = $this->version['Project'];
+#    @version = Version.find(params[:id])
+#    @project = @version.project
+#  rescue ActiveRecord::RecordNotFound
+#    render_404
+#  end  
+  }
+
+}
+
