@@ -4,30 +4,29 @@
                           :class => 'icon icon-edit',
                           :accesskey => accesskey(:edit),
                           :onclick => 'Element.show("edit-news"); return false;' %> -->
-<?php echo $candy->link_to_if_authorized(__('Edit',true), 
-                          array( 'controller' => 'news', 'action' => 'edit', 'id' => $news['News']['id']),
-                          array('class' => 'icon icon-edit',
-                          'accesskey' => $candy->accesskey('edit'),
-                          'onclick' => 'Element.show("edit-news"); return false;')) ?>
 <!-- <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %> -->
-<?php echo $candy->link_to_if_authorized( __('Delete',true), array( 'controller' => 'news', 'action' => 'destroy', 'id' => $news['News']['id']), array( 'confirm' => __('Are you sure ?',true), 'method' => 'post', 'class' => 'icon icon-del' ) ) ; ?>
+<!-- TODO: link_to_if_authorized を作る -->
+<?php echo $html->link( __('Edit',true), '#', aa('class', 'icon icon-edit', 'onclick', 'Element.show("edit-news"); return false;')) ?>
+<?php echo $html->link( __('Delete',true), array( 'controller' => 'news', 'action' => 'destroy', 'id' => $news['News']['id']), aa('class', 'icon icon-del', 'onclick', 'confirm', __('Are you sure ?',true))); ?>
 </div>
 
 <h2><?php echo $news['News']['title'] ?></h2>
 
 <div id="edit-news" style="display:none;">
-<% labelled_tabular_form_for :news, @news, :url => { :action => "edit", :id => @news },
-                                           :html => { :id => 'news-form' } do |f| %>
-<%= render :partial => 'form', :locals => { :f => f } %>
-<%= submit_tag l(:button_save) %>
-<%= link_to_remote l(:label_preview), 
+<!-- <% labelled_tabular_form_for :news, @news, :url => { :action => "edit", :id => @news },
+                                           :html => { :id => 'news-form' } do |f| %> -->
+<?php echo $form->create('News', aa('controller', 'news', 'action', 'edit', 'id', $news['News']['id'])) ; ?>
+<?php echo $this->renderElement('news/_form', array('news' => $news)) ; ?>
+<?php echo $form->submit( __('Save',true), aa('div', false) ) ; ?>
+<!-- <%= link_to_remote l(:label_preview), 
                    { :url => { :controller => 'news', :action => 'preview', :project_id => @project },
                      :method => 'post',
                      :update => 'preview',
                      :with => "Form.serialize('news-form')"
-                   }, :accesskey => accesskey(:preview) %> |
-<%= link_to l(:button_cancel), "#", :onclick => 'Element.hide("edit-news")' %>
-<% end %>
+                   }, :accesskey => accesskey(:preview) %> | -->
+<?php echo __('Preview',true); ?> |
+<?php echo $html->link( __('Cancel',true), "#", aa('onclick', 'Element.hide("edit-news")') );  ?>
+<?php echo $form->end(); ?>
 <div id="preview" class="wiki"></div>
 </div>
 
@@ -46,7 +45,7 @@
     <div class="contextual">
 <!--    <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment},
                                                        :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %> -->
-    <?php $candy->link_to_if_authorized( $html->image_tag('delete.png'), array( 'controller' => 'news', 'action' => 'destroy_comment', 'id' => $news['News']['id'], 'comment_id' => $comment['id']),
+    <?php $candy->link_to_if_authorized( $html->image('delete.png'), array( 'controller' => 'news', 'action' => 'destroy_comment', 'id' => $news['News']['id'], 'comment_id' => $comment['id']),
                                                        array( 'confirm' => __('Are you sure ?',true), 'method' => 'post', 'title' => __('Delete',true))) ; ?>
 
     </div>
