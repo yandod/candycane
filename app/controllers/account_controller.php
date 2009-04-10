@@ -201,7 +201,7 @@
  */
 class AccountController extends AppController {
 
-    var $uses = array('User');
+    var $uses = array('User', 'Project', 'Setting');
 
     /**
      * beforeFilter
@@ -225,9 +225,10 @@ class AccountController extends AppController {
      */
     function login()
     {
+        $this->set('setting', $this->Setting);
+
         if (!$this->data) {
             return;
-            return $this->logout();
         }
 
         // Authenticate user
@@ -247,6 +248,7 @@ class AccountController extends AppController {
         } else {
             // Valid user
 #        self.logged_user = user
+
 #        # generate a key and set cookie if autologin
 #        if params[:autologin] && Setting.autologin?
 #          token = Token.create(:user => user, :action => 'autologin')
@@ -281,6 +283,7 @@ class AccountController extends AppController {
      * Show user's account
      *
      * @todo implement yet
+     * @todo custom values
      */
     function show($id)
     {
