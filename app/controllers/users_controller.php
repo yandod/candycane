@@ -90,7 +90,7 @@ class UsersController extends AppController
   {
 #    sort_init 'login', 'asc'
 #    sort_update %w(login firstname lastname mail admin created_on last_login_on)
-#    
+
      
     if (isset($this->params['url']['status'])) {
       $this->set('status', (int)$this->params['url']['status']);
@@ -109,10 +109,14 @@ class UsersController extends AppController
 #    @user_pages = Paginator.new self, @user_count,
 #								per_page_option,
 #								params['page']								
+ 
 #    @users =  User.find :all,:order => sort_clause,
 #                        :conditions => c.conditions,
-#						:limit  =>  @user_pages.items_per_page,
-#						:offset =>  @user_pages.current.offset
+#                        :limit  =>  @user_pages.items_per_page,
+#                        :offset =>  @user_pages.current.offset
+    $users = $this->User->find('all');
+
+    $this->set('users', $users);
 
 
     if (isset($request->xhr)) {
