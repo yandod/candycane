@@ -22,6 +22,14 @@ define('PROJECT_ARCHIVED', 9);
 
 class Project extends AppModel
 {
+  var $name = 'Project';
+
+  var $belongsTo = array(
+    'Parent' => array(
+      'className'=>'Project',
+      'foreignKey'=>'parent_id',
+    ),
+  );
 #  # Project statuses
 #  STATUS_ACTIVE     = 1
 #  STATUS_ARCHIVED   = 9
