@@ -122,6 +122,25 @@ class CandyHelper extends AppHelper
 #  def link_to_user(user, options={})
 #    (user && !user.anonymous?) ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
 #  end
+  function format_username($user, $format)
+  {
+    return $user['User']['firstname'].' '.$user['User']['lastname'];
+  }
+
+  function link_to_user($user, $options = array())
+  {
+    if (!isset($options['format'])) {
+      $options['format'] = ''; // @FIXME
+    }
+    if ($user) /* && !user.anonymous? */ {
+      return $this->Html->link($this->format_username($user, $options['format']), array('controller'=>'account', 'action'=>'show', 'id'=>$user['User']['id']));
+    } else {
+      return 'Anonymous';
+    }
+  }
+#  def link_to_user(user, options={})
+#    (user && !user.anonymous?) ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
+#  end
 #
 #  def link_to_issue(issue, options={})
 #    options[:class] ||= ''
