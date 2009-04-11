@@ -5,47 +5,54 @@
  *
  */
 
-## redMine - project management software
-## Copyright (C) 2006  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
 /**
  * Token
  *
  */
 class Token extends AppModel
 {
-#  belongs_to :user
-#  
-#  @@validity_time = 1.day
-#  
-#  def before_create
-#    self.value = Token.generate_token_value
-#  end
-#
-#  # Return true if token has expired  
-#  def expired?
-#    return Time.now > self.created_on + @@validity_time
-#  end
-#  
-#  # Delete all expired tokens
-#  def self.destroy_expired
-#    Token.delete_all ["action <> 'feeds' AND created_on < ?", Time.now - @@validity_time]
-#  end
-#  
+  var $blongsTo = array('User');
+  var $validity_time = 60 * 60 * 24; // 1.day
+
+  /**
+   * beforeCreate
+   *
+   */
+  function beforeCreate()
+  {
+    $this->data['User']['value'] = $this->_generate_token_value();
+    return true;
+  }
+
+  /**
+   * isExpired
+   *
+   * Return true if token has expired  
+   */
+  function isExpired()
+  {
+    if (time() > (strtotime($this->data['User']['created_on']) + $this->validity_time)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  /**
+   * destroy_expired
+   *
+   * Delete all expired tokens
+   */
+  function destroy_expired()
+  {
+    return $this->deleteAll(
+      array(
+        'action <>' => 'feeds',
+        'created_on < ?' => array(time() - $this->validity_time),
+      )
+    );
+  }
+  
   /**
    * _generate_token_value
    *
