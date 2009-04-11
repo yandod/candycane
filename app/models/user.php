@@ -3,19 +3,13 @@
  * user.php
  *
  */
-#require "digest/sha1"
-#
-#
-#  # Account statuses
+
+// Account statuses
 define('USER_STATUS_ANONYMOUS', 0);
 define('USER_STATUS_ACTIVE',    1);
 define('USER_STATUS_REGISTERED',2);
 define('USER_STATUS_LOCKED',    3);
-#  STATUS_ANONYMOUS  = 0
-#  STATUS_ACTIVE     = 1
-#  STATUS_REGISTERED = 2
-#  STATUS_LOCKED     = 3
-#  
+
 #  USER_FORMATS = {
 #    :firstname_lastname => '#{firstname} #{lastname}',
 #    :firstname => '#{firstname}',
@@ -57,11 +51,7 @@ define('USER_STATUS_LOCKED',    3);
 #  validates_length_of :password, :minimum => 4, :allow_nil => true
 #  validates_confirmation_of :password, :allow_nil => true
 #
-#  def before_create
-#    self.mail_notification = false
-#    true
-#  end
-#  
+  
 #  def reload(*args)
 #    @name = nil
 #    super
@@ -255,7 +245,8 @@ class User extends AppModel
     'Membership' =>array(
       'className' => 'Member'
       )
-	);
+  );
+
   /**
    * no implement:
    * validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
@@ -294,6 +285,16 @@ class User extends AppModel
       'rule' => array('alphaNumeric', 'notEmpty')
     ),
   );
+
+  /**
+   * beforeCreate
+   *
+   */
+  function beforeCreate()
+  {
+    $this->data['User']['mail_notification'] = 0;
+    return true;
+  }
 
   /**
    * beforeSave
