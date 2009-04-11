@@ -259,20 +259,7 @@ class ProjectsController extends AppController
     ));
     $this->set('custom_values', $custom_values);
 
-    $members = $this->Member->find('all', array(
-      'order' => 'Role.position',
-      'conditions'=>array(
-        'project_id'=>$this->id
-      ),
-    ));
-    $members_by_role = array();
-    foreach($members as $member) {
-      if (!isset($members_by_role[$member['Role']['name']])) {
-        $members_by_role[$member['Role']['name']] = array();
-      }
-      $members_by_role[$member['Role']['name']][] = $member;
-    }
-    ksort($members_by_role);
+    $members_by_role = $this->_get_members_by_role();
     $this->set('members_by_role', $members_by_role);
 
     $news = $this->News->find('all', array(
@@ -647,5 +634,29 @@ class ProjectsController extends AppController
 
 	}
 
+  function list_members()
+  {
+    $this->set('members_by_role', $this->_get_members_by_role());
+  }
+
+  function _get_members_by_role()
+  {
+    $members = $this->Member->find('all', array(
+      'order' => 'Role.position',
+      'conditions'=>array(
+        'project_id'=>$this->id
+      ),
+    ));
+    $members_by_role = array();
+    foreach($members as $member) {
+      if (!isset($members_by_role[$member['Role']['name']])) {
+        $members_by_role[$member['Role']['name']] = array();
+      }
+      $members_by_role[$member['Role']['name']][] = $member;
+    }
+    ksort($members_by_role);
+
+    return $members_by_role;
+  }
 }
 ?>
