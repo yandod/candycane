@@ -60,8 +60,27 @@ class QueriesHelper extends AppHelper
     }
   }
   
-  function name($query) {
-    return strlen($query['Query']['name']) ? $query['Query']['name'] : 'Ticket';
+  function name($query)
+  {
+    return strlen($query['Query']['name']) ? $query['Query']['name'] : 'Issues';
+  }
+  
+  function editable($query, $user)
+  {
+    return true; #TODO
+  }
+  function available_filters_sort_order($filters) {
+    $sort_by = a();
+    foreach ($filters as $v) $sort_by[] = $v['order'];
+    array_multisort($filters, $sort_by, SORT_ASC);
+    return $filters;
+  }
+  function add_filter_select_options($filters) {
+    $results = a();
+    foreach ($filters as $field => $filter) {
+      $results[$field] = __(preg_replace('/_id$/', '', $field), true);
+    }
+    return $results;
   }
 #  def column_content(column, issue)
 #    if column.is_a?(QueryCustomFieldColumn)
