@@ -1,7 +1,5 @@
-<?php /*
-<h2><%= @author.nil? ? __('Activity') : $candy->lwr("\"%s's activity\"", $link_to_user(@author)) %></h2>
- */ ?>
-<p class="subtitle"><%= "#{l(:label_date_from)} #{format_date(@date_to - @days)} #{l(:label_date_to).downcase} #{format_date(@date_to-1)}" %></p>
+<h2><?php echo ($author==null) ? __('Activity') : $candy->lwr("\"%s's activity\"", $link_to_user($author)) ?></h2>
+<p class="subtitle"><?php echo __('From', true), ' ', $candy->format_date($time->niceShort($date_to - $days)), ' ', strtolower(__('To', true)), ' ', $candy->format_date($time->niceShort($date_to - 1)) ?></p>
 
 <div id="activity">
 <% @events_by_day.keys.sort.reverse.each do |day| %>

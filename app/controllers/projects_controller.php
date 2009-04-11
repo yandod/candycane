@@ -522,6 +522,27 @@ class ProjectsController extends AppController
 #  end
   function activity()
   {
+#    @days = Setting.activity_days_default.to_i
+#    
+#    if params[:from]
+#      begin; @date_to = params[:from].to_date + 1; rescue; end
+#    end
+#    @date_to ||= Date.today + 1
+#    @date_from = @date_to - @days
+    if (isset($this->params['date_to'])) {
+      $date_to = $this->params['date_to'];
+    } else {
+      $date_to = time() + (1*60*60*24);
+    }
+    $days = 30; // @FIXME
+    if (isset($this->params['days'])) {
+      $days = $this->params['days'];
+    }
+    $date_from = $date_to - ($days * 60*60*24);
+    $this->set('date_from', $date_from);
+    $this->set('date_to', $date_to);
+    $this->set('days', $days);
+
     $author = empty($this->params['user_id']) ? null : $this->User->find('first', array(
         'conditions' => array('id' => $this->parmas['user_id'])
       ));

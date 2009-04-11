@@ -144,6 +144,64 @@ class IssuesController extends AppController
 #    end
 #  end
 #
+  function add() {
+#    @issue = Issue.new
+/*
+    if(isset($this->params['copy_from'])) {
+      $this->Issue->copy_from($this->params['copy_from']);
+    }
+    $project = $this->Issue->Project->find('first', array(
+      'conditions'=>array('Project.identifier'=>$this->params['project_id']),
+      'recursive'=>0
+    ));
+    if(!$project) {
+        // TODO : error
+        $this->cakeError('error', 'missing URL.');
+    }
+    # Tracker must be set before custom field values
+    $trackers = $this->Issue->Project->ProjectsTracker->find('all', array(
+      'conditions'=>array('ProjectsTracker.project_id' => $project['Project']['id']),
+      'fields'=>'Tracker.*'
+    ));
+    if(empty($trackers)){
+      $this->Session->setFlash(__("No tracker is associated to this project. Please check the Project settings.", true), 'default', array('class'=>'flash flash_error'));
+      $this->redirect('index');
+    }
+    if(is_array($this->params['issue'])) {
+      $attributes = $this->params['issue'];
+      if()
+      $watcher_user_ids = params['issue']['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
+    }
+*/
+#    @issue.author = User.current
+#    
+#    default_status = IssueStatus.default
+#    unless default_status
+#      flash.now[:error] = 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
+#      render :nothing => true, :layout => true
+#      return
+#    end    
+#    @issue.status = default_status
+#    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)).uniq
+#    
+#    if request.get? || request.xhr?
+#      @issue.start_date ||= Date.today
+#    else
+#      requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
+#      # Check that the user is allowed to apply the requested status
+#      @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
+#      if @issue.save
+#        attach_files(@issue, params[:attachments])
+#        flash[:notice] = l(:notice_successful_create)
+#        Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
+#        redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
+#                                        { :action => 'show', :id => @issue })
+#        return
+#      end		
+#    end	
+#    @priorities = Enumeration::get_values('IPRI')
+#    render :layout => !request.xhr?
+  }
 #  # Add a new issue
 #  # The new issue will be created from an existing one if copy_from parameter is given
 #  def new

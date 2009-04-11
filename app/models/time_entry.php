@@ -89,7 +89,8 @@ class TimeEntry extends AppModel
 
   function find_visible_by($user)
   {
-    return $this->find('all', array('conditions' => $this->Project->allowed_to_condition($user, 'view_time_entries')));
+    // return $this->find('all', array('conditions' => $this->Project->allowed_to_condition($user, 'view_time_entries')));
+    return array();
   }
 }
 
