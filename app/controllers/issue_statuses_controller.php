@@ -87,6 +87,10 @@ class IssueStatusesController extends AppController {
   var $name = 'IssueStatuses';
   var $components = array('RequestHandler');
 
+  function beforeFilter() {
+    parent::beforeFilter();
+    return parent::require_admin();
+  }
   function index() {
     $this->lists();
     if(!$this->RequestHandler->isAjax()) {
