@@ -310,6 +310,11 @@ class Project extends AppModel
 			} else {
 				$results[$key][$this->alias]['short_description'] = '';
 			}
+      if (!empty($val[$this->alias]['identifier'])) {
+        $results[$key][$this->alias]['identifier_or_id'] = $val[$this->alias]['identifier'];
+      } else {
+        $results[$key][$this->alias]['identifier_or_id'] = $val[$this->alias]['id'];
+      }
 		}
 		return $results;
 	}
