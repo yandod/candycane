@@ -22,12 +22,25 @@ define('PROJECT_ARCHIVED', 9);
 
 class Project extends AppModel
 {
-  var $hasOne = array(
-                      'wiki' => array(
-                                      'dependent' => true, // :dependent => :destroy
-                                      ),
-                      );
+  var $name = 'Project';
 
+  var $belongsTo = array(
+    'Parent' => array(
+      'className'=>'Project',
+      'foreignKey'=>'parent_id',
+    ),
+  );
+  var $hasMany = array(
+    'Version',
+    'TimeEntry',
+  );
+  var $hasAndBelongsToMany = array('Tracker' => array(
+    'class'=>'Tracker',
+    'joinTable'=>'projects_trackers',
+    'with'=>'ProjectsTracker',
+    'foreignKey'=>'project_id',
+    'associationForeignKey'=>'tracker_id',
+  ));
 
   function findById($id)
   {
@@ -171,22 +184,6 @@ class Project extends AppModel
 #    cond
 #  end
 #  
-    // identifirerだけを引数に、クラスメソッド呼び出しされたときのためにオーバーライド。
-    function find($args)
-    {
-      if (!isset($this) ||
-          !is_object($this) ||
-          !(is_subclass_of($this, "project") ||
-            strtolower(get_class($this)) === "project")) {
-        // クラスメソッドとして呼び出された
-        if (is_string($args) && !preg_match('/^\d*$/', $args)) {
-          $obj = new Project;
-          $project = $obj->findByIdentifier($args);
-          return $project;
-        }
-      }
-      return parent::find($args);
-    }
 #  def self.find(*args)
 #    if args.first && args.first.is_a?(String) && !args.first.match(/^\d*$/)
 #      project = find_by_identifier(*args)
@@ -281,13 +278,21 @@ class Project extends AppModel
 		return $short_description;
 	}
 
-	function afterFind($results)
+	function afterFind($result,$primary= false )
 	{
+//		pr(func_get_args());
+//		pr($results);
+//		exit;
+		if ($primary) {
+		  $results = $result;
+		} else {
+		 $results = array(aa($this->alias,$result));
+		}
 		foreach ($results as $key => $val) {
-			if (isset($val['Project']['description'])) {
-				$results[$key]['Project']['short_description'] = $this->short_description($val['Project']['description']);
+			if (isset($val[$this->alias]['description'])) {
+				$results[$key][$this->alias]['short_description'] = $this->short_description($val[$this->alias]['description']);
 			} else {
-				$results[$key]['Project']['short_description'] = '';
+				$results[$key][$this->alias]['short_description'] = '';
 			}
 		}
 		return $results;
