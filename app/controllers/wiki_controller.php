@@ -5,24 +5,22 @@ class WikiController extends AppController {
   var $uses = array('Wiki', 'Project');
 
   function index() {
-    $page_title = $this->params['page'];
+    $page_title = $this->params['wikipage'];
     //$page = $this->Wiki->id = $this->params['id'];
     $page = $this->Wiki->find_or_new_page($page_title);
     /*
-
     if ($page is new) {
       $this->render('edit');
     }
     */
     $content = $this->Wiki->Page->content_for_version($this->params['version']);
-    $this->set('content', $content);
     $this->set('page', $page);
+    $this->set('content', $content);
     $this->set('editable', $this->is_editable());
     $this->render('show');
   }
   function special() {
   }
-
   function beforeFilter() {
     $this->_find_wiki();
 
@@ -40,18 +38,18 @@ class WikiController extends AppController {
     if (!$project) {
         $this->cakeError('error404');
     }
-    $this->wiki = $this->Wiki->Find('first', array('conditions'=>aa('Wiki.project_id', $project['Project']['id'])));
-    if (!$this->wiki) {
+    $wiki = $this->Wiki->Find('first', array('conditions'=>aa('Wiki.project_id', $project['Project']['id'])));
+    if (!$wiki) {
         $this->cakeError('error404');
     }
     $this->set('project', $project);
-    $this->set('wiki', $this->wiki);
+    $this->set('wiki', $wiki);
     $this->set('currentuser', $this->current_user); // これで動くようになるけど、ホントはもっと上位で設定すべきでは？
   }
 
   function _find_existing_page()
   {
-    $this->page = $this->wiki->find_page($this->params['page']);
+    $page = $this->Wiki->find_page($this->params['wikipage']);
     //render_404 if @page.nil?
   }
 
