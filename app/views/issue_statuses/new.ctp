@@ -1,4 +1,4 @@
-<h2><?php __('New status'); ?></h2>
+<h2><?php $candy->html_title();__('New status'); ?></h2>
 
 <?php echo $form->create(null, array('action'=>'add', 'class'=>"tabular")); ?>
   <div class="box">
