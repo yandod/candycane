@@ -34,7 +34,6 @@ class Project extends AppModel
   var $hasMany = array(
     'Version',
     'TimeEntry',
-//    'Member'=>array('conditions'=>"User.status = 1")
   );
   var $hasAndBelongsToMany = array('Tracker' => array('with'=>'ProjectsTracker'));
 

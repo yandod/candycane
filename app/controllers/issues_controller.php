@@ -9,10 +9,14 @@ class IssuesController extends AppController
     'Project',
   );
   var $helpers = array(
+    'Ajax',
     'Issues',
     'Queries',
     'QueryColumn',
     'Paginator',
+  );
+  var $components = array(
+    'RequestHandler',
   );
   var $_query;
   
@@ -73,10 +77,13 @@ class IssuesController extends AppController
       'Issue.project_id' => $this->_project['Project']['id'],
     );
     $this->paginate = array('Issue' => array(
-      'conditions' => $cond,
+      'conditions' => $this->_query['Query']['filter_cond'],
       'order' => 'Issue.id DESC',
     ));
     $this->set('issue_list', $this->paginate('Issue'));
+    if($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+    }
   }
 #  def index
 #    retrieve_query
@@ -563,15 +570,20 @@ class IssuesController extends AppController
   function _retrieve_query()
   {
     $query = a();
-    $cond = a();
-    if (isset($this->params['project_id'])) $cond[] = array('Query.project_id' => $this->params['project_id']);
-    if ($cond) {
-      $query = $this->Query->find('first', array(
-        'conditions' => $cond,
-      ));
+    if (isset($this->params['query_id'])) {
+    } else {
+      $query = $this->Query->defaults();
+      $query = am($query, $this->_project);
+      $query['Query']['filter_cond'][] = array('Issue.project_id' => $this->_project['Project']['id']);
+      if (isset($this->params['url']['set_filter'], $this->params['form']['fields'])) {
+        foreach ($this->params['form']['fields'] as $field) {
+          if ($add_filter_cond = $this->Query->get_filter_cond('Issue.' . $field, $this->params['form']['operators'][$field], $this->params['form']['values'][$field])) {
+            $query['Query']['filter_cond'][] = $add_filter_cond;
+          }
+        }
+      }
     }
-    if (!$query) $query = $this->Query->defaults();
-    $this->set('query', $query);
+    $this->set('query', $this->_query = $query);
   }
 #  def retrieve_query
 #    if !params[:query_id].blank?

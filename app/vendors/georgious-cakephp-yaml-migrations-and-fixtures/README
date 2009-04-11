@@ -1,0 +1,14 @@
+WHAT IS THIS?
+This package cointains migrations and fixtures libraries to be used with the CakePHP framework. It does not require any
+external packages except for the CakePHP framework and the SPYC class (included in this package but *not* authored by me)
+
+HOW TO USE?
+Just put all files ( except for this README ) in your CakePHP vendors folder. 
+
+If you want to use the API only, simply include the classes in your code ( App::Import('vendor', 'migrations' ) and/or 
+App::Import('vendor', 'fixtures' ) ). For further details, please reference to the docs of the classes.
+
+To use the migrations shell, use your cake console - type ./cake migrate help for details.
+
+AUTHOR
+Georgi Momchilov <gmomchilov at gmail dot com>

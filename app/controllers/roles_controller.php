@@ -81,15 +81,85 @@ class RolesController extends AppController {
     $roles = $this->Role->find('list', array('fields' => array('Role.id', 'Role.name')));
     $this->set('roles', $roles);
                                                 
-    $mods = $this->Permission->permissions;
-    pr($mods);
-    
+    //    $permissions = $this->Permission->permissions;
+    //    $this->set('permissions', $permissions);
+
+    $permissions = $this->Permission->setable_permissions();
+    $this->set('permissions', $permissions);
+
+
+
+    $project_module_name = array('issue_tracking' => 'Issue tracking',
+                                 'time_tracking' => 'Time tracking',
+                                 'news' => 'News',
+                                 'documents' => 'Documents',
+                                 'files' => 'Files',
+                                 'wiki' => 'Wiki',
+                                 'repository' => 'Repository',
+                                 'boards' => 'Boards');
+    $this->set('project_module_name', $project_module_name);
+
+    $permission_name = array('edit_project' => 'Edit project',
+                             'select_project_modules' => 'Select project modules',
+                             'manage_members' => 'Manage members',
+                             'manage_versions' => 'Manage versions',
+                             'manage_categories' => 'Manage issue categories',
+                             'add_issues' => 'Add issues',
+                             'edit_issues' => 'Edit issues',
+                             'manage_issue_relations' => 'Manage issue relations',
+                             'add_issue_notes' => 'Add notes',
+                             'edit_issue_notes' => 'Edit notes',
+                             'edit_own_issue_notes' => 'Edit own notes',
+                             'move_issues' => 'Move issues',
+                             'delete_issues' => 'Delete issues',
+                             'manage_public_queries' => 'Manage public queries',
+                             'save_queries' => 'Save queries',
+                             'view_gantt' => 'View gantt chart',
+                             'view_calendar' => 'View calender',
+                             'view_issue_watchers' => 'View watchers list',
+                             'add_issue_watchers' => 'Add watchers',
+                             'log_time' => 'Log spent time',
+                             'view_time_entries' => 'View spent time',
+                             'edit_time_entries' => 'Edit time logs',
+                             'edit_own_time_entries' => 'Edit own time logs',
+                             'manage_news' => 'Manage news',
+                             'comment_news' => 'Comment news',
+                             'manage_documents' => 'Manage documents',
+                             'view_documents' => 'View documents',
+                             'manage_files' => 'Manage files',
+                             'view_files' => 'View files',
+                             'manage_wiki' => 'Manage wiki',
+                             'rename_wiki_pages' => 'Rename wiki pages',
+                             'delete_wiki_pages' => 'Delete wiki pages',
+                             'view_wiki_pages' => 'View wiki',
+                             'view_wiki_edits' => 'View wiki history',
+                             'edit_wiki_pages' => 'Edit wiki pages',
+                             'delete_wiki_pages_attachments' => 'Delete attachments',
+                             'protect_wiki_pages' => 'Protect wiki pages',
+                             'manage_repository' => 'Manage repository',
+                             'browse_repository' => 'Browse repository',
+                             'view_changesets' => 'View changesets',
+                             'commit_access' => 'Commit access',
+                             'manage_boards' => 'Manage boards',
+                             'view_messages' => 'View messages',
+                             'add_messages' => 'Post messages',
+                             'edit_messages' => 'Edit messages',
+                             'edit_own_messages' => 'Edit own messages',
+                             'delete_messages' => 'Delete messages',
+                             'delete_own_messages' => 'Delete own messages',
+                             );
+    $this->set('permission_name', $permission_name);
+    $permissions_array = $this->Role->permissions($role['Role']['permissions']);
+    $this->set('permissions_array', $permissions_array);
 
 #    if request.post? and @role.update_attributes(params[:role])
 #      flash[:notice] = l(:notice_successful_update)
 #      redirect_to :action => 'list'
 #    end
+
 #    @permissions = @role.setable_permissions
+
+
 #  end
   }
 #
