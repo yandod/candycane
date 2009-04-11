@@ -64,7 +64,7 @@
  */
 class UsersController extends AppController
 {
-  var $helpers = array('Users');
+  var $helpers = array('Users', 'Sort');
 
   /**
    * beforeFilter
@@ -94,10 +94,12 @@ class UsersController extends AppController
     #    sort_update %w(login firstname lastname mail admin created_on last_login_on)
 
     if (isset($this->params['url']['status'])) {
-      $this->set('status', (int)$this->params['url']['status']);
+      $status = (int)$this->params['url']['status'];
     } else {
-      $this->set('status', 1);
+      $status = 1;
     }
+
+    $this->set('status', $status);
 
     #    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
     #
@@ -118,6 +120,27 @@ class UsersController extends AppController
     $users = $this->User->find('all');
     $this->set('user_list', $users);
 
+    $status_counts = $this->User->find('all',
+      array(
+        'group' => array('status'),
+        'fields' => array('COUNT(*) as cnt'),
+      )
+    );
+
+    foreach (array(1, 2, 3) as $key) {
+      if (!isset($status_counts[$key][0]['cnt'])) {
+        $status_counts[$key][0]['cnt'] = 0;
+      }
+    }
+
+    $status_option = array(
+      '' => __('label_all', true),
+      1  => __('status_active', true) . ' (' . (int)$status_counts[1][0]['cnt'] . ')',
+      2  => __('status_registered', true) . ' (' . (int)$status_counts[2][0]['cnt'] . ')',
+      3  => __('status_locked', true) . ' (' . (int)$status_counts[3][0]['cnt'] . ')',
+    );
+
+    $this->set('status_option', $status_option);
 
     if (isset($request->xhr)) {
       $this->layout = false;

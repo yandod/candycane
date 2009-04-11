@@ -1,6 +1,17 @@
-<h2><%=l(:label_version_new)%></h2>
+<h2><?php __('New version') ?></h2>
 
-<% labelled_tabular_form_for :version, @version, :url => { :action => 'add_version' } do |f| %>
-<%= render :partial => 'versions/form', :locals => { :f => f } %>
-<%= submit_tag l(:button_create) %>
-<% end %>
+<?php echo $form->create('Version', array('url'=>array('controller'=>'projects', 'id'=>$this->data['Project']['id']), 'action'=>'add_version')) ?>
+
+<div class="box">
+<p><?php echo $form->input('project_id', array('type'=>'hidden', 'value'=>$this->data['Project']['id'])) ?></p>
+<p><?php echo $form->input('name') ?></p>
+<p><?php echo $form->input('description') ?></p>
+<p><?php echo $form->input('wiki_page_title', array('label'=>__('Wiki page', true))) ?></p>
+<p><?php echo $form->input('effective_date', array('label'=>__('Date', true))) ?></p>
+</div>
+
+<?php echo $form->submit(__('Create', true)) ?>
+
+<?php echo $form->end() ?>
+
+
