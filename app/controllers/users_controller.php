@@ -64,6 +64,8 @@
  */
 class UsersController extends AppController
 {
+  var $helpers = array('Users');
+
   /**
    * beforeFilter
    *
@@ -88,35 +90,33 @@ class UsersController extends AppController
    */
   function list_()
   {
-#    sort_init 'login', 'asc'
-#    sort_update %w(login firstname lastname mail admin created_on last_login_on)
+    #    sort_init 'login', 'asc'
+    #    sort_update %w(login firstname lastname mail admin created_on last_login_on)
 
-     
     if (isset($this->params['url']['status'])) {
       $this->set('status', (int)$this->params['url']['status']);
     } else {
       $this->set('status', 1);
     }
 
-#    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
-#
-#    unless params[:name].blank?
-#      name = "%#{params[:name].strip.downcase}%"
-#      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?", name, name, name]
-#    end
-#    
-#    @user_count = User.count(:conditions => c.conditions)
-#    @user_pages = Paginator.new self, @user_count,
-#								per_page_option,
-#								params['page']								
- 
-#    @users =  User.find :all,:order => sort_clause,
-#                        :conditions => c.conditions,
-#                        :limit  =>  @user_pages.items_per_page,
-#                        :offset =>  @user_pages.current.offset
-    $users = $this->User->find('all');
+    #    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
+    #
+    #    unless params[:name].blank?
+    #      name = "%#{params[:name].strip.downcase}%"
+    #      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?", name, name, name]
+    #    end
+    #    
+    #    @user_count = User.count(:conditions => c.conditions)
+    #    @user_pages = Paginator.new self, @user_count,
+    #								per_page_option,
+    #								params['page']								
 
-    $this->set('users', $users);
+    #    @users =  User.find :all,:order => sort_clause,
+    #                        :conditions => c.conditions,
+    #                        :limit  =>  @user_pages.items_per_page,
+    #                        :offset =>  @user_pages.current.offset
+    $users = $this->User->find('all');
+    $this->set('user_list', $users);
 
 
     if (isset($request->xhr)) {
