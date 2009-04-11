@@ -1,4 +1,13 @@
 <?php
+class WikiPage extends AppModel
+{
+  var $hasOne = array(
+                      'Content' => array(
+                                         'className' => 'WikiContent',
+                                         'foreignKey' => 'page_id',
+                                         'dependent' => true //:dependent => :destroy
+                                         ));
+
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
 ##
@@ -73,6 +82,18 @@
 #    WikiPage.pretty_title(title)
 #  end
 #  
+  function content_for_version($version = null)
+  {
+    $result = null;
+    if ($version) {
+      //$result = $this->Content->Versions->findByVersion($version);
+    }
+    if ($result === null) {
+      $result = $this->find('first');
+    }
+    // $result .= $this->content;
+    return $result;
+  }
 #  def content_for_version(version=nil)
 #    result = content.versions.find_by_version(version.to_i) if version
 #    result ||= content
@@ -187,3 +208,4 @@
 #    @lines.each { |line| line[0] ||= current.version }
 #  end
 #end
+}

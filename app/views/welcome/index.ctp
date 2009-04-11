@@ -1,4 +1,4 @@
-<h2><?php __('Home') ?></h2>
+<h2><?php $candy->html_title(__('Home'))  ?></h2>
 
 <div class="splitcontentleft">
   <!-- TODO: <%= textilizable Setting.welcome_text %> -->

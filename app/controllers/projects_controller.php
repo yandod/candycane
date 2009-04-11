@@ -439,7 +439,26 @@ class ProjectsController extends AppController
 #  end
   function changelog()
   {
+    $trackers = $this->Tracker->find('all', array(
+      'conditions' => array('is_in_chlog' => true),
+      'order'=>'Tracker.position',
+    ));
+    $this->set('trackers', $trackers);
 
+    $tracker_ids = $this->_retrieve_selected_tracker_ids($trackers);
+    foreach($this->data['Version'] as $key=>$version) {
+      $issues = $this->Issue->find('all', array(
+        'conditions' => array(
+          'Status.is_closed' => true,
+          'Issue.tracker_id' => $tracker_ids,
+          'Issue.fixed_version_id' => $version['id'],
+        ),
+        'order' => 'Tracker.position',
+      ));
+      $this->data['Version'][$key]['Issue'] = $issues;
+    }
+
+    $this->set('versions', $this->data['Version']);
   }
 #
 #  def roadmap
@@ -658,5 +677,30 @@ class ProjectsController extends AppController
 
     return $members_by_role;
   }
+
+  function _retrieve_selected_tracker_ids($selectable_trackers)
+  {
+    if (isset($this->parmas['tracker_ids'])) {
+      $ids = $this->parmas['tracker_ids'];
+      if (is_array($ids)) {
+      } else {
+        $ids = explode('/', $ids);
+      }
+    } else {
+      $ids = array();
+      foreach($selectable_trackers as $tracker) {
+        $ids[] = $tracker['Tracker']['id'];
+      }
+    }
+
+    return $ids;
+  }
+#  def retrieve_selected_tracker_ids(selectable_trackers)
+#    if ids = params[:tracker_ids]
+#      @selected_tracker_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
+#    else
+#      @selected_tracker_ids = selectable_trackers.collect {|t| t.id.to_s }
+#    end
+#  end
 }
 ?>

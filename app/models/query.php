@@ -63,7 +63,8 @@ class Query extends AppModel
   var $column_names;
   var $operators;
   var $operators_by_filter_type;
-  var $filters;
+  var $default_show_filters;
+  var $available_filters;
   function __construct()
   {
     if (!$this->operators) {
@@ -101,8 +102,8 @@ class Query extends AppModel
         'integer' => array( "=", ">=", "<=", "!*", "*" ),
       );
     }
-    if (!$this->filters) {
-      $this->filters = array(
+    if (!$this->default_show_filters) {
+      $this->default_show_filters = array(
         'status_id' => array(
           'operator' => "o",
           'values'   => array(""),
@@ -111,24 +112,28 @@ class Query extends AppModel
     }
     parent::__construct();
   }
-  function afterFind($results, $primary)
-  {
-    foreach($results as $key=>$result) {
-      if (isset($result[$this->alias][0])) {
-        foreach($result[$this->alias] as $key2=>$version) {
-          $results[$key][$this->alias][$key2] = $this->afterFindOne($version);
-        }
-      } else {
-        $results[$key][$this->alias] = $this->afterFindOne($results[$key][$this->alias]);
-      }
-    }
-    return $results;
-  }
   
-  function afterFindOne($result)
+  function available_filters($project = array(), $currentuser = array())
   {
-    $result['filter_cond'] = a();
-    $result['available_filters'] = array(
+    $Status = & ClassRegistry::init('Status');
+    $IssueStatus = & ClassRegistry::init('IssueStatus');
+    $Enumeration = & ClassRegistry::init('Enumeration');
+    $user_values = a();
+    
+    if ($project) {
+      $user_values = am($user_values, Set::combine('/User/id', '/User/lastname', $project));
+    }
+    $available_filters = array(
+      'status_id' => array(
+        'type'   => 'list_status',
+        'values' => $Status->find('list', array(
+          'fields' => array(
+            'Status.id',
+            'Status.name',
+          ),
+        )),
+        'order' => 1,
+      ),
       'start_date' => array(
         'type'  => 'date',
         'order' => 11,
@@ -143,23 +148,21 @@ class Query extends AppModel
       ),
       'priority_id' => array(
         'type'   => 'list',
-        'values' => array(
-          '3' => '低め',
-          '4' => '通常',
-          '5' => '高め',
-          '6' => '急いで',
-          '7' => '今すぐ',
-        ),
+        'values' => $Enumeration->find('list', array(
+          'fields' => array(
+            'Enumeration.id',
+            'Enumeration.name',
+          ),
+          'conditions' => array(
+            'Enumeration.opt' => 'IPRI',
+          ),
+          'order' => 'Enumeration.position',
+        )),
         'order' => 3,
       ),
       'assigned_to_id' => array(
         'type'   => 'list_optional',
-        'values' => array(
-          'me' => '<< 自分 >>',
-          '4' => 'Masahiro Akita',
-          '1' => 'Redmine Admin',
-          '3' => 'yusuke ando',
-        ),
+        'values' => $user_values,
         'order' => 4,
       ),
       'done_ratio' => array(
@@ -197,26 +200,19 @@ class Query extends AppModel
         ),
         'order' => 5,
       ),
-      'status_id' => array(
-        'type'   => 'list_status',
-        'values' => array(
-          '1' => '新規',
-          '2' => '担当',
-          '3' => '解決',
-          '4' => 'フィードバック',
-          '5' => '終了',
-          '6' => '却下',
-        ),
-        'order' => 1,
-      ),
     );
-    foreach ($result['available_filters'] as & $v) {
+    foreach ($available_filters as & $v) {
       $v['operators'] = a();
       foreach ($this->operators_by_filter_type[$v['type']] as $operator) {
         $v['operators'][$operator] = $this->operators[$operator];
       }
     }
-    return $result;
+    return $available_filters;
+  }
+  function show_filters($options = array())
+  {
+    $show_filters = $this->default_show_filters;
+    return $show_filters;
   }
 
 #  serialize :column_names
@@ -352,27 +348,131 @@ class Query extends AppModel
 #    @available_filters
 #  end
 #  
-  function get_filter_cond($field, $operator, $values)
+  function get_filter_cond($model, $field, $operator, $values)
   {
     switch ($operator) {
+    case '!':
+      $operator = '!=';
+      break;
     case '*':
       return null;
       break;
     case '!*':
-      $operator = '!=';
-      $values = null;
+      return array('or' => array(
+        $field . ' !=' => null,
+        $field => '',
+      ));
       break;
+    case 'o':
+      if ($field != 'status_id') return;
+      $model = 'Status';
+      $field = 'is_closed';
+      $operator = '';
+      $values = false;
+      break;
+    case 'c':
+      if ($field != 'status_id') return;
+      $model = 'Status';
+      $field = 'is_closed';
+      $operator = '';
+      $values = true;
+      break;
+    case '>t-':
+      return $this->date_range_clause($model, $field, - $values, 0);
+    case '<t-':
+      return $this->date_range_clause($model, $field, null, - $values);
+    case 't-':
+      return $this->date_range_clause($model, $field, $values, - $values);
+    case '>t+':
+      return $this->date_range_clause($model, $field, $values, null);
+    case '<t+':
+      return $this->date_range_clause($model, $field, 0, $values);
+    case 't+':
+      return $this->date_range_clause($model, $field, $values, $values);
+    case 't':
+      return $this->date_range_clause($model, $field, 0, 0);
+    case 'w':
+      $from = __("'7'", true) == '7' ?
+        (date('N') == 7 ? date('Y-m-d 00:00:00') : date('Y-m-d 00:00:00', time() - date('w') * 86400 - 86400)) :
+          date('Y-m-d 00:00:00', time() - date('w') * 86400);
+      return array(
+        $model . '.' . $field . ' BETWEEN ? AND ?' => array(
+          $from,
+          date('Y-m-d H:i:s', strtotime($from) + 7 * 86400),
+        ),
+      );
+#      from = l(:general_first_day_of_week) == '7' ?
+#      # week starts on sunday
+#      ((Date.today.cwday == 7) ? Time.now.at_beginning_of_day : Time.now.at_beginning_of_week - 1.day) :
+#        # week starts on monday (Rails default)
+#        Time.now.at_beginning_of_week
+#      sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(from), connection.quoted_date(from + 7.days)]
     case '~':
       $operator = 'like';
-      $value = '%' . str_replace('%', '%%', $value) . '%';
+      $values = '%' . str_replace('%', '%%', $values) . '%';
       break;
-    case '!':
-      $operator = '!=';
+    case '!~':
+      $operator = 'like';
+      $values = '%' . str_replace('%', '%%', $values) . '%';
+      return array('not' => array(
+        $model . '.' . $field . ' ' . $operator => $values,
+      ));
       break;
     }
     return array(
-      $field . ' ' . $operator => $values,
+      $model . '.' . $field . ' ' . $operator => $values,
     );
+#  def sql_for_field(field, value, db_table, db_field, is_custom_filter)
+#    sql = ''
+#    case operator_for field
+#    when "="
+#      sql = "#{db_table}.#{db_field} IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + ")"
+#    when "!"
+#      sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" + value.collect{|val| "'#{connection.quote_string(val)}'"}.join(",") + "))"
+#    when "!*"
+#      sql = "#{db_table}.#{db_field} IS NULL"
+#      sql << " OR #{db_table}.#{db_field} = ''" if is_custom_filter
+#    when "*"
+#      sql = "#{db_table}.#{db_field} IS NOT NULL"
+#      sql << " AND #{db_table}.#{db_field} <> ''" if is_custom_filter
+#    when ">="
+#      sql = "#{db_table}.#{db_field} >= #{value.first.to_i}"
+#    when "<="
+#      sql = "#{db_table}.#{db_field} <= #{value.first.to_i}"
+#    when "o"
+#      sql = "#{IssueStatus.table_name}.is_closed=#{connection.quoted_false}" if field == "status_id"
+#    when "c"
+#      sql = "#{IssueStatus.table_name}.is_closed=#{connection.quoted_true}" if field == "status_id"
+#    when ">t-"
+#      sql = date_range_clause(db_table, db_field, - value.first.to_i, 0)
+#    when "<t-"
+#      sql = date_range_clause(db_table, db_field, nil, - value.first.to_i)
+#    when "t-"
+#      sql = date_range_clause(db_table, db_field, - value.first.to_i, - value.first.to_i)
+#    when ">t+"
+#      sql = date_range_clause(db_table, db_field, value.first.to_i, nil)
+#    when "<t+"
+#      sql = date_range_clause(db_table, db_field, 0, value.first.to_i)
+#    when "t+"
+#      sql = date_range_clause(db_table, db_field, value.first.to_i, value.first.to_i)
+#    when "t"
+#      sql = date_range_clause(db_table, db_field, 0, 0)
+#    when "w"
+#      from = l(:general_first_day_of_week) == '7' ?
+#      # week starts on sunday
+#      ((Date.today.cwday == 7) ? Time.now.at_beginning_of_day : Time.now.at_beginning_of_week - 1.day) :
+#        # week starts on monday (Rails default)
+#        Time.now.at_beginning_of_week
+#      sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(from), connection.quoted_date(from + 7.days)]
+#    when "~"
+#      sql = "#{db_table}.#{db_field} LIKE '%#{connection.quote_string(value.first)}%'"
+#    when "!~"
+#      sql = "#{db_table}.#{db_field} NOT LIKE '%#{connection.quote_string(value.first)}%'"
+#    end
+#    
+#    return sql
+#  end
+
   }
 #  def add_filter(field, operator, values)
 #    # values must be an array
@@ -589,6 +689,13 @@ class Query extends AppModel
 #  end
 #  
 #  # Returns a SQL clause for a date or datetime field.
+  function date_range_clause($model, $field, $from, $to)
+  {
+    $cond = a();
+    if (strlen($from)) $cond[] = array($model . '.' . $field . ' >' => date('Y-m-d 23:59:59', strtotime($from . ' day')));
+    if (strlen($to))   $cond[] = array($model . '.' . $field . ' <=' => date('Y-m-d 23:59:59', strtotime($to . ' day')));
+    return $cond;
+  }
 #  def date_range_clause(table, field, from, to)
 #    s = []
 #    if from

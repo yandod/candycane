@@ -10,7 +10,7 @@ $vars = array(
 'login_required' =>
   '0',
 'self_registration' =>
-  '2',
+  '3',
 'lost_password' =>
   '1',
 'attachment_max_size' =>
@@ -20,7 +20,11 @@ $vars = array(
 'activity_days_default' =>
   '30',
 'per_page_options' =>
-  '25,50,100',
+  array(
+    '25',
+    '50',
+    '100',
+  ),
 'mail_from' =>
   'redmine@example.net',
 'bcc_recipients' =>

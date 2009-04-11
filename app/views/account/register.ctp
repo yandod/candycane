@@ -28,22 +28,23 @@
   <?php echo $form->input('firstname', array('div' => false, 'label' => false)); ?>
 </p>
 
-<p><label for="user_lastname"><?php __('field_lastname'); ?> <span class="required">*</span></label>
+<p>
+  <label for="user_lastname"><?php __('field_lastname'); ?> <span class="required">*</span></label>
   <?php echo $form->input('lastname', array('div' => false, 'label' => false)); ?>
 </p>
 
 <p>
-<label for="user_mail"><?php __('field_mail'); ?> <span class="required">*</span></label>
+  <label for="user_mail"><?php __('field_mail'); ?> <span class="required">*</span></label>
   <?php echo $form->input('mail', array('div' => false, 'label' => false)); ?>
 </p>
 
 <p>
-<label for="user_language"><?php __('field_language'); ?></label>
-<%= select("user", "language", lang_options_for_select) %>
+  <label for="user_language"><?php __('field_language'); ?></label>
+  <?php echo $form->input('language', array('type' => 'select', 'options' => $candy->lang_options_for_select(), 'div' => false, 'label' => false)); ?>
 </p>
 
 <% @user.custom_field_values.each do |value| %>
-	<p><%= custom_field_tag_with_label :user, value %></p>
+  <p><%= custom_field_tag_with_label :user, value %></p>
 <% end %>
 <!--[eoform:user]-->
 </div>

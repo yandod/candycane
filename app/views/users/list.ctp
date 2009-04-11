@@ -61,7 +61,7 @@ echo $ajax->link(__('login', true),
   </td>
   <td class="firstname"><?php e(h($user['User']['firstname'])); ?></td>
   <td class="lastname"><?php e(h($user['User']['lastname'])); ?></td>
-  <td class="email"><%= mail_to(h(user.mail)) %></td>
+  <td class="email"><?php echo $text->autoLinkEmails($user['User']['mail']); ?></td>
   <td align="center">
     <?php if ($user['User']['admin'] == '1'): ?>
     <?php echo $html->image('true.png'); ?>
