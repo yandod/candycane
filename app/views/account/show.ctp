@@ -4,13 +4,13 @@
 <?php endif; ?>
 </div>
 
-<h2><%= avatar @user %> <?php e(h($currentuser['name'])); ?></h2>
+<h2><?php echo $candy->avatar($user); ?> <?php e(h($currentuser['name'])); ?></h2>
 
 <div class="splitcontentleft">
 <ul>
-  <% unless @user.pref.hide_mail %>
-    <li><?php __('field_mail'); ?>: <%= mail_to(h(@user.mail), nil, :encode => 'javascript') %></li>
-  <% end %>
+  <?php if (!$user['UserPreference']['hide_mail']): ?>
+  <li><?php __('field_mail'); ?>: <?php echo $text->autoLinkEmails(h($user['User']['mail']));?></li>
+  <?php endif; ?>
 
   <% for custom_value in @custom_values %>
     <% if !custom_value.value.empty? %>

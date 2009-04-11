@@ -9,7 +9,7 @@ class AppController extends Controller {
     var $layout = 'base';
     var $helpers = array('Html', 'Form', 'Javascript', 'Candy');
     var $components = array('Cookie','MenuManager');
-	var $uses = array('User','Setting','Project');
+    var $uses = array('User','Setting','Project');
     var $current_user; // alternate User.current
     var $per_page;
 
@@ -66,8 +66,7 @@ class AppController extends Controller {
     function find_current_user() {
         if ($this->Session->read('user_id')) {
             // existing session
-            //$user = $this->User->findById($this->Session->read('user_id'));
-            $cond = aa('id',$this->Session->read('user_id'));
+            $cond = aa('User.id',$this->Session->read('user_id'));
             $user = $this->User->find('first',aa('recursive', 2,'conditions',$cond));
             $user['User']['logged'] = true; // @todo fixme
             $user['User']['name'] = $user['User']['login']; // @todo fixme
