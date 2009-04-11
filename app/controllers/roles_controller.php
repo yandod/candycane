@@ -17,20 +17,39 @@
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 #class RolesController < ApplicationController
+class RolesController extends AppController {
+  var $name = 'Roles';
+  var $components = array('RequestHandler');
+  var $uses = array('Role','Permission');
+  
 #  before_filter :require_admin
 #
 #  verify :method => :post, :only => [ :destroy, :move ],
 #         :redirect_to => { :action => :list }
 #
 #  def index
-#    list
-#    render :action => 'list' unless request.xhr?
-#  end
+  function index() {
+    $this->lists();
+    if (!$this->RequestHandler->isAjax()) {
+      $this->render('list');
+    }
+  }
 #
 #  def list
+  function lists() {
 #    @role_pages, @roles = paginate :roles, :per_page => 25, :order => 'builtin, position'
 #    render :action => "list", :layout => false if request.xhr?
 #  end
+    $this->params['show'] = 25;
+    $this->params['sort'] = 'builtin,position';
+    $roles = $this->paginate();
+    $this->set('roles', $roles);
+    $this->set('role_pages', $roles);
+    if ($this->RequestHandler->isAjax()) {
+      $this->render('list', 'ajax');
+    }
+  }
+
 #
 #  def new
 #    # Prefills the form with 'Non member' role permissions
@@ -46,15 +65,33 @@
 #    @permissions = @role.setable_permissions
 #    @roles = Role.find :all, :order => 'builtin, position'
 #  end
+  function add() {
+    if (!empty($this->data)) {
+      
+    }
+  }
+
 #
 #  def edit
+  function edit($id) {
 #    @role = Role.find(params[:id])
+    $role = $this->Role->findById($id);
+    $this->set('role', $role);
+
+    $roles = $this->Role->find('list', array('fields' => array('Role.id', 'Role.name')));
+    $this->set('roles', $roles);
+                                                
+    $mods = $this->Permission->permissions;
+    pr($mods);
+    
+
 #    if request.post? and @role.update_attributes(params[:role])
 #      flash[:notice] = l(:notice_successful_update)
 #      redirect_to :action => 'list'
 #    end
 #    @permissions = @role.setable_permissions
 #  end
+  }
 #
 #  def destroy
 #    @role = Role.find(params[:id])
@@ -93,3 +130,4 @@
 #    end
 #  end
 #end
+}

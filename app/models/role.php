@@ -24,6 +24,7 @@ class Role extends AppModel {
 #  BUILTIN_ANONYMOUS  = 2
   var $BUILTIN_NON_MEMBER = 1;
   var $BUILTIN_ANONYMOUS  = 2;
+  //  var $validate = array('assignable' => array('required' => array('rule' => VALID_NOT_EMPTY)));
 
 #
 #  named_scope :builtin, lambda { |*args|
@@ -152,4 +153,3 @@ class Role extends AppModel {
 #  end
 #end
 }
-?>
