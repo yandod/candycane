@@ -162,7 +162,7 @@ class SortHelper extends AppHelper
   function nbsp($n)
   {
     # '&nbsp;' * n
-    return 
+    return ;
   }
 
   /**
