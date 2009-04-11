@@ -11,6 +11,7 @@ class AppController extends Controller {
     var $components = array('Cookie','MenuManager');
 	var $uses = array('User','Setting','Project');
     var $current_user; // alternate User.current
+    var $per_page;
 
     /**
      * beforeFilter
@@ -254,6 +255,18 @@ class AppController extends Controller {
 #
 #  # Returns the number of objects that should be displayed
 #  # on the paginated list
+  function _per_page_option()
+  {
+    if (isset($this->params['url']['per_page']) && in_array($this->params['url']['per_page'], $this->Setting->per_page_options)) {
+      $this->per_page = (int)$this->params['url']['per_page'];
+      $this->Session->write('per_page', $this->per_page);
+    } else if (strlen($this->Session->read('per_page'))) {
+      $this->per_page = $this->Session->read('per_page');
+    } else {
+      $this->per_page = $this->Setting->per_page_options[0];
+    }
+    return $this->per_page;
+  }
 #  def per_page_option
 #    per_page = nil
 #    if params[:per_page] && Setting.per_page_options_array.include?(params[:per_page].to_s.to_i)
