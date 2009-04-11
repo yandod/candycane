@@ -8,11 +8,11 @@
     <?php if (isset($project)): ?><input type="hidden" name="project_id" value="<?php echo h($project['Project']['id']) ?>" /><?php endif ?>
     <!--<%= hidden_field_tag('project_id', @project.id) if @project %>-->
     <fieldset id="filters"><legend><?php __('Filters') ?></legend>
-    <?php echo $this->renderElement('queries/filters', array('query' => $query)) ?>
+    <?php echo $this->renderElement('queries/filters', array('show_filters' => $show_filters, 'available_filters' => $available_filters)) ?>
     <!--<%= render :partial => 'queries/filters', :locals => {:query => @query} %>-->
     <p class="buttons">
-      <?php echo $ajax->link(__('Apply', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => $project['Project']['identifier'], '?set_filter=1'), array('update' => 'content', 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
-      <?php echo $ajax->link(__('Clear', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => $project['Project']['identifier'], '?set_filter=1'), array('update' => 'content', 'class' => 'icon icon-reload')) ?>
+      <?php echo $ajax->link(__('Apply', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => $project['Project']['identifier_or_id'], '?set_filter=1'), array('update' => 'content', 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
+      <?php echo $ajax->link(__('Clear', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => $project['Project']['identifier_or_id'], '?set_filter=1'), array('update' => 'content', 'class' => 'icon icon-reload')) ?>
     <!--
     <%= link_to_remote l(:button_apply), 
                        { :url => { :set_filter => 1 },
