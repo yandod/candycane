@@ -24,12 +24,12 @@ class Project extends AppModel
 {
   var $name = 'Project';
 
-  var $belongsTo = array(
-    'Parent' => array(
-      'className'=>'Project',
-      'foreignKey'=>'parent_id',
-    ),
-  );
+//  var $belongsTo = array(
+//    'Parent' => array(
+//      'className'=>'Project',
+//      'foreignKey'=>'parent_id',
+//    ),
+//  );
   var $hasMany = array(
     'Version',
     'TimeEntry',
@@ -313,10 +313,8 @@ class Project extends AppModel
 
 	function afterFind($result,$primary= false )
 	{
-//		pr(func_get_args());
-//		pr($results);
-//		exit;
-		if ($primary) {
+
+		if (isset($result[0])) {
 		  $results = $result;
 		} else {
 		 $results = array(aa($this->alias,$result));
@@ -327,6 +325,7 @@ class Project extends AppModel
 			} else {
 				$results[$key][$this->alias]['short_description'] = '';
 			}
+
       if (!empty($val[$this->alias]['identifier'])) {
         $results[$key][$this->alias]['identifier_or_id'] = $val[$this->alias]['identifier'];
       } else {
