@@ -67,3 +67,6 @@
 #    journalized.respond_to?(:attachments) ? journalized.attachments : nil
 #  end
 #end
+class Journal extends AppModel {
+	var $name="Journal";
+}
