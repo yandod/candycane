@@ -19,7 +19,7 @@
 class ProjectsController extends AppController
 {
   var $name = 'Projects';
-  var $uses = array('Project', 'User', 'Tracker', 'IssueCustomField', 'Permission');
+  var $uses = array('Project', 'User', 'Tracker', 'IssueCustomField', 'Permission', 'CustomFieldsProject', 'EnabledModule', 'Version');
   var $helpers = array('Time', 'Project');
   var $components = array('RequestHandler');
 
@@ -132,6 +132,14 @@ class ProjectsController extends AppController
 
     if(!empty($this->data)) {
       if($this->Project->save($this->data, true, array('name', 'description', 'parent_id', 'identifier', 'homepage', 'is_public'))) {
+        foreach($this->data['Project']['tracker_ids'] as $tracker_id) {
+        }
+        foreach($this->data['Project']['issue_custom_field_ids'] as $custom_field_id) {
+          $this->CustomFieldsProject->save(array('custom_field_id'=>$custom_field_id, 'project_id'=>$this->data->id));
+        }
+        foreach($this->data['Project']['enabledModules'] as $enabledModule) {
+          $this->EnabledModule->save(array('name'=>$enabledModule, 'project_id'=>$this->data->id));
+        }
         $this->Session->setFlash(__('Successful create.'));
         $this->redirect('/admin/projects');
       }
@@ -283,10 +291,10 @@ class ProjectsController extends AppController
 #  end
   function add_version()
   {
-    if(!empty($this->data)) {
-      if($this->Version->save($this->data, true, array('name', 'description', 'wiki_page_title', 'effective_date'))) {
+    if($this->RequestHandler->isPost()) {
+      if($this->Version->save($this->data, true, array('project_id', 'name', 'description', 'wiki_page_title', 'effective_date'))) {
         $this->Session->setFlash(__('Successful create.'));
-        $this->redirect('/settings/versions/'.$this->data['Project']['id']);
+        $this->redirect('/projects/settings/'.$this->data['Project']['id']);
       }
     }
   }
@@ -416,6 +424,7 @@ class ProjectsController extends AppController
     $data = null;
     if (!empty($this->data)) {
       $data = $this->data;
+      $this->data = null;
     }
     if (!empty($this->params['project_id'])) {
       $this->data = $this->Project->findByIdentifier($this->params['project_id']);
@@ -431,6 +440,11 @@ class ProjectsController extends AppController
         $this->id = $this->data['Project']['id'];
         $this->data = $this->Project->read();
       }
+    }
+
+    if (empty($this->data)) {
+      $this->cakeError('error404');
+      return;
     }
 
     if (!empty($data)) {
@@ -465,7 +479,7 @@ class ProjectsController extends AppController
 #  end
 #end
 	
-	function settings($project_name)
+	function settings()
 	{
 
 	}
