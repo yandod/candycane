@@ -19,7 +19,7 @@
 class ProjectsController extends AppController
 {
   var $name = 'Projects';
-  var $uses = array('Project', 'User', 'Tracker', 'IssueCustomField', 'Permission');
+  var $uses = array('Project', 'User', 'Tracker', 'IssueCustomField', 'Permission', 'CustomFieldsProject', 'EnabledModule');
   var $helpers = array('Time', 'Project');
   var $components = array('RequestHandler');
 
@@ -132,6 +132,14 @@ class ProjectsController extends AppController
 
     if(!empty($this->data)) {
       if($this->Project->save($this->data, true, array('name', 'description', 'parent_id', 'identifier', 'homepage', 'is_public'))) {
+        foreach($this->data['Project']['tracker_ids'] as $tracker_id) {
+        }
+        foreach($this->data['Project']['issue_custom_field_ids'] as $custom_field_id) {
+          $this->CustomFieldsProject->save(array('custom_field_id'=>$custom_field_id, 'project_id'=>$this->data->id));
+        }
+        foreach($this->data['Project']['enabledModules'] as $enabledModule) {
+          $this->EnabledModule->save(array('name'=>$enabledModule, 'project_id'=>$this->data->id));
+        }
         $this->Session->setFlash(__('Successful create.'));
         $this->redirect('/admin/projects');
       }
