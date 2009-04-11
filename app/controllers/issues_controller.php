@@ -9,14 +9,10 @@ class IssuesController extends AppController
     'Project',
   );
   var $helpers = array(
-    'Ajax',
     'Issues',
     'Queries',
     'QueryColumn',
     'Paginator',
-  );
-  var $components = array(
-    'RequestHandler',
   );
   var $_query;
   var $_show_filters;
@@ -79,14 +75,11 @@ class IssuesController extends AppController
     );
     $limit = $this->_per_page_option();
     $this->paginate = array('Issue' => array(
-      'conditions' => $this->_query['Query']['filter_cond'],
+      'conditions' => $cond,
       'order' => 'Issue.id DESC',
       'limit' => $limit,
     ));
     $this->set('issue_list', $this->paginate('Issue'));
-    if($this->RequestHandler->isAjax()) {
-      $this->layout = 'ajax';
-    }
   }
 #  def index
 #    retrieve_query
@@ -156,7 +149,7 @@ class IssuesController extends AppController
 #
   function add() {
 #    @issue = Issue.new
-
+/*
     if(isset($this->params['copy_from'])) {
       $this->Issue->copy_from($this->params['copy_from']);
     }
@@ -182,7 +175,7 @@ class IssuesController extends AppController
       if()
       $watcher_user_ids = params['issue']['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
     }
-
+*/
 #    @issue.author = User.current
 #    
 #    default_status = IssueStatus.default

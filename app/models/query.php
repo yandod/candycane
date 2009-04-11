@@ -113,12 +113,13 @@ class Query extends AppModel
     parent::__construct();
   }
   
-  function available_filters($project = array())
+  function available_filters($project = array(), $currentuser = array())
   {
     $Status = & ClassRegistry::init('Status');
     $IssueStatus = & ClassRegistry::init('IssueStatus');
     $Enumeration = & ClassRegistry::init('Enumeration');
     $user_values = a();
+    
     if ($project) {
       $user_values = am($user_values, Set::combine('/User/id', '/User/lastname', $project));
     }
@@ -161,12 +162,7 @@ class Query extends AppModel
       ),
       'assigned_to_id' => array(
         'type'   => 'list_optional',
-        'values' => array(
-          'me' => '<< 自分 >>',
-          '4' => 'Masahiro Akita',
-          '1' => 'Redmine Admin',
-          '3' => 'yusuke ando',
-        ),
+        'values' => $user_values,
         'order' => 4,
       ),
       'done_ratio' => array(
