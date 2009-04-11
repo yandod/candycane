@@ -1,4 +1,4 @@
-<% form_tag({:action => 'edit', :tab => 'projects'}) do %>
+<!-- <% form_tag({:action => 'edit', :tab => 'projects'}) do %> -->
 
 <div class="box tabular settings">
 <p><label><%= l(:setting_default_projects_public) %></label>
