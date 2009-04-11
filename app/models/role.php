@@ -57,8 +57,12 @@ class Role extends AppModel {
 #  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 #
 #  def permissions
+  function permissions($permissions) {
+    App::Import('vendor', 'spyc');
+    return Spyc::YAMLLoad($permissions);
 #    read_attribute(:permissions) || []
 #  end
+  }
 #  
 #  def permissions=(perms)
 #    perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms

@@ -831,4 +831,12 @@ class CandyHelper extends AppHelper
       return $one;
     }
   }
+
+  function check_all_links($form_name) {
+    $tmp = $this->Html->link(__('Check all',true), '#', array('onclick' => "checkAll('" . $form_name . "', true); return false;"));
+    $tmp .= ' | ';
+    $tmp .= $this->Html->link(__('Uncheck all',true), '#', array('onclick' => "checkAll('" . $form_name . "', false); return false;"));
+    return $tmp;
+  }
+  
 }
