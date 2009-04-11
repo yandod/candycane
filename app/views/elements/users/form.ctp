@@ -27,7 +27,7 @@
 </div>
 
 <div class="box">
-  <h3><?php __('label_authentication'); ?></h3>
+  <h3><?php __('Authentication'); ?></h3>
   <?php if (isset($auth_sources)): ?>
   <p>
     <%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }), {}, :onchange => "if (this.value=='') {Element.show('password_fields');} else {Element.hide('password_fields');}" %>
@@ -37,13 +37,13 @@
   <div id="password_fields" style="<%= 'display:none;' if @user.auth_source %>">
 
     <p>
-      <label for="password"><?php __('field_password'); ?><span class="required"> *</span></label>
+      <label for="password"><?php __('Password'); ?><span class="required"> *</span></label>
       <?php e($form->password('password', array('size' => '25%'))); ?>
-      <em><%= l(:text_caracters_minimum, 4) %></em>
+      <em><?php printf(__('%d characters maximum.', true), 4); ?></em>
     </p>
 
     <p>
-      <label for="password_confirmation"><?php __('field_password_confirmation'); ?><span class="required"> *</span></label>
+      <label for="password_confirmation"><?php __('Confirmation'); ?><span class="required"> *</span></label>
       <?php e($form->password('password_confirmation', array('size' => '25%'))); ?>
     </p>
 
