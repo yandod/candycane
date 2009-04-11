@@ -17,8 +17,13 @@
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 #class Role < ActiveRecord::Base
+App::Import('vendor', 'spyc');
+
 class Role extends AppModel {
   var $name = 'Role';
+  var $actsAs = array('List');
+
+
 #  # Built-in roles
 #  BUILTIN_NON_MEMBER = 1
 #  BUILTIN_ANONYMOUS  = 2
@@ -57,8 +62,11 @@ class Role extends AppModel {
 #  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 #
 #  def permissions
+  function permissions($permissions) {
+    return Spyc::YAMLLoad($permissions);
 #    read_attribute(:permissions) || []
 #  end
+  }
 #  
 #  def permissions=(perms)
 #    perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
@@ -102,6 +110,22 @@ class Role extends AppModel {
 #    !self.builtin?
 #  end
 #  
+  function non_member_allowed_to($permission) {
+    $non_member = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_NON_MEMBER)));
+    if(empty($non_member)) {
+      $this->cakeError('error', 'Missing non-member builtin role.');
+    }
+    // TODO YAMLをパースして権限をチェックする
+    return true;
+  }
+  function anonymous_allowed_to($permission) {
+    $anonymous = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_ANONYMOUS)));
+    if(empty($anonymous)) {
+      $this->cakeError('error', 'Missing non-member builtin role.');
+    }
+    // TODO YAMLをパースして権限をチェックする
+    return true;
+  }
 #  # Return true if role is allowed to do the specified action
 #  # action can be:
 #  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
@@ -129,8 +153,14 @@ class Role extends AppModel {
 #
 #  # Return the builtin 'non member' role
 #  def self.non_member
+  function non_member() {
 #    find(:first, :conditions => {:builtin => BUILTIN_NON_MEMBER}) || raise('Missing non-member builtin role.')
-#  end
+    $data = $this->find('first', array('conditions' => array('builtin' => $this->BUILTIN_NON_MEMBER)));
+    if (empty($data)) {
+    } else {
+      return $data;
+    }
+  }
 #
 #  # Return the builtin 'anonymous' role 
 #  def self.anonymous
@@ -152,4 +182,24 @@ class Role extends AppModel {
 #    raise "Can't delete builtin role" if builtin?
 #  end
 #end
+  function array2yaml($array) {
+    $yaml = Spyc::YAMLDump($array);
+    return $yaml;
+  }
+
+  function toSymbol($data) {
+    $tmp = array();
+    foreach ($data as $d) {
+      $tmp[] = ':' . $d;
+    }
+    return $tmp;
+  }
+
+  function convert_permissions($data) {
+    $tmp = $this->toSymbol($data['Role']['permissions']);
+    $tmp = $this->array2yaml($tmp);
+    $data['Role']['permissions'] = $tmp;
+    return $data;
+  }
+  
 }

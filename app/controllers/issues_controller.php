@@ -9,10 +9,14 @@ class IssuesController extends AppController
     'Project',
   );
   var $helpers = array(
+    'Ajax',
     'Issues',
     'Queries',
     'QueryColumn',
     'Paginator',
+  );
+  var $components = array(
+    'RequestHandler',
   );
   var $_query;
   
@@ -73,10 +77,13 @@ class IssuesController extends AppController
       'Issue.project_id' => $this->_project['Project']['id'],
     );
     $this->paginate = array('Issue' => array(
-      'conditions' => $cond,
+      'conditions' => $this->_query['Query']['filter_cond'],
       'order' => 'Issue.id DESC',
     ));
     $this->set('issue_list', $this->paginate('Issue'));
+    if($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+    }
   }
 #  def index
 #    retrieve_query
@@ -144,6 +151,64 @@ class IssuesController extends AppController
 #    end
 #  end
 #
+  function add() {
+#    @issue = Issue.new
+
+    if(isset($this->params['copy_from'])) {
+      $this->Issue->copy_from($this->params['copy_from']);
+    }
+    $project = $this->Issue->Project->find('first', array(
+      'conditions'=>array('Project.identifier'=>$this->params['project_id']),
+      'recursive'=>0
+    ));
+    if(!$project) {
+        // TODO : error
+        $this->cakeError('error', 'missing URL.');
+    }
+    # Tracker must be set before custom field values
+    $trackers = $this->Issue->Project->ProjectsTracker->find('all', array(
+      'conditions'=>array('ProjectsTracker.project_id' => $project['Project']['id']),
+      'fields'=>'Tracker.*'
+    ));
+    if(empty($trackers)){
+      $this->Session->setFlash(__("No tracker is associated to this project. Please check the Project settings.", true), 'default', array('class'=>'flash flash_error'));
+      $this->redirect('index');
+    }
+    if(is_array($this->params['issue'])) {
+      $attributes = $this->params['issue'];
+      if()
+      $watcher_user_ids = params['issue']['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
+    }
+
+#    @issue.author = User.current
+#    
+#    default_status = IssueStatus.default
+#    unless default_status
+#      flash.now[:error] = 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
+#      render :nothing => true, :layout => true
+#      return
+#    end    
+#    @issue.status = default_status
+#    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)).uniq
+#    
+#    if request.get? || request.xhr?
+#      @issue.start_date ||= Date.today
+#    else
+#      requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
+#      # Check that the user is allowed to apply the requested status
+#      @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
+#      if @issue.save
+#        attach_files(@issue, params[:attachments])
+#        flash[:notice] = l(:notice_successful_create)
+#        Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
+#        redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
+#                                        { :action => 'show', :id => @issue })
+#        return
+#      end		
+#    end	
+#    @priorities = Enumeration::get_values('IPRI')
+#    render :layout => !request.xhr?
+  }
 #  # Add a new issue
 #  # The new issue will be created from an existing one if copy_from parameter is given
 #  def new
@@ -505,15 +570,20 @@ class IssuesController extends AppController
   function _retrieve_query()
   {
     $query = a();
-    $cond = a();
-    if (isset($this->params['project_id'])) $cond[] = array('Query.project_id' => $this->params['project_id']);
-    if ($cond) {
-      $query = $this->Query->find('first', array(
-        'conditions' => $cond,
-      ));
+    if (isset($this->params['query_id'])) {
+    } else {
+      $query = $this->Query->defaults();
+      $query = am($query, $this->_project);
+      $query['Query']['filter_cond'][] = array('Issue.project_id' => $this->_project['Project']['id']);
+      if (isset($this->params['url']['set_filter'], $this->params['form']['fields'])) {
+        foreach ($this->params['form']['fields'] as $field) {
+          if ($add_filter_cond = $this->Query->get_filter_cond('Issue.' . $field, $this->params['form']['operators'][$field], $this->params['form']['values'][$field])) {
+            $query['Query']['filter_cond'][] = $add_filter_cond;
+          }
+        }
+      }
     }
-    if (!$query) $query = $this->Query->defaults();
-    $this->set('query', $query);
+    $this->set('query', $this->_query = $query);
   }
 #  def retrieve_query
 #    if !params[:query_id].blank?

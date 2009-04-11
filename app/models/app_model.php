@@ -3,7 +3,7 @@ class AppModel extends Model {
   /**
    * validation messages
    */
-  static $error = array(
+  var $error = array(
     'validates_presence_of' 	=> 'Please be sure to input.',
     'validates_uniqueness_of' => 'There are already exists.',
     'validates_length_of' => 'Please input by %2$d or less characters.',
@@ -32,8 +32,8 @@ class AppModel extends Model {
       if(!empty($this->validate[$key][$value]['rule'])) {
         $rule = $this->validate[$key][$value]['rule'];
       }
-      if(array_key_exists($value, AppModel::$error)) {
-        $error = vsprintf(__(AppModel::$error[$value],true), $rule);
+      if(array_key_exists($value, $this->error)) {
+        $error = vsprintf(__($this->$error[$value],true), $rule);
       } else {
         $error = __($value,true);
       }
@@ -46,4 +46,30 @@ class AppModel extends Model {
     return $errors;
   }
 }
+
+/*
+class ARCondition
+  attr_reader :conditions
+
+  def initialize(condition=nil)
+    @conditions = ['1=1']
+    add(condition) if condition
+  end
+
+  def add(condition)
+    if condition.is_a?(Array)
+      @conditions.first << " AND (#{condition.first})"
+      @conditions += condition[1..-1]
+    elsif condition.is_a?(String)
+      @conditions.first << " AND (#{condition})"
+    else
+      raise "Unsupported #{condition.class} condition: #{condition}"
+    end
+    self
+  end
+
+  def <<(condition)
+    add(condition)
+  end
+end*/
 ?>

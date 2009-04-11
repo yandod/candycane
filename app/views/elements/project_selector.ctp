@@ -12,7 +12,7 @@
 <% end %>
 -->
 <?php foreach ($currentuser['memberships'] as $member): ?>
-<?php $project = $member['Project'][0]['Project'] ?>
+<?php $project = $member['Project'] ?>
 <?php echo $html->tag('option',$project['name'],aa('value',$html->url('/projects/show/'.$project['identifier']))) ?>
 <?php endforeach; ?>
 </select>

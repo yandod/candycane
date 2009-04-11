@@ -1,62 +1,63 @@
-<?php /*
-<h2><%= @author.nil? ? __('Activity') : $candy->lwr("\"%s's activity\"", $link_to_user(@author)) %></h2>
- */ ?>
-<p class="subtitle"><%= "#{l(:label_date_from)} #{format_date(@date_to - @days)} #{l(:label_date_to).downcase} #{format_date(@date_to-1)}" %></p>
+<h2><?php echo ($author==null) ? __('Activity') : $candy->lwr("\"%s's activity\"", $link_to_user($author)) ?></h2>
+<p class="subtitle"><?php echo __('From', true), ' ', $time->niceShort($date_from), ' ', strtolower(__('To', true)), ' ', $time->niceShort($date_to) ?></p>
 
 <div id="activity">
-<% @events_by_day.keys.sort.reverse.each do |day| %>
-<h3><%= format_activity_day(day) %></h3>
+<?php foreach($events_by_day as $day=>$events): ?>
+<h3><?php echo $time->format('Y-m-d', $day) ?></h3>
 <dl>
-<% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
+<?php foreach($events as $event_time=>$event): ?>
+<?php foreach($event as $e): ?>
   <dt class="<%= e.event_type %>  <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
+<?php echo $candy->avatar($e['Author'], array('size'=>24)) ?>
+<?php /*
 	<%= avatar(e.event_author, :size => "24") if e.respond_to?(:event_author) %>
-  <span class="time"><%= format_time(e.event_datetime, false) %></span>
+ */ ?>
+  <span class="time"><?php echo $time->niceShort($event_time) ?></span>
+<?php /*
   <%= content_tag('span', h(e.project), :class => 'project') if @project.nil? || @project != e.project %>
+ */ ?>
+<?php echo $html->link($e['Issue']['subject'], $e['Issue']['id']) ?></dt>
+<dd><span class="description"><?php echo $e['Issue']['description'] ?></span>
+<span class="author"><?php echo $candy->link_to_user($e['Author']) ?></span></dd>
+<?php /*
   <%= link_to format_activity_title(e.event_title), e.event_url %></dt>
   <dd><span class="description"><%= format_activity_description(e.event_description) %></span>
   <span class="author"><%= e.event_author if e.respond_to?(:event_author) %></span></dd>
-<% end -%>
+ */ ?>
+<?php endforeach ?>
+<?php endforeach ?>
 </dl>
-<% end -%>
+<?php endforeach ?>
 </div>
 
+<?php /*
 <%= content_tag('p', l(:label_no_data), :class => 'nodata') if @events_by_day.empty? %>
+ */ ?>
 
 <div style="float:left;">
+<?php /*
 <%= link_to_remote(('&#171; ' + l(:label_previous)), 
                    {:update => "content", :url => params.merge(:from => @date_to - @days - 1), :complete => 'window.scrollTo(0,0)'},
                    {:href => url_for(params.merge(:from => @date_to - @days - 1)),
                     :title => "#{l(:label_date_from)} #{format_date(@date_to - 2*@days)} #{l(:label_date_to).downcase} #{format_date(@date_to - @days - 1)}"}) %>
+ */ ?>
 </div>
 <div style="float:right;">
+<?php /*
 <%= link_to_remote((l(:label_next) + ' &#187;'), 
                    {:update => "content", :url => params.merge(:from => @date_to + @days - 1), :complete => 'window.scrollTo(0,0)'},
                    {:href => url_for(params.merge(:from => @date_to + @days - 1)),
                     :title => "#{l(:label_date_from)} #{format_date(@date_to)} #{l(:label_date_to).downcase} #{format_date(@date_to + @days - 1)}"}) unless @date_to >= Date.today %>
+ */ ?>
 </div>
 &nbsp;
 <p class="other-formats">
     <?php __("'Also available in:'") ?>
-    <%= link_to 'Atom', params.merge(:format => :atom, :from => nil, :key => User.current.rss_key), :class => 'feed' %>
+    <?php echo $html->link('Atom', array('action'=>'activity', 'format'=>'atom', 'from'=>null, 'key'=>isset($currentuser['User']) ? $currentuser['User']['rss_key'] : ''
+    ), array('class' => 'feed')) ?>
 </p>
 
-<% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :from => nil, :key => User.current.rss_key)) %>
-<% end %>
+<?php $this->set('Sidebar', $this->renderElement('projects/sidebar/activity')) ?>
+<?php $this->set('header_tags', $this->renderElement('projects/rss')) ?>
 
-<% content_for :sidebar do %>
-<?php echo $form->create('Project', array('action'=>'activity', 'method'=>'get')) ?>
-<h3><?php __('Activity') ?></h3>
-<p><% @activity.event_types.each do |t| %>
-<label><%= check_box_tag "show_#{t}", 1, @activity.scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%></label><br />
-<% end %></p>
-<% if @project && @project.active_children.any? %>
-    <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
-    <%= hidden_field_tag 'with_subprojects', 0 %>
-<% end %>
-<%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
-<p><?php echo $form->submit(__('Apply', true), array('class'=>'button-small')) ?></p>
-<?php echo $form->end() ?>
-<% end %>
-
-<% html_title(l(:label_activity), @author) -%>
+<?php $candy->html_title(__('Activity', true), $author['Project']['name']) ?>

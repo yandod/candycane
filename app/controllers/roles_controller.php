@@ -27,21 +27,18 @@ class RolesController extends AppController {
 #  verify :method => :post, :only => [ :destroy, :move ],
 #         :redirect_to => { :action => :list }
 #
-#  def index
   function index() {
     $this->lists();
     if (!$this->RequestHandler->isAjax()) {
       $this->render('list');
     }
   }
-#
-#  def list
+
   function lists() {
 #    @role_pages, @roles = paginate :roles, :per_page => 25, :order => 'builtin, position'
 #    render :action => "list", :layout => false if request.xhr?
-#  end
     $this->params['show'] = 25;
-    $this->params['sort'] = 'builtin,position';
+    $this->params['order'] = 'builtin,position';
     $roles = $this->paginate();
     $this->set('roles', $roles);
     $this->set('role_pages', $roles);
@@ -66,32 +63,80 @@ class RolesController extends AppController {
 #    @roles = Role.find :all, :order => 'builtin, position'
 #  end
   function add() {
+    $roles = $this->Role->find('all', array('order' => array('builtin', 'position')));
+    $permissions = $this->Permission->setable_permissions();
+
+
+    $role = $this->Role->non_member();
+
+    $permissions_array = $this->Role->permissions($role['Role']['permissions']);
+    $this->set('permissions_array', $permissions_array);
+
+
+    $this->set('roles', $roles);
+    $this->set('permissions', $permissions);
+    $this->set('role', $role);
+
+
+    $project_module_name = $this->_project_module_name();
+    $this->set('project_module_name', $project_module_name);
+
+    $permission_name = $this->_permission_name();
+    $this->set('permission_name', $permission_name);
+
+    $this->render('edit');
+
     if (!empty($this->data)) {
       
     }
   }
 
-#
-#  def edit
-  function edit($id) {
-#    @role = Role.find(params[:id])
-    $role = $this->Role->findById($id);
-    $this->set('role', $role);
+  function edit($id = null) {
+    if (isset($id)) {
+      $role = $this->Role->findById($id);
+      $this->set('role', $role);
 
-    $roles = $this->Role->find('list', array('fields' => array('Role.id', 'Role.name')));
-    $this->set('roles', $roles);
+      $roles = $this->Role->find('list', array('fields' => array('Role.id', 'Role.name')));
+      $this->set('roles', $roles);
+    }
                                                 
-    $mods = $this->Permission->permissions;
-    pr($mods);
-    
+    $permissions = $this->Permission->setable_permissions();
+    $this->set('permissions', $permissions);
+
+    $permissions_array = $this->Role->permissions($role['Role']['permissions']);
+    $this->set('permissions_array', $permissions_array);
+
+    $project_module_name = $this->_project_module_name();
+    $this->set('project_module_name', $project_module_name);
+
+    $permission_name = $this->_permission_name();
+    $this->set('permission_name', $permission_name);
+
+    if (! empty($this->data)) {
+      $this->data = $this->Role->convert_permissions($this->data);
+      pr($this->data);
+
+      $data = array('id' => $id,
+                    'name' => $this->data['Role']['name'],
+                    'assignable' => $this->data['Role']['assignable'],
+                    'permissions' => $this->data['Role']['permissions'],
+                    );
+
+      $this->Role->create();
+      if ($this->Role->save($data, null, array('id','name','assignable','permissions'))) {
+        $this->flash(__('Successful update.', true), 'index');
+      }
+      return;
+    }
 
 #    if request.post? and @role.update_attributes(params[:role])
 #      flash[:notice] = l(:notice_successful_update)
 #      redirect_to :action => 'list'
 #    end
-#    @permissions = @role.setable_permissions
-#  end
+
   }
+
+
 #
 #  def destroy
 #    @role = Role.find(params[:id])
@@ -101,21 +146,28 @@ class RolesController extends AppController {
 #    flash[:error] = 'This role is in use and can not be deleted.'
 #    redirect_to :action => 'index'
 #  end
-#  
-#  def move
-#    @role = Role.find(params[:id])
-#    case params[:position]
-#    when 'highest'
-#      @role.move_to_top
-#    when 'higher'
-#      @role.move_higher
-#    when 'lower'
-#      @role.move_lower
-#    when 'lowest'
-#      @role.move_to_bottom
-#    end if params[:position]
-#    redirect_to :action => 'list'
-#  end
+
+
+  function move($id) {
+    $this->Role->read(null, $id);
+    if (!empty($this->params['named']['position'])) {
+      switch($this->params['named']['position']) {
+      case 'highest':
+        $this->Role->move_to_top();
+        break;
+      case 'higher':
+        $this->Role->move_higher();
+        break;
+      case 'lower':
+        $this->Role->move_lower();
+        break;
+      case 'lowest':
+        $this->Role->move_to_bottom();
+        break;
+      }
+      $this->redirect('index');
+    }
+  }
 #  
 #  def report    
 #    @roles = Role.find(:all, :order => 'builtin, position')
@@ -130,4 +182,72 @@ class RolesController extends AppController {
 #    end
 #  end
 #end
+
+
+
+  function _project_module_name() {
+    $project_module_name = array('issue_tracking' => 'Issue tracking',
+                                 'time_tracking' => 'Time tracking',
+                                 'news' => 'News',
+                                 'documents' => 'Documents',
+                                 'files' => 'Files',
+                                 'wiki' => 'Wiki',
+                                 'repository' => 'Repository',
+                                 'boards' => 'Boards');
+    return $project_module_name;
+  }
+
+  function _permission_name() {
+    $permission_name = array('edit_project' => 'Edit project',
+                             'select_project_modules' => 'Select project modules',
+                             'manage_members' => 'Manage members',
+                             'manage_versions' => 'Manage versions',
+                             'manage_categories' => 'Manage issue categories',
+                             'add_issues' => 'Add issues',
+                             'edit_issues' => 'Edit issues',
+                             'manage_issue_relations' => 'Manage issue relations',
+                             'add_issue_notes' => 'Add notes',
+                             'edit_issue_notes' => 'Edit notes',
+                             'edit_own_issue_notes' => 'Edit own notes',
+                             'move_issues' => 'Move issues',
+                             'delete_issues' => 'Delete issues',
+                             'manage_public_queries' => 'Manage public queries',
+                             'save_queries' => 'Save queries',
+                             'view_gantt' => 'View gantt chart',
+                             'view_calendar' => 'View calender',
+                             'view_issue_watchers' => 'View watchers list',
+                             'add_issue_watchers' => 'Add watchers',
+                             'log_time' => 'Log spent time',
+                             'view_time_entries' => 'View spent time',
+                             'edit_time_entries' => 'Edit time logs',
+                             'edit_own_time_entries' => 'Edit own time logs',
+                             'manage_news' => 'Manage news',
+                             'comment_news' => 'Comment news',
+                             'manage_documents' => 'Manage documents',
+                             'view_documents' => 'View documents',
+                             'manage_files' => 'Manage files',
+                             'view_files' => 'View files',
+                             'manage_wiki' => 'Manage wiki',
+                             'rename_wiki_pages' => 'Rename wiki pages',
+                             'delete_wiki_pages' => 'Delete wiki pages',
+                             'view_wiki_pages' => 'View wiki',
+                             'view_wiki_edits' => 'View wiki history',
+                             'edit_wiki_pages' => 'Edit wiki pages',
+                             'delete_wiki_pages_attachments' => 'Delete attachments',
+                             'protect_wiki_pages' => 'Protect wiki pages',
+                             'manage_repository' => 'Manage repository',
+                             'browse_repository' => 'Browse repository',
+                             'view_changesets' => 'View changesets',
+                             'commit_access' => 'Commit access',
+                             'manage_boards' => 'Manage boards',
+                             'view_messages' => 'View messages',
+                             'add_messages' => 'Post messages',
+                             'edit_messages' => 'Edit messages',
+                             'edit_own_messages' => 'Edit own messages',
+                             'delete_messages' => 'Delete messages',
+                             'delete_own_messages' => 'Delete own messages',
+                             );
+    return $permission_name;
+  }
+
 }

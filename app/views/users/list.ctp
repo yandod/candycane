@@ -32,23 +32,25 @@ $status_type = array(
 
 &nbsp;
 
+<?php
+// echo $sort->sort_link('login', null, 'asc');
+/*
+echo $ajax->link(__('login', true),
+  '?sort_key=login&amp;sort_order=desc',
+  array(
+  ),
+  array('update' => 'post')
+);
+*/
+?>
 <table class="list">
-  <thead><tr>
-    <?php echo $sort->sort_header_tag('login', array('caption' => __('field_login', true))); ?>
-    <?php echo $sort->sort_header_tag('firstname', array('caption' => __('field_firstname', true))); ?>
-    <?php echo $sort->sort_header_tag('lastname', array('caption' => __('field_lastname', true))); ?>
-    <?php echo $sort->sort_header_tag('mail', array('caption' => __('field_mail', true))); ?>
-    <?php echo $sort->sort_header_tag('admin',
-    array('caption' => __('field_admin', true), 'default_order' => 'desc')
-    ); ?>
-    <?php echo $sort->sort_header_tag('created_on',
-    array('caption' => __('field_created_on', true), 'default_order' => 'desc')
-    ); ?>
-    <?php echo $sort->sort_header_tag('last_login_on',
-    array('caption' => __('field_last_login_on', true), 'default_order' => 'desc')
-    ); ?>
-    <th></th>
-  </tr></thead>
+  <thead>
+  <?php echo $html->tableHeaders(
+  array(
+    'login', 'firstname', 'lastname', 'mail', 'admin', 'created_on', 'last_login_on', ''
+  )
+  ); ?>
+  </thead>
   <tbody>
 
   <?php foreach($user_list as $user): ?>
@@ -59,7 +61,7 @@ $status_type = array(
   </td>
   <td class="firstname"><?php e(h($user['User']['firstname'])); ?></td>
   <td class="lastname"><?php e(h($user['User']['lastname'])); ?></td>
-  <td class="email"><%= mail_to(h(user.mail)) %></td>
+  <td class="email"><?php echo $text->autoLinkEmails($user['User']['mail']); ?></td>
   <td align="center">
     <?php if ($user['User']['admin'] == '1'): ?>
     <?php echo $html->image('true.png'); ?>

@@ -1,6 +1,7 @@
 <?php
 // @todo custom_field_values
 // @todo auth_sources
+// @todo selected current language
 ?>
 <!--[form:user]-->
 <div class="box">
@@ -8,15 +9,21 @@
   <p><?php e($form->input('firstname')); ?></p>
   <p><?php e($form->input('lastname')); ?></p>
   <p><?php e($form->input('mail')); ?></p>
-  <p><%= f.select :language, lang_options_for_select %></p>
+  <p>
+    <?php echo $form->input('language', array('type' => 'select', 'options' => $candy->lang_options_for_select())); ?>
+  </p>
 
 <% @user.custom_field_values.each do |value| %>
-	<p><%= custom_field_tag_with_label :user, value %></p>
+  <p><%= custom_field_tag_with_label :user, value %></p>
 <% end %>
 
-<p>
-  <%= f.check_box :admin, :disabled => (@user == User.current) %>
-</p>
+  <p>
+  <?php if ("@user == User.current"): // @todo implement me ?>
+  <?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1), 'disabled' => 'disabled')); ?>
+  <?php else: ?>
+  <?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1))); ?>
+  <?php endif; ?>
+  </p>
 </div>
 
 <div class="box">

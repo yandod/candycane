@@ -134,6 +134,34 @@ class Permission extends AppModel
     return $modules;
   }
 
+  // from role.php
+  function setable_permissions()
+  {
+    // todo: members_only_permissions, loggedin_only_permissions
+    $tmp = array();
+    foreach ($this->permissions as $module => $perms) {
+      foreach ($perms as $p) {
+        if ($p['public'] != 1) {
+          $tmp[$module][ $p['name'] ] = $this->permissions[$module][ $p['name'] ];
+        }
+      }
+    }
+    return $tmp;
+  }
+
+  function non_member_permissions() {
+    $tmp = array();
+    foreach ($this->permissions as $module => $perms) {
+      foreach ($perms as $p) {
+        if ($p['require'] == 'member') {
+          $tmp[$module][ $p['name'] ] = $this->permissions[$module][ $p['name'] ];
+        }
+      }
+    }
+    return $tmp;
+  }
+
+
   /*
       
       # Returns the permission of given name or nil if it wasn't found

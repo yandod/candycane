@@ -61,5 +61,5 @@ class UsersHelper extends AppHelper
     #   :class => 'icon icon-lock'
     # end
   }
-  
+ 
 }

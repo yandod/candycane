@@ -1,43 +1,45 @@
 <div id="login-form">
-<?php e($form->create(null, array('url' => '/account/login'))); ?>
-<%= back_url_hidden_field_tag %>
+<?php e($form->create('User', array('url' => '/account/login'))); ?>
+<!--  <%= back_url_hidden_field_tag %> -->
+<?php echo $form->hidden('back_url',array('name' => 'back_url')); ?>
+
 <table>
 <tr>
-  <td align="right">
-    <label for="username"><?php __('field_login'); ?>:</label>
-  </td>
-  <td align="left">
-    <p><?php e($form->input('username', array('label' => false, 'size' => '40%'))); ?></p>
-  </td>
-</tr>
-
-<tr>
-  <td align="right"><label for="password"><?php __('field_password'); ?>:</label></td>
-  <td align="left">
-    <p><?php e($form->input('password', array('type' => 'password', 'label' => false, 'size' => '40%'))); ?></p>
+  <td align="right" colspan="2">
+    <p>
+    <?php e($form->input('username', array('size' => '40','id' => 'username','label' => array('text' => __('Login',true).':')))); ?>
+    </p>
   </td>
 </tr>
 
 <tr>
-  <td></td>
-  <td align="left">
-    <?php if (isset($setting->autologin)): ?>
-    <label for="autologin"><%= check_box_tag 'autologin' %><?php __('label_stay_logged_in'); ?></label>
+  <td align="right" colspan="2">
+    <p><?php e($form->input('password', array('type' => 'password', 'size' => '40','label' => array('text' => __('Password',true).':')))); ?></p>
+  </td>
+</tr>
+
+<tr>
+  <td align="left" colspan="2">
+    &nbsp;&nbsp;<?php if (isset($setting->autologin)): ?>
+    <?php echo $form->input('autologin', array('type' => 'checkbox', 'options' => array(1))); ?>
     <?php endif; ?>
-    </td>
+  </td>
 </tr>
 
 <tr>
   <td align="left">
     <?php if (isset($setting->lost_password)): ?>
-      <?php e($html->link(__('label_password_lost', true), '/account/lost_password')); ?>
+      <?php e($html->link(__('Lost password', true), '/account/lost_password')); ?>
     <?php endif; ?>
   </td>
   <td align="right">
-    <?php e($form->submit('button_login' . ' &#187', array('name' => 'login'))); ?>
+    <?php e($form->submit(__('Login', true) . ' &#187', array('name' => 'login','escape' => false))); ?>
   </td>
 </tr>
 </table>
-<%= javascript_tag "Form.Element.focus('username');" %>
+
+<?php echo $javascript->codeBlock("Form.Element.focus('username');") ?>
+
 <?php e($form->end()); ?>
+
 </div>

@@ -1,13 +1,15 @@
-<h2><%=l(:label_member_plural)%></h2>
+<h2><?php __('Members') ?></h2>
 
-<% if @members.empty? %><p><i><%= l(:label_no_data) %></i></p><% end %>
+<?php if (count($members_by_role) == 0): ?>
+<p><i><?php __('No data to display') ?></i></p>
+<?php endif ?>
 
-<% members = @members.group_by {|m| m.role } %>
-<% members.keys.sort{|x,y| x.position <=> y.position}.each do |role| %>
-<h3><%= role.name %></h3>
+<?php foreach($members_by_role as $key=>$members): ?>
+<h3><?php echo h($key) ?></h3>
 <ul>
-<% members[role].each do |m| %>
-<li><%= link_to m.name, :controller => 'account', :action => 'show', :id => m.user %> (<%= format_date m.created_on %>)</li>
-<% end %>
+<?php foreach($members as $key2=>$member): ?>
+  <li><?php echo $candy->link_to_user($member['User']) ?></li>
+<?php endforeach ?>
 </ul>
-<% end %>
+<?php endforeach ?>
+

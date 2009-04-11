@@ -31,6 +31,8 @@ class ProjectsController extends AppController
     'Issue',
     'CustomValue',
     'Member',
+    'News',
+    'TimeEntry',
   );
   var $helpers = array('Time', 'Project', 'CustomField');
   var $components = array('RequestHandler');
@@ -213,8 +215,9 @@ class ProjectsController extends AppController
     $subprojects = $this->Project->findSubprojects($this->data['Project']['id']);
     $this->set('subprojects', $subprojects);
 
+    $cond = $this->Project->project_condition( /*Setting.display_subprojects_issues?*/ false);
+
     foreach($this->data['Tracker'] as $key=>$tracker) {
-      $cond = $this->Project->project_condition( /*Setting.display_subprojects_issues?*/ false);
       $cond_open = $cond;
       $cond_open['Status.is_closed'] = false;
       $cond_open['Issue.tracker_id'] = $tracker['id'];
@@ -230,52 +233,62 @@ class ProjectsController extends AppController
       $tracker['open_issues_by_tracker'] = intval($open_issues_by_tracker);
       $tracker['total_issues_by_tracker'] = intval($total_issues_by_tracker);
       $this->data['Tracker'][$key] = $tracker;
-
-      $parent_project = $this->Project->findById($this->data['Project']['parent_id']);
-      $this->set('parent_project', $parent_project);
-
-      $custom_values = $this->CustomValue->find('all', array(
-        'conditions' => array(
-          'CustomFieldsProject.project_id' => $this->Project->id,
-        ),
-        'recursive' => -1,
-        'joins' => array(
-          array(
-            'type'=>'INNER',
-            'table' => 'custom_fields',
-            'alias' => 'CustomField',
-            'conditions'=>'CustomField.id=CustomValue.custom_field_id',
-          ),
-          array(
-            'type'=>'INNER',
-            'table' => 'custom_fields_projects',
-            'alias' => 'CustomFieldsProject',
-            'conditions'=>'CustomField.id=CustomFieldsProject.custom_field_id',
-          ),
-        ),
-      ));
-      $this->set('custom_values', $custom_values);
-
-      $members_by_role = $this->Member->find('all', array(
-        'order' => 'Role.position',
-        'joins'=> array(
-          array(
-            'type'=>'INNER',
-            'alias'=>'Role',
-            'table'=>'roles',
-            'conditions'=>'Member.role_id=Role.id',
-          ),
-          array(
-            'type'=>'INNER',
-            'alias'=>'User',
-            'table'=>'users',
-            'conditions'=>'Member.role_id=Role.id',
-          )
-        ),
-      ));
-      $this->set('members_by_role', $members_by_role);
-#    @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
     }
+    $parent_project = $this->Project->findById($this->data['Project']['parent_id']);
+    $this->set('parent_project', $parent_project);
+
+    $custom_values = $this->CustomValue->find('all', array(
+      'conditions' => array(
+        'CustomFieldsProject.project_id' => $this->id,
+      ),
+      'recursive' => -1,
+      'joins' => array(
+        array(
+          'type'=>'INNER',
+          'table' => 'custom_fields',
+          'alias' => 'CustomField',
+          'conditions'=>'CustomField.id=CustomValue.custom_field_id',
+        ),
+        array(
+          'type'=>'INNER',
+          'table' => 'custom_fields_projects',
+          'alias' => 'CustomFieldsProject',
+          'conditions'=>'CustomField.id=CustomFieldsProject.custom_field_id',
+        ),
+      ),
+    ));
+    $this->set('custom_values', $custom_values);
+
+    $members_by_role = $this->_get_members_by_role();
+    $this->set('members_by_role', $members_by_role);
+
+    $news = $this->News->find('all', array(
+      'order' => 'News.created_on DESC',
+      'limit'=>5,
+    ));
+    $this->set('news', $news);
+
+    $time_entries = $this->TimeEntry->find_visible_by($this->current_user);
+    $total_hours = 0;
+    foreach($time_entries as $time_entry) {
+      // @TODO 足さなくていいのか？
+      $sum = 0;
+      $entries = $this->TimeEntry->find('all', array('conditions' => $cond));
+      foreach($entries as $entry) {
+        $sum += $entry['TimeEntry']['hours'];
+      }
+      $total_hours = $sum;
+    }
+    $this->set('total_hours', $total_hours);
+
+#    TimeEntry.visible_by(User.current) do
+#      @total_hours = TimeEntry.sum(:hours, 
+#                                   :include => :project,
+#                                   :conditions => cond).to_f
+#    end
+#    @key = User.current.rss_key
+#    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
+#    @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
 
 #      @open_issues_by_tracker = Issue.count(:group => :tracker,
 #                                            :include => [:project, :status, :tracker],
@@ -426,7 +439,26 @@ class ProjectsController extends AppController
 #  end
   function changelog()
   {
+    $trackers = $this->Tracker->find('all', array(
+      'conditions' => array('is_in_chlog' => true),
+      'order'=>'Tracker.position',
+    ));
+    $this->set('trackers', $trackers);
 
+    $tracker_ids = $this->_retrieve_selected_tracker_ids($trackers);
+    foreach($this->data['Version'] as $key=>$version) {
+      $issues = $this->Issue->find('all', array(
+        'conditions' => array(
+          'Status.is_closed' => true,
+          'Issue.tracker_id' => $tracker_ids,
+          'Issue.fixed_version_id' => $version['id'],
+        ),
+        'order' => 'Tracker.position',
+      ));
+      $this->data['Version'][$key]['Issue'] = $issues;
+    }
+
+    $this->set('versions', $this->data['Version']);
   }
 #
 #  def roadmap
@@ -437,6 +469,10 @@ class ProjectsController extends AppController
 #  end
   function roadmap()
   {
+    $trackers = $this->Tracker->find('all', array(
+      'conditions' => array('is_in_roadmap' => true)
+    ));
+    $this->set('trackers', $trackers);
     // $issues = $this->Version->FixedIssue->find('all', 
     $this->set('issues', array());
 
@@ -492,7 +528,55 @@ class ProjectsController extends AppController
 #  end
   function activity()
   {
+#    @days = Setting.activity_days_default.to_i
+#    
+#    if params[:from]
+#      begin; @date_to = params[:from].to_date + 1; rescue; end
+#    end
+#    @date_to ||= Date.today + 1
+#    @date_from = @date_to - @days
+    if (isset($this->params['date_to'])) {
+      $date_to = $this->params['date_to'];
+    } else {
+      $date_to = time() + (1*60*60*24);
+    }
+    $days = 30; // @FIXME
+    if (isset($this->params['days'])) {
+      $days = $this->params['days'];
+    }
+    $date_from = $date_to - ($days * 60*60*24);
+    $this->set('date_from', $date_from);
+    $this->set('date_to', $date_to);
+    $this->set('days', $days);
 
+    $author = empty($this->params['user_id']) ? null : $this->User->find('first', array(
+        'conditions' => array('id' => $this->parmas['user_id'])
+      ));
+    $this->set('author', $author);
+#    @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
+
+    $issues = $this->Issue->find_events('issues', $this->current_user, $date_from, $date_to, array(
+      'projects' => $this->data,
+      'with_subprojects' => false,
+      'author' => $author,
+    ));
+
+    $events_by_day = array();
+    foreach($issues as $day=>$issue) {
+      if (!isset($events_by_day[$day])) {
+        $events_by_day[$day] = array();
+      }
+      foreach($issue as $time=>$data) {
+        if (!isset($events_by_day[$day][$time])) {
+          $events_by_day[$day][$time] = array();
+        }
+        $events_by_day[$day][$time] = $data;
+      }
+      krsort($events_by_day[$day]);
+    }
+    krsort($events_by_day);
+
+    $this->set('events_by_day', $events_by_day);
   }
 #  
 #private
@@ -569,5 +653,54 @@ class ProjectsController extends AppController
 
 	}
 
+  function list_members()
+  {
+    $this->set('members_by_role', $this->_get_members_by_role());
+  }
+
+  function _get_members_by_role()
+  {
+    $members = $this->Member->find('all', array(
+      'order' => 'Role.position',
+      'conditions'=>array(
+        'project_id'=>$this->id
+      ),
+    ));
+    $members_by_role = array();
+    foreach($members as $member) {
+      if (!isset($members_by_role[$member['Role']['name']])) {
+        $members_by_role[$member['Role']['name']] = array();
+      }
+      $members_by_role[$member['Role']['name']][] = $member;
+    }
+    ksort($members_by_role);
+
+    return $members_by_role;
+  }
+
+  function _retrieve_selected_tracker_ids($selectable_trackers)
+  {
+    if (isset($this->parmas['tracker_ids'])) {
+      $ids = $this->parmas['tracker_ids'];
+      if (is_array($ids)) {
+      } else {
+        $ids = explode('/', $ids);
+      }
+    } else {
+      $ids = array();
+      foreach($selectable_trackers as $tracker) {
+        $ids[] = $tracker['Tracker']['id'];
+      }
+    }
+
+    return $ids;
+  }
+#  def retrieve_selected_tracker_ids(selectable_trackers)
+#    if ids = params[:tracker_ids]
+#      @selected_tracker_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
+#    else
+#      @selected_tracker_ids = selectable_trackers.collect {|t| t.id.to_s }
+#    end
+#  end
 }
 ?>

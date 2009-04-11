@@ -35,12 +35,13 @@
 
 	Router::connect('/login', array('controller' => 'account', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'account', 'action' => 'logout'));
-	Router::connect('/projects/:project_id/issues/:action/', array('controller' => 'issues'));
+	Router::connect('/projects/:project_id/issues/:action/*', array('controller' => 'issues'));
 	Router::connect('/projects/:action/:project_id', array('controller' => 'projects'));
 	Router::connect('/projects/:project_id/news/:action/', array('controller' => 'news'));
 	Router::connect('/projects/:project_id/documents/:action/', array('controller' => 'documents'));
 	Router::connect('/projects/:project_id/boards/:action/:id/', array('controller' => 'boards'));
 	Router::connect('/projects/:project_id/timelog/:action/:id/', array('controller' => 'timelog'), array('project_id' => '.+'));
+	Router::connect('/users/list', array('controller' => 'users', 'action' => 'list_'));
 
 #  map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
 #  map.connect 'projects/:project_id/news/:action', :controller => 'news'
@@ -101,5 +102,10 @@ Router::connect('wiki/:id/:wikipage/:action/*', array('controller' => 'wiki'));
 #  # Install the default route as the lowest priority.
 #  map.connect ':controller/:action/:id'
 #end
+/**
+ * Then we connect url '/test' to our test controller. This is helpful in
+ * developement.
+ */
+	Router::connect('/tests', array('controller' => 'tests', 'action' => 'index'));
 
 ?>

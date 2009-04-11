@@ -13,8 +13,7 @@
 <!-- <% labelled_tabular_form_for :news, @news, :url => { :controller => 'news', :action => 'new', :project_id => @project },
                                            :html => { :id => 'news-form' } do |f| %> -->
 <!-- TODO: プロジェクトIDをいれる -->
-<!-- <?php echo $form->create('News', array('url' => '/projects/' . 'test1' . '/news/new')) ; ?> -->
-<?php echo $form->create('News', array('url' => '/news/add')) ; ?>
+<?php echo $form->create('News', array('url' => "/projects/{$project['Project']['identifier']}/news/add")) ; ?>
 <!-- <%= render :partial => 'news/form', :locals => { :f => f } %> -->
 <?php echo $this->renderElement('news/_form') ; ?>
 <?php echo $form->submit( __('Create',true), aa('div', false) ) ; ?>

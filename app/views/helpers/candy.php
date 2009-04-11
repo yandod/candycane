@@ -122,7 +122,43 @@ class CandyHelper extends AppHelper
 #  def link_to_user(user, options={})
 #    (user && !user.anonymous?) ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
 #  end
+  function format_username($user, $format)
+  {
+    return $user['firstname'].' '.$user['lastname'];
+  }
+
+  function link_to_user($user, $options = array())
+  {
+    if (!isset($options['format'])) {
+      $options['format'] = ''; // @FIXME
+    }
+    if ($user) /* && !user.anonymous? */ {
+      return $this->Html->link($this->format_username($user, $options['format']), array('controller'=>'account', 'action'=>'show', 'id'=>$user['id']));
+    } else {
+      return 'Anonymous';
+    }
+  }
+#  def link_to_user(user, options={})
+#    (user && !user.anonymous?) ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
+#  end
 #
+  function link_to_issue($issue, $options = array())
+  {
+    if (!isset($options['class'])) {
+      $options['class'] = '';
+    }
+    $options['class'] .= ' issue';
+    if (isset($issue['closed'])) {
+      $options['class'] .= ' closed';
+    }
+
+    return $this->Html->link("{$issue['Tracker']['name']} #{$issue['Issue']['id']}", array('controller'=>'issues', 'action'=>'show', 'id'=>$issue['Issue']['id']), $options);
+#    options[:class] ||= ''
+#    options[:class] << ' issue'
+#    options[:class] << ' closed' if issue.closed?
+#    link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
+
+  }
 #  def link_to_issue(issue, options={})
 #    options[:class] ||= ''
 #    options[:class] << ' issue'
@@ -665,10 +701,21 @@ class CandyHelper extends AppHelper
 #    end
 #  end
 #
-#  def lang_options_for_select(blank=true)
-#    (blank ? [["(auto)", ""]] : []) +
-#      GLoc.valid_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
-#  end
+  /**
+   * lang_options_for_select
+   *
+   */
+  function lang_options_for_select($blank = true)
+  {
+    $list = array();
+    foreach (glob(APP . 'locale/*') as $dir) {
+      $path = explode('/', $dir);
+      $lang = end($path);
+      $list[$lang] = $lang;
+    }
+
+    return $list;
+  }
 #
 #  def label_tag_for(name, option_tags = nil, options = {})
 #    label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
@@ -831,4 +878,12 @@ class CandyHelper extends AppHelper
       return $one;
     }
   }
+
+  function check_all_links($form_name) {
+    $tmp = $this->Html->link(__('Check all',true), '#', array('onclick' => "checkAll('" . $form_name . "', true); return false;"));
+    $tmp .= ' | ';
+    $tmp .= $this->Html->link(__('Uncheck all',true), '#', array('onclick' => "checkAll('" . $form_name . "', false); return false;"));
+    return $tmp;
+  }
+  
 }

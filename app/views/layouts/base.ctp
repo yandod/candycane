@@ -18,6 +18,7 @@
 <!-- <%= call_hook :view_layouts_base_html_head %> -->
 <!-- page specific tags -->
 <!-- <%= yield :header_tags -%> -->
+<?php if (isset($header_tags)) echo $header_tags; ?>
 </head>
 <body>
 <div id="wrapper">
@@ -42,7 +43,7 @@
         <?php echo $this->renderElement('project_selector',aa('currentuser',$currentuser)) ?>
         <?php endif; ?>
     </div>
-         <h1><?php if (isset($Project)) { h($Project['name']); } else { echo $Settings->app_title; } ?></h1>
+         <h1><?php if (isset($main_project['Project']['name'])) { echo h($main_project['Project']['name']); } else { echo $Settings->app_title; } ?></h1>
 <!--     <h1><%= h(@project && !@project.new_record? ? @project.name : Setting.app_title) %></h1> -->
     
     <div id="main-menu">
@@ -85,6 +86,5 @@
 			?>
 </div>
 </div>
-<%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>
