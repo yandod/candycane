@@ -1,7 +1,11 @@
 <?php
-$status_type = array(
-  'anon', 'active', 'registered', 'locked'
-);
+/**
+ * list.ctp
+ *
+ */
+
+// const
+$status_type = array('anon', 'active', 'registered', 'locked');
 ?>
 <div class="contextual">
   <?php echo $html->link(__('label_user_new', true), '/users/add', array('class' => 'icon icon-add')); ?>
@@ -9,7 +13,9 @@ $status_type = array(
 
 <h2><?php __('label_filter_plural'); ?></h2>
 
-<?php echo $form->create(null, array('type' => 'get', 'url' => '/users/index')); ?>
+<?php
+echo $form->create(null, array('type' => 'get', 'url' => '/users/list'));
+?>
 <fieldset>
   <legend><?php __('label_filter_plural'); ?></legend>
 
@@ -23,7 +29,13 @@ $status_type = array(
     )
   ); ?>
 
-  <?php echo $form->input('name', array('class' => '30%', 'div' => false)); ?>
+  <?php echo $form->input('name', array(
+    'type'  => 'text',
+    'class' => '30%',
+    'div'   => false,
+    'value' => $name,
+    )
+  ); ?>
 
   <?php echo $form->submit(__('button_apply', true), array('class' => 'small', 'name' => null, 'div' => false)); ?>
 

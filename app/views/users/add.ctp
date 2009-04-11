@@ -9,6 +9,4 @@
     'checked' => 1,
   )
 ); ?>
-<%= check_box_tag 'send_information', 1, true %>
-<?php __('label_send_information'); ?>
 <?php e($form->end()); ?>

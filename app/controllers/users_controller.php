@@ -32,8 +32,7 @@ class UsersController extends AppController
    */
   function index()
   {
-    $this->list_();
-    $this->render('list'); // unless request.xhr?
+    return $this->list_(); // unless request.xhr?
   }
 
   /**
@@ -95,13 +94,6 @@ class UsersController extends AppController
 
     $this->set('status', $status);
 
-    #    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
-    #
-    #    unless params[:name].blank?
-    #      name = "%#{params[:name].strip.downcase}%"
-    #      c << ["LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?", name, name, name]
-    #    end
-    #    
     #    @user_count = User.count(:conditions => c.conditions)
     #    @user_pages = Paginator.new self, @user_count,
     #								per_page_option,
@@ -111,7 +103,25 @@ class UsersController extends AppController
     #                        :conditions => c.conditions,
     #                        :limit  =>  @user_pages.items_per_page,
     #                        :offset =>  @user_pages.current.offset
-    $users = $this->User->find('all');
+
+    if ($status > 0 && $status < 4) {
+      $condition = array('status' => $status);
+    } else {
+      $condition = array();
+    }
+
+    $name = null;
+    if(!empty($this->params['url']['name'])) {
+      $name = $this->params['url']['name'];
+      $condition['LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?'] = array($name, $name, $name);
+    } 
+
+    $this->set('name', $name);
+
+    $users = $this->User->find(
+      'all',
+      array('conditions' => $condition)
+    );
     $this->set('user_list', $users);
 
     $status_counts = $this->User->find('all',

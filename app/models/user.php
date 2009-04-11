@@ -3,19 +3,13 @@
  * user.php
  *
  */
-#require "digest/sha1"
-#
-#
-#  # Account statuses
+
+// Account statuses
 define('USER_STATUS_ANONYMOUS', 0);
 define('USER_STATUS_ACTIVE',    1);
 define('USER_STATUS_REGISTERED',2);
 define('USER_STATUS_LOCKED',    3);
-#  STATUS_ANONYMOUS  = 0
-#  STATUS_ACTIVE     = 1
-#  STATUS_REGISTERED = 2
-#  STATUS_LOCKED     = 3
-#  
+
 #  USER_FORMATS = {
 #    :firstname_lastname => '#{firstname} #{lastname}',
 #    :firstname => '#{firstname}',
@@ -57,11 +51,7 @@ define('USER_STATUS_LOCKED',    3);
 #  validates_length_of :password, :minimum => 4, :allow_nil => true
 #  validates_confirmation_of :password, :allow_nil => true
 #
-#  def before_create
-#    self.mail_notification = false
-#    true
-#  end
-#  
+  
 #  def reload(*args)
 #    @name = nil
 #    super
@@ -218,32 +208,8 @@ define('USER_STATUS_LOCKED',    3);
 #    end
 #    anonymous_user
 #  end
-#  
-#private
-#  # Return password digest
-#  def self.hash_password(clear_password)
-#    Digest::SHA1.hexdigest(clear_password || "")
-#  end
 #end
-#
-#class AnonymousUser < User
-#  
-#  def validate_on_create
-#    # There should be only one AnonymousUser in the database
-#    errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
-#  end
-#  
-#  def available_custom_fields
-#    []
-#  end
-#  
-#  # Overrides a few properties
-#  def logged?; false end
-#  def admin; false end
-#  def name; 'Anonymous' end
-#  def mail; nil end
-#  def time_zone; nil end
-#  def rss_key; nil end
+
 
 /**
  * User
@@ -255,7 +221,8 @@ class User extends AppModel
     'Membership' =>array(
       'className' => 'Member'
       )
-	);
+  );
+
   /**
    * no implement:
    * validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
@@ -294,6 +261,16 @@ class User extends AppModel
       'rule' => array('alphaNumeric', 'notEmpty')
     ),
   );
+
+  /**
+   * beforeCreate
+   *
+   */
+  function beforeCreate()
+  {
+    $this->data['User']['mail_notification'] = 0;
+    return true;
+  }
 
   /**
    * beforeSave
@@ -385,3 +362,28 @@ class User extends AppModel
     $this->save($user);
   }
 }
+
+/**
+ * AnonymousUser
+ *
+ */
+class AnonymousUser extends User
+{
+#  def validate_on_create
+#    # There should be only one AnonymousUser in the database
+#    errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
+#  end
+#  
+#  def available_custom_fields
+#    []
+#  end
+#  
+#  # Overrides a few properties
+#  def logged?; false end
+#  def admin; false end
+#  def name; 'Anonymous' end
+#  def mail; nil end
+#  def time_zone; nil end
+#  def rss_key; nil end
+}
+
