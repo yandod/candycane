@@ -1,5 +1,10 @@
 <?php
 /**
+ * account_controller.php
+ *
+ */
+
+/**
  * AccountController
  *
  * @todo implement yet
@@ -13,21 +18,21 @@ class AccountController extends AppController {
  
   // prevents login action to be filtered by check_if_login_required application scope filter
 
-    /**
-     * beforeFilter
-     *
-     * skip_before_filter :check_if_login_required, :only => [:login, :lost_password, :register, :activate]
-     */
-    function beforeFilter()
-    {
-        $skip_action = array('login', 'lost_password', 'register', 'activate');
-        if (!in_array($this->action, $skip_action)) {
-            parent::beforeFilter();
-        } else {
-        	 $this->setSettings(); // todo: kimoi
-        	 $this->set('currentuser',aa('logged',false));
-        }
+  /**
+   * beforeFilter
+   *
+   * skip_before_filter :check_if_login_required, :only => [:login, :lost_password, :register, :activate]
+   */
+  function beforeFilter()
+  {
+    $skip_action = array('login', 'lost_password', 'register', 'activate');
+    if (!in_array($this->action, $skip_action)) {
+      parent::beforeFilter();
+    } else {
+      $this->setSettings(); // todo: kimoi
+      $this->set('currentuser',aa('logged',false));
     }
+  }
 
 #  # Token based account activation
 #  def activate
