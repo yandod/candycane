@@ -86,6 +86,5 @@
 			?>
 </div>
 </div>
-<%= call_hook :view_layouts_base_body_bottom %>
 </body>
 </html>
