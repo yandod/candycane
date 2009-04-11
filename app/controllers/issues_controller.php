@@ -9,16 +9,13 @@ class IssuesController extends AppController
     'Project',
   );
   var $helpers = array(
-    'Ajax',
     'Issues',
     'Queries',
     'QueryColumn',
     'Paginator',
   );
-  var $components = array(
-    'RequestHandler',
-  );
   var $_query;
+  var $_show_filters;
   
 ## Redmine - project management software
 ## Copyright (C) 2006-2008  Jean-Philippe Lang
@@ -76,14 +73,13 @@ class IssuesController extends AppController
     $cond = array(
       'Issue.project_id' => $this->_project['Project']['id'],
     );
+    $limit = $this->_per_page_option();
     $this->paginate = array('Issue' => array(
-      'conditions' => $this->_query['Query']['filter_cond'],
+      'conditions' => $cond,
       'order' => 'Issue.id DESC',
+      'limit' => $limit,
     ));
     $this->set('issue_list', $this->paginate('Issue'));
-    if($this->RequestHandler->isAjax()) {
-      $this->layout = 'ajax';
-    }
   }
 #  def index
 #    retrieve_query
@@ -153,7 +149,7 @@ class IssuesController extends AppController
 #
   function add() {
 #    @issue = Issue.new
-
+/*
     if(isset($this->params['copy_from'])) {
       $this->Issue->copy_from($this->params['copy_from']);
     }
@@ -179,7 +175,7 @@ class IssuesController extends AppController
       if()
       $watcher_user_ids = params['issue']['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
     }
-
+*/
 #    @issue.author = User.current
 #    
 #    default_status = IssueStatus.default
@@ -569,7 +565,15 @@ class IssuesController extends AppController
 #  # Retrieve query from session or build a new query
   function _retrieve_query()
   {
+    $show_filters = $this->Query->show_filters();
+    $available_filters = $this->Query->available_filters();
     $query = a();
+    if (!isset($this->data['Filter'])) $this->data['Filter'] = a();
+    foreach ($show_filters as $field => $options) {
+      $this->data['Filter']['fields_' . $field] = $field;
+      $this->data['Filter']['operators_' . $field] = $options['operator'];
+      $this->data['Filter']['values_' . $field] = $options['values'];
+    }
     if (isset($this->params['query_id'])) {
     } else {
       $query = $this->Query->defaults();
@@ -577,12 +581,26 @@ class IssuesController extends AppController
       $query['Query']['filter_cond'][] = array('Issue.project_id' => $this->_project['Project']['id']);
       if (isset($this->params['url']['set_filter'], $this->params['form']['fields'])) {
         foreach ($this->params['form']['fields'] as $field) {
-          if ($add_filter_cond = $this->Query->get_filter_cond('Issue.' . $field, $this->params['form']['operators'][$field], $this->params['form']['values'][$field])) {
-            $query['Query']['filter_cond'][] = $add_filter_cond;
+          $operator = $this->params['form']['operators'][$field];
+          $value = $this->params['form']['values'][$field];
+          if (isset($available_filters[$field])) {
+            $show_filters[$field] = $available_filters[$field];
+            $this->data['Filter']['fields_' . $field] = $field;
+            $this->data['Filter']['operators_' . $field] = $operator;
+            $this->data['Filter']['values_' . $field] = $value;
           }
         }
       }
     }
+    foreach ($show_filters as $field => $options) {
+      $operator = $this->data['Filter']['operators_' . $field];
+      $value = $this->data['Filter']['values_' . $field];
+      if ($add_filter_cond = $this->Query->get_filter_cond('Issue', $field, $operator, $value)) {
+        $query['Query']['filter_cond'][] = $add_filter_cond;
+      }
+    }
+    $this->set('available_filters', $available_filters);
+    $this->set('show_filters', $this->_show_filters = $show_filters);
     $this->set('query', $this->_query = $query);
   }
 #  def retrieve_query
