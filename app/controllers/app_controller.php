@@ -8,8 +8,8 @@ class AppController extends Controller {
 
     var $layout = 'base';
     var $helpers = array('Html', 'Form', 'Javascript', 'Candy');
-    var $components = array('Cookie');
-	var $uses = array('User','Setting');
+    var $components = array('Cookie','MenuManager');
+	var $uses = array('User','Setting','Project');
     var $current_user; // alternate User.current
 
     /**
@@ -293,4 +293,13 @@ class AppController extends Controller {
   {
   	$this->set('Settings',$this->Setting);
   }
+  
+  function _findProject()
+  {
+    if ( isset($this->project_id) ) {
+    	
+    }
+  }
+  
+
 }
