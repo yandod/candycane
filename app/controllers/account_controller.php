@@ -1,27 +1,41 @@
 <?php
-#class AccountController < ApplicationController
-#  helper :custom_fields
-#  include CustomFieldsHelper   
-#  
-#  # prevents login action to be filtered by check_if_login_required application scope filter
-#
-#  # Show user's account
-#  def show
-#    @user = User.active.find(params[:id])
-#    @custom_values = @user.custom_values
-#    
-#    # show only public projects and private projects that the logged in user is also a member of
-#    @memberships = @user.memberships.select do |membership|
-#      membership.project.is_public? || (User.current.member_of?(membership.project))
-#    end
-#    
-#    events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
-#    @events_by_day = events.group_by(&:event_date)
-#    
-#  rescue ActiveRecord::RecordNotFound
-#    render_404
-#  end
-#
+/**
+ * account_controller.php
+ *
+ */
+
+/**
+ * AccountController
+ *
+ * @todo implement yet
+ */
+class AccountController extends AppController
+{
+
+  var $uses = array('User', 'Project', 'Setting');
+  var $helpers = array('Text');
+
+  //  helper :custom_fields
+  //  include CustomFieldsHelper   
+ 
+  // prevents login action to be filtered by check_if_login_required application scope filter
+
+  /**
+   * beforeFilter
+   *
+   * skip_before_filter :check_if_login_required, :only => [:login, :lost_password, :register, :activate]
+   */
+  function beforeFilter()
+  {
+    $skip_action = array('login', 'lost_password', 'register', 'activate');
+    if (!in_array($this->action, $skip_action)) {
+      parent::beforeFilter();
+    } else {
+      $this->setSettings(); // todo: kimoi
+      $this->set('currentuser',aa('logged',false));
+    }
+  }
+
 #  # Token based account activation
 #  def activate
 #    redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
@@ -37,42 +51,7 @@
 #    redirect_to :action => 'login'
 #  end
 #  
-#private
-#  def logged_user=(user)
-#    if user && user.is_a?(User)
-#      User.current = user
-#      session[:user_id] = user.id
-#    else
-#      User.current = User.anonymous
-#      session[:user_id] = nil
-#    end
-#  end
 #end
-
-/**
- * AccountController
- *
- * @todo implement yet
- */
-class AccountController extends AppController {
-
-    var $uses = array('User', 'Project', 'Setting');
-
-    /**
-     * beforeFilter
-     *
-     * skip_before_filter :check_if_login_required, :only => [:login, :lost_password, :register, :activate]
-     */
-    function beforeFilter()
-    {
-        $skip_action = array('login', 'lost_password', 'register', 'activate');
-        if (!in_array($this->action, $skip_action)) {
-            parent::beforeFilter();
-        } else {
-        	 $this->setSettings(); // todo: kimoi
-        	 $this->set('currentuser',aa('logged',false));
-        }
-    }
 
   /**
    * register
@@ -81,7 +60,6 @@ class AccountController extends AppController {
    *
    * @todo Email Activation
    * @todo flash
-   * @todo logged_user
    * @todo Mailer
    */
   function register()
@@ -103,13 +81,13 @@ class AccountController extends AppController {
     if ($this->Session->read('auth_source_registration')) {
       $this->data['User']['status'] = 1; // active
 
-      $auth_source_registration = $this->Session->('auth_source_registration');
+      $auth_source_registration = $this->Session->read('auth_source_registration');
       $this->data['User']['login'] = $auth_source_registration['login'];
 
       $this->data['User']['auth_source_id'] = $auth_source_registration['auth_source_id'];
       if ($this->User->save($this->data)) {
         $this->Session->write('auth_source_registration', null);
-        # self.logged_user = @user
+        $this->logged_user($this->User->findByLogin($this->data['User']['login']));
 
         # flash[:notice] = l(:notice_account_activated)
         $this->redirect('/my/account');
@@ -127,9 +105,9 @@ class AccountController extends AppController {
         break;
       case '3':
         // Automatic activation
-        $this->User->set(array('User' => array('status' => 1)));
-        if ($this->User->save()) {
-          # self.logged_user = @user
+        $this->data['User']['status'] = 1;
+        if ($this->User->save($this->data)) {
+          $this->logged_user($this->User->findByLogin($this->data['User']['login']));
           # flash[:notice] = l(:notice_account_activated)
           $this->redirect('/my/account');
         }
@@ -181,11 +159,10 @@ class AccountController extends AppController {
             // Onthefly creation failed, display the registration form to fill/fix attributes
 #        @user = user
 #        session[:auth_source_registration] = {:login => user.login, :auth_source_id => user.auth_source_id }
-#        render :action => 'register'
-            return 'register';
+          $this->render('register');
         } else {
-            // Valid user
-#        self.logged_user = user
+          // Valid user
+          $this->logged_user($user);
 
 #        # generate a key and set cookie if autologin
 #        if params[:autologin] && Setting.autologin?
@@ -193,8 +170,8 @@ class AccountController extends AppController {
 #          cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
 #        end
 #        redirect_back_or_default :controller => 'my', :action => 'page'
-            $this->Session->write('user_id', $user['id']); // @todo atode kesu
-            $this->redirect('/');        
+
+          $this->redirect('/');        
         }
     }
 
@@ -227,7 +204,10 @@ class AccountController extends AppController {
     {
         $id = (int)$id;
 
-        $user = $this->User->findById($id);
+        $user = $this->User->find('first',
+          array('conditions' => array('User.id' => $id))
+        );
+
         if (!is_array($user)) {
             $this->cakeError('error', array('message' => "user id {$id} not found."));
         }
@@ -291,4 +271,22 @@ class AccountController extends AppController {
       }
     }
 
+  /**
+   * logged_user
+   * @access private
+   */
+  function logged_user($user)
+  {
+    if (isset($user['User'])) {
+      $user = $user['User'];
+    }
+
+    if (isset($user) && is_array($user)) {
+      $this->currentuser = $this->User->findById($user['id']);
+      $this->Session->write('user_id', $user['id']);
+    } else {
+      $this->currentuser = null;
+      $this->Session->write('user_id', null);
+    }
+  }
 }

@@ -34,7 +34,7 @@ vim: filetype=php
     <h3 class="icon22 icon22-tracker"><?php __('Issue tracking') ?></h3>
     <ul>
     <?php foreach($this->data['Tracker'] as $tracker): ?>
-    <li><?php echo $html->link(h($tracker['name']), array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'], '?set_filter=1', 'tracker_id'=>$tracker['id'])) ?>:
+    <li><?php echo $html->link(h($tracker['name']), array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'], '?' . http_build_query(array('set_filter' => '1', 'tracker_id' => $tracker['id']), '', '&'))) ?>:
     <?php echo $tracker['open_issues_by_tracker'] ?> <?php echo $candy->lwr('open', $tracker['open_issues_by_tracker']) ?>
     <?php __("'on'") ?> <?php echo $tracker['total_issues_by_tracker'] ?></li>
     <?php endforeach ?>

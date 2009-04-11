@@ -650,7 +650,7 @@ class ProjectsController extends AppController
 	
 	function settings()
 	{
-
+         //:TODO yando やる
 	}
 
   function list_members()

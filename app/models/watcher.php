@@ -29,3 +29,6 @@
 #    errors.add :user_id, :activerecord_error_invalid unless user.nil? || user.active?
 #  end
 #end
+class Watcher extends AppModel {
+	var $name = 'Watcher';
+}

@@ -41,6 +41,7 @@
 	Router::connect('/projects/:project_id/documents/:action/', array('controller' => 'documents'));
 	Router::connect('/projects/:project_id/boards/:action/:id/', array('controller' => 'boards'));
 	Router::connect('/projects/:project_id/timelog/:action/:id/', array('controller' => 'timelog'), array('project_id' => '.+'));
+	
 	Router::connect('/users/list', array('controller' => 'users', 'action' => 'list_'));
 
 #  map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
@@ -67,7 +68,7 @@
 #  map.signin 'login', :controller => 'account', :action => 'login'
 #  map.signout 'logout', :controller => 'account', :action => 'logout'
 #  
-Router::connect('wiki/:id/:page/:action', array('controller' => 'wiki', 'page' => null, 'version' => null));
+Router::connect('wiki/:id/:wikipage/:action/*', array('controller' => 'wiki'));
 #  map.connect 'wiki/:id/:page/:action', :controller => 'wiki', :page => nil
 #  map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
 #  map.connect 'help/:ctrl/:page', :controller => 'help'

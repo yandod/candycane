@@ -1,4 +1,4 @@
-<% form_tag({:action => 'edit'}) do %>
+<!--  <% form_tag({:action => 'edit'}) do %> -->
 
 <div class="box tabular settings">
 <p><label><%= l(:setting_app_title) %></label>
