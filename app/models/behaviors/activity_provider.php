@@ -80,13 +80,14 @@ class ActivityProviderBehavior extends ModelBehavior {
     $alias = Inflector::pluralize(Inflector::underscore($Model->alias));
     $this->_defaults = array(
       'type'=>$alias, 
-      'permission'=>"view_$alias", 
-      'timestamp'=>"$table_name.created_on", 
+      'permission'=>"view_$alias",
+      'timestamp'=>"{$Model->alias}.created_on",
       'author_key'=>false, 
-      'find_options'=>array());
+      'find_options'=>array()
     );
 
-    if(!empty(array_diff_key($config, $this->_defaults))) {
+    $diff = array_diff_key($config, $this->_defaults);
+    if(!empty($diff)) {
       return false;
     }
     $settings = array_merge($this->_defaults, $config);
@@ -103,6 +104,13 @@ class ActivityProviderBehavior extends ModelBehavior {
 
   # Returns events of type event_type visible by user that occured between from and to
   function find_events(&$Model, $event_type, $user, $from, $to, $options) {
+    if (is_numeric($from)) {
+      $from = date('Y-m-d H:i:s', $from);
+    }
+    if (is_numeric($to)) {
+      $to = date('Y-m-d H:i:s', $to);
+    }
+
     $provider_options = $this->settings[$event_type];
     if(empty($provider_options)) {
       return $this->cakeError('error', "Can not provide $event_type events.");
@@ -110,28 +118,41 @@ class ActivityProviderBehavior extends ModelBehavior {
     $scope_options = array();
     $cond = new Condition();
     if($from && $to) {
-      $cond->add(array($this->settings['timestamp']." BETWEEN ? AND ?"=>array($from, $to)));
+      $cond->add(array($provider_options['timestamp']." BETWEEN ? AND ?"=>array($from, $to)));
     }
     if(isset($options['author'])) {
       if(empty($provider_options['author_key'])) {
         return array();
       }
-      $cond->add(array($this->settings['author_key'] => $options['author']['id']));
+      $cond->add(array($provider_options['author_key'] => $options['author']['id']));
     }
     if(isset($options['permission'])) {
       $project = & ClassRegistry::init('Project');
       $cond->add($project->allowed_to_condition($user, $options['permission'], options));
     }
     $scope_options['conditions'] = $cond->conditions;
-    if($options['limit']) {
+    if(isset($options['limit'])) {
       # id and creation time should be in same order in most cases
       $scope_options['order'] = $Model->table.".id DESC";
-      $scope_options['limit'] = $options['limit'];
+      $scope_options['limit'] = $provider_options['limit'];
     }
 
+    $values = $Model->find('all', array_merge($provider_options['find_options'], $scope_options));
+    $ret = array();
+    list($mname, $cname) = explode('.', $provider_options['timestamp']);
+    foreach($values as $value) {
+      $time = strtotime($value[$mname][$cname]);
+      $day = strtotime(date('Y-m-d 00:00:00', strtotime($value[$mname][$cname])));
+      if (!isset($ret[$day])) {
+        $ret[$day] = array();
+      }
+      if (!isset($ret[$day][$time])) {
+        $ret[$day][$time] = array();
+      }
+      $ret[$day][$time][] = $value;
+    }
 
-
-    return $Model->find('all', array_merge($provider_options['find_options'], $scope_options));
+    return $ret;
   }
  
 }

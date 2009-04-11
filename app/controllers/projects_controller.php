@@ -549,6 +549,28 @@ class ProjectsController extends AppController
     $this->set('author', $author);
 #    @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
 
+    $issues = $this->Issue->find_events('issues', $this->current_user, $date_from, $date_to, array(
+      'projects' => $this->data,
+      'with_subprojects' => false,
+      'author' => $author,
+    ));
+
+    $events_by_day = array();
+    foreach($issues as $day=>$issue) {
+      if (!isset($events_by_day[$day])) {
+        $events_by_day[$day] = array();
+      }
+      foreach($issue as $time=>$data) {
+        if (!isset($events_by_day[$day][$time])) {
+          $events_by_day[$day][$time] = array();
+        }
+        $events_by_day[$day][$time] = $data;
+      }
+      krsort($events_by_day[$day]);
+    }
+    krsort($events_by_day);
+
+    $this->set('events_by_day', $events_by_day);
   }
 #  
 #private

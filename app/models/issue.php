@@ -34,6 +34,12 @@ class Issue extends AppModel
       'foreignKey' => 'category_id',
     ),
   );
+  var $actsAs = array('ActivityProvider' => array(
+      'author_key' => 'author_id',
+      'find_options' => array(
+      ),
+    ));
+
 #  belongs_to :project
 #  belongs_to :tracker
 #  belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
