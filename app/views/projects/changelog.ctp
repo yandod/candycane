@@ -10,36 +10,17 @@ vim: filetype=php
 <?php foreach($this->data['Version'] as $version): ?>
     <a name="<?php echo h($version['name']) ?>"><h3 class="icon22 icon22-package"><?php echo h($version['name']) ?></h3></a>
     <?php if ($version['effective_date']): ?>
-      <p><%= format_date(version.effective_date) %></p>
+      <p><?php echo $time->niceShort($version['effective_date']) ?></p>
     <?php endif ?>
     <p><?php echo h($version['description']) ?></p>
-    <% issues = version.fixed_issues.find(:all,
-                                 :include => [:status, :tracker],
-                                 :conditions => ["#{IssueStatus.table_name}.is_closed=? AND #{Issue.table_name}.tracker_id in (#{@selected_tracker_ids.join(',')})", true],
-                                 :order => "#{Tracker.table_name}.position") unless @selected_tracker_ids.empty?
-       issues ||= []
-    %>
-    <% if !issues.empty? %>
+<?php if (count($version['Issue']) != 0): ?>
     <ul>
-      <% issues.each do |issue| %>
-        <li><%= link_to_issue(issue) %>: <%=h issue.subject %></li>
-      <% end %>
+<?php foreach($version['Issue'] as $issue): ?>
+    <li><?php echo $candy->link_to_issue($issue) ?>: <?php echo h($issue['Issue']['subject']) ?></li>
+<?php endforeach ?>
     </ul>
-    <% end %>
+<?php endif ?>
 <?php endforeach ?>
 
-<% content_for :sidebar do %>
-<% form_tag do %>
-<h3><%= l(:label_change_log) %></h3>
-<% @trackers.each do |tracker| %>
-  <label><%= check_box_tag "tracker_ids[]", tracker.id, (@selected_tracker_ids.include? tracker.id.to_s) %>
-  <%= tracker.name %></label><br />
-<% end %>
-<p><%= submit_tag l(:button_apply), :class => 'button-small' %></p>
-<% end %>
+<?php $this->set('Sidebar', $this->renderElement('projects/sidebar/changelog')) ?>
 
-<h3><%= l(:label_version_plural) %></h3>
-<% @versions.each do |version| %>
-<%= link_to version.name, :anchor => version.name %><br />
-<% end %>
-<% end %>
