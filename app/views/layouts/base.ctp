@@ -46,6 +46,15 @@
 <!--     <h1><%= h(@project && !@project.new_record? ? @project.name : Setting.app_title) %></h1> -->
     
     <div id="main-menu">
+		<ul>
+<?php foreach ($main_menu as $item): ?>
+<?php
+  $url = aa('controller',$item['controller'],'action',$item['action']);
+  $option = aa('class',$item['class']); 
+?>
+			<li><?php echo $html->link($item['caption'],$url,$option); ?></li>
+<?php endforeach; ?>
+		</ul>
 <!--         <%= render_main_menu(@project) %> -->
     </div>
 </div>
