@@ -102,5 +102,10 @@ Router::connect('wiki/:id/:page/:action', array('controller' => 'wiki', 'page' =
 #  # Install the default route as the lowest priority.
 #  map.connect ':controller/:action/:id'
 #end
+/**
+ * Then we connect url '/test' to our test controller. This is helpful in
+ * developement.
+ */
+	Router::connect('/tests', array('controller' => 'tests', 'action' => 'index'));
 
 ?>
