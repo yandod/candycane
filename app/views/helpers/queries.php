@@ -59,6 +59,10 @@ class QueriesHelper extends AppHelper
       return $column;
     }
   }
+  
+  function name($query) {
+    return strlen($query['Query']['name']) ? $query['Query']['name'] : 'Ticket';
+  }
 #  def column_content(column, issue)
 #    if column.is_a?(QueryCustomFieldColumn)
 #      cv = issue.custom_values.detect {|v| v.custom_field_id == column.custom_field.id}

@@ -33,16 +33,16 @@
     <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
     <% end %>
     </div>
-    <h2><%=h @query.name %></h2>
+    <h2><?php echo h(__($queries->name($query), true)) ?></h2>
     <div id="query_form"></div>
-    <% html_title @query.name %>
+    <?php $candy->html_title(__($queries->name($query), true)) ?>
 <% end %>
 <%= error_messages_for 'query' %>
 <% if @query.valid? %>
 <?php if (!$issues): ?>
 <p class="nodata"><%= l(:label_no_data) %></p>
 <?php else: ?>
-<?php echo $this->renderElement('issues/list', array('issues' => $issues, 'query' => $query)) ?>
+<?php echo $this->renderElement('issues/list', array('issue_list' => $issue_list, 'query' => $query)) ?>
 <p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
 
 <p class="other-formats">
@@ -54,9 +54,7 @@
 <?php endif ?>
 <% end %>
 
-<% content_for :sidebar do %>
-    <%= render :partial => 'issues/sidebar' %>
-<% end %>
+<?php $this->set('Sidebar', $this->renderElement('issues/sidebar')) ?>
 
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_issue_plural)) %>
