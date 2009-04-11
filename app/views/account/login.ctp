@@ -1,30 +1,28 @@
 <div id="login-form">
-<?php e($form->create(null, array('url' => '/account/login'))); ?>
+<?php e($form->create('User', array('url' => '/account/login'))); ?>
 <%= back_url_hidden_field_tag %>
-<table>
+
+<table width="50%">
 <tr>
-  <td align="right">
-    <label for="username"><?php __('field_login'); ?>:</label>
-  </td>
-  <td align="left">
-    <p><?php e($form->input('username', array('label' => false, 'size' => '40%'))); ?></p>
+  <td align="left" colspan="2">
+    <p>
+    <?php e($form->input('username', array('size' => '40%'))); ?>
+    </p>
   </td>
 </tr>
 
 <tr>
-  <td align="right"><label for="password"><?php __('field_password'); ?>:</label></td>
-  <td align="left">
-    <p><?php e($form->input('password', array('type' => 'password', 'label' => false, 'size' => '40%'))); ?></p>
+  <td align="left" colspan="2">
+    <p><?php e($form->input('password', array('type' => 'password', 'size' => '40%'))); ?></p>
   </td>
 </tr>
 
 <tr>
-  <td></td>
-  <td align="left">
-    <?php if (isset($setting->autologin)): ?>
-    <label for="autologin"><%= check_box_tag 'autologin' %><?php __('label_stay_logged_in'); ?></label>
+  <td align="left" colspan="2">
+    &nbsp;&nbsp;<?php if (isset($setting->autologin)): ?>
+    <?php echo $form->input('autologin', array('type' => 'checkbox', 'options' => array(1))); ?>
     <?php endif; ?>
-    </td>
+  </td>
 </tr>
 
 <tr>
@@ -34,10 +32,13 @@
     <?php endif; ?>
   </td>
   <td align="right">
-    <?php e($form->submit('button_login' . ' &#187', array('name' => 'login'))); ?>
+    <?php e($form->submit(__('button_login', true) . ' &#187', array('name' => 'login'))); ?>
   </td>
 </tr>
 </table>
+
 <%= javascript_tag "Form.Element.focus('username');" %>
+
 <?php e($form->end()); ?>
+
 </div>

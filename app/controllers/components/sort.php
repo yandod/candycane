@@ -13,6 +13,7 @@ class SortComponent extends Object
   var $components = array('Session');
 
   var $sort_name = null;
+  var $sort_default = null;
 
   /**
    * startUp
@@ -20,6 +21,29 @@ class SortComponent extends Object
   public function startUp($controller) {
     $this->controller = $controller;
     $this->params = $controller->params;
+  }
+
+  /**
+   * sort_init
+   *
+   * Initializes the default sort column (default_key) and sort order
+   * (default_order).
+   *
+   * - default_key is a column attribute name.
+   * - default_order is 'asc' or 'desc'.
+   * - name is the name of the session hash entry that stores the sort state,
+   *   defaults to '<controller_name>_sort'.
+   *
+   */
+  function sort_init($default_key, $default_order = 'asc', $name = null)
+  {
+    if ($name != null) {
+      $this->sort_name = $name;
+    } else {
+      $this->sort_name = $this->params['controller'] . $this->params['action'] . '_sort';
+    }
+
+    $this->sort_default = array('key' => $default_key, 'order' => $default_order);
   }
 
   /**
@@ -66,7 +90,7 @@ class SortComponent extends Object
     }
 
     if (is_array($sort_keys)) {
-      $sort_column = $sort_keys[$sort['key']];
+      $sort_column = $sort['key'];
     }
     
     $this->sort_clause = null;
@@ -74,6 +98,17 @@ class SortComponent extends Object
       $this->sort_clause = "{$sort_column} {$sort['order']}";
     }
 
+    return $this->sort_clause;
+  }
+
+  /**
+   * sort_clause
+   *
+   * Returns an SQL sort clause corresponding to the current sort state.
+   * Use this to sort the controller's table items collection.
+   */
+  function sort_clause()
+  {
     return $this->sort_clause;
   }
 

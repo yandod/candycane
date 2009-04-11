@@ -24,12 +24,12 @@ class Project extends AppModel
 {
   var $name = 'Project';
 
-  var $belongsTo = array(
-    'Parent' => array(
-      'className'=>'Project',
-      'foreignKey'=>'parent_id',
-    ),
-  );
+//  var $belongsTo = array(
+//    'Parent' => array(
+//      'className'=>'Project',
+//      'foreignKey'=>'parent_id',
+//    ),
+//  );
   var $hasMany = array(
     'Version',
     'TimeEntry',
@@ -51,6 +51,12 @@ class Project extends AppModel
   {
     return $this->find('first', array('conditions'=>array($this->name.'.identifier'=>$identifier)));
   }
+
+  function findSubprojects($id)
+  {
+    return $this->find('all', array('conditions'=>array($this->name.'.parent_id'=>$id)));
+  }
+
 #  # Project statuses
 #  STATUS_ACTIVE     = 1
 #  STATUS_ARCHIVED   = 9
@@ -178,6 +184,16 @@ class Project extends AppModel
 #    statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
 #  end
 #  
+  function project_condition($with_subprojects)
+  {
+    $cond = array($this->name.'.id' => $this->id);
+    if ($with_subprojects) {
+      $cond['or'] = $cond;
+      $cond['or'][$this->name.'.parent_id'] = $this->id;
+    }
+
+    return $cond;
+  }
 #  def project_condition(with_subprojects)
 #    cond = "#{Project.table_name}.id = #{id}"
 #    cond = "(#{cond} OR #{Project.table_name}.parent_id = #{id})" if with_subprojects
@@ -295,25 +311,37 @@ class Project extends AppModel
 		return $short_description;
 	}
 
-	function afterFind($result,$primary= false )
-	{
-//		pr(func_get_args());
-//		pr($results);
-//		exit;
-		if ($primary) {
-		  $results = $result;
-		} else {
-		 $results = array(aa($this->alias,$result));
-		}
-		foreach ($results as $key => $val) {
-			if (isset($val[$this->alias]['description'])) {
-				$results[$key][$this->alias]['short_description'] = $this->short_description($val[$this->alias]['description']);
-			} else {
-				$results[$key][$this->alias]['short_description'] = '';
-			}
-		}
-		return $results;
-	}
+  function afterFind($results, $primary = false)
+  {
+    foreach($results as $key=>$result) {
+      if (isset($result[$this->alias][0])) {
+        foreach($result[$this->alias] as $key2=>$version) {
+          $results[$key][$this->alias][$key2] = $this->afterFindOne($version);
+        }
+      } else {
+        $results[$key][$this->alias] = $this->afterFindOne($results[$key][$this->alias]);
+      }
+    }
+
+    return $results;
+  }
+
+  function afterFindOne($result)
+  {
+    if (empty($result)) { return $result; }
+    if (isset($result['description'])) {
+      $result['short_description'] = $this->short_description($result['description']);
+    } else {
+      $result['short_description'] = '';
+    }
+    if (!empty($result['identifier'])) {
+      $result['identifier_or_id'] = $result['identifier'];
+    } else {
+      $result['identifier_or_id'] = $result['id'];
+    }
+
+    return $result;
+  }
 
 #  
 #  def allows_to?(action)

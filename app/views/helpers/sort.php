@@ -63,7 +63,8 @@
  */
 class SortHelper extends AppHelper
 {
-  var $helpers = array('Session');
+  var $helpers = array('Session', 'Html', 'Ajax');
+  var $components = array('Sort');
 
   // sort_init moved SortComponent
   // sort_update moved SortComponent
@@ -151,8 +152,22 @@ class SortHelper extends AppHelper
    * - The optional caption explicitly specifies the displayed link text.
    * - A sort icon image is positioned to the right of the sort link.
    */
-  function sort_link($column, $caption, $default_order)
+  function sort_link($column, $caption = null, $default_order)
   {
+    if ($caption == null) {
+      $caption = __($column, true);
+    }
+
+    $html = $this->Ajax->link($caption,
+      '?sort_key=login&amp;sort_order=desc',
+      array(),
+      array('update' => 'post')
+    );
+    $html.= "&nbsp;&nbsp;";
+
+    //$key = $this->Session->read()
+    //if 
+
 #    key, order = session[@sort_name][:key], session[@sort_name][:order]
 #    if key == column
 #      if order.downcase == 'asc'
