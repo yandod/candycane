@@ -75,6 +75,13 @@ class IssueStatus extends AppModel
 {
   var $name = 'IssueStatus';
   var $actsAs = array('List');
-
+  var $validate = array(
+    'name' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_uniqueness_of'=>array('rule'=>array('isUnique')),
+      'validates_length_of'=>array('rule'=>array('maxLength', 30)),
+      'validates_format_of'=>array('rule'=>array('alphaNumeric'))
+    ),
+  );
 }
 
