@@ -20,6 +20,8 @@ class WikiController extends AppController {
     $this->set('editable', $this->is_editable());
     $this->render('show');
   }
+  function special() {
+  }
 
   function beforeFilter() {
     $this->_find_wiki();
@@ -34,17 +36,17 @@ class WikiController extends AppController {
 
   function _find_wiki()
   {
-    $this->project = $this->Project->find($this->params['id']);
-    if (!$this->project) {
+    $project = $this->Project->find($this->params['id']);
+    if (!$project) {
         $this->cakeError('error404');
     }
-    $this->wiki = $this->Wiki->Find('first', 
-                                    array('conditions'=>aa('Wiki.project_id', $this->project['Project']['id'])));
+    $this->wiki = $this->Wiki->Find('first', array('conditions'=>aa('Wiki.project_id', $project['Project']['id'])));
     if (!$this->wiki) {
         $this->cakeError('error404');
     }
-    $this->set('project', $this->project);
+    $this->set('project', $project);
     $this->set('wiki', $this->wiki);
+    $this->set('currentuser', $this->current_user); // これで動くようになるけど、ホントはもっと上位で設定すべきでは？
   }
 
   function _find_existing_page()
