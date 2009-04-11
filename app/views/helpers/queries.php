@@ -4,6 +4,7 @@ class QueriesHelper extends AppHelper
   var $name = 'Queries';
   var $helpers = array(
     'Html',
+    'Candy',
   );
   
 ## redMine - project management software
@@ -54,7 +55,7 @@ class QueriesHelper extends AppHelper
     case 'assigned_to':
       return h($issue['AssignedTo']['firstname'] . ' ' . $issue['AssignedTo']['lastname']);
     case 'updated_on':
-      return h($issue['Issue']['updated_on']);
+      return $this->Candy->format_date($issue['Issue']['updated_on']);
     default:
       return $column;
     }
