@@ -19,7 +19,7 @@
 class ProjectsController extends AppController
 {
   var $name = 'Projects';
-  var $uses = array('Project', 'User', 'Tracker', 'IssueCustomField', 'Permission', 'CustomFieldsProject', 'EnabledModule');
+  var $uses = array('Project', 'User', 'Tracker', 'IssueCustomField', 'Permission', 'CustomFieldsProject', 'EnabledModule', 'Version');
   var $helpers = array('Time', 'Project');
   var $components = array('RequestHandler');
 
@@ -291,10 +291,10 @@ class ProjectsController extends AppController
 #  end
   function add_version()
   {
-    if(!empty($this->data)) {
-      if($this->Version->save($this->data, true, array('name', 'description', 'wiki_page_title', 'effective_date'))) {
+    if($this->RequestHandler->isPost()) {
+      if($this->Version->save($this->data, true, array('project_id', 'name', 'description', 'wiki_page_title', 'effective_date'))) {
         $this->Session->setFlash(__('Successful create.'));
-        $this->redirect('/settings/versions/'.$this->data['Project']['id']);
+        $this->redirect('/projects/settings/'.$this->data['Project']['id']);
       }
     }
   }
@@ -424,6 +424,7 @@ class ProjectsController extends AppController
     $data = null;
     if (!empty($this->data)) {
       $data = $this->data;
+      $this->data = null;
     }
     if (!empty($this->params['project_id'])) {
       $this->data = $this->Project->findByIdentifier($this->params['project_id']);
@@ -439,6 +440,11 @@ class ProjectsController extends AppController
         $this->id = $this->data['Project']['id'];
         $this->data = $this->Project->read();
       }
+    }
+
+    if (empty($this->data)) {
+      $this->cakeError('error404');
+      return;
     }
 
     if (!empty($data)) {
@@ -473,7 +479,7 @@ class ProjectsController extends AppController
 #  end
 #end
 	
-	function settings($project_name)
+	function settings()
 	{
 
 	}
