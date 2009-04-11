@@ -122,6 +122,10 @@ msgstr "同じプロジェクトに属していません"
 msgid "Assigned to"
 msgstr "担当者"
 
+# field_assigned_to 2
+msgid "Assigned To"
+msgstr "担当者"
+
 # field_is_filter
 msgid "Used as a filter"
 msgstr "フィルタとして使う"
@@ -880,6 +884,10 @@ msgstr "'チケットが見つかりません、もしくはこのプロジェ�
 
 # field_updated_on
 msgid "Updated"
+msgstr "更新日"
+
+# field_updated_on 2
+msgid "Updated On"
 msgstr "更新日"
 
 # label_roadmap_overdue
@@ -2542,3 +2550,6 @@ msgstr "認証"
 msgid "Issues by %s"
 msgstr "%s別のチケット"
 
+# label_ticket
+msgid "Ticket"
+msgstr "チケット"

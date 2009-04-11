@@ -37,7 +37,7 @@ class QueriesHelper extends AppHelper
 #
   function columns($query = null)
   {
-    if (!$query) return $this->Settings->issue_list_default_columns;
+    return $this->Settings->issue_list_default_columns;
   }
 
   function column_content($column, $issue)
@@ -58,6 +58,10 @@ class QueriesHelper extends AppHelper
     default:
       return $column;
     }
+  }
+  
+  function name($query) {
+    return strlen($query['Query']['name']) ? $query['Query']['name'] : 'Ticket';
   }
 #  def column_content(column, issue)
 #    if column.is_a?(QueryCustomFieldColumn)

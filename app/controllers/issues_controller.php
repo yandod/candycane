@@ -2,8 +2,18 @@
 class IssuesController extends AppController
 {
   var $name = 'Issues';
-  var $uses = array('User', 'Issue', 'Query');
-  var $helpers = array('Queries', 'Paginator');
+  var $uses = array(
+    'User',
+    'Issue',
+    'Query',
+    'Project',
+  );
+  var $helpers = array(
+    'Issues',
+    'Queries',
+    'QueryColumn',
+    'Paginator',
+  );
   var $_query;
   
 ## Redmine - project management software
@@ -31,6 +41,11 @@ class IssuesController extends AppController
 #  before_filter :find_project, :only => [:new, :update_form, :preview]
 #  before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :update_form, :context_menu]
 #  before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
+  function beforeFilter()
+  {
+    $this->_find_project();
+    return parent::beforeFilter();
+  }
 #  accept_key_auth :index, :changes
 #
 #  helper :journals
@@ -54,10 +69,14 @@ class IssuesController extends AppController
   function index()
   {
     $this->_retrieve_query();
+    $cond = array(
+      'Issue.project_id' => $this->_project['Project']['id'],
+    );
     $this->paginate = array('Issue' => array(
+      'conditions' => $cond,
       'order' => 'Issue.id DESC',
     ));
-    $this->set('issues', $this->paginate('Issue'));
+    $this->set('issue_list', $this->paginate('Issue'));
   }
 #  def index
 #    retrieve_query
@@ -456,6 +475,18 @@ class IssuesController extends AppController
 #    render_404
 #  end
 #  
+  function _find_project()
+  {
+    if ($this->_project = $this->Project->find('first', array(
+      'conditions' => array(
+        'Project.identifier' => $this->params['project_id'],
+      ),
+    ))) {
+      $this->set('project', $this->_project);
+    } else {
+      $this->cakeError('error404');
+    }
+  }
 #  def find_project
 #    @project = Project.find(params[:project_id])
 #  rescue ActiveRecord::RecordNotFound
@@ -481,6 +512,7 @@ class IssuesController extends AppController
         'conditions' => $cond,
       ));
     }
+    if (!$query) $query = $this->Query->defaults();
     $this->set('query', $query);
   }
 #  def retrieve_query
