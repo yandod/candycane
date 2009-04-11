@@ -26,6 +26,9 @@
 #  end
 #end
 #
+#
+
+require_once ('custom_field.php');
 
 class IssueCustomField extends CustomField
 {

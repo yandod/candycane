@@ -1,7 +1,9 @@
 <h2><?php __('New project') ?></h2>
 
 <?php echo $form->create('Project', array('action'=>'add')) ?>
+<?php /*
 <% labelled_tabular_form_for :project, @project, :url => { :action => "add" } do |f| %>
+ */ ?>
 <?php echo $this->element('projects/form') ?>
 <?php /*
 <%= render :partial => 'form', :locals => { :f => f } %>
@@ -17,6 +19,8 @@
 </fieldset>
 
 <?php echo $form->submit(__('Save', true)) ?>
+<?php /*
 <% end %>
+ */ ?>
 <?php echo $form->end() ?>
 

@@ -41,6 +41,11 @@ class Project extends AppModel
     'foreignKey'=>'project_id',
     'associationForeignKey'=>'tracker_id',
   ));
+
+  function findByIdentifier($identifier)
+  {
+    return $this->find('first', array('conditions'=>array($this->name.'.identifier'=>$identifier)));
+  }
 #  # Project statuses
 #  STATUS_ACTIVE     = 1
 #  STATUS_ARCHIVED   = 9

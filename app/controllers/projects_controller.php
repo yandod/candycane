@@ -19,8 +19,8 @@
 class ProjectsController extends AppController
 {
   var $name = 'Projects';
-  var $uses = array('Project', 'User', 'Tracker');
-  var $helpers = array('Time');
+  var $uses = array('Project', 'User', 'Tracker', 'IssueCustomField');
+  var $helpers = array('Time', 'Project');
 
 #  menu_item :overview
 #  menu_item :activity, :only => :activity
@@ -115,7 +115,15 @@ class ProjectsController extends AppController
     $this->set('trackers', $trackers);
 
 #    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
-    $issue_custom_fields = $this->IssueCustomField->find('all');
+    $issue_custom_fields = $this->IssueCustomField->find('all', array('order'=>$this->IssueCustomField->name.".position"));
+    $this->set('issue_custom_fields', $issue_custom_fields);
+
+    $root_project_inputs = $this->Project->find('all', array('conditions'=>array($this->Project->name.'.parent_id'=>NULL, $this->Project->name.'.status'=>PROJECT_STATUS_ACTIVE), 'order'=>$this->Project->name.'.name'));
+    $root_projects = array();
+    foreach($root_project_inputs as $project) {
+      $root_projects[$project['Project']['id']] = $project['Project']['name'];
+    }
+    $this->set('root_projects', $root_projects);
   }
 #  
 #  # Add a new project
