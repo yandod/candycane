@@ -57,8 +57,12 @@ class Role extends AppModel {
 #  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
 #
 #  def permissions
+  function permissions($permissions) {
+    App::Import('vendor', 'spyc');
+    return Spyc::YAMLLoad($permissions);
 #    read_attribute(:permissions) || []
 #  end
+  }
 #  
 #  def permissions=(perms)
 #    perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
@@ -102,6 +106,22 @@ class Role extends AppModel {
 #    !self.builtin?
 #  end
 #  
+  function non_member_allowed_to($permission) {
+    $non_member = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_NON_MEMBER)));
+    if(empty($non_member)) {
+      $this->cakeError('error', 'Missing non-member builtin role.');
+    }
+    // TODO YAMLをパースして権限をチェックする
+    return true;
+  }
+  function anonymous_allowed_to($permission) {
+    $anonymous = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_ANONYMOUS)));
+    if(empty($anonymous)) {
+      $this->cakeError('error', 'Missing non-member builtin role.');
+    }
+    // TODO YAMLをパースして権限をチェックする
+    return true;
+  }
 #  # Return true if role is allowed to do the specified action
 #  # action can be:
 #  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')

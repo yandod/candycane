@@ -68,7 +68,7 @@ function toggle_multi_select(field) {
     <tr style="display:none;" id="tr_<?php echo h($field) ?>" class="filter">
 <!--    <tr <%= 'style="display:none;"' unless query.has_filter?(field) %> id="tr_<?php echo h($field) ?>" class="filter">-->
     <td style="width:200px;">
-        <input type="checkbox" name="fields[]" value="" onclick="toggle_filter('<?php echo $javascript->escapeString($field) ?>')" id="cb_<?php echo h($field) ?>" />
+        <input type="checkbox" name="fields[]" value="<?php echo h($field) ?>" onclick="toggle_filter('<?php echo $javascript->escapeString($field) ?>')" id="cb_<?php echo h($field) ?>" />
         <!--<%= check_box_tag 'fields[]', field, query.has_filter?(field), :onclick => "toggle_filter('#{field}');", :id => "cb_#{field}" %>-->
         <label for="cb_<?php echo h($field) ?>"><?php __($field) ?><!--<%= filter[1][:name] || l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %>--></label>
     </td>
@@ -85,7 +85,7 @@ function toggle_multi_select(field) {
     case 'list_status':
     case 'list_subprojects':
     ?>
-      <?php echo $form->select('Filter.' . $field, $filter['values'], null, am(count($filter['values']) > 1 ? array('mutiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), false) ?>
+      <?php echo $form->select('Filter.' . $field, $filter['values'], null, am(count($filter['values']) > 1 ? array('mutiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), true) ?>
       <!--
         <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %> name="values[<?php echo h($field) ?>][]" id="values_<?php echo h($field) ?>" class="select-small" style="vertical-align: top;">
         <%= options_for_select options[:values], query.values_for(field) %>        

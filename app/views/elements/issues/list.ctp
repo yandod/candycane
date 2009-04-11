@@ -17,7 +17,7 @@
 	</tr></thead>
 	<tbody>
   <?php foreach ($issue_list as $issue): ?>
-	<tr id="issue-<?php echo h($issue['Issue']['id']) ?>" class="hascontextmenu <%= cycle('odd', 'even') %> <?php echo $issues->css_issue_classes($issue) ?>">
+	<tr id="issue-<?php echo h($issue['Issue']['id']) ?>" class="hascontextmenu <?php echo $candy->cycle('odd', 'even') ?> <?php echo $issues->css_issue_classes($issue) ?>">
 	    <td class="checkbox"><input type="checkbox" name="ids[]" value="<?php echo h($issue['Issue']['id']) ?>" /></td>
 		<td><?php echo $html->link($issue['Issue']['id'], array('controller' => 'issues', 'action' => 'show', 'id' => $issue['Issue']['id'])) ?></td>
         <?php foreach ($queries->columns($query) as $column): ?><?php echo $html->tag('td', $queries->column_content($column, $issue), array('class' => $column)) ?><?php endforeach ?>

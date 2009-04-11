@@ -33,6 +33,7 @@ class MenuManagerComponent extends Object
   	return array(
   		aa('controller','projects','action','show','class','','caption',__('Overview',true),'project_id',$project_id),
   		aa('controller','projects','action','activity','class','','caption',__('Activity',true),'project_id',$project_id),
+  		aa('controller','projects','action','roadmap','class','','caption',__('Roadmap',true),'project_id',$project_id),
   		aa('controller','issues','action','index','class','','caption',__('Issues',true),'project_id',$project_id),
   		aa('controller','issues','action','add','class','','caption',__('New issue',true),'project_id',$project_id),
   		aa('controller','news','action','index','class','','caption',__('News',true),'project_id',$project_id),

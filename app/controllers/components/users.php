@@ -10,6 +10,12 @@
  */
 class UsersComponent extends Object
 {
+  var $User = null;
+
+  function startUp($controller)
+  {
+    $this->User = $controller->User;
+  }
 
   /**
    * users_status_options_for_select
@@ -17,7 +23,11 @@ class UsersComponent extends Object
    */
   function users_status_options_for_select($selected)
   {
-    $user_count_by_status = $this->User
+    $user_count_by_status = $this->User->find('all',
+      array('fields' => 'COUNT(*) AS cnt')
+    );
+
+    var_dump($user_count_by_status);
 #    user_count_by_status = User.count(:group => 'status').to_hash
 #    options_for_select([[l(:label_all), ''], 
 #                        ["#{l(:status_active)} (#{user_count_by_status[1].to_i})", 1],
