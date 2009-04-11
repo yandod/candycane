@@ -63,41 +63,53 @@ class Query extends AppModel
   var $column_names;
   var $operators;
   var $operators_by_filter_type;
+  var $filters;
 
   function __construct()
   {
-    $this->operators = array(
-      "="   => __('is', true),
-      "!"   => __('is not', true),
-      "o"   => __('open', true),
-      "c"   => __('closed', true),
-      "!*"  => __('none', true),
-      "*"   => __('all', true),
-      ">="  => '>=',
-      "<="  => '<=',
-      "<t+" => __('in less than', true),
-      ">t+" => __('in more than', true),
-      "t+"  => __('in', true),
-      "t"   => __('today', true),
-      "w"   => __('this week', true),
-      ">t-" => __('less than days ago', true),
-      "<t-" => __('more than days ago', true),
-      "t-"  => __('days ago', true),
-      "~"   => __('contains', true),
-      "!~"  => __("doesn't contain", true),
-    );
-    
-    $this->operators_by_filter_type = array(
-      'list' => array( "=", "!" ),
-      'list_status' => array( "o", "=", "!", "c", "*" ),
-      'list_optional' => array( "=", "!", "!*", "*" ),
-      'list_subprojects' => array( "*", "!*", "=" ),
-      'date' => array( "<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-" ),
-      'date_past' => array( ">t-", "<t-", "t-", "t", "w" ),
-      'string' => array( "=", "~", "!", "!~" ),
-      'text' => array(  "~", "!~" ),
-      'integer' => array( "=", ">=", "<=", "!*", "*" ),
-    );
+    if (!$this->operators) {
+      $this->operators = array(
+        "="   => __('is', true),
+        "!"   => __('is not', true),
+        "o"   => __('open', true),
+        "c"   => __('closed', true),
+        "!*"  => __('none', true),
+        "*"   => __('all', true),
+        ">="  => '>=',
+        "<="  => '<=',
+        "<t+" => __('in less than', true),
+        ">t+" => __('in more than', true),
+        "t+"  => __('in', true),
+        "t"   => __('today', true),
+        "w"   => __('this week', true),
+        ">t-" => __('less than days ago', true),
+        "<t-" => __('more than days ago', true),
+        "t-"  => __('days ago', true),
+        "~"   => __('contains', true),
+        "!~"  => __("doesn't contain", true),
+      );
+    }
+    if (!$this->operators_by_filter_type) {
+      $this->operators_by_filter_type = array(
+        'list' => array( "=", "!" ),
+        'list_status' => array( "o", "=", "!", "c", "*" ),
+        'list_optional' => array( "=", "!", "!*", "*" ),
+        'list_subprojects' => array( "*", "!*", "=" ),
+        'date' => array( "<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-" ),
+        'date_past' => array( ">t-", "<t-", "t-", "t", "w" ),
+        'string' => array( "=", "~", "!", "!~" ),
+        'text' => array(  "~", "!~" ),
+        'integer' => array( "=", ">=", "<=", "!*", "*" ),
+      );
+    }
+    if (!$this->filters) {
+      $this->filters = array(
+        'status_id' => array(
+          'operator' => "o",
+          'values'   => array(""),
+        ),
+      );
+    }
     parent::__construct();
   }
   function afterFind($results, $primary)
@@ -116,6 +128,7 @@ class Query extends AppModel
   
   function afterFindOne($result)
   {
+    $result['filter_cond'] = a();
     $result['available_filters'] = array(
       'start_date' => array(
         'type'  => 'date',
@@ -201,7 +214,7 @@ class Query extends AppModel
     foreach ($result['available_filters'] as & $v) {
       $v['operators'] = a();
       foreach ($this->operators_by_filter_type[$v['type']] as $operator) {
-        $v['operators'][] = $this->operators[$operator];
+        $v['operators'][$operator] = $this->operators[$operator];
       }
     }
     return $result;
@@ -410,6 +423,10 @@ class Query extends AppModel
 #    column_names.nil? || column_names.empty?
 #  end
 #  
+  function project_statement($query)
+  {
+    
+  }
 #  def project_statement
 #    project_clauses = []
 #    if project && !@project.active_children.empty?
@@ -436,6 +453,9 @@ class Query extends AppModel
 #    project_clauses.join(' AND ')
 #  end
 #
+  function statement($query, $project)
+  {
+  }
 #  def statement
 #    # filters clauses
 #    filters_clauses = []
