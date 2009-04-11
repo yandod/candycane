@@ -51,7 +51,7 @@ class CandyHelper extends AppHelper
    * html_title
    *
    */
-  function html_title($str)
+  function html_title($str=false)
   {
     #  def html_title(*args)
     #    if args.empty?
@@ -65,19 +65,23 @@ class CandyHelper extends AppHelper
     #      @html_title += args
     #    end
     #  end
+    $view =& ClassRegistry::getObject('view');
     if (empty($str)) {
       $title = array();
       if (! empty($this->project)) {
         $title[0] = $this->project['name'];
-        if (! empty($this->html_title)) {
-          $title[0] .= $this->html_title;
-        }
-        $title = join(' - ', $title);
+      } else {
+        $Settings =& ClassRegistry::getObject('Setting');
+        $title[0] = $Settings->app_title;
       }
-    } else {
-      $this->html_title = array();
-      $this->html_title .= $str;
+      if(!empty($view->pageTitle)) {
+        $title[0] .= $view->pageTitle;
+      }
+      $title = join(' - ', $title);
+      $str = $view->pageTitle = $title;
     }
+    $view->pageTitle = $str;
+    return $view->pageTitle;
   }
 
 #require 'coderay'

@@ -2,7 +2,7 @@
 <?php echo $html->link(__('New status', true), array('action' => 'add'), array('class' => 'icon icon-add')); ?>
 </div>
 
-<h2><?php __('Issue statuses'); ?></h2>
+<h2><?php echo $candy->html_title(__('Issue statuses',true)); ?></h2>
  
 <table class="list">
   <thead><tr>

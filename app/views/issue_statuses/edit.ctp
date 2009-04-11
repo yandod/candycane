@@ -1,4 +1,4 @@
-<h2><?php __('Issue statuses'); ?></h2>
+<h2><?php $candy->html_title();__('Issue statuses'); ?></h2>
 
 <?php echo $form->create(null, array('action'=>'edit', 'class'=>"tabular")); ?>
   <div class="box">
