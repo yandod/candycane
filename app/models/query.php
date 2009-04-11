@@ -60,7 +60,152 @@ class Query extends AppModel
     'Candy',
   );
 #  serialize :filters
-  var $column_names = null;
+  var $column_names;
+  var $operators;
+  var $operators_by_filter_type;
+
+  function __construct()
+  {
+    $this->operators = array(
+      "="   => __('is', true),
+      "!"   => __('is not', true),
+      "o"   => __('open', true),
+      "c"   => __('closed', true),
+      "!*"  => __('none', true),
+      "*"   => __('all', true),
+      ">="  => '>=',
+      "<="  => '<=',
+      "<t+" => __('in less than', true),
+      ">t+" => __('in more than', true),
+      "t+"  => __('in', true),
+      "t"   => __('today', true),
+      "w"   => __('this week', true),
+      ">t-" => __('less than days ago', true),
+      "<t-" => __('more than days ago', true),
+      "t-"  => __('days ago', true),
+      "~"   => __('contains', true),
+      "!~"  => __("doesn't contain", true),
+    );
+    
+    $this->operators_by_filter_type = array(
+      'list' => array( "=", "!" ),
+      'list_status' => array( "o", "=", "!", "c", "*" ),
+      'list_optional' => array( "=", "!", "!*", "*" ),
+      'list_subprojects' => array( "*", "!*", "=" ),
+      'date' => array( "<t+", ">t+", "t+", "t", "w", ">t-", "<t-", "t-" ),
+      'date_past' => array( ">t-", "<t-", "t-", "t", "w" ),
+      'string' => array( "=", "~", "!", "!~" ),
+      'text' => array(  "~", "!~" ),
+      'integer' => array( "=", ">=", "<=", "!*", "*" ),
+    );
+    parent::__construct();
+  }
+  function afterFind($results, $primary)
+  {
+    foreach($results as $key=>$result) {
+      if (isset($result[$this->alias][0])) {
+        foreach($result[$this->alias] as $key2=>$version) {
+          $results[$key][$this->alias][$key2] = $this->afterFindOne($version);
+        }
+      } else {
+        $results[$key][$this->alias] = $this->afterFindOne($results[$key][$this->alias]);
+      }
+    }
+    return $results;
+  }
+  
+  function afterFindOne($result)
+  {
+    $result['available_filters'] = array(
+      'start_date' => array(
+        'type'  => 'date',
+        'order' => 11,
+      ),
+      'estimated_hours' => array(
+        'type'  => 'integer',
+        'order' => 13,
+      ),
+      'created_on' => array(
+        'type'  => 'date_past',
+        'order' => 9,
+      ),
+      'priority_id' => array(
+        'type'   => 'list',
+        'values' => array(
+          '3' => '低め',
+          '4' => '通常',
+          '5' => '高め',
+          '6' => '急いで',
+          '7' => '今すぐ',
+        ),
+        'order' => 3,
+      ),
+      'assigned_to_id' => array(
+        'type'   => 'list_optional',
+        'values' => array(
+          'me' => '<< 自分 >>',
+          '4' => 'Masahiro Akita',
+          '1' => 'Redmine Admin',
+          '3' => 'yusuke ando',
+        ),
+        'order' => 4,
+      ),
+      'done_ratio' => array(
+        'type'  => 'integer',
+        'order' => 14,
+      ),
+      'updated_on' => array(
+        'type'  => 'date_past',
+        'order' => 10,
+      ),
+      'subject' => array(
+        'type'  => 'text',
+        'order' => 8,
+      ),
+      'tracker_id' => array(
+        'type' => 'list',
+        'values' => array(
+          '1' => 'バグ',
+          '2' => '機能',
+          '3' => 'サポート',
+        ),
+        'order' => 2,
+      ),
+      'due_date' => array(
+        'type'  => 'date',
+        'order' => 12,
+      ),
+      'author_id' => array(
+        'type'   => 'list',
+        'values' => array(
+          'me' => '<< 自分 >>',
+          '4' => 'Masahiro Akita',
+          '1' => 'Redmine Admin',
+          '3' => 'yusuke ando',
+        ),
+        'order' => 5,
+      ),
+      'status_id' => array(
+        'type'   => 'list_status',
+        'values' => array(
+          '1' => '新規',
+          '2' => '担当',
+          '3' => '解決',
+          '4' => 'フィードバック',
+          '5' => '終了',
+          '6' => '却下',
+        ),
+        'order' => 1,
+      ),
+    );
+    foreach ($result['available_filters'] as & $v) {
+      $v['operators'] = a();
+      foreach ($this->operators_by_filter_type[$v['type']] as $operator) {
+        $v['operators'][] = $this->operators[$operator];
+      }
+    }
+    return $result;
+  }
 
 #  serialize :column_names
 #  

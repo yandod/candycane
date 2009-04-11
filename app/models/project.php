@@ -24,12 +24,12 @@ class Project extends AppModel
 {
   var $name = 'Project';
 
-  var $belongsTo = array(
-    'Parent' => array(
-      'className'=>'Project',
-      'foreignKey'=>'parent_id',
-    ),
-  );
+//  var $belongsTo = array(
+//    'Parent' => array(
+//      'className'=>'Project',
+//      'foreignKey'=>'parent_id',
+//    ),
+//  );
   var $hasMany = array(
     'Version',
     'TimeEntry',

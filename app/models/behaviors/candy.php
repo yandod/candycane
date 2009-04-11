@@ -5,6 +5,7 @@ class CandyBehavior extends ModelBehavior
   {
     $results = aa($model->name, a());
     foreach ($model->_schema as $k => $v) $results[$model->name][$k] = $v['default'];
-    return $results;
+    $results = $model->afterFind(array($results), true);
+    return $results[0];
   }
 }

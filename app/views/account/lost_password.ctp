@@ -1,11 +1,13 @@
-<h2><%=l(:label_password_lost)%></h2>
+<h2><?php __('label_password_lost'); ?></h2>
 
 <div class="box">
-<% form_tag({:action=> "lost_password"}, :class => "tabular") do %>
 
-<p><label for="mail"><%=l(:field_mail)%> <span class="required">*</span></label>
-<%= text_field_tag 'mail', nil, :size => 40 %>
-<%= submit_tag l(:button_submit) %></p>
+<p>
+<?php echo $form->create(null, array('class' => 'tabular', 'url' => '/account/lost_password')); ?>
+<?php echo $form->input('mail' , array('div' => false, 'size' => '40%')); ?>
+&nbsp;<span class="required">*</span>
+<?php echo $form->submit(__('button_submit', true), array('div' => false)); ?>
+<?php echo $form->end(); ?>
+</p>
 
-<% end %>
 </div>

@@ -123,7 +123,11 @@ msgid "Assigned to"
 msgstr "担当者"
 
 # field_assigned_to 2
-msgid "Assigned To"
+msgid "assigned_to"
+msgstr "担当者"
+
+# field_assigned_to 3
+msgid "assigned_to_id"
 msgstr "担当者"
 
 # field_is_filter
@@ -136,6 +140,10 @@ msgstr "前"
 
 # field_created_on
 msgid "Created"
+msgstr "作成日"
+
+# field_created_on 2
+msgid "created_on"
 msgstr "作成日"
 
 # field_mail_notification
@@ -178,8 +186,20 @@ msgstr "既定の言語"
 msgid "Tracker"
 msgstr "トラッカー"
 
+# field_tracker 2
+msgid "tracker"
+msgstr "トラッカー"
+
 # field_author
 msgid "Author"
+msgstr "起票者"
+
+# field_author 2
+msgid "author"
+msgstr "起票者"
+
+# field_author 3
+msgid "author_id"
 msgstr "起票者"
 
 # setting_enabled_scm
@@ -698,6 +718,10 @@ msgstr "ウェルカムメッセージ"
 msgid "Due date"
 msgstr "期限日"
 
+# field_due_date 2
+msgid "due_date"
+msgstr "期限日"
+
 # notice_account_password_updated
 msgid "Password was successfully updated."
 msgstr "パスワードが更新されました。"
@@ -802,6 +826,14 @@ msgstr "ログイン"
 msgid "Status"
 msgstr "ステータス"
 
+# field_status 2
+msgid "status"
+msgstr "ステータス"
+
+# field_status 3
+msgid "status_id"
+msgstr "ステータス"
+
 # label_nobody
 msgid "nobody"
 msgstr "nobody"
@@ -870,6 +902,10 @@ msgstr "全変更の詳細"
 msgid "Start"
 msgstr "開始日"
 
+# field_start_date 2
+msgid "start_date"
+msgstr "開始日"
+
 # field_password_confirmation
 msgid "Confirmation"
 msgstr "確認"
@@ -887,7 +923,7 @@ msgid "Updated"
 msgstr "更新日"
 
 # field_updated_on 2
-msgid "Updated On"
+msgid "updated_on"
 msgstr "更新日"
 
 # label_roadmap_overdue
@@ -1294,6 +1330,10 @@ msgstr "バージョンを削除できません"
 msgid "Subject"
 msgstr "題名"
 
+# field_subject
+msgid "subject"
+msgstr "題名"
+
 # field_attr_firstname
 msgid "Firstname attribute"
 msgstr "名前属性"
@@ -1442,6 +1482,10 @@ msgstr "日"
 msgid "%% Done"
 msgstr "進捗 %%"
 
+# field_done_ratio
+msgid "done_ratio"
+msgstr "進捗"
+
 # general_lang_name
 msgid "'English'"
 msgstr "'Japanese (日本語)'"
@@ -1516,6 +1560,10 @@ msgstr "ロードマップに表示されているチケット"
 
 # label_tracker_plural
 msgid "Trackers"
+msgstr "トラッカー"
+
+# label_tracker_plural 2
+msgid "tracker_id"
 msgstr "トラッカー"
 
 # notice_account_pending
@@ -2150,6 +2198,14 @@ msgstr "全ての変更を見る"
 msgid "Priority"
 msgstr "優先度"
 
+# field_priority
+msgid "priority"
+msgstr "優先度"
+
+# field_priority
+msgid "priority_id"
+msgstr "優先度"
+
 # label_logout
 msgid "Sign out"
 msgstr "ログアウト"
@@ -2480,6 +2536,10 @@ msgstr "Max number of diff lines displayed"
 
 # field_estimated_hours
 msgid "Estimated time"
+msgstr "予定工数"
+
+# field_estimated_hours 2
+msgid "estimated_hours"
 msgstr "予定工数"
 
 # text_rmagick_available

@@ -64,7 +64,8 @@
  */
 class UsersController extends AppController
 {
-  var $helpers = array('Users', 'Sort');
+  var $helpers = array('Users', 'Sort', 'Ajax');
+  var $components = array('Sort');
 
   /**
    * beforeFilter
@@ -90,8 +91,10 @@ class UsersController extends AppController
    */
   function list_()
   {
-    #    sort_init 'login', 'asc'
-    #    sort_update %w(login firstname lastname mail admin created_on last_login_on)
+    $this->Sort->sort_init('login', 'asc');
+    $this->Sort->sort_update(
+      array('login', 'firstname', 'lastname', 'mail', 'admin', 'created_on', 'last_login_on')
+    );
 
     if (isset($this->params['url']['status'])) {
       $status = (int)$this->params['url']['status'];
