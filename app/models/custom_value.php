@@ -1,4 +1,17 @@
 <?php
+
+class CustomValue extends AppModel
+{
+  var $name = 'CustomValue';
+  var $belongsTo = array(
+    'CustomField' => array(
+      'className' => 'CustomField',
+      'foreignKey'=>'custom_field_id',
+    ),
+  );
+
+}
+
 ## redMine - project management software
 ## Copyright (C) 2006  Jean-Philippe Lang
 ##
