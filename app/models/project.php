@@ -208,9 +208,9 @@ class Project extends AppModel
           !(is_subclass_of($this, "project") ||
             strtolower(get_class($this)) === "project")) {
         // クラスメソッドとして呼び出された
-        if (is_string($args) && !preg_match('/^\d*$/', $args)) {
+        if (is_string($conditions) && !preg_match('/^\d*$/', $conditions)) {
           $obj = new Project;
-          $project = $obj->findByIdentifier($args);
+          $project = $obj->findByIdentifier($conditions);
           return $project;
         }
       }
