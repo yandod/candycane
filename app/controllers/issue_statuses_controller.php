@@ -120,9 +120,54 @@ class IssueStatusesController extends AppController {
         $this->IssueStatus->move_to_bottom();
         break;
       }
-      $this->index();
+      $this->redirect('index');
     }
   }
-  
+  function edit($id = false) {
+    if($id == false) {
+      $this->Session->setFlash(__("Invalid id", true), 'default', array('class'=>'flash flash_error'));
+      $this->redirect('index');
+    }
+    if(!empty($this->data)) {
+      $this->IssueStatus->id = $id;
+      if (!$this->IssueStatus->exists()) {
+        $this->Session->setFlash(__("Invalid id", true), 'default', array('class'=>'flash flash_error'));
+        $this->redirect('index');
+      }
+      if($this->IssueStatus->save($this->data)) {
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect('index');
+      } else {
+        $this->Session->setFlash(__('Please correct errors below.', true), 'default', array('class'=>'flash flash_error'));
+      }
+    }
+    if(empty($this->data)) {
+      $this->data = $this->IssueStatus->read(null, $id);
+    }
+  }
+  function add() {
+    if(!empty($this->data)) {
+      $this->IssueStatus->create();
+      if($this->IssueStatus->save($this->data)) {
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect('index');
+      } else {
+        $this->Session->setFlash(__('Please correct errors below.', true), 'default', array('class'=>'flash flash_error'));
+      }
+    }
+    $this->render("new");
+  }
+  function destroy($id=false) {
+    if($id == false) {
+      $this->Session->setFlash(__("Invalid id", true), 'default', array('class'=>'flash flash_error'));
+      $this->redirect('index');
+    }
+    if ($this->IssueStatus->del($id)) {
+      $this->Session->setFlash(__('Successful deletion.', true), 'default', array('class'=>'flash flash_notice'));
+    } else {
+      $this->Session->setFlash(sprintf(__('There was an error deleting with id: %1$d', true), $id));
+    }
+    $this->redirect('index');
+  }
 }
 ?>
