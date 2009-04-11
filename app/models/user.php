@@ -58,11 +58,7 @@
 #    true
 #  end
 #  
-#  def before_save
-#    # update hashed_password if password was set
-#    self.hashed_password = User.hash_password(self.password) if self.password
-#  end
-#  
+  
 #  def reload(*args)
 #    @name = nil
 #    super
@@ -323,6 +319,18 @@ class User extends AppModel
       'allowEmpty' => true,
     ),
   );
+
+  /**
+   * beforeSave
+   *
+   */
+  function beforeSave()
+  {
+    if ($this->data['User']['password']) {
+      # update hashed_password 
+      $this->data['User']['hashed_password'] = $this->hash_password($this->data['User']['password']);
+    }
+  }
 
     /**
      * tryToLogin
