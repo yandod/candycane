@@ -26,7 +26,7 @@
     <hr />
 <?php endif; ?>
 
-<?php echo $this->renderElement('wiki/_content', aa('content',$content)); ?>
+<?php echo $this->renderElement('wiki/content', aa('content',$content)); ?>
 
 <%= link_to_attachments @page %>
 
@@ -36,7 +36,7 @@
 /* form_tag({ :controller => 'wiki', :action => 'add_attachment', :page => @page.title }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do */
 ?>
   <div class="box">
-  <p><?php echo $this->renderElement('attachments/_form'); ?></p>
+  <p><?php echo $this->renderElement('attachments/form'); ?></p>
   </div>
 <?php $form->submit(__('Add', true)); ?>
 <?php echo $html->link(__('Cancel' ,true), '', aa('onclick', "Element.hide('add_attachment_form'); Element.show('attach_files_link'); return false;")) ?>
@@ -54,7 +54,7 @@
 <% end %>
 
 <% content_for :sidebar do %>
-  <?php echo $this->renderElement('wiki/_sidebar'); ?>
+  <?php echo $this->renderElement('wiki/sidebar'); ?>
 <% end %>
 
 <% html_title @page.pretty_title %>
