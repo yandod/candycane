@@ -33,7 +33,7 @@ class Project extends AppModel
   var $hasMany = array(
     'Version',
     'TimeEntry',
-    'Member'=>array('conditions'=>"User.status = ".USER_STATUS_ACTIVE)
+    'Member'=>array('conditions'=>"User.status = 1")
   );
   var $hasAndBelongsToMany = array('Tracker' => array('with'=>'ProjectsTracker'));
 
@@ -166,7 +166,7 @@ class Project extends AppModel
     $perm = $permission->permissions[$permission];
     if(!empty($perm['project_module'])) {
       # If the permission belongs to a project module, make sure the module is enabled
-      $this->bindModel(array('hasMany' => array('EnabledModule'), false);
+      $this->bindModel(array('hasMany' => array('EnabledModule')), false);
       $enableModuleTable = $this->EnabledModule->table;
       $emName = $perm['project_module'];
 
@@ -175,7 +175,7 @@ class Project extends AppModel
     if(isset($options['project'])) {
       $project_statement = array();
       $project_statement[] = array("Project.id" => $options['project']['id']);
-      if(isset($options['with_subprojects']) {
+      if(isset($options['with_subprojects'])) {
         $project_statement[] = array("Project.parent_id" => $options['project']['id']); 
         $project_statement = array('or'=> array($project_statement));
       }
@@ -203,7 +203,7 @@ class Project extends AppModel
         # anonymous user is not authorized
       }
     }
-    if(!empty($statements) {
+    if(!empty($statements)) {
       $base_statement['or'] = array($statements);
     }
     return compact('base_statement', 'exists_statement');
