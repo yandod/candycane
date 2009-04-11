@@ -1,7 +1,20 @@
 <?php 
 class ProjectFixture extends CakeTestFixture {
   var $name = 'Project';
-  var $import = array('model'=>'Project');
+  var $fields = array(
+    'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+    'name' => array('type' => 'string', 'null' => false, 'length' => 30),
+    'description' => array('type' => 'text', 'null' => true, 'default' => NULL),
+    'homepage' => array('type' => 'string', 'null' => true),
+    'is_public' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
+    'parent_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
+    'projects_count' => array('type' => 'integer', 'null' => true, 'default' => '0'),
+    'created_on' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+    'updated_on' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
+    'identifier' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 20),
+    'status' => array('type' => 'integer', 'null' => false, 'default' => '1'),
+    'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
+  );
   var $records = array(
     array('created_on'=>"2006-07-19 19:13:59 +02:00", 'name'=>"eCookbook", 'updated_on'=>"2006-07-19 22:53:01 +02:00",
           'projects_count'=>3, 'id'=>1, 'description'=>"Recipes management application", 

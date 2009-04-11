@@ -1,7 +1,15 @@
 <?php 
 class RoleFixture extends CakeTestFixture {
   var $name = 'Role';
-  var $import = array('model'=>'Role');
+  var $fields = array(
+      'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+      'name' => array('type' => 'string', 'null' => false, 'length' => 30),
+      'position' => array('type' => 'integer', 'null' => true, 'default' => '1'),
+      'assignable' => array('type' => 'boolean', 'null' => true, 'default' => '1'),
+      'builtin' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+      'permissions' => array('type' => 'text', 'null' => true, 'default' => NULL),
+      'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
+  );
   var $records = array(
     array('name'=>"Manager", 'id'=>1, 'builtin'=>0, 'position'=>1, 'permissions'=>"|
     --- 
