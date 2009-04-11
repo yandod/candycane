@@ -13,8 +13,7 @@
 <!-- <% labelled_tabular_form_for :news, @news, :url => { :controller => 'news', :action => 'new', :project_id => @project },
                                            :html => { :id => 'news-form' } do |f| %> -->
 <!-- TODO: プロジェクトIDをいれる -->
-<!-- <?php echo $form->create('News', array('url' => '/projects/' . 'test1' . '/news/new')) ; ?> -->
-<?php echo $form->create('News', array('url' => '/news/add')) ; ?>
+<?php echo $form->create('News', array('url' => "/projects/{$project['Project']['identifier']}/news/add")) ; ?>
 <!-- <%= render :partial => 'news/form', :locals => { :f => f } %> -->
 <?php echo $this->renderElement('news/_form') ; ?>
 <?php echo $form->submit( __('Create',true), aa('div', false) ) ; ?>
@@ -40,7 +39,7 @@
 <!--    <h3><%= link_to(h(news.project.name), :controller => 'projects', :action => 'show', :id => news.project) + ': ' unless news.project == @project %>
     <%= link_to h(news.title), :controller => 'news', :action => 'show', :id => news %>
     <%= "(#{news.comments_count} #{lwr(:label_comment, news.comments_count).downcase})" if news.comments_count > 0 %></h3> -->
-    <h3><?php echo $html->link( h($news['Project']['name']), array( 'controller' => 'projects', 'action' => 'show', 'id' => $news['Project']['id'])) . ': '; ?>
+    <h3><?php echo $html->link( h($news['Project'][0]['Project']['name']), array( 'controller' => 'projects', 'action' => 'show', 'id' => $news['Project'][0]['Project']['id'])) . ': '; ?>
     <?php echo $html->link( h($news['News']['title']), array( 'controller' => 'news', 'action' => 'show', 'id' => $news['News']['id'] ) ) ; ?>
     <?php if ( $news['News']['comments_count'] > 0 ) : echo "(".$news['News']['comments_count'] . ' ' . __('Comments',true) . ')' ; endif; ?></h3>
 
