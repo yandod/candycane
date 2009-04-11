@@ -15,7 +15,7 @@
 </li>
 <?php endif ?>
   <?php if ($parent_project): ?>
-  <li><?php __('Subproject of') ?>: <?php echo $html->link(h($parent_project['name']), array('controller'=>'projects', 'action'=>'show', 'project_id'=>$parent_project['identifier_or_id'])) ?></li>
+  <li><?php __('Subproject of') ?>: <?php echo $html->link(h($parent_project['Project']['name']), array('controller'=>'projects', 'action'=>'show', 'project_id'=>$parent_project['Project']['identifier_or_id'])) ?></li>
   <?php endif ?>
 <?php foreach($custom_values as $custom_value): ?>
   <?php if (!empty($custom_value['CustomValue']['value'])): ?>

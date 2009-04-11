@@ -30,6 +30,7 @@ class ProjectsController extends AppController
     'Version',
     'Issue',
     'CustomValue',
+    'Member',
   );
   var $helpers = array('Time', 'Project', 'CustomField');
   var $components = array('RequestHandler');
@@ -254,6 +255,26 @@ class ProjectsController extends AppController
         ),
       ));
       $this->set('custom_values', $custom_values);
+
+      $members_by_role = $this->Member->find('all', array(
+        'order' => 'Role.position',
+        'joins'=> array(
+          array(
+            'type'=>'INNER',
+            'alias'=>'Role',
+            'table'=>'roles',
+            'conditions'=>'Member.role_id=Role.id',
+          ),
+          array(
+            'type'=>'INNER',
+            'alias'=>'User',
+            'table'=>'users',
+            'conditions'=>'Member.role_id=Role.id',
+          )
+        ),
+      ));
+      $this->set('members_by_role', $members_by_role);
+#    @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
     }
 
 #      @open_issues_by_tracker = Issue.count(:group => :tracker,

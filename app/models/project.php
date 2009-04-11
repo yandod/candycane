@@ -311,30 +311,37 @@ class Project extends AppModel
 		return $short_description;
 	}
 
-	function afterFind($result,$primary= false )
-	{
-//		pr(func_get_args());
-//		pr($results);
-//		exit;
-		if ($primary) {
-		  $results = $result;
-		} else {
-		 $results = array(aa($this->alias,$result));
-		}
-		foreach ($results as $key => $val) {
-			if (isset($val[$this->alias]['description'])) {
-				$results[$key][$this->alias]['short_description'] = $this->short_description($val[$this->alias]['description']);
-			} else {
-				$results[$key][$this->alias]['short_description'] = '';
-			}
-      if (!empty($val[$this->alias]['identifier'])) {
-        $results[$key][$this->alias]['identifier_or_id'] = $val[$this->alias]['identifier'];
+  function afterFind($results, $primary = false)
+  {
+    foreach($results as $key=>$result) {
+      if (isset($result[$this->alias][0])) {
+        foreach($result[$this->alias] as $key2=>$version) {
+          $results[$key][$this->alias][$key2] = $this->afterFindOne($version);
+        }
       } else {
-        $results[$key][$this->alias]['identifier_or_id'] = $val[$this->alias]['id'];
+        $results[$key][$this->alias] = $this->afterFindOne($results[$key][$this->alias]);
       }
-		}
-		return $results;
-	}
+    }
+
+    return $results;
+  }
+
+  function afterFindOne($result)
+  {
+    if (empty($result)) { return $result; }
+    if (isset($result['description'])) {
+      $result['short_description'] = $this->short_description($result['description']);
+    } else {
+      $result['short_description'] = '';
+    }
+    if (!empty($result['identifier'])) {
+      $result['identifier_or_id'] = $result['identifier'];
+    } else {
+      $result['identifier_or_id'] = $result['id'];
+    }
+
+    return $result;
+  }
 
 #  
 #  def allows_to?(action)
