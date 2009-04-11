@@ -146,6 +146,7 @@ class IssuesController extends AppController
 #
   function add() {
 #    @issue = Issue.new
+/*
     if(isset($this->params['copy_from'])) {
       $this->Issue->copy_from($this->params['copy_from']);
     }
@@ -171,6 +172,7 @@ class IssuesController extends AppController
       if()
       $watcher_user_ids = params['issue']['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
     }
+*/
 #    @issue.author = User.current
 #    
 #    default_status = IssueStatus.default
