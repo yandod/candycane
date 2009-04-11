@@ -2,6 +2,9 @@
 class Issue extends AppModel
 {
   var $name = 'Issue';
+//  var $actsAs = array('ActivityProvider'=>array('find_options'=>array('include'=> [:project, :author, :tracker]},
+//                            :author_key => :author_id
+  
   var $belongsTo = array(
     'Project',
     'Tracker',
@@ -34,6 +37,12 @@ class Issue extends AppModel
       'foreignKey' => 'category_id',
     ),
   );
+  var $actsAs = array('ActivityProvider' => array(
+      'author_key' => 'author_id',
+      'find_options' => array(
+      ),
+    ));
+
 #  belongs_to :project
 #  belongs_to :tracker
 #  belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'

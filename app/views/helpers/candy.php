@@ -124,7 +124,7 @@ class CandyHelper extends AppHelper
 #  end
   function format_username($user, $format)
   {
-    return $user['User']['firstname'].' '.$user['User']['lastname'];
+    return $user['firstname'].' '.$user['lastname'];
   }
 
   function link_to_user($user, $options = array())
@@ -133,7 +133,7 @@ class CandyHelper extends AppHelper
       $options['format'] = ''; // @FIXME
     }
     if ($user) /* && !user.anonymous? */ {
-      return $this->Html->link($this->format_username($user, $options['format']), array('controller'=>'account', 'action'=>'show', 'id'=>$user['User']['id']));
+      return $this->Html->link($this->format_username($user, $options['format']), array('controller'=>'account', 'action'=>'show', 'id'=>$user['id']));
     } else {
       return 'Anonymous';
     }
