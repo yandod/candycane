@@ -259,20 +259,7 @@ class ProjectsController extends AppController
     ));
     $this->set('custom_values', $custom_values);
 
-    $members = $this->Member->find('all', array(
-      'order' => 'Role.position',
-      'conditions'=>array(
-        'project_id'=>$this->id
-      ),
-    ));
-    $members_by_role = array();
-    foreach($members as $member) {
-      if (!isset($members_by_role[$member['Role']['name']])) {
-        $members_by_role[$member['Role']['name']] = array();
-      }
-      $members_by_role[$member['Role']['name']][] = $member;
-    }
-    ksort($members_by_role);
+    $members_by_role = $this->_get_members_by_role();
     $this->set('members_by_role', $members_by_role);
 
     $news = $this->News->find('all', array(
@@ -452,7 +439,26 @@ class ProjectsController extends AppController
 #  end
   function changelog()
   {
+    $trackers = $this->Tracker->find('all', array(
+      'conditions' => array('is_in_chlog' => true),
+      'order'=>'Tracker.position',
+    ));
+    $this->set('trackers', $trackers);
 
+    $tracker_ids = $this->_retrieve_selected_tracker_ids($trackers);
+    foreach($this->data['Version'] as $key=>$version) {
+      $issues = $this->Issue->find('all', array(
+        'conditions' => array(
+          'Status.is_closed' => true,
+          'Issue.tracker_id' => $tracker_ids,
+          'Issue.fixed_version_id' => $version['id'],
+        ),
+        'order' => 'Tracker.position',
+      ));
+      $this->data['Version'][$key]['Issue'] = $issues;
+    }
+
+    $this->set('versions', $this->data['Version']);
   }
 #
 #  def roadmap
@@ -549,6 +555,28 @@ class ProjectsController extends AppController
     $this->set('author', $author);
 #    @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
 
+    $issues = $this->Issue->find_events('issues', $this->current_user, $date_from, $date_to, array(
+      'projects' => $this->data,
+      'with_subprojects' => false,
+      'author' => $author,
+    ));
+
+    $events_by_day = array();
+    foreach($issues as $day=>$issue) {
+      if (!isset($events_by_day[$day])) {
+        $events_by_day[$day] = array();
+      }
+      foreach($issue as $time=>$data) {
+        if (!isset($events_by_day[$day][$time])) {
+          $events_by_day[$day][$time] = array();
+        }
+        $events_by_day[$day][$time] = $data;
+      }
+      krsort($events_by_day[$day]);
+    }
+    krsort($events_by_day);
+
+    $this->set('events_by_day', $events_by_day);
   }
 #  
 #private
@@ -625,5 +653,54 @@ class ProjectsController extends AppController
 
 	}
 
+  function list_members()
+  {
+    $this->set('members_by_role', $this->_get_members_by_role());
+  }
+
+  function _get_members_by_role()
+  {
+    $members = $this->Member->find('all', array(
+      'order' => 'Role.position',
+      'conditions'=>array(
+        'project_id'=>$this->id
+      ),
+    ));
+    $members_by_role = array();
+    foreach($members as $member) {
+      if (!isset($members_by_role[$member['Role']['name']])) {
+        $members_by_role[$member['Role']['name']] = array();
+      }
+      $members_by_role[$member['Role']['name']][] = $member;
+    }
+    ksort($members_by_role);
+
+    return $members_by_role;
+  }
+
+  function _retrieve_selected_tracker_ids($selectable_trackers)
+  {
+    if (isset($this->parmas['tracker_ids'])) {
+      $ids = $this->parmas['tracker_ids'];
+      if (is_array($ids)) {
+      } else {
+        $ids = explode('/', $ids);
+      }
+    } else {
+      $ids = array();
+      foreach($selectable_trackers as $tracker) {
+        $ids[] = $tracker['Tracker']['id'];
+      }
+    }
+
+    return $ids;
+  }
+#  def retrieve_selected_tracker_ids(selectable_trackers)
+#    if ids = params[:tracker_ids]
+#      @selected_tracker_ids = (ids.is_a? Array) ? ids.collect { |id| id.to_i.to_s } : ids.split('/').collect { |id| id.to_i.to_s }
+#    else
+#      @selected_tracker_ids = selectable_trackers.collect {|t| t.id.to_s }
+#    end
+#  end
 }
 ?>

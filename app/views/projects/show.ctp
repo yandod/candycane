@@ -1,3 +1,6 @@
+<?php /*
+vim: filetype=php
+*/ ?>
 <h2><?php __('Overview') ?></h2> 
 
 <div class="splitcontentleft">
@@ -52,7 +55,7 @@
       <?php echo h($key) ?>:
       <?php foreach($members as $key2=>$member): ?>
         <?php if ($key2 != 0) { echo ', '; } ?>
-        <?php echo $candy->link_to_user($member) ?>
+        <?php echo $candy->link_to_user($member['User']) ?>
       <?php endforeach ?>
 		<br />
 <?php endforeach ?>

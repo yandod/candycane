@@ -26,6 +26,9 @@ class Attachment extends AppModel
       'foreignKey'=>'author_id',
     ),
   );
+  var $actsAs = array('ActivityProvider' => array(
+      'author_key' => 'author_id'
+    ));
 #  belongs_to :container, :polymorphic => true
 #  belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 #  
