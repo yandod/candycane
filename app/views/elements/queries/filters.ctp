@@ -73,7 +73,7 @@ function toggle_multi_select(field) {
         <label for="cb_<?php echo h($field) ?>"><?php __($field) ?><!--<%= filter[1][:name] || l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) %>--></label>
     </td>
     <td style="width:150px;">
-        <?php echo $form->select('Filter.' . $field, $filter['operators_by_filter_type'], null, array('name' => 'operators[' . $field . ']', 'id' => 'operators_' . $field, 'onchange' => "toggle_operator('" . $javascript->escapeString($field) . "');", 'class' => 'select-small', 'style' => 'vertical-align: top;')) ?>
+        <?php echo $form->select('Filter.' . $field, $filter['operators'], null, array('name' => 'operators[' . $field . ']', 'id' => 'operators_' . $field, 'onchange' => "toggle_operator('" . $javascript->escapeString($field) . "');", 'class' => 'select-small', 'style' => 'vertical-align: top;'), false) ?>
         <!--<%= select_tag "operators[#{field}]", options_for_select(operators_for_select(options[:type]), query.operator_for(field)), :id => "operators_#{field}", :onchange => "toggle_operator('#{field}');", :class => "select-small", :style => "vertical-align: top;" %>-->
     </td>
     <td>    
@@ -85,7 +85,7 @@ function toggle_multi_select(field) {
     case 'list_status':
     case 'list_subprojects':
     ?>
-      <?php echo $form->select('Filter.' . $field, $filter['values'], null, am(count($filter['values']) > 1 ? array('mutiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field))) ?>
+      <?php echo $form->select('Filter.' . $field, $filter['values'], null, am(count($filter['values']) > 1 ? array('mutiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), false) ?>
       <!--
         <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %> name="values[<?php echo h($field) ?>][]" id="values_<?php echo h($field) ?>" class="select-small" style="vertical-align: top;">
         <%= options_for_select options[:values], query.values_for(field) %>        
@@ -94,17 +94,37 @@ function toggle_multi_select(field) {
         <?php echo $html->link($html->image('bullet_toggle_plus.png'), '#', array('onclick' => "toggle_multi_select('" . $javascript->escapeString($field) . "')", 'style' => 'vertical-align: bottom'), null, false) ?>
         <!--
         <%= link_to_function image_tag('bullet_toggle_plus.png'), "toggle_multi_select('#{field}');", :style => "vertical-align: bottom;" %>
-    <% when :date, :date_past %>
         -->
+    <?php
+      break;
+    case 'date':
+    case 'date_past':
+    ?>
+        <?php echo $form->input('Filter.values', array('name' => 'values[' . $field . ']', 'id' => 'values_' . $field, 'size' => '3', 'class' => 'select-small', 'label' => false, 'div' => false)) ?> <?php __('days') ?>
         <!--
         <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %> <%= l(:label_day_plural) %>
-    <% when :string, :text %>
+        -->
+    <?php
+      break;
+    case 'string':
+    case 'text':
+    ?>
+        <?php echo $form->input('Filter.values', array('name' => 'values[' . $field . ']', 'id' => 'values_' . $field, 'size' => '30', 'class' => 'select-small', 'label' => false, 'div' => false)) ?>
+        <!--
         <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 30, :class => "select-small" %>
-    <% when :integer %>
+        -->
+    <?php
+      break;
+    case 'integer':
+    ?>
+        <?php echo $form->input('Filter.values', array('name' => 'values[' . $field . ']', 'id' => 'values_' . $field, 'size' => '3', 'class' => 'select-small', 'label' => false, 'div' => false)) ?>
+        <!--
         <%= text_field_tag "values[#{field}][]", query.values_for(field), :id => "values_#{field}", :size => 3, :class => "select-small" %>
         -->
-        <?php break; ?>
-    <?php endswitch ?>
+    <?php
+      break;
+    endswitch;
+    ?>
     </div>
     <script type="text/javascript">toggle_filter('<?php echo h($field) ?>');</script>
     </td>

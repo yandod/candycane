@@ -194,7 +194,11 @@ msgstr "トラッカー"
 msgid "Author"
 msgstr "起票者"
 
-# field_author
+# field_author 2
+msgid "author"
+msgstr "起票者"
+
+# field_author 3
 msgid "author_id"
 msgstr "起票者"
 

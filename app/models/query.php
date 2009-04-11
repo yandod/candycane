@@ -67,24 +67,24 @@ class Query extends AppModel
   function __construct()
   {
     $this->operators = array(
-      "="   => __('label_equals', true),
-      "!"   => __('label_not_equals', true),
-      "o"   => __('label_open_issues', true),
-      "c"   => __('label_closed_issue', true),
-      "!*"  => __('label_none', true),
-      "*"   => __('label_all', true),
+      "="   => __('is', true),
+      "!"   => __('is not', true),
+      "o"   => __('open', true),
+      "c"   => __('closed', true),
+      "!*"  => __('none', true),
+      "*"   => __('all', true),
       ">="  => '>=',
       "<="  => '<=',
-      "<t+" => __('label_in_less_than', true),
-      ">t+" => __('label_in_more_than', true),
-      "t+"  => __('label_in', true),
-      "t"   => __('label_today', true),
-      "w"   => __('label_this_week', true),
-      ">t-" => __('label_less_than_ag', true),
-      "<t-" => __('label_more_than_ag', true),
-      "t-"  => __('label_ago', true),
-      "~"   => __('label_contains', true),
-      "!~"  => __('label_not_contains', true),
+      "<t+" => __('in less than', true),
+      ">t+" => __('in more than', true),
+      "t+"  => __('in', true),
+      "t"   => __('today', true),
+      "w"   => __('this week', true),
+      ">t-" => __('less than days ago', true),
+      "<t-" => __('more than days ago', true),
+      "t-"  => __('days ago', true),
+      "~"   => __('contains', true),
+      "!~"  => __("doesn't contain", true),
     );
     
     $this->operators_by_filter_type = array(
@@ -199,7 +199,10 @@ class Query extends AppModel
       ),
     );
     foreach ($result['available_filters'] as & $v) {
-      $v['operators_by_filter_type'] = $this->operators_by_filter_type[$v['type']];
+      $v['operators'] = a();
+      foreach ($this->operators_by_filter_type[$v['type']] as $operator) {
+        $v['operators'][] = $this->operators[$operator];
+      }
     }
     return $result;
   }
