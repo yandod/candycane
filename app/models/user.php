@@ -318,6 +318,12 @@ class User extends AppModel
       'rule' => array('email', false),
       'allowEmpty' => true,
     ),
+    'username' => array(
+      'rule' => array('alphaNumeric', 'notEmpty')
+    ),
+    'password' => array(
+      'rule' => array('alphaNumeric', 'notEmpty')
+    ),
   );
 
   /**
