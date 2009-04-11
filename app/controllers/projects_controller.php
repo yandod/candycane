@@ -19,8 +19,9 @@
 class ProjectsController extends AppController
 {
   var $name = 'Projects';
-  var $uses = array('Project', 'User', 'Tracker', 'IssueCustomField');
+  var $uses = array('Project', 'User', 'Tracker', 'IssueCustomField', 'Permission');
   var $helpers = array('Time', 'Project');
+  var $components = array('RequestHandler');
 
 #  menu_item :overview
 #  menu_item :activity, :only => :activity
@@ -125,6 +126,10 @@ class ProjectsController extends AppController
     }
     $this->set('root_projects', $root_projects);
 
+#      @project.enabled_module_names = Redmine::AccessControl.available_project_modules
+    $enabled_module_names = $this->Permission->available_project_modules();
+    $this->set('enabled_module_names', $enabled_module_names);
+
     if(!empty($this->data)) {
       if($this->Project->save($this->data, true, array('name', 'description', 'parent_id', 'identifier', 'homepage', 'is_public'))) {
         $this->Session->setFlash(__('Successful create.'));
@@ -185,7 +190,6 @@ class ProjectsController extends AppController
 #  end
   function show()
   {
-
   }
 #
 #  def settings
@@ -229,6 +233,16 @@ class ProjectsController extends AppController
 #    redirect_to :controller => 'admin', :action => 'projects'
 #  end
 #  
+  function destroy()
+  {
+    if($this->RequestHandler->isPost()) {
+      if ($this->data['Project']['confirm'] == 1) {
+        $this->Project->del($this->data['Project']['id']);
+        $this->redirect('/admin/projects');
+      } else {
+      }
+    }
+  }
 #  # Delete @project
 #  def destroy
 #    @project_to_destroy = @project
@@ -399,13 +413,39 @@ class ProjectsController extends AppController
 #  end
   function find_project()
   {
+    $data = null;
+    if (!empty($this->data)) {
+      $data = $this->data;
+    }
     if (!empty($this->params['project_id'])) {
       $this->data = $this->Project->findByIdentifier($this->params['project_id']);
+      if (!$this->data) {
+        $this->data = $this->Project->findById($this->params['project_id']);
+      }
       $this->id = $this->data['Project']['id'];
     } else if (!empty($this->params['id'])) {
       $this->id = $this->params['id'];
       $this->data = $this->Project->read();
+    } else if (isset($this->data['Project'])) {
+      if (isset($this->data['Project']['id'])) {
+        $this->id = $this->data['Project']['id'];
+        $this->data = $this->Project->read();
+      }
     }
+
+    if (!empty($data)) {
+      foreach($data as $key=>$value) {
+        if (is_array($value)) {
+          foreach($value as $key2=>$value2) {
+            $this->data[$key][$key2] = $value2;
+          }
+        } else {
+          $this->data[$key] = $value;
+        }
+      }
+    }
+
+
   }
 #  
 #  def find_optional_project

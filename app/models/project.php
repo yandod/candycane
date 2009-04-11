@@ -42,6 +42,11 @@ class Project extends AppModel
     'associationForeignKey'=>'tracker_id',
   ));
 
+  function findById($id)
+  {
+    return $this->find('first', array('conditions'=>array($this->name.'.id'=>$id)));
+  }
+
   function findByIdentifier($identifier)
   {
     return $this->find('first', array('conditions'=>array($this->name.'.identifier'=>$identifier)));
