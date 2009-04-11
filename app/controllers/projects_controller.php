@@ -119,11 +119,18 @@ class ProjectsController extends AppController
     $this->set('issue_custom_fields', $issue_custom_fields);
 
     $root_project_inputs = $this->Project->find('all', array('conditions'=>array($this->Project->name.'.parent_id'=>NULL, $this->Project->name.'.status'=>PROJECT_STATUS_ACTIVE), 'order'=>$this->Project->name.'.name'));
-    $root_projects = array();
+    $root_projects = array(null=>'');
     foreach($root_project_inputs as $project) {
       $root_projects[$project['Project']['id']] = $project['Project']['name'];
     }
     $this->set('root_projects', $root_projects);
+
+    if(!empty($this->data)) {
+      if($this->Project->save($this->data, true, array('name', 'description', 'parent_id', 'identifier', 'homepage', 'is_public'))) {
+        $this->Session->setFlash(__('Successful create.'));
+        $this->redirect('/admin/projects');
+      }
+    }
   }
 #  
 #  # Add a new project
