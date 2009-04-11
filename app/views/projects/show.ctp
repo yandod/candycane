@@ -24,7 +24,9 @@
 <?php endforeach ?>
 	</ul>	
 
+<?php /*
   <% if User.current.allowed_to?(:view_issues, @project) %>
+ */ ?>
   <div class="box">    
     <h3 class="icon22 icon22-tracker"><?php __('Issue tracking') ?></h3>
     <ul>
@@ -36,7 +38,9 @@
     </ul>
     <p><?php echo $html->link(__('View all issues', true), array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'],'set_filter'=>1)) ?></p>
   </div>
+<?php /*
   <% end %>
+*/ ?>
 </div>
 
 <div class="splitcontentright">
@@ -68,26 +72,7 @@
 <?php endif ?>
 </div>
 
-<% content_for :sidebar do %>
-    <% planning_links = []
-      planning_links << link_to_if_authorized(l(:label_calendar), :controller => 'issues', :action => 'calendar', :project_id => @project)
-      planning_links << link_to_if_authorized(l(:label_gantt), :controller => 'issues', :action => 'gantt', :project_id => @project)
-      planning_links.compact!
-      unless planning_links.empty? %>
-    <h3><?php __('Planning') ?></h3>
-    <p><%= planning_links.join(' | ') %></p>
-    <% end %>
-    
-    <% if @total_hours && User.current.allowed_to?(:view_time_entries, @project) %>
-    <h3><?php __('Spent time') ?></h3>
-    <p><span class="icon icon-time"><%= lwr(:label_f_hour, @total_hours) %></span></p>
-    <p><?php echo $html->link(__('Details', true), array('controller'=>'timelog', 'action'=>'details', 'project_id'=>$this->data['Project']['identifier_or_id'])) ?> |
-       <?php echo $html->link(__('Report', true), array('controller'=>'timelog', 'action'=>'report', 'project_id'=>$this->data['Project']['identifier_or_id'])) ?></p>
-    <% end %>
-<% end %>
-
-<% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, {:action => 'activity', :id => @project, :format => 'atom', :key => User.current.rss_key}) %>
-<% end %>
+<?php $this->set('Sidebar', $this->renderElement('projects/sidebar/show')) ?>
+<?php $this->set('header_tags', $this->renderElement('projects/rss')) ?>
 
 <?php $candy->html_title(__('Overview', true)) ?>

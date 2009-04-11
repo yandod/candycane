@@ -32,6 +32,7 @@ class ProjectsController extends AppController
     'CustomValue',
     'Member',
     'News',
+    'TimeEntry',
   );
   var $helpers = array('Time', 'Project', 'CustomField');
   var $components = array('RequestHandler');
@@ -214,8 +215,9 @@ class ProjectsController extends AppController
     $subprojects = $this->Project->findSubprojects($this->data['Project']['id']);
     $this->set('subprojects', $subprojects);
 
+    $cond = $this->Project->project_condition( /*Setting.display_subprojects_issues?*/ false);
+
     foreach($this->data['Tracker'] as $key=>$tracker) {
-      $cond = $this->Project->project_condition( /*Setting.display_subprojects_issues?*/ false);
       $cond_open = $cond;
       $cond_open['Status.is_closed'] = false;
       $cond_open['Issue.tracker_id'] = $tracker['id'];
@@ -278,6 +280,26 @@ class ProjectsController extends AppController
       'limit'=>5,
     ));
     $this->set('news', $news);
+
+    $time_entries = $this->TimeEntry->find_visible_by($this->current_user);
+    $total_hours = 0;
+    foreach($time_entries as $time_entry) {
+      // @TODO 足さなくていいのか？
+      $sum = 0;
+      $entries = $this->TimeEntry->find('all', array('conditions' => $cond));
+      foreach($entries as $entry) {
+        $sum += $entry['TimeEntry']['hours'];
+      }
+      $total_hours = $sum;
+    }
+    $this->set('total_hours', $total_hours);
+
+#    TimeEntry.visible_by(User.current) do
+#      @total_hours = TimeEntry.sum(:hours, 
+#                                   :include => :project,
+#                                   :conditions => cond).to_f
+#    end
+#    @key = User.current.rss_key
 #    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
 #    @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
 
@@ -441,6 +463,10 @@ class ProjectsController extends AppController
 #  end
   function roadmap()
   {
+    $trackers = $this->Tracker->find('all', array(
+      'conditions' => array('is_in_roadmap' => true)
+    ));
+    $this->set('trackers', $trackers);
     // $issues = $this->Version->FixedIssue->find('all', 
     $this->set('issues', array());
 
@@ -496,6 +522,11 @@ class ProjectsController extends AppController
 #  end
   function activity()
   {
+    $author = empty($this->params['user_id']) ? null : $this->User->find('first', array(
+        'conditions' => array('id' => $this->parmas['user_id'])
+      ));
+    $this->set('author', $author);
+#    @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
 
   }
 #  

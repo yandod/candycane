@@ -37,26 +37,11 @@
 &nbsp;
 <p class="other-formats">
     <?php __("'Also available in:'") ?>
-    <%= link_to 'Atom', params.merge(:format => :atom, :from => nil, :key => User.current.rss_key), :class => 'feed' %>
+    <?php echo $html->link('Atom', array('action'=>'activity', 'format'=>'atom', 'from'=>null, 'key'=>isset($currentuser['User']) ? $currentuser['User']['rss_key'] : ''
+    ), array('class' => 'feed')) ?>
 </p>
 
-<% content_for :header_tags do %>
-<%= auto_discovery_link_tag(:atom, params.merge(:format => 'atom', :from => nil, :key => User.current.rss_key)) %>
-<% end %>
+<?php $this->set('Sidebar', $this->renderElement('projects/sidebar/activity')) ?>
+<?php $this->set('header_tags', $this->renderElement('projects/rss')) ?>
 
-<% content_for :sidebar do %>
-<?php echo $form->create('Project', array('action'=>'activity', 'method'=>'get')) ?>
-<h3><?php __('Activity') ?></h3>
-<p><% @activity.event_types.each do |t| %>
-<label><%= check_box_tag "show_#{t}", 1, @activity.scope.include?(t) %> <%= l("label_#{t.singularize}_plural")%></label><br />
-<% end %></p>
-<% if @project && @project.active_children.any? %>
-    <p><label><%= check_box_tag 'with_subprojects', 1, @with_subprojects %> <%=l(:label_subproject_plural)%></label></p>
-    <%= hidden_field_tag 'with_subprojects', 0 %>
-<% end %>
-<%= hidden_field_tag('user_id', params[:user_id]) unless params[:user_id].blank? %>
-<p><?php echo $form->submit(__('Apply', true), array('class'=>'button-small')) ?></p>
-<?php echo $form->end() ?>
-<% end %>
-
-<% html_title(l(:label_activity), @author) -%>
+<?php $candy->html_title(__('Activity', true), $author['Project']['name']) ?>

@@ -18,6 +18,7 @@
 <!-- <%= call_hook :view_layouts_base_html_head %> -->
 <!-- page specific tags -->
 <!-- <%= yield :header_tags -%> -->
+<?php if (isset($header_tags)) echo $header_tags; ?>
 </head>
 <body>
 <div id="wrapper">

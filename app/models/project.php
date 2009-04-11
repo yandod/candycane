@@ -152,6 +152,11 @@ class Project extends AppModel
 #    end
 #  end
 #  
+  function allowed_to_condition($user, $permission, $options = array())
+  {
+    // 未実装
+    return array();
+  }
 #  def self.allowed_to_condition(user, permission, options={})
 #    statements = []
 #    base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
