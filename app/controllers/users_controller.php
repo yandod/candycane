@@ -51,8 +51,16 @@ class UsersController extends AppController
       }
     }
 
+    $tabs = array(
+      array('name' => 'general', 'partial' => 'users/general', 'label' => __('General', true)),
+      array('name' => 'memberships', 'partial' => 'users/memberships', 'label' => __('Projects', true)),
+    );
+
+    $this->set('settings_tabs',$tabs);
+
     $this->set('user', $user);
     $this->set('projects', $this->Project->find('all'));
+
 #    @auth_sources = AuthSource.find(:all)
 #    @roles = Role.find_all_givable
 #    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
