@@ -6,17 +6,22 @@
 <?php if (!empty($this->data['Project']['homepage'])): ?>
     <li><?php __('Homepage') ?>: <a href="<?php echo h($this->data['Project']['homepage']) ?>"><?php echo h($this->data['Project']['homepage']) ?></a></li>
 <?php endif ?>
-    <% if @subprojects.any? %>
-  <li><?php __('Subprojects') ?>: <%= @subprojects.collect{|p| link_to(h(p.name), :action => 'show', :id => p)}.join(", ") %></li>
-    <% end %>
-  <?php if ($this->data['Parent']['id'] != null): ?>
-  <li><?php __('Subproject of') ?>: <?php echo $html->link(h($this->data['Parent']['name']), '/projects/show/'.$this->data['Parent']['id']) ?></li>
+<?php if (count($subprojects) > 0): ?>
+  <li><?php __('Subprojects') ?>: 
+<?php foreach($subprojects as $key=>$subproject): ?>
+<?php if ($key != 0) { echo ', '; } ?>
+<?php echo $html->link(h($subproject['Project']['name']), array('controller'=>'projects', 'action'=>'show', 'project_id'=>$subproject['Project']['id'])) ?>
+<?php endforeach ?>
+</li>
+<?php endif ?>
+  <?php if ($parent_project): ?>
+  <li><?php __('Subproject of') ?>: <?php echo $html->link(h($parent_project['name']), '/projects/show/'.$parent_project['id']) ?></li>
   <?php endif ?>
-	<% @project.custom_values.each do |custom_value| %>
-	<% if !custom_value.value.empty? %>
-	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
-	<% end %>
-	<% end %>
+<?php foreach($custom_values as $custom_value): ?>
+  <?php if (!empty($custom_value['CustomValue']['value'])): ?>
+  <li><?php echo h($custom_value['CustomField']['name']) ?>: <?php echo h($custom_field->show_value($custom_value['CustomValue']['value'])) ?></li>
+   <?php endif ?>
+<?php endforeach ?>
 	</ul>	
 
   <% if User.current.allowed_to?(:view_issues, @project) %>
@@ -25,8 +30,8 @@
     <ul>
     <?php foreach($this->data['Tracker'] as $tracker): ?>
     <li><?php echo $html->link(h($tracker['name']), '/issues/index?project_id='.$this->data['Project']['id'].'&set_filter=1&tracker_id='.$tracker['id']) ?>:
-      <%= @open_issues_by_tracker[tracker] || 0 %> <%= lwr(:label_open_issues, @open_issues_by_tracker[tracker] || 0) %>
-      <?php __("'on'") ?> <%= @total_issues_by_tracker[tracker] || 0 %></li>
+    <?php echo $tracker['open_issues_by_tracker'] ?> <?php echo $candy->lwr('open', $tracker['open_issues_by_tracker']) ?>
+    <?php __("'on'") ?> <?php echo $tracker['total_issues_by_tracker'] ?></li>
     <?php endforeach ?>
     </ul>
     <p><?php echo $html->link(__('View all issues', true), array('/issues/index/'.$this->data['Project']['id'].'?set_filter=1')) ?></p>

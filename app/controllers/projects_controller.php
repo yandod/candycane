@@ -19,8 +19,19 @@
 class ProjectsController extends AppController
 {
   var $name = 'Projects';
-  var $uses = array('Project', 'User', 'Tracker', 'IssueCustomField', 'Permission', 'CustomFieldsProject', 'EnabledModule', 'Version');
-  var $helpers = array('Time', 'Project');
+  var $uses = array(
+    'Project',
+    'User',
+    'Tracker',
+    'IssueCustomField',
+    'Permission',
+    'CustomFieldsProject',
+    'EnabledModule',
+    'Version',
+    'Issue',
+    'CustomValue',
+  );
+  var $helpers = array('Time', 'Project', 'CustomField');
   var $components = array('RequestHandler');
 
 #  menu_item :overview
@@ -198,6 +209,59 @@ class ProjectsController extends AppController
 #  end
   function show()
   {
+    $subprojects = $this->Project->findSubprojects($this->data['Project']['id']);
+    $this->set('subprojects', $subprojects);
+
+    foreach($this->data['Tracker'] as $key=>$tracker) {
+      $cond = $this->Project->project_condition( /*Setting.display_subprojects_issues?*/ false);
+      $cond_open = $cond;
+      $cond_open['Status.is_closed'] = false;
+      $cond_open['Issue.tracker_id'] = $tracker['id'];
+      $open_issues_by_tracker = $this->Issue->find('count', array(
+        'conditions' => $cond_open,
+        'group' => 'tracker_id',
+      ));
+      $total_issues_by_tracker = $this->Issue->find('count', array(
+        'conditions' => $cond,
+        'group' => 'tracker_id',
+      ));
+
+      $tracker['open_issues_by_tracker'] = intval($open_issues_by_tracker);
+      $tracker['total_issues_by_tracker'] = intval($total_issues_by_tracker);
+      $this->data['Tracker'][$key] = $tracker;
+
+      $parent_project = $this->Project->findById($this->data['Project']['parent_id']);
+      $this->set('parent_project', $parent_project);
+
+      $custom_values = $this->CustomValue->find('all', array(
+        'conditions' => array(
+          'CustomFieldsProject.project_id' => $this->Project->id,
+        ),
+        'recursive' => -1,
+        'joins' => array(
+          array(
+            'type'=>'INNER',
+            'table' => 'custom_fields',
+            'alias' => 'CustomField',
+            'conditions'=>'CustomField.id=CustomValue.custom_field_id',
+          ),
+          array(
+            'type'=>'INNER',
+            'table' => 'custom_fields_projects',
+            'alias' => 'CustomFieldsProject',
+            'conditions'=>'CustomField.id=CustomFieldsProject.custom_field_id',
+          ),
+        ),
+      ));
+      $this->set('custom_values', $custom_values);
+    }
+
+#      @open_issues_by_tracker = Issue.count(:group => :tracker,
+#                                            :include => [:project, :status, :tracker],
+#                                            :conditions => ["(#{cond}) AND #{IssueStatus.table_name}.is_closed=?", false])
+#      @total_issues_by_tracker = Issue.count(:group => :tracker,
+#                                            :include => [:project, :status, :tracker],
+#                                            :conditions => cond)
   }
 #
 #  def settings
