@@ -872,7 +872,7 @@ msgstr "開始日"
 
 # field_password_confirmation
 msgid "Confirmation"
-msgstr "パスワードの確認"
+msgstr "確認"
 
 # label_logged_as
 msgid "Logged in as"

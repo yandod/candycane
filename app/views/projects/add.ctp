@@ -10,12 +10,15 @@
  */ ?>
 
 <fieldset class="box"><legend><?php __('Modules') ?></legend>
-<% Redmine::AccessControl.available_project_modules.each do |m| %>
+<?php foreach($enabled_module_names as $module): ?>
     <label class="floating">
+<?php echo $form->input('enabled_modules[]', array('type'=>'checkbox', 'value'=>$module, 'label'=>__($module, true))) ?>
+<?php /*
     <%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) %>
     <%= (l_has_string?("project_module_#{m}".to_sym) ? l("project_module_#{m}".to_sym) : m.to_s.humanize) %>
+ */?>
     </label>
-<% end %>
+<?php endforeach ?>
 </fieldset>
 
 <?php echo $form->submit(__('Save', true)) ?>
