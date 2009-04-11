@@ -1,15 +1,15 @@
 <div class="contextual">
-<%= change_status_link(@user) %>
+  <?php echo $users->change_status_link($user); ?>
 </div>
 
-<h2><%=l(:label_user)%>: <%=h @user.login %></h2>
+<h2><?php __('label_user'); ?>: <?php echo h($user['User']['login']); ?></h2>
 
 <% selected_tab = params[:tab] ? params[:tab].to_s : user_settings_tabs.first[:name] %>
 
 <div class="tabs">
 <ul>
 <% user_settings_tabs.each do |tab| -%>
-    <li><%= link_to l(tab[:label]), { :tab => tab[:name] },
+  <li><%= link_to l(tab[:label]), { :tab => tab[:name] },
                                     :id => "tab-#{tab[:name]}",
                                     :class => (tab[:name] != selected_tab ? nil : 'selected'),
                                     :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;" %></li>
@@ -24,4 +24,4 @@
                        :class => 'tab-content') %>
 <% end -%>
 
-<% html_title(l(:label_user), @user.login, l(:label_administration)) -%>
+<?php $candy->html_title(__('label_user', true)); ?>
