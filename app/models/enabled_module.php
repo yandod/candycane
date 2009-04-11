@@ -1,4 +1,9 @@
 <?php
+class EnabledModule extends AppModel
+{
+  var $name = 'EnabledModule';
+
+}
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
 ##

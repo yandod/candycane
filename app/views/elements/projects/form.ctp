@@ -1,4 +1,7 @@
-<%= error_messages_for 'project' %>
+<?php /*
+vim: filetype=php
+*/ ?>
+<?php echo $form->error('Project/add') ?>
 
 <div class="box">
 <!--[form:project]-->
@@ -40,7 +43,7 @@
 <fieldset class="box"><legend><?php __('Trackers') ?></legend>
 <?php foreach($trackers as $tracker): ?>
     <label class="floating">
-<?php echo $form->input('project[tracker_ids][]',
+<?php echo $form->input('[tracker_ids][]',
                   array('type'=>'checkbox',
                         'value'=>$tracker['Tracker']['id'],
                         'label'=>h($tracker['Tracker']['name']),
@@ -50,7 +53,7 @@
  */ ?>
     </label>
 <?php endforeach ?>
-<?php echo $form->input('project[tracker_ids][]', array('type'=>'hidden', 'value'=>'')) ?>
+<?php echo $form->input('[tracker_ids][]', array('type'=>'hidden', 'value'=>'')) ?>
 </fieldset>
 <?php endif ?>
 
@@ -58,7 +61,7 @@
 <fieldset class="box"><legend><?php __('Custom fields') ?></legend>
 <?php foreach($issue_custom_fields as $custom_field): ?>
     <label class="floating">
-<?php echo $form->input('project[issue_custom_field_ids][]',
+<?php echo $form->input('[issue_custom_field_ids][]',
                   array('type'=>'checkbox',
                         'value'=>$custom_field['IssueCustomField']['id'],
                         'label'=>h($custom_field['IssueCustomField']['name']),
@@ -69,7 +72,7 @@
  */ ?>
 	</label>
 <?php endforeach ?>
-<?php echo $form->input('project[issue_custom_field_ids][]', array('type'=>'hidden', 'value'=>'')) ?>
+<?php echo $form->input('[issue_custom_field_ids][]', array('type'=>'hidden', 'value'=>'')) ?>
 </fieldset>
 <?php endif ?>
 <!--[eoform:project]-->

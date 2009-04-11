@@ -1,4 +1,4 @@
-<h2><%=l(:label_settings)%></h2>
+<h2><?php __('Settings') ?></h2>
 
 <% tabs = project_settings_tabs %>
 <% selected_tab = params[:tab] ? params[:tab].to_s : tabs.first[:name] %>

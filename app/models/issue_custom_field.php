@@ -33,8 +33,26 @@ require_once ('custom_field.php');
 class IssueCustomField extends CustomField
 {
   var $name = 'IssueCustomField';
+  var $alias = 'IssueCustomField';
   var $useTable = 'custom_fields';
+  var $belongsTo = array();
+  var $hasMany = array();
+  var $hasAndBelongsToMany = array();
 
+  function beforeFind(&$queryData)
+  {
+    $ret = parent::beforeFind($queryData);
+    if (is_array($ret)) {
+      $queryData = $ret;
+    }
+
+    if ($queryData['conditions'] == null) {
+      $queryData['conditions'] = array();
+    }
+    $queryData['conditions'][$this->name.'.type'] = $this->name;
+
+    return $queryData;
+  }
 
 }
 
