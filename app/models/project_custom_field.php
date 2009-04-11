@@ -1,4 +1,33 @@
 <?php
+
+require_once ('custom_field.php');
+
+class ProjectCustomField extends CustomField
+{
+  var $name = 'ProjectCustomField';
+  var $alias = 'ProjectCustomField';
+  var $useTable = 'custom_fields';
+  var $belongsTo = array();
+  var $hasMany = array();
+  var $hasAndBelongsToMany = array();
+
+  function beforeFind(&$queryData)
+  {
+    $ret = parent::beforeFind($queryData);
+    if (is_array($ret)) {
+      $queryData = $ret;
+    }
+
+    if ($queryData['conditions'] == null) {
+      $queryData['conditions'] = array();
+    }
+    $queryData['conditions'][$this->name.'.type'] = $this->name;
+
+    return $queryData;
+  }
+
+}
+
 ## redMine - project management software
 ## Copyright (C) 2006  Jean-Philippe Lang
 ##
