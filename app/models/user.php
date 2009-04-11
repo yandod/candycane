@@ -58,50 +58,11 @@
 #    true
 #  end
 #  
-#  def before_save
-#    # update hashed_password if password was set
-#    self.hashed_password = User.hash_password(self.password) if self.password
-#  end
-#  
 #  def reload(*args)
 #    @name = nil
 #    super
 #  end
 #  
-#  # Returns the user that matches provided login and password, or nil
-#  def self.try_to_login(login, password)
-#    # Make sure no one can sign in with an empty password
-#    return nil if password.to_s.empty?
-#    user = find(:first, :conditions => ["login=?", login])
-#    if user
-#      # user is already in local database
-#      return nil if !user.active?
-#      if user.auth_source
-#        # user has an external authentication method
-#        return nil unless user.auth_source.authenticate(login, password)
-#      else
-#        # authentication with local password
-#        return nil unless User.hash_password(password) == user.hashed_password        
-#      end
-#    else
-#      # user is not yet registered, try to authenticate with available sources
-#      attrs = AuthSource.authenticate(login, password)
-#      if attrs
-#        user = new(*attrs)
-#        user.login = login
-#        user.language = Setting.default_language
-#        if user.save
-#          user.reload
-#          logger.info("User '#{user.login}' created from the LDAP") if logger
-#        end
-#      end
-#    end    
-#    user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
-#    user
-#  rescue => text
-#    raise text
-#  end
-#	
 #  # Return user's full name for display
 #  def name(formatter = nil)
 #    if formatter
@@ -330,70 +291,93 @@ class User extends AppModel
     ),
   );
 
-    /**
-     * tryToLogin
-     *
-     * Returns the user that matches provided login and password, or nil
-     *
-     * @todo implement auth_source
-     */
-    function tryToLogin($login, $password)
-    {
-        // Make sure no one can sign in with an empty password
-        if (strlen($password) <= 0) {
-            return false;
-        }
-
-        $user = $this->findByLogin($login);
-        $user = $user['User'];
-
-        if (is_array($user)) {
-            // user is already in local database
-            # return nil if !user.active?
-            if ($user['status'] != 1) {
-                return false;
-            }
-
-            if (isset($user['auth_source']) && $user['auth_source']) {
-                // user has an external authentication method
-                # return nil unless user.auth_source.authenticate(login, password)
-                //return false;
-            } else {
-                // authentication with local password
-                # return nil unless User.hash_password(password) == user.hashed_password        
-                if (Security::hash($password) != $user['hashed_password']) {
-                    return false;
-                }
-            }
-        } else {
-            // user is not yet registered, try to authenticate with available sources
-            #      attrs = AuthSource.authenticate(login, password)
-            #      if attrs
-            #        user = new(*attrs)
-            #        user.login = login
-            #        user.language = Setting.default_language
-            #        if user.save
-            #          user.reload
-            #          logger.info("User '#{user.login}' created from the LDAP") if logger
-            #        end
-            #      end
-        }
-
-        // user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
-        if ($user) {
-            $this->updateAttribute($user, date('Y-m-d H:i:s',time()));
-        }
-
-        return $user;
+  /**
+   * beforeSave
+   *
+   */
+  function beforeSave()
+  {
+    if ($this->data['User']['password']) {
+      $this->data['User']['hashed_password'] = $this->hash_password($this->data['User']['password']);
     }
 
-    /**
-     * updateAttribute
-     *
-     */
-    function updateAttribute($user, $last_login_on)
-    {
-        $user['last_login_on'] = $last_login_on;
-        $this->save($user);
+    return true;
+  }
+
+  /**
+   * hash_password
+   *
+   * @access private
+   */
+  function hash_password($password = '')
+  {
+    return sha1($password);
+  }
+
+  /**
+   * tryToLogin
+   *
+   * Returns the user that matches provided login and password, or nil
+   *
+   * @todo implement auth_source
+   */
+  function tryToLogin($login, $password)
+  {
+    // Make sure no one can sign in with an empty password
+    if (strlen($password) <= 0) {
+      return false;
     }
+
+    $user = $this->findByLogin($login);
+    $user = $user['User'];
+
+    if (is_array($user)) {
+      // user is already in local database
+      # return nil if !user.active?
+      if ($user['status'] != 1) {
+        return false;
+      }
+
+      if (isset($user['auth_source']) && $user['auth_source']) {
+        // user has an external authentication method
+        # return nil unless user.auth_source.authenticate(login, password)
+        //return false;
+      } else {
+        // authentication with local password
+        # return nil unless User.hash_password(password) == user.hashed_password        
+        if (Security::hash($password) != $user['hashed_password']) {
+          return false;
+        }
+      }
+    } else {
+      // user is not yet registered, try to authenticate with available sources
+      #      attrs = AuthSource.authenticate(login, password)
+      #      if attrs
+      #        user = new(*attrs)
+      #        user.login = login
+      #        user.language = Setting.default_language
+      #        if user.save
+      #          user.reload
+      #          logger.info("User '#{user.login}' created from the LDAP") if logger
+      #        end
+      #      end
+    }
+
+    // user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
+    if ($user) {
+      $this->updateAttribute($user, date('Y-m-d H:i:s',time()));
+    }
+
+    return $user;
+  }
+
+  /**
+   * updateAttribute
+   *
+   */
+  function updateAttribute($user, $last_login_on)
+  {
+    $user['last_login_on'] = $last_login_on;
+    $this->save($user);
+  }
 }

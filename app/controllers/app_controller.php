@@ -22,6 +22,7 @@ class AppController extends Controller {
         $this->user_setup();
         $this->check_if_login_required();
         $this->setSettings();
+        $this->_findProject();
         //$this->set_localzation();
     }
 #  filter_parameter_logging :password
@@ -296,8 +297,16 @@ class AppController extends Controller {
   
   function _findProject()
   {
-    if ( isset($this->project_id) ) {
-    	
+    if ( isset($this->params['project_id']) ) {
+        if ($this->_project = $this->Project->find('first', array(
+	      'conditions' => array(
+	        'Project.identifier' => $this->params['project_id'],
+	      ),
+	    ))) {
+	      $this->set('main_project', $this->_project);
+	    } else {
+	      $this->cakeError('error404');
+	    }
     }
   }
   
