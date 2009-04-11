@@ -75,8 +75,6 @@ end
 class WatchableBehavior extends ModelBehavior {
   function setup(&$Model, $config = array()) {
     $settings = $config;
-    
-    $Model->bindModel(array('hasMany'=>array('Watcher'=>array('dependent'=>true))));
     //  *** proc on afterFind   
     //  has_many :watcher_users, :through => :watchers, :source => :user
     $this->settings[$Model->alias] = $settings;
@@ -90,6 +88,7 @@ class WatchableBehavior extends ModelBehavior {
 
   # Adds user as a watcher
   function add_watcher(&$Model, $user) {
+    $Model->bindModel(array('hasMany'=>array('Watcher'=>array('dependent'=>true,'foreignKey'=>'watchable_id'))), false);
     $Model->Watcher->create();
     return $Model->Watcher->save(array('Watcher'=>array('watchable_type'=>$Model->name, 'watchable_id '=>$Model->id, 'user_id'=>$user['User']['id'])));
   }
@@ -99,6 +98,7 @@ class WatchableBehavior extends ModelBehavior {
     if(empty($user)) {
       return false;
     }
+    $Model->bindModel(array('hasMany'=>array('Watcher'=>array('dependent'=>true,'foreignKey'=>'watchable_id'))), false);
     return $Model->Watcher->deleteAll(array('watchable_type'=>$Model->name, 'watchable_id'=>$Model->id, 'user_id'=>$user['User']['id']));
   }
 
@@ -109,6 +109,7 @@ class WatchableBehavior extends ModelBehavior {
 
   # Returns if object is watched by user
   function watched_by(&$Model, $user) {
+    $Model->bindModel(array('hasMany'=>array('Watcher'=>array('dependent'=>true,'foreignKey'=>'watchable_id'))), false);
     $watcher = $Model->Watcher->find('first',array('conditions' => array("Watcher.user_id"=>$user['User']['id'])));
     if(!$watcher) {
       return false;
@@ -122,6 +123,7 @@ class WatchableBehavior extends ModelBehavior {
 
   # Returns an array of watchers' email addresses
   function watcher_recipients(&$Model) {
+    $Model->bindModel(array('hasMany'=>array('Watcher'=>array('dependent'=>true,'foreignKey'=>'watchable_id'))), false);
     $Model->Watcher->bindModel(array('belongsTo'=>array('User')), false);
     $watchers = $Model->Watcher->find('all', array('conditions' => array('watchable_type'=>$Model->name, 'watchable_id'=>$Model->id)));
     if(empty($watchers)) {
