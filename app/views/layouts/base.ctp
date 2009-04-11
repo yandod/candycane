@@ -49,7 +49,9 @@
 		<ul>
 <?php foreach ($main_menu as $item): ?>
 <?php
-  $url = aa('controller',$item['controller'],'action',$item['action']);
+  $url = $item;
+  unset($url['class']);
+  unset($url['caption']);
   $option = aa('class',$item['class']); 
 ?>
 			<li><?php echo $html->link($item['caption'],$url,$option); ?></li>
