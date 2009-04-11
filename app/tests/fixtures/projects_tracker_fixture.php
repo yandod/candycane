@@ -1,7 +1,11 @@
 <?php 
-class ProjectTrackerFixture extends CakeTestFixture {
-  var $name = 'ProjectTracker';
-  var $import = array('model'=>'ProjectTracker');
+class ProjectsTrackerFixture extends CakeTestFixture {
+  var $name = 'ProjectsTracker';
+  var $fields = array(
+      'project_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'primary'),
+      'tracker_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+      'indexes' => array('projects_trackers_project_id' => array('column' => 'project_id', 'unique' => 0))
+  );
   var $records = array(
     array('project_id'=>4, 'tracker_id'=>3),
     array('project_id'=>1, 'tracker_id'=>1),

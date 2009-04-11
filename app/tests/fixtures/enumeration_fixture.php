@@ -1,7 +1,14 @@
 <?php 
 class EnumerationFixture extends CakeTestFixture {
   var $name = 'Enumeration';
-  var $import = array('model'=>'Enumeration');
+  var $fields = array(
+      'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
+      'opt' => array('type' => 'string', 'null' => false, 'length' => 4),
+      'name' => array('type' => 'string', 'null' => false, 'length' => 30),
+      'position' => array('type' => 'integer', 'null' => true, 'default' => '1'),
+      'is_default' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+      'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
+  );
 
   var $records = array(
     array('name'=>'Uncategorized',      'id'=>1,'opt'=>'DCAT'),

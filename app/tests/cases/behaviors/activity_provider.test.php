@@ -1,22 +1,22 @@
 <?php 
 App::import('Core', array('AppModel', 'Model'));
 class ActivityProviderTestCase extends CakeTestCase {
-  var $Project = null;
+  var $Issue = null;
   var $data = null;
-  var $fixtures = array('app.projects', 'app.versions', 'app.users', 'app.roles', 'app.members', 
-        'app.issues', 'app.journals', 'app.journal_details', 'app.trackers', 'app.projects_trackers',
-        'app.issue_statuses', 'app.enabled_modules', 'app.enumerations', 'app.boards', 'app.messages');
+  var $fixtures = array('app.project', 'app.version', 'app.user', 'app.role', 'app.member', 
+        'app.issue', 'app.journal', 'app.journal_detail', 'app.tracker', 'app.projects_tracker',
+        'app.issue_status', 'app.enabled_module', 'app.enumeration', 'app.board', 'app.message');
 
   function startTest() {
-    $this->Project =& ClassRegistry::init('Project');
-    $this->data = $this->Project->read(null, 1);
+    $this->Issue =& ClassRegistry::init('Issue');
+    $this->data = $this->Issue->read(null, 1);
   }
 
   function test_activity_without_subprojects() {
     $User =& ClassRegistry::init('User');
     $user = $User->read(null, 6);
 
-    $events = $this->Project->find_events('projects', $user['User'], false, false, array('project' => $this->data));
+    $events = $this->Issue->find_events('projects', $user['User'], false, false, array('project' => $this->data));
     $this->assertNotNull($events);
     e(pr($events));
 //    $this->assertTrue($events.include?(Issue.find(1))
