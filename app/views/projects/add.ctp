@@ -1,9 +1,15 @@
-<h2><%=l(:label_project_new)%></h2>
+<h2><?php __('New project') ?></h2>
 
+<?php echo $form->create('Project', array('action'=>'add')) ?>
+<?php /*
 <% labelled_tabular_form_for :project, @project, :url => { :action => "add" } do |f| %>
+ */ ?>
+<?php echo $this->element('projects/form') ?>
+<?php /*
 <%= render :partial => 'form', :locals => { :f => f } %>
+ */ ?>
 
-<fieldset class="box"><legend><%= l(:label_module_plural) %></legend>
+<fieldset class="box"><legend><?php __('Modules') ?></legend>
 <% Redmine::AccessControl.available_project_modules.each do |m| %>
     <label class="floating">
     <%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) %>
@@ -12,5 +18,9 @@
 <% end %>
 </fieldset>
 
-<%= submit_tag l(:button_save) %>
+<?php echo $form->submit(__('Save', true)) ?>
+<?php /*
 <% end %>
+ */ ?>
+<?php echo $form->end() ?>
+

@@ -144,6 +144,8 @@ class Version extends AppModel
 
   function afterFindOne($result)
   {
+    if (empty($result)) { return $result; }
+
     $result['start_date'] = $result['effective_date'];
     $result['due_date'] = $result['effective_date'];
 

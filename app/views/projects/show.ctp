@@ -23,13 +23,11 @@
   <div class="box">    
     <h3 class="icon22 icon22-tracker"><?php __('Issue tracking') ?></h3>
     <ul>
-    <% for tracker in @trackers %>    
-      <li><%= link_to tracker.name, :controller => 'issues', :action => 'index', :project_id => @project, 
-                                                :set_filter => 1, 
-                                                "tracker_id" => tracker.id %>:
+    <?php foreach($this->data['Tracker'] as $tracker): ?>
+    <li><?php echo $html->link(h($tracker['name']), '/issues/index?project_id='.$this->data['Project']['id'].'&set_filter=1&tracker_id='.$tracker['id']) ?>:
       <%= @open_issues_by_tracker[tracker] || 0 %> <%= lwr(:label_open_issues, @open_issues_by_tracker[tracker] || 0) %>
       <?php __("'on'") ?> <%= @total_issues_by_tracker[tracker] || 0 %></li>
-    <% end %>
+    <?php endforeach ?>
     </ul>
     <p><?php echo $html->link(__('View all issues', true), array('/issues/index/'.$this->data['Project']['id'].'?set_filter=1')) ?></p>
   </div>

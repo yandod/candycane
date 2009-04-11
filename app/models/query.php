@@ -53,14 +53,15 @@ class Query extends AppModel
 {
   var $name = 'Query';
   var $belongsTo = array(
-    'User',
     'Project',
+    'User',
   );
-#class Query < ActiveRecord::Base
-#  belongs_to :project
-#  belongs_to :user
+  var $actsAs = array(
+    'Candy',
+  );
 #  serialize :filters
   var $column_names = null;
+
 #  serialize :column_names
 #  
 #  attr_protected :project_id, :user_id
