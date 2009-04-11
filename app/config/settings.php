@@ -66,9 +66,9 @@ $vars = array(
 'autologin' =>
   '0',
 'date_format' =>
-  '',
+  '%Y-%m-%d',
 'time_format' =>
-  '',
+  '%H:%M:%S',
 'user_format' =>
   ':firstname_lastname',
 'cross_project_issue_relations' =>

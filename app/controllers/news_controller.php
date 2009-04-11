@@ -18,9 +18,10 @@
 #
 class NewsController extends AppController {
 	var $name = 'News';
-	var $uses = array( 'News', 'User', 'Project' ) ;
+	var $uses = array( 'News', 'User', 'Project', 'Comment' ) ;
 	var $helpers = array('Html', 'Form', 'Candy', 'Ajax');
 
+  var $paginate = array( 'order' => array('News.created_on' => 'desc') ) ;
 #class NewsController < ApplicationController
 #  before_filter :find_news, :except => [:new, :index, :preview]
 #  before_filter :find_project, :only => [:new, :preview]
@@ -41,9 +42,15 @@ class NewsController extends AppController {
 #      format.html { render :layout => false if request.xhr? }
 #      format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
 #    end
-#  end
-			// TODO: project id, view format
-		$this->set('newss', $this->paginate('News', array('News.project_id' => 1 )));
+#  end		
+		$options = null ;
+		if ( $this->params['project_id'] ) {
+  		$project = $this->Project->find('first', array('conditions'=>array('Project.identifier'=>$this->params['project_id']))) ;
+		  $options = array('News.project_id' => $project['Project']['id'] ) ;
+    }
+    
+			// TODO: view format の切り替え
+		$this->set('newss', $this->paginate('News', $options));
 	}
 #  
 	function show($id = null)
@@ -76,7 +83,7 @@ class NewsController extends AppController {
 		if (!empty($this->data)) {
 			$this->News->create();
         // TODO: project_id, author_idを正しく設定する！
-      $this->News->set( 'author_id', 1 ) ;
+      $this->News->set( 'author_id', $this->current_user['id'] ) ;
       $this->News->set( 'project_id', 1 ) ;
       $this->News->set( 'created_on', date('Y-m-d H:i:s',time()) ) ;
 
@@ -108,7 +115,9 @@ class NewsController extends AppController {
 			}
 		}
   }
-#  
+
+  function add_comment($id = null)
+  {
 #  def add_comment
 #    @comment = Comment.new(params[:comment])
 #    @comment.author = User.current
@@ -119,16 +128,41 @@ class NewsController extends AppController {
 #      render :action => 'show'
 #    end
 #  end
+		if (!empty($this->data)) {
+			$this->Comment->create();
+        // TODO: author_idを正しく設定する！
+      $this->Comment->set( 'commented_type', 'News' ) ;
+      $this->Comment->set( 'commented_id', $id ) ;
+      $this->Comment->set( 'author_id', 1 ) ;
+        // $this->data['News'] って気持ち悪いけどどうしたら良い？
+      $this->Comment->set( 'comments', $this->data['News']['comments'] ) ;
+      $this->Comment->set( 'created_on', date('Y-m-d H:i:s',time()) ) ;
+      $this->Comment->set( 'updated_on', date('Y-m-d H:i:s',time()) ) ;
+
+			if ($this->Comment->save($this->data)) {
+				$this->Session->setFlash(__('Successful creation.', true));
+				$this->redirect(array('action'=>'show', 'id' => $id));
+			}
+		}
+  }
 #
 #  def destroy_comment
 #    @news.comments.find(params[:comment_id]).destroy
 #    redirect_to :action => 'show', :id => @news
 #  end
 #
+  function destroy( $id = null ) 
+  {
 #  def destroy
 #    @news.destroy
 #    redirect_to :action => 'index', :project_id => @project
 #  end
+		if ($this->News->del($id)) {
+        // TODO: project_idを正しく設定する！
+			$this->Session->setFlash(__('Successful deletion.', true));
+			$this->redirect(array('action'=>'index'));
+		}
+  }
 #  
 #  def preview
 #    @text = (params[:news] ? params[:news][:description] : nil)

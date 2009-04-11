@@ -173,18 +173,43 @@ class CandyHelper extends AppHelper
   }
 #
   
-  function format_time()
+  /**
+   * format_time
+   *
+   * @todo time_zone
+   */
+  function format_time($time, $include_date = true)
   {
-#  def format_time(time, include_date = true)
-#    return nil unless time
-#    time = time.to_time if time.is_a?(String)
+    if (empty($time)) {
+      return null;
+    }
+
+    if (is_string($time) && !is_numeric($time)) {
+      $time = strtotime($time);
+    }
+
 #    zone = User.current.time_zone
 #    local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
-#    @date_format ||= (Setting.date_format.blank? || Setting.date_format.size < 2 ? l(:general_fmt_date) : Setting.date_format)
-#    @time_format ||= (Setting.time_format.blank? ? l(:general_fmt_time) : Setting.time_format)
-#    include_date ? local.strftime("#{@date_format} #{@time_format}") : local.strftime(@time_format)
-#  end
-    return "2009/4/1 12:12 AM";
+
+    if (empty($this->Settings->date_format) || (strlen($this->Settings->date_format) < 2)) {
+      $date_format = __('general_fmt_date', true);
+    } else {
+      $date_format = $this->Settings->date_format;
+    }
+
+    if (empty($this->Settings->time_format)) {
+      $time_format = __('general_fmt_time', true);
+    } else {
+      $time_format = $this->Settings->time_format;
+    }
+
+    if ($include_date) {
+      return strftime("{$date_format} {$time_format}", $time);
+      // return strftime("{$date_format} {$time_format}", $local);
+    } else {
+      return strftime("{$time_format}", $time);
+      // return strftime("{$time_format}", $local);
+    }
   }
 #  
 #  def format_activity_title(text)
@@ -721,20 +746,70 @@ class CandyHelper extends AppHelper
 #    (@has_content && @has_content[name]) || false
 #  end
 #
-#  # Returns the avatar image tag for the given +user+ if avatars are enabled
-#  # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
-#  def avatar(user, options = { })
-#    if Setting.gravatar_enabled?
-#      email = nil
+
+  /**
+   * avatar
+   *
+   * Returns the avatar image tag for the given +user+ if avatars are enabled
+   * +user+ can be a User or a string that will be scanned for an email address
+   * (eg. 'joe <joe@foo.bar>')
+   */
+  function avatar($user, $options = array())
+  {
+    if ($this->Settings->gravatar_enabled) {
+
+      if (isset($user['User'])) {
+        $user = $user['User'];
+      }
+
+      if (empty($user['email'])) {
+        $email = null;
+      } else {
+        $email = $user['email'];
+      }
+
 #      if user.respond_to?(:mail)
 #        email = user.mail
 #      elsif user.to_s =~ %r{<(.+?)>}
 #        email = $1
 #      end
-#      return gravatar(email.to_s.downcase, options) unless email.blank? rescue nil
-#    end
-#  end
-#
+
+      if ($email == null) {
+        return null;
+      }
+
+      // def gravatar_url
+      $email_hash = md5($email);
+      $options_default = array(
+        'default' => null,
+        'rating' => 'PG',
+        'alt' => 'avatar',
+        'class' => 'gravatar'
+      );
+      $options = array_merge($options, $options_default);
+      if (!empty($options['default'])) {
+        $options['default'] = htmlspecialchars($options['default'], ENT_QUOTES);
+      }
+
+      $url = "http://www.gravatar.com/avatar.php?gravatar_id=#{email_hash}";
+
+      foreach (array('rating', 'size', 'default') as $opt) {
+        if (!empty($opt)) {
+          $value = htmlspecialchars($options[$opt], ENT_QUOTES);
+          $url .= "&{$opt}={$value}";
+        }
+      }
+      // end gravatar_url
+
+      # Return the HTML img tag for the given email address's gravatar.
+      foreach (array('class', 'alt', 'size') as $opt) {
+        $options[$opt] = htmlspecialchars($options[$opt], ENT_QUOTES);
+      }
+      
+      return "<img class=\"{$options['class']}\" alt=\"{$options['alt']}\" width=\"{$options['size']}\" height=\"{$options['size']}\" src=\"{$url}\" />"      
+;    }
+  }
+
 #  private
 #
 #  def wiki_helper

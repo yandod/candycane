@@ -281,13 +281,13 @@ class Project extends AppModel
 		if ($primary) {
 		  $results = $result;
 		} else {
-		 $results = array(aa('Project',$result));
+		 $results = array(aa($this->alias,$result));
 		}
 		foreach ($results as $key => $val) {
-			if (isset($val['Project']['description'])) {
-				$results[$key]['Project']['short_description'] = $this->short_description($val['Project']['description']);
+			if (isset($val[$this->alias]['description'])) {
+				$results[$key][$this->alias]['short_description'] = $this->short_description($val[$this->alias]['description']);
 			} else {
-				$results[$key]['Project']['short_description'] = '';
+				$results[$key][$this->alias]['short_description'] = '';
 			}
 		}
 		return $results;
