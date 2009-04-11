@@ -1,7 +1,7 @@
 <?php
 class Comment extends AppModel {
 
-    var $name = 'Comment';
+  var $name = 'Comment';
 
 	var $belongsTo = array(
 		'Author' => array(
@@ -9,7 +9,7 @@ class Comment extends AppModel {
 			'foreginKey' => 'author_id',
 		),
 	);
-    var $actsAs = array('Polymorphic');
+  var $actsAs = array('Polymorphic');
 }
 ## redMine - project management software
 ## Copyright (C) 2006  Jean-Philippe Lang

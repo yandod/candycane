@@ -18,6 +18,8 @@
 #
 class Setting extends AppModel
 {
+  var $name = 'Setting' ;
+  
 #
 #  DATE_FORMATS = [
 #	'%Y-%m-%d',
@@ -167,6 +169,7 @@ class Setting extends AppModel
   {
     parent::__construct();
     $var = include CONFIGS.DS.'settings.php';
+
     foreach ($var as $k => $v) {
     	$this->{$k} = $v;
     }

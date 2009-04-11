@@ -43,10 +43,9 @@ class NewsController extends AppController {
 #      format.atom { render_feed(@newss, :title => (@project ? @project.name : Setting.app_title) + ": #{l(:label_news_plural)}") }
 #    end
 #  end		
-		$options = null ;
-		if ( $this->params['project_id'] ) {
-  		$project = $this->Project->find('first', array('conditions'=>array('Project.identifier'=>$this->params['project_id']))) ;
-		  $options = array('News.project_id' => $project['Project']['id'] ) ;
+    $options = null ;
+    if ( is_array($this->params) && array_key_exists('project_id', $this->params) ) {
+      $options = array('Project.identifier'=>$this->params['project_id']) ;
     }
     
 			// TODO: view format の切り替え
@@ -82,14 +81,14 @@ class NewsController extends AppController {
 #  end
 		if (!empty($this->data)) {
 			$this->News->create();
-        // TODO: project_id, author_idを正しく設定する！
+
       $this->News->set( 'author_id', $this->current_user['id'] ) ;
-      $this->News->set( 'project_id', 1 ) ;
+      $this->News->set( 'project_id', $this->_project['Project']['id'] ) ;
       $this->News->set( 'created_on', date('Y-m-d H:i:s',time()) ) ;
 
 			if ($this->News->save($this->data)) {
-				$this->Session->setFlash(__('Successful creation.', true));
-				$this->redirect(array('action'=>'index'));
+				$this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash notice'));
+				$this->redirect(array('controller'=>'projects', 'action' => $this->_project['Project']['identifier'], 'news/index'));
 			}
 		}
   }
@@ -103,14 +102,11 @@ class NewsController extends AppController {
 #    end
 #  end
 		if (!empty($this->data)) {
-        // TODO: project_id, author_idを正しく設定する！
       $this->News->set( 'id', $id ) ;
-      $this->News->set( 'author_id', 1 ) ;
-      $this->News->set( 'project_id', 1 ) ;
       $this->News->set( 'created_on', date('Y-m-d H:i:s',time()) ) ;
 		    // TODO: パーミッションのチェック,request methodのチェック
 			if ($this->News->save($this->data)) {
-				$this->Session->setFlash(__('Successful update.', true));
+				$this->Session->setFlash(__('Successful update.',true), 'default', array('class'=>'flash notice'));
 				$this->redirect(array('action'=>'show', 'id' => $id));
 			}
 		}
@@ -133,14 +129,14 @@ class NewsController extends AppController {
         // TODO: author_idを正しく設定する！
       $this->Comment->set( 'commented_type', 'News' ) ;
       $this->Comment->set( 'commented_id', $id ) ;
-      $this->Comment->set( 'author_id', 1 ) ;
+      $this->Comment->set( 'author_id', $this->current_user['id'] ) ;
         // $this->data['News'] って気持ち悪いけどどうしたら良い？
       $this->Comment->set( 'comments', $this->data['News']['comments'] ) ;
       $this->Comment->set( 'created_on', date('Y-m-d H:i:s',time()) ) ;
       $this->Comment->set( 'updated_on', date('Y-m-d H:i:s',time()) ) ;
 
 			if ($this->Comment->save($this->data)) {
-				$this->Session->setFlash(__('Successful creation.', true));
+				$this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash notice'));
 				$this->redirect(array('action'=>'show', 'id' => $id));
 			}
 		}
@@ -153,15 +149,18 @@ class NewsController extends AppController {
 #
   function destroy( $id = null ) 
   {
-#  def destroy
-#    @news.destroy
-#    redirect_to :action => 'index', :project_id => @project
-#  end
+		$project = $this->News->read(null, $id);
+		if ( !$project ) {
+      $this->cakeError('error404');
+	  }
+	  
 		if ($this->News->del($id)) {
         // TODO: project_idを正しく設定する！
-			$this->Session->setFlash(__('Successful deletion.', true));
-			$this->redirect(array('action'=>'index'));
-		}
+			$this->Session->setFlash(__('Successful deletion.', true), 'default', array('class'=>'flash notice'));
+			$this->redirect(array('controller'=>'projects', 'action' => $project['Project'][0]['Project']['identifier'], 'news/index'));
+    } else {
+      $this->cakeError('error404');
+	  }
   }
 #  
 #  def preview
@@ -177,11 +176,34 @@ class NewsController extends AppController {
 #    render_404
 #  end
 #  
+
+  function _find_project()
+  {
 #  def find_project
 #    @project = Project.find(params[:project_id])
 #  rescue ActiveRecord::RecordNotFound
 #    render_404
 #  end
+    if ($this->_project = $this->Project->find('first', array(
+      'conditions' => array(
+        'Project.identifier' => $this->params['project_id'],
+      ),
+    ))) {
+      $this->set('project', $this->_project);
+    } else {
+      $this->cakeError('error404');
+    }
+  }
+  
+  function beforeFilter()
+  {
+    parent::beforeFilter();
+
+    $except = array('show', 'edit', 'destroy', 'add_comment');
+    if (!in_array($this->action, $except)) {
+      $this->_find_project();
+    }
+  }
 #  
 #  def find_optional_project
 #    return true unless params[:project_id]
