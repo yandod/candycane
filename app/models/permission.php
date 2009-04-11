@@ -48,7 +48,7 @@ class Permission extends AppModel
   // end
 
   // map.project_module 'time'_tracking do |map|);
-    $this->set('log_time', array('timelog' => 'edit'), array('require' => 'loggedin'), array(), 'time_tracking');
+    $this->set('log_time', array('timelog' => 'edit'), array('require' => 'loggedin'), 'time_tracking');
     $this->set('view_time_entries', array('timelog' => array('details', 'report')), array(), 'time_tracking');
     $this->set('edit_time_entries', array('timelog' => array('edit', 'destroy')), array('require' => 'member'), 'time_tracking');
     $this->set('edit_own_time_entries', array('timelog' => array('edit', 'destroy')), array('require' => 'loggedin'), 'time_tracking');
