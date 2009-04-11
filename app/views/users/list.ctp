@@ -31,10 +31,10 @@
   </tr></thead>
   <tbody>
 
-  <?php foreach($users as $user): ?>
+  <?php foreach($user_list as $user): ?>
   <tr class="user <%= cycle("odd", "even") %> <%= %w(anon active registered locked)[user.status] %>">
   <td class="username">
-    <%= avatar(user, :size => "14") %>
+    <?php echo $candy->avatar($user, array('size' => "14")); ?>
     <?php echo $html->link(h($user['User']['login']), '/users/edit/'.$user['User']['id']); ?>
   </td>
   <td class="firstname"><?php e(h($user['User']['firstname'])); ?></td>
@@ -48,8 +48,12 @@
   <td class="created_on" align="center">
     <?php echo $candy->format_time($user['User']['created_on']); ?>
   </td>
-  <td class="last_login_on" align="center"><%= format_time(user.last_login_on) unless user.last_login_on.nil? %></td>
-    <td><small><%= change_status_link(user) %></small></td>
+  <td class="last_login_on" align="center">
+    <?php echo $candy->format_time($user['User']['last_login_on']); ?>
+  </td>
+  <td>
+    <small><?php echo $users->change_status_link($user); ?></small>
+  </td>
   </tr>
   <?php endforeach; ?>
   </tbody>
