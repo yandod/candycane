@@ -1,29 +1,41 @@
 <?php
-## redMine - project management software
-## Copyright (C) 2006-2007  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
-#class UsersController < ApplicationController
-#  before_filter :require_admin
-#
-#  helper :sort
-#  include SortHelper
+/**
+ * users_controller.php
+ *
+ */
+
+/**
+ * UsersController
+ *
+ */
+class UsersController extends AppController
+{
+  var $helpers = array('Users', 'Sort', 'Ajax');
+  var $components = array('Sort');
 #  helper :custom_fields
 #  include CustomFieldsHelper   
-#
+
+  /**
+   * beforeFilter
+   *
+   * # before_filter :require_admin
+   */
+  function beforeFilter()
+  {
+    parent::beforeFilter();
+    $this->require_admin();
+  }
+
+  /**
+   * index
+   *
+   */
+  function index()
+  {
+    $this->list_();
+    $this->render('list'); // unless request.xhr?
+  }
+
 #  def edit
 #    @user = User.find(params[:id])
 #    if request.post?
@@ -56,33 +68,6 @@
 #    Member.find(params[:membership_id]).destroy if request.post?
 #    redirect_to :action => 'edit', :id => @user, :tab => 'memberships'
 #  end
-#end
-
-/**
- * UsersController
- *
- */
-class UsersController extends AppController
-{
-  var $helpers = array('Users', 'Sort', 'Ajax');
-  var $components = array('Sort');
-
-  /**
-   * beforeFilter
-   *
-   */
-  function beforeFilter()
-  {
-    parent::beforeFilter();
-    $this->require_admin();
-  }
-
-  function index()
-  {
-    $this->list_();
-    $this->render('list'); // unless request.xhr?
-    # render :action => 'list' unless request.xhr?
-  }
 
   /**
    * list_
@@ -163,17 +148,12 @@ class UsersController extends AppController
     } else {
       # @user = User.new(params[:user])
       # @user.admin = params[:user][:admin] || false
-      # @user.login = params[:user][:login]
-      if (!isset($user['auth_source_id']) || !is_numeric($user['auth_source_id'])) {
-        // @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
-      }
 
-      $result = $this->User->save($this->data);
-      if ($result) {
+      if ($this->User->save($this->data)) {
         #        Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
         #        flash[:notice] = l(:notice_successful_create)
         #        redirect_to :action => 'list'
-        $this->redirect('index');
+        $this->redirect('/users/index');
       }
     }
     #    @auth_sources = AuthSource.find(:all)
