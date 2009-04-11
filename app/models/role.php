@@ -102,6 +102,22 @@ class Role extends AppModel {
 #    !self.builtin?
 #  end
 #  
+  function non_member_allowed_to($permission) {
+    $non_member = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_NON_MEMBER)));
+    if(empty($non_member)) {
+      $this->cakeError('error', 'Missing non-member builtin role.');
+    }
+    // TODO YAMLをパースして権限をチェックする
+    return true;
+  }
+  function anonymous_allowed_to($permission) {
+    $anonymous = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_ANONYMOUS)));
+    if(empty($anonymous)) {
+      $this->cakeError('error', 'Missing non-member builtin role.');
+    }
+    // TODO YAMLをパースして権限をチェックする
+    return true;
+  }
 #  # Return true if role is allowed to do the specified action
 #  # action can be:
 #  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')

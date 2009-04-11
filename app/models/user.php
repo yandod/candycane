@@ -7,6 +7,10 @@
 #
 #
 #  # Account statuses
+define('USER_STATUS_ANONYMOUS', 0);
+define('USER_STATUS_ACTIVE',    1);
+define('USER_STATUS_REGISTERED',2);
+define('USER_STATUS_LOCKED',    3);
 #  STATUS_ANONYMOUS  = 0
 #  STATUS_ACTIVE     = 1
 #  STATUS_REGISTERED = 2
