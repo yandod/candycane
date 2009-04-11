@@ -31,6 +31,7 @@ class ProjectsController extends AppController
     'Issue',
     'CustomValue',
     'Member',
+    'News',
   );
   var $helpers = array('Time', 'Project', 'CustomField');
   var $components = array('RequestHandler');
@@ -230,52 +231,55 @@ class ProjectsController extends AppController
       $tracker['open_issues_by_tracker'] = intval($open_issues_by_tracker);
       $tracker['total_issues_by_tracker'] = intval($total_issues_by_tracker);
       $this->data['Tracker'][$key] = $tracker;
-
-      $parent_project = $this->Project->findById($this->data['Project']['parent_id']);
-      $this->set('parent_project', $parent_project);
-
-      $custom_values = $this->CustomValue->find('all', array(
-        'conditions' => array(
-          'CustomFieldsProject.project_id' => $this->Project->id,
-        ),
-        'recursive' => -1,
-        'joins' => array(
-          array(
-            'type'=>'INNER',
-            'table' => 'custom_fields',
-            'alias' => 'CustomField',
-            'conditions'=>'CustomField.id=CustomValue.custom_field_id',
-          ),
-          array(
-            'type'=>'INNER',
-            'table' => 'custom_fields_projects',
-            'alias' => 'CustomFieldsProject',
-            'conditions'=>'CustomField.id=CustomFieldsProject.custom_field_id',
-          ),
-        ),
-      ));
-      $this->set('custom_values', $custom_values);
-
-      $members_by_role = $this->Member->find('all', array(
-        'order' => 'Role.position',
-        'joins'=> array(
-          array(
-            'type'=>'INNER',
-            'alias'=>'Role',
-            'table'=>'roles',
-            'conditions'=>'Member.role_id=Role.id',
-          ),
-          array(
-            'type'=>'INNER',
-            'alias'=>'User',
-            'table'=>'users',
-            'conditions'=>'Member.role_id=Role.id',
-          )
-        ),
-      ));
-      $this->set('members_by_role', $members_by_role);
-#    @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
     }
+    $parent_project = $this->Project->findById($this->data['Project']['parent_id']);
+    $this->set('parent_project', $parent_project);
+
+    $custom_values = $this->CustomValue->find('all', array(
+      'conditions' => array(
+        'CustomFieldsProject.project_id' => $this->id,
+      ),
+      'recursive' => -1,
+      'joins' => array(
+        array(
+          'type'=>'INNER',
+          'table' => 'custom_fields',
+          'alias' => 'CustomField',
+          'conditions'=>'CustomField.id=CustomValue.custom_field_id',
+        ),
+        array(
+          'type'=>'INNER',
+          'table' => 'custom_fields_projects',
+          'alias' => 'CustomFieldsProject',
+          'conditions'=>'CustomField.id=CustomFieldsProject.custom_field_id',
+        ),
+      ),
+    ));
+    $this->set('custom_values', $custom_values);
+
+    $members = $this->Member->find('all', array(
+      'order' => 'Role.position',
+      'conditions'=>array(
+        'project_id'=>$this->id
+      ),
+    ));
+    $members_by_role = array();
+    foreach($members as $member) {
+      if (!isset($members_by_role[$member['Role']['name']])) {
+        $members_by_role[$member['Role']['name']] = array();
+      }
+      $members_by_role[$member['Role']['name']][] = $member;
+    }
+    ksort($members_by_role);
+    $this->set('members_by_role', $members_by_role);
+
+    $news = $this->News->find('all', array(
+      'order' => 'News.created_on DESC',
+      'limit'=>5,
+    ));
+    $this->set('news', $news);
+#    @news = @project.news.find(:all, :limit => 5, :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")
+#    @members_by_role = @project.members.find(:all, :include => [:user, :role], :order => 'position').group_by {|m| m.role}
 
 #      @open_issues_by_tracker = Issue.count(:group => :tracker,
 #                                            :include => [:project, :status, :tracker],

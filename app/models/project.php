@@ -313,13 +313,17 @@ class Project extends AppModel
 
   function afterFind($results, $primary = false)
   {
-    foreach($results as $key=>$result) {
-      if (isset($result[$this->alias][0])) {
-        foreach($result[$this->alias] as $key2=>$version) {
-          $results[$key][$this->alias][$key2] = $this->afterFindOne($version);
+    if (isset($results['id'])) {
+      $results = $this->afterFindOne($results);
+    } else {
+      foreach($results as $key=>$result) {
+        if (isset($result[$this->alias][0])) {
+          foreach($result[$this->alias] as $key2=>$version) {
+            $results[$key][$this->alias][$key2] = $this->afterFindOne($version);
+          }
+        } else {
+          $results[$key][$this->alias] = $this->afterFindOne($results[$key][$this->alias]);
         }
-      } else {
-        $results[$key][$this->alias] = $this->afterFindOne($results[$key][$this->alias]);
       }
     }
 

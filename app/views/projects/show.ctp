@@ -40,18 +40,23 @@
 </div>
 
 <div class="splitcontentright">
-    <% if @members_by_role.any? %>
+<?php if (count($members_by_role) > 0): ?>
 	<div class="box">
   <h3 class="icon22 icon22-users"><?php __('Members') ?></h3>	
-		<p><% @members_by_role.keys.sort.each do |role| %>
-		<%= role.name %>:
-		<%= @members_by_role[role].collect(&:user).sort.collect{|u| link_to_user u}.join(", ") %>
+    <p>
+<?php foreach($members_by_role as $key=>$members): ?>
+      <?php echo h($key) ?>:
+      <?php foreach($members as $key2=>$member): ?>
+        <?php if ($key2 != 0) { echo ', '; } ?>
+        <?php echo $candy->link_to_user($member) ?>
+      <?php endforeach ?>
 		<br />
-		<% end %></p>
+<?php endforeach ?>
+		</p>
 	</div>
-	<% end %>
+<?php endif ?>
     
-  <% if @news.any? && authorize_for('news', 'index') %>
+<?php if ((count($news) > 0) && (true /* authorize_for('news', 'index') */)): ?>
   <div class="box">
     <h3><?php  __('Latest news') ?></h3>  
     <?php echo $this->element('news/news') ?>
@@ -60,7 +65,7 @@
  */ ?>
     <p><?php echo $html->link(__('View all news', true), array('controller'=>'news', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'])) ?></p>
   </div>  
-  <% end %>
+<?php endif ?>
 </div>
 
 <% content_for :sidebar do %>
