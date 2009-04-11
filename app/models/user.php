@@ -58,46 +58,11 @@
 #    true
 #  end
 #  
-  
 #  def reload(*args)
 #    @name = nil
 #    super
 #  end
 #  
-#  # Returns the user that matches provided login and password, or nil
-#  def self.try_to_login(login, password)
-#    # Make sure no one can sign in with an empty password
-#    return nil if password.to_s.empty?
-#    user = find(:first, :conditions => ["login=?", login])
-#    if user
-#      # user is already in local database
-#      return nil if !user.active?
-#      if user.auth_source
-#        # user has an external authentication method
-#        return nil unless user.auth_source.authenticate(login, password)
-#      else
-#        # authentication with local password
-#        return nil unless User.hash_password(password) == user.hashed_password        
-#      end
-#    else
-#      # user is not yet registered, try to authenticate with available sources
-#      attrs = AuthSource.authenticate(login, password)
-#      if attrs
-#        user = new(*attrs)
-#        user.login = login
-#        user.language = Setting.default_language
-#        if user.save
-#          user.reload
-#          logger.info("User '#{user.login}' created from the LDAP") if logger
-#        end
-#      end
-#    end    
-#    user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
-#    user
-#  rescue => text
-#    raise text
-#  end
-#	
 #  # Return user's full name for display
 #  def name(formatter = nil)
 #    if formatter
@@ -333,9 +298,18 @@ class User extends AppModel
   function beforeSave()
   {
     if ($this->data['User']['password']) {
-      # update hashed_password 
       $this->data['User']['hashed_password'] = $this->hash_password($this->data['User']['password']);
     }
+  }
+
+  /**
+   * hash_password
+   *
+   * @access private
+   */
+  function hash_password($password = '')
+  {
+    return sha1($password);
   }
 
     /**
