@@ -2,7 +2,7 @@
 <?php echo $html->link(__('New status', true), array('action' => 'add'), array('class' => 'icon icon-add')); ?>
 </div>
 
-<h2><?php __('Issue statuses'); ?></h2>
+<h2><?php echo $candy->html_title(__('Issue statuses',true)); ?></h2>
  
 <table class="list">
   <thead><tr>
@@ -14,7 +14,7 @@
   </tr></thead>
   <tbody>  
 <?php foreach($issueStatuses as $status): ?>
-  <tr class="<?php /*cycle("odd", "even"); */ ?>">
+  <tr class="<?php echo $candy->cycle("odd", "even");?>">
   <td><?php echo $html->link($status['IssueStatus']['name'], array('action' => 'edit', 'id' => $status['IssueStatus']['id'])); ?></td>
   <td align="center"><?php if($status['IssueStatus']['is_default']){ echo $html->image('true.png'); } ?></td>
   <td align="center"><?php if($status['IssueStatus']['is_closed']){ echo $html->image('true.png'); } ?></td>

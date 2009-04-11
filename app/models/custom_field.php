@@ -1,4 +1,11 @@
 <?php
+
+class CustomField extends AppModel
+{
+  var $name = 'CustomField';
+
+}
+
 ## redMine - project management software
 ## Copyright (C) 2006  Jean-Philippe Lang
 ##
@@ -74,3 +81,4 @@
 #    nil
 #  end
 #end
+

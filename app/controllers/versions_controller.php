@@ -126,7 +126,7 @@ class VersionsController extends AppController
   // private
   function find_project($id)
   {
-    $this->version = $this->Version->findById($id);
+    $this->version = $this->Version->find_By_Id($id);
     $this->project = $this->version['Project'];
 #    @version = Version.find(params[:id])
 #    @project = @version.project
