@@ -34,13 +34,7 @@ class Project extends AppModel
     'Version',
     'TimeEntry',
   );
-  var $hasAndBelongsToMany = array('Tracker' => array(
-    'class'=>'Tracker',
-    'joinTable'=>'projects_trackers',
-    'with'=>'ProjectsTracker',
-    'foreignKey'=>'project_id',
-    'associationForeignKey'=>'tracker_id',
-  ));
+  var $hasAndBelongsToMany = array('Tracker' => array('with'=>'ProjectsTracker'));
 
   function findById($id)
   {
@@ -152,6 +146,67 @@ class Project extends AppModel
 #    end
 #  end
 #  
+  /**
+   * @param user : AppController->current_user
+   *                  + admin
+   *                  + logged
+   *                  + memberships
+   * @param permission  : 'view_issues'
+   * @return base_statement : find conditions
+   *          exists_statement : SQL condition (TODO: merge)
+   */
+  function allowed_to_condition($user, $permission, $options=array()) {
+    $statements = array();
+    $base_statement = array();
+    $base_statement[] = array($this->table.".status" => PROJECT_STATUS_ACTIVE);
+    $exists_statement = false;
+    $projectTable = $this->table;
+    $permission = & ClassRegistry::init('Permission');
+    $perm = $permission->permissions[$permission];
+    if(!empty($perm['project_module'])) {
+      # If the permission belongs to a project module, make sure the module is enabled
+      $this->bindModel(array('hasMany' => array('EnabledModule')), false);
+      $enableModuleTable = $this->EnabledModule->table;
+      $emName = $perm['project_module'];
+
+      $exists_statement = "EXISTS (SELECT em.id FROM $enabledModuleTable em WHERE em.name='$emName' AND em.project_id=$projectTable.id)";
+    }
+    if(isset($options['project'])) {
+      $project_statement = array();
+      $project_statement[] = array("Project.id" => $options['project']['id']);
+      if(isset($options['with_subprojects'])) {
+        $project_statement[] = array("Project.parent_id" => $options['project']['id']); 
+        $project_statement = array('or'=> array($project_statement));
+      }
+      $base_statement = array('and' => array($project_statement, $base_statement));
+    }
+    if($user['admin']) {
+      # no restriction
+    } else {
+      $role = & ClassRegistry::init('Role');
+      $statements = array();
+      $statements[] = array("1=0");
+      if($user['logged']) {
+        if($role->non_member_allowed_to($permission)) {
+          $statements[] = array("Project.is_public"=>1) ;
+        }
+        $allowed_project_ids = array();
+        foreach($user['memberships'] as $member) {
+          $allowed_project_ids[] = $member['Project'][0]['Project']['id'];
+        }
+        $statements[] = array("Project.id" => $allowed_project_ids);
+      } elseif($role->anonymous_allowed_to($permission)) {
+        # anonymous user allowed on public project
+        $statements[] = array("Project.is_public"=>1);
+      } else {
+        # anonymous user is not authorized
+      }
+    }
+    if(!empty($statements)) {
+      $base_statement['or'] = array($statements);
+    }
+    return compact('base_statement', 'exists_statement');
+  }
 #  def self.allowed_to_condition(user, permission, options={})
 #    statements = []
 #    base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
@@ -208,9 +263,9 @@ class Project extends AppModel
           !(is_subclass_of($this, "project") ||
             strtolower(get_class($this)) === "project")) {
         // クラスメソッドとして呼び出された
-        if (is_string($args) && !preg_match('/^\d*$/', $args)) {
+        if (is_string($conditions) && !preg_match('/^\d*$/', $conditions)) {
           $obj = new Project;
-          $project = $obj->findByIdentifier($args);
+          $project = $obj->findByIdentifier($conditions);
           return $project;
         }
       }
@@ -313,13 +368,17 @@ class Project extends AppModel
 
   function afterFind($results, $primary = false)
   {
-    foreach($results as $key=>$result) {
-      if (isset($result[$this->alias][0])) {
-        foreach($result[$this->alias] as $key2=>$version) {
-          $results[$key][$this->alias][$key2] = $this->afterFindOne($version);
+    if (isset($results['id'])) {
+      $results = $this->afterFindOne($results);
+    } else {
+      foreach($results as $key=>$result) {
+        if (isset($result[$this->alias][0])) {
+          foreach($result[$this->alias] as $key2=>$version) {
+            $results[$key][$this->alias][$key2] = $this->afterFindOne($version);
+          }
+        } else {
+          $results[$key][$this->alias] = $this->afterFindOne($results[$key][$this->alias]);
         }
-      } else {
-        $results[$key][$this->alias] = $this->afterFindOne($results[$key][$this->alias]);
       }
     }
 
@@ -389,4 +448,10 @@ class Project extends AppModel
 #  def allowed_actions
 #    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
 #  end
+}
+class ProjectsTracker extends AppModel {
+  var $name = 'ProjectsTracker';
+  var $cacheQueries = false;
+  var $useTable = 'projects_trackers';
+  var $belongsTo = array('Project', 'Tracker');
 }

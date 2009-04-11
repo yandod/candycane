@@ -26,5 +26,5 @@
 #end
 class Member extends AppModel
 {
-  var $belongsTo = array('Project');
+  var $belongsTo = array('Project', 'Role', 'User');
 }

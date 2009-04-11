@@ -3,7 +3,7 @@
     <h2><?php __('Issues') ?></h2>
     <?php  $candy->html_title(__('Issues', true)) ?>
     
-    <?php $html->tag('form', array('action' => $html->url(array('controller' => 'queries', 'action' => 'add')), 'id' => 'query_form')) ?>
+    <form action="<?php echo h($html->url(array('controller' => 'queries', 'action' => 'add'))) ?>" method="get" id="query_form">
     <!--<% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>-->
     <?php if (isset($project)): ?><input type="hidden" name="project_id" value="<?php echo h($project['Project']['id']) ?>" /><?php endif ?>
     <!--<%= hidden_field_tag('project_id', @project.id) if @project %>-->
@@ -11,6 +11,8 @@
     <?php echo $this->renderElement('queries/filters', array('query' => $query)) ?>
     <!--<%= render :partial => 'queries/filters', :locals => {:query => @query} %>-->
     <p class="buttons">
+      <?php echo $ajax->link(__('Apply', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => $project['Project']['identifier'], '?set_filter=1'), array('update' => 'content', 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
+      <?php echo $ajax->link(__('Clear', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => $project['Project']['identifier'], '?set_filter=1'), array('update' => 'content', 'class' => 'icon icon-reload')) ?>
     <!--
     <%= link_to_remote l(:button_apply), 
                        { :url => { :set_filter => 1 },

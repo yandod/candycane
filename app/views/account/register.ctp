@@ -1,33 +1,46 @@
-<h2><%=l(:label_register)%></h2>
+<h2><?php __('label_register'); ?></h2>
 
-<% form_tag({:action => 'register'}, :class => "tabular") do %>
-<%= error_messages_for 'user' %>
+<?php echo $form->create('User', array('url' => '/account/register', 'class' => 'tabular')); ?>
 
 <div class="box">
 <!--[form:user]-->
-<% if @user.auth_source_id.nil? %>
-<p><label for="user_login"><%=l(:field_login)%> <span class="required">*</span></label>
-<%= text_field 'user', 'login', :size => 25 %></p>
 
-<p><label for="password"><%=l(:field_password)%> <span class="required">*</span></label>
-<%= password_field_tag 'password', nil, :size => 25  %><br />
-<em><%= l(:text_caracters_minimum, 4) %></em></p>
+<?php if (empty($user['User']['auth_source_id'])): ?>
+<p>
+  <label for="user_login"><?php __('field_login'); ?> <span class="required">*</span></label>
+  <?php echo $form->input('login', array('size' => '25%', 'div' => false, 'label' => false)); ?>
+</p>
 
-<p><label for="password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label>
-<%= password_field_tag 'password_confirmation', nil, :size => 25  %></p>
-<% end %>
+<p>
+  <label for="password"><?php __('field_password'); ?> <span class="required">*</span></label>
+  <?php echo $form->input('password', array('type' => 'password', 'size' => '25%', 'div' => false, 'label' => false)); ?><br />
+  <em><?php __('text_caracters_minimum'); ?></em>
+</p>
 
-<p><label for="user_firstname"><%=l(:field_firstname)%> <span class="required">*</span></label>
-<%= text_field 'user', 'firstname'  %></p>
+<p>
+  <label for="password_confirmation"><?php __('field_password_confirmation'); ?> <span class="required">*</span></label>
+  <?php echo $form->input('password_confirmation', array('type' => 'password', 'size' => '25%', 'div' => false, 'label' => false)); ?><br />
+</p>
+<?php endif; ?>
 
-<p><label for="user_lastname"><%=l(:field_lastname)%> <span class="required">*</span></label>
-<%= text_field 'user', 'lastname'  %></p>
+<p>
+  <label for="user_firstname"><?php __('field_firstname'); ?> <span class="required">*</span></label>
+  <?php echo $form->input('firstname', array('div' => false, 'label' => false)); ?>
+</p>
 
-<p><label for="user_mail"><%=l(:field_mail)%> <span class="required">*</span></label>
-<%= text_field 'user', 'mail'  %></p>
+<p><label for="user_lastname"><?php __('field_lastname'); ?> <span class="required">*</span></label>
+  <?php echo $form->input('lastname', array('div' => false, 'label' => false)); ?>
+</p>
 
-<p><label for="user_language"><%=l(:field_language)%></label>
-<%= select("user", "language", lang_options_for_select) %></p>
+<p>
+<label for="user_mail"><?php __('field_mail'); ?> <span class="required">*</span></label>
+  <?php echo $form->input('mail', array('div' => false, 'label' => false)); ?>
+</p>
+
+<p>
+<label for="user_language"><?php __('field_language'); ?></label>
+<%= select("user", "language", lang_options_for_select) %>
+</p>
 
 <% @user.custom_field_values.each do |value| %>
 	<p><%= custom_field_tag_with_label :user, value %></p>
@@ -35,5 +48,5 @@
 <!--[eoform:user]-->
 </div>
 
-<%= submit_tag l(:button_submit) %>
-<% end %>
+<?php echo $form->submit(__('button_submit', true)); ?>
+<?php echo $form->end(); ?>

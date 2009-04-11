@@ -4,6 +4,7 @@ class QueriesHelper extends AppHelper
   var $name = 'Queries';
   var $helpers = array(
     'Html',
+    'Candy',
   );
   
 ## redMine - project management software
@@ -54,7 +55,7 @@ class QueriesHelper extends AppHelper
     case 'assigned_to':
       return h($issue['AssignedTo']['firstname'] . ' ' . $issue['AssignedTo']['lastname']);
     case 'updated_on':
-      return h($issue['Issue']['updated_on']);
+      return $this->Candy->format_date($issue['Issue']['updated_on']);
     default:
       return $column;
     }
@@ -72,7 +73,7 @@ class QueriesHelper extends AppHelper
   function available_filters_sort_order($filters) {
     $sort_by = a();
     foreach ($filters as $v) $sort_by[] = $v['order'];
-    array_multisort($filters, $sort_by, SORT_ASC);
+    array_multisort($sort_by, SORT_ASC, $filters);
     return $filters;
   }
   function add_filter_select_options($filters) {
