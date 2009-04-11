@@ -216,25 +216,6 @@ define('USER_STATUS_LOCKED',    3);
 #  end
 #end
 #
-#class AnonymousUser < User
-#  
-#  def validate_on_create
-#    # There should be only one AnonymousUser in the database
-#    errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
-#  end
-#  
-#  def available_custom_fields
-#    []
-#  end
-#  
-#  # Overrides a few properties
-#  def logged?; false end
-#  def admin; false end
-#  def name; 'Anonymous' end
-#  def mail; nil end
-#  def time_zone; nil end
-#  def rss_key; nil end
-
 /**
  * User
  *
@@ -386,3 +367,28 @@ class User extends AppModel
     $this->save($user);
   }
 }
+
+/**
+ * AnonymousUser
+ *
+ */
+class AnonymousUser extends User
+{
+#  def validate_on_create
+#    # There should be only one AnonymousUser in the database
+#    errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
+#  end
+#  
+#  def available_custom_fields
+#    []
+#  end
+#  
+#  # Overrides a few properties
+#  def logged?; false end
+#  def admin; false end
+#  def name; 'Anonymous' end
+#  def mail; nil end
+#  def time_zone; nil end
+#  def rss_key; nil end
+}
+
