@@ -1,4 +1,18 @@
 <?php
+class WikiContent extends AppModel
+{
+  var $name = 'WikiContent';
+  var $belongsTo = array(
+                         'Page' => array(
+                                         'className' => 'WikiPage',
+                                         'foreignKey' => 'page_id'
+                                         ),
+                         'Author' => array(
+                                           'className' => 'User',
+                                           'foreignKey' => 'author_id'
+                                           ),
+                         );
+}
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
 ##

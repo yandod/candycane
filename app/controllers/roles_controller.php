@@ -27,21 +27,18 @@ class RolesController extends AppController {
 #  verify :method => :post, :only => [ :destroy, :move ],
 #         :redirect_to => { :action => :list }
 #
-#  def index
   function index() {
     $this->lists();
     if (!$this->RequestHandler->isAjax()) {
       $this->render('list');
     }
   }
-#
-#  def list
+
   function lists() {
 #    @role_pages, @roles = paginate :roles, :per_page => 25, :order => 'builtin, position'
 #    render :action => "list", :layout => false if request.xhr?
-#  end
     $this->params['show'] = 25;
-    $this->params['sort'] = 'builtin,position';
+    $this->params['order'] = 'builtin,position';
     $roles = $this->paginate();
     $this->set('roles', $roles);
     $this->set('role_pages', $roles);
@@ -66,29 +63,129 @@ class RolesController extends AppController {
 #    @roles = Role.find :all, :order => 'builtin, position'
 #  end
   function add() {
+    $roles = $this->Role->find('all', array('order' => array('builtin', 'position')));
+    $permissions = $this->Permission->setable_permissions();
+
+
+    $role = $this->Role->non_member();
+
+    $permissions_array = $this->Role->permissions($role['Role']['permissions']);
+    $this->set('permissions_array', $permissions_array);
+
+
+    $this->set('roles', $roles);
+    $this->set('permissions', $permissions);
+    $this->set('role', $role);
+
+
+    $project_module_name = $this->_project_module_name();
+    $this->set('project_module_name', $project_module_name);
+
+    $permission_name = $this->_permission_name();
+    $this->set('permission_name', $permission_name);
+
+    $this->render('edit');
+
     if (!empty($this->data)) {
       
     }
   }
 
-#
-#  def edit
-  function edit($id) {
-#    @role = Role.find(params[:id])
-    $role = $this->Role->findById($id);
-    $this->set('role', $role);
+  function edit($id = null) {
+    if (isset($id)) {
+      $role = $this->Role->findById($id);
+      $this->set('role', $role);
 
-    $roles = $this->Role->find('list', array('fields' => array('Role.id', 'Role.name')));
-    $this->set('roles', $roles);
+      $roles = $this->Role->find('list', array('fields' => array('Role.id', 'Role.name')));
+      $this->set('roles', $roles);
+    }
                                                 
-    //    $permissions = $this->Permission->permissions;
-    //    $this->set('permissions', $permissions);
-
     $permissions = $this->Permission->setable_permissions();
     $this->set('permissions', $permissions);
 
+    $permissions_array = $this->Role->permissions($role['Role']['permissions']);
+    $this->set('permissions_array', $permissions_array);
+
+    $project_module_name = $this->_project_module_name();
+    $this->set('project_module_name', $project_module_name);
+
+    $permission_name = $this->_permission_name();
+    $this->set('permission_name', $permission_name);
+
+    if (! empty($this->data)) {
+      $this->data = $this->Role->convert_permissions($this->data);
+      pr($this->data);
+
+      $data = array('id' => $id,
+                    'name' => $this->data['Role']['name'],
+                    'assignable' => $this->data['Role']['assignable'],
+                    'permissions' => $this->data['Role']['permissions'],
+                    );
+
+      $this->Role->create();
+      if ($this->Role->save($data, null, array('id','name','assignable','permissions'))) {
+        $this->flash(__('Successful update.', true), 'index');
+      }
+      return;
+    }
+
+#    if request.post? and @role.update_attributes(params[:role])
+#      flash[:notice] = l(:notice_successful_update)
+#      redirect_to :action => 'list'
+#    end
+
+  }
 
 
+#
+#  def destroy
+#    @role = Role.find(params[:id])
+#    @role.destroy
+#    redirect_to :action => 'list'
+#  rescue
+#    flash[:error] = 'This role is in use and can not be deleted.'
+#    redirect_to :action => 'index'
+#  end
+
+
+  function move($id) {
+    $this->Role->read(null, $id);
+    if (!empty($this->params['named']['position'])) {
+      switch($this->params['named']['position']) {
+      case 'highest':
+        $this->Role->move_to_top();
+        break;
+      case 'higher':
+        $this->Role->move_higher();
+        break;
+      case 'lower':
+        $this->Role->move_lower();
+        break;
+      case 'lowest':
+        $this->Role->move_to_bottom();
+        break;
+      }
+      $this->redirect('index');
+    }
+  }
+#  
+#  def report    
+#    @roles = Role.find(:all, :order => 'builtin, position')
+#    @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
+#    if request.post?
+#      @roles.each do |role|
+#        role.permissions = params[:permissions][role.id.to_s]
+#        role.save
+#      end
+#      flash[:notice] = l(:notice_successful_update)
+#      redirect_to :action => 'list'
+#    end
+#  end
+#end
+
+
+
+  function _project_module_name() {
     $project_module_name = array('issue_tracking' => 'Issue tracking',
                                  'time_tracking' => 'Time tracking',
                                  'news' => 'News',
@@ -97,8 +194,10 @@ class RolesController extends AppController {
                                  'wiki' => 'Wiki',
                                  'repository' => 'Repository',
                                  'boards' => 'Boards');
-    $this->set('project_module_name', $project_module_name);
+    return $project_module_name;
+  }
 
+  function _permission_name() {
     $permission_name = array('edit_project' => 'Edit project',
                              'select_project_modules' => 'Select project modules',
                              'manage_members' => 'Manage members',
@@ -148,56 +247,7 @@ class RolesController extends AppController {
                              'delete_messages' => 'Delete messages',
                              'delete_own_messages' => 'Delete own messages',
                              );
-    $this->set('permission_name', $permission_name);
-    $permissions_array = $this->Role->permissions($role['Role']['permissions']);
-    $this->set('permissions_array', $permissions_array);
-
-#    if request.post? and @role.update_attributes(params[:role])
-#      flash[:notice] = l(:notice_successful_update)
-#      redirect_to :action => 'list'
-#    end
-
-#    @permissions = @role.setable_permissions
-
-
-#  end
+    return $permission_name;
   }
-#
-#  def destroy
-#    @role = Role.find(params[:id])
-#    @role.destroy
-#    redirect_to :action => 'list'
-#  rescue
-#    flash[:error] = 'This role is in use and can not be deleted.'
-#    redirect_to :action => 'index'
-#  end
-#  
-#  def move
-#    @role = Role.find(params[:id])
-#    case params[:position]
-#    when 'highest'
-#      @role.move_to_top
-#    when 'higher'
-#      @role.move_higher
-#    when 'lower'
-#      @role.move_lower
-#    when 'lowest'
-#      @role.move_to_bottom
-#    end if params[:position]
-#    redirect_to :action => 'list'
-#  end
-#  
-#  def report    
-#    @roles = Role.find(:all, :order => 'builtin, position')
-#    @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
-#    if request.post?
-#      @roles.each do |role|
-#        role.permissions = params[:permissions][role.id.to_s]
-#        role.save
-#      end
-#      flash[:notice] = l(:notice_successful_update)
-#      redirect_to :action => 'list'
-#    end
-#  end
-#end
+
 }

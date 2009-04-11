@@ -1,3 +1,6 @@
+<?php /*
+vim: filetype=php
+*/ ?>
 <h2><?php __('Overview') ?></h2> 
 
 <div class="splitcontentleft">
@@ -31,12 +34,12 @@
     <h3 class="icon22 icon22-tracker"><?php __('Issue tracking') ?></h3>
     <ul>
     <?php foreach($this->data['Tracker'] as $tracker): ?>
-    <li><?php echo $html->link(h($tracker['name']), array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'], 'set_filter'=>1, 'tracker_id'=>$tracker['id'])) ?>:
+    <li><?php echo $html->link(h($tracker['name']), array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'], '?set_filter=1', 'tracker_id'=>$tracker['id'])) ?>:
     <?php echo $tracker['open_issues_by_tracker'] ?> <?php echo $candy->lwr('open', $tracker['open_issues_by_tracker']) ?>
     <?php __("'on'") ?> <?php echo $tracker['total_issues_by_tracker'] ?></li>
     <?php endforeach ?>
     </ul>
-    <p><?php echo $html->link(__('View all issues', true), array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'],'set_filter'=>1)) ?></p>
+    <p><?php echo $html->link(__('View all issues', true), array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'],'?set_filter=1')) ?></p>
   </div>
 <?php /*
   <% end %>
@@ -52,7 +55,7 @@
       <?php echo h($key) ?>:
       <?php foreach($members as $key2=>$member): ?>
         <?php if ($key2 != 0) { echo ', '; } ?>
-        <?php echo $candy->link_to_user($member) ?>
+        <?php echo $candy->link_to_user($member['User']) ?>
       <?php endforeach ?>
 		<br />
 <?php endforeach ?>
