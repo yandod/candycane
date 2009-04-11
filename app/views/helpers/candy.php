@@ -6,6 +6,8 @@
 class CandyHelper extends AppHelper
 {
 	var $helpers = array('Html');
+  var $row = 0;
+
 	function link($user)
 	{
 		return $this->Html->link($user['name'],'/account/show/'.$user['id']);
@@ -746,4 +748,12 @@ class CandyHelper extends AppHelper
 #    extend helper
 #    return self
 #  end
+
+  function cycle($one = "odd", $two = "even") {
+    if($this->row++ % 2) {
+      return $two;
+    } else {
+      return $one;
+    }
+  }
 }

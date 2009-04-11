@@ -14,7 +14,7 @@
   </tr></thead>
   <tbody>  
 <?php foreach($issueStatuses as $status): ?>
-  <tr class="<?php /*cycle("odd", "even"); */ ?>">
+  <tr class="<?php echo $candy->cycle("odd", "even");?>">
   <td><?php echo $html->link($status['IssueStatus']['name'], array('action' => 'edit', 'id' => $status['IssueStatus']['id'])); ?></td>
   <td align="center"><?php if($status['IssueStatus']['is_default']){ echo $html->image('true.png'); } ?></td>
   <td align="center"><?php if($status['IssueStatus']['is_closed']){ echo $html->image('true.png'); } ?></td>
