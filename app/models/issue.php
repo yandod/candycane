@@ -10,7 +10,8 @@ class Issue extends AppModel
                                  'Tracker'),
                'author_key'=>'author_id')
       ),
-    'Watchable'
+    'Watchable',
+    'Customizable'
   );
   
   var $belongsTo = array(
