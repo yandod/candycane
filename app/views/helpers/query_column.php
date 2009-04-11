@@ -73,8 +73,4 @@ class QueryColumnHelper extends AppHelper
   {
     return isset($this->available_columns[$column]['default_order']) ? $this->available_columns[$column]['default_order'] : null;
   }
-  function name($column)
-  {
-    return __(Inflector::humanize($column), true);
-  }
 }
