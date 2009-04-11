@@ -51,5 +51,5 @@ echo $form->create('User', array('url' => '/account/register', 'class' => 'tabul
 <!--[eoform:user]-->
 </div>
 
-<?php echo $form->submit(__('button_submit', true)); ?>
+<?php echo $form->submit(__('Submit', true)); ?>
 <?php echo $form->end(); ?>

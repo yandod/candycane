@@ -35,13 +35,13 @@ class UsersHelper extends AppHelper
 
     // user status locked
     if ($user['status'] == 3) {
-      return $this->Html->link(__('button_unlock', true), '/users/edit/' . $user['id'], array('class' => 'icon icon-unlock'));
+      return $this->Html->link(__('Unlock', true), '/users/edit/' . $user['id'], array('class' => 'icon icon-unlock'));
       // return $this->Html->link(__('button_unlock', true), '/users/edit/' . $user['id'], array('class' => 'icon icon-unlock'));
     // user registered
     } else if ($user['status'] == 2) {
-      return $this->Html->link(__('button_activate', true), '/users/edit/' . $user['id'], array('class' => 'icon icon-unlock'));
+      return $this->Html->link(__('Activate', true), '/users/edit/' . $user['id'], array('class' => 'icon icon-unlock'));
     } else {
-      return $this->Html->link(__('button_lock', true), '/users/edit/' . $user['id'], array('class' => 'icon icon-lock'));
+      return $this->Html->link(__('Lock', true), '/users/edit/' . $user['id'], array('class' => 'icon icon-lock'));
     }
 
     # if user.locked?

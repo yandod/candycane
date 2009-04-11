@@ -8,16 +8,16 @@
 $status_type = array('anon', 'active', 'registered', 'locked');
 ?>
 <div class="contextual">
-  <?php echo $html->link(__('label_user_new', true), '/users/add', array('class' => 'icon icon-add')); ?>
+  <?php echo $html->link(__('New user', true), '/users/add', array('class' => 'icon icon-add')); ?>
 </div>
 
-<h2><?php __('label_filter_plural'); ?></h2>
+<h2><?php __('Filters'); ?></h2>
 
 <?php
 echo $form->create(null, array('type' => 'get', 'url' => '/users/list'));
 ?>
 <fieldset>
-  <legend><?php __('label_filter_plural'); ?></legend>
+  <legend><?php __('Filters'); ?></legend>
 
   <?php echo $form->input('status', array(
     'type' => 'select',
@@ -37,7 +37,7 @@ echo $form->create(null, array('type' => 'get', 'url' => '/users/list'));
     )
   ); ?>
 
-  <?php echo $form->submit(__('button_apply', true), array('class' => 'small', 'name' => null, 'div' => false)); ?>
+  <?php echo $form->submit(__('Apply', true), array('class' => 'small', 'name' => null, 'div' => false)); ?>
 
 </fieldset>
 <?php echo $form->end(); ?>

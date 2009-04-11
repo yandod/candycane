@@ -77,7 +77,6 @@ class UsersController extends AppController
   /**
    * list_
    *
-   * @todo list is reserved word
    */
   function list_()
   {
@@ -138,10 +137,10 @@ class UsersController extends AppController
     }
 
     $status_option = array(
-      '' => __('label_all', true),
-      1  => __('status_active', true) . ' (' . (int)$status_counts[1][0]['cnt'] . ')',
-      2  => __('status_registered', true) . ' (' . (int)$status_counts[2][0]['cnt'] . ')',
-      3  => __('status_locked', true) . ' (' . (int)$status_counts[3][0]['cnt'] . ')',
+      '' => __('all', true),
+      1  => __('active', true) . ' (' . (int)$status_counts[1][0]['cnt'] . ')',
+      2  => __('registered', true) . ' (' . (int)$status_counts[2][0]['cnt'] . ')',
+      3  => __('locked', true) . ' (' . (int)$status_counts[3][0]['cnt'] . ')',
     );
 
     $this->set('status_option', $status_option);
