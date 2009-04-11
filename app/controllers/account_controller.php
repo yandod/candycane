@@ -231,7 +231,13 @@ class AccountController extends AppController {
         $this->set('setting', $this->Setting);
 
         if (!$this->data) {
-            return;
+          return;
+        }
+
+        // validate
+        $this->User->set($this->data);
+        if (!$this->User->validates()) {
+          return;
         }
 
         // Authenticate user
