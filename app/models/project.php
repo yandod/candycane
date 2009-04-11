@@ -258,18 +258,15 @@ class Project extends AppModel
 
     function find($conditions = null, $fields = array(), $order = null, $recursive = null)
     {
-      if (!isset($this) ||
-          !is_object($this) ||
-          !(is_subclass_of($this, "project") ||
-            strtolower(get_class($this)) === "project")) {
-        // クラスメソッドとして呼び出された
-        if (is_string($conditions) && !preg_match('/^\d*$/', $conditions)) {
-          $obj = new Project;
-          $project = $obj->findByIdentifier($conditions);
-          return $project;
-        }
+      if (is_string($conditions) && !preg_match('/^\d*$/', $conditions) &&
+          $fields === array() && $order === null && $recursive === null) {
+        // 1引数のみで、文字列っぽい場合はプロジェクトの識別子とみなす
+        $obj = new Project;
+        $project = $obj->findByIdentifier($conditions);
+        return $project;
+      } else {
+        return parent::find($conditions, $fields, $order, $recursive);
       }
-      return parent::find($conditions, $fields, $order, $recursive);
     }
 
 #  def self.find(*args)
