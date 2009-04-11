@@ -375,7 +375,7 @@ class User extends AppModel
 
         // user.update_attribute(:last_login_on, Time.now) if user && !user.new_record?
         if ($user) {
-            $this->updateAttribute($user, time());
+            $this->updateAttribute($user, date('Y-m-d H:i:s',time()));
         }
 
         return $user;
