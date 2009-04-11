@@ -83,10 +83,11 @@ class ActivityProviderBehavior extends ModelBehavior {
       'permission'=>"view_$alias", 
       'timestamp'=>"$table_name.created_on", 
       'author_key'=>false, 
-      'find_options'=>array());
+      'find_options'=>array()
     );
 
-    if(!empty(array_diff_key($config, $this->_defaults))) {
+    $diff = array_diff_key($config, $this->_defaults);
+    if(!empty($diff)) {
       return false;
     }
     $settings = array_merge($this->_defaults, $config);
@@ -99,6 +100,7 @@ class ActivityProviderBehavior extends ModelBehavior {
       $settings['author_key'] = "$table_name.".$settings['author_key'];
     }
     $this->settings[$event_type] = $settings;
+    return true;
   }
 
   # Returns events of type event_type visible by user that occured between from and to
@@ -123,16 +125,32 @@ class ActivityProviderBehavior extends ModelBehavior {
       $cond->add($project->allowed_to_condition($user, $options['permission'], options));
     }
     $scope_options['conditions'] = $cond->conditions;
-    if($options['limit']) {
+    if(isset($options['limit'])) {
       # id and creation time should be in same order in most cases
       $scope_options['order'] = $Model->table.".id DESC";
       $scope_options['limit'] = $options['limit'];
     }
-
-
-
     return $Model->find('all', array_merge($provider_options['find_options'], $scope_options));
   }
  
 }
+class Condition {
+  var $conditions = array();
+  function __construct($condition=false) {
+    $this->conditions = array(array('1=1'));
+    if(!empty($condition)) {
+      $this->add($condition);
+    }
+  }
+  function add($condition) {
+    if(is_array($condition)) {
+      $this->conditions[] = $condition;
+    } elseif(is_string($condition)) {
+      $this->conditions[] = array($condition);
+    } else {
+      return $this->cakeError('error', "Unsupported condition.");
+    }
+  }
+}
+
 ?>

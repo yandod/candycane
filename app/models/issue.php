@@ -2,6 +2,9 @@
 class Issue extends AppModel
 {
   var $name = 'Issue';
+//  var $actsAs = array('ActivityProvider'=>array('find_options'=>array('include'=> [:project, :author, :tracker]},
+//                            :author_key => :author_id
+  
   var $belongsTo = array(
     'Project',
     'Tracker',

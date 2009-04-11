@@ -23,6 +23,7 @@ define('PROJECT_ARCHIVED', 9);
 class Project extends AppModel
 {
   var $name = 'Project';
+  var $actsAs = array('ActivityProvider');
 
 //  var $belongsTo = array(
 //    'Parent' => array(
