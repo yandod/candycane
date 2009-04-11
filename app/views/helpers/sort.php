@@ -63,61 +63,11 @@
  */
 class SortHelper extends AppHelper
 {
-  /**
-   * sort_init
-   *
-   * Initializes the default sort column (default_key) and sort order
-   * (default_order).
-   *
-   * - default_key is a column attribute name.
-   * - default_order is 'asc' or 'desc'.
-   * - name is the name of the session hash entry that stores the sort state,
-   *   defaults to '<controller_name>_sort'.
-   *
-   */
-  function sort_init($default_key, $default_order = 'asc', $name = null)
-  {
-    # @sort_name = name || params[:controller] + params[:action] + '_sort'
-    # @sort_default = {:key => default_key, :order => default_order}
-  }
+  var $helpers = array('Session');
 
-  /**
-   * sort_update
-   *
-   * Updates the sort state. Call this in the controller prior to calling
-   * sort_clause.
-   * sort_keys can be either an array or a hash of allowed keys
-   */
-  function sort_update($sort_keys)
-  {
-#    sort_key = params[:sort_key]
-#    sort_key = nil unless (sort_keys.is_a?(Array) ? sort_keys.include?(sort_key) : sort_keys[sort_key])
-#
-#    sort_order = (params[:sort_order] == 'desc' ? 'DESC' : 'ASC')
-#    
-#    if sort_key
-#      sort = {:key => sort_key, :order => sort_order}
-#    elsif session[@sort_name]
-#      sort = session[@sort_name]   # Previous sort.
-#    else
-#      sort = @sort_default
-#    end
-#    session[@sort_name] = sort
-#    
-#    sort_column = (sort_keys.is_a?(Hash) ? sort_keys[sort[:key]] : sort[:key])
-#    @sort_clause = (sort_column.blank? ? nil : "#{sort_column} #{sort[:order]}")
-  }
-
-  /**
-   * sort_clause
-   *
-   * Returns an SQL sort clause corresponding to the current sort state.
-   * Use this to sort the controller's table items collection.
-   */
-  function sort_clause()
-  {
-    return $this->sort_clause;
-  }
+  // sort_init moved SortComponent
+  // sort_update moved SortComponent
+  // sort_clause moved SortComponent
 
   /**
    *
@@ -144,10 +94,25 @@ class SortHelper extends AppHelper
    */
   function sort_header_tag($column, $options = array())
   {
+    if (isset($options['caption'])) {
+      $caption = $options['caption'];
+    } else {
+      trigger_error('no implement!');
+      // $caption = $this->titleize(Inflector::humanize($column));
+    }
+
+    if (isset($options['default_order'])) {
+      $default_order = $options['default_order'];
+    } else {
+      $default_order = 'asc';
+    }
+
+    if (!isset($options['title'])) {
+      $options['title'] = sprintf(__('label_sort_by', true), '"'.$caption.'"');
+    }
+
+    return $this->Html->tableHeaders(array($column), $options);
     /*
-    caption = options.delete(:caption) || titleize(Inflector::humanize(column))
-    default_order = options.delete(:default_order) || 'asc'
-    options[:title]= l(:label_sort_by, "\"#{caption}\"") unless options[:title]
     content_tag('th', sort_link(column, caption, default_order), options)
      */
   }

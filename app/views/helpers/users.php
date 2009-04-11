@@ -2,6 +2,9 @@
 /**
  * users.php
  *
+ * status = 1 // active
+ * status = 2 // registered
+ * status = 3 // locked
  */
 
 /**
