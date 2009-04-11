@@ -364,7 +364,7 @@ class ListBehavior extends ModelBehavior {
   }
   function assume_top_position(&$Model) {
     $position_column = $this->settings[$Model->alias]['column'];
-    return $Model->saveField($position_column, 1);
+    return $Model->saveField($position_column, "1");
   }
   # Increase the position of this item without adjusting the rest of the list.
   function increment_position(&$Model, $id) {
@@ -423,11 +423,14 @@ class ListBehavior extends ModelBehavior {
   }
   
   function beforeSave(&$Model) {
-    $position_column = $this->settings[$Model->alias]['column'];
-    $conditions = $this->settings[$Model->alias]['scope'];
-    $result = $Model->find('first', array('conditions'=>$conditions, 'order'=>"$position_column DESC"));
-    if($result) {
-      $Model->data[$Model->alias][$position_column] = $result[$Model->alias][$position_column] + 1;
+    $result = true;
+    if(empty($Model->id)) {
+      $position_column = $this->settings[$Model->alias]['column'];
+      $conditions = $this->settings[$Model->alias]['scope'];
+      $result = $Model->find('first', array('conditions'=>$conditions, 'order'=>"$position_column DESC"));
+      if($result) {
+        $Model->data[$Model->alias][$position_column] = $result[$Model->alias][$position_column] + 1;
+      }
     }
     return $result;
   }
