@@ -1,6 +1,7 @@
 <?php
 // @todo custom_field_values
 // @todo auth_sources
+// @todo selected current language
 ?>
 <!--[form:user]-->
 <div class="box">

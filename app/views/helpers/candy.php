@@ -684,13 +684,20 @@ class CandyHelper extends AppHelper
 #    end
 #  end
 #
+  /**
+   * lang_options_for_select
+   *
+   */
   function lang_options_for_select($blank = true)
   {
-    if ($blank == true) {
-      $blank = array('');
-      var_dump(__('valid_languages', true));
+    $list = array();
+    foreach (glob(APP . 'locale/*') as $dir) {
+      $path = explode('/', $dir);
+      $lang = end($path);
+      $list[$lang] = $lang;
     }
-    //(blank ? [["(auto)", ""]] : []) + GLoc.valid_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
+
+    return $list;
   }
 #
 #  def label_tag_for(name, option_tags = nil, options = {})
