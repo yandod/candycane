@@ -1,21 +1,60 @@
 <?php
-## redMine - project management software
-## Copyright (C) 2006-2007  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
+
+class WikiController extends AppController {
+  //var $helpers = array('attachments');
+  var $uses = array('Wiki', 'Project');
+
+  function index() {
+    $page_title = $this->params['page'];
+    //$page = $this->Wiki->id = $this->params['id'];
+    $page = $this->Wiki->find_or_new_page($page_title);
+    /*
+
+    if ($page is new) {
+      $this->render('edit');
+    }
+    */
+    $content = $this->Wiki->Page->content_for_version($this->params['version']);
+    $this->set('content', $content);
+    $this->set('page', $page);
+    $this->set('editable', $this->is_editable());
+    $this->render('show');
+  }
+  function special() {
+  }
+
+  function beforeFilter() {
+    $this->_find_wiki();
+
+    $only = aa('rename', 'protect', 'history', 'diff', 'annotate', 'add_attachment', 'destroy');
+    if (in_array($this->action, $only)) {
+      $this->find_existing_page();
+    }
+  }
+
+  // private
+
+  function _find_wiki()
+  {
+    $project = $this->Project->find($this->params['id']);
+    if (!$project) {
+        $this->cakeError('error404');
+    }
+    $this->wiki = $this->Wiki->Find('first', array('conditions'=>aa('Wiki.project_id', $project['Project']['id'])));
+    if (!$this->wiki) {
+        $this->cakeError('error404');
+    }
+    $this->set('project', $project);
+    $this->set('wiki', $this->wiki);
+    $this->set('currentuser', $this->current_user); // これで動くようになるけど、ホントはもっと上位で設定すべきでは？
+  }
+
+  function _find_existing_page()
+  {
+    $this->page = $this->wiki->find_page($this->params['page']);
+    //render_404 if @page.nil?
+  }
+
 #require 'diff'
 #
 #class WikiController < ApplicationController
@@ -198,6 +237,19 @@
 #    render_404 if @page.nil?
 #  end
 #  
+
+  function is_editable($page = null)
+  {
+    if ($page === null) {
+      //$page = $this->page;
+    }
+    //$page->editable_by($current_user);
+    return true;
+  }
+#  def editable?(page = @page)
+#    page.editable_by?(User.current)
+#  end
+
 #  # Returns true if the current user is allowed to edit the page, otherwise false
 #  def editable?(page = @page)
 #    page.editable_by?(User.current)
@@ -210,3 +262,4 @@
 #    helper.instance_method(:initial_page_content).bind(self).call(page)
 #  end
 #end
+}

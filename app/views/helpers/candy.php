@@ -142,6 +142,23 @@ class CandyHelper extends AppHelper
 #    (user && !user.anonymous?) ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
 #  end
 #
+  function link_to_issue($issue, $options = array())
+  {
+    if (!isset($options['class'])) {
+      $options['class'] = '';
+    }
+    $options['class'] .= ' issue';
+    if (isset($issue['closed'])) {
+      $options['class'] .= ' closed';
+    }
+
+    return $this->Html->link("{$issue['Tracker']['name']} #{$issue['Issue']['id']}", array('controller'=>'issues', 'action'=>'show', 'id'=>$issue['Issue']['id']), $options);
+#    options[:class] ||= ''
+#    options[:class] << ' issue'
+#    options[:class] << ' closed' if issue.closed?
+#    link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
+
+  }
 #  def link_to_issue(issue, options={})
 #    options[:class] ||= ''
 #    options[:class] << ' issue'
@@ -684,13 +701,20 @@ class CandyHelper extends AppHelper
 #    end
 #  end
 #
+  /**
+   * lang_options_for_select
+   *
+   */
   function lang_options_for_select($blank = true)
   {
-    if ($blank == true) {
-      $blank = array('');
-      var_dump(__('valid_languages', true));
+    $list = array();
+    foreach (glob(APP . 'locale/*') as $dir) {
+      $path = explode('/', $dir);
+      $lang = end($path);
+      $list[$lang] = $lang;
     }
-    //(blank ? [["(auto)", ""]] : []) + GLoc.valid_languages.collect{|lang| [ ll(lang.to_s, :general_lang_name), lang.to_s]}.sort{|x,y| x.last <=> y.last }
+
+    return $list;
   }
 #
 #  def label_tag_for(name, option_tags = nil, options = {})

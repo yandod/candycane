@@ -10,7 +10,7 @@
  */
 class UsersController extends AppController
 {
-  var $helpers = array('Users', 'Sort', 'Ajax');
+  var $helpers = array('Users', 'Sort', 'Ajax', 'Text');
   var $components = array('Sort', 'Users');
 #  helper :custom_fields
 #  include CustomFieldsHelper   
@@ -140,7 +140,7 @@ class UsersController extends AppController
       $this->layout = false;
     }
 
-    return 'list';
+    return $this->render('list');
   }
 
   /**
@@ -155,6 +155,7 @@ class UsersController extends AppController
       # @user = User.new(params[:user])
       # @user.admin = params[:user][:admin] || false
 
+      $this->data['User']['created_on'] = date('Y-m-d H:i:s'); // @todo model de yarubeki
       if ($this->User->save($this->data)) {
         #        Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
         #        flash[:notice] = l(:notice_successful_create)

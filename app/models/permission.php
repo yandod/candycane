@@ -149,7 +149,17 @@ class Permission extends AppModel
     return $tmp;
   }
 
-
+  function non_member_permissions() {
+    $tmp = array();
+    foreach ($this->permissions as $module => $perms) {
+      foreach ($perms as $p) {
+        if ($p['require'] == 'member') {
+          $tmp[$module][ $p['name'] ] = $this->permissions[$module][ $p['name'] ];
+        }
+      }
+    }
+    return $tmp;
+  }
 
 
   /*

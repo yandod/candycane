@@ -1,3 +1,6 @@
+<?php /*
+vim: filetype=php
+*/ ?>
 <h2><?php __('Overview') ?></h2> 
 
 <div class="splitcontentleft">
