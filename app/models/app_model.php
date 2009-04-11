@@ -72,22 +72,4 @@ class ARCondition
     add(condition)
   end
 end*/
-class Condition {
-  var $conditions = array();
-  function __construct($condition=false) {
-    $this->conditions = array(array('1=1'));
-    if(!empty($condition)) {
-      $this->add($condition);
-    }
-  }
-  function add($condition) {
-    if(is_array($condition)) {
-      $this->conditions[] = $condition;
-    } elseif(is_string($condition)) {
-      $this->conditions[] = array($condition);
-    } else {
-      return $this->cakeError('error', "Unsupported condition.");
-    }
-  }
-}
 ?>
