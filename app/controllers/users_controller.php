@@ -152,30 +152,30 @@ class UsersController extends AppController
     return 'list';
   }
 
-    /**
-     * add
-     *
-     */
-    function add()
-    {
-      if (!$this->data) {
-        # @user = User.new(:language => Setting.default_language)
-      } else {
-        # @user = User.new(params[:user])
-        # @user.admin = params[:user][:admin] || false
-        # @user.login = params[:user][:login]
-        if (!isset($user['auth_source_id']) || !is_numeric($user['auth_source_id'])) {
-          // @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
-        }
-
-        $result = $this->User->save($this->data);
-        if ($result) {
-          #        Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
-          #        flash[:notice] = l(:notice_successful_create)
-          #        redirect_to :action => 'list'
-          $this->redirect('index');
-        }
+  /**
+   * add
+   *
+   */
+  function add()
+  {
+    if (!$this->data) {
+      # @user = User.new(:language => Setting.default_language)
+    } else {
+      # @user = User.new(params[:user])
+      # @user.admin = params[:user][:admin] || false
+      # @user.login = params[:user][:login]
+      if (!isset($user['auth_source_id']) || !is_numeric($user['auth_source_id'])) {
+        // @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
       }
-      #    @auth_sources = AuthSource.find(:all)
+
+      $result = $this->User->save($this->data);
+      if ($result) {
+        #        Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
+        #        flash[:notice] = l(:notice_successful_create)
+        #        redirect_to :action => 'list'
+        $this->redirect('index');
+      }
     }
+    #    @auth_sources = AuthSource.find(:all)
+  }
 }
