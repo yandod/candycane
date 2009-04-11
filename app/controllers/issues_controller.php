@@ -81,7 +81,9 @@ class IssuesController extends AppController
       'order' => 'Issue.id DESC',
     ));
     $this->set('issue_list', $this->paginate('Issue'));
-    if($this->RequestHandler->isAjax()) $this->layout = 'ajax';
+    if($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+    }
   }
 #  def index
 #    retrieve_query
@@ -573,11 +575,11 @@ class IssuesController extends AppController
       $query = $this->Query->defaults();
       $query = am($query, $this->_project);
       $query['Query']['filter_cond'][] = array('Issue.project_id' => $this->_project['Project']['id']);
-      if (isset($this->params['url']['set_filter'])) {
+      if (isset($this->params['url']['set_filter'], $this->params['form']['fields'])) {
         foreach ($this->params['form']['fields'] as $field) {
-          $query['Query']['filter_cond'][] = array(
-            'Issue.' . $field . ' ' . $this->params['form']['operators'][$field] => $this->params['form']['values'][$field],
-          );
+          if ($add_filter_cond = $this->Query->get_filter_cond('Issue.' . $field, $this->params['form']['operators'][$field], $this->params['form']['values'][$field])) {
+            $query['Query']['filter_cond'][] = $add_filter_cond;
+          }
         }
       }
     }

@@ -64,7 +64,6 @@ class Query extends AppModel
   var $operators;
   var $operators_by_filter_type;
   var $filters;
-
   function __construct()
   {
     if (!$this->operators) {
@@ -353,6 +352,28 @@ class Query extends AppModel
 #    @available_filters
 #  end
 #  
+  function get_filter_cond($field, $operator, $values)
+  {
+    switch ($operator) {
+    case '*':
+      return null;
+      break;
+    case '!*':
+      $operator = '!=';
+      $values = null;
+      break;
+    case '~':
+      $operator = 'like';
+      $value = '%' . str_replace('%', '%%', $value) . '%';
+      break;
+    case '!':
+      $operator = '!=';
+      break;
+    }
+    return array(
+      $field . ' ' . $operator => $values,
+    );
+  }
 #  def add_filter(field, operator, values)
 #    # values must be an array
 #    return unless values and values.is_a? Array # and !values.first.empty?
