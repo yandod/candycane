@@ -66,6 +66,7 @@
 #  map.signin 'login', :controller => 'account', :action => 'login'
 #  map.signout 'logout', :controller => 'account', :action => 'logout'
 #  
+Router::connect('wiki/:id/:page/:action', array('controller' => 'wiki', 'page' => null, 'version' => null));
 #  map.connect 'wiki/:id/:page/:action', :controller => 'wiki', :page => nil
 #  map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
 #  map.connect 'help/:ctrl/:page', :controller => 'help'

@@ -1,4 +1,48 @@
 <?php
+class Wiki extends AppModel
+{
+  var $name = 'Wiki';
+  var $belongsTo = 'project';
+  var $hasMany = array(
+                       'Page' => array(
+                                       'className' => 'WikiPage',
+                                       'dependent' => true, // :dependent => :destroy
+                                       'order' => 'title',
+                                       ),
+                       'Redirect' => array(
+                                           'className' => 'WikiRedirect',
+                                           'dependent' => true, // :dependent => :delete_all
+                                           ),
+                       );
+  function find_or_new_page($title)
+  {
+    //title = start_page if title.blank?
+    return $this->find_page($title); //|| WikiPage.new(:wiki => self, :title => Wiki.titleize(title))
+  }
+
+
+  function find_page($title, $options = array())
+  {
+    //title = start_page if title.blank?
+    $title = Wiki::titleize($title);
+    $page = $this->Page->findByTitle($title);
+    //    if !page && !(options[:with_redirect] == false)
+    //      # search for a redirect
+    //      redirect = redirects.find_by_title(title)
+    //      page = find_page(redirect.redirects_to, :with_redirect => false) if redirect
+    //    end
+    return $page;
+  }
+
+  static function titleize($title) {
+    // replace spaces with _ and remove unwanted caracter
+    $title = preg_replace('/\s+/', '_', $title);
+    // upcase the first letter
+    $title = preg_replace('/^([a-z])/e', 'strtoupper("\\1")', $title);
+    return $title;
+  }
+}
+
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
 ##
