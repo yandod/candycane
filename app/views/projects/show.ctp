@@ -66,7 +66,7 @@ vim: filetype=php
 <?php if ((count($news) > 0) && (true /* authorize_for('news', 'index') */)): ?>
   <div class="box">
     <h3><?php  __('Latest news') ?></h3>  
-    <?php echo $this->element('news/news') ?>
+    <?php echo $this->element('news') ?>
 <?php /*
     <%= render :partial => 'news/news', :collection => @news %>
  */ ?>
