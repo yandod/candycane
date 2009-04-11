@@ -11,7 +11,7 @@
 class UsersController extends AppController
 {
   var $helpers = array('Users', 'Sort', 'Ajax');
-  var $components = array('Sort');
+  var $components = array('Sort', 'Users');
 #  helper :custom_fields
 #  include CustomFieldsHelper   
 
@@ -36,25 +36,31 @@ class UsersController extends AppController
     $this->render('list'); // unless request.xhr?
   }
 
-#  def edit
-#    @user = User.find(params[:id])
-#    if request.post?
-#      @user.admin = params[:user][:admin] if params[:user][:admin]
-#      @user.login = params[:user][:login] if params[:user][:login]
-#      @user.password, @user.password_confirmation = params[:password], params[:password_confirmation] unless params[:password].nil? or params[:password].empty? or @user.auth_source_id
-#      if @user.update_attributes(params[:user])
+  /**
+   * edit
+   *
+   */
+  function edit($id)
+  {
+    $user = $this->User->findById((int)$id);
+
+    if ($this->data) {
+      if ($this->User->save($this->data)) {
 #        flash[:notice] = l(:notice_successful_update)
 #        # Give a string to redirect_to otherwise it would use status param as the response code
 #        redirect_to(url_for(:action => 'list', :status => params[:status], :page => params[:page]))
-#      end
-#    end
+      }
+    }
+
+    $this->set('user', $user);
+    $this->set('projects', $this->Project->find('all'));
 #    @auth_sources = AuthSource.find(:all)
 #    @roles = Role.find_all_givable
 #    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
 #    @membership ||= Member.new
 #    @memberships = @user.memberships
-#  end
-#  
+  }
+  
 #  def edit_membership
 #    @user = User.find(params[:id])
 #    @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:user => @user)

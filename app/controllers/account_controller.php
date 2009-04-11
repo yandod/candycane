@@ -59,60 +59,6 @@
 #    redirect_to home_url
 #  end
 #  
-  
-#  # User self-registration
-#  def register
-#    redirect_to(home_url) && return unless Setting.self_registration? || session[:auth_source_registration]
-#    if request.get?
-#      session[:auth_source_registration] = nil
-#      @user = User.new(:language => Setting.default_language)
-#    else
-#      @user = User.new(params[:user])
-#      @user.admin = false
-#      @user.status = User::STATUS_REGISTERED
-#      if session[:auth_source_registration]
-#        @user.status = User::STATUS_ACTIVE
-#        @user.login = session[:auth_source_registration][:login]
-#        @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
-#        if @user.save
-#          session[:auth_source_registration] = nil
-#          self.logged_user = @user
-#          flash[:notice] = l(:notice_account_activated)
-#          redirect_to :controller => 'my', :action => 'account'
-#        end
-#      else
-#        @user.login = params[:user][:login]
-#        @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
-#        case Setting.self_registration
-#        when '1'
-#          # Email activation
-#          token = Token.new(:user => @user, :action => "register")
-#          if @user.save and token.save
-#            Mailer.deliver_register(token)
-#            flash[:notice] = l(:notice_account_register_done)
-#            redirect_to :action => 'login'
-#          end
-#        when '3'
-#          # Automatic activation
-#          @user.status = User::STATUS_ACTIVE
-#          if @user.save
-#            self.logged_user = @user
-#            flash[:notice] = l(:notice_account_activated)
-#            redirect_to :controller => 'my', :action => 'account'
-#          end
-#        else
-#          # Manual activation by the administrator
-#          if @user.save
-#            # Sends an email to the administrators
-#            Mailer.deliver_account_activation_request(@user)
-#            flash[:notice] = l(:notice_account_pending)
-#            redirect_to :action => 'login'
-#          end
-#        end
-#      end
-#    end
-#  end
-#  
 #  # Token based account activation
 #  def activate
 #    redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
@@ -165,7 +111,70 @@ class AccountController extends AppController {
         }
     }
 
-    /**
+  /**
+   * register
+   *
+   * User self-registration
+   */
+  function register()
+  {
+    if (!$this->Setting->self_registration || $this->Session->read('auth_source_registration')) {
+      $this->redirect('/');
+      return;
+    }
+
+    if (!$this->data) {
+      $this->Session->write('auth_source_registration', null);
+      $this->data['User']['language'] = $this->Setting->default_language;
+      return;
+    }
+
+#      @user = User.new(params[:user])
+#      @user.admin = false
+#      @user.status = User::STATUS_REGISTERED
+
+#      if session[:auth_source_registration]
+#        @user.status = User::STATUS_ACTIVE
+#        @user.login = session[:auth_source_registration][:login]
+#        @user.auth_source_id = session[:auth_source_registration][:auth_source_id]
+#        if @user.save
+#          session[:auth_source_registration] = nil
+#          self.logged_user = @user
+#          flash[:notice] = l(:notice_account_activated)
+#          redirect_to :controller => 'my', :action => 'account'
+#        end
+#      else
+#        @user.login = params[:user][:login]
+#        @user.password, @user.password_confirmation = params[:password], params[:password_confirmation]
+#        case Setting.self_registration
+#        when '1'
+#          # Email activation
+#          token = Token.new(:user => @user, :action => "register")
+#          if @user.save and token.save
+#            Mailer.deliver_register(token)
+#            flash[:notice] = l(:notice_account_register_done)
+#            redirect_to :action => 'login'
+#          end
+#        when '3'
+#          # Automatic activation
+#          @user.status = User::STATUS_ACTIVE
+#          if @user.save
+#            self.logged_user = @user
+#            flash[:notice] = l(:notice_account_activated)
+#            redirect_to :controller => 'my', :action => 'account'
+#          end
+#        else
+#          # Manual activation by the administrator
+#          if @user.save
+#            # Sends an email to the administrators
+#            Mailer.deliver_account_activation_request(@user)
+#            flash[:notice] = l(:notice_account_pending)
+#            redirect_to :action => 'login'
+#          end
+#        end
+#      end
+  }
+     /**
      * login
      *
      * Login request and validation

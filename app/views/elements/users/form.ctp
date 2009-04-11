@@ -10,6 +10,8 @@
   <p><?php e($form->input('mail')); ?></p>
   <p><%= f.select :language, lang_options_for_select %></p>
 
+  <?php // echo $candy->lang_options_for_select(); ?>
+
 <% @user.custom_field_values.each do |value| %>
 	<p><%= custom_field_tag_with_label :user, value %></p>
 <% end %>
