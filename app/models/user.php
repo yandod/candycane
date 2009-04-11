@@ -10,6 +10,13 @@ define('USER_STATUS_ACTIVE',    1);
 define('USER_STATUS_REGISTERED',2);
 define('USER_STATUS_LOCKED',    3);
 
+/**
+ * User
+ *
+ */
+class User extends AppModel
+{
+
 #  USER_FORMATS = {
 #    :firstname_lastname => '#{firstname} #{lastname}',
 #    :firstname => '#{firstname}',
@@ -24,6 +31,7 @@ define('USER_STATUS_LOCKED',    3);
 #  has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
 #  has_many :changesets, :dependent => :nullify
 #  has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
+  var $hasOne = array('UserPreference');
 #  has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
 #  belongs_to :auth_source
 #  
@@ -50,7 +58,6 @@ define('USER_STATUS_LOCKED',    3);
 #  validates_length_of :mail, :maximum => 60, :allow_nil => true
 #  validates_length_of :password, :minimum => 4, :allow_nil => true
 #  validates_confirmation_of :password, :allow_nil => true
-#
   
 #  def reload(*args)
 #    @name = nil
@@ -211,12 +218,6 @@ define('USER_STATUS_LOCKED',    3);
 #end
 
 
-/**
- * User
- *
- */
-class User extends AppModel
-{
   var $hasMany = array(
     'Membership' =>array(
       'className' => 'Member'

@@ -9,9 +9,11 @@
  *
  * @todo implement yet
  */
-class AccountController extends AppController {
+class AccountController extends AppController
+{
 
   var $uses = array('User', 'Project', 'Setting');
+  var $helpers = array('Text');
 
   //  helper :custom_fields
   //  include CustomFieldsHelper   
@@ -202,7 +204,10 @@ class AccountController extends AppController {
     {
         $id = (int)$id;
 
-        $user = $this->User->findById($id);
+        $user = $this->User->find('first',
+          array('conditions' => array('User.id' => $id))
+        );
+
         if (!is_array($user)) {
             $this->cakeError('error', array('message' => "user id {$id} not found."));
         }
