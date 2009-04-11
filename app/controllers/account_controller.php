@@ -103,7 +103,7 @@ class AccountController extends AppController {
     if ($this->Session->read('auth_source_registration')) {
       $this->data['User']['status'] = 1; // active
 
-      $auth_source_registration = $this->Session->('auth_source_registration');
+      $auth_source_registration = $this->Session->read('auth_source_registration');
       $this->data['User']['login'] = $auth_source_registration['login'];
 
       $this->data['User']['auth_source_id'] = $auth_source_registration['auth_source_id'];
