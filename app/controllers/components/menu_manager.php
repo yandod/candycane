@@ -15,7 +15,7 @@ class MenuManagerComponent extends Object
   	$meta_data = array();
   	
   	if ( isset($this->controller->params['project_id'])) {
-  	  $meta_data = $this->_getProjectMenu();
+  	  $meta_data = $this->_getProjectMenu($this->controller->params['project_id']);
   	}
   	$menu_data = array();
   	
@@ -28,15 +28,15 @@ class MenuManagerComponent extends Object
   	$this->controller->set('main_menu',$menu_data);
   }
   
-  function _getProjectMenu()
+  function _getProjectMenu($project_id)
   {
   	return array(
-  		aa('controller','projects','action','show','class','','caption',__('Overview',true)),
-  		aa('controller','projects','action','activity','class','','caption',__('Activity',true)),
-  		aa('controller','projects','action','issues','class','','caption',__('Issues',true)),
-  		aa('controller','projects','action','issues/new','class','','caption',__('New issue',true)),
-  		aa('controller','wiki','action','show','class','','caption',__('Wiki',true)),
-  		aa('controller','projects','action','settings','class','','caption',__('Preferences',true)),  		
+  		aa('controller','projects','action','show','class','','caption',__('Overview',true),'project_id',$project_id),
+  		aa('controller','projects','action','activity','class','','caption',__('Activity',true),'project_id',$project_id),
+  		aa('controller','issues','action','index','class','','caption',__('Issues',true),'project_id',$project_id),
+  		aa('controller','issues','action','add','class','','caption',__('New issue',true),'project_id',$project_id),
+  		aa('controller','wiki','action','show','class','','caption',__('Wiki',true),'project_id',$project_id),
+  		aa('controller','settings','action','index','class','','caption',__('Preferences',true),'project_id',$project_id),  		
   	);
   }
 }
