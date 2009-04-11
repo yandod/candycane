@@ -51,6 +51,12 @@ class Project extends AppModel
   {
     return $this->find('first', array('conditions'=>array($this->name.'.identifier'=>$identifier)));
   }
+
+  function findSubprojects($id)
+  {
+    return $this->find('all', array('conditions'=>array($this->name.'.parent_id'=>$id)));
+  }
+
 #  # Project statuses
 #  STATUS_ACTIVE     = 1
 #  STATUS_ARCHIVED   = 9
@@ -178,6 +184,16 @@ class Project extends AppModel
 #    statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
 #  end
 #  
+  function project_condition($with_subprojects)
+  {
+    $cond = array($this->name.'.id' => $this->id);
+    if ($with_subprojects) {
+      $cond['or'] = $cond;
+      $cond['or'][$this->name.'.parent_id'] = $this->id;
+    }
+
+    return $cond;
+  }
 #  def project_condition(with_subprojects)
 #    cond = "#{Project.table_name}.id = #{id}"
 #    cond = "(#{cond} OR #{Project.table_name}.parent_id = #{id})" if with_subprojects
@@ -311,6 +327,11 @@ class Project extends AppModel
 			} else {
 				$results[$key][$this->alias]['short_description'] = '';
 			}
+      if (!empty($val[$this->alias]['identifier'])) {
+        $results[$key][$this->alias]['identifier_or_id'] = $val[$this->alias]['identifier'];
+      } else {
+        $results[$key][$this->alias]['identifier_or_id'] = $val[$this->alias]['id'];
+      }
 		}
 		return $results;
 	}

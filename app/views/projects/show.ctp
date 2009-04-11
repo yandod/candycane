@@ -6,17 +6,22 @@
 <?php if (!empty($this->data['Project']['homepage'])): ?>
     <li><?php __('Homepage') ?>: <a href="<?php echo h($this->data['Project']['homepage']) ?>"><?php echo h($this->data['Project']['homepage']) ?></a></li>
 <?php endif ?>
-    <% if @subprojects.any? %>
-  <li><?php __('Subprojects') ?>: <%= @subprojects.collect{|p| link_to(h(p.name), :action => 'show', :id => p)}.join(", ") %></li>
-    <% end %>
-  <?php if ($this->data['Parent']['id'] != null): ?>
-  <li><?php __('Subproject of') ?>: <?php echo $html->link(h($this->data['Parent']['name']), '/projects/show/'.$this->data['Parent']['id']) ?></li>
+<?php if (count($subprojects) > 0): ?>
+  <li><?php __('Subprojects') ?>: 
+<?php foreach($subprojects as $key=>$subproject): ?>
+<?php if ($key != 0) { echo ', '; } ?>
+<?php echo $html->link(h($subproject['Project']['name']), array('controller'=>'projects', 'action'=>'show', 'project_id'=>$subproject['Project']['identifier_or_id'])) ?>
+<?php endforeach ?>
+</li>
+<?php endif ?>
+  <?php if ($parent_project): ?>
+  <li><?php __('Subproject of') ?>: <?php echo $html->link(h($parent_project['name']), array('controller'=>'projects', 'action'=>'show', 'project_id'=>$parent_project['identifier_or_id'])) ?></li>
   <?php endif ?>
-	<% @project.custom_values.each do |custom_value| %>
-	<% if !custom_value.value.empty? %>
-	   <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
-	<% end %>
-	<% end %>
+<?php foreach($custom_values as $custom_value): ?>
+  <?php if (!empty($custom_value['CustomValue']['value'])): ?>
+  <li><?php echo h($custom_value['CustomField']['name']) ?>: <?php echo h($custom_field->show_value($custom_value['CustomValue']['value'])) ?></li>
+   <?php endif ?>
+<?php endforeach ?>
 	</ul>	
 
   <% if User.current.allowed_to?(:view_issues, @project) %>
@@ -24,12 +29,12 @@
     <h3 class="icon22 icon22-tracker"><?php __('Issue tracking') ?></h3>
     <ul>
     <?php foreach($this->data['Tracker'] as $tracker): ?>
-    <li><?php echo $html->link(h($tracker['name']), '/issues/index?project_id='.$this->data['Project']['id'].'&set_filter=1&tracker_id='.$tracker['id']) ?>:
-      <%= @open_issues_by_tracker[tracker] || 0 %> <%= lwr(:label_open_issues, @open_issues_by_tracker[tracker] || 0) %>
-      <?php __("'on'") ?> <%= @total_issues_by_tracker[tracker] || 0 %></li>
+    <li><?php echo $html->link(h($tracker['name']), array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'], 'set_filter'=>1, 'tracker_id'=>$tracker['id'])) ?>:
+    <?php echo $tracker['open_issues_by_tracker'] ?> <?php echo $candy->lwr('open', $tracker['open_issues_by_tracker']) ?>
+    <?php __("'on'") ?> <?php echo $tracker['total_issues_by_tracker'] ?></li>
     <?php endforeach ?>
     </ul>
-    <p><?php echo $html->link(__('View all issues', true), array('/issues/index/'.$this->data['Project']['id'].'?set_filter=1')) ?></p>
+    <p><?php echo $html->link(__('View all issues', true), array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'],'set_filter'=>1)) ?></p>
   </div>
   <% end %>
 </div>
@@ -53,7 +58,7 @@
 <?php /*
     <%= render :partial => 'news/news', :collection => @news %>
  */ ?>
-    <p><?php echo $html->link(__('View all news', true), array('/news/index/'.$this->data['Project']['id'])) ?></p>
+    <p><?php echo $html->link(__('View all news', true), array('controller'=>'news', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'])) ?></p>
   </div>  
   <% end %>
 </div>
@@ -71,8 +76,8 @@
     <% if @total_hours && User.current.allowed_to?(:view_time_entries, @project) %>
     <h3><?php __('Spent time') ?></h3>
     <p><span class="icon icon-time"><%= lwr(:label_f_hour, @total_hours) %></span></p>
-    <p><?php echo $html->link(__('Details', true), array('/timelog/details/'.$this->data['Project']['id'])) ?> |
-       <?php echo $html->link(__('Report', true), array('/timelog/report/'.$this->data['Project']['id'])) ?></p>
+    <p><?php echo $html->link(__('Details', true), array('controller'=>'timelog', 'action'=>'details', 'project_id'=>$this->data['Project']['identifier_or_id'])) ?> |
+       <?php echo $html->link(__('Report', true), array('controller'=>'timelog', 'action'=>'report', 'project_id'=>$this->data['Project']['identifier_or_id'])) ?></p>
     <% end %>
 <% end %>
 
