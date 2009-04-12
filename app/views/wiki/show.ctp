@@ -20,7 +20,7 @@
     <?php if ($content['Content']['version'] < $page['Content']['version']) { echo $html->link(__('Next', true). ' &#187;', aa('action', 'index', 'wikipage', $page['Page']['title'], 'version', $content['Content']['version'] + 1), aa(), false, false) . " - "; } ?>
     <?php echo $html->link(__('Current version', true), aa('action', 'index', 'wikipage', $page['Page']['title'])); ?>
     <br />
-    <em><?php echo isset($content['Author']) ? $content['Author']['name'] : "anonyme" ?>, <?php $candy->format_time($content['Content']['updated_on']) ?> </em><br />
+    <em><?php echo isset($author['User']) ? $author['User']['name'] : "anonyme" ?>, <?php $candy->format_time($content['Content']['updated_on']) ?> </em><br />
     <?php echo h($content['Content']['comments']) ?>
     </p>
     <hr />
