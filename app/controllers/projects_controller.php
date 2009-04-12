@@ -33,6 +33,7 @@ class ProjectsController extends AppController
     'Member',
     'News',
     'TimeEntry',
+    'IssueCategory',
   );
   var $helpers = array('Time', 'Project', 'CustomField');
   var $components = array('RequestHandler');
@@ -155,7 +156,7 @@ class ProjectsController extends AppController
           $this->EnabledModule->save(array('name'=>$enabledModule, 'project_id'=>$this->data->id));
         }
         $this->Session->setFlash(__('Successful create.'));
-        $this->redirect('/admin/projects');
+        $this->redirect(array('controller'=>'admin', 'action'=>'projects'));
       }
     }
   }
@@ -344,7 +345,7 @@ class ProjectsController extends AppController
     if($this->RequestHandler->isPost()) {
       if ($this->data['Project']['confirm'] == 1) {
         $this->Project->del($this->data['Project']['id']);
-        $this->redirect('/admin/projects');
+        $this->redirect(array('controller'=>'admin', 'action'=>'projects'));
       } else {
       }
     }
@@ -360,6 +361,28 @@ class ProjectsController extends AppController
 #    @project = nil
 #  end
 #	
+  function add_issue_category()
+  {
+    $members = $this->Member->find('all', array(
+      'conditions' => array(
+        'project_id' => $this->data['Project']['id'],
+      ),
+    ));
+    $project_users = array(null => '');
+    foreach($members as $member) {
+      $project_users[$member['User']['id']] = $this->User->name($member);
+    }
+
+    if($this->RequestHandler->isPost()) {
+      if($this->IssueCategory->save($this->data, true, array('name', 'assigned_to_id'))) {
+        $this->Session->setFlash(__('Successful create.'));
+        $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['project_id'], 'tab'=>'categories'));
+      }
+    }
+
+    $this->set('project_users', $project_users);
+  }
+
 #  # Add a new issue category to @project
 #  def add_issue_category
 #    @category = @project.issue_categories.build(params[:category])
@@ -392,7 +415,7 @@ class ProjectsController extends AppController
     if($this->RequestHandler->isPost()) {
       if($this->Version->save($this->data, true, array('project_id', 'name', 'description', 'wiki_page_title', 'effective_date'))) {
         $this->Session->setFlash(__('Successful create.'));
-        $this->redirect('/projects/settings/'.$this->data['Project']['id']);
+        $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['project_id']));
       }
     }
   }
