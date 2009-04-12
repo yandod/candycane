@@ -1,15 +1,18 @@
 <div class="contextual">
+<!--
 <%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>
 <%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>
 <%= watcher_tag(@issue, User.current) %>
 <%= link_to_if_authorized l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-copy' %>
 <%= link_to_if_authorized l(:button_move), {:controller => 'issues', :action => 'move', :id => @issue }, :class => 'icon icon-move' %>
 <%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>
+-->
 </div>
 
-<h2><%= @issue.tracker.name %> #<%= @issue.id %></h2>
+<h2><?php echo h($issue['Tracker']['name']) ?> #<?php echo h($issue['Issue']['id']) ?></h2>
 
-<div class="<%= css_issue_classes(@issue) %>">
+<div class="<?php echo h($issues->css_issue_classes($issue)) ?>">
+        <?php echo $candy->avatar(array('User' => $issue['Author']), array('size' => 64)) ?>
         <%= avatar(@issue.author, :size => "64") %>
         <h3><%=h @issue.subject %></h3>
         <p class="author">
