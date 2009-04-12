@@ -12,6 +12,7 @@ class UsersController extends AppController
 {
   var $helpers = array('Users', 'Sort', 'Ajax', 'Text');
   var $components = array('Sort', 'Users');
+
 #  helper :custom_fields
 #  include CustomFieldsHelper   
 
@@ -39,31 +40,41 @@ class UsersController extends AppController
    * edit
    *
    */
-  function edit($id)
+  function edit($id = null)
   {
-    $user = $this->User->findById((int)$id);
-
     if ($this->data) {
       if ($this->User->save($this->data)) {
 #        flash[:notice] = l(:notice_successful_update)
 #        # Give a string to redirect_to otherwise it would use status param as the response code
 #        redirect_to(url_for(:action => 'list', :status => params[:status], :page => params[:page]))
+        $this->redirect('list');
+        return;
       }
     }
 
+    $user = $this->User->find('first', array('conditions' => array('User.id' => (int)$id)));
+
     $tabs = array(
-      array('name' => 'general', 'partial' => 'users/general', 'label' => __('General', true)),
-      array('name' => 'memberships', 'partial' => 'users/memberships', 'label' => __('Projects', true)),
+      array(
+        'name' => 'general',
+        'partial' => 'users/general',
+        'label' => __('General', true)
+      ),
+      array(
+        'name' => 'memberships',
+        'partial' => 'users/memberships',
+        'label' => __('Projects', true)
+      ),
     );
 
     $this->set('settings_tabs',$tabs);
 
     $this->set('user', $user);
-    $this->set('projects', $this->Project->find('all'));
+    $this->set('projects', $this->Project->find('all', array('order' => 'name', 'conditions' => array('status' => PROJECT_STATUS_ACTIVE))));
+#    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
 
 #    @auth_sources = AuthSource.find(:all)
 #    @roles = Role.find_all_givable
-#    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
 #    @membership ||= Member.new
 #    @memberships = @user.memberships
   }
