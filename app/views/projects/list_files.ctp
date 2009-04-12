@@ -45,8 +45,8 @@
   <?php foreach($container['Attachment'] as $file): ?>
   <tr class="<?php echo $candy->cycle() ?>">
     <td><?php echo $candy->link_to_attachment($file, array('download' => true, 'title' => $file['Attachment']['description'])) ?></td>
-    <td align="center"><?php echo $number->toReadableSize($file['Attachment']['created_on']) ?></td>
-    <td align="center"><?php echo number_format($file['Attachment']['filesize']) ?></td>
+    <td align="center"><?php echo $time->niceShort($file['Attachment']['created_on']) ?></td>
+    <td align="center"><?php echo $number->toReadableSize($file['Attachment']['filesize']) ?></td>
     <td align="center"><?php echo $file['Attachment']['downloads'] ?></td>
     <td align="center"><small><?php echo $file['Attachment']['digest'] ?></small></td>
     <td align="center">
