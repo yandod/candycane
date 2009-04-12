@@ -63,7 +63,7 @@ class AppController extends Controller {
      * @todo auto_login
      * @todo rss key authentication
      */
-    function find_current_user() {
+    function _find_current_user() {
         if ($this->Session->read('user_id')) {
             // existing session
             $cond = aa('User.id',$this->Session->read('user_id'));
@@ -81,8 +81,11 @@ class AppController extends Controller {
 #      # RSS key authentication
 #      User.find_by_rss_key(params[:key])
         }
-
         return null;
+      return $this->find_current_user();
+    }
+    function find_current_user() {
+      return $this->_find_current_user();
     }
 
     /**
