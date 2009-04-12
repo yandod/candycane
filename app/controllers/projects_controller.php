@@ -435,7 +435,26 @@ class ProjectsController extends AppController
 #  end
   function add_file()
   {
+    $versions = $this->Version->find('all', array(
+      'conditions' => array(
+        'project_id' => $this->data['Project']['id'],
+      )
+    ));
+    $version_select = array();
+    foreach($versions as $version) {
+      $version_select[$version['Version']['id']] = $version['Version']['name'];
+    }
+    $this->set('versions', $version_select);
 
+    if($this->RequestHandler->isPost()) {
+      $file = $this->data['Attachment']['file'];
+      var_dump($file);exit;
+      if (move_uploaded_file($file['tmp_name'], WWW_ROOT . "img/photos" .DS. $file['name'])) {
+        if($this->Attachment->save($this->data, true, array('version_id', 'des', 'description', 'wiki_page_title', 'effective_date'))) {
+          $this->redirect(array('controller'=>'projects', 'action'=>'list_files', 'project_id'=>$this->data['Project']['project_id']));
+        }
+      }
+    }
   }
 #  
 #  def list_files
