@@ -447,10 +447,35 @@ class ProjectsController extends AppController
     $this->set('versions', $version_select);
 
     if($this->RequestHandler->isPost()) {
+      $version_id = $this->data['Attachment']['version_id'];
+      // @FIXME magic number
+      $container_type = 'Project';
+      $container_id = $this->data['Project']['id'];
+      if (!empty($version_id)) {
+        $container_type = 'Version';
+        $container_id = $version_id;
+      }
+      $this->data['Attachment']['container_type'] = $container_type;
+      $this->data['Attachment']['container_id'] = $container_id;
+
       $file = $this->data['Attachment']['file'];
-      var_dump($file);exit;
-      if (move_uploaded_file($file['tmp_name'], WWW_ROOT . "img/photos" .DS. $file['name'])) {
-        if($this->Attachment->save($this->data, true, array('version_id', 'des', 'description', 'wiki_page_title', 'effective_date'))) {
+      $upload_dir = $this->Setting->file_upload_dir;
+      $this->data['Attachment']['filename'] = $file['name'];
+
+      $disk_filename = $this->Attachment->disk_filename($file['name']);
+      $digest = $this->Attachment->disk_filename($file['tmp_name']);
+      $content_type = $file['type'];
+
+      $this->data['Attachment']['disk_filename'] = $disk_filename;
+      $this->data['Attachment']['digest'] = $digest;
+      $this->data['Attachment']['content_type'] = $content_type;
+      $this->data['Attachment']['filesize'] = filesize($file['tmp_name']);
+      $this->data['Attachment']['downloads'] = 0;
+      $this->data['Attachment']['author_id'] = $this->current_user['id'];
+
+      // @TODO
+      if (move_uploaded_file($file['tmp_name'], $upload_dir .DS. $disk_filename)) {
+        if($this->Attachment->save($this->data)) {
           $this->redirect(array('controller'=>'projects', 'action'=>'list_files', 'project_id'=>$this->data['Project']['project_id']));
         }
       }
@@ -472,6 +497,7 @@ class ProjectsController extends AppController
   {
     $containers = array();
 
+    // @FIXME magic number
     $container = $this->data;
     $container['Attachment'] = $this->Attachment->find('all', array(
       'conditions' => array(
