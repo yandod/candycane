@@ -14,26 +14,13 @@ class IssuesController extends AppController
     'QueryColumn',
     'Paginator',
   );
+  var $components = array(
+    'RequestHandler',
+  );
   var $_query;
   var $_show_filters;
+  var $_current_user;
   
-## Redmine - project management software
-## Copyright (C) 2006-2008  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
 #class IssuesController < ApplicationController
 #  menu_item :new_issue, :only => :new
 #  
@@ -44,6 +31,7 @@ class IssuesController extends AppController
 #  before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
   function beforeFilter()
   {
+    $this->_current_user = $this->_find_current_user();
     $this->_find_project();
     return parent::beforeFilter();
   }
@@ -70,16 +58,14 @@ class IssuesController extends AppController
   function index()
   {
     $this->_retrieve_query();
-    $cond = array(
-      'Issue.project_id' => $this->_project['Project']['id'],
-    );
     $limit = $this->_per_page_option();
     $this->paginate = array('Issue' => array(
-      'conditions' => $cond,
+      'conditions' => $this->_query['Query']['filter_cond'],
       'order' => 'Issue.id DESC',
       'limit' => $limit,
     ));
     $this->set('issue_list', $this->paginate('Issue'));
+    if ($this->RequestHandler->isAjax()) $this->layout = 'ajax';
   }
 #  def index
 #    retrieve_query
@@ -566,7 +552,7 @@ class IssuesController extends AppController
   function _retrieve_query()
   {
     $show_filters = $this->Query->show_filters();
-    $available_filters = $this->Query->available_filters();
+    $available_filters = $this->Query->available_filters($this->_project, $this->_current_user);
     $query = a();
     if (!isset($this->data['Filter'])) $this->data['Filter'] = a();
     foreach ($show_filters as $field => $options) {
@@ -595,6 +581,18 @@ class IssuesController extends AppController
     foreach ($show_filters as $field => $options) {
       $operator = $this->data['Filter']['operators_' . $field];
       $value = $this->data['Filter']['values_' . $field];
+      switch ($field) {
+      case 'author_id':
+      case 'assigned_to_id':
+        if ($value == 'me') {
+          if ($this->_current_user) {
+            $value = $this->_current_user['id'];
+          } else {
+            continue;
+          }
+        }
+        break;
+      }
       if ($add_filter_cond = $this->Query->get_filter_cond('Issue', $field, $operator, $value)) {
         $query['Query']['filter_cond'][] = $add_filter_cond;
       }
