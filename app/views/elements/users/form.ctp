@@ -5,10 +5,11 @@
 ?>
 <!--[form:user]-->
 <div class="box">
-  <p><?php e($form->input('login', array('size' => '25%'))); ?></p>
-  <p><?php e($form->input('firstname')); ?></p>
-  <p><?php e($form->input('lastname')); ?></p>
-  <p><?php e($form->input('mail')); ?></p>
+  <?php echo $form->input('id', array('type' => 'hidden')); ?>
+  <p><?php echo $form->input('login', array('value' => $user['User']['login'], 'size' => '25%')); ?></p>
+  <p><?php e($form->input('firstname', array('value' => $user['User']['firstname']))); ?></p>
+  <p><?php e($form->input('lastname', array('value' => $user['User']['lastname']))); ?></p>
+  <p><?php e($form->input('mail', array('value' => $user['User']['mail']))); ?></p>
   <p>
     <?php echo $form->input('language', array('type' => 'select', 'options' => $candy->lang_options_for_select())); ?>
   </p>

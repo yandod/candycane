@@ -42,7 +42,7 @@ class UsersController extends AppController
    */
   function edit($id)
   {
-    $user = $this->User->findById((int)$id);
+    $user = $this->User->find('first', array('conditions' => array('User.id' => (int)$id)));
 
     if ($this->data) {
       if ($this->User->save($this->data)) {

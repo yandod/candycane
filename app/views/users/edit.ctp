@@ -2,7 +2,7 @@
   <?php echo $users->change_status_link($user); ?>
 </div>
 
-<h2><?php __('label_user'); ?>: <?php echo h($user['User']['login']); ?></h2>
+<h2><?php __('User'); ?>: <?php echo h($user['User']['login']); ?></h2>
 
 <?php $selected_tab = 'general'; ?>
 
@@ -39,4 +39,4 @@
 ); ?>
 <?php endforeach; ?>
 
-<?php $candy->html_title(__('label_user', true)); ?>
+<?php $candy->html_title(__('User', true)); ?>
