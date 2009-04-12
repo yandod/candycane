@@ -35,8 +35,14 @@ class Project extends AppModel
     'Version',
     'TimeEntry',
   );
-  var $hasAndBelongsToMany = array('Tracker' => array('with'=>'ProjectsTracker'));
-
+  var $hasAndBelongsToMany = array(
+    'Tracker' => array(
+      'with' => 'ProjectsTracker',
+    ),
+    'User' => array(
+      'with' => 'Member',
+    ),
+  );
   function findById($id)
   {
     return $this->find('first', array('conditions'=>array($this->name.'.id'=>$id)));
