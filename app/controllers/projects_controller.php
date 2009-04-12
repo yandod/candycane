@@ -440,7 +440,7 @@ class ProjectsController extends AppController
         'project_id' => $this->data['Project']['id'],
       )
     ));
-    $version_select = array();
+    $version_select = array(null => '');
     foreach($versions as $version) {
       $version_select[$version['Version']['id']] = $version['Version']['name'];
     }
