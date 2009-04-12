@@ -6,9 +6,13 @@ class MenuManagerComponent extends Object
   function initialize(&$controller) {
     // saving the controller reference for later use
     $this->controller =& $controller;
+  }
+  
+  function startup()
+  {
     $this->_prepareMainmenu();
   }
-	
+  
   function _prepareMainmenu()
   {
   	//pr($this->controller->params);

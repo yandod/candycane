@@ -1,8 +1,8 @@
-<h2><?php __('label_user_new'); ?></h2>
+<h2><?php __('New user'); ?></h2>
 <?php e($form->create('User')); ?>
 <?php echo $this->renderElement('users/form'); ?>
-<?php e($form->submit('button_create')); ?>
-<?php echo $form->input('send_information',
+<?php echo $form->submit(__('Create', true)); ?>
+<?php echo $form->input(__('Send account information to the user', true),
   array(
     'type' => 'checkbox',
     'options' => array(1),

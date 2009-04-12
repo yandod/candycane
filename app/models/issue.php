@@ -33,10 +33,6 @@ class Issue extends AppModel
       'className'  => 'Version',
       'foreignKey' => 'fixed_version_id',
     ),
-    'Status' => array(
-      'className'  => 'IssueStatus',
-      'foreignKey' => 'status_id',
-    ),
     'Priority' => array(
       'className'  => 'Enumeration',
       'foreignKey' => 'priority_id',

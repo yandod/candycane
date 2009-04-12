@@ -85,7 +85,7 @@ function toggle_multi_select(field) {
     case 'list_status':
     case 'list_subprojects':
     ?>
-      <?php echo $form->select('Filter.values_' . $field, $filter['values'], null, am(count($filter['values']) > 1 ? array('mutiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), true) ?>
+      <?php echo $form->select('Filter.values_' . $field, $filter['values'], null, am(count($filter['values']) > 1 ? array('mutiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), false) ?>
       <!--
         <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %> name="values[<?php echo h($field) ?>][]" id="values_<?php echo h($field) ?>" class="select-small" style="vertical-align: top;">
         <%= options_for_select options[:values], query.values_for(field) %>        
@@ -133,7 +133,7 @@ function toggle_multi_select(field) {
 </table>
 </td>
 <td class="add-filter">
-<?php __('Add filter') ?>
+<?php __('Add filter') ?>:
 <?php echo $form->select('Filter.add_filter_select', $queries->add_filter_select_options($queries->available_filters_sort_order($available_filters)), null, array('name' => 'add_filter_select', 'onchange' => 'add_filter()', 'class' => 'select-small', 'id' => 'add_filter_select')) ?>
 <!--
 <%= select_tag 'add_filter_select', options_for_select(

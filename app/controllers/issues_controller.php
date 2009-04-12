@@ -14,26 +14,14 @@ class IssuesController extends AppController
     'QueryColumn',
     'Paginator',
   );
+  var $components = array(
+    'RequestHandler',
+  );
   var $_query;
   var $_show_filters;
+  var $_project;
+  var $_issue;
   
-## Redmine - project management software
-## Copyright (C) 2006-2008  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
 #class IssuesController < ApplicationController
 #  menu_item :new_issue, :only => :new
 #  
@@ -44,7 +32,12 @@ class IssuesController extends AppController
 #  before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
   function beforeFilter()
   {
-    $this->_find_project();
+    switch ($this->action) {
+    case 'show':
+      $this->_find_issue($this->params['issue_id']);
+      $this->params['project_id'] = $this->_issue['Project']['identifier'];
+      break;
+    }
     return parent::beforeFilter();
   }
 #  accept_key_auth :index, :changes
@@ -70,16 +63,14 @@ class IssuesController extends AppController
   function index()
   {
     $this->_retrieve_query();
-    $cond = array(
-      'Issue.project_id' => $this->_project['Project']['id'],
-    );
     $limit = $this->_per_page_option();
     $this->paginate = array('Issue' => array(
-      'conditions' => $cond,
+      'conditions' => $this->_query['Query']['filter_cond'],
       'order' => 'Issue.id DESC',
       'limit' => $limit,
     ));
     $this->set('issue_list', $this->paginate('Issue'));
+    if ($this->RequestHandler->isAjax()) $this->layout = 'ajax';
   }
 #  def index
 #    retrieve_query
@@ -132,6 +123,9 @@ class IssuesController extends AppController
 #    render_404
 #  end
 #  
+  function show()
+  {
+  }
 #  def show
 #    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
 #    @journals.each_with_index {|j,i| j.indice = i+1}
@@ -148,28 +142,34 @@ class IssuesController extends AppController
 #  end
 #
   function add() {
-#    @issue = Issue.new
+    if(!empty($this->data)) {
+      e(pr($this->data));
+      $this->Issue->save($this->data);
+      exit();
+    }
 /*
     if(isset($this->params['copy_from'])) {
+      // TODO: コピーして新規追加の場合
+      // id が$this->params['copy_from']の値のレコードをfindして、配列を$this->dataへコピーする。
       $this->Issue->copy_from($this->params['copy_from']);
     }
-    $project = $this->Issue->Project->find('first', array(
-      'conditions'=>array('Project.identifier'=>$this->params['project_id']),
-      'recursive'=>0
-    ));
-    if(!$project) {
-        // TODO : error
-        $this->cakeError('error', 'missing URL.');
-    }
+*/
     # Tracker must be set before custom field values
-    $trackers = $this->Issue->Project->ProjectsTracker->find('all', array(
-      'conditions'=>array('ProjectsTracker.project_id' => $project['Project']['id']),
-      'fields'=>'Tracker.*'
+    $trackers = $this->Issue->Project->ProjectsTracker->find('list', array(
+      'conditions'=>array('ProjectsTracker.project_id' => $this->_project['Project']['id']),
+      'fields'=>'Tracker.id, Tracker.name', 'recursive'=>0, 'order'=>'Tracker.position'
     ));
     if(empty($trackers)){
       $this->Session->setFlash(__("No tracker is associated to this project. Please check the Project settings.", true), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
+    // TODO IssueStatus のメソッドを呼び出すように変更する。
+    $statuses = $this->Issue->Status->find('list');
+
+    $this->set(compact('trackers', 'statuses'));
+    $this->render('new');
+    
+/*
     if(is_array($this->params['issue'])) {
       $attributes = $this->params['issue'];
       if()
@@ -514,6 +514,17 @@ class IssuesController extends AppController
 #  end
 #  
 #private
+  function _find_issue($id)
+  {
+    if ($this->_issue = $this->Issue->find('first', array(
+      'Issue.id' => $id,
+    ))) {
+      $this->set('issue', $this->_issue);
+      return $this->_issue;
+    } else {
+      $this->cakeErorr('error404');
+    }
+  }
 #  def find_issue
 #    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
 #    @project = @issue.project
@@ -536,18 +547,6 @@ class IssuesController extends AppController
 #    render_404
 #  end
 #  
-  function _find_project()
-  {
-    if ($this->_project = $this->Project->find('first', array(
-      'conditions' => array(
-        'Project.identifier' => $this->params['project_id'],
-      ),
-    ))) {
-      $this->set('project', $this->_project);
-    } else {
-      $this->cakeError('error404');
-    }
-  }
 #  def find_project
 #    @project = Project.find(params[:project_id])
 #  rescue ActiveRecord::RecordNotFound
@@ -566,7 +565,7 @@ class IssuesController extends AppController
   function _retrieve_query()
   {
     $show_filters = $this->Query->show_filters();
-    $available_filters = $this->Query->available_filters();
+    $available_filters = $this->Query->available_filters($this->_project, $this->current_user);
     $query = a();
     if (!isset($this->data['Filter'])) $this->data['Filter'] = a();
     foreach ($show_filters as $field => $options) {
@@ -595,6 +594,18 @@ class IssuesController extends AppController
     foreach ($show_filters as $field => $options) {
       $operator = $this->data['Filter']['operators_' . $field];
       $value = $this->data['Filter']['values_' . $field];
+      switch ($field) {
+      case 'author_id':
+      case 'assigned_to_id':
+        if ($value == 'me') {
+          if ($this->current_user) {
+            $value = $this->current_user['id'];
+          } else {
+            continue;
+          }
+        }
+        break;
+      }
       if ($add_filter_cond = $this->Query->get_filter_cond('Issue', $field, $operator, $value)) {
         $query['Query']['filter_cond'][] = $add_filter_cond;
       }

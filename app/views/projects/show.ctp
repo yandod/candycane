@@ -13,12 +13,12 @@ vim: filetype=php
   <li><?php __('Subprojects') ?>: 
 <?php foreach($subprojects as $key=>$subproject): ?>
 <?php if ($key != 0) { echo ', '; } ?>
-<?php echo $html->link(h($subproject['Project']['name']), array('controller'=>'projects', 'action'=>'show', 'project_id'=>$subproject['Project']['identifier_or_id'])) ?>
+<?php echo $html->link($subproject['Project']['name'], array('controller'=>'projects', 'action'=>'show', 'project_id'=>$subproject['Project']['identifier_or_id'])) ?>
 <?php endforeach ?>
 </li>
 <?php endif ?>
   <?php if ($parent_project): ?>
-  <li><?php __('Subproject of') ?>: <?php echo $html->link(h($parent_project['Project']['name']), array('controller'=>'projects', 'action'=>'show', 'project_id'=>$parent_project['Project']['identifier_or_id'])) ?></li>
+  <li><?php __('Subproject of') ?>: <?php echo $html->link($parent_project['Project']['name'], array('controller'=>'projects', 'action'=>'show', 'project_id'=>$parent_project['Project']['identifier_or_id'])) ?></li>
   <?php endif ?>
 <?php foreach($custom_values as $custom_value): ?>
   <?php if (!empty($custom_value['CustomValue']['value'])): ?>
@@ -34,7 +34,7 @@ vim: filetype=php
     <h3 class="icon22 icon22-tracker"><?php __('Issue tracking') ?></h3>
     <ul>
     <?php foreach($this->data['Tracker'] as $tracker): ?>
-    <li><?php echo $html->link(h($tracker['name']), array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'], '?' . http_build_query(array('set_filter' => '1', 'tracker_id' => $tracker['id']), '', '&'))) ?>:
+    <li><?php echo $html->link($tracker['name'], array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->data['Project']['identifier_or_id'], '?' . http_build_query(array('set_filter' => '1', 'tracker_id' => $tracker['id']), '', '&'))) ?>:
     <?php echo $tracker['open_issues_by_tracker'] ?> <?php echo $candy->lwr('open', $tracker['open_issues_by_tracker']) ?>
     <?php __("'on'") ?> <?php echo $tracker['total_issues_by_tracker'] ?></li>
     <?php endforeach ?>
@@ -66,7 +66,7 @@ vim: filetype=php
 <?php if ((count($news) > 0) && (true /* authorize_for('news', 'index') */)): ?>
   <div class="box">
     <h3><?php  __('Latest news') ?></h3>  
-    <?php echo $this->element('news/news') ?>
+    <?php echo $this->element('news') ?>
 <?php /*
     <%= render :partial => 'news/news', :collection => @news %>
  */ ?>

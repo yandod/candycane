@@ -6,7 +6,7 @@
 <div id="roadmap">
 <?php foreach($this->data['Version'] as $version): ?>
     <?php echo $html->tag('a', null, array('name' => $version['name'])) ?>
-    <h3 class="icon22 icon22-package"><?php echo $html->link(h($version['name']), '/versions/show/'.$version['id']) ?></h3>
+    <h3 class="icon22 icon22-package"><?php echo $html->link($version['name'], '/versions/show/'.$version['id']) ?></h3>
     <?php echo $this->element('versions/overview', array('version' => $version)) ?>
 <?php /*
     <%= render(:partial => "wiki/content", :locals => {:content => version.wiki_page.content}) if version.wiki_page %>

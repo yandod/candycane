@@ -74,6 +74,8 @@ Router::connect('wiki/:id/:wikipage/:action/*', array('controller' => 'wiki'));
 #  map.connect 'help/:ctrl/:page', :controller => 'help'
 #  #map.connect ':controller/:action/:id/:sort_key/:sort_order'
 #  
+Router::connect('issues/:action/:issue_id/*', array('controller' => 'issues'));
+
 #  map.connect 'issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
 #  map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
 #  map.connect 'projects/:project_id/news/:action', :controller => 'news'

@@ -33,8 +33,10 @@ class ProjectsController extends AppController
     'Member',
     'News',
     'TimeEntry',
+    'IssueCategory',
+    'Attachment',
   );
-  var $helpers = array('Time', 'Project', 'CustomField');
+  var $helpers = array('Time', 'Project', 'CustomField', 'Number');
   var $components = array('RequestHandler');
 
 #  menu_item :overview
@@ -155,7 +157,7 @@ class ProjectsController extends AppController
           $this->EnabledModule->save(array('name'=>$enabledModule, 'project_id'=>$this->data->id));
         }
         $this->Session->setFlash(__('Successful create.'));
-        $this->redirect('/admin/projects');
+        $this->redirect(array('controller'=>'admin', 'action'=>'projects'));
       }
     }
   }
@@ -344,7 +346,7 @@ class ProjectsController extends AppController
     if($this->RequestHandler->isPost()) {
       if ($this->data['Project']['confirm'] == 1) {
         $this->Project->del($this->data['Project']['id']);
-        $this->redirect('/admin/projects');
+        $this->redirect(array('controller'=>'admin', 'action'=>'projects'));
       } else {
       }
     }
@@ -360,6 +362,28 @@ class ProjectsController extends AppController
 #    @project = nil
 #  end
 #	
+  function add_issue_category()
+  {
+    $members = $this->Member->find('all', array(
+      'conditions' => array(
+        'project_id' => $this->data['Project']['id'],
+      ),
+    ));
+    $project_users = array(null => '');
+    foreach($members as $member) {
+      $project_users[$member['User']['id']] = $this->User->name($member);
+    }
+
+    if($this->RequestHandler->isPost()) {
+      if($this->IssueCategory->save($this->data, true, array('name', 'assigned_to_id'))) {
+        $this->Session->setFlash(__('Successful create.'));
+        $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['project_id'], 'tab'=>'categories'));
+      }
+    }
+
+    $this->set('project_users', $project_users);
+  }
+
 #  # Add a new issue category to @project
 #  def add_issue_category
 #    @category = @project.issue_categories.build(params[:category])
@@ -392,7 +416,7 @@ class ProjectsController extends AppController
     if($this->RequestHandler->isPost()) {
       if($this->Version->save($this->data, true, array('project_id', 'name', 'description', 'wiki_page_title', 'effective_date'))) {
         $this->Session->setFlash(__('Successful create.'));
-        $this->redirect('/projects/settings/'.$this->data['Project']['id']);
+        $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['project_id']));
       }
     }
   }
@@ -411,7 +435,51 @@ class ProjectsController extends AppController
 #  end
   function add_file()
   {
+    $versions = $this->Version->find('all', array(
+      'conditions' => array(
+        'project_id' => $this->data['Project']['id'],
+      )
+    ));
+    $version_select = array(null => '');
+    foreach($versions as $version) {
+      $version_select[$version['Version']['id']] = $version['Version']['name'];
+    }
+    $this->set('versions', $version_select);
 
+    if($this->RequestHandler->isPost()) {
+      $version_id = $this->data['Attachment']['version_id'];
+      // @FIXME magic number
+      $container_type = 'Project';
+      $container_id = $this->data['Project']['id'];
+      if (!empty($version_id)) {
+        $container_type = 'Version';
+        $container_id = $version_id;
+      }
+      $this->data['Attachment']['container_type'] = $container_type;
+      $this->data['Attachment']['container_id'] = $container_id;
+
+      $file = $this->data['Attachment']['file'];
+      $upload_dir = $this->Setting->file_upload_dir;
+      $this->data['Attachment']['filename'] = $file['name'];
+
+      $disk_filename = $this->Attachment->disk_filename($file['name']);
+      $digest = $this->Attachment->disk_filename($file['tmp_name']);
+      $content_type = $file['type'];
+
+      $this->data['Attachment']['disk_filename'] = $disk_filename;
+      $this->data['Attachment']['digest'] = $digest;
+      $this->data['Attachment']['content_type'] = $content_type;
+      $this->data['Attachment']['filesize'] = filesize($file['tmp_name']);
+      $this->data['Attachment']['downloads'] = 0;
+      $this->data['Attachment']['author_id'] = $this->current_user['id'];
+
+      // @TODO
+      if (move_uploaded_file($file['tmp_name'], $upload_dir .DS. $disk_filename)) {
+        if($this->Attachment->save($this->data)) {
+          $this->redirect(array('controller'=>'projects', 'action'=>'list_files', 'project_id'=>$this->data['Project']['project_id']));
+        }
+      }
+    }
   }
 #  
 #  def list_files
@@ -428,7 +496,37 @@ class ProjectsController extends AppController
   function list_files()
   {
     $containers = array();
+
+    // @FIXME magic number
+    $container = $this->data;
+    $container['Attachment'] = $this->Attachment->find('all', array(
+      'conditions' => array(
+        'container_id' => $this->data['Project']['id'],
+        'container_type' => 'Project',
+      )
+    ));
+    $containers[] = $container;
+
+    $versions = $this->Version->find('all', array(
+      'conditions' => array(
+        'project_id' => $this->data['Project']['id'],
+      )
+    ));
+    foreach($versions as $version) {
+      $container = $version;
+      $container['Attachment'] = $this->Attachment->find('all', array(
+        'conditions' => array(
+          'container_id' => $version['Version']['id'],
+          'container_type' => 'Version',
+        )
+      ));
+      $containers[] = $container;
+    }
+
     $this->set('containers', $containers);
+
+    $delete_allowed = true;
+    $this->set('delete_allowed', $delete_allowed);
   }
 #  
 #  # Show changelog for @project

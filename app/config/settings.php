@@ -113,6 +113,8 @@ $vars = array(
     To change your notification preferences, please click here: http://hostname/my/account',
 'gravatar_enabled' => 
   '0',
+'file_upload_dir' => 
+  ROOT . DS . APP_DIR . DS.'files',
 );
 return $vars;
 ?>

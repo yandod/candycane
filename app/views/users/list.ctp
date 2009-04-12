@@ -69,7 +69,7 @@ echo $ajax->link(__('login', true),
   <tr class="user <?php echo $candy->cycle();?> <?php echo $status_type[$user['User']['status']]; ?>">
   <td class="username">
     <?php echo $candy->avatar($user, array('size' => "14")); ?>
-    <?php echo $html->link(h($user['User']['login']), '/users/edit/'.$user['User']['id']); ?>
+    <?php echo $html->link($user['User']['login'], '/users/edit/'.$user['User']['id']); ?>
   </td>
   <td class="firstname"><?php e(h($user['User']['firstname'])); ?></td>
   <td class="lastname"><?php e(h($user['User']['lastname'])); ?></td>

@@ -170,6 +170,19 @@ class CandyHelper extends AppHelper
 #  # Options:
 #  # * :text - Link text (default to attachment filename)
 #  # * :download - Force download (default: false)
+  function link_to_attachment($attachment, $options = array())
+  {
+    $text = $attachment['Attachment']['filename'];
+    if (isset($options['text'])) {
+      $text = $options['text'];
+    }
+    $action = 'show';
+    if (isset($options['download'])) {
+      $action = 'download';
+    }
+
+    return $this->Html->link($text, array('controller'=>'attachments', 'action'=>$action, 'id'=>$attachment['Attachment']['id'], 'filename'=>$attachment['Attachment']['filename']), $options);
+  }
 #  def link_to_attachment(attachment, options={})
 #    text = options.delete(:text) || attachment.filename
 #    action = options.delete(:download) ? 'download' : 'show'
@@ -886,4 +899,13 @@ class CandyHelper extends AppHelper
     return $tmp;
   }
   
+  /**
+   * rails の ActionView::distance_of_time_in_words
+   */
+  function distance_of_time_in_words($begin, $end)
+  {
+    if (!is_numeric($begin)) $begin = strtotime($begin);
+    if (!is_numeric($end)) $end = strtotime($end);
+    return sprintf('%01.3f', abs($begin - $end) / 86400) . ' ' . __('days', true);
+  }
 }
