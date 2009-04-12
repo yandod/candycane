@@ -243,7 +243,7 @@ class User extends AppModel
    */
   var $validate = array(
     'login' => array(
-      'rule' => array('isUnique', 'notEmpty')
+      'rule' => array('isUnique' => array('onCreate' => true), 'notEmpty')
     ),
     'firstname' => array(
       'rule' => array('alphaNumeric')

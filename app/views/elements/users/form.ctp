@@ -5,7 +5,7 @@
 ?>
 <!--[form:user]-->
 <div class="box">
-  <?php echo $form->input('id', array('type' => 'hidden')); ?>
+  <?php echo $form->input('id', array('type' => 'hidden', 'value' => $user['User']['id'])); ?>
   <p><?php echo $form->input('login', array('value' => $user['User']['login'], 'size' => '25%')); ?></p>
   <p><?php e($form->input('firstname', array('value' => $user['User']['firstname']))); ?></p>
   <p><?php e($form->input('lastname', array('value' => $user['User']['lastname']))); ?></p>

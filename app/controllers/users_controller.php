@@ -40,17 +40,19 @@ class UsersController extends AppController
    * edit
    *
    */
-  function edit($id)
+  function edit($id = null)
   {
-    $user = $this->User->find('first', array('conditions' => array('User.id' => (int)$id)));
-
     if ($this->data) {
       if ($this->User->save($this->data)) {
 #        flash[:notice] = l(:notice_successful_update)
 #        # Give a string to redirect_to otherwise it would use status param as the response code
 #        redirect_to(url_for(:action => 'list', :status => params[:status], :page => params[:page]))
+        $this->redirect('list');
+        return;
       }
     }
+
+    $user = $this->User->find('first', array('conditions' => array('User.id' => (int)$id)));
 
     $tabs = array(
       array(
