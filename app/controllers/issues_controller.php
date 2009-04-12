@@ -142,6 +142,13 @@ class IssuesController extends AppController
 #  end
 #
   function add() {
+    if(!empty($this->data)) {
+      e(pr($this->data));
+      $this->Issue->save($this->data);
+      exit();
+    }
+    $this->render('new');
+    
 #    @issue = Issue.new
 /*
     if(isset($this->params['copy_from'])) {
