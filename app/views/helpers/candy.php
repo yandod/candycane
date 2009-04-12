@@ -886,4 +886,13 @@ class CandyHelper extends AppHelper
     return $tmp;
   }
   
+  /**
+   * rails の ActionView::distance_of_time_in_words
+   */
+  function distance_of_time_in_words($begin, $end)
+  {
+    if (!is_numeric($begin)) $begin = strtotime($begin);
+    if (!is_numeric($end)) $end = strtotime($end);
+    return sprintf('%01.3f', abs($begin - $end) / 86400) . ' ' . __('days', true);
+  }
 }

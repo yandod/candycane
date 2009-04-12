@@ -133,7 +133,7 @@ function toggle_multi_select(field) {
 </table>
 </td>
 <td class="add-filter">
-<?php __('Add filter') ?>
+<?php __('Add filter') ?>:
 <?php echo $form->select('Filter.add_filter_select', $queries->add_filter_select_options($queries->available_filters_sort_order($available_filters)), null, array('name' => 'add_filter_select', 'onchange' => 'add_filter()', 'class' => 'select-small', 'id' => 'add_filter_select')) ?>
 <!--
 <%= select_tag 'add_filter_select', options_for_select(
