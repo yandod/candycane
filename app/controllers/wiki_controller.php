@@ -26,7 +26,6 @@ class WikiController extends AppController {
     $author = $this->User->findById($content['Content']['author_id']);
     // このへん、ホントはviewで操作したい。helperに移動するのが正解？
     $author['User']['name'] = $author['User']['firstname'].$author['User']['lastname'];
-    // このへん、ホントはviewで操作したい。helperに移動するのが正解？
     $page['Page']['pretty_title'] = WikiPage::pretty_title($page['Page']['title']);
     $this->set('page', $page);
     $this->set('content', $content);
