@@ -396,6 +396,7 @@ class Project extends AppModel
     } else {
       $result['identifier_or_id'] = $result['id'];
     }
+    $result['project_id'] = $result['identifier_or_id'];
 
     return $result;
   }

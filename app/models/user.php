@@ -64,6 +64,16 @@ class User extends AppModel
 #    super
 #  end
 #  
+  function name($user, $formatter = null)
+  {
+    // @FIXME
+
+    if ($formatter != null) {
+    } else {
+    }
+
+    return $user['User']['firstname']. ' '.$user['User']['lastname'];
+  }
 #  # Return user's full name for display
 #  def name(formatter = nil)
 #    if formatter
