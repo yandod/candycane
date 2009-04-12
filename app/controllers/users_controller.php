@@ -12,6 +12,7 @@ class UsersController extends AppController
 {
   var $helpers = array('Users', 'Sort', 'Ajax', 'Text');
   var $components = array('Sort', 'Users');
+
 #  helper :custom_fields
 #  include CustomFieldsHelper   
 
@@ -52,18 +53,26 @@ class UsersController extends AppController
     }
 
     $tabs = array(
-      array('name' => 'general', 'partial' => 'users/general', 'label' => __('General', true)),
-      array('name' => 'memberships', 'partial' => 'users/memberships', 'label' => __('Projects', true)),
+      array(
+        'name' => 'general',
+        'partial' => 'users/general',
+        'label' => __('General', true)
+      ),
+      array(
+        'name' => 'memberships',
+        'partial' => 'users/memberships',
+        'label' => __('Projects', true)
+      ),
     );
 
     $this->set('settings_tabs',$tabs);
 
     $this->set('user', $user);
-    $this->set('projects', $this->Project->find('all'));
+    $this->set('projects', $this->Project->find('all', array('order' => 'name', 'conditions' => array('status' => PROJECT_STATUS_ACTIVE))));
+#    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
 
 #    @auth_sources = AuthSource.find(:all)
 #    @roles = Role.find_all_givable
-#    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
 #    @membership ||= Member.new
 #    @memberships = @user.memberships
   }

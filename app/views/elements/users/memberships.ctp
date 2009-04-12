@@ -1,5 +1,4 @@
 <?php if (isset($memberships) && is_array($memberships)): ?>
-<% if @memberships.any? %>
 <table class="list memberships">
 
   <thead>

@@ -4,10 +4,12 @@
 
 <h2><?php __('label_user'); ?>: <?php echo h($user['User']['login']); ?></h2>
 
-<?php $selected_tab = 'general' ?>
+<?php $selected_tab = 'general'; ?>
 
 <div class="tabs">
-<?php //pr($settings_tabs) ?>
+<?php
+// pr($settings_tabs);
+?>
 <ul>
 <?php foreach($settings_tabs as $tab): ?>
 <?php $selected = ($selected_tab == $tab['name']) ? "selected" : ""; ?>
@@ -28,19 +30,13 @@
 </div>
 
 <?php foreach($settings_tabs as $tab): ?>
-<?php $disp = ($selected_tab == $tab['name']) ? 'display:none' : ''; ?>
-<?php echo $html->tag('div',$this->renderElement($tab['partial']),
-						aa('id','tab-content-'.$tab['name'],
-						   'style', $disp,
-						   'class', 'tab-content'
-						)
-) ?>
-<!-- <% administration_settings_tabs.each do |tab| -%> -->
-<!--  <%= content_tag('div', render(:partial => tab[:partial]), 
-                       :id => "tab-content-#{tab[:name]}",
-                       :style => (tab[:name] != selected_tab ? 'display:none' : nil),
-                       :class => 'tab-content') %>-->
-<!-- <% end -%> -->
+<?php $disp = ($selected_tab != $tab['name']) ? 'display:none' : ''; ?>
+<?php echo $html->tag('div', $this->renderElement($tab['partial']),
+	aa('id','tab-content-'.$tab['name'],
+	   'style', $disp,
+	   'class', 'tab-content'
+	)
+); ?>
 <?php endforeach; ?>
 
 <?php $candy->html_title(__('label_user', true)); ?>
