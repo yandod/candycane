@@ -1,4 +1,4 @@
-<% labelled_tabular_form_for :user, @user, :url => { :action => "edit" } do |f| %>
-<%= render :partial => 'form', :locals => { :f => f } %>
-<%= submit_tag l(:button_save) %>
-<% end %>
+<?php echo $form->create('User', array('class' => 'tabular', 'url' => '/users/edit')); ?>
+<?php echo $this->renderElement('users/form'); ?>
+<?php echo $form->submit(__('Save', true)); ?>
+<?php echo $form->end(); ?>
