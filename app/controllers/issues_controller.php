@@ -19,7 +19,8 @@ class IssuesController extends AppController
   );
   var $_query;
   var $_show_filters;
-  var $_current_user;
+  var $_project;
+  var $_issue;
   
 #class IssuesController < ApplicationController
 #  menu_item :new_issue, :only => :new
@@ -31,8 +32,12 @@ class IssuesController extends AppController
 #  before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
   function beforeFilter()
   {
-    $this->_current_user = $this->_find_current_user();
-    $this->_find_project();
+    switch ($this->action) {
+    case 'show':
+      $this->_find_issue($this->params['issue_id']);
+      $this->params['project_id'] = $this->_issue['Project']['identifier'];
+      break;
+    }
     return parent::beforeFilter();
   }
 #  accept_key_auth :index, :changes
@@ -118,6 +123,9 @@ class IssuesController extends AppController
 #    render_404
 #  end
 #  
+  function show()
+  {
+  }
 #  def show
 #    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
 #    @journals.each_with_index {|j,i| j.indice = i+1}
@@ -500,6 +508,17 @@ class IssuesController extends AppController
 #  end
 #  
 #private
+  function _find_issue($id)
+  {
+    if ($this->_issue = $this->Issue->find('first', array(
+      'Issue.id' => $id,
+    ))) {
+      $this->set('issue', $this->_issue);
+      return $this->_issue;
+    } else {
+      $this->cakeErorr('error404');
+    }
+  }
 #  def find_issue
 #    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
 #    @project = @issue.project
@@ -522,18 +541,6 @@ class IssuesController extends AppController
 #    render_404
 #  end
 #  
-  function _find_project()
-  {
-    if ($this->_project = $this->Project->find('first', array(
-      'conditions' => array(
-        'Project.identifier' => $this->params['project_id'],
-      ),
-    ))) {
-      $this->set('project', $this->_project);
-    } else {
-      $this->cakeError('error404');
-    }
-  }
 #  def find_project
 #    @project = Project.find(params[:project_id])
 #  rescue ActiveRecord::RecordNotFound
@@ -552,7 +559,7 @@ class IssuesController extends AppController
   function _retrieve_query()
   {
     $show_filters = $this->Query->show_filters();
-    $available_filters = $this->Query->available_filters($this->_project, $this->_current_user);
+    $available_filters = $this->Query->available_filters($this->_project, $this->current_user);
     $query = a();
     if (!isset($this->data['Filter'])) $this->data['Filter'] = a();
     foreach ($show_filters as $field => $options) {
@@ -585,8 +592,8 @@ class IssuesController extends AppController
       case 'author_id':
       case 'assigned_to_id':
         if ($value == 'me') {
-          if ($this->_current_user) {
-            $value = $this->_current_user['id'];
+          if ($this->current_user) {
+            $value = $this->current_user['id'];
           } else {
             continue;
           }
