@@ -88,9 +88,13 @@ class WatchableBehavior extends ModelBehavior {
 
   # Adds user as a watcher
   function add_watcher(&$Model, $user) {
-    $Model->bindModel(array('hasMany'=>array('Watcher'=>array('dependent'=>true,'foreignKey'=>'watchable_id'))), false);
-    $Model->Watcher->create();
-    return $Model->Watcher->save(array('Watcher'=>array('watchable_type'=>$Model->name, 'watchable_id '=>$Model->id, 'user_id'=>$user['User']['id'])));
+    $model = & ClassRegistry::init('Watcher');
+    $model->create();
+    $data = array('watchable_type'=>$Model->name, 'watchable_id '=>$Model->id, 'user_id'=>$user['User']['id']);
+    if($model->hasAny($data)) {
+      return true;
+    }
+    return $Model->Watcher->save(array('Watcher'=>data));
   }
 
   # Removes user from the watchers list
@@ -98,8 +102,9 @@ class WatchableBehavior extends ModelBehavior {
     if(empty($user)) {
       return false;
     }
-    $Model->bindModel(array('hasMany'=>array('Watcher'=>array('dependent'=>true,'foreignKey'=>'watchable_id'))), false);
-    return $Model->Watcher->deleteAll(array('watchable_type'=>$Model->name, 'watchable_id'=>$Model->id, 'user_id'=>$user['User']['id']));
+    $model = & ClassRegistry::init('Watcher');
+    $conditions = array('watchable_type'=>$Model->name, 'watchable_id '=>$Model->id, 'user_id'=>$user['User']['id']);
+    return $model->deleteAll($conditions);
   }
 
   # Adds/removes watcher
@@ -109,8 +114,8 @@ class WatchableBehavior extends ModelBehavior {
 
   # Returns if object is watched by user
   function watched_by(&$Model, $user) {
-    $Model->bindModel(array('hasMany'=>array('Watcher'=>array('dependent'=>true,'foreignKey'=>'watchable_id'))), false);
-    $watcher = $Model->Watcher->find('first',array('conditions' => array("Watcher.user_id"=>$user['User']['id'])));
+    $model = & ClassRegistry::init('Watcher');
+    $watcher = $model->find('first',array('conditions' => array("Watcher.user_id"=>$user['User']['id'])));
     if(!$watcher) {
       return false;
     }
@@ -123,9 +128,9 @@ class WatchableBehavior extends ModelBehavior {
 
   # Returns an array of watchers' email addresses
   function watcher_recipients(&$Model) {
-    $Model->bindModel(array('hasMany'=>array('Watcher'=>array('dependent'=>true,'foreignKey'=>'watchable_id'))), false);
-    $Model->Watcher->bindModel(array('belongsTo'=>array('User')), false);
-    $watchers = $Model->Watcher->find('all', array('conditions' => array('watchable_type'=>$Model->name, 'watchable_id'=>$Model->id)));
+    $model = & ClassRegistry::init('Watcher');
+    $model->bindModel(array('belongsTo'=>array('User')), false);
+    $watchers = $model->find('all', array('conditions' => array('watchable_type'=>$Model->name, 'watchable_id'=>$Model->id)));
     if(empty($watchers)) {
       return array();
     }
