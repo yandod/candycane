@@ -63,17 +63,22 @@ class RolesController extends AppController {
 #    @roles = Role.find :all, :order => 'builtin, position'
 #  end
   function add() {
-    $roles = $this->Role->find('all', array('order' => array('builtin', 'position')));
+    $roles = $this->Role->find('list', array('fields' => array('Role.id', 'Role.name')));
+    $this->set('roles', $roles);
     $permissions = $this->Permission->setable_permissions();
 
 
     $role = $this->Role->non_member();
+    if (! empty($role)) {
+      $role['Role']['name'] = '';
+      $role['Role']['new_record'] = true;
+      $role['Role']['builtin'] = false;
+    }
 
     $permissions_array = $this->Role->permissions($role['Role']['permissions']);
     $this->set('permissions_array', $permissions_array);
 
 
-    $this->set('roles', $roles);
     $this->set('permissions', $permissions);
     $this->set('role', $role);
 
@@ -84,10 +89,22 @@ class RolesController extends AppController {
     $permission_name = $this->_permission_name();
     $this->set('permission_name', $permission_name);
 
-    $this->render('edit');
+    if (empty($this->data)) {
+      $this->render('new');
+    } else {
+      $this->data = $this->Role->convert_permissions($this->data);
+      $max = $this->Role->find('first', array('fields' => "max(position) + 1 AS max"));
+      $data = array('name' => $this->data['Role']['name'],
+                    'position' => $max[0]['max'],
+                    'assignable' => $this->data['Role']['assignable'],
+                    'permissions' => $this->data['Role']['permissions'],
+                    'builtin' => 0,
+                    );
 
-    if (!empty($this->data)) {
-      
+      $this->Role->create();
+      if ($this->Role->save($data)) {
+        $this->flash(__('Successful creation.', true),'index');
+      }
     }
   }
 
@@ -114,7 +131,6 @@ class RolesController extends AppController {
 
     if (! empty($this->data)) {
       $this->data = $this->Role->convert_permissions($this->data);
-      pr($this->data);
 
       $data = array('id' => $id,
                     'name' => $this->data['Role']['name'],

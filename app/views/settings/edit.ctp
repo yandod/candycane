@@ -24,7 +24,7 @@
 </div>
 
 <?php foreach($settings_tabs as $tab): ?>
-<?php $disp = ($selected_tab == $tab['name']) ? 'display:none' : ''; ?>
+<?php $disp = ($selected_tab !== $tab['name']) ? 'display:none' : ''; ?>
 <?php echo $html->tag('div',$this->renderElement($tab['partial']),
 						aa('id','tab-content-'.$tab['name'],
 						   'style', $disp,
