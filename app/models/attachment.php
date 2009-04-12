@@ -140,6 +140,20 @@ class Attachment extends AppModel
 #    @filename = just_filename.gsub(/[^\w\.\-]/,'_') 
 #  end
 #  
+  function disk_filename($filename)
+  {
+    $df = strftime("%y%m%d%H%M%S") . "_";
+    if (preg_match('/^[a-zA-Z0-9_\.\-]*$/', $filename)) {
+      $df .= $filename;
+    } else {
+      $df .= md5($filename);
+      if (preg_match('/(\.[a-zA-Z0-9]+)$/', $filename, $matches)) {
+        $df .= $matches[0];
+      }
+    }
+
+    return $df;
+  }
 #  # Returns an ASCII or hashed filename
 #  def self.disk_filename(filename)
 #    df = DateTime.now.strftime("%y%m%d%H%M%S") + "_"
@@ -153,6 +167,10 @@ class Attachment extends AppModel
 #    df
 #  end
 #  
+  function digest($filename)
+  {
+    return md5_file($filename);
+  }
 #  # Returns the MD5 digest of the file at given path
 #  def self.digest(filename)
 #    File.open(filename, 'rb') do |f|

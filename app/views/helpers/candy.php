@@ -170,6 +170,19 @@ class CandyHelper extends AppHelper
 #  # Options:
 #  # * :text - Link text (default to attachment filename)
 #  # * :download - Force download (default: false)
+  function link_to_attachment($attachment, $options = array())
+  {
+    $text = $attachment['Attachment']['filename'];
+    if (isset($options['text'])) {
+      $text = $options['text'];
+    }
+    $action = 'show';
+    if (isset($options['download'])) {
+      $action = 'download';
+    }
+
+    return $this->Html->link($text, array('controller'=>'attachments', 'action'=>$action, 'id'=>$attachment['Attachment']['id'], 'filename'=>$attachment['Attachment']['filename']), $options);
+  }
 #  def link_to_attachment(attachment, options={})
 #    text = options.delete(:text) || attachment.filename
 #    action = options.delete(:download) ? 'download' : 'show'
