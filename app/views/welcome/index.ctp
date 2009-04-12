@@ -19,7 +19,7 @@
 		<ul>
 		<?php foreach ($projects as $project): ?>
 			<li>
-			<?php echo $html->link(h($project['Project']['name']),"/projects/show/{$project['Project']['identifier']}") ?>(<?php echo $candy->format_time($project['Project']['created_on'])?>)
+			<?php echo $html->link($project['Project']['name'],"/projects/show/{$project['Project']['identifier']}") ?>(<?php echo $candy->format_time($project['Project']['created_on'])?>)
 <!--  			<%= textilizable project.short_description, :project => project %> -->
 				<?php echo $candy->textilizable($project['Project']['description']) ?>
 			</li>

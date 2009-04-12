@@ -34,8 +34,9 @@ class ProjectsController extends AppController
     'News',
     'TimeEntry',
     'IssueCategory',
+    'Attachment',
   );
-  var $helpers = array('Time', 'Project', 'CustomField');
+  var $helpers = array('Time', 'Project', 'CustomField', 'Number');
   var $components = array('RequestHandler');
 
 #  menu_item :overview
@@ -451,7 +452,36 @@ class ProjectsController extends AppController
   function list_files()
   {
     $containers = array();
+
+    $container = $this->data;
+    $container['Attachment'] = $this->Attachment->find('all', array(
+      'conditions' => array(
+        'container_id' => $this->data['Project']['id'],
+        'container_type' => 'Project',
+      )
+    ));
+    $containers[] = $container;
+
+    $versions = $this->Version->find('all', array(
+      'conditions' => array(
+        'project_id' => $this->data['Project']['id'],
+      )
+    ));
+    foreach($versions as $version) {
+      $container = $version;
+      $container['Attachment'] = $this->Attachment->find('all', array(
+        'conditions' => array(
+          'container_id' => $version['Version']['id'],
+          'container_type' => 'Version',
+        )
+      ));
+      $containers[] = $container;
+    }
+
     $this->set('containers', $containers);
+
+    $delete_allowed = true;
+    $this->set('delete_allowed', $delete_allowed);
   }
 #  
 #  # Show changelog for @project
