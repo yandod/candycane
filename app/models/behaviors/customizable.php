@@ -64,27 +64,31 @@ class CustomizableBehavior extends ModelBehavior {
    // ==== privates 
 
   function _create_save_data(&$Model) {
-    $this->custom_field_values = array();
+    $data = array();
     if(!empty($Model->data[$Model->name]['custom_field_values'])) {
       // Create save data from POST data.
       foreach($Model->data[$Model->name]['custom_field_values'] as $key => $input) {
-        $this->custom_field_values[] = array('CustomValue' => array(
+        $data[] = array('CustomValue' => array(
           'customized_type' => $Model->name,
-          'customized_id' => $Mpdel->id,
+          'customized_id' => $Model->id,
           'custom_field_id' => $key,
-          'value' => $value
+          'value' => $input
         ));
       }
     }
+    return $data;
   }
 
-  function save_custom_field_values(&$Model, $created) {
+  function _save_custom_field_values(&$Model, $created) {
+    if($created) {
+      $insertId = $Model->getLastInsertID();
+    }
     $customValueModel = & ClassRegistry::init('CustomValue');
     if(!empty($this->custom_field_values)) {
       foreach($this->custom_field_values as $custom_value) {
         $customValueModel->create();
         if($created) {
-          $custom_value['customized_id'] = $Model->id;
+          $custom_value['CustomValue']['customized_id'] = $insertId;
         }
         $customValueModel->save($custom_value);
       }
