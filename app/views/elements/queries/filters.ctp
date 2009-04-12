@@ -85,7 +85,7 @@ function toggle_multi_select(field) {
     case 'list_status':
     case 'list_subprojects':
     ?>
-      <?php echo $form->select('Filter.values_' . $field, $filter['values'], null, am(count($filter['values']) > 1 ? array('mutiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), true) ?>
+      <?php echo $form->select('Filter.values_' . $field, $filter['values'], null, am(count($filter['values']) > 1 ? array('mutiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), false) ?>
       <!--
         <select <%= "multiple=true" if query.values_for(field) and query.values_for(field).length > 1 %> name="values[<?php echo h($field) ?>][]" id="values_<?php echo h($field) ?>" class="select-small" style="vertical-align: top;">
         <%= options_for_select options[:values], query.values_for(field) %>        
