@@ -6,14 +6,25 @@ class WikiController extends AppController {
 
   function index() {
     $page_title = $this->params['wikipage'];
-    //$page = $this->Wiki->id = $this->params['id'];
     $page = $this->Wiki->find_or_new_page($page_title);
     /*
     if ($page is new) {
       $this->render('edit');
     }
     */
-    $content = $this->Wiki->Page->content_for_version($this->params['version']);
+    $version = isset($this->params['url']['version']) ? $this->params['url']['version'] : null;
+    $content = $this->Wiki->Page->content_for_version($version);
+    $export = isset($this->params['url']['export']) ? $this->params['url']['export'] : null;
+    if ($export === 'html') {
+      //export = render_to_string :action => 'export', :layout => false
+      //send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
+      return;
+    } elseif ($export === 'txt') {
+      // send_data(@content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
+      return;
+    }
+    // このへん、ホントはviewで操作したい。helperに移動するのが正解？
+    $page['Page']['pretty_title'] = WikiPage::pretty_title($page['Page']['title']);
     $this->set('page', $page);
     $this->set('content', $content);
     $this->set('editable', $this->is_editable());
@@ -34,7 +45,7 @@ class WikiController extends AppController {
 
   function _find_wiki()
   {
-    $project = $this->Project->find($this->params['id']);
+    $project = $this->Project->find($this->params['project_id']);
     if (!$project) {
         $this->cakeError('error404');
     }
