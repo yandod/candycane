@@ -119,9 +119,16 @@ class Query extends AppModel
     $IssueStatus = & ClassRegistry::init('IssueStatus');
     $Enumeration = & ClassRegistry::init('Enumeration');
     $user_values = a();
-    
-    if ($project) {
-      $user_values = am($user_values, Set::combine('/User/id', '/User/lastname', $project));
+    $tracker_values = a();
+    if ($currentuser) $user_values['me'] = __('me', true);
+    if (isset($project['User'])) {
+      foreach ($project['User'] as $user) {
+        if ($currentuser && $currentuser['id'] == $user['id']) continue;
+        $user_values[$user['id']] = $user['firstname'] . ' ' . $user['lastname'];
+      }
+    }
+    if (isset($project['Tracker'])) {
+      foreach ($project['Tracker'] as $tracker) $tracker_values[$tracker['id']] = $tracker['name'];
     }
     $available_filters = array(
       'status_id' => array(
@@ -179,11 +186,7 @@ class Query extends AppModel
       ),
       'tracker_id' => array(
         'type' => 'list',
-        'values' => array(
-          '1' => 'バグ',
-          '2' => '機能',
-          '3' => 'サポート',
-        ),
+        'values' => $tracker_values,
         'order' => 2,
       ),
       'due_date' => array(
@@ -192,12 +195,7 @@ class Query extends AppModel
       ),
       'author_id' => array(
         'type'   => 'list',
-        'values' => array(
-          'me' => '<< 自分 >>',
-          '4' => 'Masahiro Akita',
-          '1' => 'Redmine Admin',
-          '3' => 'yusuke ando',
-        ),
+        'values' => $user_values,
         'order' => 5,
       ),
     );
@@ -574,9 +572,6 @@ class Query extends AppModel
 #    project_clauses.join(' AND ')
 #  end
 #
-  function statement($query, $project)
-  {
-  }
 #  def statement
 #    # filters clauses
 #    filters_clauses = []
