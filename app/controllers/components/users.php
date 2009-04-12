@@ -48,16 +48,4 @@ class UsersComponent extends Object
 #    end
 #    options
   }
-
-  /**
-   * user_settings_tabs
-   *
-   */
-  function user_settings_tabs()
-  {
-#    tabs = [{:name => 'general', :partial => 'users/general', :label => :label_general},
-#            {:name => 'memberships', :partial => 'users/memberships', :label => :label_project_plural}
-#            ]
-  }
-
 }
