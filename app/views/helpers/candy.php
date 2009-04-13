@@ -108,6 +108,13 @@ class CandyHelper extends AppHelper
 #  end
 #
 #  # Display a link if user is authorized
+
+  function link_to_if_authorized($name, $options = array(), $html_options = null, $parameters_for_method_reference = null) {
+    // not implemented. fixme.
+    //return link_to($name, $options, $html_options);
+    return "";
+  }
+
 #  def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
 #    link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
 #  end
@@ -433,6 +440,9 @@ class CandyHelper extends AppHelper
 #    links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
 #  end
 #
+function breadcrumb($args)
+{
+}
 #  def breadcrumb(*args)
 #    elements = args.flatten
 #    elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil
