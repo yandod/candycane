@@ -26,37 +26,34 @@
     <%= stylesheet_link_tag 'scm' %>
 <% end %>
 -->
-        <h2>新しいチケット</h2>
-
-<form action="/projects/test/issues/add" class="tabular" enctype="multipart/form-data" id="issue-form" method="post">
-
-    <div class="box">
-
-<p><label for="issue_tracker_id">トラッカー<span class="required"> *</span></label><select id="issue_tracker_id" name="data[Issue][tracker_id]"><option value="1" selected="selected">バグ</option>
-<option value="2">機能</option>
-<option value="3">サポート</option></select></p>
-<script type="text/javascript">
-//<![CDATA[
-new Form.Element.EventObserver('issue_tracker_id', function(element, value) {new Ajax.Updater('content', '/projects/test/issues/new', {asynchronous:true, evalScripts:true, parameters:Form.serialize('issue-form')})})
-//]]>
-</script>
-<hr />
-
-
-<div id="issue_descr_fields" >
-<p><label for="issue_subject">題名<span class="required"> *</span></label><input id="issue_subject" name="data[Issue][subject]" size="80" type="text" value="" /></p>
-<p><label for="issue_description">説明</label><textarea accesskey="e" class="wiki-edit" cols="60" id="issue_description" name="data[Issue][description]" rows="10"></textarea></p>
-</div>
-
-<div class="splitcontentleft">
-
-<p><label for="issue_status_id">ステータス<span class="required"> *</span></label><select id="issue_status_id" name="data[Issue][status_id]"><option value="1" selected="selected">新規</option>
-
-<option value="2">担当</option>
-<option value="3">解決</option>
-<option value="4">フィードバック</option>
-<option value="5">終了</option>
-<option value="6">却下</option></select></p>
+<h2><?php $candy->html_title();__('New issue'); ?></h2>
+<?php echo $form->create('Issue', array('action'=>'add', 'class'=>"tabular", 'enctype'=>"multipart/form-data")); ?>
+  <div class="box">
+    <p>
+      <?php echo $form->label('tracker_id', __('Tracker', true).'<span class="required"> *</span>'); ?>
+      <?php echo $form->input('tracker_id', array('div'=>false, 'label'=>false)); ?></p>
+    </p>
+    <script type="text/javascript">
+    //<![CDATA[
+    new Form.Element.EventObserver('IssueTrackerId', function(element, value) {new Ajax.Updater('content', '/projects/test/issues/new', {asynchronous:true, evalScripts:true, parameters:Form.serialize('IssueAddForm')})})
+    //]]>
+    </script>
+    <hr />
+    <div id="issue_descr_fields" >
+      <p>
+        <?php echo $form->label('subject', __('Subject', true).'<span class="required"> *</span>'); ?>
+        <?php echo $form->input('subject', array('div'=>false, 'label'=>false)); ?></p>
+      </p>
+      <p>
+        <?php echo $form->label('description', __('Description', true)); ?>
+        <?php echo $form->input('description', array('type'=>'text', 'cols'=>"60", 'div'=>false, 'label'=>false, 'class'=>"wiki-edit")); ?></p>
+      </p>
+    </div>
+    <div class="splitcontentleft">
+      <p>
+        <?php echo $form->label('status_id', __('Status', true).'<span class="required"> *</span>'); ?>
+        <?php echo $form->input('status_id', array('div'=>false, 'label'=>false)); ?></p>
+      </p>
 
 
 <p><label for="issue_priority_id">優先度<span class="required"> *</span></label><select id="issue_priority_id" name="data[Issue][priority_id]"><option value="3">低め</option>
@@ -137,22 +134,22 @@ new Form.Element.EventObserver('issue_tracker_id', function(element, value) {new
 
 <script src="/js/jstoolbar/jstoolbar.js?1236399204" type="text/javascript"></script><script src="/js/jstoolbar/textile.js?1236399204" type="text/javascript"></script><script src="/js/jstoolbar/lang/jstoolbar-ja.js?1236399204" type="text/javascript"></script><script type="text/javascript">
 //<![CDATA[
-var toolbar = new jsToolBar($('issue_description')); toolbar.setHelpLink('テキストの書式: <a href="/help/wiki_syntax.html?1236399200" onclick="window.open(&quot;/help/wiki_syntax.html?1236399200&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">ヘルプ</a>'); toolbar.draw();
+var toolbar = new jsToolBar($('IssueDescription')); toolbar.setHelpLink('テキストの書式: <a href="/help/wiki_syntax.html?1236399200" onclick="window.open(&quot;/help/wiki_syntax.html?1236399200&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;">ヘルプ</a>'); toolbar.draw();
 //]]>
 </script>
 
     </div>
-    <input name="commit" type="submit" value="作成" />
+  <?php echo $form->submit(__('Create', true)); ?>
     <input name="continue" type="submit" value="Create and continue" />
     <a accesskey="r" href="#" onclick="new Ajax.Updater('preview', '/projects/test/issues/preview', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){Element.scrollTo('preview')}, parameters:Form.serialize('issue-form')}); return false;">プレビュー</a>
 
 
         <script type="text/javascript">
 //<![CDATA[
-Form.Element.focus('issue_subject');
+Form.Element.focus('IssueSubject');
 //]]>
 </script>
-</form>
+<?php echo $form->end(); ?>
 
 <div id="preview" class="wiki"></div>
 

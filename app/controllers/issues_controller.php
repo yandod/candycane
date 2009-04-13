@@ -147,30 +147,29 @@ class IssuesController extends AppController
       $this->Issue->save($this->data);
       exit();
     }
-    $this->render('new');
-    
-#    @issue = Issue.new
 /*
     if(isset($this->params['copy_from'])) {
+      // TODO: コピーして新規追加の場合
+      // id が$this->params['copy_from']の値のレコードをfindして、配列を$this->dataへコピーする。
       $this->Issue->copy_from($this->params['copy_from']);
     }
-    $project = $this->Issue->Project->find('first', array(
-      'conditions'=>array('Project.identifier'=>$this->params['project_id']),
-      'recursive'=>0
-    ));
-    if(!$project) {
-        // TODO : error
-        $this->cakeError('error', 'missing URL.');
-    }
+*/
     # Tracker must be set before custom field values
-    $trackers = $this->Issue->Project->ProjectsTracker->find('all', array(
-      'conditions'=>array('ProjectsTracker.project_id' => $project['Project']['id']),
-      'fields'=>'Tracker.*'
+    $trackers = $this->Issue->Project->ProjectsTracker->find('list', array(
+      'conditions'=>array('ProjectsTracker.project_id' => $this->_project['Project']['id']),
+      'fields'=>'Tracker.id, Tracker.name', 'recursive'=>0, 'order'=>'Tracker.position'
     ));
     if(empty($trackers)){
       $this->Session->setFlash(__("No tracker is associated to this project. Please check the Project settings.", true), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
+    // TODO IssueStatus のメソッドを呼び出すように変更する。
+    $statuses = $this->Issue->Status->find('list');
+
+    $this->set(compact('trackers', 'statuses'));
+    $this->render('new');
+    
+/*
     if(is_array($this->params['issue'])) {
       $attributes = $this->params['issue'];
       if()
