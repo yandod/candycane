@@ -49,12 +49,8 @@
 <span><?php echo $html->link('TXT', aa('wikipage', $page['Page']['title'], 'export', 'txt', 'version', $content['Content']['version'], 'class', 'text')) ?></span>
 </p>
 
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'scm' %>
-<% end %>
+<?php $this->set('header_tags', ""/*stylesheet_link_tag 'scm'*/) ?>
 
-<% content_for :sidebar do %>
-  <?php echo $this->renderElement('wiki/sidebar'); ?>
-<% end %>
+<?php $this->set('Sidebar', $this->renderElement('wiki/sidebar')) ?>
 
 <?php $candy->html_title($page['Page']['pretty_title']) ?>
