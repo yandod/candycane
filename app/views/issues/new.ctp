@@ -54,45 +54,42 @@
         <?php echo $form->label('status_id', __('Status', true).'<span class="required"> *</span>'); ?>
         <?php echo $form->input('status_id', array('div'=>false, 'label'=>false)); ?></p>
       </p>
-
-
-<p><label for="issue_priority_id">優先度<span class="required"> *</span></label><select id="issue_priority_id" name="data[Issue][priority_id]"><option value="3">低め</option>
-
-<option value="4" selected="selected">通常</option>
-<option value="5">高め</option>
-<option value="6">急いで</option>
-<option value="7">今すぐ</option></select></p>
-<p><label for="issue_assigned_to_id">担当者</label><select id="issue_assigned_to_id" name="data[Issue][assigned_to_id]"><option value=""></option>
-<option value="4">ichiro suzuki</option>
-<option value="1">Redmine Admin</option>
-<option value="3">健一郎 岸田</option></select></p>
-
-<p><label for="issue_category_id">カテゴリ</label><select id="issue_category_id" name="data[Issue][category_id]"><option value=""></option>
-<option value="1">カテゴリ１</option></select>
-<a href="/projects/test/issues/new" class="small" onclick="promptToRemote('新しいカテゴリ', 'category[name]', '/projects/add_issue_category/test'); return false;" tabindex="199">新しいカテゴリ</a></p>
-
-<p><label for="issue_fixed_version_id">Target version</label><select id="issue_fixed_version_id" name="data[Issue][fixed_version_id]"><option value=""></option>
-<option value="1">バージョン１</option>
-<option value="2">バージョン２</option></select></p>
-</div>
-
-<div class="splitcontentright">
-<p><label for="issue_start_date">開始日</label><input id="issue_start_date" name="data[Issue][start_date]" size="10" type="text" value="2009-04-12" /></p>
-<p><label for="issue_due_date">期限日</label><input id="issue_due_date" name="data[Issue][due_date]" size="10" type="text" /></p>
-<p><label for="issue_estimated_hours">予定工数</label><input id="issue_estimated_hours" name="data[Issue][estimated_hours]" size="3" type="text" /> 時間</p>
-<p><label for="issue_done_ratio">進捗 %</label><select id="issue_done_ratio" name="data[Issue][done_ratio]"><option value="0" selected="selected">0 %</option>
-<option value="10">10 %</option>
-<option value="20">20 %</option>
-<option value="30">30 %</option>
-
-<option value="40">40 %</option>
-<option value="50">50 %</option>
-<option value="60">60 %</option>
-<option value="70">70 %</option>
-<option value="80">80 %</option>
-<option value="90">90 %</option>
-<option value="100">100 %</option></select></p>
-</div>
+      <p>
+        <?php echo $form->label('priority_id', __('Priority', true).'<span class="required"> *</span>'); ?>
+        <?php echo $form->input('priority_id', array('div'=>false, 'label'=>false)); ?>
+      </p>
+      <p>
+        <?php echo $form->label('assigned_to_id', __('Assigned to', true)); ?>
+        <?php echo $form->input('assigned_to_id', array('type'=>'select', 'div'=>false, 'label'=>false, 'empty'=>true, 'options'=>$assignableUsers)); ?>
+      </p>
+      <p>
+        <?php echo $form->label('issue_category_id', __('Category', true)); ?>
+        <?php echo $form->input('issue_category_id', array('type'=>'select', 'div'=>false, 'label'=>false, 'empty'=>true, 'options'=>$issueCategories)); ?>
+        <a href="/projects/test/issues/new" class="small" onclick="promptToRemote('新しいカテゴリ', 'category[name]', '/projects/add_issue_category/test'); return false;" tabindex="199">新しいカテゴリ</a></p>
+      </p>
+      <p>
+        <?php echo $form->label('fixed_version_id', __('Target version', true)); ?>
+        <?php echo $form->input('fixed_version_id', array('type'=>'select', 'div'=>false, 'label'=>false, 'empty'=>true, 'options'=>$fixedVersions)); ?>
+      </p>
+    </div>
+    <div class="splitcontentright">
+      <p>
+        <?php echo $form->label('start_date', __('start_date', true)); ?>
+        <?php echo $form->input('start_date', array('div'=>false, 'label'=>false, 'size'=>10, 'type'=>'text')); ?>
+      </p>
+      <p>
+        <?php echo $form->label('due_date', __('due_date', true)); ?>
+        <?php echo $form->input('due_date', array('div'=>false, 'label'=>false, 'size'=>10, 'type'=>'text')); ?>
+      </p>
+      <p>
+        <?php echo $form->label('estimated_hours', __('estimated_hours', true)); ?>
+        <?php echo $form->input('estimated_hours', array('div'=>false, 'label'=>false, 'size'=>10, 'type'=>'text'));__('Hours');?>
+      </p>
+      <p>
+        <?php echo $form->label('done_ratio', __('done_ratio', true).'%'); ?>
+        <?php echo $form->input('done_ratio', array('type'=>'select', 'div'=>false, 'label'=>false, 'options'=>array(0=>'0 %', 10=>'10 %', 20=>'20 %', 30=>'30 %', 40=>'40 %', 50=>'50 %', 60=>'60 %', 70=>'70 %', 80=>'80 %', 90=>'90 %', 100=>'100 %'))); ?>
+      </p>
+    </div>
 
 <div style="clear:both;"> </div>
 

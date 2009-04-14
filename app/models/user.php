@@ -372,6 +372,32 @@ class User extends AppModel
     $user['last_login_on'] = $last_login_on;
     $this->save($user);
   }
+
+  /** 
+   * Return user's role for project
+   */
+  function role_for_project($user, $project_id) {
+    $role_id = false;
+    $role = & ClassRegistry::init('Role');
+    if(!empty($user)) {
+      # Find project membership
+      $no_member_role = $role->non_member();
+      $role_id = $no_member_role['Role']['id'];
+      if(!empty($user['memberships'])) {
+        foreach($user['memberships'] as $membership) {
+          if($membership['project_id'] == $project_id) {
+            $role_id = $membership['role_id'];
+            break;
+          }
+        }
+      }
+    } else {
+      $anonymous_member_role = $role->anonymous();
+      $role_id = $anonymous_member_role['Role']['id'];
+    }
+    return $role_id;
+  }
+
 }
 
 /**

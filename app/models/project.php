@@ -330,6 +330,22 @@ class Project extends AppModel
 #  def assignable_users
 #    members.select {|m| m.role.assignable?}.collect {|m| m.user}.sort
 #  end
+  function assignable_users($project_id) {
+    $conditions = array(
+      'project_id' => $project_id,
+      'Role.assignable' => 1,
+    );
+    $recursive = 1;
+    $order = 'User.firstname';
+    $fields = array('User.*');
+    $users = $this->Member->find('all', compact('conditions', 'recursive', 'order', 'fields'));
+    $list = array();
+    foreach($users as $user) {
+      $list[$user['User']['id']] = $user['User']['firstname'].' '.$user['User']['lastname'];
+    }
+    return $list;
+  }
+
 #  
 #  # Returns the mail adresses of users that should be always notified on project events
 #  def recipients

@@ -164,8 +164,14 @@ class Role extends AppModel {
 #
 #  # Return the builtin 'anonymous' role 
 #  def self.anonymous
+  function anonymous() {
 #    find(:first, :conditions => {:builtin => BUILTIN_ANONYMOUS}) || raise('Missing anonymous builtin role.')
-#  end
+    $data = $this->find('first', array('conditions' => array('builtin' => $this->BUILTIN_ANONYMOUS)));
+    if (empty($data)) {
+    } else {
+      return $data;
+    }
+  }
 #
 #  
 #private
