@@ -106,7 +106,7 @@ exit;
   function custom_field_values(&$Model, $values) {
     $this->custom_field_values_changed = true;
     if(is_array($values)) {
-      $this->custom_field_values = $this->_custom_field_values(&$Model);
+      $this->custom_field_values = $this->_custom_field_values($Model);
       foreach($this->custom_field_values as $key => $custom_value) {
         if(!empty($values[$custom_value['CustomValue']['custom_field_id']])) {
           $custom_value['CustomValue']['value'] = $values[$custom_value['CustomValue']['custom_field_id']];
