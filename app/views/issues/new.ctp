@@ -144,7 +144,7 @@ var toolbar = new jsToolBar($('IssueDescription')); toolbar.setHelpLink('テキ�
     </div>
     <?php echo $form->submit(__('Create', true), array('div'=>false)); ?>
     <?php echo $form->submit(__('Create and continue', true), array('div'=>false, 'name'=>'continue')); ?>
-    <a accesskey="r" href="#" onclick="new Ajax.Updater('preview', '/projects/test/issues/preview', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){Element.scrollTo('preview')}, parameters:Form.serialize('IssueAddForm')}); return false;"><?php __('Preview);?></a>
+    <a accesskey="r" href="#" onclick="new Ajax.Updater('preview', '/projects/test/issues/preview', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){Element.scrollTo('preview')}, parameters:Form.serialize('IssueAddForm')}); return false;"><?php __('Preview');?></a>
 
 
         <script type="text/javascript">
