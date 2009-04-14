@@ -3,8 +3,8 @@ class IssuesController extends AppController
 {
   var $name = 'Issues';
   var $uses = array(
-    'User',
     'Issue',
+    'User',
     'Query',
     'Project',
     'Enumeration',
@@ -14,6 +14,8 @@ class IssuesController extends AppController
     'Queries',
     'QueryColumn',
     'Paginator',
+    'CustomField',
+    'Number',
   );
   var $components = array(
     'RequestHandler',
@@ -193,9 +195,16 @@ class IssuesController extends AppController
     $assignable_users = $this->Project->assignable_users($this->_project['Project']['id']);
     $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
     $fixed_versions = $this->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
+    $custom_field_values = $this->Issue->available_custom_fields(
+      $this->_project['Project']['id'],
+      empty($this->data['Issue']['tracker_id']) ? key($trackers) : $this->data['Issue']['tracker_id']
+    );
+    $add_watcher_allowed_to = $this->User->is_allowed_to($this->current_user, ':add_issue_watchers', $this->_project);
+    $members = $this->Project->members($this->_project['Project']['id']);
 
-
-    $this->set(compact('trackers', 'statuses', 'priorities', 'assignable_users', 'issue_categories', 'fixed_versions'));
+    $this->set(compact(
+      'trackers', 'statuses', 'priorities', 'assignable_users', 'issue_categories', 
+      'fixed_versions', 'custom_field_values', 'add_watcher_allowed_to', 'members'));
     $this->render('new');
   }
 #  # Add a new issue
