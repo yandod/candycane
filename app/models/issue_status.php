@@ -83,5 +83,33 @@ class IssueStatus extends AppModel
       'validates_format_of'=>array('rule'=>array('alphaNumeric'))
     ),
   );
+
+  # Returns the default status for new issues
+  function findDefault() {
+    return $this->find('list', array('conditions' => array("is_default"=>true), 'limit'=>1));
+  }
+  /**
+   * Same thing as above but uses a database query
+   * More efficient than the previous method if called just once
+   * @param default_status_id : [default_status] + default_status.find_new_statuses_allowed_to
+   * @param role_id : current_user['memberships']['role_id']
+   * @param tracker_id : selected tracker id
+   */
+  function find_new_statuses_allowed_to($default_status_id, $role_id, $tracker_id) {
+    $workflow = & ClassRegistry::init('Workflow');
+    $workflow->bindModel(array('belongsTo'=>array('Status'=>array('className'=>'IssueStatus', 'foreignKey'=>'new_status_id', 'order'=>'position'))), false);
+    $conditions = array();
+    if(!empty($role_id) && !empty($tracker_id)) {
+      $conditions["old_status_id"] = $default_status_id;
+      $conditions["role_id"] = $role_id;
+      $conditions["tracker_id"] = $tracker_id;
+    }
+    $group = 'new_status_id';
+    $fields = array('Status.id', 'Status.name');
+    $recursive = 0;
+
+    $new_statuses = $workflow->find('list', compact('conditions', 'order', 'group', 'fields', 'recursive'));
+    return $new_statuses;
+  }
 }
 

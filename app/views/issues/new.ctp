@@ -54,83 +54,86 @@
         <?php echo $form->label('status_id', __('Status', true).'<span class="required"> *</span>'); ?>
         <?php echo $form->input('status_id', array('div'=>false, 'label'=>false)); ?></p>
       </p>
-
-
-<p><label for="issue_priority_id">優先度<span class="required"> *</span></label><select id="issue_priority_id" name="data[Issue][priority_id]"><option value="3">低め</option>
-
-<option value="4" selected="selected">通常</option>
-<option value="5">高め</option>
-<option value="6">急いで</option>
-<option value="7">今すぐ</option></select></p>
-<p><label for="issue_assigned_to_id">担当者</label><select id="issue_assigned_to_id" name="data[Issue][assigned_to_id]"><option value=""></option>
-<option value="4">ichiro suzuki</option>
-<option value="1">Redmine Admin</option>
-<option value="3">健一郎 岸田</option></select></p>
-
-<p><label for="issue_category_id">カテゴリ</label><select id="issue_category_id" name="data[Issue][category_id]"><option value=""></option>
-<option value="1">カテゴリ１</option></select>
-<a href="/projects/test/issues/new" class="small" onclick="promptToRemote('新しいカテゴリ', 'category[name]', '/projects/add_issue_category/test'); return false;" tabindex="199">新しいカテゴリ</a></p>
-
-<p><label for="issue_fixed_version_id">Target version</label><select id="issue_fixed_version_id" name="data[Issue][fixed_version_id]"><option value=""></option>
-<option value="1">バージョン１</option>
-<option value="2">バージョン２</option></select></p>
-</div>
-
-<div class="splitcontentright">
-<p><label for="issue_start_date">開始日</label><input id="issue_start_date" name="data[Issue][start_date]" size="10" type="text" value="2009-04-12" /></p>
-<p><label for="issue_due_date">期限日</label><input id="issue_due_date" name="data[Issue][due_date]" size="10" type="text" /></p>
-<p><label for="issue_estimated_hours">予定工数</label><input id="issue_estimated_hours" name="data[Issue][estimated_hours]" size="3" type="text" /> 時間</p>
-<p><label for="issue_done_ratio">進捗 %</label><select id="issue_done_ratio" name="data[Issue][done_ratio]"><option value="0" selected="selected">0 %</option>
-<option value="10">10 %</option>
-<option value="20">20 %</option>
-<option value="30">30 %</option>
-
-<option value="40">40 %</option>
-<option value="50">50 %</option>
-<option value="60">60 %</option>
-<option value="70">70 %</option>
-<option value="80">80 %</option>
-<option value="90">90 %</option>
-<option value="100">100 %</option></select></p>
-</div>
-
-<div style="clear:both;"> </div>
-
-<div class="splitcontentleft">
-
-
-
-    <p><label for="issue_custom_field_values_1">カスタム入力 <span class="required">*</span></label><input id="issue_custom_field_values_1" name="data[Issue][custom_field_values][1]" type="text" value="" /></p>
-
-    <p><label for="issue_custom_field_values_3">カスタム３</label><select id="issue_custom_field_values_3" name="data[Issue][custom_field_values][3]"><option></option><option value="高い">高い</option>
-<option value="普通">普通</option>
-<option value="安い">安い</option></select></p>
-
-</div><div class="splitcontentright">
-</div>
-<div style="clear:both;"> </div>
-
-
-
-<p><label>ファイル</label><span id="attachments_fields">
-<input name="attachments[1][file]" size="30" type="file" /><input name="attachments[1][description]" size="60" type="text" value="" />
-<em>任意のコメント</em>
-</span>
-<br />
-<small><a href="#" onclick="addFileField(); return false;">別のファイルを追加</a>
-(最大サイズ: 5 MB)
-
-</small>
-</p>
-
-
-<p><label>Watchers</label>
-<label class="floating"><input id="issue[watcher_user_ids][]" name="data[Issue][watcher_user_ids][]" type="checkbox" value="4" /> ichiro suzuki</label>
-<label class="floating"><input id="issue[watcher_user_ids][]" name="data[Issue][watcher_user_ids][]" type="checkbox" value="1" /> Redmine Admin</label>
-<label class="floating"><input id="issue[watcher_user_ids][]" name="data[Issue][watcher_user_ids][]" type="checkbox" value="3" /> 健一郎 岸田</label>
-</p>
-
-
+      <p>
+        <?php echo $form->label('priority_id', __('Priority', true).'<span class="required"> *</span>'); ?>
+        <?php echo $form->input('priority_id', array('div'=>false, 'label'=>false)); ?>
+      </p>
+      <p>
+        <?php echo $form->label('assigned_to_id', __('Assigned to', true)); ?>
+        <?php echo $form->input('assigned_to_id', array('type'=>'select', 'div'=>false, 'label'=>false, 'empty'=>true, 'options'=>$assignableUsers)); ?>
+      </p>
+      <p>
+        <?php echo $form->label('issue_category_id', __('Category', true)); ?>
+        <?php echo $form->input('issue_category_id', array('type'=>'select', 'div'=>false, 'label'=>false, 'empty'=>true, 'options'=>$issueCategories)); ?>
+        <a href="/projects/test/issues/new" class="small" onclick="promptToRemote('新しいカテゴリ', 'category[name]', '/projects/add_issue_category/test'); return false;" tabindex="199">新しいカテゴリ</a></p>
+      </p>
+      <p>
+        <?php echo $form->label('fixed_version_id', __('Target version', true)); ?>
+        <?php echo $form->input('fixed_version_id', array('type'=>'select', 'div'=>false, 'label'=>false, 'empty'=>true, 'options'=>$fixedVersions)); ?>
+      </p>
+    </div>
+    <div class="splitcontentright">
+      <p>
+        <?php echo $form->label('start_date', __('start_date', true)); ?>
+        <?php echo $form->input('start_date', array('div'=>false, 'label'=>false, 'size'=>10, 'type'=>'text')); ?>
+      </p>
+      <p>
+        <?php echo $form->label('due_date', __('due_date', true)); ?>
+        <?php echo $form->input('due_date', array('div'=>false, 'label'=>false, 'size'=>10, 'type'=>'text')); ?>
+      </p>
+      <p>
+        <?php echo $form->label('estimated_hours', __('estimated_hours', true)); ?>
+        <?php echo $form->input('estimated_hours', array('div'=>false, 'label'=>false, 'size'=>10, 'type'=>'text'));__('Hours');?>
+      </p>
+      <p>
+        <?php echo $form->label('done_ratio', __('done_ratio', true).'%'); ?>
+        <?php echo $form->input('done_ratio', array('type'=>'select', 'div'=>false, 'label'=>false, 'options'=>array(0=>'0 %', 10=>'10 %', 20=>'20 %', 30=>'30 %', 40=>'40 %', 50=>'50 %', 60=>'60 %', 70=>'70 %', 80=>'80 %', 90=>'90 %', 100=>'100 %'))); ?>
+      </p>
+    </div>
+    <div style="clear:both;"> </div>
+    <div class="splitcontentleft">
+      <?php $i = 0; ?>
+      <?php $split_on = intval(count($customFieldValues) / 2); ?>
+      <?php foreach($customFieldValues as $value): ?>
+        <p><?php echo $customField->custom_field_tag_with_label($form, 'issue', $value); ?></p>
+        <?php if($i == $split_on): ?>
+          </div><div class="splitcontentright">
+        <?php endif; ?>
+        <?php $i++; ?>
+      <?php endforeach; ?>
+    </div>
+    <div style="clear:both;"> </div>
+    <?php if(empty($this->data['Issue']['id'])): ?>
+      <p>
+        <label><?php __('File'); ?></label>
+        <span id="attachments_fields">
+          <?php echo $form->input('attachments.1.file', array('name'=>'attachments[1][file]', 'type'=>'file', 'size'=>30, 'div'=>false, 'label'=>false)); ?><?php echo $form->input('attachments.1.description', array('name'=>'attachments[1][description]', 'size'=>60, 'div'=>false, 'label'=>false)); ?>
+          <em><?php __('Optional description'); ?></em>
+        </span>
+        <br />
+        <small><?php echo $html->link(__('Add another file',true), '#', array('onclick'=>'addFileField(); return false;')); ?>
+        (<?php __('Maximum size'); ?>: <?php echo $number->toReadableSize($Settings->attachment_max_size*1024); ?>)
+        </small>
+      </p>
+    <?php endif; ?>
+    <?php if(empty($this->data['Issue']['id']) && $addWatcherAllowedTo): ?>
+      <p>
+        <label><?php __('Watchers'); ?></label>
+        <?php
+          $_tag = $form->Html->tags['tag'];
+          $_label = $form->Html->tags['label'];
+          $_checkboxmultiple = $form->Html->tags['checkboxmultiple'];
+          $form->Html->tags['tag'] = '%3$s';
+          $form->Html->tags['label'] = '%3$s</label>';
+          $form->Html->tags['checkboxmultiple'] = '<label class="floating">'.$form->Html->tags['checkboxmultiple'];
+          echo $form->input('watcher_user_ids', array('type'=>'select', 'multiple'=>'checkbox', 'div'=>false, 'label'=>false, 'options'=>$members));
+          $form->Html->tags['tag'] = $_tag;
+          $form->Html->tags['label'] = $_label;
+          $form->Html->tags['checkboxmultiple'] = $_checkboxmultiple;
+        ?>
+      </p>
+    <?php endif; ?>
+    
 
 <script src="/js/jstoolbar/jstoolbar.js?1236399204" type="text/javascript"></script><script src="/js/jstoolbar/textile.js?1236399204" type="text/javascript"></script><script src="/js/jstoolbar/lang/jstoolbar-ja.js?1236399204" type="text/javascript"></script><script type="text/javascript">
 //<![CDATA[
@@ -139,9 +142,9 @@ var toolbar = new jsToolBar($('IssueDescription')); toolbar.setHelpLink('テキ�
 </script>
 
     </div>
-  <?php echo $form->submit(__('Create', true)); ?>
-    <input name="continue" type="submit" value="Create and continue" />
-    <a accesskey="r" href="#" onclick="new Ajax.Updater('preview', '/projects/test/issues/preview', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){Element.scrollTo('preview')}, parameters:Form.serialize('issue-form')}); return false;">プレビュー</a>
+    <?php echo $form->submit(__('Create', true), array('div'=>false)); ?>
+    <?php echo $form->submit(__('Create and continue', true), array('div'=>false, 'name'=>'continue')); ?>
+    <a accesskey="r" href="#" onclick="new Ajax.Updater('preview', '/projects/test/issues/preview', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){Element.scrollTo('preview')}, parameters:Form.serialize('IssueAddForm')}); return false;"><?php __('Preview);?></a>
 
 
         <script type="text/javascript">
