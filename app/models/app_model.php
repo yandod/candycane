@@ -33,7 +33,7 @@ class AppModel extends Model {
         $rule = $this->validate[$key][$value]['rule'];
       }
       if(array_key_exists($value, $this->error)) {
-        $error = vsprintf(__($this->$error[$value],true), $rule);
+        $error = vsprintf(__($this->error[$value],true), $rule);
       } else {
         $error = __($value,true);
       }

@@ -2,7 +2,6 @@
 class Wiki extends AppModel
 {
   var $name = 'Wiki';
-  var $belongsTo = 'project';
   var $hasMany = array(
                        'Page' => array(
                                        'className' => 'WikiPage',
@@ -23,6 +22,11 @@ class Wiki extends AppModel
 
   function find_page($title, $options = array())
   {
+    $param = array();
+    if (empty($title)) {
+      $wiki = $this->find();
+      $title = $wiki['Wiki']['start_page'];
+    }
     //title = start_page if title.blank?
     $title = Wiki::titleize($title);
     $page = $this->Page->findByTitle($title);
@@ -34,7 +38,7 @@ class Wiki extends AppModel
     return $page;
   }
 
-  static function titleize($title) {
+  function titleize($title) {
     // replace spaces with _ and remove unwanted caracter
     $title = preg_replace('/\s+/', '_', $title);
     // upcase the first letter

@@ -108,6 +108,13 @@ class CandyHelper extends AppHelper
 #  end
 #
 #  # Display a link if user is authorized
+
+  function link_to_if_authorized($name, $options = array(), $html_options = null, $parameters_for_method_reference = null) {
+    // not implemented. fixme.
+    //return link_to($name, $options, $html_options);
+    return "";
+  }
+
 #  def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
 #    link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
 #  end
@@ -170,6 +177,19 @@ class CandyHelper extends AppHelper
 #  # Options:
 #  # * :text - Link text (default to attachment filename)
 #  # * :download - Force download (default: false)
+  function link_to_attachment($attachment, $options = array())
+  {
+    $text = $attachment['Attachment']['filename'];
+    if (isset($options['text'])) {
+      $text = $options['text'];
+    }
+    $action = 'show';
+    if (isset($options['download'])) {
+      $action = 'download';
+    }
+
+    return $this->Html->link($text, array('controller'=>'attachments', 'action'=>$action, 'id'=>$attachment['Attachment']['id'], 'filename'=>$attachment['Attachment']['filename']), $options);
+  }
 #  def link_to_attachment(attachment, options={})
 #    text = options.delete(:text) || attachment.filename
 #    action = options.delete(:download) ? 'download' : 'show'
@@ -420,6 +440,9 @@ class CandyHelper extends AppHelper
 #    links.size > 1 ? l(:label_display_per_page, links.join(', ')) : nil
 #  end
 #
+function breadcrumb($args)
+{
+}
 #  def breadcrumb(*args)
 #    elements = args.flatten
 #    elements.any? ? content_tag('p', args.join(' &#187; ') + ' &#187; ', :class => 'breadcrumb') : nil

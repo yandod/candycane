@@ -64,6 +64,16 @@ class User extends AppModel
 #    super
 #  end
 #  
+  function name($user, $formatter = null)
+  {
+    // @FIXME
+
+    if ($formatter != null) {
+    } else {
+    }
+
+    return $user['User']['firstname']. ' '.$user['User']['lastname'];
+  }
 #  # Return user's full name for display
 #  def name(formatter = nil)
 #    if formatter
@@ -243,7 +253,7 @@ class User extends AppModel
    */
   var $validate = array(
     'login' => array(
-      'rule' => array('isUnique', 'notEmpty')
+      'rule' => array('isUnique' => array('onCreate' => true), 'notEmpty')
     ),
     'firstname' => array(
       'rule' => array('alphaNumeric')

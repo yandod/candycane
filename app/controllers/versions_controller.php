@@ -90,7 +90,7 @@ class VersionsController extends AppController
     if(!empty($this->data)) {
       if($this->Version->save($this->data, true, array('name', 'description', 'wiki_page_title', 'effective_date'))) {
         $this->Session->setFlash(__('Successful update.'));
-        $this->redirect('/versions/show/'.$this->Version->id);
+        $this->redirect(array('controller'=>'versions', 'action'=>'show', 'id'=>$this->Version->id));
       }
     }
 
@@ -102,11 +102,10 @@ class VersionsController extends AppController
   function destroy($id)
   {
     if ($this->Version->del($id)) {
-      $this->redirect('/versions/show/'.$this->Version->id);
     } else {
       $this->Session->setFlash(__('Unable to delete version.'));
-      $this->redirect('/versions/show/'.$this->Version->id);
     }
+    $this->redirect(array('controller'=>'versions', 'action'=>'show', 'id'=>$this->Version->id));
 #    @version.destroy
 #    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
 #  rescue

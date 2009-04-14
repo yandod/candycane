@@ -64,7 +64,7 @@
   <?php foreach ($projects as $project): ?>
   <tr class="odd">
      <td>
-	 <?php echo (($project['Project']['status'] == PROJECT_STATUS_ACTIVE) ? ($html->link(h($project['Project']['name']), array('controller' => 'projects', 'action' => 'settings', 'id' => $project['Project']['id']))) : h($project['Project']['name'])); ?>
+	 <?php echo (($project['Project']['status'] == PROJECT_STATUS_ACTIVE) ? ($html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'settings', 'id' => $project['Project']['id']))) : h($project['Project']['name'])); ?>
 	 <td><?php echo nl2br($project['Project']['short_description']); ?></td>
 	 <td align="center">project.children.size
 	 <td align="center"><?php if ($project['Project']['is_public'] == TRUE) { echo $html->image('true.png'); } ?>
