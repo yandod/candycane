@@ -105,11 +105,10 @@ class Role extends AppModel {
 #    self.builtin != 0
 #  end
 #  
-#  # Return true if the role is a project member role
-#  def member?
-#    !self.builtin?
-#  end
-#  
+  # Return true if the role is a project member role
+  function is_member($role) {
+    return !$role['Role']['builtin'];
+  }
   function non_member_allowed_to($permission) {
     $non_member = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_NON_MEMBER)));
     if(empty($non_member)) {
@@ -137,6 +136,10 @@ class Role extends AppModel {
 #      allowed_permissions.include? action
 #    end
 #  end
+  function is_allowed_to($role, $action) {
+    // TODO
+    return true;
+  }
 #  
 #  # Return all the permissions that can be given to the role
 #  def setable_permissions
@@ -164,8 +167,14 @@ class Role extends AppModel {
 #
 #  # Return the builtin 'anonymous' role 
 #  def self.anonymous
+  function anonymous() {
 #    find(:first, :conditions => {:builtin => BUILTIN_ANONYMOUS}) || raise('Missing anonymous builtin role.')
-#  end
+    $data = $this->find('first', array('conditions' => array('builtin' => $this->BUILTIN_ANONYMOUS)));
+    if (empty($data)) {
+    } else {
+      return $data;
+    }
+  }
 #
 #  
 #private

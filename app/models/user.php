@@ -208,6 +208,38 @@ class User extends AppModel
 #      false
 #    end
 #  end
+  /**
+   * @param : $user is current_user. ex.$user['admin']
+   * @param : $action is string.
+   * @param : $project is Project data. ex.$project['Project']['status']
+   */
+  function is_allowed_to($user, $action, $project, $options=array()) {
+    if(!empty($project)) {
+      $Project = & ClassRegistry::init('Project');
+      # No action allowed on archived projects
+      if(!$Project->is_active($project)) return false;
+      # No action allowed on disabled modules
+      if(!$Project->is_allows_to($action)) return false;
+      # Admin users are authorized for anything else
+      if($user['admin']) return true ;
+      
+      $role_id = $this->role_for_project($user, $project);
+      if(empty($role_id)) return false;
+      $Role = & ClassRegistry::init('Role');
+      $role = $Role->read(null, $role_id);
+      return $Role->is_allowed_to($role, $action) && ($project['Project']['is_public'] || $Role->is_member($role));
+    } elseif(!empty($options['global'])) {
+      # authorize if user has at least one role that has this permission
+      $Role = & ClassRegistry::init('Role');
+      $roles = $this->Membership->find('all', array('fields'=>array('Role.*'), 'group'=>'role_id'));
+      foreach($roles as $role) {
+        if($Role->is_allowed_to($role, $action)) return true;
+      }
+      return $user['logged'] ? $Role->non_member_allowed_to($action) : $Role->anonymous_allowed_to($action);
+    }
+    return false;
+  }
+
 #  
 #  def self.current=(user)
 #    @current_user = user
@@ -372,6 +404,32 @@ class User extends AppModel
     $user['last_login_on'] = $last_login_on;
     $this->save($user);
   }
+
+  /** 
+   * Return user's role for project
+   */
+  function role_for_project($user, $project_id) {
+    $role_id = false;
+    $role = & ClassRegistry::init('Role');
+    if(!empty($user)) {
+      # Find project membership
+      $no_member_role = $role->non_member();
+      $role_id = $no_member_role['Role']['id'];
+      if(!empty($user['memberships'])) {
+        foreach($user['memberships'] as $membership) {
+          if($membership['project_id'] == $project_id) {
+            $role_id = $membership['role_id'];
+            break;
+          }
+        }
+      }
+    } else {
+      $anonymous_member_role = $role->anonymous();
+      $role_id = $anonymous_member_role['Role']['id'];
+    }
+    return $role_id;
+  }
+
 }
 
 /**

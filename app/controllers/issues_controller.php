@@ -3,16 +3,19 @@ class IssuesController extends AppController
 {
   var $name = 'Issues';
   var $uses = array(
-    'User',
     'Issue',
+    'User',
     'Query',
     'Project',
+    'Enumeration',
   );
   var $helpers = array(
     'Issues',
     'Queries',
     'QueryColumn',
     'Paginator',
+    'CustomField',
+    'Number',
   );
   var $components = array(
     'RequestHandler',
@@ -142,11 +145,6 @@ class IssuesController extends AppController
 #  end
 #
   function add() {
-    if(!empty($this->data)) {
-      e(pr($this->data));
-      $this->Issue->save($this->data);
-      exit();
-    }
 /*
     if(isset($this->params['copy_from'])) {
       // TODO: コピーして新規追加の場合
@@ -164,46 +162,50 @@ class IssuesController extends AppController
       $this->redirect('index');
     }
     // TODO IssueStatus のメソッドを呼び出すように変更する。
-    $statuses = $this->Issue->Status->find('list');
-
-    $this->set(compact('trackers', 'statuses'));
-    $this->render('new');
-    
-/*
-    if(is_array($this->params['issue'])) {
-      $attributes = $this->params['issue'];
-      if()
-      $watcher_user_ids = params['issue']['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
+    $default_status = $this->Issue->Status->findDefault();
+    if(empty($default_status)) {
+      $this->Session->setFlash(__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true), 'default', array('class'=>'flash flash_error'));
+      $this->redirect('index');
     }
-*/
-#    @issue.author = User.current
-#    
-#    default_status = IssueStatus.default
-#    unless default_status
-#      flash.now[:error] = 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
-#      render :nothing => true, :layout => true
-#      return
-#    end    
-#    @issue.status = default_status
-#    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)).uniq
-#    
-#    if request.get? || request.xhr?
-#      @issue.start_date ||= Date.today
-#    else
-#      requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
-#      # Check that the user is allowed to apply the requested status
-#      @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
-#      if @issue.save
-#        attach_files(@issue, params[:attachments])
-#        flash[:notice] = l(:notice_successful_create)
-#        Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
-#        redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
-#                                        { :action => 'show', :id => @issue })
-#        return
-#      end		
-#    end	
-#    @priorities = Enumeration::get_values('IPRI')
-#    render :layout => !request.xhr?
+    # @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)).uniq
+    $allowed_statuses = $this->Issue->Status->find_new_statuses_allowed_to(
+      key($default_status),
+      $this->User->role_for_project($this->current_user, $this->_project['Project']['id']),
+      empty($this->data['Issue']['tracker_id']) ? key($trackers) : $this->data['Issue']['tracker_id']
+    );
+    $statuses = $default_status;
+    foreach($allowed_statuses as $id => $value) {
+      $statuses[$id] = $value;
+    }
+    if(!empty($this->data)) {
+      e(pr($this->data));
+      $this->Issue->save($this->data);
+      exit();
+    } elseif(!$this->RequestHandler->isAjax() && empty($this->data['Issue']['start_date'])) {
+      $this->data['Issue']['start_date'] = date('Y-m-d');
+    }
+    $priority_datas = $this->Enumeration->get_values('IPRI');
+    $priorities = array();
+    foreach($priority_datas as $priority) {
+      $priorities[$priority['Enumeration']['id']] = $priority['Enumeration']['name'];
+      if(empty($this->data['Issue']['priority_id']) && $priority['Enumeration']['is_default']) {
+        $this->data['Issue']['priority_id'] = $priority['Enumeration']['id'];
+      }
+    }
+    $assignable_users = $this->Project->assignable_users($this->_project['Project']['id']);
+    $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
+    $fixed_versions = $this->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
+    $custom_field_values = $this->Issue->available_custom_fields(
+      $this->_project['Project']['id'],
+      empty($this->data['Issue']['tracker_id']) ? key($trackers) : $this->data['Issue']['tracker_id']
+    );
+    $add_watcher_allowed_to = $this->User->is_allowed_to($this->current_user, ':add_issue_watchers', $this->_project);
+    $members = $this->Project->members($this->_project['Project']['id']);
+
+    $this->set(compact(
+      'trackers', 'statuses', 'priorities', 'assignable_users', 'issue_categories', 
+      'fixed_versions', 'custom_field_values', 'add_watcher_allowed_to', 'members'));
+    $this->render('new');
   }
 #  # Add a new issue
 #  # The new issue will be created from an existing one if copy_from parameter is given

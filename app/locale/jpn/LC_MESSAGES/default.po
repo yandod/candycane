@@ -546,6 +546,10 @@ msgstr "アカウント情報をユーザに送信"
 msgid "Issue updated"
 msgstr "チケットが更新されました"
 
+#actionview_instancetag_blank_option
+msgid  "Please Select"
+msgstr "選んでください"
+
 # notice_account_wrong_password
 msgid "Wrong password"
 msgstr "パスワードが違います"

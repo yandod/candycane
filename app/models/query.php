@@ -199,10 +199,10 @@ class Query extends AppModel
         'order' => 5,
       ),
     );
-    foreach ($available_filters as & $v) {
-      $v['operators'] = a();
+    foreach ($available_filters as $k => $v) {
+      $available_filters[$k]['operators'] = a();
       foreach ($this->operators_by_filter_type[$v['type']] as $operator) {
-        $v['operators'][$operator] = $this->operators[$operator];
+        $available_filters[$k]['operators'][$operator] = $this->operators[$operator];
       }
     }
     return $available_filters;
@@ -349,6 +349,9 @@ class Query extends AppModel
   function get_filter_cond($model, $field, $operator, $values)
   {
     switch ($operator) {
+    case '=':
+      if (is_array($values)) $operator = '';
+      break;
     case '!':
       $operator = '!=';
       break;
