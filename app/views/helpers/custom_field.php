@@ -66,8 +66,14 @@ class CustomFieldHelper extends AppHelper
           $selected = $custom_field['default_value'];
         }
       }
-      // TODO 選択値がYAMLになっている
-      $options = array('sample1'=>'サンプル１', 'sample2'=>'サンプル２', 'sample3'=>'サンプル３');
+      App::Import('vendor', 'spyc');
+      $list = Spyc::YAMLLoad($custom_value['CustomField']['possible_values']);
+      $options = array();
+      if(!empty($list)) {
+        foreach($list as $item) {
+          $options[$item[0]] = $item[0];
+        }
+      }
       
       $out = $formHelper->input($field_name, array_merge(compact('type', 'empty', 'selected', 'options'), array('label'=>false, 'div'=>false)));
       break;

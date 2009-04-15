@@ -114,15 +114,29 @@ class Role extends AppModel {
     if(empty($non_member)) {
       $this->cakeError('error', 'Missing non-member builtin role.');
     }
-    // TODO YAMLをパースして権限をチェックする
-    return true;
+    $list = Spyc::YAMLLoad($non_member['Role']['permissions']);
+    if(!empty($list)) {
+      foreach($list as $item) {
+        if($item[0] == $permission) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
   function anonymous_allowed_to($permission) {
     $anonymous = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_ANONYMOUS)));
     if(empty($anonymous)) {
       $this->cakeError('error', 'Missing non-member builtin role.');
     }
-    // TODO YAMLをパースして権限をチェックする
+    $list = Spyc::YAMLLoad($anonymous['Role']['permissions']);
+    if(!empty($list)) {
+      foreach($list as $item) {
+        if($item[0] == $permission) {
+          return true;
+        }
+      }
+    }
     return true;
   }
 #  # Return true if role is allowed to do the specified action
