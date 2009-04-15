@@ -294,6 +294,10 @@ class Project extends AppModel
 #  def active?
 #    self.status == STATUS_ACTIVE
 #  end
+  function is_active($project) {
+    return $project['Project']['status'] == PROJECT_STATUS_ACTIVE;
+  }
+
 #  
 #  def archive
 #    # Archive subprojects if any
@@ -339,6 +343,20 @@ class Project extends AppModel
     $order = 'User.firstname';
     $fields = array('User.*');
     $users = $this->Member->find('all', compact('conditions', 'recursive', 'order', 'fields'));
+    $list = array();
+    foreach($users as $user) {
+      $list[$user['User']['id']] = $user['User']['firstname'].' '.$user['User']['lastname'];
+    }
+    return $list;
+  }
+  function members($project_id) {
+    $conditions = array(
+      'project_id' => $project_id,
+      'User.status' => 1
+    );
+    $order = 'User.firstname';
+    $fields = array('User.*');
+    $users = $this->Member->find('all', compact('conditions', 'order', 'fields'));
     $list = array();
     foreach($users as $user) {
       $list[$user['User']['id']] = $user['User']['firstname'].' '.$user['User']['lastname'];
@@ -431,6 +449,11 @@ class Project extends AppModel
 #      allowed_permissions.include? action
 #    end
 #  end
+  function is_allows_to($action) {
+    // TODO 
+    return true;
+  }
+
 #  
 #  def module_enabled?(module_name)
 #    module_name = module_name.to_s

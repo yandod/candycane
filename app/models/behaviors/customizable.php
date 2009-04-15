@@ -33,6 +33,7 @@ class CustomizableBehavior extends ModelBehavior {
   function afterSave(&$Model, $created) {
     return $this->_save_custom_field_values($Model, $created);
   }
+
   /**
    * Add relation of CustomValues
    */
@@ -46,6 +47,7 @@ class CustomizableBehavior extends ModelBehavior {
         $results['CustomValue'] = array();
         foreach($values as $value) {
           $results['CustomValue'][] = $value['CustomValue'];
+
         }
       }
     }
@@ -55,10 +57,43 @@ class CustomizableBehavior extends ModelBehavior {
   /**
    * Get available field values 
    */
-  function available_custom_fields(&$Model) {
+  function available_custom_fields(&$Model, $project_id=false, $tracker_id=false) {
     $customValueModel = & ClassRegistry::init('CustomValue');
-    return $customValueModel->CustomField->find('all', 
-        array('conditions' => array('type'=> $Model->name.'CustomField'), 'order'=>'position'));
+    $for_alls = $customValueModel->CustomField->find('all', 
+        array('conditions' => array('type'=> $Model->name.'CustomField', 'is_for_all'=>1), 'order'=>'position'));
+    if(!empty($project_id)) {
+      $CustomFieldsProject = & ClassRegistry::init('CustomFieldsProject');
+      $for_projects = $CustomFieldsProject->find('all', 
+        array('conditions' => array('CustomField.type'=> $Model->name.'CustomField', 'project_id'=>$project_id), 'order'=>'CustomField.position'));
+    }
+    $availables = array();
+    $result = array();
+    foreach($for_alls as $for_all) {
+      $availables[$for_all['CustomField']['position']] = $for_all;
+    }
+    foreach($for_projects as $for_project) {
+      $availables[$for_project['CustomField']['position']] = $for_project;
+    }
+    if(!empty($tracker_id) && !empty($availables)) {
+      $ids = array();
+      foreach($availables as $available) {
+        $ids[] = $available['CustomField']['id'];
+      }
+      $CustomFieldsTracker = & ClassRegistry::init('CustomFieldsTracker');
+      $for_tracker_ids = $CustomFieldsTracker->find('all', array(
+        'conditions' => array('CustomField.type'=> $Model->name.'CustomField', 'tracker_id'=>$tracker_id, 'CustomField.id'=>$ids), 
+        'fields'=>array('CustomField.position'),
+        'order'=>"CustomField.position"
+      ));
+      if(!empty($for_tracker_ids)) {
+        foreach($for_tracker_ids as $for_tracker_id)
+        $result[] = $availables[$for_tracker_id['CustomField']['position']];
+      }
+    }
+    if(empty($return)) {
+      $result = $availables;
+    }
+    return $result;
   }
 
    // ==== privates 
