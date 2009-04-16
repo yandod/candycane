@@ -123,10 +123,10 @@ class Role extends AppModel {
     }
     return $this->is_allowed_to($anonymous, $permission);
   }
-#  # Return true if role is allowed to do the specified action
-#  # action can be:
-#  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
-#  # * a permission Symbol (eg. :edit_project)
+  # Return true if role is allowed to do the specified action
+  # action can be:
+  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
+  # * a permission Symbol (eg. :edit_project)
   function is_allowed_to($role, $action) {
     if(is_array($action)) {
         // TODO AccessControll
@@ -134,7 +134,7 @@ class Role extends AppModel {
     }
     $list = $this->permissions($role['Role']['permissions']);
     if(!empty($list)) {
-      foreach($list[0] as $item) {
+      foreach($list as $item) {
         if(($item == $action) || ($item == ':'.$action)) {
           return true;
         }

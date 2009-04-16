@@ -90,16 +90,18 @@ class Issue extends AppModel
 #  end
 #  
   function copy_from($arg) {
-    $issue = $arg.is_a('Issue') ? $arg->data : $this->find($arg);
-    $this->data = $issue;
-#    self.custom_values = issue.custom_values.collect {|v| v.clone}
+    if(is_array($arg) && !empty($arg['Issue'])) {
+      $issue = $arg;
+    } elseif(is_string($arg)) {
+      $issue = $this->find('first', array('conditions'=>array('id'=>$arg), 'recursive'=>-1));
+    } else {
+      $issue = false;
+    }
+    if(!empty($issue['Issue']['id'])) {
+      unset($issue['Issue']['id']);
+    }
+    return $issue;
   }
-#  def copy_from(arg)
-#    issue = arg.is_a?(Issue) ? arg : Issue.find(arg)
-#    self.attributes = issue.attributes.dup
-#    self.custom_values = issue.custom_values.collect {|v| v.clone}
-#    self
-#  end
 #  
 #  # Move an issue to a new project and tracker
 #  def move_to(new_project, new_tracker = nil)
@@ -188,6 +190,27 @@ class Issue extends AppModel
 #    # Save the issue even if the journal is not saved (because empty)
 #    true
 #  end
+  function beforeSave($options = array()) {
+    parent::beforeSave($options);
+    if(!$this->__exists) {
+      if(empty($this->data['Issue']['assigned_to']) && !empty($this->data['Issue']['category_id'])) {
+        $category = $this->Category->find('first', array('conditions'=>array('id'=>$this->data['Issue']['category_id']), 'recursive'=>-1));
+        if(!empty($category['Category']['assigned_to_id'])) {
+          $this->data['Issue']['assigned_to_id'] = $category['Category']['assigned_to_id'];
+        }
+      }
+    }
+    // empty must be null
+    if(empty($this->data['Issue']['due_date'])) {
+      unset($this->data['Issue']['due_date']);
+    }
+    if(empty($this->data['Issue']['due_date'])) {
+      unset($this->data['Issue']['start_date']);
+    }
+    return true;
+  }
+
+
 #  
 #  def after_save
 #    # Reload is needed in order to get the right status

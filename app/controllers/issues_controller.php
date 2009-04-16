@@ -145,13 +145,17 @@ class IssuesController extends AppController
 #  end
 #
   function add() {
-/*
-    if(isset($this->params['copy_from'])) {
-      // TODO: コピーして新規追加の場合
-      // id が$this->params['copy_from']の値のレコードをfindして、配列を$this->dataへコピーする。
-      $this->Issue->copy_from($this->params['copy_from']);
+    if(!empty($this->params['named']['copy_from'])) {
+      $issue = $this->Issue->copy_from($this->params['named']['copy_from']);
+      if(!empty($issue['CustomValue'])) {
+        $issue['custom_field_values'] = array();
+        foreach($issue['CustomValue'] as $customValue) {
+          $issue['custom_field_values'][$customValue['custom_field_id']] = $customValue['value'];
+        }
+        unset($issue['CustomValue']);
+      }
+      $this->data = $issue;
     }
-*/
     # Tracker must be set before custom field values
     $trackers = $this->Issue->Project->ProjectsTracker->find('list', array(
       'conditions'=>array('ProjectsTracker.project_id' => $this->_project['Project']['id']),
@@ -161,13 +165,11 @@ class IssuesController extends AppController
       $this->Session->setFlash(__("No tracker is associated to this project. Please check the Project settings.", true), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
-    // TODO IssueStatus のメソッドを呼び出すように変更する。
     $default_status = $this->Issue->Status->findDefault();
     if(empty($default_status)) {
       $this->Session->setFlash(__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
-    # @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)).uniq
     $allowed_statuses = $this->Issue->Status->find_new_statuses_allowed_to(
       key($default_status),
       $this->User->role_for_project($this->current_user, $this->_project['Project']['id']),
@@ -177,10 +179,21 @@ class IssuesController extends AppController
     foreach($allowed_statuses as $id => $value) {
       $statuses[$id] = $value;
     }
-    if(!empty($this->data)) {
-      e(pr($this->data));
-      $this->Issue->save($this->data);
-      exit();
+    if(!empty($this->data) && $this->RequestHandler->isPost()) {
+      $this->data['Issue']['project_id'] = $this->_project['Project']['id'];
+      $this->data['Issue']['author_id'] = $this->current_user['id'];
+      if(!$this->Issue->save($this->data)) {
+        return $this->cakeError('error', "Can not save Issue.");
+      }
+
+#        attach_files(@issue, params[:attachments])
+#        flash[:notice] = l(:notice_successful_create)
+#        Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
+#                                        { :action => 'show', :id => @issue })
+      if(!empty($this->params['named']['copy_from'])) {
+#        redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
+      }
+      $this->redirect(array('action'=>'show', 'id'=>$this->Issue->getLastInsertID()));
     } elseif(!$this->RequestHandler->isAjax() && empty($this->data['Issue']['start_date'])) {
       $this->data['Issue']['start_date'] = date('Y-m-d');
     }
