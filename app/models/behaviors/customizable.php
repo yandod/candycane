@@ -38,18 +38,29 @@ class CustomizableBehavior extends ModelBehavior {
    * Add relation of CustomValues
    */
   function afterFind(&$Model, $results, $primary = false) {
-    if(!empty($results[$Model->name])) {
-      $customValueModel = & ClassRegistry::init('CustomValue');
-      $conditions = array('type'=> $Model->name, 'customized_id'=>$results[$Model->name]['id']);
-      $order = 'CustomField.position';
-      $values = $customValueModel->find('all', compact('conditions', 'order'));
-      if(!empty($values)) {
-        $results['CustomValue'] = array();
-        foreach($values as $value) {
-          $results['CustomValue'][] = $value['CustomValue'];
-
+    $single = false;
+    if(empty($results[0])) {
+      $results = array($results);
+      $single = true;
+    }
+    if(is_array($results)) {
+      foreach($results as $index => $result) {
+        if(!empty($result[$Model->name])) {
+          $customValueModel = & ClassRegistry::init('CustomValue');
+          $conditions = array('customized_type'=> $Model->name, 'customized_id'=>$result[$Model->name]['id']);
+          $order = 'CustomField.position';
+          $values = $customValueModel->find('all', compact('conditions', 'order'));
+          if(!empty($values)) {
+            $results[$index]['CustomValue'] = array();
+            foreach($values as $value) {
+              $results[$index]['CustomValue'][] = $value['CustomValue'];
+            }
+          }
         }
       }
+    }
+    if($single) {
+      $results = $results[0];
     }
     return $results;
   }
@@ -86,11 +97,12 @@ class CustomizableBehavior extends ModelBehavior {
         'order'=>"CustomField.position"
       ));
       if(!empty($for_tracker_ids)) {
+        $result = array();
         foreach($for_tracker_ids as $for_tracker_id)
-        $result[] = $availables[$for_tracker_id['CustomField']['position']];
+          $result[] = $availables[$for_tracker_id['CustomField']['position']];
       }
     }
-    if(empty($return)) {
+    if(empty($result)) {
       $result = $availables;
     }
     return $result;
