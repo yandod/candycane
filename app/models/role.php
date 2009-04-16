@@ -110,49 +110,37 @@ class Role extends AppModel {
     return !$role['Role']['builtin'];
   }
   function non_member_allowed_to($permission) {
-    $non_member = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_NON_MEMBER)));
+    $non_member = $this->non_member();
     if(empty($non_member)) {
       $this->cakeError('error', 'Missing non-member builtin role.');
     }
-    $list = Spyc::YAMLLoad($non_member['Role']['permissions']);
-    if(!empty($list)) {
-      foreach($list as $item) {
-        if($item[0] == $permission) {
-          return true;
-        }
-      }
-    }
-    return false;
+    return $this->is_allowed_to($non_member, $permission);
   }
   function anonymous_allowed_to($permission) {
-    $anonymous = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_ANONYMOUS)));
+    $anonymous = $this->anonymous();
     if(empty($anonymous)) {
       $this->cakeError('error', 'Missing non-member builtin role.');
     }
-    $list = Spyc::YAMLLoad($anonymous['Role']['permissions']);
-    if(!empty($list)) {
-      foreach($list as $item) {
-        if($item[0] == $permission) {
-          return true;
-        }
-      }
-    }
-    return true;
+    return $this->is_allowed_to($anonymous, $permission);
   }
 #  # Return true if role is allowed to do the specified action
 #  # action can be:
 #  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
 #  # * a permission Symbol (eg. :edit_project)
-#  def allowed_to?(action)
-#    if action.is_a? Hash
-#      allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
-#    else
-#      allowed_permissions.include? action
-#    end
-#  end
   function is_allowed_to($role, $action) {
-    // TODO
-    return true;
+    if(is_array($action)) {
+        // TODO AccessControll
+        // allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
+    }
+    $list = $this->permissions($role['Role']['permissions']);
+    if(!empty($list)) {
+      foreach($list[0] as $item) {
+        if(($item == $action) || ($item == ':'.$action)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 #  
 #  # Return all the permissions that can be given to the role
