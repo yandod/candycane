@@ -204,7 +204,7 @@ class Issue extends AppModel
     if(empty($this->data['Issue']['due_date'])) {
       unset($this->data['Issue']['due_date']);
     }
-    if(empty($this->data['Issue']['due_date'])) {
+    if(empty($this->data['Issue']['start_date'])) {
       unset($this->data['Issue']['start_date']);
     }
     return true;
