@@ -144,6 +144,14 @@ class IssuesController extends AppController
 #    end
 #  end
 #
+
+  /**
+   * Add a new issue
+   * The new issue will be created from an existing one if copy_from parameter is given
+   * Enter URLs :
+   *    /projects/test/issues/add/copy_from:30
+   *    /projects/test/issues/add/tracker_id:30
+   */
   function add() {
     if(!empty($this->params['named']['copy_from'])) {
       $issue = $this->Issue->copy_from($this->params['named']['copy_from']);
@@ -155,6 +163,9 @@ class IssuesController extends AppController
         unset($issue['CustomValue']);
       }
       $this->data = $issue;
+    }
+    if(!empty($this->params['named']['tracker_id'])) {
+      $this->data['Issue']['tracker_id'] = $this->params['named']['tracker_id'];
     }
     # Tracker must be set before custom field values
     $trackers = $this->Issue->Project->ProjectsTracker->find('list', array(
@@ -179,19 +190,18 @@ class IssuesController extends AppController
     foreach($allowed_statuses as $id => $value) {
       $statuses[$id] = $value;
     }
-    if(!empty($this->data) && $this->RequestHandler->isPost()) {
+    if(!empty($this->data) && $this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
       $this->data['Issue']['project_id'] = $this->_project['Project']['id'];
       $this->data['Issue']['author_id'] = $this->current_user['id'];
       if(!$this->Issue->save($this->data)) {
         return $this->cakeError('error', "Can not save Issue.");
       }
-
-#        attach_files(@issue, params[:attachments])
-#        flash[:notice] = l(:notice_successful_create)
-#        Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
-#                                        { :action => 'show', :id => @issue })
-      if(!empty($this->params['named']['copy_from'])) {
-#        redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
+      // TODO : attach file 
+      # attach_files(@issue, params[:attachments])
+      $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+      # Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
+      if(!empty($this->params['form']['continue'])) {
+        $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues/add/tracker_id:'.$this->data['Issue']['tracker_id']);
       }
       $this->redirect(array('action'=>'show', 'id'=>$this->Issue->getLastInsertID()));
     } elseif(!$this->RequestHandler->isAjax() && empty($this->data['Issue']['start_date'])) {
@@ -219,6 +229,9 @@ class IssuesController extends AppController
       'trackers', 'statuses', 'priorities', 'assignable_users', 'issue_categories', 
       'fixed_versions', 'custom_field_values', 'add_watcher_allowed_to', 'members'));
     $this->render('new');
+    if($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+    }
   }
 #  # Add a new issue
 #  # The new issue will be created from an existing one if copy_from parameter is given

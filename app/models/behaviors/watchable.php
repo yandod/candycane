@@ -85,16 +85,34 @@ class WatchableBehavior extends ModelBehavior {
   //function addable_watcher_users(&$Model) {
   //  project.users.sort - self.watcher_users
   //}
+  /**
+   * Save watcheable values after Main Model
+   */
+  function afterSave(&$Model, $created) {
+    if(empty($Model->data[$Model->name]['watcher_user_ids'])) {
+      return true;
+    }
+    $watcher_user_ids = $Model->data[$Model->name]['watcher_user_ids'];
+    if(!is_array($watcher_user_ids)) {
+      $watcher_user_ids = array($watcher_user_ids);
+    }
+    foreach($watcher_user_ids as $watcher_user_id) {
+      if(!$this->add_watcher($Model, array('User'=>array('id'=>$watcher_user_id)))) {
+        return false;
+      }
+    }
+    return true;
+  }
 
   # Adds user as a watcher
   function add_watcher(&$Model, $user) {
     $model = & ClassRegistry::init('Watcher');
     $model->create();
-    $data = array('watchable_type'=>$Model->name, 'watchable_id '=>$Model->id, 'user_id'=>$user['User']['id']);
+    $data = array('watchable_type'=>$Model->name, 'watchable_id'=>$Model->id, 'user_id'=>$user['User']['id']);
     if($model->hasAny($data)) {
       return true;
     }
-    return $Model->Watcher->save(array('Watcher'=>data));
+    return $model->save(array('Watcher'=>$data));
   }
 
   # Removes user from the watchers list
