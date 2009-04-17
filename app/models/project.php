@@ -141,6 +141,7 @@ class Project extends AppModel
 #    find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
 #  end
 	}	
+
 #
 #  def self.visible_by(user=nil)
 #    user ||= User.current
@@ -153,6 +154,36 @@ class Project extends AppModel
 #    end
 #  end
 #  
+  function get_visible_by_condition($user = null)
+  {
+    if ($user == null) {
+      return array('status'=>PROJECT_STATUS_ACTIVE, 'is_public'=>true); // @TODO current取れる？
+    }
+
+    if ($user['User']['admin']) {
+      return array('status'=>PROJECT_STATUS_ACTIVE);
+    } else {
+      if (isset($user['memberships']) && (count($user['memberships']) > 0)) {
+        $ids = array();
+        foreach($user['memberships'] as $membership) {
+          $ids[] = $membership['project_id'];
+        }
+        return array('status'=>PROJECT_STATUS_ACTIVE, 'or'=>array('is_public'=>true, 'id'=>$ids));
+      } else {
+        return array('status'=>PROJECT_STATUS_ACTIVE, 'is_public'=>true);
+      }
+    }
+#    user ||= User.current
+#    if user && user.admin?
+#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
+#    elsif user && user.memberships.any?
+#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')}))"
+#    else
+#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
+#    end
+
+  }
+
   /**
    * @param user : AppController->current_user
    *                  + admin
