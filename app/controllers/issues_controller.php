@@ -233,52 +233,6 @@ class IssuesController extends AppController
       $this->layout = 'ajax';
     }
   }
-#  # Add a new issue
-#  # The new issue will be created from an existing one if copy_from parameter is given
-#  def new
-#    @issue = Issue.new
-#    @issue.copy_from(params[:copy_from]) if params[:copy_from]
-#    @issue.project = @project
-#    # Tracker must be set before custom field values
-#    @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
-#    if @issue.tracker.nil?
-#      flash.now[:error] = 'No tracker is associated to this project. Please check the Project settings.'
-#      render :nothing => true, :layout => true
-#      return
-#    end
-#    if params[:issue].is_a?(Hash)
-#      @issue.attributes = params[:issue]
-#      @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
-#    end
-#    @issue.author = User.current
-#    
-#    default_status = IssueStatus.default
-#    unless default_status
-#      flash.now[:error] = 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
-#      render :nothing => true, :layout => true
-#      return
-#    end    
-#    @issue.status = default_status
-#    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)).uniq
-#    
-#    if request.get? || request.xhr?
-#      @issue.start_date ||= Date.today
-#    else
-#      requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
-#      # Check that the user is allowed to apply the requested status
-#      @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
-#      if @issue.save
-#        attach_files(@issue, params[:attachments])
-#        flash[:notice] = l(:notice_successful_create)
-#        Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
-#        redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
-#                                        { :action => 'show', :id => @issue })
-#        return
-#      end		
-#    end	
-#    @priorities = Enumeration::get_values('IPRI')
-#    render :layout => !request.xhr?
-#  end
 #  
 #  # Attributes that can be updated on workflow transition (without :edit permission)
 #  # TODO: make it configurable (at least per role)
@@ -388,35 +342,57 @@ class IssuesController extends AppController
 #                                              :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq.sort
 #  end
 #
-#  def move
-#    @allowed_projects = []
-#    # find projects to which the user is allowed to move the issue
-#    if User.current.admin?
-#      # admin is allowed to move issues to any active (visible) project
-#      @allowed_projects = Project.find(:all, :conditions => Project.visible_by(User.current), :order => 'name')
-#    else
-#      User.current.memberships.each {|m| @allowed_projects << m.project if m.role.allowed_to?(:move_issues)}
-#    end
-#    @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
-#    @target_project ||= @project    
-#    @trackers = @target_project.trackers
-#    if request.post?
-#      new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
-#      unsaved_issue_ids = []
-#      @issues.each do |issue|
-#        issue.init_journal(User.current)
-#        unsaved_issue_ids << issue.id unless issue.move_to(@target_project, new_tracker)
-#      end
-#      if unsaved_issue_ids.empty?
-#        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
-#      else
-#        flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, @issues.size, '#' + unsaved_issue_ids.join(', #'))
-#      end
-#      redirect_to :controller => 'issues', :action => 'index', :project_id => @project
-#      return
-#    end
-#    render :layout => false if request.xhr?
-#  end
+  function move() {
+    $allowed_projects = array();
+    $issue = $this->_find_issue($this->params['issue_id']);
+    if(empty($issue)) {
+      return $this->cakeError('error', "Not exists issue.");
+    }
+    # find projects to which the user is allowed to move the issue
+    if($this->current_user['admin']) {
+      # admin is allowed to move issues to any active (visible) project
+      $allowed_projects = $this->Project->find('list', array('conditions'=>$this->Project->visible_by($this->current_user), 'order'=>'name'));
+    } else  {
+      $Role = & ClassRegistry::init('Role');
+      foreach($this->current_user['memberships'] as $member) {
+        if($Role->is_allowed_to($member, ':move_issues')) {
+          $allowed_projects[] = array($member['Project']['id']=>$member['Project']['name']);
+        }
+      }
+    }
+    if(!array_key_exists($issue['Issue']['project_id'], $allowed_projects)) {
+      return $this->cakeError('error', "Permission deny.");
+    }
+    if($this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
+      $this->Issue->init_journal($issue, $this->current_user);
+      if($this->Issue->move_to($this->Setting, $issue, $this->data['Issue']['project_id'], $this->data['Issue']['tracker_id'])) {
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+      } else {
+        $this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), 1, 1), 'default', array('class'=>'flash flash_error'));
+      }
+      if($this->RequestHandler->isAjax()) {
+        $this->layout = 'ajax';
+        return;
+      }
+      $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues');
+    } elseif($this->RequestHandler->isAjax() && !empty($this->data['Issue']['project_id'])) {
+      if(!array_key_exists($this->data['Issue']['project_id'], $allowed_projects)) {
+        $this->data['Issue']['project_id'] = $issue['Issue']['project_id'];
+      }
+    } else {
+      $this->data['Issue']['project_id'] = $issue['Issue']['project_id'];
+    }
+    $trackers = $this->Project->ProjectsTracker->find('list', array(
+      'conditions'=>array('ProjectsTracker.project_id'=>$this->data['Issue']['project_id']), 
+      'fields'=>array('Tracker.id', 'Tracker.name'),
+      'recursive'=>0
+    ));
+    $this->set(compact('allowed_projects', 'trackers'));
+    if($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+    }
+  }
+
 #  
 #  def destroy
 #    @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
@@ -545,9 +521,9 @@ class IssuesController extends AppController
   function _find_issue($id)
   {
     if ($this->_issue = $this->Issue->find('first', array(
-      'Issue.id' => $id,
+      'conditions'=>array('Issue.id' => $id)
     ))) {
-      $this->set('issue', $this->_issue);
+      $this->set(array('issue'=>$this->_issue));
       return $this->_issue;
     } else {
       $this->cakeErorr('error404');

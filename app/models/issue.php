@@ -104,34 +104,47 @@ class Issue extends AppModel
   }
 #  
 #  # Move an issue to a new project and tracker
-#  def move_to(new_project, new_tracker = nil)
-#    transaction do
-#      if new_project && project_id != new_project.id
-#        # delete issue relations
-#        unless Setting.cross_project_issue_relations?
-#          self.relations_from.clear
-#          self.relations_to.clear
-#        end
-#        # issue is moved to another project
-#        # reassign to the category with same name if any
-#        new_category = category.nil? ? nil : new_project.issue_categories.find_by_name(category.name)
-#        self.category = new_category
-#        self.fixed_version = nil
-#        self.project = new_project
-#      end
-#      if new_tracker
-#        self.tracker = new_tracker
-#      end
-#      if save
-#        # Manually update project_id on related time entries
-#        TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
-#      else
-#        rollback_db_transaction
-#        return false
-#      end
-#    end
-#    return true
-#  end
+  function move_to($Setting, $issue, $project_id, $tracker_id=false) {
+    $db =& ConnectionManager::getDataSource($this->useDbConfig);
+    $db->begin($this);
+    if(!empty($project_id) && $issue['Issue']['project_id'] != $project_id) {
+      # delete issue relations (because moveing to difference project is denied by Setting)
+      if(empty($Setting->cross_project_issue_relations)) {
+        $IssueRelation = & ClassRegistry::init('IssueRelation');
+        if(!$IssueRelation->deleteAll(array('or'=>
+          array('relations_from_id'=>$issue['Issue']['id']),
+          array('relations_to_id'=>$issue['Issue']['id'])
+        ))) {
+          $db->rollback($this);
+          return false;
+        }
+      }
+      # issue is moved to another project
+      # reassign to the category with same name if any
+      $new_category = empty($issue['Issue']['category_id']) ? null : $this->Category->find('first', array('conditions'=>array('project_id'=>$project_id, 'name'=>$issue['Category']['name'])));
+      $issue['Issue']['category_id'] = $new_category['Category']['id'];
+      $issue['Category'] = $new_category['Category'];
+      $issue['Issue']['fixed_version_id'] = null;
+      $issue['Issue']['project_id'] = $project_id;
+    }
+    if(!empty($tracker_id)) {
+      $issue['Issue']['tracker_id'] = $tracker_id;
+    }
+    if($this->save($issue)) {
+      # Manually update project_id on related time entries
+      $TimeEntry = & ClassRegistry::init('TimeEntry');
+      if($TimeEntry->updateAll(array("project_id"=>$project_id), array('issue_id'=>$issue['Issue']['id']))) {
+        $db->commit($this);
+      } else {
+        $db->rollback($this);
+        return false;
+      }
+    } else {
+      $db->rollback($this);
+      return false;
+    }
+    return true;
+  }
 #  
 #  def priority_id=(pid)
 #    self.priority = nil
@@ -233,8 +246,20 @@ class Issue extends AppModel
 #    end
 #  end
 #  
-#  def init_journal(user, notes = "")
-#    @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
+  /**
+   * @param : $issue  ex.$issue['Issue']['id']
+   * @param : $user   ex.$user['id']
+   * @param : $notes is any string
+   */
+  function init_journal($issue, $user, $notes = "") {
+    $Journal = & ClassRegistry::init('Journal');
+    $Journal->create();
+    $defaults = array(
+      'journalized_id'=>$issue['Issue']['id'], 
+      'user'=>$user['id'], 
+      'notes' => $notes);
+    $this->set($defaults);
+    // TODO : init_journal
 #    @issue_before_change = self.clone
 #    @issue_before_change.status = self.status
 #    @custom_values_before_change = {}
@@ -242,7 +267,8 @@ class Issue extends AppModel
 #    # Make sure updated_on is updated when adding a note.
 #    updated_on_will_change!
 #    @current_journal
-#  end
+    return $Journal;
+   }
 #  
 #  # Return true if the issue is closed, otherwise false
 #  def closed?
