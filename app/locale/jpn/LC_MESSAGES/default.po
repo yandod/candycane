@@ -1884,7 +1884,7 @@ msgstr "Wiki page"
 
 # setting_gravatar_enabled
 msgid "Use Gravatar user icons"
-msgstr "Use Gravatar user icons"
+msgstr "Gravatarをユーザのアイコンとして使う"
 
 # permission_manage_members
 msgid "Manage members"
@@ -2536,7 +2536,7 @@ msgstr "リセット"
 
 # setting_diff_max_lines_displayed
 msgid "Max number of diff lines displayed"
-msgstr "Max number of diff lines displayed"
+msgstr "差分を表示する行数の上限"
 
 # field_estimated_hours
 msgid "Estimated time"
