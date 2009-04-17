@@ -104,45 +104,48 @@ class Issue extends AppModel
   }
 #  
 #  # Move an issue to a new project and tracker
-  function move_to($Setting, $issue, $project_id, $tracker_id=false) {
+  function move_to($Setting, $issues, $project_id, $tracker_id=false) {
     $db =& ConnectionManager::getDataSource($this->useDbConfig);
     $db->begin($this);
-    if(!empty($project_id) && $issue['Issue']['project_id'] != $project_id) {
-      # delete issue relations (because moveing to difference project is denied by Setting)
-      if(empty($Setting->cross_project_issue_relations)) {
-        $IssueRelation = & ClassRegistry::init('IssueRelation');
-        if(!$IssueRelation->deleteAll(array('or'=>
-          array('relations_from_id'=>$issue['Issue']['id']),
-          array('relations_to_id'=>$issue['Issue']['id'])
-        ))) {
+    foreach($issues as $issue) {
+      if(!empty($project_id) && $issue['Issue']['project_id'] != $project_id) {
+        # delete issue relations (because moveing to difference project is denied by Setting)
+        if(empty($Setting->cross_project_issue_relations)) {
+          $IssueRelation = & ClassRegistry::init('IssueRelation');
+          if(!$IssueRelation->deleteAll(array('or'=>
+            array('relations_from_id'=>$issue['Issue']['id']),
+            array('relations_to_id'=>$issue['Issue']['id'])
+          ))) {
+            $db->rollback($this);
+            return false;
+          }
+        }
+        # issue is moved to another project
+        # reassign to the category with same name if any
+        $new_category = empty($issue['Issue']['category_id']) ? null : $this->Category->find('first', array('conditions'=>array('project_id'=>$project_id, 'name'=>$issue['Category']['name'])));
+        $issue['Issue']['category_id'] = $new_category['Category']['id'];
+        $issue['Category'] = $new_category['Category'];
+        $issue['Issue']['fixed_version_id'] = null;
+        $issue['Issue']['project_id'] = $project_id;
+      }
+      if(!empty($tracker_id)) {
+        $issue['Issue']['tracker_id'] = $tracker_id;
+      }
+      if($this->save($issue)) {
+        # Manually update project_id on related time entries
+        $TimeEntry = & ClassRegistry::init('TimeEntry');
+        if($TimeEntry->updateAll(array("project_id"=>$project_id), array('issue_id'=>$issue['Issue']['id']))) {
+          continue;
+        } else {
           $db->rollback($this);
           return false;
         }
-      }
-      # issue is moved to another project
-      # reassign to the category with same name if any
-      $new_category = empty($issue['Issue']['category_id']) ? null : $this->Category->find('first', array('conditions'=>array('project_id'=>$project_id, 'name'=>$issue['Category']['name'])));
-      $issue['Issue']['category_id'] = $new_category['Category']['id'];
-      $issue['Category'] = $new_category['Category'];
-      $issue['Issue']['fixed_version_id'] = null;
-      $issue['Issue']['project_id'] = $project_id;
-    }
-    if(!empty($tracker_id)) {
-      $issue['Issue']['tracker_id'] = $tracker_id;
-    }
-    if($this->save($issue)) {
-      # Manually update project_id on related time entries
-      $TimeEntry = & ClassRegistry::init('TimeEntry');
-      if($TimeEntry->updateAll(array("project_id"=>$project_id), array('issue_id'=>$issue['Issue']['id']))) {
-        $db->commit($this);
       } else {
         $db->rollback($this);
         return false;
       }
-    } else {
-      $db->rollback($this);
-      return false;
     }
+    $db->commit($this);
     return true;
   }
 #  
@@ -247,18 +250,20 @@ class Issue extends AppModel
 #  end
 #  
   /**
-   * @param : $issue  ex.$issue['Issue']['id']
+   * @param : $issue  ex.$issue[0]['Issue']['id']
    * @param : $user   ex.$user['id']
    * @param : $notes is any string
    */
-  function init_journal($issue, $user, $notes = "") {
+  function init_journal($issues, $user, $notes = "") {
     $Journal = & ClassRegistry::init('Journal');
-    $Journal->create();
-    $defaults = array(
-      'journalized_id'=>$issue['Issue']['id'], 
-      'user'=>$user['id'], 
-      'notes' => $notes);
-    $this->set($defaults);
+    foreach($issues as $issue) {
+      $Journal->create();
+      $defaults = array(
+        'journalized_id'=>$issue['Issue']['id'], 
+        'user'=>$user['id'], 
+        'notes' => $notes);
+      $this->set($defaults);
+    }
     // TODO : init_journal
 #    @issue_before_change = self.clone
 #    @issue_before_change.status = self.status

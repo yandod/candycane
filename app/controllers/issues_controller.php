@@ -343,9 +343,23 @@ class IssuesController extends AppController
 #  end
 #
   function move() {
+    $issue_ids = false;
+    if(!empty($this->params['issue_id'])) {
+      $issue_ids = $this->params['issue_id'];
+    } elseif(!empty($this->params['url']['ids'])) {
+      $issue_ids = $this->params['url']['ids'];
+    } elseif(!empty($this->data['Issue']['ids'])) {
+      $issue_ids = $this->data['Issue']['ids'];
+    } else {
+      return $this->cakeError('error', "Not exists issue.");
+    }
+
+    if(!is_array($issue_ids)) {
+      $issue_ids = array($issue_ids);
+    }
     $allowed_projects = array();
-    $issue = $this->_find_issue($this->params['issue_id']);
-    if(empty($issue)) {
+    $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$issue_ids)));
+    if(empty($issues)) {
       return $this->cakeError('error', "Not exists issue.");
     }
     # find projects to which the user is allowed to move the issue
@@ -360,12 +374,12 @@ class IssuesController extends AppController
         }
       }
     }
-    if(!array_key_exists($issue['Issue']['project_id'], $allowed_projects)) {
+    if(!array_key_exists($issues[0]['Issue']['project_id'], $allowed_projects)) {
       return $this->cakeError('error', "Permission deny.");
     }
     if($this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
-      $this->Issue->init_journal($issue, $this->current_user);
-      if($this->Issue->move_to($this->Setting, $issue, $this->data['Issue']['project_id'], $this->data['Issue']['tracker_id'])) {
+      $this->Issue->init_journal($issues, $this->current_user);
+      if($this->Issue->move_to($this->Setting, $issues, $this->data['Issue']['project_id'], $this->data['Issue']['tracker_id'])) {
         $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
       } else {
         $this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), 1, 1), 'default', array('class'=>'flash flash_error'));
@@ -377,10 +391,10 @@ class IssuesController extends AppController
       $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues');
     } elseif($this->RequestHandler->isAjax() && !empty($this->data['Issue']['project_id'])) {
       if(!array_key_exists($this->data['Issue']['project_id'], $allowed_projects)) {
-        $this->data['Issue']['project_id'] = $issue['Issue']['project_id'];
+        $this->data['Issue']['project_id'] = $issues[0]['Issue']['project_id'];
       }
     } else {
-      $this->data['Issue']['project_id'] = $issue['Issue']['project_id'];
+      $this->data['Issue']['project_id'] = $issues[0]['Issue']['project_id'];
     }
     $trackers = $this->Project->ProjectsTracker->find('list', array(
       'conditions'=>array('ProjectsTracker.project_id'=>$this->data['Issue']['project_id']), 
@@ -388,6 +402,7 @@ class IssuesController extends AppController
       'recursive'=>0
     ));
     $this->set(compact('allowed_projects', 'trackers'));
+    $this->set('issue_datas', $issues);
     if($this->RequestHandler->isAjax()) {
       $this->layout = 'ajax';
     }
