@@ -393,31 +393,46 @@ class IssuesController extends AppController
     }
   }
 
-#  
-#  def destroy
-#    @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
-#    if @hours > 0
-#      case params[:todo]
-#      when 'destroy'
-#        # nothing to do
-#      when 'nullify'
-#        TimeEntry.update_all('issue_id = NULL', ['issue_id IN (?)', @issues])
-#      when 'reassign'
-#        reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
-#        if reassign_to.nil?
-#          flash.now[:error] = l(:error_issue_not_found_in_project)
-#          return
-#        else
-#          TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
-#        end
-#      else
-#        # display the destroy form
-#        return
-#      end
-#    end
-#    @issues.each(&:destroy)
-#    redirect_to :action => 'index', :project_id => @project
-#  end
+  function destroy() {
+    $issue = $this->_find_issue($this->params['issue_id']);
+    if(empty($issue)) {
+      return $this->cakeError('error', "Not exists issue.");
+    }
+    $TimeEntry = & ClassRegistry::init('TimeEntry');
+    $hours = $TimeEntry->sum('hours', array('issue_id'=>$issue['Issue']['id']));
+    $this->set(compact('hours'));
+    if($hours > 0) {
+      if(empty($this->data['Issue']['todo'])) {
+        # display the destroy form
+        $this->data['Issue']['todo'] = 'destroy';
+        return;
+      }
+      switch($this->data['Issue']['todo']) {
+      case 'destroy' :
+        # nothing to do
+        break;
+      case 'nullify' :
+        $TimeEntry->updateAll(array('issue_id'=>null), array('issue_id'=>$issue['Issue']['id']));
+        break;
+      case 'reassign' :
+        if(!$this->Issue->hasAny(array('Issue.id'=>$this->data['Issue']['reassign_to_id']))) {
+          $this->Session->setFlash(__("'The issue was not found or does not belong to this project'", true), 'default', array('class'=>'flash flash_error'));
+          return;
+        }
+        $TimeEntry->updateAll(array("issue_id"=>$this->data['Issue']['reassign_to_id']), array('issue_id'=>$issue['Issue']['id']));
+        break;
+      default :
+        # display the destroy form
+        return;
+      }
+    }
+    if($this->Issue->del($this->params['issue_id'])) {
+      $this->Session->setFlash(__('Successful deletion.', true), 'default', array('class'=>'flash flash_notice'));
+    } else {
+      $this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), 1, 1), 'default', array('class'=>'flash flash_error'));
+    }
+    $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues');
+  }
 #  
 #  def gantt
 #    @gantt = Redmine::Helpers::Gantt.new(params)

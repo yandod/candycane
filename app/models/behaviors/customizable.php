@@ -44,7 +44,7 @@ class CustomizableBehavior extends ModelBehavior {
     }
     if(is_array($results)) {
       foreach($results as $index => $result) {
-        if(!empty($result[$Model->name])) {
+        if(!empty($result[$Model->name]) && !empty($result[$Model->name]['id'])) {
           $customValueModel = & ClassRegistry::init('CustomValue');
           $conditions = array('customized_type'=> $Model->name, 'customized_id'=>$result[$Model->name]['id']);
           $order = 'CustomField.position';
