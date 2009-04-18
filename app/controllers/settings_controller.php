@@ -12,6 +12,7 @@ class SettingsController extends AppController
 #  end
 	$this->_prepateSettingTabs();
 	$this->_prepateThemes();
+	$this->_prepareWikiformatting();
     $this->render('edit');
   }
 #
@@ -63,11 +64,20 @@ class SettingsController extends AppController
   }
   function _prepateThemes()
   {
+  	//TODO; scan real status on tehemes
   	$themes = aa(
   	  'Alternate','Alternate',
   	  'Classic','Classic'
   	);
   	$this->set('themes',$themes);
+  }
+  function _prepareWikiformatting()
+  {
+  	$text_formattings = a(
+  	  'Textile',
+  	  'Pukiwiki'
+  	);
+  	$this->set('text_formattings',$text_formattings);
   }
 }
 

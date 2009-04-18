@@ -20,11 +20,8 @@ $vars = array(
 'activity_days_default' =>
   '30',
 'per_page_options' =>
-  array(
-    '25',
-    '50',
-    '100',
-  ),
+  '25,50,100',
+ 
 'mail_from' =>
   'redmine@example.net',
 'bcc_recipients' =>

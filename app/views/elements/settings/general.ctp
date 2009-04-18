@@ -31,32 +31,32 @@ foreach ($Settings->USER_FORMATS as $k => $v) {
 <?php echo $form->input('attachment_max_size',aa('value',$Settings->attachment_max_size,'size',6,'label',false,'div',false))?> KB</p>
 
 <p><label><?php __('Objects per page options') ?></label>
-<?php echo $form->input('per_page_options',aa('value',implode(',',$Settings->per_page_options),'size',20,'label',false,'div',false))?> <em><?php __('Multiple values allowed (comma separated).') ?></em></p>
+<?php echo $form->input('per_page_options',aa('value',$Settings->per_page_options,'size',20,'label',false,'div',false))?> <em><?php __('Multiple values allowed (comma separated).') ?></em></p>
 
 <p><label><?php __('Days displayed on project activity') ?></label>
-<%= text_field_tag 'settings[activity_days_default]', Setting.activity_days_default, :size => 6 %> <%= l(:label_day_plural) %></p>
+<?php echo $form->input('activity_days_default',aa('value',$Settings->activity_days_default,'size',6,'label',false,'div',false))?> <?php __('days') ?></p>
 
 <p><label><?php __('Host name and path') ?></label>
-<%= text_field_tag 'settings[host_name]', Setting.host_name, :size => 60 %><br />
-<em><%= l(:label_example) %>: <%= @guessed_host_and_path %></em></p>
+<?php echo $form->input('host_name',aa('value',$Settings->host_name,'size',60,'label',false,'div',false))?><br/>
+<em><?php __('Example') ?>: <?php e(h(env('SERVER_NAME'))) ?>:<?php e(h(env('SERVER_PORT'))) ?></em></p>
 
 <p><label><?php __('Protocol') ?></label>
-<%= select_tag 'settings[protocol]', options_for_select(['http', 'https'], Setting.protocol) %></p>
+<?php echo $form->select('protocol',aa('http','http','https','https'),$Settings->protocol,array(),null) ?></p>
 
 <p><label><?php __('Text formatting') ?></label>
-<%= select_tag 'settings[text_formatting]', options_for_select([[l(:label_none), "0"], *Redmine::WikiFormatting.format_names.collect{|name| [name, name]} ], Setting.text_formatting.to_sym) %></p>
+<?php echo $form->select('text_formatting',$text_formattings,$Settings->text_formatting,array(),__('none',true)) ?></p>
 
 <p><label><?php __('Wiki history compression') ?></label>
-<%= select_tag 'settings[wiki_compression]', options_for_select( [[l(:label_none), 0], ["gzip", "gzip"]], Setting.wiki_compression) %></p>
+<?php echo $form->select('wiki_compression',aa('gzip','gzip'),$Settings->wiki_compression,array(),aa(0,__('none',true))) ?></p>
 
 <p><label><?php __('Feed content limit') ?></label>
-<%= text_field_tag 'settings[feeds_limit]', Setting.feeds_limit, :size => 6 %></p>
+<?php echo $form->input('feeds_limit',aa('value',$Settings->feeds_limit,'size',6,'label',false,'div',false))?></p>
 
 <p><label><?php __('Max number of diff lines displayed') ?></label>
-<%= text_field_tag 'settings[diff_max_lines_displayed]', Setting.diff_max_lines_displayed, :size => 6 %></p>
+<?php echo $form->input('diff_max_lines_displayed',aa('value',$Settings->diff_max_lines_displayed,'size',6,'label',false,'div',false))?></p>
 
 <p><label><?php __('Use Gravatar user icons') ?></label>
-<%= check_box_tag 'settings[gravatar_enabled]', 1, Setting.gravatar_enabled? %><%= hidden_field_tag 'settings[gravatar_enabled]', 0 %></p>
+<?php echo $form->input('gravatar_enabled', array('type' => 'checkbox', 'options' => array(1), 'div' => false,'label' => false)); ?></p>
 </div>
 
 <?php echo $form->submit(__('Save',true)) ?>
