@@ -74,7 +74,7 @@ $vars = array(
 'time_format' =>
   '%H:%M:%S',
 'user_format' =>
-  ':firstname_lastname',
+  'firstname_lastname',
 'cross_project_issue_relations' =>
   '0',
 'notified_events' =>

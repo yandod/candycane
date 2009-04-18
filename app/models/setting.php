@@ -19,7 +19,14 @@ class Setting extends AppModel
     'H:i',
     'h:i A'
     );
-    
+
+  var $USER_FORMATS = array(
+      'firstname_lastname' => '%1$s %2$s',
+      'firstname' => '%1$s',
+      'lastname_firstname' => '%2$s %1$s',
+      'lastname_coma_firstname' => '%2$s, %1$s',
+      'username' => '%3$s'
+  );
 #  ENCODINGS = %w(US-ASCII
 #                  windows-1250
 #                  windows-1251

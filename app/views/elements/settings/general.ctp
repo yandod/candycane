@@ -19,7 +19,13 @@
 <?php echo $form->select('time_format',array_map('date',$Settings->TIME_FORMATS),$Settings->time_format,array(),__("Based on user's language",true)) ?></p>
 
 <p><label><?php __('Users display format') ?></label>
-<%= select_tag 'settings[user_format]', options_for_select( @options[:user_format], Setting.user_format.to_s ) %></p>
+<?php
+$example_user_format = array();
+foreach ($Settings->USER_FORMATS as $k => $v) {
+  $example_user_format[$k] = sprintf($v,$currentuser['firstname'],$currentuser['lastname'],$currentuser['login']);
+}
+?>
+<?php echo $form->select('user_format',$example_user_format,$Settings->user_format,array(),null) ?></p>
 
 <p><label><?php __('Attachment max. size') ?></label>
 <?php echo $form->input('attachment_max_size',aa('value',$Settings->attachment_max_size,'size',6,'label',false,'div',false))?> KB</p>
