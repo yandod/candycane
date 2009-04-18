@@ -11,6 +11,7 @@ class SettingsController extends AppController
 #    render :action => 'edit'
 #  end
 	$this->_prepateSettingTabs();
+	$this->_prepateThemes();
     $this->render('edit');
   }
 #
@@ -59,6 +60,14 @@ class SettingsController extends AppController
       //{:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural}
   	);
   	$this->set('settings_tabs',$tabs);
+  }
+  function _prepateThemes()
+  {
+  	$themes = aa(
+  	  'Alternate','Alternate',
+  	  'Classic','Classic'
+  	);
+  	$this->set('themes',$themes);
   }
 }
 

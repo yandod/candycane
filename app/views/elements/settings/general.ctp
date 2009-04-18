@@ -3,16 +3,17 @@
 <p><label><?php __('Application title')?></label>
 <?php echo $form->input('app_title',aa('value',$Settings->app_title,'size',30,'label',false,'div',false))?></p>
 <p><label><?php __('Welcome text') ?></label>
-<%= text_area_tag 'settings[welcome_text]', Setting.welcome_text, :cols => 60, :rows => 5, :class => 'wiki-edit' %></p>
-<%= wikitoolbar_for 'settings[welcome_text]' %>
+<?php echo $form->textarea('welcome_text',aa('value',$Settings->welcome_text,'cols',60,'rows',5,'class','wiki-edit')) ?></p>
+<!-- <%= wikitoolbar_for 'settings[welcome_text]' %> -->
 
 <p><label><?php __('Theme') ?></label>
-<%= select_tag 'settings[ui_theme]', options_for_select( ([[l(:label_default), '']] + Redmine::Themes.themes.collect {|t| [t.name, t.id]}), Setting.ui_theme) %></p>
+<?php echo $form->select('ui_themes',$themes,$Settings->ui_theme,array(),__('Default',true)) ?></p>
 
 <p><label><?php __('Default language') ?></label>
-<%= select_tag 'settings[default_language]', options_for_select( lang_options_for_select(false), Setting.default_language) %></p>
+<?php echo $form->select('default_language',$candy->lang_options_for_select(),$Settings->default_language) ?></p>
 
 <p><label><?php __('Date format') ?></label>
+<?php echo $form->select('date_format',array_map('date',$Settings->DATE_FORMATS)) ?>
 <%= select_tag 'settings[date_format]', options_for_select( [[l(:label_language_based), '']] + Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, Setting.date_format) %></p>
 
 <p><label><?php __('Time format') ?></label>
