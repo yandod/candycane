@@ -114,6 +114,7 @@ class ProjectsController extends AppController
   {
     $cond = $this->Project->get_visible_by_condition($this->current_user);
     $projects = $this->Project->find('all', array('conditions'=>$cond));
+    $sub_project_tree = array();
     foreach ($projects as $key =>$val) {
       foreach ($val as $key2 => $val2) {
         if ($key2 == 'Project') {

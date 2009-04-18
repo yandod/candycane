@@ -167,7 +167,7 @@ class Project extends AppModel
       return array('status'=>PROJECT_STATUS_ACTIVE, 'is_public'=>true); // @TODO current取れる？
     }
 
-    if ($user['User']['admin']) {
+    if ($user['admin']) {
       return array('status'=>PROJECT_STATUS_ACTIVE);
     } else {
       if (isset($user['memberships']) && (count($user['memberships']) > 0)) {
