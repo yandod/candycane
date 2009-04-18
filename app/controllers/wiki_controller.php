@@ -3,6 +3,7 @@
 class WikiController extends AppController {
   //var $helpers = array('attachments');
   var $uses = array('Wiki', 'Project', 'User');
+  var $helpers = array('Time', 'Number');
 
   function index() {
     $page_title = $this->params['wikipage'];
@@ -26,7 +27,6 @@ class WikiController extends AppController {
     $author = $this->User->findById($content['Content']['author_id']);
     // このへん、ホントはviewで操作したい。helperに移動するのが正解？
     $author['User']['name'] = $author['User']['firstname'].$author['User']['lastname'];
-    // このへん、ホントはviewで操作したい。helperに移動するのが正解？
     $page['Page']['pretty_title'] = WikiPage::pretty_title($page['Page']['title']);
     $this->set('page', $page);
     $this->set('content', $content);
@@ -43,6 +43,7 @@ class WikiController extends AppController {
     if (in_array($this->action, $only)) {
       $this->find_existing_page();
     }
+    parent::beforeFilter();
   }
 
   // private
@@ -57,9 +58,7 @@ class WikiController extends AppController {
     if (!$wiki) {
         $this->cakeError('error404');
     }
-    $this->set('main_project', $project);
     $this->set('wiki', $wiki);
-    $this->set('currentuser', $this->current_user); // これで動くようになるけど、ホントはもっと上位で設定すべきでは？
   }
 
   function _find_existing_page()

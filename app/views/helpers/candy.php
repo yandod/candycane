@@ -135,14 +135,14 @@ class CandyHelper extends AppHelper
   	  $format = $this->Settings->user_format;	
   	}
 
-  $USER_FORMATS = array(
-    ':firstname_lastname' => "{$user['firstname']} {$user['lastname']}",
-    ':firstname' => "{$user['firstname']}",
-    ':lastname_firstname' => "{$user['lastname']} {$user['firstname']}",
-    ':lastname_coma_firstname' => "{$user['lastname']}, {$user['firstname']}",
-    ':username' => "{$user['login']}"
-  );
-
+    $USER_FORMATS = array(
+      ':firstname_lastname' => "{$user['firstname']} {$user['lastname']}",
+      ':firstname' => "{$user['firstname']}",
+      ':lastname_firstname' => "{$user['lastname']} {$user['firstname']}",
+      ':lastname_coma_firstname' => "{$user['lastname']}, {$user['firstname']}",
+      ':username' => "{$user['login']}"
+    );
+    if (!isset($USER_FORMATS[$format])) $format = ':firstname_lastname'; 
     return $USER_FORMATS[$format];
   }
 

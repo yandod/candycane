@@ -41,7 +41,7 @@ class MenuManagerComponent extends Object
   		aa('controller','issues','action','index','class','','caption',__('Issues',true),'project_id',$project_id),
   		aa('controller','issues','action','add','class','','caption',__('New issue',true),'project_id',$project_id),
   		aa('controller','news','action','index','class','','caption',__('News',true),'project_id',$project_id),
-  		aa('controller','wiki','action','show','class','','caption',__('Wiki',true),'project_id',$project_id),
+  		aa('controller','wiki','action','index','class','','caption',__('Wiki',true),'project_id',$project_id),
   		aa('controller','projects','action','settings','class','','caption',__('Preferences',true),'project_id',$project_id),  		
   	);
   }

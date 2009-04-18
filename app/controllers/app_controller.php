@@ -318,6 +318,7 @@ class AppController extends Controller {
 	        'Project.identifier' => $this->params['project_id'],
 	      ),
 	    ))) {
+	      $this->set(array('main_project'=> $this->_project));
 	      $this->set('main_project', $this->_project);
 	    } else {
 	      $this->cakeError('error404');
