@@ -112,13 +112,17 @@ class ProjectsController extends AppController
 #  end
   function index()
   {
-    $projects = $this->Project->find('all'); // *not implement* => User.current
-    foreach ($projects as $key => $val) {
+    $cond = $this->Project->get_visible_by_condition($this->current_user);
+    $projects = $this->Project->find('all', array('conditions'=>$cond));
+    $sub_project_tree = array();
+    foreach ($projects as $key =>$val) {
       foreach ($val as $key2 => $val2) {
-        if (empty($val2['parent_id'])) {
-          $project_tree[] = $val2;
-        } else {
-          $sub_project_tree[ $val2['parent_id'] ][] = $val2;
+        if ($key2 == 'Project') {
+          if (empty($val2['parent_id'])) {
+            $project_tree[] = $val2;
+          } else {
+            $sub_project_tree[ $val2['parent_id'] ][] = $val2;
+          }
         }
       }
     }
@@ -259,7 +263,6 @@ class ProjectsController extends AppController
         ),
       ),
     ));
-    $this->set('custom_values', $custom_values);
 
     $members_by_role = $this->_get_members_by_role();
     $this->set('members_by_role', $members_by_role);
