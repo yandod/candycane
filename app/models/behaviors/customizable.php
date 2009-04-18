@@ -70,12 +70,18 @@ class CustomizableBehavior extends ModelBehavior {
    */
   function available_custom_fields(&$Model, $project_id=false, $tracker_id=false) {
     $customValueModel = & ClassRegistry::init('CustomValue');
+    $is_for_all = true;
+    if(isset($this->settings[$Model->alias]['is_for_all'])) { 
+      $is_for_all = $this->settings[$Model->alias]['is_for_all'];
+    }
     $for_alls = $customValueModel->CustomField->find('all', 
-        array('conditions' => array('type'=> $Model->name.'CustomField', 'is_for_all'=>1), 'order'=>'position'));
+        array('conditions' => array('type'=> $Model->name.'CustomField', 'is_for_all'=>$is_for_all), 'order'=>'position'));
     if(!empty($project_id)) {
       $CustomFieldsProject = & ClassRegistry::init('CustomFieldsProject');
       $for_projects = $CustomFieldsProject->find('all', 
         array('conditions' => array('CustomField.type'=> $Model->name.'CustomField', 'project_id'=>$project_id), 'order'=>'CustomField.position'));
+    } else {
+      $for_projects = array();
     }
     $availables = array();
     $result = array();
