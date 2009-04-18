@@ -498,7 +498,7 @@
      * @access private
      * @return array
      * @param string $line A line from the YAML file
-     */
+     */ 
     function _parseLine($line) {
       $line = trim($line);
 
@@ -539,6 +539,10 @@
         } else {
           $array[$key] = $value;
         }
+      }
+      elseif(preg_match('/^- !binary |$/',$line)) {
+        // add : "!binary |" hack
+        $array[] = base64_decode($line);
       }
       return $array;
     }

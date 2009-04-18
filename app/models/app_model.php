@@ -45,6 +45,34 @@ class AppModel extends Model {
     $this->validationErrors = $errors;
     return $errors;
   }
+  function beforeSave($options = array()) {
+    $dateFields = array('updated_on');
+    if (!$this->__exists) {
+      $dateFields[] = 'created_on';
+    }
+    if (isset($this->data[$this->alias])) {
+      $fields = array_keys($this->data[$this->alias]);
+    }
+    $db =& ConnectionManager::getDataSource($this->useDbConfig);
+    foreach ($dateFields as $updateCol) {
+      if ($this->hasField($updateCol) && !in_array($updateCol, $fields)) {
+        $default = array('formatter' => 'date');
+        $colType = array_merge($default, $db->columns[$this->getColumnType($updateCol)]);
+        if (!array_key_exists('format', $colType)) {
+          $time = strtotime('now');
+        } else {
+          $time = $colType['formatter']($colType['format']);
+        }
+        if (!empty($this->whitelist)) {
+          $this->whitelist[] = $updateCol;
+        }
+        $this->set($updateCol, $time);
+      }
+    }
+    return true;
+  }
+  
+  
 }
 
 /*

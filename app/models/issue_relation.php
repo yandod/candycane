@@ -1,4 +1,7 @@
 <?php
+class IssueRelation extends AppModel
+{
+  var $name = 'IssueRelation';
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
 ##
@@ -78,3 +81,4 @@
 #    TYPES[self.relation_type][:order] <=> TYPES[relation.relation_type][:order]
 #  end
 #end
+}

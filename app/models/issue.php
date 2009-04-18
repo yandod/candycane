@@ -90,46 +90,64 @@ class Issue extends AppModel
 #  end
 #  
   function copy_from($arg) {
-    $issue = $arg.is_a('Issue') ? $arg->data : $this->find($arg);
-    $this->data = $issue;
-#    self.custom_values = issue.custom_values.collect {|v| v.clone}
+    if(is_array($arg) && !empty($arg['Issue'])) {
+      $issue = $arg;
+    } elseif(is_string($arg)) {
+      $issue = $this->find('first', array('conditions'=>array('id'=>$arg), 'recursive'=>-1));
+    } else {
+      $issue = false;
+    }
+    if(!empty($issue['Issue']['id'])) {
+      unset($issue['Issue']['id']);
+    }
+    return $issue;
   }
-#  def copy_from(arg)
-#    issue = arg.is_a?(Issue) ? arg : Issue.find(arg)
-#    self.attributes = issue.attributes.dup
-#    self.custom_values = issue.custom_values.collect {|v| v.clone}
-#    self
-#  end
 #  
 #  # Move an issue to a new project and tracker
-#  def move_to(new_project, new_tracker = nil)
-#    transaction do
-#      if new_project && project_id != new_project.id
-#        # delete issue relations
-#        unless Setting.cross_project_issue_relations?
-#          self.relations_from.clear
-#          self.relations_to.clear
-#        end
-#        # issue is moved to another project
-#        # reassign to the category with same name if any
-#        new_category = category.nil? ? nil : new_project.issue_categories.find_by_name(category.name)
-#        self.category = new_category
-#        self.fixed_version = nil
-#        self.project = new_project
-#      end
-#      if new_tracker
-#        self.tracker = new_tracker
-#      end
-#      if save
-#        # Manually update project_id on related time entries
-#        TimeEntry.update_all("project_id = #{new_project.id}", {:issue_id => id})
-#      else
-#        rollback_db_transaction
-#        return false
-#      end
-#    end
-#    return true
-#  end
+  function move_to($Setting, $issues, $project_id, $tracker_id=false) {
+    $db =& ConnectionManager::getDataSource($this->useDbConfig);
+    $db->begin($this);
+    foreach($issues as $issue) {
+      if(!empty($project_id) && $issue['Issue']['project_id'] != $project_id) {
+        # delete issue relations (because moveing to difference project is denied by Setting)
+        if(empty($Setting->cross_project_issue_relations)) {
+          $IssueRelation = & ClassRegistry::init('IssueRelation');
+          if(!$IssueRelation->deleteAll(array('or'=>
+            array('relations_from_id'=>$issue['Issue']['id']),
+            array('relations_to_id'=>$issue['Issue']['id'])
+          ))) {
+            $db->rollback($this);
+            return false;
+          }
+        }
+        # issue is moved to another project
+        # reassign to the category with same name if any
+        $new_category = empty($issue['Issue']['category_id']) ? null : $this->Category->find('first', array('conditions'=>array('project_id'=>$project_id, 'name'=>$issue['Category']['name'])));
+        $issue['Issue']['category_id'] = $new_category['Category']['id'];
+        $issue['Category'] = $new_category['Category'];
+        $issue['Issue']['fixed_version_id'] = null;
+        $issue['Issue']['project_id'] = $project_id;
+      }
+      if(!empty($tracker_id)) {
+        $issue['Issue']['tracker_id'] = $tracker_id;
+      }
+      if($this->save($issue)) {
+        # Manually update project_id on related time entries
+        $TimeEntry = & ClassRegistry::init('TimeEntry');
+        if($TimeEntry->updateAll(array("project_id"=>$project_id), array('issue_id'=>$issue['Issue']['id']))) {
+          continue;
+        } else {
+          $db->rollback($this);
+          return false;
+        }
+      } else {
+        $db->rollback($this);
+        return false;
+      }
+    }
+    $db->commit($this);
+    return true;
+  }
 #  
 #  def priority_id=(pid)
 #    self.priority = nil
@@ -188,6 +206,27 @@ class Issue extends AppModel
 #    # Save the issue even if the journal is not saved (because empty)
 #    true
 #  end
+  function beforeSave($options = array()) {
+    parent::beforeSave($options);
+    if(!$this->__exists) {
+      if(empty($this->data['Issue']['assigned_to']) && !empty($this->data['Issue']['category_id'])) {
+        $category = $this->Category->find('first', array('conditions'=>array('id'=>$this->data['Issue']['category_id']), 'recursive'=>-1));
+        if(!empty($category['Category']['assigned_to_id'])) {
+          $this->data['Issue']['assigned_to_id'] = $category['Category']['assigned_to_id'];
+        }
+      }
+    }
+    // empty must be null
+    if(empty($this->data['Issue']['due_date'])) {
+      unset($this->data['Issue']['due_date']);
+    }
+    if(empty($this->data['Issue']['start_date'])) {
+      unset($this->data['Issue']['start_date']);
+    }
+    return true;
+  }
+
+
 #  
 #  def after_save
 #    # Reload is needed in order to get the right status
@@ -210,8 +249,22 @@ class Issue extends AppModel
 #    end
 #  end
 #  
-#  def init_journal(user, notes = "")
-#    @current_journal ||= Journal.new(:journalized => self, :user => user, :notes => notes)
+  /**
+   * @param : $issue  ex.$issue[0]['Issue']['id']
+   * @param : $user   ex.$user['id']
+   * @param : $notes is any string
+   */
+  function init_journal($issues, $user, $notes = "") {
+    $Journal = & ClassRegistry::init('Journal');
+    foreach($issues as $issue) {
+      $Journal->create();
+      $defaults = array(
+        'journalized_id'=>$issue['Issue']['id'], 
+        'user'=>$user['id'], 
+        'notes' => $notes);
+      $this->set($defaults);
+    }
+    // TODO : init_journal
 #    @issue_before_change = self.clone
 #    @issue_before_change.status = self.status
 #    @custom_values_before_change = {}
@@ -219,7 +272,8 @@ class Issue extends AppModel
 #    # Make sure updated_on is updated when adding a note.
 #    updated_on_will_change!
 #    @current_journal
-#  end
+    return $Journal;
+   }
 #  
 #  # Return true if the issue is closed, otherwise false
 #  def closed?

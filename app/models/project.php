@@ -142,17 +142,23 @@ class Project extends AppModel
 #  end
 	}	
 #
-#  def self.visible_by(user=nil)
-#    user ||= User.current
-#    if user && user.admin?
-#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
-#    elsif user && user.memberships.any?
-#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')}))"
-#    else
-#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
-#    end
-#  end
-#  
+
+  function visible_by($user = false) {
+    if(empty($user)) {
+      return $this->cakeError('error', "Argument Exception.");
+    }
+    if($user['admin']) {
+      return array('Project.status'=>PROJECT_STATUS_ACTIVE);
+    } elseif(!empty($user['memberships'])) {
+      $allowed_project_ids = array();
+      foreach($user['memberships'] as $member) {
+        $allowed_project_ids[] = $member['Project']['id'];
+      }
+      return array('Project.status'=>PROJECT_STATUS_ACTIVE, array('or'=>array('Project.is_public'=>true), array('Project.id'=>$allowed_project_ids))); 
+    } else {
+      return array('Project.status'=>PROJECT_STATUS_ACTIVE, 'Project.is_public'=>true);
+    }
+  }  
   /**
    * @param user : AppController->current_user
    *                  + admin
@@ -294,6 +300,10 @@ class Project extends AppModel
 #  def active?
 #    self.status == STATUS_ACTIVE
 #  end
+  function is_active($project) {
+    return $project['Project']['status'] == PROJECT_STATUS_ACTIVE;
+  }
+
 #  
 #  def archive
 #    # Archive subprojects if any
@@ -339,6 +349,20 @@ class Project extends AppModel
     $order = 'User.firstname';
     $fields = array('User.*');
     $users = $this->Member->find('all', compact('conditions', 'recursive', 'order', 'fields'));
+    $list = array();
+    foreach($users as $user) {
+      $list[$user['User']['id']] = $user['User']['firstname'].' '.$user['User']['lastname'];
+    }
+    return $list;
+  }
+  function members($project_id) {
+    $conditions = array(
+      'project_id' => $project_id,
+      'User.status' => 1
+    );
+    $order = 'User.firstname';
+    $fields = array('User.*');
+    $users = $this->Member->find('all', compact('conditions', 'order', 'fields'));
     $list = array();
     foreach($users as $user) {
       $list[$user['User']['id']] = $user['User']['firstname'].' '.$user['User']['lastname'];
@@ -431,6 +455,11 @@ class Project extends AppModel
 #      allowed_permissions.include? action
 #    end
 #  end
+  function is_allows_to($action) {
+    // TODO 
+    return true;
+  }
+
 #  
 #  def module_enabled?(module_name)
 #    module_name = module_name.to_s
