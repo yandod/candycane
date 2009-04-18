@@ -195,7 +195,7 @@ class IssuesController extends AppController
       $this->data['Issue']['project_id'] = $this->_project['Project']['id'];
       $this->data['Issue']['author_id'] = $this->current_user['id'];
       if(!$this->Issue->save($this->data)) {
-        return $this->cakeError('error', "Can not save Issue.");
+        return $this->cakeError('error', array('message'=>"Can not save Issue."));
       }
       // TODO : attach file 
       # attach_files(@issue, params[:attachments])
@@ -251,13 +251,16 @@ class IssuesController extends AppController
    *       )
    * )
    */
-  function edit($id=false) {
-/*
+  function edit() {
     static $UPDATABLE_ATTRS_ON_TRANSITION = array('status_id', 'assigned_to_id', 'fixed_version_id', 'done_ratio');
-    if(empty($id)) {
-      return $this->cakeError('error', "Not exists issue.");
+    if(empty($this->params['issue_id'])) {
+      return $this->cakeError('error', array('message'=>"Not exists issue."));
     }
-    $issue = $this->_find_issue($id);
+    $issue = $this->_find_issue($this->params['issue_id']);
+    if(empty($this->_project)) {
+      $this->params['project_id'] = $issue['Project']['identifier'];
+      parent::_findProject();
+    }
     $default_status = $this->Issue->Status->findDefault();
     if(empty($default_status)) {
       $this->Session->setFlash(__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true), 'default', array('class'=>'flash flash_error'));
@@ -281,6 +284,7 @@ class IssuesController extends AppController
       }
     }
     $edit_allowed = $this->User->is_allowed_to($this->current_user, ':edit_issues', $this->_project);
+    $time_edit_allowed = $this->User->is_allowed_to($this->current_user, array('timelog', 'edit'), $this->_project);
     $TimeEntry = & ClassRegistry::init('TimeEntry');
 
     $notes = "";
@@ -291,7 +295,7 @@ class IssuesController extends AppController
       $notes = $this->data['Issue']['notes'];
       unset($this->data['Issue']['notes']);
     }
-    $this->Issue->init_journal(array($issue), $this->current_user, $notes);
+    $this->Issue->init_journal($issue, $this->current_user, $notes);
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
     if($edit_allowed || !empty($allowed_statuses) && (!empty($this->params['url']['issue']) || !empty($this->data['Issue'])) ) {
       $attrs = empty($this->params['url']['issue']) ? $this->data['Issue'] : $this->params['url']['issue'];
@@ -345,10 +349,19 @@ class IssuesController extends AppController
     $fixed_versions = $this->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
     $custom_field_values = $this->Issue->available_custom_fields(
       $this->_project['Project']['id'],
-      empty($this->data['Issue']['tracker_id']) ? key($trackers) : $this->data['Issue']['tracker_id']
+      $issue['Issue']['tracker_id']
     );
+    $time_entry_custom_fields = $TimeEntry->available_custom_fields();
+    $time_entry_activity_datas = $this->Enumeration->get_values('ACTI');
+    $time_entry_activities = array();
+    foreach($time_entry_activity_datas as $time_entry_activity) {
+      $time_entry_activities[$time_entry_activity['Enumeration']['id']] = $time_entry_activity['Enumeration']['name'];
+    }
+
     $this->set(compact(
-      'statuses', 'priorities', 'assignable_users', 'issue_categories', 'fixed_versions', 'custom_field_values'));
+      'statuses', 'priorities', 'assignable_users', 'issue_categories', 'fixed_versions', 
+      'custom_field_values', 'edit_allowed', 'time_edit_allowed', 'time_entry_custom_fields',
+      'time_entry_activities'));
     if($this->RequestHandler->isAjax()) {
       $this->layout = 'ajax';
     }
@@ -357,7 +370,7 @@ class IssuesController extends AppController
 #    # Optimistic locking exception
 #    flash.now[:error] = l(:notice_locking_conflict)
 #  end
-*/
+
   }
   
 #
@@ -432,7 +445,7 @@ class IssuesController extends AppController
     } elseif(!empty($this->data['Issue']['ids'])) {
       $issue_ids = $this->data['Issue']['ids'];
     } else {
-      return $this->cakeError('error', "Not exists issue.");
+      return $this->cakeError('error', array('message'=>"Not exists issue."));
     }
 
     if(!is_array($issue_ids)) {
@@ -441,7 +454,7 @@ class IssuesController extends AppController
     $allowed_projects = array();
     $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$issue_ids)));
     if(empty($issues)) {
-      return $this->cakeError('error', "Not exists issue.");
+      return $this->cakeError('error', array('message'=>"Not exists issue."));
     }
     # find projects to which the user is allowed to move the issue
     if($this->current_user['admin']) {
@@ -456,7 +469,7 @@ class IssuesController extends AppController
       }
     }
     if(!array_key_exists($issues[0]['Issue']['project_id'], $allowed_projects)) {
-      return $this->cakeError('error', "Permission deny.");
+      return $this->cakeError('error', array('message'=>"Permission deny."));
     }
     if($this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
       $move_count = 0;
@@ -504,14 +517,14 @@ class IssuesController extends AppController
     } elseif(!empty($this->data['Issue']['ids'])) {
       $issue_ids = $this->data['Issue']['ids'];
     } else {
-      return $this->cakeError('error', "Not exists issue.");
+      return $this->cakeError('error', array('message'=>"Not exists issue."));
     }
     if(!is_array($issue_ids)) {
       $issue_ids = array($issue_ids);
     }
     $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$issue_ids)));
     if(empty($issues)) {
-      return $this->cakeError('error', "Not exists issue.");
+      return $this->cakeError('error', array('message'=>"Not exists issue."));
     }
     $this->set('issue_datas', $issues);
     $TimeEntry = & ClassRegistry::init('TimeEntry');

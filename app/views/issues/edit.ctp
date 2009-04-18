@@ -1,58 +1,64 @@
 <h2><?php $candy->html_title();echo $issue['Tracker']['name'].' ##'.$issue['Issue']['id']; ?></h2>
 
-<% labelled_tabular_form_for :issue, @issue,
-							 :url => {:action => 'edit', :id => @issue},
-							 :html => {:id => 'issue-form',
-									   :class => nil,
-									   :multipart => true} do |f| %>
-	<%= error_messages_for 'issue' %>
-	<%= error_messages_for 'time_entry' %>
-	<div class="box">
-	<% if @edit_allowed || !@allowed_statuses.empty? %>
-		<fieldset class="tabular"><legend><%= l(:label_change_properties) %>
-		<% if !@issue.new_record? && !@issue.errors.any? && @edit_allowed %>
-		<small>(<%= link_to l(:label_more), {}, :onclick => 'Effect.toggle("issue_descr_fields", "appear", {duration:0.3}); return false;' %>)</small>
-		<% end %>
-		</legend>
-		<%= render :partial => (@edit_allowed ? 'form' : 'form_update'), :locals => {:f => f} %>
-		</fieldset>
-	<% end %>
-	<% if authorize_for('timelog', 'edit') %>
-		<fieldset class="tabular"><legend><%= l(:button_log_time) %></legend>
-		<% fields_for :time_entry, @time_entry, { :builder => TabularFormBuilder, :lang => current_language} do |time_entry| %>
-		<div class="splitcontentleft">
-		<p><%= time_entry.text_field :hours, :size => 6, :label => :label_spent_time %> <%= l(:field_hours) %></p>
-		</div>
-		<div class="splitcontentright">
-		<p><%= time_entry.select :activity_id, activity_collection_for_select_options %></p>
-		</div>
-		<p><%= time_entry.text_field :comments, :size => 60 %></p>
-		<% @time_entry.custom_field_values.each do |value| %>
-			<p><%= custom_field_tag_with_label :time_entry, value %></p>
-		<% end %>
-		<% end %>
-	</fieldset>
-	<% end %>
+<?php echo $form->create('Issue', array('url'=>array('action'=>'edit', 'id'=>$issue['Issue']['id']), 'enctype'=>"multipart/form-data", 'id'=>'issue-form')); ?>
+  <%= error_messages_for 'issue' %>
+  <%= error_messages_for 'time_entry' %>
+  <div class="box">
+  <?php if($editAllowed || !empty($allowedStatuses)): ?>
+  <fieldset class="tabular">
+    <legend><?php __('Change properties'); ?>
+      <?php if(!empty($issue['Issue']['id']) && empty($this->validationErrors['Issue']) && $editAllowed): ?>
+      <small>(<?php echo $html->link(__('More',true), '#', array('onclick'=> 'Effect.toggle("issue_descr_fields", "appear", {duration:0.3}); return false;')); ?>)</small>
+      <?php endif; ?>
+    </legend>
+    <%= render :partial => (@edit_allowed ? 'form' : 'form_update'), :locals => {:f => f} %>
+  </fieldset>
+  <?php endif; ?>
+  <?php if($timeEditAllowed): ?>
+  <fieldset class="tabular"><legend><?php __('Log time') ?></legend>
+    <div class="splitcontentleft">
+      <p>
+        <?php echo $form->label('TimeEntry.hours', __('Spent time', true)); ?>
+        <?php echo $form->input('TimeEntry.hours', array('div'=>false, 'label'=>false, 'size'=>6, 'type'=>'text'));__('Hours'); ?> 
+      </p>
+    </div>
+    <div class="splitcontentright">
+      <p>
+        <?php echo $form->label('TimeEntry.activity_id', __('Activity', true)); ?>
+        <?php echo $form->input('TimeEntry.activity_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$timeEntryActivities, 'empty'=>'--- '.__('Please Select', true).' ---')); ?> 
+      </p>
+    </div>
+    <p>
+      <?php echo $form->label('TimeEntry.comments', __('Comment', true)); ?>
+      <?php echo $form->input('TimeEntry.comments', array('div'=>false, 'label'=>false, 'size'=>60, 'type'=>'text', 'id'=>"time_entry_comments"));?> 
+    </p>
+    <?php foreach($timeEntryCustomFields as $value): ?>
+      <p><?php echo $customField->custom_field_tag_with_label($form, 'time_entry', $value); ?></p>
+    <?php endforeach; ?>
+  </fieldset>
+  <?php endif; ?>
 
-	<fieldset><legend><%= l(:field_notes) %></legend>
-	<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
-	<%= wikitoolbar_for 'notes' %>
-	<%= call_hook(:view_issues_edit_notes_bottom, { :issue => @issue, :notes => @notes, :form => f }) %>
+  <fieldset><legend><?php __('Notes') ?></legend>
+    <?php echo $form->input('notes', array('div'=>false, 'label'=>false, 'cols'=>60, 'rows'=>'10', 'type'=>'textarea', 'class'=>'wiki-edit', 'id'=>'notes')); ?>
+    <script src="/js/jstoolbar/jstoolbar.js?1236399204" type="text/javascript"></script><script src="/js/jstoolbar/textile.js?1236399204" type="text/javascript"></script><script src="/js/jstoolbar/lang/jstoolbar-ja.js?1236399204" type="text/javascript"></script><script type="text/javascript">
+//<![CDATA[
+var toolbar = new jsToolBar($('notes')); toolbar.setHelpLink('<?php __("Text formatting");?>: <a href="/help/wiki_syntax.html?1236399200" onclick="window.open(&quot;/help/wiki_syntax.html?1236399200&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;"><?php __("Help"); ?></a>'); toolbar.draw();
+//]]>
+</script>
 
-	<p><%=l(:label_attachment_plural)%><br /><%= render :partial => 'attachments/form' %></p>
-	</fieldset>
-	</div>
+  <p><%=l(:label_attachment_plural)%><br /><%= render :partial => 'attachments/form' %></p>
+  </fieldset>
+  </div>
 
-	<%= f.hidden_field :lock_version %>
-	<%= submit_tag l(:button_submit) %>
-	<%= link_to_remote l(:label_preview), 
-					   { :url => { :controller => 'issues', :action => 'preview', :project_id => @project, :id => @issue },
-						 :method => 'post',
-						 :update => 'preview',
-						 :with => 'Form.serialize("issue-form")',
-						 :complete => "Element.scrollTo('preview')"
-					   }, :accesskey => accesskey(:preview) %>
-<% end %>
-
+  <?php echo $form->hidden('lock_version'); ?>
+  <?php echo $form->submit(__('Submit',true), array('div'=>false)); ?>
+  <?php echo $ajax->link(__('Preview',true), '#', array(
+    'update'=>'preview',
+    'url'=>'/projects/'.$main_project['Project']['identifier'].'/issues/preview/'.$issue['Issue']['id'],
+    'with'=>'Form.serialize("issue-form")',
+    'complete'=>"Element.scrollTo('preview')",
+    'accesskey'=>'r'
+  ));?>
+<?php echo $form->end(); ?>
 <div id="preview" class="wiki"></div>
 

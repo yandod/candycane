@@ -85,6 +85,10 @@ class TimeEntry extends AppModel
   var $name = 'TimeEntry';
   var $belongsTo = array(
     'Project',
+    'Activity'=>array('className' => 'Enumeration', 'foreignKey' => 'activity_id'),
+  );
+  var $actsAs = array(
+    'Customizable'=>array('is_for_all'=>0)
   );
 
   function find_visible_by($user)
