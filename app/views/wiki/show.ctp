@@ -20,7 +20,7 @@
     <?php if ($content['Content']['version'] < $page['Content']['version']) { echo $html->link(__('Next', true). ' &#187;', aa('action', 'index', 'wikipage', $page['Page']['title'], 'version', $content['Content']['version'] + 1), aa(), false, false) . " - "; } ?>
     <?php echo $html->link(__('Current version', true), aa('action', 'index', 'wikipage', $page['Page']['title'])); ?>
     <br />
-    <em><?php echo isset($content['Author']) ? $content['Author']['name'] : "anonyme" ?>, <?php $candy->format_time($content['Content']['updated_on']) ?> </em><br />
+    <em><?php echo isset($author['User']) ? $author['User']['name'] : "anonyme" ?>, <?php $candy->format_time($content['Content']['updated_on']) ?> </em><br />
     <?php echo h($content['Content']['comments']) ?>
     </p>
     <hr />
@@ -49,12 +49,8 @@
 <span><?php echo $html->link('TXT', aa('wikipage', $page['Page']['title'], 'export', 'txt', 'version', $content['Content']['version'], 'class', 'text')) ?></span>
 </p>
 
-<% content_for :header_tags do %>
-  <%= stylesheet_link_tag 'scm' %>
-<% end %>
+<?php $this->set('header_tags', ""/*stylesheet_link_tag 'scm'*/) ?>
 
-<% content_for :sidebar do %>
-  <?php echo $this->renderElement('wiki/sidebar'); ?>
-<% end %>
+<?php $this->set('Sidebar', $this->renderElement('wiki/sidebar')) ?>
 
 <?php $candy->html_title($page['Page']['pretty_title']) ?>

@@ -5,7 +5,7 @@
  */
 class CandyHelper extends AppHelper
 {
-	var $helpers = array('Html');
+	var $helpers = array('Html','Users');
   var $row = 0;
 
 	function link($user)
@@ -129,9 +129,21 @@ class CandyHelper extends AppHelper
 #  def link_to_user(user, options={})
 #    (user && !user.anonymous?) ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
 #  end
-  function format_username($user, $format)
+  function format_username($user, $format=null)
   {
-    return $user['firstname'].' '.$user['lastname'];
+  	if (empty($format)) {
+  	  $format = $this->Settings->user_format;	
+  	}
+
+    $USER_FORMATS = array(
+      ':firstname_lastname' => "{$user['firstname']} {$user['lastname']}",
+      ':firstname' => "{$user['firstname']}",
+      ':lastname_firstname' => "{$user['lastname']} {$user['firstname']}",
+      ':lastname_coma_firstname' => "{$user['lastname']}, {$user['firstname']}",
+      ':username' => "{$user['login']}"
+    );
+    if (!isset($USER_FORMATS[$format])) $format = ':firstname_lastname'; 
+    return $USER_FORMATS[$format];
   }
 
   function link_to_user($user, $options = array())
@@ -364,13 +376,15 @@ class CandyHelper extends AppHelper
 	function authoring($created, $author, $options = array())
 	{
 		//TODO:port
+	 $time_tag = $this->Html->tag('acronym',$this->distance_of_time_in_words(time(),$created),aa('title',$this->format_time($created)));
 #    time_tag = @project.nil? ? content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created)) :
 #                               link_to(distance_of_time_in_words(Time.now, created), 
 #                                       {:controller => 'projects', :action => 'activity', :id => @project, :from => created.to_date},
 #                                       :title => format_time(created))
+	 $author_tag = $this->Html->link($this->format_username($author),aa('controller','account','action','show','id',$author['id']));
 #    author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
 #    l(options[:label] || :label_added_time_by, author_tag, time_tag)
-		return "foo added on var day";
+		return $this->lwr('Added by %s %s ago',$author_tag, $time_tag);
 	}
 #
 #  def l_or_humanize(s, options={})
@@ -881,7 +895,7 @@ function breadcrumb($args)
       foreach (array('class', 'alt', 'size') as $opt) {
         $options[$opt] = htmlspecialchars($options[$opt], ENT_QUOTES);
       }
-      
+      // TODO: replace with helper 
       return "<img class=\"{$options['class']}\" alt=\"{$options['alt']}\" width=\"{$options['size']}\" height=\"{$options['size']}\" src=\"{$url}\" />"      
 ;    }
   }
@@ -910,12 +924,12 @@ function breadcrumb($args)
   }
   
   /**
-   * rails の ActionView::distance_of_time_in_words
+   * rails 's ActionView::distance_of_time_in_words
    */
   function distance_of_time_in_words($begin, $end)
   {
     if (!is_numeric($begin)) $begin = strtotime($begin);
     if (!is_numeric($end)) $end = strtotime($end);
-    return sprintf('%01.3f', abs($begin - $end) / 86400) . ' ' . __('days', true);
+    return sprintf('%d', abs($begin - $end) / 86400) . '' . __('days', true); // white space is need ?
   }
 }

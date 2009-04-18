@@ -33,6 +33,7 @@ class CustomizableBehavior extends ModelBehavior {
   function afterSave(&$Model, $created) {
     return $this->_save_custom_field_values($Model, $created);
   }
+
   /**
    * Add relation of CustomValues
    */
