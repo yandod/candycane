@@ -73,6 +73,7 @@ class IssuesController extends AppController
       'limit' => $limit,
     ));
     $this->set('issue_list', $this->paginate('Issue'));
+    $this->set('params', $this->params);
     if ($this->RequestHandler->isAjax()) $this->layout = 'ajax';
   }
 #  def index
