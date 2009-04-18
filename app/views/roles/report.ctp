@@ -1,45 +1,68 @@
-<h2><%=l(:label_permissions_report)%></h2>
+<h2><?php __('Permissions report'); ?></h2>
 
-<% form_tag({:action => 'report'}, :id => 'permissions_form') do %>
-<%= hidden_field_tag 'permissions[0]', '', :id => nil %>
+<?php echo $form->create('Role', array('action' => 'report','id' => 'permissions_form')); ?>
+<!-- <input name="data[permissions][0]" type="hidden" value="" /> -->
+
 <table class="list">
-<thead>
+  <thead>
     <tr>
-    <th><%=l(:label_permissions)%></th>
-    <% @roles.each do |role| %>
-    <th>
-        <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>
-        <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('input.role-#{role.id}')",
-                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-    </th>
-    <% end %>
+      <th><?php __('Permissions'); ?></th>
+      <?php foreach($roles as $role): ?>
+      <th>
+        <?php
+          $tag = ($role['Role']['builtin'] == 1) ? 'em' : 'span';
+echo $html->tag($tag,h($role['Role']['name']));
+        ?>
+          <?php
+            echo $html->link($html->image('toggle_check.png'),
+                             '#',
+                             array('onclick' => "toggleCheckboxesBySelector('input.role-" . $role['Role']['id'] . "')",
+                                   'title' => __('Check all',true) . '/' . __('Uncheck all', true)),
+                             false,
+                             false);
+          ?>
+      </th>
+      <?php endforeach; ?>
     </tr>
-</thead>
-<tbody>
-<% perms_by_module = @permissions.group_by {|p| p.project_module.to_s} %>
-<% perms_by_module.keys.sort.each do |mod| %>
-    <% unless mod.blank? %>
-        <tr><%= content_tag('th', l_or_humanize(mod, :prefix => 'project_module_'), :colspan => (@roles.size + 1), :align => 'left') %></tr>
-    <% end %>
-    <% perms_by_module[mod].each do |permission| %>
-        <tr class="<%= cycle('odd', 'even') %> permission-<%= permission.name %>">
-        <td>
-            <%= link_to_function(image_tag('toggle_check.png'), "toggleCheckboxesBySelector('.permission-#{permission.name} input')",
-                                                                :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}") %>
-            <%= l_or_humanize(permission.name, :prefix => 'permission_') %>
-        </td>
-        <% @roles.each do |role| %>
-        <td align="center">
-        <% if role.setable_permissions.include? permission %>
-          <%= check_box_tag "permissions[#{role.id}][]", permission.name, (role.permissions.include? permission.name), :id => nil, :class => "role-#{role.id}" %>
-        <% end %>
-        </td>
-        <% end %>
-        </tr>
-    <% end %>
-<% end %>
+  </thead>
+  <tbody>
+    <?php foreach ($permissions as $mod => $val): ?>
+    <?php if ($mod != ''): ?>
+    <tr><?php echo $html->tag('th', __($project_module_name[$mod], true, array('conspan' => count($roles) + 1, 'align' => 'left'))); ?></tr>
+    <?php endif; ?>
+    <?php foreach ($permissions[$mod] as $permission): ?>
+    <tr class="<?php echo $candy->cycle('odd', 'even'); ?> permission-<?php echo $permission['name'];?>">
+    <td>
+      <?php
+        echo $html->link($html->image('toggle_check.png'),
+                         '#',
+                         array('onclick' => "toggleCheckboxesBySelector('.permission-" . $permission['name'] . " input')",
+                               'title' => __('Check all',true) . '/' . __('Uncheck all', true)),
+                         false,
+                         false);
+      ?>
+      <?php __($permission_name[ $permission['name'] ]); ?>
+    </td>
+    <?php foreach($roles as $role): ?>
+    <td align="center">
+      <?php if (in_array(':' . $permission['name'], $role['Role']['setable_permissions'])): ?>
+      <?php
+        $checked = (in_array(':' .$permission['name'], $role['Role']['permissions'])) ? 'checked="checked"' : '';
+            echo sprintf('<input type="checkbox" class="role-%s" name="data[permissions][%s][]" value="%s" %s/>',
+                         h($role['Role']['id']),
+                         h($role['Role']['id']),
+                         h($permission['name']),
+                         $checked);
+      ?>
+      <?php endif; ?>
+
+    </td>
+    <?php endforeach; ?>
+  </tr>
+  <?php endforeach; ?>
+  <?php endforeach; ?>
 </tbody>
 </table>
-<p><%= check_all_links 'permissions_form' %></p>
-<p><%= submit_tag l(:button_save) %></p>
-<% end %>
+<p><?php echo $candy->check_all_links('permissions_form'); ?></p>
+<p><?php echo $form->submit(__('Save',true)); ?></p>
+<?php echo $form->end(); ?>

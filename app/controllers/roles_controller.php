@@ -78,10 +78,8 @@ class RolesController extends AppController {
     $permissions_array = $this->Role->permissions($role['Role']['permissions']);
     $this->set('permissions_array', $permissions_array);
 
-
     $this->set('permissions', $permissions);
     $this->set('role', $role);
-
 
     $project_module_name = $this->_project_module_name();
     $this->set('project_module_name', $project_module_name);
@@ -92,7 +90,8 @@ class RolesController extends AppController {
     if (empty($this->data)) {
       $this->render('new');
     } else {
-      $this->data = $this->Role->convert_permissions($this->data);
+      $permissions = $this->Role->convert_permissions($this->data['Role']['permissions']);
+      $this->data['Role']['permissions'] = $permissions;
       $max = $this->Role->find('first', array('fields' => "max(position) + 1 AS max"));
       $data = array('name' => $this->data['Role']['name'],
                     'position' => $max[0]['max'],
@@ -104,6 +103,8 @@ class RolesController extends AppController {
       $this->Role->create();
       if ($this->Role->save($data)) {
         $this->flash(__('Successful creation.', true),'index');
+      } else {
+        $this->render('new');
       }
     }
   }
@@ -139,30 +140,26 @@ class RolesController extends AppController {
                     );
 
       $this->Role->create();
-      if ($this->Role->save($data, null, array('id','name','assignable','permissions'))) {
+      if ($this->Role->save($data, false, array('id','name','assignable','permissions'))) {
         $this->flash(__('Successful update.', true), 'index');
       }
       return;
     }
-
-#    if request.post? and @role.update_attributes(params[:role])
-#      flash[:notice] = l(:notice_successful_update)
-#      redirect_to :action => 'list'
-#    end
-
   }
 
 
-#
-#  def destroy
-#    @role = Role.find(params[:id])
-#    @role.destroy
-#    redirect_to :action => 'list'
-#  rescue
-#    flash[:error] = 'This role is in use and can not be deleted.'
-#    redirect_to :action => 'index'
-#  end
-
+  function destroy($id = false) {
+    if ($id == false) {
+      $this->Session->setFlash(__("Invalid id", true), 'default', array('class'=>'flash flash_error'));
+      $this->redirect('index');
+    }
+    if ($this->Role->del($id)) {
+      $this->Session->setFlash(__('Successful deletion.', true), 'default', array('class'=>'flash flash_notice'));
+    } else {
+      $this->Session->setFlash(__('This role is in use and can not be deleted.', true));
+    }
+    $this->redirect('index');
+  }
 
   function move($id) {
     $this->Role->read(null, $id);
@@ -184,21 +181,39 @@ class RolesController extends AppController {
       $this->redirect('index');
     }
   }
-#  
-#  def report    
-#    @roles = Role.find(:all, :order => 'builtin, position')
-#    @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
-#    if request.post?
-#      @roles.each do |role|
-#        role.permissions = params[:permissions][role.id.to_s]
-#        role.save
-#      end
-#      flash[:notice] = l(:notice_successful_update)
-#      redirect_to :action => 'list'
-#    end
-#  end
-#end
 
+  function report() {
+    $roles = $this->Role->find('all', array('order' => array('builtin','position')));
+
+    for ($i = 0; $i < count($roles); ++$i) {
+      $roles[$i]['Role']['permissions'] = $this->Role->permissions( $roles[$i]['Role']['permissions'] );
+      $tmp = $this->Permission->setable_permissions_name($roles[$i]['Role']['id']);
+      $roles[$i]['Role']['setable_permissions'] = $tmp;
+    }
+    $this->set('roles',$roles);
+
+    $permissions = $this->Permission->non_public_permissions();
+    ksort($permissions);
+    $this->set('permissions', $permissions);
+
+    $project_module_name = $this->_project_module_name();
+    $this->set('project_module_name', $project_module_name);
+    
+    $permission_name = $this->_permission_name();
+    $this->set('permission_name',$permission_name);
+
+    if (!empty($this->data)) {
+
+      pr($this->data);
+      foreach ($this->data['permissions'] as $id => $perms) {
+        $data = array('id' => $id,
+                      'permissions' => $this->Role->convert_permissions($perms));
+        $this->Role->create();
+        $this->Role->save($data, false, array('id','permissions'));
+      }
+      $this->flash(__('Successful update.', true), 'index');
+    }
+  }
 
 
   function _project_module_name() {
