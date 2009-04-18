@@ -5,7 +5,7 @@
  */
 class CandyHelper extends AppHelper
 {
-	var $helpers = array('Html','Users');
+	var $helpers = array('Html','Users', 'Paginator', 'Ajax');
   var $row = 0;
 
 	function link($user)
@@ -409,6 +409,41 @@ class CandyHelper extends AppHelper
 #    path.to_s.split(%r{[/\\]}).select {|p| !p.blank?}
 #  end
 #
+  function pagination_links_full($options = array())
+  {
+    $params = $this->Paginator->params;
+    $paging = $params['paging'][$this->Paginator->defaultModel()];
+    $view =& ClassRegistry::getObject('view');
+    if (isset($options['page_param'])) {
+      unset($options['page_param']);
+      $page_param = null;
+    } else {
+      $page_param = 'page';
+    }
+    $url_param = $this->url_param($params);
+#    url_param.clear if url_param.has_key?(:set_filter)
+    $html = '';
+    if ($paging['prevPage']) {
+      $html .= $this->Ajax->link('&#171;' . __('Previous', true), $url = am($url_param, array($page_param => $paging['page'] - 1)), array(
+        'update' => 'content',
+        'url' => $url,
+        'complete' => 'window.scrollTo(0, 0)',
+      ), null, false) . ' ';
+    }
+    $html .= $this->Paginator->numbers(array('update' => 'content', 'complete' => 'window.scrollTo(0,0)', 'url' => $url_param));
+    if ($paging['nextPage']) {
+      $html .= ' ' . $this->Ajax->link(__('Next', true) . '&#187;', $url = am($url_param, array($page_param => $paging['page'] + 1)), array(
+        'update' => 'content',
+        'url' => $url,
+        'complete' => 'window.scrollTo(0, 0)',
+      ), null, false) ;
+    }
+    if ($paging['count'] !== null) {
+      $per_page_links = $this->per_page_links($paging['options']['limit']);
+      $html .= ' (' .( ($paging['page'] - 1) * $paging['options']['limit'] + 1) . '-' . $paging['current'] . '/' . $paging['count'] . ')' . (strlen($per_page_links) ? (' | ' . $per_page_links) : '');
+    }
+    return $html;
+  }
 #  def pagination_links_full(paginator, count=nil, options={})
 #    page_param = options.delete(:page_param) || :page
 #    url_param = params.dup
@@ -443,6 +478,18 @@ class CandyHelper extends AppHelper
 #    html
 #  end
 #
+  function per_page_links($selected = null)
+  {
+    $url_param = $this->url_param($this->Paginator->params);
+#    url_param.clear if url_param.has_key?(:set_filter)
+    $links = a();
+    foreach ($this->Settings->per_page_options as $v) {
+      $links[] = $v == $selected ? $v : $this->Ajax->link($v, am($url_param, array('?' . http_build_query(array('per_page' => $v)))), array(
+        'update' => 'content',
+      ));
+    }
+    return count($links) > 1 ? __("'Per page", true) . join(', ', $links) : '';
+  }
 #  def per_page_links(selected=nil)
 #    url_param = params.dup
 #    url_param.clear if url_param.has_key?(:set_filter)
@@ -931,5 +978,11 @@ function breadcrumb($args)
     if (!is_numeric($begin)) $begin = strtotime($begin);
     if (!is_numeric($end)) $end = strtotime($end);
     return sprintf('%d', abs($begin - $end) / 86400) . '' . __('days', true); // white space is need ?
+  }
+  
+  function url_param($url_param)
+  {
+    unset($url_param['url'], $url_param['form'], $url_param['isAjax'], $url_param['paging'], $url_param['plugin'], $url_param['models'], $url_param['pass'], $url_param['named']);
+    return $url_param;
   }
 }

@@ -9,28 +9,24 @@ class Setting extends AppModel
 	'd.m.Y',
 	'd-m-Y',
 	'm/d/Y',
-	'd b Y',
-	'd B Y',
-	'b d, Y',
-	'B d, Y'
+	'd M Y',
+	'd F Y',
+	'M d, Y',
+	'F d, Y'
   );
-#  DATE_FORMATS = [
-#	'%Y-%m-%d',
-#	'%d/%m/%Y',
-#	'%d.%m.%Y',
-#	'%d-%m-%Y',
-#	'%m/%d/%Y',
-#	'%d %b %Y',
-#	'%d %B %Y',
-#	'%b %d, %Y',
-#	'%B %d, %Y'
-#    ]
-#    
-#  TIME_FORMATS = [
-#    '%H:%M',
-#    '%I:%M %p'
-#    ]
-#    
+    
+  var $TIME_FORMATS = array(
+    'H:i',
+    'h:i A'
+    );
+
+  var $USER_FORMATS = array(
+      'firstname_lastname' => '%1$s %2$s',
+      'firstname' => '%1$s',
+      'lastname_firstname' => '%2$s %1$s',
+      'lastname_coma_firstname' => '%2$s, %1$s',
+      'username' => '%3$s'
+  );
 #  ENCODINGS = %w(US-ASCII
 #                  windows-1250
 #                  windows-1251

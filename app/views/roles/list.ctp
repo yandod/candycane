@@ -49,5 +49,5 @@
   </tbody>
 </table>
 
-<p class="pagination"><%= pagination_links_full @role_pages %></p>
+<p class="pagination"><?php //TODO pagination ...  <%= pagination_links_full @role_pages %> ?></p>
 <p><?php echo $html->link(__('Permissions report', TRUE), array('action' => 'report'));?></p>
