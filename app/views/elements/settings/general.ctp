@@ -13,11 +13,10 @@
 <?php echo $form->select('default_language',$candy->lang_options_for_select(),$Settings->default_language) ?></p>
 
 <p><label><?php __('Date format') ?></label>
-<?php echo $form->select('date_format',array_map('date',$Settings->DATE_FORMATS)) ?>
-<%= select_tag 'settings[date_format]', options_for_select( [[l(:label_language_based), '']] + Setting::DATE_FORMATS.collect {|f| [Date.today.strftime(f), f]}, Setting.date_format) %></p>
+<?php echo $form->select('date_format',array_map('date',$Settings->DATE_FORMATS),$Settings->date_format,array(),__("Based on user's language",true)) ?></p>
 
 <p><label><?php __('Time format') ?></label>
-<%= select_tag 'settings[time_format]', options_for_select( [[l(:label_language_based), '']] + Setting::TIME_FORMATS.collect {|f| [Time.now.strftime(f), f]}, Setting.time_format) %></p>
+<?php echo $form->select('time_format',array_map('date',$Settings->TIME_FORMATS),$Settings->time_format,array(),__("Based on user's language",true)) ?></p>
 
 <p><label><?php __('Users display format') ?></label>
 <%= select_tag 'settings[user_format]', options_for_select( @options[:user_format], Setting.user_format.to_s ) %></p>
