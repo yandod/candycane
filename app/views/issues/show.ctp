@@ -1,5 +1,9 @@
 <div class="contextual">
+<?php echo $html->link(__('Update', true), array('controller' => 'issues', 'action' => 'edit', 'issue_id' => $issue['Issue']['id']), array('onclick' => 'showAndScrollTo("update", "notes"); return false;', 'class' => 'icon icon-edit', 'accesskey' => 'accesskey(:edit)')) ?>
 <!--<%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>-->
+<?php echo $html->link(__('Log Time', true), array('controller' => 'timelog', 'action' => 'edit', 'issue_id' => $issue['Issue']['id']), array('class' => 'icon icon-edit')) ?>
+
+
 <!--<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>-->
 <!--<%= watcher_tag(@issue, User.current) %>-->
 <!--<%= link_to_if_authorized l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-copy' %>-->
@@ -13,7 +17,7 @@
         <?php echo $candy->avatar(array('User' => $issue['Author']), array('size' => 64)) ?>
         <h3><?php echo h($issue['Issue']['subject']) ?></h3>
         <p class="author">
-        <?php echo $candy->authoring($issue['Issue']['created_on'], $issue) ?>.
+        <?php echo $candy->authoring($issue['Issue']['created_on'], $issue['Author']) ?>.
         <?php if ($issue['Issue']['created_on'] !=  $issue['Issue']['updated_on']) echo $candy->lwr('Updated %s ago', $candy->distance_of_time_in_words(time(), $issue['Issue']['updated_on'])) ?>
         </p>
 

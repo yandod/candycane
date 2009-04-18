@@ -319,6 +319,7 @@ class AppController extends Controller {
 	      ),
 	    ))) {
 	      $this->set(array('main_project'=> $this->_project));
+	      $this->set('main_project', $this->_project);
 	    } else {
 	      $this->cakeError('error404');
 	    }

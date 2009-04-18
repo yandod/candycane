@@ -142,17 +142,23 @@ class Project extends AppModel
 #  end
 	}	
 #
-#  def self.visible_by(user=nil)
-#    user ||= User.current
-#    if user && user.admin?
-#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
-#    elsif user && user.memberships.any?
-#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')}))"
-#    else
-#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
-#    end
-#  end
-#  
+
+  function visible_by($user = false) {
+    if(empty($user)) {
+      return $this->cakeError('error', "Argument Exception.");
+    }
+    if($user['admin']) {
+      return array('Project.status'=>PROJECT_STATUS_ACTIVE);
+    } elseif(!empty($user['memberships'])) {
+      $allowed_project_ids = array();
+      foreach($user['memberships'] as $member) {
+        $allowed_project_ids[] = $member['Project']['id'];
+      }
+      return array('Project.status'=>PROJECT_STATUS_ACTIVE, array('or'=>array('Project.is_public'=>true), array('Project.id'=>$allowed_project_ids))); 
+    } else {
+      return array('Project.status'=>PROJECT_STATUS_ACTIVE, 'Project.is_public'=>true);
+    }
+  }  
   /**
    * @param user : AppController->current_user
    *                  + admin

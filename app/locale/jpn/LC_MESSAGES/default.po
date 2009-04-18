@@ -2003,8 +2003,8 @@ msgid "Hide my email address"
 msgstr "メールアドレスを隠す"
 
 # text_reassign_time_entries
-msgid "'Reassign reported hours to this issue:'"
-msgstr "'記録された時間をこのチケットに再割り当て：'"
+msgid "Reassign reported hours to this issue:"
+msgstr "記録された時間をこのチケットに再割り当て："
 
 # text_issue_category_reassign_to
 msgid "Reassign issues to this category"
