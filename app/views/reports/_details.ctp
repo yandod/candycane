@@ -1,7 +1,13 @@
+<!--
 <% if @statuses.empty? or rows.empty? %>
     <p><i><%=l(:label_no_data)%></i></p>
 <% else %>
-<% col_width = 70 / (@statuses.length+3) %>
+-->
+<?php if (empty($statuses) || empty($rows)): ?>
+    <p><i><?php echo __('label_no_data'); ?></i></p>
+<?php endif; ?>
+<!--<% col_width = 70 / (@statuses.length+3) %>-->
+<?php $col_width = 70 / (count($statuses) + 3); ?>
 <table class="list">
 <thead><tr>
 <th style="width:25%"></th>
