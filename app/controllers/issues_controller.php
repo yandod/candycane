@@ -612,7 +612,8 @@ class IssuesController extends AppController
 #  # Retrieve query from session or build a new query
   function _retrieve_query()
   {
-    $show_filters = $this->Query->show_filters();
+    $this->set('force_show_filters', $force_show_filters = $this->Query->show_filters());
+    $show_filters = isset($this->params['url']['set_filter']) ? a() : $force_show_filters;
     $available_filters = $this->Query->available_filters($this->_project, $this->current_user);
     $query = a();
     if (!isset($this->data['Filter'])) $this->data['Filter'] = a();
@@ -629,7 +630,7 @@ class IssuesController extends AppController
       if (isset($this->params['url']['set_filter'], $this->params['form']['fields'])) {
         foreach ($this->params['form']['fields'] as $field) {
           $operator = $this->params['form']['operators'][$field];
-          $value = $this->params['form']['values'][$field];
+          $value = isset($this->params['form']['values'][$field]) ? $this->params['form']['values'][$field] : null;
           if (isset($available_filters[$field])) {
             $show_filters[$field] = $available_filters[$field];
             $this->data['Filter']['fields_' . $field] = $field;
