@@ -409,12 +409,26 @@ class IssuesController extends AppController
   }
 
   function destroy() {
-    $issue = $this->_find_issue($this->params['issue_id']);
-    if(empty($issue)) {
+    $issue_ids = false;
+    if(!empty($this->params['issue_id'])) {
+      $issue_ids = $this->params['issue_id'];
+    } elseif(!empty($this->params['url']['ids'])) {
+      $issue_ids = $this->params['url']['ids'];
+    } elseif(!empty($this->data['Issue']['ids'])) {
+      $issue_ids = $this->data['Issue']['ids'];
+    } else {
       return $this->cakeError('error', "Not exists issue.");
     }
+    if(!is_array($issue_ids)) {
+      $issue_ids = array($issue_ids);
+    }
+    $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$issue_ids)));
+    if(empty($issues)) {
+      return $this->cakeError('error', "Not exists issue.");
+    }
+    $this->set('issue_datas', $issues);
     $TimeEntry = & ClassRegistry::init('TimeEntry');
-    $hours = $TimeEntry->sum('hours', array('issue_id'=>$issue['Issue']['id']));
+    $hours = $TimeEntry->sum('hours', array('issue_id'=>$issue_ids));
     $this->set(compact('hours'));
     if($hours > 0) {
       if(empty($this->data['Issue']['todo'])) {
@@ -427,21 +441,21 @@ class IssuesController extends AppController
         # nothing to do
         break;
       case 'nullify' :
-        $TimeEntry->updateAll(array('issue_id'=>null), array('issue_id'=>$issue['Issue']['id']));
+        $TimeEntry->updateAll(array('issue_id'=>null), array('issue_id'=>$issue_ids));
         break;
       case 'reassign' :
         if(!$this->Issue->hasAny(array('Issue.id'=>$this->data['Issue']['reassign_to_id']))) {
           $this->Session->setFlash(__("'The issue was not found or does not belong to this project'", true), 'default', array('class'=>'flash flash_error'));
           return;
         }
-        $TimeEntry->updateAll(array("issue_id"=>$this->data['Issue']['reassign_to_id']), array('issue_id'=>$issue['Issue']['id']));
+        $TimeEntry->updateAll(array("issue_id"=>$this->data['Issue']['reassign_to_id']), array('issue_id'=>$issue_ids));
         break;
       default :
         # display the destroy form
         return;
       }
     }
-    if($this->Issue->del($this->params['issue_id'])) {
+    if($this->Issue->deleteAll(array('Issue.id'=>$issue_ids))) {
       $this->Session->setFlash(__('Successful deletion.', true), 'default', array('class'=>'flash flash_notice'));
     } else {
       $this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), 1, 1), 'default', array('class'=>'flash flash_error'));

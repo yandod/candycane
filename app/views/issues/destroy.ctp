@@ -1,7 +1,10 @@
 <h2><?php $candy->html_title();__('confirmation'); ?></h2>
 
-<?php echo $form->create(array('url'=>array('action'=>'destroy', 'id'=>$issue['Issue']['id']), 'id'=>'IssueDestroyForm')); ?>
+<?php echo $form->create(array('url'=>array('action'=>'destroy'), 'id'=>'IssueDestroyForm')); ?>
   <div class="box">
+  <?php foreach($issue_datas as $issue) : ?>
+    <?php echo $form->hidden('ids', array('name'=>'data[Issue][ids][]', 'value'=>$issue['Issue']['id'])); ?>
+  <?php endforeach; ?>
     <p><strong><?php echo sprintf(__('%.02f hours were reported on the issues you are about to delete. What do you want to do ?', true), $hours); ?></strong></p>
     <p>
       <?php echo $form->input('todo', array('type'=>'radio', 'options'=>array('destroy'=>__('Delete reported hours',true)), 'div'=>false)); ?><br />
