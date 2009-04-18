@@ -114,7 +114,7 @@ class ActivityProviderBehavior extends ModelBehavior {
 
     $provider_options = $this->settings[$event_type];
     if(empty($provider_options)) {
-      return $this->cakeError('error', "Can not provide $event_type events.");
+      return $this->cakeError('error', array('message'=>"Can not provide $event_type events."));
     }
     $scope_options = array();
     $cond = new Condition();
@@ -170,7 +170,7 @@ class Condition {
     } elseif(is_string($condition)) {
       $this->conditions[] = array($condition);
     } else {
-      return $this->cakeError('error', "Unsupported condition.");
+      return $this->cakeError('error', array('message'=>"Unsupported condition."));
     }
   }
 }
