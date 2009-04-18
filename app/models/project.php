@@ -34,6 +34,7 @@ class Project extends AppModel
   var $hasMany = array(
     'Version',
     'TimeEntry',
+    'IssueCategory',
   );
   var $hasAndBelongsToMany = array('Tracker' => array('with'=>'ProjectsTracker'));
 
@@ -305,6 +306,31 @@ class Project extends AppModel
 #  def active_children
 #    children.select {|child| child.active?}
 #  end
+  /**
+   * @param integer $project_id
+   */
+  function active_children($project_id)
+  {
+    $conditions = array(
+      'parent_id' => $project_id,
+       'status' => PROJECT_STATUS_ACTIVE,
+    );
+    $this->recursive = -1;
+    $projects = $this->find('all', compact('conditions'));
+    if (!$projects) {
+      return $projects; 
+    }
+
+    $data = array();
+    foreach ($projects as $v) {
+      $data[] = array(
+        'id' => $v['Project']['id'],
+        'name' => $v['Project']['name'],
+      );
+    }
+
+    return $data;
+  }
 #  
 #  # Returns an array of the trackers used by the project and its sub projects
 #  def rolled_up_trackers

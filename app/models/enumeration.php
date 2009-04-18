@@ -21,6 +21,24 @@ class Enumeration extends AppModel
 #  def self.get_values(option)
 #    find(:all, :conditions => {:opt => option}, :order => 'position')
 #  end
+  /**
+   * @static
+   */
+  function get_value($option)
+  {
+    $_this = new Enumeration();
+    $ret = $_this->find('all', array('conditions' => array('opt' => $option), 'order' => 'position'));
+
+    if ($ret) {
+      $values = $ret;
+      $ret = array(); 
+      foreach ($values as $v) {
+        $ret[] = $v[$_this->alias];  
+      }
+    }
+
+    return $ret;
+  }
 #  
 #  def self.default(option)  
 #    find(:first, :conditions => {:opt => option, :is_default => true}, :order => 'position')
