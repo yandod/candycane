@@ -421,7 +421,7 @@ class Query extends AppModel
       break;
     }
     return array(
-      $model . '.' . $field . ' ' . $operator => $values,
+      $model . '.' . $field . (strlen($operator) ? $operator : '') => $values,
     );
 #  def sql_for_field(field, value, db_table, db_field, is_custom_filter)
 #    sql = ''
@@ -576,7 +576,7 @@ class Query extends AppModel
 #  end
 #
 #  def statement
-#    # filters clauses
+#    # filters clausess
 #    filters_clauses = []
 #    filters.each_key do |field|
 #      next if field == "subproject_id"
