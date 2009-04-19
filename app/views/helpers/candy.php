@@ -824,20 +824,21 @@ function breadcrumb($args)
 #    link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
 #  end
 #
-#  def progress_bar(pcts, options={})
-#    pcts = [pcts, pcts] unless pcts.is_a?(Array)
-#    pcts[1] = pcts[1] - pcts[0]
-#    pcts << (100 - pcts[1] - pcts[0])
-#    width = options[:width] || '100px;'
-#    legend = options[:legend] || ''
-#    content_tag('table',
-#      content_tag('tr',
-#        (pcts[0] > 0 ? content_tag('td', '', :style => "width: #{pcts[0].floor}%;", :class => 'closed') : '') +
-#        (pcts[1] > 0 ? content_tag('td', '', :style => "width: #{pcts[1].floor}%;", :class => 'done') : '') +
-#        (pcts[2] > 0 ? content_tag('td', '', :style => "width: #{pcts[2].floor}%;", :class => 'todo') : '')
-#      ), :class => 'progress', :style => "width: #{width};") +
-#      content_tag('p', legend, :class => 'pourcent')
-#  end
+  function progress_bar($pcts, $options=array()) {
+    if(!is_array($pcts)) $pcts = array($pcts, $pcts);
+    $pcts[1] = $pcts[1] - $pcts[0];
+    $pcts[] = (100 - $pcts[1] - $pcts[0]);
+    $width = empty($options['width']) ? '100px;' : $options['width'];
+    $legend = empty($options['legend']) ? '' : $options['legend'];
+    $out = '<table class="progress" style="width: '.$width.';"><tbody>';
+    $out .= '<tr>';
+    $out .= ($pcts[0] > 0) ? '<td style="width: '.$pcts[0].'%;" class="closed" />' : '';
+    $out .= ($pcts[1] > 0) ? '<td style="width: '.$pcts[1].'%;" class="done" />' : '';
+    $out .= ($pcts[2] > 0) ? '<td style="width: '.$pcts[2].'%;" class="todo" />' : '';
+    $out .= '</tr></tbody></table>';
+    $out .= '<p class="pourcent">'.$legend.'</p>';
+    return $out;
+  }
 #
 #  def context_menu_link(name, url, options={})
 #    options[:class] ||= ''

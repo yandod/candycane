@@ -16,6 +16,7 @@ class IssuesController extends AppController
     'Paginator',
     'CustomField',
     'Number',
+    'Watchers'
   );
   var $components = array(
     'RequestHandler',
@@ -129,6 +130,23 @@ class IssuesController extends AppController
 #  
   function show()
   {
+    $button_update_allowed = $this->User->is_allowed_to($this->current_user, ':button_update', $this->_project);
+    $button_log_time_allowed = $this->User->is_allowed_to($this->current_user, ':button_log_time', $this->_project);
+    $button_copy_allowed = $this->User->is_allowed_to($this->current_user, ':button_copy', $this->_project);
+    $button_move_allowed = $this->User->is_allowed_to($this->current_user, ':button_move', $this->_project);
+    $button_delete_allowed = $this->User->is_allowed_to($this->current_user, ':button_delete', $this->_project);
+    $view_time_entries_allowed = $this->User->is_allowed_to($this->current_user, ':view_time_entries', $this->_project);
+    $button_quote_allowed = $this->User->is_allowed_to($this->current_user, ':button_quote', $this->_project);
+    $issue_relations_allowed = $this->User->is_allowed_to($this->current_user, array('issue_relations', 'new'), $this->_project);
+    $add_issue_watchers_allowed = $this->User->is_allowed_to($this->current_user, ':add_issue_watchers', $this->_project);
+    $view_issue_watchers_allowed = $this->User->is_allowed_to($this->current_user, ':view_issue_watchers', $this->_project);
+    $add_issue_watchers_allowed = $this->User->is_allowed_to($this->current_user, ':add_issue_watchers', $this->_project);
+
+    $this->set(compact(
+      'button_update_allowed', 'button_log_time_allowed', 'button_copy_allowed', 'button_move_allowed', 
+      'button_delete_allowed', 'view_time_entries_allowed', 'button_quote_allowed', 'issue_relations_allowed',
+      'add_issue_watchers_allowed', 'view_issue_watchers_allowed', 'add_issue_watchers_allowed'
+    ));
   }
 #  def show
 #    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
@@ -665,7 +683,8 @@ class IssuesController extends AppController
   function _find_issue($id)
   {
     if ($this->_issue = $this->Issue->find('first', array(
-      'conditions'=>array('Issue.id' => $id)
+      'conditions'=>array('Issue.id' => $id),
+      'recursive'=>1
     ))) {
       $this->set(array('issue'=>$this->_issue));
       return $this->_issue;
