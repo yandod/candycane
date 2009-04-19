@@ -243,19 +243,6 @@ class ReportsController extends AppController
   var $uses = array('Report', 'IssueStatus', 'Member', 'User');
   var $helpers = array('Reports');
 
-  /**
-   * beforeFilter
-   *
-   * before_filter :find_project, :authorize
-   *
-   */
-  function beforeFilter()
-  {
-    parent::beforeFilter();
-
-    $this->_findProject();
-//    $this->authorize();
-  }
 #  def issue_report
   /**
    * @action
@@ -263,6 +250,16 @@ class ReportsController extends AppController
    */
   function issue_report($identifier = null)
   {
+    if (!is_null($identifier)) {
+      $project = $this->_find_project($identifier);
+    }
+    if (empty($project)) {
+      return $this->cakeError('error404');
+    }
+
+    $projectId = $project['Project']['id'];
+    $this->set('project', $project['Project']);
+
 #    @statuses = IssueStatus.find(:all, :order => 'position')
     $this->statuses = $this->IssueStatus->find('all', array('order' => 'position'));
     if (empty($this->statuses)) {
@@ -270,9 +267,6 @@ class ReportsController extends AppController
     }
     $this->set('statuses', $this->statuses);
 
-    $project = $this->_find_project($identifier);
-    $projectId = $project['Project']['id'];
-    $this->set('project', $project['Project']);
 #    case params[:detail]
 #    when "tracker"
 #      @field = "tracker_id"
@@ -414,7 +408,6 @@ class ReportsController extends AppController
 
   function _find_project($identifier)
   {
-    $this->Project->recursive = 2;
     return $this->Project->find($identifier);
   }
 

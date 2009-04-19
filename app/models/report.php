@@ -18,18 +18,18 @@ class Report extends AppModel
 
     $sql = <<<EOT
 select s.id as status_id, s.is_closed as closed,
-  o.id as tracker_id,
+  t.id as tracker_id,
   count(i.id) as total
 from
-  {$issue->useTable} i, {$issueStatus->useTable} s, {$tracker->useTable} o
+  {$issue->useTable} i, {$issueStatus->useTable} s, {$tracker->useTable} t
 where
   i.status_id=s.id
-  and i.tracker_id=o.id
+  and i.tracker_id=t.id
   and i.project_id={$projectId}
-group by s.id, s.is_closed, o.id
+group by s.id, s.is_closed, t.id
 EOT;
 
-    return $this->query($sql);
+    return $this->convFlatArray($this->query($sql));
   }
 
   /**
@@ -47,18 +47,18 @@ EOT;
     $sql = <<<EOT
 select s.id as status_id,
   s.is_closed as closed,
-  o.id as fixed_version_id,
+  v.id as fixed_version_id,
   count(i.id) as total
 from
-  {$issue->useTable} i, {$issueStatus->useTable} s, {$version->useTable} o
+  {$issue->useTable} i, {$issueStatus->useTable} s, {$version->useTable} v
 where
   i.status_id=s.id
-  and i.fixed_version_id=o.id
+  and i.fixed_version_id=v.id
   and i.project_id={$projectId}
-group by s.id, s.is_closed, o.id
+group by s.id, s.is_closed, v.id
 EOT;
 
-    return $this->query($sql);
+    return $this->convFlatArray($this->query($sql));
   }
 
   /**
@@ -76,18 +76,18 @@ EOT;
     $sql = <<<EOT
 select s.id as status_id,
   s.is_closed as closed,
-  o.id as priority_id,
+  p.id as priority_id,
   count(i.id) as total
 from
-  {$issue->useTable} i, {$issueStatus->useTable} s, {$enumeration->useTable} o
+  {$issue->useTable} i, {$issueStatus->useTable} s, {$enumeration->useTable} p
 where
   i.status_id=s.id
-  and i.priority_id=o.id
+  and i.priority_id=p.id
   and i.project_id={$projectId}
-group by s.id, s.is_closed, o.id
+group by s.id, s.is_closed, p.id
 EOT;
 
-    return $this->query($sql);
+    return $this->convFlatArray($this->query($sql));
   }
 
   /**
@@ -105,18 +105,18 @@ EOT;
     $sql = <<<EOT
 select s.id as status_id,
   s.is_closed as closed,
-  o.id as category_id,
+  c.id as category_id,
   count(i.id) as total
 from
-  {$issue->useTable} i, {$issueStatus->useTable} s, {$issueCategory->useTable} o
+  {$issue->useTable} i, {$issueStatus->useTable} s, {$issueCategory->useTable} c
 where
   i.status_id=s.id
-  and i.category_id=o.id
+  and i.category_id=c.id
   and i.project_id={$projectId}
-group by s.id, s.is_closed, o.id
+group by s.id, s.is_closed, c.id
 EOT;
 
-    return $this->query($sql);
+    return $this->convFlatArray($this->query($sql));
   }
 
   /**
@@ -134,18 +134,18 @@ EOT;
     $sql = <<<EOT
 select s.id as status_id,
   s.is_closed as closed,
-  o.id as assigned_to_id,
+  a.id as assigned_to_id,
   count(i.id) as total
 from
-  {$issue->useTable} i, {$issueStatus->useTable} s, {$user->useTable} o
+  {$issue->useTable} i, {$issueStatus->useTable} s, {$user->useTable} a
 where
   i.status_id=s.id
-  and i.assigned_to_id=o.id
+  and i.assigned_to_id=a.id
   and i.project_id={$projectId}
-group by s.id, s.is_closed, o.id
+group by s.id, s.is_closed, a.id
 EOT;
 
-    return $this->query($sql);
+    return $this->convFlatArray($this->query($sql));
   }
 
   /**
@@ -163,18 +163,18 @@ EOT;
     $sql = <<<EOT
 select s.id as status_id,
   s.is_closed as closed,
-  o.id as author_id,
+  a.id as author_id,
   count(i.id) as total
 from
-  {$issue->useTable} i, {$issueStatus->useTable} s, {$user->useTable} o
+  {$issue->useTable} i, {$issueStatus->useTable} s, {$user->useTable} a
 where
   i.status_id=s.id
-  and i.author_id=o.id
+  and i.author_id=a.id
   and i.project_id={$projectId}
-group by s.id, s.is_closed, o.id
+group by s.id, s.is_closed, a.id
 EOT;
 
-    return $this->query($sql);
+    return $this->convFlatArray($this->query($sql));
   }
 
   /**
@@ -192,17 +192,17 @@ EOT;
     $sql = <<<EOT
 select    s.id as status_id,
   s.is_closed as closed,
-  o.project_id as project_id,
-  count(o.id) as total
+  i.project_id as project_id,
+  count(i.id) as total
 from
-  {$issue->useTable} o, {$issueStatus->useTable} s
+  {$issue->useTable} i, {$issueStatus->useTable} s
 where
-  o.status_id=s.id
-  and o.project_id IN ({$ids})
-group by s.id, s.is_closed, o.project_id
+  i.status_id=s.id
+  and i.project_id IN ({$ids})
+group by s.id, s.is_closed, i.project_id
 EOT;
 
-    return $this->query($sql);
+    return $this->convFlatArray($this->query($sql));
   }
 
   /**
@@ -245,6 +245,31 @@ EOT;
      foreach ($values as $v) {
        $ret[] = $v[$enumeration->alias];
      }
+    }
+
+    return $ret;
+  }
+
+  /**
+   * 
+   * @param  array $data
+   * @return mixed
+   */
+  function convFlatArray($data)
+  {
+    $ret = array();
+    foreach ($data as $v) {
+      $tmp = array();
+      foreach ($v as $k1 => $v1) {
+        if (is_array($v1)) {
+          foreach ($v1 as $k2 => $v2) {
+            $tmp[$k2] = $v2;
+          }
+        } else {
+          $tmp[$k1] = $v1;
+        }
+      }
+      $ret[] = $tmp;
     }
 
     return $ret;

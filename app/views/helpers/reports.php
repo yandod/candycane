@@ -43,25 +43,11 @@ class ReportsHelper extends AppHelper
     foreach ($data as $row) {
       $match = 0;
       foreach ($criteria as $k => $v) {
-        switch ($k) {
-          case 'status_id':
-            if ($row['s'][$k] == $v) {
-              $match++;
-            }
-            break;
-          case 'closed':
-            if ($row['s'][$k] == $v) {
-              $match++;
-            }
-            break;
-          default:
-            if ($row['o'][$k] == $v) {
-              $match++;
-            }
-            break;
+        if ($row[$k] == $v) {
+          $match++;
         }
       }
-      $a = $a + (count($criteria) == $match ? $row[0]['total'] : 0);
+      $a = $a + (count($criteria) == $match ? $row['total'] : 0);
     }
     return $a;
   }   
