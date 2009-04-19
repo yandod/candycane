@@ -89,7 +89,11 @@ class WikiPage extends AppModel
       //$result = $this->Content->Versions->findByVersion($version);
     }
     if ($result === null) {
-      $result = $this->find('first');
+      $result = $this->find('all',
+                            aa('conditions',
+                               aa('Wiki.project_id',
+                                  $project['Project']['id'])));
+
     }
     // $result .= $this->content;
     return $result;

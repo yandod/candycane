@@ -1,30 +1,30 @@
-<h2><%= l(:label_index_by_date) %></h2>
+<h2><?php echo __("Index by date") ?></h2>
 
-<% if @pages.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
+<?php if (sizeof($pages) === 0) : ?>
+<p class="nodata"><?php echo __("No data to display") ?></p>
+<?php endif ?>
 
-<% @pages_by_date.keys.sort.reverse.each do |date| %>
+<?php if (sizeof($pages) !== 0) : ?>
+<?php foreach($pages as $page) : ?>
 <h3><%= format_date(date) %></h3>
 <ul>
 <% @pages_by_date[date].each do |page| %>
-    <li><%= link_to page.pretty_title, :action => 'index', :page => page.title %></li>
+    <li><?php echo $html->link(WikiPage::pretty_title($page['title']), array('action' => 'index', 'project_id' => $project_id, 'wikipage' => $page['title'])) ?></li>
 <% end %>
 </ul>
-<% end %>
+<?php endforeach ?>
+<?php endif ?>
 
-<% content_for :sidebar do %>
-  <%= render :partial => 'sidebar' %>
-<% end %>
+<?php $this->set('Sidebar', $this->renderElement('wiki/sidebar')) ?>
 
-<% unless @pages.empty? %>
+<?php if (sizeof($pages) !== 0) : ?>
 <p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'Atom', {:controller => 'projects', :action => 'activity', :id => @project, :show_wiki_pages => 1, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
-<span><%= link_to 'HTML', {:action => 'special', :page => 'export'}, :class => 'html' %></span>
+<?php echo __("'Also available in:'") ?>
+<span><?php echo $html->link('Atom', array('controller' => 'projects', 'action' => 'activity', 'project_id' => $project_id, '?show_wiki_pages=1&format=atom'  /*key User.current.rss_key*/), array('class' => 'feed')) ?></span>
+<span><?php echo $html->link('HTML', array('action' => 'special', 'project_id' => $project_id ,'wikipage' => 'export'), array('class' => 'html')); ?></span>
 </p>
-<% end %>
+<?php endif ?>
 
-<% content_for :header_tags do %>
+<!--% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom, :controller => 'projects', :action => 'activity', :id => @project, :show_wiki_pages => 1, :format => 'atom', :key => User.current.rss_key) %>
-<% end %>
+<% end %-->
