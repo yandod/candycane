@@ -17,15 +17,14 @@
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 #class AdminController < ApplicationController
-#  before_filter :require_admin
-#
+
 #  helper :sort
-#  include SortHelper	
+#  include SortHelper 
 #
 #  def index
 #    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
 #  end
-#	
+# 
 #  def projects
 #    sort_init 'name', 'asc'
 #    sort_update %w(name is_public created_on)
@@ -40,12 +39,12 @@
 #    
 #    @project_count = Project.count(:conditions => c.conditions)
 #    @project_pages = Paginator.new self, @project_count,
-#								per_page_option,
-#								params['page']								
+#               per_page_option,
+#               params['page']                
 #    @projects = Project.find :all, :order => sort_clause,
 #                        :conditions => c.conditions,
-#						:limit  =>  @project_pages.items_per_page,
-#						:offset =>  @project_pages.current.offset
+#           :limit  =>  @project_pages.items_per_page,
+#           :offset =>  @project_pages.current.offset
 #
 #    render :action => "projects", :layout => false if request.xhr?
 #  end
@@ -96,53 +95,68 @@
 
 class AdminController extends AppController {
 
-	var $name = 'Admin';
-	var $uses = array('Project');
-	var $helpers = array('Candy');
+  var $name = 'Admin';
+  var $uses = array('Project');
+  var $helpers = array('Candy');
 
-/*	function beforeFilter()
-	{
-		// require_admin
-	}*/
+  /**
+   * beforeFilter
+   *
+   * # before_filter :require_admin
+   */
+  function beforeFilter()
+  {
+    parent::beforeFilter();
+    $this->require_admin();
+  }
 
-	function index()
-	{
-		// this is dummy user
-		//$this->set('currentuser','suzuki');
-	}
+  function index()
+  {
+    // this is dummy user
+    //$this->set('currentuser','suzuki');
+  }
 
-	function projects()
-	{
-		$this->set('status' , array('hoge', 'fuga')); //todo:hoge
+  /**
+   * projects
+   *
+   */
+  function projects()
+  {
+    $this->set('status' , array('hoge', 'fuga')); //todo:hoge
 
+    // @todo fix limit count
+    $projects = $this->Project->find('all',
+      array(
+        'limit' => 10,
+      )
+    );
 
-		$projects = $this->Project->find('all');
-		$this->set('projects', $projects);
-	}
+    $this->set('projects', $projects);
+  }
 
-	function plugins()
-	{
-		$this->set('currentuser','suzuki');
-		
-	}
+  function plugins()
+  {
+    $this->set('currentuser','suzuki');
+    
+  }
 
-	function default_configration()
-	{
-	}
+  function default_configration()
+  {
+  }
 
-	function test_email()
-	{
-	}
+  function test_email()
+  {
+  }
 
-	function info()
-	{
+  function info()
+  {
 
-/* 		$this->set('currentuser','suzuki'); */
-/* 		App::import('Vendor', 'candycane'); */
-/* 		$Candycane = new Candycane; */
-/* 		$this->set('Candycane', $Candycane); */
+/*    $this->set('currentuser','suzuki'); */
+/*    App::import('Vendor', 'candycane'); */
+/*    $Candycane = new Candycane; */
+/*    $this->set('Candycane', $Candycane); */
 
-	}
+  }
 
 
 }

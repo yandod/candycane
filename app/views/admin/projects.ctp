@@ -61,7 +61,7 @@
 <% end %>
 -->
 
-  <?php foreach ($projects as $project): ?>
+  <?php if (is_array($projects)) foreach ($projects as $project): ?>
   <tr class="odd">
      <td>
 	 <?php echo (($project['Project']['status'] == PROJECT_STATUS_ACTIVE) ? ($html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'settings', 'id' => $project['Project']['id']))) : h($project['Project']['name'])); ?>
@@ -92,4 +92,4 @@
 
 <p class="pagination"><%= pagination_links_full @project_pages, @project_count %></p>
 
-<% html_title(l(:label_project_plural)) -%>
+<?php $candy->html_title(__('label_project_plural')); ?>
