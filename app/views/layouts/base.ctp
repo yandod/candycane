@@ -69,7 +69,7 @@
     </div>
     
     <div id="content">
-				<?php $session->flash(); ?>
+		<?php $session->flash(); ?>
         <?php echo $content_for_layout; ?>
     </div>
 </div>
