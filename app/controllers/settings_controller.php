@@ -15,8 +15,13 @@ class SettingsController extends AppController
 	$this->_prepareWikiformatting();
     $this->render('edit');
   }
-#
-#  def edit
+
+  function edit()
+  {
+	$this->_prepateSettingTabs();
+	$this->_prepateThemes();
+	$this->_prepareWikiformatting();
+  	
 #    @notifiables = %w(issue_added issue_updated news_added document_added file_added message_posted)
 #    if request.post? && params[:settings] && params[:settings].is_a?(Hash)
 #      settings = (params[:settings] || {}).dup.symbolize_keys
@@ -35,7 +40,8 @@ class SettingsController extends AppController
 #
 #    @guessed_host_and_path = request.host_with_port.dup
 #    @guessed_host_and_path << ('/'+ request.relative_url_root.gsub(%r{^\/}, '')) unless request.relative_url_root.blank?
-#  end
+    $this->Session->setFlash(__('Successful update.',true),'default',aa('class','flash notice'));
+  }
 #
 #  def plugin
 #    @plugin = Redmine::Plugin.find(params[:id])

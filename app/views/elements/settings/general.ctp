@@ -1,4 +1,4 @@
-<?php echo $form->create(null,aa('action','edit')) ?>
+<?php echo $form->create('Setting',aa('action','edit')) ?>
 <div class="box tabular settings">
 <p><label><?php __('Application title')?></label>
 <?php echo $form->input('app_title',aa('value',$Settings->app_title,'size',30,'label',false,'div',false))?></p>
@@ -10,7 +10,7 @@
 <?php echo $form->select('ui_themes',$themes,$Settings->ui_theme,array(),__('Default',true)) ?></p>
 
 <p><label><?php __('Default language') ?></label>
-<?php echo $form->select('default_language',$candy->lang_options_for_select(),$Settings->default_language) ?></p>
+<?php echo $form->select('default_language',$candy->lang_options_for_select(),$Settings->default_language,array(),false) ?></p>
 
 <p><label><?php __('Date format') ?></label>
 <?php echo $form->select('date_format',array_map('date',$Settings->DATE_FORMATS),$Settings->date_format,array(),__("Based on user's language",true)) ?></p>
@@ -31,7 +31,7 @@ foreach ($Settings->USER_FORMATS as $k => $v) {
 <?php echo $form->input('attachment_max_size',aa('value',$Settings->attachment_max_size,'size',6,'label',false,'div',false))?> KB</p>
 
 <p><label><?php __('Objects per page options') ?></label>
-<?php echo $form->input('per_page_options',aa('value',$Settings->per_page_options,'size',20,'label',false,'div',false))?> <em><?php __('Multiple values allowed (comma separated).') ?></em></p>
+<?php echo $form->input('per_page_options',aa('value',implode(",",$Settings->per_page_options),'size',20,'label',false,'div',false))?> <em><?php __('Multiple values allowed (comma separated).') ?></em></p>
 
 <p><label><?php __('Days displayed on project activity') ?></label>
 <?php echo $form->input('activity_days_default',aa('value',$Settings->activity_days_default,'size',6,'label',false,'div',false))?> <?php __('days') ?></p>

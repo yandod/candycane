@@ -164,7 +164,13 @@ class Setting extends AppModel
     }
     $data = $this->find('all');
     foreach ($data as $k => $v) {
-    	$this->{$v['Setting']['name']} = $v['Setting']['value'];
+      switch ($v['Setting']['name']){
+      	case 'per_page_options':
+      	  $this->{$v['Setting']['name']} = explode(',',$v['Setting']['value']);
+      	  break;
+      	default:
+          $this->{$v['Setting']['name']} = $v['Setting']['value'];
+      }
     }
   }
 }
