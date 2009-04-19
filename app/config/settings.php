@@ -20,7 +20,7 @@ $vars = array(
 'activity_days_default' =>
   '30',
 'per_page_options' =>
-  '25,50,100',
+  array(25,50,100),
  
 'mail_from' =>
   'redmine@example.net',
