@@ -4,10 +4,26 @@
 
 <h2><?php __('Projects'); ?></h2>
 
-<?php echo $form->create('Project', array('type' => 'get')); ?>
-<fieldset><legend><?php __('Filters'); ?></legend>
-<?php echo $form->input('status', array('div' => FALSE, 'options' => $status, 'class' => 'small', 'onchange' => 'this.form.submit(); return false;', 'label' => __('Status', TRUE) . ' :' )); ?>
-<?php echo $form->input('name', array('div' => FALSE, 'size' => '30', 'label' => __('Project', TRUE) . ':' )); ?>
+<?php echo $form->create(null, array('type' => 'get', 'url' => '/admin/projects')); ?>
+<fieldset>
+  <legend><?php __('Filters'); ?></legend>
+  <?php echo $form->input('status', array(
+    'type' => 'select',
+    'options' => $status_options,
+    'selected' => array($status),
+    'class' => 'small',
+    'div' => false,
+    'onchange' => 'this.form.submit(); return false;',
+    'label' => __('Status', TRUE) . ' :',
+    )
+  ); ?>
+
+  <?php echo $form->input('name', array(
+    'div' => FALSE,
+    'size' => '30',
+    'value' => $name,
+    'label' => __('Project', TRUE) . ':' ));
+  ?>
 <?php echo $form->submit(__('Apply',TRUE), array('type' => 'submit', 'div' => FALSE, 'class' => 'small')); ?>
 </fieldset>
 <?php echo $form->end(); ?>
@@ -62,9 +78,9 @@
 -->
 
   <?php if (is_array($projects)) foreach ($projects as $project): ?>
-  <tr class="odd">
+  <tr class="<?php echo $candy->cycle();?>">
      <td>
-	 <?php echo (($project['Project']['status'] == PROJECT_STATUS_ACTIVE) ? ($html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'settings', 'id' => $project['Project']['id']))) : h($project['Project']['name'])); ?>
+	 <?php echo (($project['Project']['status'] == PROJECT_STATUS_ACTIVE) ? ($html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'settings', 'id' => $project['Project']['identifier']))) : h($project['Project']['name'])); ?>
 	 <td><?php echo nl2br($project['Project']['short_description']); ?></td>
 	 <td align="center">project.children.size
 	 <td align="center"><?php if ($project['Project']['is_public'] == TRUE) { echo $html->image('true.png'); } ?>
