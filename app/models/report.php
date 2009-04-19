@@ -1,6 +1,7 @@
 <?php
 class Report extends AppModel
 {
+  var $name = 'Report';
   var $useTable = false;
 
   /**
@@ -11,9 +12,9 @@ class Report extends AppModel
    */
   function findIssuesByTracker($projectId)
   {
-    $issue = ClassRegistry::init('Issue');
-    $issueStatus = ClassRegistry::init('IssueStatus');
-    $tracker = ClassRegistry::init('Tracker');
+    $issue =& ClassRegistry::init('Issue');
+    $issueStatus =& ClassRegistry::init('IssueStatus');
+    $tracker =& ClassRegistry::init('Tracker');
 
     $sql = <<<EOT
 select s.id as status_id, s.is_closed as closed,
@@ -39,9 +40,9 @@ EOT;
    */
   function findIssuesByVersion($projectId)
   {
-    $issue = ClassRegistry::init('Issue');
-    $issueStatus = ClassRegistry::init('IssueStatus');
-    $version = ClassRegistry::init('Version');
+    $issue =& ClassRegistry::init('Issue');
+    $issueStatus =& ClassRegistry::init('IssueStatus');
+    $version =& ClassRegistry::init('Version');
 
     $sql = <<<EOT
 select s.id as status_id,
@@ -68,9 +69,9 @@ EOT;
    */
   function findIssuesByPriority($projectId)
   {
-    $issue = ClassRegistry::init('Issue');
-    $issueStatus = ClassRegistry::init('IssueStatus');
-    $enumeration = ClassRegistry::init('Enumeration');
+    $issue =& ClassRegistry::init('Issue');
+    $issueStatus =& ClassRegistry::init('IssueStatus');
+    $enumeration =& ClassRegistry::init('Enumeration');
 
     $sql = <<<EOT
 select s.id as status_id,
@@ -97,9 +98,9 @@ EOT;
    */
   function findIssuesByCategory($projectId)
   {
-    $issue = ClassRegistry::init('Issue');
-    $issueStatus = ClassRegistry::init('IssueStatus');
-    $issueCategory = ClassRegistry::init('IssueCategory');
+    $issue =& ClassRegistry::init('Issue');
+    $issueStatus =& ClassRegistry::init('IssueStatus');
+    $issueCategory =& ClassRegistry::init('IssueCategory');
 
     $sql = <<<EOT
 select s.id as status_id,
@@ -126,9 +127,9 @@ EOT;
    */
   function findIssuesByAssignedTo($projectId)
   {
-    $issue = ClassRegistry::init('Issue');
-    $issueStatus = ClassRegistry::init('IssueStatus');
-    $user = ClassRegistry::init('User');
+    $issue =& ClassRegistry::init('Issue');
+    $issueStatus =& ClassRegistry::init('IssueStatus');
+    $user =& ClassRegistry::init('User');
 
     $sql = <<<EOT
 select s.id as status_id,
@@ -155,9 +156,9 @@ EOT;
    */
   function findIssuesByAuthor($projectId)
   {
-    $issue = ClassRegistry::init('Issue');
-    $issueStatus = ClassRegistry::init('IssueStatus');
-    $user = ClassRegistry::init('User');
+    $issue =& ClassRegistry::init('Issue');
+    $issueStatus =& ClassRegistry::init('IssueStatus');
+    $user =& ClassRegistry::init('User');
 
     $sql = <<<EOT
 select s.id as status_id,
@@ -184,8 +185,8 @@ EOT;
    */
   function findIssuesBySubproject($projectIds)
   {
-    $issue = ClassRegistry::init('Issue');
-    $issueStatus = ClassRegistry::init('IssueStatus');
+    $issue =& ClassRegistry::init('Issue');
+    $issueStatus =& ClassRegistry::init('IssueStatus');
     $ids = implode(',', $projectIds);
 
     $sql = <<<EOT
@@ -212,7 +213,7 @@ EOT;
    */
   function findMembers($projectId)
   {
-    $member = ClassRegistry::init('Member');
+    $member =& ClassRegistry::init('Member');
     $members = $member->find('all', array('conditions' => array(
                                                       'project_id' => $projectId
                                                     , 'User.status' => USER_STATUS_ACTIVE)));
@@ -225,5 +226,27 @@ EOT;
     }
 
     return $data;
+  }
+
+  /**
+   * find enumerations
+   *
+   * @return array
+   */
+  function findEnumurations()
+  {
+    $enumeration =& ClassRegistry::init('Enumeration');
+
+    $ret = $enumeration->get_values('IPRI');
+
+    if ($ret) {
+     $values = $ret;
+     $ret = array();
+     foreach ($values as $v) {
+       $ret[] = $v[$enumeration->alias];
+     }
+    }
+
+    return $ret;
   }
 }

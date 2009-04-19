@@ -235,8 +235,6 @@
 #    @issues_by_subproject ||= []
 #  end
 #end
-App::import('Model', 'Enumeration');
-
 class ReportsController extends AppController
 {
 #  menu_item :issues
@@ -313,7 +311,7 @@ class ReportsController extends AppController
 #      render :template => "reports/issue_report_details"   
       case 'priority':
         $this->set('field', 'priority_id');
-        $this->set('rows', Enumeration::get_value('IPRI'));
+        $this->set('rows', $this->Report->findEnumurations());
         $this->set('data', $this->_issues_by_priority($projectId));
         $this->set('report_title',  'Priority');
         $this->render('issue_report_details');
@@ -393,13 +391,10 @@ class ReportsController extends AppController
 #    end
 #  end  
       default:
-        $versions = $project['Version'];
-        sort($versions);
-
         $this->set('project', $project['Project']);
         $this->set('trackers', $project['Tracker']);
-        $this->set('versions', $versions);
-        $this->set('priorities', Enumeration::get_value('IPRI'));
+        $this->set('versions', $project['Version']);
+        $this->set('priorities', $this->Report->findEnumurations());
         $this->set('categories', $project['IssueCategory']);
         $this->set('assignees', $this->Report->findMembers($projectId));
         $this->set('authors', $this->Report->findMembers($projectId));
