@@ -81,6 +81,8 @@ Router::connect('issues/:action/:issue_id/*', array('controller' => 'issues'));
 
 #  map.connect 'issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
 #  map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
+Router::connect('projects/:project_id/issues/:action', array('controller' => 'issues'));
+
 #  map.connect 'projects/:project_id/news/:action', :controller => 'news'
 #  map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
 #  map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'

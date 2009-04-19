@@ -62,34 +62,29 @@
 -->
 <?php foreach ($rows as $k => $row): ?>
 <tr class="<?php echo ($k % 2 ? "odd" : "even"); ?>">
-  <td><?php echo $html->link($row['name'], array('controller' => 'issue', 'action' => 'index',
-                                                 '?' => array('project_id' => $project['id']
-                                                            , 'set_filter' => 1
+  <td><?php echo $html->link($row['name'], array('controller' => 'issues', 'action' => 'index', 'project_id' => $project['identifier'],
+                                                 '?' => array('set_filter' => 1
                                                             , $field_name => $row['id']))); ?></td>
   <?php foreach ($statuses as $status): ?>
     <td align="center"><?php echo $reports->aggregate_link($data, array($field_name => $row['id'], 'status_id' => $status['IssueStatus']['id'])
-                                                         , array('controller' => 'issue', 'action' => 'index'
-                                                                , '?' => array('project_id' => $project['id']
-                                                                             , 'set_filter' => 1
+                                                         , array('controller' => 'issues', 'action' => 'index', 'project_id' => $project['identifier']
+                                                                , '?' => array('set_filter' => 1
                                                                              , 'status_id' => $status['IssueStatus']['id']
                                                                              , $field_name => $row['id']))); ?></td>
   <?php endforeach; ?>
   <td align="center"><?php echo $reports->aggregate_link($data, array($field_name => $row['id'], 'closed' => 0)
-                                                       , array('controller' => 'issue', 'action' => 'index'
-                                                              , '?' => array('project_id' => $project['id']
-                                                                             , 'set_filter' => 1
+                                                       , array('controller' => 'issues', 'action' => 'index', 'project_id' => $project['identifier']
+                                                              , '?' => array('set_filter' => 1
                                                                              , $field_name => $row['id']
                                                                              , 'status_id' => 'o'))); ?></td>
   <td align="center"><?php echo $reports->aggregate_link($data, array($field_name => $row['id'], 'closed' => 1)
-                                                       , array('controller' => 'issue', 'action' => 'index'
-                                                              , '?' => array('project_id' => $project['id']
-                                                                             , 'set_filter' => 1
+                                                       , array('controller' => 'issues', 'action' => 'index', 'project_id' => $project['identifier']
+                                                              , '?' => array('set_filter' => 1
                                                                              , $field_name => $row['id']
                                                                              , 'status_id' => 'c'))); ?></td>
   <td align="center"><?php echo $reports->aggregate_link($data, array($field_name => $row['id'])
-                                                       , array('controller' => 'issue', 'action' => 'index'
-                                                              , '?' => array('project_id' => $project['id']
-                                                                             , 'set_filter' => 1
+                                                       , array('controller' => 'issues', 'action' => 'index', 'project_id' => $project['identifier']
+                                                              , '?' => array('set_filter' => 1
                                                                              , $field_name => $row['id']
                                                                              , 'status_id' => '*'))); ?></td>
 </tr>
