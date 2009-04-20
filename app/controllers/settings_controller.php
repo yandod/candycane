@@ -67,12 +67,12 @@ class SettingsController extends AppController
   {
   	$tabs = array(
   	  aa('name', 'general', 'partial', 'settings/general', 'label', __('General',true)),
-      //{:name => 'authentication', :partial => 'settings/authentication', :label => :label_authentication},
+      aa('name', 'authentication', 'partial', 'settings/authentication', 'label', __('Authentication',true)),
       aa('name', 'projects', 'partial', 'settings/projects', 'label', __('Projects',true)),
-      //{:name => 'issues', :partial => 'settings/issues', :label => :label_issue_tracking},
-      //{:name => 'notifications', :partial => 'settings/notifications', :label => l(:field_mail_notification)},
-      //{:name => 'mail_handler', :partial => 'settings/mail_handler', :label => l(:label_incoming_emails)},
-      //{:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural}
+      aa('name', 'issues', 'partial', 'settings/issues', 'label', __('Issue tracking',true)),
+      aa('name', 'notifications', 'partial', 'settings/notifications', 'label', __('Email notifications',true)),
+      aa('name', 'mail_handler', 'partial', 'settings/mail_handler', 'label', __('Incoming emails',true)),
+      aa('name', 'repositories', 'partial', 'settings/repositories', 'label', __('Repositories',true))
   	);
   	$this->set('settings_tabs',$tabs);
   }
