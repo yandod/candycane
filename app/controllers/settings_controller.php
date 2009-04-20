@@ -30,8 +30,17 @@ class SettingsController extends AppController
 #        value.delete_if {|v| v.blank? } if value.is_a?(Array)
 #        Setting[name] = value
 #      end
-#      flash[:notice] = l(:notice_successful_update)
-#      redirect_to :action => 'edit', :tab => params[:tab]
+    if (!empty($this->data)) {
+      foreach ($this->data['Setting'] as $k => $v) {
+      	$this->Setting->store($k,$v);
+      }
+      $this->Session->setFlash(__('Successful update.',true),'default',aa('class','flash notice'));
+      $tab = 'general';
+      if ( isset($this->params['tab'])) $tab = $this->params['tab'];
+      $this->redirect(aa('action','edit','?','tab='.$tab));
+      return;
+    }
+      #      redirect_to :action => 'edit', :tab => params[:tab]
 #      return
 #    end
 #    @options = {}
@@ -40,7 +49,6 @@ class SettingsController extends AppController
 #
 #    @guessed_host_and_path = request.host_with_port.dup
 #    @guessed_host_and_path << ('/'+ request.relative_url_root.gsub(%r{^\/}, '')) unless request.relative_url_root.blank?
-    $this->Session->setFlash(__('Successful update.',true),'default',aa('class','flash notice'));
   }
 #
 #  def plugin

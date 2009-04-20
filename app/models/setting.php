@@ -99,14 +99,31 @@ class Setting extends AppModel
 #    v = @cached_settings[name]
 #    v ? v : (@cached_settings[name] = find_or_default(name).value)
 #  end
-#  
-#  def self.[]=(name, v)
-#    setting = find_or_default(name)
+  /**
+   * instead of self.[] method of ruby version
+   *
+   * @param string $name
+   * @param mixed $value
+   */
+  function store($name,$value)
+  {
+  	 $cond = aa('name',$name);
+  	 $data = $this->find('all',aa('conditions',$cond));
+     $id = null;
+     if (isset($data[0]['Setting']['id'])) $id = $data[0]['Setting']['id'];
+     
+     $arr = array(
+       'id' => $id,
+       'name' => $name,
+       'value' => $value
+     );
+     $this->save($arr);
+  	 #    setting = find_or_default(name)
 #    setting.value = (v ? v : "")
 #    @cached_settings[name] = nil
 #    setting.save
 #    setting.value
-#  end
+  }
 #  
 #  # Defines getter and setter for each setting
 #  # Then setting values can be read using: Setting.some_setting_name

@@ -7,7 +7,7 @@
 <!-- <%= wikitoolbar_for 'settings[welcome_text]' %> -->
 
 <p><label><?php __('Theme') ?></label>
-<?php echo $form->select('ui_themes',$themes,$Settings->ui_theme,array(),__('Default',true)) ?></p>
+<?php echo $form->select('ui_theme',$themes,$Settings->ui_theme,array(),__('Default',true)) ?></p>
 
 <p><label><?php __('Default language') ?></label>
 <?php echo $form->select('default_language',$candy->lang_options_for_select(),$Settings->default_language,array(),false) ?></p>

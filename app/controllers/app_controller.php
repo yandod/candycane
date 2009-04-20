@@ -12,7 +12,8 @@ class AppController extends Controller {
     var $uses = array('User','Setting','Project');
     var $current_user; // alternate User.current
     var $per_page;
-
+    var $view = 'Theme';
+    var $theme = '';
     /**
      * beforeFilter
      *
@@ -307,6 +308,7 @@ class AppController extends Controller {
 #  end
   function setSettings()
   {
+  	$this->theme = $this->Setting->ui_theme;
   	$this->set('Settings',$this->Setting);
   }
   
