@@ -102,12 +102,15 @@
 </div>
 <!--<% end %>-->
 
-<!--<% if @journals.any? %>-->
+<?php if(!empty($journals)): ?>
 <div id="history">
 <h3><?php __('History') ?></h3>
-<!--<%= render :partial => 'history', :locals => { :journals => @journals } %>-->
+  <?php echo $this->renderElement('issues/history', array(
+    'journals'=>$journals, 
+    'issue'=>$issue
+    )); ?>
 </div>
-<!--<% end %>-->
+<?php endif; ?>
 <div style="clear: both;"></div>
 
 <!--<% if authorize_for('issues', 'edit') %>-->

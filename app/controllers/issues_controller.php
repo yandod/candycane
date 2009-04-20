@@ -130,6 +130,27 @@ class IssuesController extends AppController
 #  
   function show()
   {
+    $Journal = & ClassRegistry::init('Journal');
+    $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
+    $conditions = array('journalized_type'=>'Issue', 'journalized_id'=>$this->_issue['Issue']['id']);
+    $journals = $Journal->find('all', array('conditions'=>$conditions,'recursive'=>1, 'order'=>"Journal.created_on ASC"));
+    if(!empty($journals) && !empty($this->current_user['wants_comments_in_reverse_order'])) {
+      $journals = array_reverse($journals);
+    }
+    $default_status = $this->Issue->Status->findDefault();
+    if(empty($default_status)) {
+      $this->Session->setFlash(__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true), 'default', array('class'=>'flash flash_error'));
+      $this->redirect('index');
+    }
+    $allowed_statuses = $this->Issue->Status->find_new_statuses_allowed_to(
+      key($default_status),
+      $this->User->role_for_project($this->current_user, $this->_project['Project']['id']),
+      $this->_issue['Issue']['tracker_id']
+    );
+    $edit_allowed = $this->User->is_allowed_to($this->current_user, ':edit_issues', $this->_project);
+    $TimeEntry = & ClassRegistry::init('TimeEntry');
+    
+    $this->set(compact('journals', 'allowed_statuses', 'edit_allowed'));
   }
 #  def show
 #    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
