@@ -198,3 +198,4 @@ class IssuesHelper extends AppHelper
     return $spent_hours;
   }
 }
+}
