@@ -309,6 +309,10 @@ class AppController extends Controller {
   function setSettings()
   {
   	$this->theme = strtolower($this->Setting->ui_theme);
+  	if (!empty($this->Setting->default_language)) {
+  	  $this->L10n = new L10n();
+  	  $this->L10n->get($this->Setting->default_language);
+  	}
   	$this->set('Settings',$this->Setting);
   }
   
