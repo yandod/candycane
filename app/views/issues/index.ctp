@@ -41,7 +41,8 @@
 <p class="nodata"><?php echo h(__('No data to display')) ?></p>
 <?php else: ?>
 <?php echo $this->renderElement('issues/list', array('issue_list' => $issue_list, 'query' => $query)) ?>
-<p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
+<p class="pagination"><?php echo $candy->pagination_links_full() ?>
+<!--<%= pagination_links_full @issue_pages, @issue_count %>--></p>
 
 <p class="other-formats">
 <%= l(:label_export_to) %>

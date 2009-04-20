@@ -440,7 +440,7 @@ msgstr "チェックを全部つける"
 
 # label_display_per_page
 msgid "'Per page"
-msgstr "'1ページに"
+msgstr "1ページに: "
 
 # label_renamed
 msgid "renamed"

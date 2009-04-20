@@ -17,39 +17,15 @@
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 #class AdminController < ApplicationController
-#  before_filter :require_admin
-#
+
 #  helper :sort
-#  include SortHelper	
+#  include SortHelper 
 #
 #  def index
 #    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
 #  end
-#	
-#  def projects
-#    sort_init 'name', 'asc'
-#    sort_update %w(name is_public created_on)
-#    
-#    @status = params[:status] ? params[:status].to_i : 1
-#    c = ARCondition.new(@status == 0 ? "status <> 0" : ["status = ?", @status])
-#    
-#    unless params[:name].blank?
-#      name = "%#{params[:name].strip.downcase}%"
-#      c << ["LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?", name, name]
-#    end
-#    
-#    @project_count = Project.count(:conditions => c.conditions)
-#    @project_pages = Paginator.new self, @project_count,
-#								per_page_option,
-#								params['page']								
-#    @projects = Project.find :all, :order => sort_clause,
-#                        :conditions => c.conditions,
-#						:limit  =>  @project_pages.items_per_page,
-#						:offset =>  @project_pages.current.offset
-#
-#    render :action => "projects", :layout => false if request.xhr?
-#  end
-#  
+# 
+  
 #  def plugins
 #    @plugins = Redmine::Plugin.all
 #  end
@@ -96,53 +72,116 @@
 
 class AdminController extends AppController {
 
-	var $name = 'Admin';
-	var $uses = array('Project');
-	var $helpers = array('Candy');
+  var $name = 'Admin';
+  var $uses = array('Project');
+  var $helpers = array('Candy');
+  var $components = array('Sort');
 
-/*	function beforeFilter()
-	{
-		// require_admin
-	}*/
+  /**
+   * beforeFilter
+   *
+   * # before_filter :require_admin
+   */
+  function beforeFilter()
+  {
+    parent::beforeFilter();
+    $this->require_admin();
+  }
 
-	function index()
-	{
-		// this is dummy user
-		//$this->set('currentuser','suzuki');
-	}
+  function index()
+  {
+    // this is dummy user
+    //$this->set('currentuser','suzuki');
+  }
 
-	function projects()
-	{
-		$this->set('status' , array('hoge', 'fuga')); //todo:hoge
+  /**
+   * projects
+   *
+   */
+  function projects()
+  {
+    $this->Sort->sort_init('name', 'asc');
+    $this->Sort->sort_update(
+      array('name', 'is_public', 'created_on')
+    );
 
+    if (isset($this->params['url']['status'])) {
+      $status = (int)$this->params['url']['status'];
+    } else {
+      $status = 1;
+    }
 
-		$projects = $this->Project->find('all');
-		$this->set('projects', $projects);
-	}
+    $this->set('status', $status);
 
-	function plugins()
-	{
-		$this->set('currentuser','suzuki');
-		
-	}
+    $status_options = array(
+      '' => __('all', true),
+      1  => __('active', true),
+    );
 
-	function default_configration()
-	{
-	}
+    $this->set('status_options', $status_options);
 
-	function test_email()
-	{
-	}
+    if ($status == '1') {
+      $condition = array('status' => $status);
+    } else {
+      $condition = array();
+    }
 
-	function info()
-	{
+    $name = null;
+    if(!empty($this->params['url']['name'])) {
+      $name = $this->params['url']['name'];
+      $q_name = "%{$name}%";
+      $condition['LOWER(Project.identifier) LIKE ? OR LOWER(Project.name) LIKE ?'] = array($q_name, $q_name);
+    } 
 
-/* 		$this->set('currentuser','suzuki'); */
-/* 		App::import('Vendor', 'candycane'); */
-/* 		$Candycane = new Candycane; */
-/* 		$this->set('Candycane', $Candycane); */
+    $this->set('name', $name);
 
-	}
+#    @project_count = Project.count(:conditions => c.conditions)
+#    @project_pages = Paginator.new self, @project_count,
+#               per_page_option,
+#               params['page']                
+#    @projects = Project.find :all, :order => sort_clause,
+#                        :conditions => c.conditions,
+#           :limit  =>  @project_pages.items_per_page,
+#           :offset =>  @project_pages.current.offset
+#
+
+    // @todo fix limit count
+    $projects = $this->Project->find('all',
+      array(
+        'recursive' => 0,
+        'conditions' => $condition,
+        'limit' => 10,
+      )
+    );
+
+    $this->set('projects', $projects);
+#    render :action => "projects", :layout => false if request.xhr?
+
+   }
+
+  function plugins()
+  {
+    $this->set('currentuser','suzuki');
+    
+  }
+
+  function default_configration()
+  {
+  }
+
+  function test_email()
+  {
+  }
+
+  function info()
+  {
+
+/*    $this->set('currentuser','suzuki'); */
+/*    App::import('Vendor', 'candycane'); */
+/*    $Candycane = new Candycane; */
+/*    $this->set('Candycane', $Candycane); */
+
+  }
 
 
 }

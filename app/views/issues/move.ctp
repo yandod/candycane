@@ -6,7 +6,7 @@
   <?php endforeach; ?>
 </ul>
 
-<?php echo $form->create(array('url'=>array('action'=>'move', 'id'=>$issue['Issue']['id']), 'id'=>'IssueMoveForm')); ?>
+<?php echo $form->create(array('url'=>array('action'=>'move'), 'id'=>'IssueMoveForm')); ?>
   <div class="box tabular">
   <?php foreach($issue_datas as $issue) : ?>
     <?php echo $form->hidden('ids', array('name'=>'data[Issue][ids][]', 'value'=>$issue['Issue']['id'])); ?>
