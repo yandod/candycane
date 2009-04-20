@@ -135,19 +135,51 @@ class Permission extends AppModel
   }
 
   // from role.php
-  function setable_permissions()
+  function setable_permissions_name($builtin = null)
   {
     // todo: members_only_permissions, loggedin_only_permissions
     $tmp = array();
     foreach ($this->permissions as $module => $perms) {
       foreach ($perms as $p) {
-        if ($p['public'] != 1) {
+        if ($p['public'] != true) {
+          switch ($builtin) {
+          case 1:
+            if ($p['require'] != 'member') { $tmp[] = ':' . $p['name']; }
+            break;
+          case 2:
+            if (($p['require'] != 'loggedin')&&($p['require'] != 'member')) { $tmp[] = ':' . $p['name']; }
+            break;
+          default:
+            $tmp[] = ':' . $p['name'];
+          }
+          
+        }
+      }
+    }
+    return $tmp;
+  }
+
+  // from role.php
+  function setable_permissions($builtin = null)
+  {
+    // todo: members_only_permissions, loggedin_only_permissions
+    $tmp = array();
+    foreach ($this->permissions as $module => $perms) {
+      foreach ($perms as $p) {
+        if ($p['public'] != true) {
+          if (($builtin == 1) && ($p['require'] != 'member')) {
+            continue;
+          }
+          if (($builtin == 2) && ($p['require'] != 'loggedin')) {
+            continue;
+          }
           $tmp[$module][ $p['name'] ] = $this->permissions[$module][ $p['name'] ];
         }
       }
     }
     return $tmp;
   }
+
 
   function non_member_permissions() {
     $tmp = array();
@@ -160,6 +192,20 @@ class Permission extends AppModel
     }
     return $tmp;
   }
+
+  function non_public_permissions() {
+    $tmp = array();
+    foreach ($this->permissions as $module => $perms) {
+      foreach ($perms as $p) {
+        if ($p['public'] != true) {
+          $tmp[$module][ $p['name'] ] = $this->permissions[$module][ $p['name'] ];
+        }
+      }
+    }
+    return $tmp;
+  }
+
+
 
 
   /*
