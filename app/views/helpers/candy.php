@@ -102,17 +102,29 @@ class CandyHelper extends AppHelper
 #    @current_role ||= User.current.role_for_project(@project)
 #  end
 #
-#  # Return true if user is authorized for controller/action, otherwise false
-#  def authorize_for(controller, action)
-#    User.current.allowed_to?({:controller => controller, :action => action}, @project)
-#  end
-#
-#  # Display a link if user is authorized
-
-  function link_to_if_authorized($name, $options = array(), $html_options = null, $parameters_for_method_reference = null) {
-    // not implemented. fixme.
-    //return link_to($name, $options, $html_options);
-    return "";
+  /**
+   * Return true if user is authorized for controller/action, otherwise false
+   * @param $aco : Array. array('controller'=> controller, 'action'=> action)
+   *              : String. ':update_form'
+   * @param $project : Target Project. if false, get from main_project of viewVars.
+   */
+  function authorize_for($aco, $project=false) {
+    if(empty($project)) {
+      $view =& ClassRegistry::getObject('view');
+      $project = $view->viewVars['main_project'];
+    }
+    return $this->requestAction(array('controller'=>'users', 'action'=>'allowed_to'), compact('aco', 'project'));
+  }
+  /** 
+   * Display a link if user is authorized
+   * 
+   */
+  function link_to_if_authorized($aco, $name, $url, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true) {
+    $out = '';
+    if($this->authorize_for($aco)) {
+      $out = $this->Html->link($name, $url, $htmlAttributes, $confirmMessage = false, $escapeTitle);
+    }
+    return $out;
   }
 
 #  def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
@@ -148,11 +160,13 @@ class CandyHelper extends AppHelper
 
   function link_to_user($user, $options = array())
   {
-    if (!isset($options['format'])) {
-      $options['format'] = ''; // @FIXME
+    $format = '';
+    if (isset($options['format'])) {
+      $format = $options['format'];
+      unset($options['format']);
     }
     if ($user) /* && !user.anonymous? */ {
-      return $this->Html->link($this->format_username($user, $options['format']), array('controller'=>'account', 'action'=>'show', 'id'=>$user['id']));
+      return $this->Html->link($this->format_username($user, $format), array('controller'=>'account', 'action'=>'show', 'id'=>$user['id']), $options);
     } else {
       return 'Anonymous';
     }
@@ -209,12 +223,12 @@ class CandyHelper extends AppHelper
 #    link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
 #  end
 #
-#  def toggle_link(name, id, options={})
-#    onclick = "Element.toggle('#{id}'); "
-#    onclick << (options[:focus] ? "Form.Element.focus('#{options[:focus]}'); " : "this.blur(); ")
-#    onclick << "return false;"
-#    link_to(name, "#", :onclick => onclick)
-#  end
+  function toggle_link($name, $id, $options=array()) {
+    $onclick = "Element.toggle('$id'); ";
+    $onclick .= (!empty($options['focus']) ? "Form.Element.focus('".$options['focus']."'); " : "this.blur(); ");
+    $onclick .= "return false;";
+    return $this->Html->link($name, "#", compact('onclick'));
+  }
 #
 #  def image_to_function(name, function, html_options = {})
 #    html_options.symbolize_keys!

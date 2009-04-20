@@ -86,7 +86,7 @@
         </small>
       </p>
     <?php endif; ?>
-    <?php if(empty($this->data['Issue']['id']) && $addWatcherAllowedTo): ?>
+    <?php if(empty($this->data['Issue']['id']) && $candy->authorize_for(':add_issue_watchers')): ?>
       <p>
         <label><?php __('Watchers'); ?></label>
         <?php

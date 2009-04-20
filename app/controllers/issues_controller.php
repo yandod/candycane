@@ -130,23 +130,6 @@ class IssuesController extends AppController
 #  
   function show()
   {
-    $button_update_allowed = $this->User->is_allowed_to($this->current_user, ':button_update', $this->_project);
-    $button_log_time_allowed = $this->User->is_allowed_to($this->current_user, ':button_log_time', $this->_project);
-    $button_copy_allowed = $this->User->is_allowed_to($this->current_user, ':button_copy', $this->_project);
-    $button_move_allowed = $this->User->is_allowed_to($this->current_user, ':button_move', $this->_project);
-    $button_delete_allowed = $this->User->is_allowed_to($this->current_user, ':button_delete', $this->_project);
-    $view_time_entries_allowed = $this->User->is_allowed_to($this->current_user, ':view_time_entries', $this->_project);
-    $button_quote_allowed = $this->User->is_allowed_to($this->current_user, ':button_quote', $this->_project);
-    $issue_relations_allowed = $this->User->is_allowed_to($this->current_user, array('issue_relations', 'new'), $this->_project);
-    $add_issue_watchers_allowed = $this->User->is_allowed_to($this->current_user, ':add_issue_watchers', $this->_project);
-    $view_issue_watchers_allowed = $this->User->is_allowed_to($this->current_user, ':view_issue_watchers', $this->_project);
-    $add_issue_watchers_allowed = $this->User->is_allowed_to($this->current_user, ':add_issue_watchers', $this->_project);
-
-    $this->set(compact(
-      'button_update_allowed', 'button_log_time_allowed', 'button_copy_allowed', 'button_move_allowed', 
-      'button_delete_allowed', 'view_time_entries_allowed', 'button_quote_allowed', 'issue_relations_allowed',
-      'add_issue_watchers_allowed', 'view_issue_watchers_allowed', 'add_issue_watchers_allowed'
-    ));
   }
 #  def show
 #    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
@@ -241,12 +224,11 @@ class IssuesController extends AppController
       $this->_project['Project']['id'],
       empty($this->data['Issue']['tracker_id']) ? key($trackers) : $this->data['Issue']['tracker_id']
     );
-    $add_watcher_allowed_to = $this->User->is_allowed_to($this->current_user, ':add_issue_watchers', $this->_project);
     $members = $this->Project->members($this->_project['Project']['id']);
 
     $this->set(compact(
       'trackers', 'statuses', 'priorities', 'assignable_users', 'issue_categories', 
-      'fixed_versions', 'custom_field_values', 'add_watcher_allowed_to', 'members'));
+      'fixed_versions', 'custom_field_values', 'members'));
     $this->render('new');
     if($this->RequestHandler->isAjax()) {
       $this->layout = 'ajax';

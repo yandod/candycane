@@ -31,7 +31,7 @@
   <div class="box">
     <?php echo $this->renderElement('issues/form', compact(
       'trackers', 'statuses', 'priorities', 'assignable_users', 'issueCategories', 
-      'fixedVersions', 'customFieldValues', 'addWatcherAllowedTo', 'members')); ?>
+      'fixedVersions', 'customFieldValues', 'members')); ?>
   </div>
   <?php echo $form->submit(__('Create', true), array('div'=>false)); ?>
   <?php echo $form->submit(__('Create and continue', true), array('div'=>false, 'name'=>'continue')); ?>

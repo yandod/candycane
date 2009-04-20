@@ -199,6 +199,16 @@ class WatchableBehavior extends ModelBehavior {
     $user = $userModel->read(null, $watcher['Watcher']['user_id']);
     return array_merge($watcher, $belongsData, $user);
   }
+  /**
+   * This is default implement.
+   * If not exist project_id, must be overwrite this function and return belongs to project_id
+   */
+  function get_watched_project_id(&$Model) {
+    if(!empty($Model->data[$Model->alias]['project_id'])) {
+      return $Model->data[$Model->alias]['project_id'];
+    }
+    return false;
+  }
 }
 
 ?>

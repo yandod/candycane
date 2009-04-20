@@ -2,9 +2,14 @@
 <?php
   if($addIssueWatchersAllowed) {
     echo $ajax->link(__('Add',true), array(
-      'controller'=>'watchers','action'=>'add',
-      'object_type'=>$object_type,
-      'object_id'=>$watched));
+        'controller'=>'watchers','action'=>'add',
+        'object_type'=>$object_type,
+        'object_id'=>$watched
+      ),
+      array(
+        'update'=>'watchers'
+      )
+    );
   }
 ?>
 </div>
@@ -12,17 +17,19 @@
 <p><strong><?php __('Watchers') ?></strong></p>
 <?php echo $watchers->watchers_list($list); ?>
 
-<% unless @watcher.nil? %>
-<% remote_form_for(:watcher, @watcher, 
-                   :url => {:controller => 'watchers',
-                            :action => 'new',
-                            :object_type => watched.class.name.underscore,
-                            :object_id => watched},
-                   :method => :post,
-                   :html => {:id => 'new-watcher-form'}) do |f| %>
-<p><%= f.select :user_id, (watched.addable_watcher_users.collect {|m| [m.name, m.id]}), :prompt => true %>
-
-<%= submit_tag l(:button_add) %>
-<%= toggle_link l(:button_cancel), 'new-watcher-form'%></p>
-<% end %>
-<% end %>
+  <?php
+  if(!empty($members)) :
+    echo $ajax->form('Watcher', 'post',
+      array('id'=>'new-watcher-form', 'url'=>array('controller'=>'watchers','action'=>'add',
+        'object_type'=>$object_type,
+        'object_id'=>$watched
+      ),
+    ));
+  ?>
+  <p>
+    <?php echo $ajax->Form->input('user_id', array('type'=>'select', 'options'=>$members, 'empty'=>'--- '.__('Please Select', true).' ---', 'div'=>false, 'label'=>false));?>
+    <?php echo $ajax->Form->submit(__('Add',true), array('div'=>false)); ?>
+    <?php echo $candy->toggle_link(__('Cancel',true), 'new-watcher-form');?></p>
+  </p>
+  <?php echo $ajax->Form->end(); ?>
+<?php endif; ?>

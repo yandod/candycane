@@ -23,7 +23,7 @@ end
 */
 class WatchersHelper extends AppHelper
 {
-  var $helpers = array('Html');
+  var $helpers = array('Html', 'Candy');
 
   function watcher_tag($object, $user) {
     return $this->Html->tag("span", $this->watcher_link($object, $user), array('id'=>'watcher', false));
@@ -51,9 +51,14 @@ class WatchersHelper extends AppHelper
   # Returns a comma separated list of users watching the given object
   function watchers_list($object) {
     $out = '';
+    $first = true;
     foreach($object as $u) {
-      $out .= $this->Html->tag('span', $this->Html->link($u['User']['lastname'].' '.$u['User']['firstname'], array('controller'=>'account', 'action'=>'show', 'id'=>$u['User']['id'])), array('class'=> 'user'));
-      $out .= ",\n";
+      if($first) {
+        $first = false;
+      } else {
+        $out .= ",\n";
+      }
+      $out .= $this->Html->tag('span', $this->Candy->link_to_user($u['User'], array('class'=> 'user')));
     }
     return $out;
   }
