@@ -45,14 +45,16 @@ class IssuesHelper extends AppHelper
 #    @sidebar_queries
 #  end
 #
-#  def show_detail(detail, no_html=false)
-#    case detail.property
-#    when 'attr'
-#      label = l(("field_" + detail.prop_key.to_s.gsub(/\_id$/, "")).to_sym)   
-#      case detail.prop_key
-#      when 'due_date', 'start_date'
-#        value = format_date(detail.value.to_date) if detail.value
-#        old_value = format_date(detail.old_value.to_date) if detail.old_value
+  function show_detail($detail, $no_html=false) {
+    switch($detail['property']) {
+    case 'attr' :
+      $label = __($detail['prop_key'], true);
+      switch($detail['prop_key']) {
+      case 'due_date' :
+      case 'start_date' :
+//        $value = format_date(detail.value.to_date) if detail.value
+//        $old_value = format_date(detail.old_value.to_date) if detail.old_value
+        break;
 #      when 'project_id'
 #        p = Project.find_by_id(detail.value) and value = p.name if detail.value
 #        p = Project.find_by_id(detail.old_value) and old_value = p.name if detail.old_value
@@ -62,7 +64,7 @@ class IssuesHelper extends AppHelper
 #      when 'tracker_id'
 #        t = Tracker.find_by_id(detail.value) and value = t.name if detail.value
 #        t = Tracker.find_by_id(detail.old_value) and old_value = t.name if detail.old_value
-#      when 'assigned_to_id'
+      case 'assigned_to_id' :
 #        u = User.find_by_id(detail.value) and value = u.name if detail.value
 #        u = User.find_by_id(detail.old_value) and old_value = u.name if detail.old_value
 #      when 'priority_id'
@@ -78,6 +80,7 @@ class IssuesHelper extends AppHelper
 #        value = "%0.02f" % detail.value.to_f unless detail.value.blank?
 #        old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
 #      end
+      break;
 #    when 'cf'
 #      custom_field = CustomField.find_by_id(detail.prop_key)
 #      if custom_field
@@ -124,8 +127,8 @@ class IssuesHelper extends AppHelper
 #      when 'attachment'
 #        "#{label} #{old_value} #{l(:label_deleted)}"
 #      end
-#    end
-#  end
+    }
+  }
 #  
 #  def issues_to_csv(issues, project = nil)
 #    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
@@ -185,5 +188,13 @@ class IssuesHelper extends AppHelper
 #    export
 #  end
 #end
-
+  function spent_hours($issue) {
+    $spent_hours = 0;
+    if(!empty($issue['TimeEntry'])) {
+      foreach($issue['TimeEntry'] as $time_entry) {
+        $spent_hours += $time_entry['hours'];
+      }
+    }
+    return $spent_hours;
+  }
 }

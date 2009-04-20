@@ -339,8 +339,8 @@ msgid "The page you were trying to access doesn't exist or has been removed."
 msgstr "アクセスしようとしたページは存在しないか削除されています。"
 
 # general_text_No
-msgid "'No'"
-msgstr "'いいえ'"
+msgid "No"
+msgstr "いいえ"
 
 # default_issue_status_feedback
 msgid "Feedback"
@@ -1495,8 +1495,8 @@ msgid "'English'"
 msgstr "'Japanese (日本語)'"
 
 # general_text_Yes
-msgid "'Yes'"
-msgstr "'はい'"
+msgid "Yes"
+msgstr "はい"
 
 # label_last_updates
 msgid "Last updated"

@@ -1,14 +1,10 @@
 <div class="contextual">
-<?php echo $html->link(__('Update', true), array('controller' => 'issues', 'action' => 'edit', 'issue_id' => $issue['Issue']['id']), array('onclick' => 'showAndScrollTo("update", "notes"); return false;', 'class' => 'icon icon-edit', 'accesskey' => 'accesskey(:edit)')) ?>
-<!--<%= link_to_if_authorized(l(:button_update), {:controller => 'issues', :action => 'edit', :id => @issue }, :onclick => 'showAndScrollTo("update", "notes"); return false;', :class => 'icon icon-edit', :accesskey => accesskey(:edit)) %>-->
-<?php echo $html->link(__('Log Time', true), array('controller' => 'timelog', 'action' => 'edit', 'issue_id' => $issue['Issue']['id']), array('class' => 'icon icon-edit')) ?>
-
-
-<!--<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue}, :class => 'icon icon-time' %>-->
-<!--<%= watcher_tag(@issue, User.current) %>-->
-<!--<%= link_to_if_authorized l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue }, :class => 'icon icon-copy' %>-->
-<!--<%= link_to_if_authorized l(:button_move), {:controller => 'issues', :action => 'move', :id => @issue }, :class => 'icon icon-move' %>-->
-<!--<%= link_to_if_authorized l(:button_delete), {:controller => 'issues', :action => 'destroy', :id => @issue}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>-->
+  <?php echo $candy->link_to_if_authorized(':button_update', __('Update', true), array('controller' => 'issues', 'action' => 'edit', 'id' => $issue['Issue']['id']), array('onclick' => 'showAndScrollTo("update", "notes"); return false;', 'class' => 'icon icon-edit', 'accesskey' => 'accesskey(:edit)')); ?>
+  <?php echo $candy->link_to_if_authorized(':button_log_time', __('Log time', true), array('controller' => 'timelog', 'action' => 'edit', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-time')) ?>
+  <!--<%= watcher_tag(@issue, User.current) %>-->
+  <?php echo $candy->link_to_if_authorized(':button_copy', __('Copy', true), '/projects/'.$main_project['Project']['identifier'].'/issues/add/copy_from:'.$issue['Issue']['id'], array('class' => 'icon icon-copy')) ?>
+  <?php echo $candy->link_to_if_authorized(':button_move', __('Move', true), array('controller' => 'issues', 'action' => 'move', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-move')); ?>
+  <?php echo $candy->link_to_if_authorized(':button_move', __('Delete', true), array('controller' => 'issues', 'action' => 'destroy', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-del'), __('Are you sure ?',true)); ?>
 </div>
 
 <h2><?php echo h($issue['Tracker']['name']) ?> #<?php echo h($issue['Issue']['id']) ?></h2>
@@ -32,61 +28,70 @@
 </tr>
 <tr>
     <td class="assigned-to"><b><?php __('Assigned to') ?>:</b></td><td><?php echo $candy->avatar(array('User' => $issue['Author']), array('size' => 14)) ?><?php echo strlen($issue['Issue']['assigned_to_id']) ? 'link_to_user(@issue.assigned_to)' : "-" ?></td>
-    <td class="progress"><b><?php __('done_ratio') ?>:</b></td><td class="progress"><!--<%= progress_bar @issue.done_ratio, :width => '80px', :legend => "#{@issue.done_ratio}%" %>--></td>
+    <td class="progress"><b><?php __('done_ratio') ?>:</b></td><td class="progress"><?php echo $candy->progress_bar($issue['Issue']['done_ratio'], array('width'=>'80px', 'legend'=>$issue['Issue']['done_ratio'].'%')); ?></td>
 </tr>
 <tr>
     <td class="category"><b><?php __('Category') ?>:</b></td><td><?php echo h(strlen($issue['Issue']['category_id']) ? $issue['Category']['name'] : "-") ?></td>
-    <!--<% if User.current.allowed_to?(:view_time_entries, @project) %>-->
+    <?php if($candy->authorize_for(':view_time_entries')): ?>
     <td class="spent-time"><b><?php __('Spent time') ?>:</b></td>
-    <td class="spent-hours"><!--<%= @issue.spent_hours > 0 ? (link_to lwr(:label_f_hour, @issue.spent_hours), {:controller => 'timelog', :action => 'details', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time') : "-" %>--></td>
-    <!--<% end %>-->
+    <td class="spent-hours"><?php echo ($issues->spent_hours($issue) > 0) ? $html->link(sprintf(__('%.2f hour',true), $issues->spent_hours($issue)), '/projects/'.$main_project['Project']['identifier'].'/timelog/details/'.$issue['Issue']['id'], array('class'=>'icon icon-time')) : "-"; ?></td>
+    <?php endif; ?>
 </tr>
 <tr>
     <td class="fixed-version"><b><?php __('Target version') ?>:</b></td><td><?php echo h(strlen($issue['Issue']['fixed_version_id']) ? $issue['FixedVersion']['name'] : "-") ?></td>
-    <!--<% if @issue.estimated_hours %>-->
-    <td class="estimated-hours"><b><?php __('Estimated time') ?>:</b></td><td><?php echo $candy->lwr('%.2f hour', $issue['Issue']['estimated_hours']) ?></td>
-    <!--<% end %>-->
+    <?php if(!empty($issue['Issue']['estimated_hours'])): ?>
+    <td class="estimated-hours"><b><?php __('Estimated time') ?>:</b></td><td><?php echo sprintf(__('%.2f hour',true), $issue['Issue']['estimated_hours']) ?></td>
+    <?php endif; ?>
 </tr>
 <tr>
-<!--<% n = 0 -%>-->
-<!--<% @issue.custom_values.each do |value| -%>-->
-    <td valign="top"><b><!--<%=h value.custom_field.name %>-->:</b></td><td valign="top"><!--<%= simple_format(h(show_value(value))) %>--></td>
-<!--<% n = n + 1
-   if (n > 1) 
-        n = 0 %>-->
+<?php $n = 0; ?>
+<?php if(!empty($issue['CustomValue'])): ?>
+  <?php foreach($issue['CustomValue'] as $value): ?>
+    <td valign="top">
+      <b><?php echo h($value['CustomField']['name']); ?>:</b></td><td valign="top"><?php echo h($customField->value($value)); ?></td>
+<?php 
+    $n = $n + 1;
+    if ($n > 1) :
+      $n = 0;
+?>
         </tr><tr>
- <!--<%end
-end %>-->
+    <?php endif; ?>
+ <?php endforeach; ?>
+<?php endif; ?>
 </tr>
-<!--<%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>-->
+<%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
 </table>
 <hr />
 
 <div class="contextual">
-<!--<%= link_to_remote_if_authorized(l(:button_quote), { :url => {:action => 'reply', :id => @issue} }, :class => 'icon icon-comment') unless @issue.description.blank? %>-->
+  <?php if($candy->authorize_for(':button_quote') && !empty($issue['Issue']['description'])) echo $ajax->link(__('Quote', true), array('controller' => 'issues', 'action' => 'reply', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-comment')); ?>
 </div>
-                              
+
 <p><strong><?php __('Description') ?></strong></p>
 <div class="wiki">
-<!--<%= textilizable @issue, :description, :attachments => @issue.attachments %>-->
+  <?php e(nl2br(h($issue['Issue']['description']))); ?>
 </div>
 
-<!--<%= link_to_attachments @issue %>-->
+<%= link_to_attachments @issue %>
 
-<!--<% if authorize_for('issue_relations', 'new') || @issue.relations.any? %>-->
+<?php if($candy->authorize_for(':issue_relations') || !empty($issue['Relations'])) : /* TODO relation */ ?>
 <hr />
 <div id="relations">
 <!--<%= render :partial => 'relations' %>-->
 </div>
-<!--<% end %>-->
+<?php endif; ?>
 
-<!--<% if User.current.allowed_to?(:add_issue_watchers, @project) ||
-        (@issue.watchers.any? && User.current.allowed_to?(:view_issue_watchers, @project)) %>-->
+<?php if($candy->authorize_for(':add_issue_watchers') || !empty($issue['Watcher']) && $candy->authorize_for(':view_issue_watchers')): ?>
 <hr />
 <div id="watchers">
-<!--<%= render :partial => 'watchers/watchers', :locals => {:watched => @issue} %>-->
+  <?php echo $this->renderElement('watchers/watchers', array(
+    'list'=>!empty($issue['Watcher'])?$issue['Watcher']:array(), 
+    'object_type'=>'issue', 
+    'watched'=>$issue['Issue']['id'], 
+    'addIssueWatchersAllowed'=>$candy->authorize_for(':add_issue_watchers')
+    ), 'Watchers'); ?>
 </div>
-<!--<% end %>-->
+<?php endif; ?>
 
 </div>
 
@@ -97,12 +102,15 @@ end %>-->
 </div>
 <!--<% end %>-->
 
-<!--<% if @journals.any? %>-->
+<?php if(!empty($journals)): ?>
 <div id="history">
 <h3><?php __('History') ?></h3>
-<!--<%= render :partial => 'history', :locals => { :journals => @journals } %>-->
+  <?php echo $this->renderElement('issues/history', array(
+    'journals'=>$journals, 
+    'issue'=>$issue
+    )); ?>
 </div>
-<!--<% end %>-->
+<?php endif; ?>
 <div style="clear: both;"></div>
 
 <!--<% if authorize_for('issues', 'edit') %>-->

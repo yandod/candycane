@@ -31,4 +31,5 @@
 #end
 class Watcher extends AppModel {
 	var $name = 'Watcher';
+	var $belongsTo = array('User');
 }

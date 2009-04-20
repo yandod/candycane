@@ -53,6 +53,7 @@ class CustomizableBehavior extends ModelBehavior {
           if(!empty($values)) {
             $results[$index]['CustomValue'] = array();
             foreach($values as $value) {
+              $value['CustomValue']['CustomField'] = $value['CustomField'];
               $results[$index]['CustomValue'][] = $value['CustomValue'];
             }
           }

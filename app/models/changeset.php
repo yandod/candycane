@@ -154,3 +154,6 @@
 #    str
 #  end
 #end
+class Changeset extends AppModel {
+	var $name="Changeset";
+}
