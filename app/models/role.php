@@ -23,7 +23,6 @@ class Role extends AppModel {
   var $name = 'Role';
   var $actsAs = array('List');
 
-
 #  # Built-in roles
 #  BUILTIN_NON_MEMBER = 1
 #  BUILTIN_ANONYMOUS  = 2
@@ -60,6 +59,11 @@ class Role extends AppModel {
 #  validates_uniqueness_of :name
 #  validates_length_of :name, :maximum => 30
 #  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
+  var $validate = array('name' => array('validates_uniqueness_of' => array('rule' => array('isUnique')),
+                                        'validates_length_of' => array('rule' => array('maxLength', 10)),
+                                        'validates_format_of' => array('rule' => array('custom', '/^[\w\s\'\-]*$/i')),
+                                        ));
+
 #
 #  def permissions
   function permissions($permissions) {
@@ -67,6 +71,7 @@ class Role extends AppModel {
 #    read_attribute(:permissions) || []
 #  end
   }
+
 #  
 #  def permissions=(perms)
 #    perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
@@ -110,35 +115,38 @@ class Role extends AppModel {
     return !$role['Role']['builtin'];
   }
   function non_member_allowed_to($permission) {
-    $non_member = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_NON_MEMBER)));
+    $non_member = $this->non_member();
     if(empty($non_member)) {
-      $this->cakeError('error', 'Missing non-member builtin role.');
+      $this->cakeError('error', array('message'=>'Missing non-member builtin role.'));
     }
-    // TODO YAMLをパースして権限をチェックする
-    return true;
+    return $this->is_allowed_to($non_member, $permission);
   }
   function anonymous_allowed_to($permission) {
-    $anonymous = $this->find('first', array('conditions'=>array('builtin'=> $this->BUILTIN_ANONYMOUS)));
+    $anonymous = $this->anonymous();
     if(empty($anonymous)) {
-      $this->cakeError('error', 'Missing non-member builtin role.');
+      $this->cakeError('error', array('message'=>'Missing non-member builtin role.'));
     }
-    // TODO YAMLをパースして権限をチェックする
-    return true;
+    return $this->is_allowed_to($anonymous, $permission);
   }
-#  # Return true if role is allowed to do the specified action
-#  # action can be:
-#  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
-#  # * a permission Symbol (eg. :edit_project)
-#  def allowed_to?(action)
-#    if action.is_a? Hash
-#      allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
-#    else
-#      allowed_permissions.include? action
-#    end
-#  end
+  # Return true if role is allowed to do the specified action
+  # action can be:
+  # * a parameter-like Hash (eg. :controller => 'projects', :action => 'edit')
+  # * a permission Symbol (eg. :edit_project)
   function is_allowed_to($role, $action) {
-    // TODO
-    return true;
+    if(is_array($action)) {
+        // TODO AccessControll
+        // allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
+        return true;
+    }
+    $list = $this->permissions($role['Role']['permissions']);
+    if(!empty($list)) {
+      foreach($list as $item) {
+        if(($item == $action) || ($item == ':'.$action)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 #  
 #  # Return all the permissions that can be given to the role
@@ -198,17 +206,20 @@ class Role extends AppModel {
 
   function toSymbol($data) {
     $tmp = array();
+    if (! is_array($data)) {
+      return $tmp;
+    }
     foreach ($data as $d) {
       $tmp[] = ':' . $d;
     }
     return $tmp;
   }
 
-  function convert_permissions($data) {
-    $tmp = $this->toSymbol($data['Role']['permissions']);
+  function convert_permissions($permissions_array) {
+    $tmp = $this->toSymbol($permissions_array);
     $tmp = $this->array2yaml($tmp);
-    $data['Role']['permissions'] = $tmp;
-    return $data;
+    $permissions_yaml = $tmp;
+    return $permissions_yaml;
   }
   
 }

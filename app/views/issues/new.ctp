@@ -27,17 +27,18 @@
 <% end %>
 -->
 <h2><?php $candy->html_title();__('New issue'); ?></h2>
-<?php echo $form->create('Issue', array('action'=>'add', 'class'=>"tabular", 'enctype'=>"multipart/form-data")); ?>
+<?php echo $form->create('Issue', array('url'=>'/projects/'.$mainProject['Project']['identifier'].'/issues/add', 'class'=>"tabular", 'enctype'=>"multipart/form-data", 'id'=>'IssueAddForm')); ?>
   <div class="box">
     <p>
       <?php echo $form->label('tracker_id', __('Tracker', true).'<span class="required"> *</span>'); ?>
       <?php echo $form->input('tracker_id', array('div'=>false, 'label'=>false)); ?></p>
     </p>
-    <script type="text/javascript">
-    //<![CDATA[
-    new Form.Element.EventObserver('IssueTrackerId', function(element, value) {new Ajax.Updater('content', '/projects/test/issues/new', {asynchronous:true, evalScripts:true, parameters:Form.serialize('IssueAddForm')})})
-    //]]>
-    </script>
+    <?php echo $ajax->observeField('IssueTrackerId', array(
+        'url'=>'/projects/'.$mainProject["Project"]["identifier"].'/issues/add', 
+        'update'=>'content',
+        'allowCache'=>false,
+        'with'=>'Form.serialize(\'IssueAddForm\')'
+        )); ?>
     <hr />
     <div id="issue_descr_fields" >
       <p>
@@ -63,8 +64,8 @@
         <?php echo $form->input('assigned_to_id', array('type'=>'select', 'div'=>false, 'label'=>false, 'empty'=>true, 'options'=>$assignableUsers)); ?>
       </p>
       <p>
-        <?php echo $form->label('issue_category_id', __('Category', true)); ?>
-        <?php echo $form->input('issue_category_id', array('type'=>'select', 'div'=>false, 'label'=>false, 'empty'=>true, 'options'=>$issueCategories)); ?>
+        <?php echo $form->label('category_id', __('Category', true)); ?>
+        <?php echo $form->input('category_id', array('type'=>'select', 'div'=>false, 'label'=>false, 'empty'=>true, 'options'=>$issueCategories)); ?>
         <a href="/projects/test/issues/new" class="small" onclick="promptToRemote('新しいカテゴリ', 'category[name]', '/projects/add_issue_category/test'); return false;" tabindex="199">新しいカテゴリ</a></p>
       </p>
       <p>

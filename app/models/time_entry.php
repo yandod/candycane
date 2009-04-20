@@ -85,12 +85,27 @@ class TimeEntry extends AppModel
   var $name = 'TimeEntry';
   var $belongsTo = array(
     'Project',
+    'Activity'=>array('className' => 'Enumeration', 'foreignKey' => 'activity_id'),
+  );
+  var $actsAs = array(
+    'Customizable'=>array('is_for_all'=>0)
   );
 
   function find_visible_by($user)
   {
     // return $this->find('all', array('conditions' => $this->Project->allowed_to_condition($user, 'view_time_entries')));
     return array();
+  }
+  function sum($field, $conditions) {
+    $results = $this->find('all', array('conditions'=>$conditions, 'fields'=>array($field)));
+    if(!$results) {
+      return 0;
+    }
+    $sum = 0;
+    foreach($results as $result) {
+      $sum += $result['TimeEntry'][$field];
+    }
+    return $sum;
   }
 }
 

@@ -4,27 +4,13 @@
     <?php  $candy->html_title(__('Issues', true)) ?>
     
     <form action="<?php echo h($html->url(array('controller' => 'queries', 'action' => 'add'))) ?>" method="get" id="query_form">
-    <!--<% form_tag({ :controller => 'queries', :action => 'new' }, :id => 'query_form') do %>-->
     <?php if (isset($main_project)): ?><input type="hidden" name="project_id" value="<?php echo h($main_project['Project']['id']) ?>" /><?php endif ?>
-    <!--<%= hidden_field_tag('project_id', @project.id) if @project %>-->
     <fieldset id="filters"><legend><?php __('Filters') ?></legend>
     <?php echo $this->renderElement('queries/filters', array('show_filters' => $show_filters, 'available_filters' => $available_filters)) ?>
-    <!--<%= render :partial => 'queries/filters', :locals => {:query => @query} %>-->
     <p class="buttons">
       <?php echo $ajax->link(__('Apply', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => $main_project['Project']['identifier_or_id'], '?set_filter=1'), array('update' => 'content', 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
       <?php echo $ajax->link(__('Clear', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => $main_project['Project']['identifier_or_id'], '?set_filter=1'), array('update' => 'content', 'class' => 'icon icon-reload')) ?>
     <!--
-    <%= link_to_remote l(:button_apply), 
-                       { :url => { :set_filter => 1 },
-                         :update => "content",
-                         :with => "Form.serialize('query_form')"
-                       }, :class => 'icon icon-checked' %>
-                       
-    <%= link_to_remote l(:button_clear),
-                       { :url => { :set_filter => 1 }, 
-                         :update => "content",
-                       }, :class => 'icon icon-reload'  %>
-                       
     <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
     <%= link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save' %>
     <% end %>
@@ -55,7 +41,8 @@
 <p class="nodata"><?php echo h(__('No data to display')) ?></p>
 <?php else: ?>
 <?php echo $this->renderElement('issues/list', array('issue_list' => $issue_list, 'query' => $query)) ?>
-<p class="pagination"><%= pagination_links_full @issue_pages, @issue_count %></p>
+<p class="pagination"><?php echo $candy->pagination_links_full() ?>
+<!--<%= pagination_links_full @issue_pages, @issue_count %>--></p>
 
 <p class="other-formats">
 <%= l(:label_export_to) %>

@@ -11,10 +11,17 @@ class SettingsController extends AppController
 #    render :action => 'edit'
 #  end
 	$this->_prepateSettingTabs();
+	$this->_prepateThemes();
+	$this->_prepareWikiformatting();
     $this->render('edit');
   }
-#
-#  def edit
+
+  function edit()
+  {
+	$this->_prepateSettingTabs();
+	$this->_prepateThemes();
+	$this->_prepareWikiformatting();
+  	
 #    @notifiables = %w(issue_added issue_updated news_added document_added file_added message_posted)
 #    if request.post? && params[:settings] && params[:settings].is_a?(Hash)
 #      settings = (params[:settings] || {}).dup.symbolize_keys
@@ -33,7 +40,8 @@ class SettingsController extends AppController
 #
 #    @guessed_host_and_path = request.host_with_port.dup
 #    @guessed_host_and_path << ('/'+ request.relative_url_root.gsub(%r{^\/}, '')) unless request.relative_url_root.blank?
-#  end
+    $this->Session->setFlash(__('Successful update.',true),'default',aa('class','flash notice'));
+  }
 #
 #  def plugin
 #    @plugin = Redmine::Plugin.find(params[:id])
@@ -59,6 +67,23 @@ class SettingsController extends AppController
       //{:name => 'repositories', :partial => 'settings/repositories', :label => :label_repository_plural}
   	);
   	$this->set('settings_tabs',$tabs);
+  }
+  function _prepateThemes()
+  {
+  	//TODO; scan real status on tehemes
+  	$themes = aa(
+  	  'Alternate','Alternate',
+  	  'Classic','Classic'
+  	);
+  	$this->set('themes',$themes);
+  }
+  function _prepareWikiformatting()
+  {
+  	$text_formattings = a(
+  	  'Textile',
+  	  'Pukiwiki'
+  	);
+  	$this->set('text_formattings',$text_formattings);
   }
 }
 

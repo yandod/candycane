@@ -73,6 +73,7 @@ class IssuesController extends AppController
       'limit' => $limit,
     ));
     $this->set('issue_list', $this->paginate('Issue'));
+    $this->set('params', $this->params);
     if ($this->RequestHandler->isAjax()) $this->layout = 'ajax';
   }
 #  def index
@@ -144,14 +145,29 @@ class IssuesController extends AppController
 #    end
 #  end
 #
+
+  /**
+   * Add a new issue
+   * The new issue will be created from an existing one if copy_from parameter is given
+   * Enter URLs :
+   *    /projects/test/issues/add/copy_from:30
+   *    /projects/test/issues/add/tracker_id:30
+   */
   function add() {
-/*
-    if(isset($this->params['copy_from'])) {
-      // TODO: コピーして新規追加の場合
-      // id が$this->params['copy_from']の値のレコードをfindして、配列を$this->dataへコピーする。
-      $this->Issue->copy_from($this->params['copy_from']);
+    if(!empty($this->params['named']['copy_from'])) {
+      $issue = $this->Issue->copy_from($this->params['named']['copy_from']);
+      if(!empty($issue['CustomValue'])) {
+        $issue['custom_field_values'] = array();
+        foreach($issue['CustomValue'] as $customValue) {
+          $issue['custom_field_values'][$customValue['custom_field_id']] = $customValue['value'];
+        }
+        unset($issue['CustomValue']);
+      }
+      $this->data = $issue;
     }
-*/
+    if(!empty($this->params['named']['tracker_id'])) {
+      $this->data['Issue']['tracker_id'] = $this->params['named']['tracker_id'];
+    }
     # Tracker must be set before custom field values
     $trackers = $this->Issue->Project->ProjectsTracker->find('list', array(
       'conditions'=>array('ProjectsTracker.project_id' => $this->_project['Project']['id']),
@@ -161,13 +177,11 @@ class IssuesController extends AppController
       $this->Session->setFlash(__("No tracker is associated to this project. Please check the Project settings.", true), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
-    // TODO IssueStatus のメソッドを呼び出すように変更する。
     $default_status = $this->Issue->Status->findDefault();
     if(empty($default_status)) {
       $this->Session->setFlash(__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
-    # @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)).uniq
     $allowed_statuses = $this->Issue->Status->find_new_statuses_allowed_to(
       key($default_status),
       $this->User->role_for_project($this->current_user, $this->_project['Project']['id']),
@@ -177,10 +191,20 @@ class IssuesController extends AppController
     foreach($allowed_statuses as $id => $value) {
       $statuses[$id] = $value;
     }
-    if(!empty($this->data)) {
-      e(pr($this->data));
-      $this->Issue->save($this->data);
-      exit();
+    if(!empty($this->data) && $this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
+      $this->data['Issue']['project_id'] = $this->_project['Project']['id'];
+      $this->data['Issue']['author_id'] = $this->current_user['id'];
+      if(!$this->Issue->save($this->data)) {
+        return $this->cakeError('error', array('message'=>"Can not save Issue."));
+      }
+      // TODO : attach file 
+      # attach_files(@issue, params[:attachments])
+      $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+      # Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
+      if(!empty($this->params['form']['continue'])) {
+        $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues/add/tracker_id:'.$this->data['Issue']['tracker_id']);
+      }
+      $this->redirect(array('action'=>'show', 'id'=>$this->Issue->getLastInsertID()));
     } elseif(!$this->RequestHandler->isAjax() && empty($this->data['Issue']['start_date'])) {
       $this->data['Issue']['start_date'] = date('Y-m-d');
     }
@@ -206,99 +230,149 @@ class IssuesController extends AppController
       'trackers', 'statuses', 'priorities', 'assignable_users', 'issue_categories', 
       'fixed_versions', 'custom_field_values', 'add_watcher_allowed_to', 'members'));
     $this->render('new');
+    if($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+    }
   }
-#  # Add a new issue
-#  # The new issue will be created from an existing one if copy_from parameter is given
-#  def new
-#    @issue = Issue.new
-#    @issue.copy_from(params[:copy_from]) if params[:copy_from]
-#    @issue.project = @project
-#    # Tracker must be set before custom field values
-#    @issue.tracker ||= @project.trackers.find((params[:issue] && params[:issue][:tracker_id]) || params[:tracker_id] || :first)
-#    if @issue.tracker.nil?
-#      flash.now[:error] = 'No tracker is associated to this project. Please check the Project settings.'
-#      render :nothing => true, :layout => true
-#      return
-#    end
-#    if params[:issue].is_a?(Hash)
-#      @issue.attributes = params[:issue]
-#      @issue.watcher_user_ids = params[:issue]['watcher_user_ids'] if User.current.allowed_to?(:add_issue_watchers, @project)
-#    end
-#    @issue.author = User.current
-#    
-#    default_status = IssueStatus.default
-#    unless default_status
-#      flash.now[:error] = 'No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").'
-#      render :nothing => true, :layout => true
-#      return
-#    end    
-#    @issue.status = default_status
-#    @allowed_statuses = ([default_status] + default_status.find_new_statuses_allowed_to(User.current.role_for_project(@project), @issue.tracker)).uniq
-#    
-#    if request.get? || request.xhr?
-#      @issue.start_date ||= Date.today
-#    else
-#      requested_status = IssueStatus.find_by_id(params[:issue][:status_id])
-#      # Check that the user is allowed to apply the requested status
-#      @issue.status = (@allowed_statuses.include? requested_status) ? requested_status : default_status
-#      if @issue.save
-#        attach_files(@issue, params[:attachments])
-#        flash[:notice] = l(:notice_successful_create)
-#        Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
-#        redirect_to(params[:continue] ? { :action => 'new', :tracker_id => @issue.tracker } :
-#                                        { :action => 'show', :id => @issue })
-#        return
-#      end		
-#    end	
-#    @priorities = Enumeration::get_values('IPRI')
-#    render :layout => !request.xhr?
-#  end
-#  
-#  # Attributes that can be updated on workflow transition (without :edit permission)
-#  # TODO: make it configurable (at least per role)
-#  UPDATABLE_ATTRS_ON_TRANSITION = %w(status_id assigned_to_id fixed_version_id done_ratio) unless const_defined?(:UPDATABLE_ATTRS_ON_TRANSITION)
-#  
-#  def edit
-#    @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-#    @priorities = Enumeration::get_values('IPRI')
-#    @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
-#    @time_entry = TimeEntry.new
-#    
-#    @notes = params[:notes]
-#    journal = @issue.init_journal(User.current, @notes)
-#    # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
-#    if (@edit_allowed || !@allowed_statuses.empty?) && params[:issue]
-#      attrs = params[:issue].dup
-#      attrs.delete_if {|k,v| !UPDATABLE_ATTRS_ON_TRANSITION.include?(k) } unless @edit_allowed
-#      attrs.delete(:status_id) unless @allowed_statuses.detect {|s| s.id.to_s == attrs[:status_id].to_s}
-#      @issue.attributes = attrs
-#    end
-#
-#    if request.post?
-#      @time_entry = TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
-#      @time_entry.attributes = params[:time_entry]
-#      attachments = attach_files(@issue, params[:attachments])
-#      attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
-#      
-#      call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
-#
-#      if (@time_entry.hours.nil? || @time_entry.valid?) && @issue.save
-#        # Log spend time
-#        if User.current.allowed_to?(:log_time, @project)
-#          @time_entry.save
-#        end
+  
+  /**
+   * Attributes that can be updated on workflow transition (without :edit permission)
+   * TODO: make it configurable (at least per role)
+   *  
+   *
+   * /projects/test/issues/edit/25?backto=url&issue[status_id]=3
+   * Array
+   * (
+   *     [url] => projects/test/issues/edit/25
+   *     [backto] => url
+   *     [issue] => Array
+   *        (
+   *           [status_id] => 3
+   *       )
+   * )
+   */
+  function edit() {
+    static $UPDATABLE_ATTRS_ON_TRANSITION = array('status_id', 'assigned_to_id', 'fixed_version_id', 'done_ratio');
+    if(empty($this->params['issue_id'])) {
+      return $this->cakeError('error', array('message'=>"Not exists issue."));
+    }
+    $issue = $this->_find_issue($this->params['issue_id']);
+    if(empty($this->_project)) {
+      $this->params['project_id'] = $issue['Project']['identifier'];
+      parent::_findProject();
+    }
+    $default_status = $this->Issue->Status->findDefault();
+    if(empty($default_status)) {
+      $this->Session->setFlash(__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true), 'default', array('class'=>'flash flash_error'));
+      $this->redirect('index');
+    }
+    $allowed_statuses = $this->Issue->Status->find_new_statuses_allowed_to(
+      key($default_status),
+      $this->User->role_for_project($this->current_user, $this->_project['Project']['id']),
+      $issue['Issue']['tracker_id']
+    );
+    $statuses = $default_status;
+    foreach($allowed_statuses as $id => $value) {
+      $statuses[$id] = $value;
+    }
+    $priority_datas = $this->Enumeration->get_values('IPRI');
+    $priorities = array();
+    foreach($priority_datas as $priority) {
+      $priorities[$priority['Enumeration']['id']] = $priority['Enumeration']['name'];
+      if(empty($this->data['Issue']['priority_id']) && $priority['Enumeration']['is_default']) {
+        $this->data['Issue']['priority_id'] = $priority['Enumeration']['id'];
+      }
+    }
+    $edit_allowed = $this->User->is_allowed_to($this->current_user, ':edit_issues', $this->_project);
+    $time_edit_allowed = $this->User->is_allowed_to($this->current_user, array('timelog', 'edit'), $this->_project);
+    $TimeEntry = & ClassRegistry::init('TimeEntry');
+
+    $notes = "";
+    if(!empty($this->params['url']['notes'])) {
+      $notes = $this->params['url']['notes'];
+    }
+    if(!empty($this->data['Issue']['notes'])) {
+      $notes = $this->data['Issue']['notes'];
+      unset($this->data['Issue']['notes']);
+    }
+    $this->Issue->init_journal($issue, $this->current_user, $notes);
+    # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
+    if($edit_allowed || !empty($allowed_statuses) && (!empty($this->params['url']['issue']) || !empty($this->data['Issue'])) ) {
+      $attrs = empty($this->params['url']['issue']) ? $this->data['Issue'] : $this->params['url']['issue'];
+      if(!$edit_allowed) {
+        foreach($attrs as $k=>$v) {
+          if(!in_array($k, $UPDATABLE_ATTRS_ON_TRANSITION)) {
+            unset($attrs[$k]);
+          }
+        }
+      }
+      if(!empty($attrs['status_id'])) {
+        if(!array_key_exists($attrs['status_id'], $allowed_statuses)) {
+          unset($attrs['status_id']);
+        }
+      }
+      $issue['Issue'] = array_merge($issue['Issue'], $attrs);
+    }
+    if($this->RequestHandler->isPost()) {
+      $TimeEntry.create();
+      $TimeEntry.set(array_merge(array(
+        'project_id'=>$this->_project['Project']['id'],
+        'issue_id'  =>$issue['Issue']['id'],
+        'user_id'   =>$this->current_user['id'],
+        'spent_on'  =>new Date('Y-m-d')
+      ), $this->data['TimeEntry']));
+      // TODO Issue edit attachement :
+      // $attachments = attach_files(@issue, params[:attachments])
+      // attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
+      
+      // call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
+      
+      if((empty($TimeEntry->data['TimeEntry']['hours']) || $TimeEntry->validates()) && $this->Issue->save($issue)) {
+        # Log spend time
+        if($this->User->is_allowed_to($this->current_user, ':log_time', $this->_project)) {
+          $TimeEntry->save();
+        }
+        // TODO �W���[�i���͕ۗ�
 #        if !journal.new_record?
 #          # Only send notification if something was actually changed
 #          flash[:notice] = l(:notice_successful_update)
 #          Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
 #        end
-#        redirect_to(params[:back_to] || {:action => 'show', :id => @issue})
-#      end
-#    end
+        if(!empty($this->params['url']['back_to'])) {
+          $this->redirect($this->params['url']['back_to']);
+        }
+        $this->redirect(array('action'=>'show', 'id'=>$issue['Issue']['id']));
+      }
+    }
+    $assignable_users = $this->Project->assignable_users($this->_project['Project']['id']);
+    $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
+    $fixed_versions = $this->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
+    $custom_field_values = $this->Issue->available_custom_fields(
+      $this->_project['Project']['id'],
+      $issue['Issue']['tracker_id']
+    );
+    $time_entry_custom_fields = $TimeEntry->available_custom_fields();
+    $time_entry_activity_datas = $this->Enumeration->get_values('ACTI');
+    $time_entry_activities = array();
+    foreach($time_entry_activity_datas as $time_entry_activity) {
+      $time_entry_activities[$time_entry_activity['Enumeration']['id']] = $time_entry_activity['Enumeration']['name'];
+    }
+
+    $this->set(compact(
+      'statuses', 'priorities', 'assignable_users', 'issue_categories', 'fixed_versions', 
+      'custom_field_values', 'edit_allowed', 'time_edit_allowed', 'time_entry_custom_fields',
+      'time_entry_activities'));
+    if($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+    }
+
 #  rescue ActiveRecord::StaleObjectError
 #    # Optimistic locking exception
 #    flash.now[:error] = l(:notice_locking_conflict)
 #  end
+
+  }
+  
 #
 #  def reply
 #    journal = Journal.find(params[:journal_id]) if params[:journal_id]
@@ -362,60 +436,132 @@ class IssuesController extends AppController
 #                                              :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq.sort
 #  end
 #
-#  def move
-#    @allowed_projects = []
-#    # find projects to which the user is allowed to move the issue
-#    if User.current.admin?
-#      # admin is allowed to move issues to any active (visible) project
-#      @allowed_projects = Project.find(:all, :conditions => Project.visible_by(User.current), :order => 'name')
-#    else
-#      User.current.memberships.each {|m| @allowed_projects << m.project if m.role.allowed_to?(:move_issues)}
-#    end
-#    @target_project = @allowed_projects.detect {|p| p.id.to_s == params[:new_project_id]} if params[:new_project_id]
-#    @target_project ||= @project    
-#    @trackers = @target_project.trackers
-#    if request.post?
-#      new_tracker = params[:new_tracker_id].blank? ? nil : @target_project.trackers.find_by_id(params[:new_tracker_id])
-#      unsaved_issue_ids = []
-#      @issues.each do |issue|
-#        issue.init_journal(User.current)
-#        unsaved_issue_ids << issue.id unless issue.move_to(@target_project, new_tracker)
-#      end
-#      if unsaved_issue_ids.empty?
-#        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
-#      else
-#        flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, @issues.size, '#' + unsaved_issue_ids.join(', #'))
-#      end
-#      redirect_to :controller => 'issues', :action => 'index', :project_id => @project
-#      return
-#    end
-#    render :layout => false if request.xhr?
-#  end
-#  
-#  def destroy
-#    @hours = TimeEntry.sum(:hours, :conditions => ['issue_id IN (?)', @issues]).to_f
-#    if @hours > 0
-#      case params[:todo]
-#      when 'destroy'
-#        # nothing to do
-#      when 'nullify'
-#        TimeEntry.update_all('issue_id = NULL', ['issue_id IN (?)', @issues])
-#      when 'reassign'
-#        reassign_to = @project.issues.find_by_id(params[:reassign_to_id])
-#        if reassign_to.nil?
-#          flash.now[:error] = l(:error_issue_not_found_in_project)
-#          return
-#        else
-#          TimeEntry.update_all("issue_id = #{reassign_to.id}", ['issue_id IN (?)', @issues])
-#        end
-#      else
-#        # display the destroy form
-#        return
-#      end
-#    end
-#    @issues.each(&:destroy)
-#    redirect_to :action => 'index', :project_id => @project
-#  end
+  function move() {
+    $issue_ids = false;
+    if(!empty($this->params['issue_id'])) {
+      $issue_ids = $this->params['issue_id'];
+    } elseif(!empty($this->params['url']['ids'])) {
+      $issue_ids = $this->params['url']['ids'];
+    } elseif(!empty($this->data['Issue']['ids'])) {
+      $issue_ids = $this->data['Issue']['ids'];
+    } else {
+      return $this->cakeError('error', array('message'=>"Not exists issue."));
+    }
+
+    if(!is_array($issue_ids)) {
+      $issue_ids = array($issue_ids);
+    }
+    $allowed_projects = array();
+    $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$issue_ids)));
+    if(empty($issues)) {
+      return $this->cakeError('error', array('message'=>"Not exists issue."));
+    }
+    # find projects to which the user is allowed to move the issue
+    if($this->current_user['admin']) {
+      # admin is allowed to move issues to any active (visible) project
+      $allowed_projects = $this->Project->find('list', array('conditions'=>$this->Project->visible_by($this->current_user), 'order'=>'name'));
+    } else  {
+      $Role = & ClassRegistry::init('Role');
+      foreach($this->current_user['memberships'] as $member) {
+        if($Role->is_allowed_to($member, ':move_issues')) {
+          $allowed_projects[] = array($member['Project']['id']=>$member['Project']['name']);
+        }
+      }
+    }
+    if(!array_key_exists($issues[0]['Issue']['project_id'], $allowed_projects)) {
+      return $this->cakeError('error', array('message'=>"Permission deny."));
+    }
+    if($this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
+      $move_count = 0;
+      foreach($issues as $issue) {
+        $this->Issue->init_journal($issue, $this->current_user);
+        if($this->Issue->move_to($this->Setting, $issue, $this->data['Issue']['project_id'], $this->data['Issue']['tracker_id'])) {
+          $move_count++;
+        }
+      }
+      if($move_count == count($issues)) {
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+      } else {
+        $this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), $move_count, count($issues)), 'default', array('class'=>'flash flash_error'));
+      }
+      if($this->RequestHandler->isAjax()) {
+        $this->layout = 'ajax';
+        return;
+      }
+      $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues');
+    } elseif($this->RequestHandler->isAjax() && !empty($this->data['Issue']['project_id'])) {
+      if(!array_key_exists($this->data['Issue']['project_id'], $allowed_projects)) {
+        $this->data['Issue']['project_id'] = $issues[0]['Issue']['project_id'];
+      }
+    } else {
+      $this->data['Issue']['project_id'] = $issues[0]['Issue']['project_id'];
+    }
+    $trackers = $this->Project->ProjectsTracker->find('list', array(
+      'conditions'=>array('ProjectsTracker.project_id'=>$this->data['Issue']['project_id']), 
+      'fields'=>array('Tracker.id', 'Tracker.name'),
+      'recursive'=>0
+    ));
+    $this->set(compact('allowed_projects', 'trackers'));
+    $this->set('issue_datas', $issues);
+    if($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+    }
+  }
+
+  function destroy() {
+    $issue_ids = false;
+    if(!empty($this->params['issue_id'])) {
+      $issue_ids = $this->params['issue_id'];
+    } elseif(!empty($this->params['url']['ids'])) {
+      $issue_ids = $this->params['url']['ids'];
+    } elseif(!empty($this->data['Issue']['ids'])) {
+      $issue_ids = $this->data['Issue']['ids'];
+    } else {
+      return $this->cakeError('error', array('message'=>"Not exists issue."));
+    }
+    if(!is_array($issue_ids)) {
+      $issue_ids = array($issue_ids);
+    }
+    $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$issue_ids)));
+    if(empty($issues)) {
+      return $this->cakeError('error', array('message'=>"Not exists issue."));
+    }
+    $this->set('issue_datas', $issues);
+    $TimeEntry = & ClassRegistry::init('TimeEntry');
+    $hours = $TimeEntry->sum('hours', array('issue_id'=>$issue_ids));
+    $this->set(compact('hours'));
+    if($hours > 0) {
+      if(empty($this->data['Issue']['todo'])) {
+        # display the destroy form
+        $this->data['Issue']['todo'] = 'destroy';
+        return;
+      }
+      switch($this->data['Issue']['todo']) {
+      case 'destroy' :
+        # nothing to do
+        break;
+      case 'nullify' :
+        $TimeEntry->updateAll(array('issue_id'=>null), array('issue_id'=>$issue_ids));
+        break;
+      case 'reassign' :
+        if(!$this->Issue->hasAny(array('Issue.id'=>$this->data['Issue']['reassign_to_id']))) {
+          $this->Session->setFlash(__("'The issue was not found or does not belong to this project'", true), 'default', array('class'=>'flash flash_error'));
+          return;
+        }
+        $TimeEntry->updateAll(array("issue_id"=>$this->data['Issue']['reassign_to_id']), array('issue_id'=>$issue_ids));
+        break;
+      default :
+        # display the destroy form
+        return;
+      }
+    }
+    if($this->Issue->deleteAll(array('Issue.id'=>$issue_ids))) {
+      $this->Session->setFlash(__('Successful deletion.', true), 'default', array('class'=>'flash flash_notice'));
+    } else {
+      $this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), 1, 1), 'default', array('class'=>'flash flash_error'));
+    }
+    $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues');
+  }
 #  
 #  def gantt
 #    @gantt = Redmine::Helpers::Gantt.new(params)
@@ -519,9 +665,9 @@ class IssuesController extends AppController
   function _find_issue($id)
   {
     if ($this->_issue = $this->Issue->find('first', array(
-      'Issue.id' => $id,
+      'conditions'=>array('Issue.id' => $id)
     ))) {
-      $this->set('issue', $this->_issue);
+      $this->set(array('issue'=>$this->_issue));
       return $this->_issue;
     } else {
       $this->cakeErorr('error404');
@@ -566,7 +712,8 @@ class IssuesController extends AppController
 #  # Retrieve query from session or build a new query
   function _retrieve_query()
   {
-    $show_filters = $this->Query->show_filters();
+    $this->set('force_show_filters', $force_show_filters = $this->Query->show_filters());
+    $show_filters = isset($this->params['url']['set_filter']) ? a() : $force_show_filters;
     $available_filters = $this->Query->available_filters($this->_project, $this->current_user);
     $query = a();
     if (!isset($this->data['Filter'])) $this->data['Filter'] = a();
@@ -583,7 +730,7 @@ class IssuesController extends AppController
       if (isset($this->params['url']['set_filter'], $this->params['form']['fields'])) {
         foreach ($this->params['form']['fields'] as $field) {
           $operator = $this->params['form']['operators'][$field];
-          $value = $this->params['form']['values'][$field];
+          $value = isset($this->params['form']['values'][$field]) ? $this->params['form']['values'][$field] : null;
           if (isset($available_filters[$field])) {
             $show_filters[$field] = $available_filters[$field];
             $this->data['Filter']['fields_' . $field] = $field;

@@ -1,43 +1,32 @@
 <?php
-## redMine - project management software
-## Copyright (C) 2006-2007  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
 class Setting extends AppModel
 {
   var $name = 'Setting' ;
   
-#
-#  DATE_FORMATS = [
-#	'%Y-%m-%d',
-#	'%d/%m/%Y',
-#	'%d.%m.%Y',
-#	'%d-%m-%Y',
-#	'%m/%d/%Y',
-#	'%d %b %Y',
-#	'%d %B %Y',
-#	'%b %d, %Y',
-#	'%B %d, %Y'
-#    ]
-#    
-#  TIME_FORMATS = [
-#    '%H:%M',
-#    '%I:%M %p'
-#    ]
-#    
+  var $DATE_FORMATS = array(
+	'Y-m-d',
+	'd/m/Y',
+	'd.m.Y',
+	'd-m-Y',
+	'm/d/Y',
+	'd M Y',
+	'd F Y',
+	'M d, Y',
+	'F d, Y'
+  );
+    
+  var $TIME_FORMATS = array(
+    'H:i',
+    'h:i A'
+    );
+
+  var $USER_FORMATS = array(
+      'firstname_lastname' => '%1$s %2$s',
+      'firstname' => '%1$s',
+      'lastname_firstname' => '%2$s %1$s',
+      'lastname_coma_firstname' => '%2$s, %1$s',
+      'username' => '%3$s'
+  );
 #  ENCODINGS = %w(US-ASCII
 #                  windows-1250
 #                  windows-1251
@@ -175,7 +164,13 @@ class Setting extends AppModel
     }
     $data = $this->find('all');
     foreach ($data as $k => $v) {
-    	$this->{$v['Setting']['name']} = $v['Setting']['value'];
+      switch ($v['Setting']['name']){
+      	case 'per_page_options':
+      	  $this->{$v['Setting']['name']} = explode(',',$v['Setting']['value']);
+      	  break;
+      	default:
+          $this->{$v['Setting']['name']} = $v['Setting']['value'];
+      }
     }
   }
 }
