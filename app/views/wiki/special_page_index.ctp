@@ -1,11 +1,17 @@
 <h2><?php echo __("Index by title") ?></h2>
 
-
 <?php if (sizeof($pages) === 0) : ?>
-<p class="nodata"><%= l(:label_no_data) %></p>
+<p class="nodata"><?php echo __("No data to display") ?></p>
 <?php endif ?>
 
 <!--%= render_page_hierarchy(@pages_by_parent_id) %-->
+<!--tmporary list start-->
+<ul class="pages-hierarchy">
+<?php foreach($pages as $page) : ?>
+  <li><?php echo $html->link($wiki->pretty_title($page['Page']['title']), array('action' => 'index', 'project_id' => $project_id, 'wikipage' => $page['Page']['title'])) ?></li>
+<?php endforeach ?>
+</ul>
+<!--tmporary list end-->
 
 <?php $this->set('Sidebar', $this->renderElement('wiki/sidebar')) ?>
 

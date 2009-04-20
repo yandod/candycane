@@ -2,25 +2,26 @@
 
 class WikiController extends AppController {
   //var $helpers = array('attachments');
-  var $uses = array('Wiki', 'Project', 'User', 'WikiContent');
-  var $helpers = array('Time', 'Number');
+  var $uses = array('Wiki', 'Project', 'User');
+  var $helpers = array('Time', 'Number', 'Wiki');
 
   function index() {
-    
     $page_title = null;
     if (isset($this->params['wikipage'])) {
       $page_title = $this->params['wikipage'];
     }
     $page = $this->Wiki->find_page($page_title);
     if (!$page) {
+      $this->set('page_title', $page_title);
       $this->render('edit');
     }
     $version = isset($this->params['url']['version']) ? $this->params['url']['version'] : null;
-    // 仮の実装。本当はwiki_content_versionから取得する実装が必要。
+    // 仮の実装。本当はwiki_content_versionsから取得する実装が必要。
     // @content = @page.content_for_version(params[:version])
-    $content = $this->WikiContent->find('first', aa('conditions',
-                                                    aa('WikiContent.page_id',
-                                                       $page['Page']['id'])));
+    $content = $this->Wiki->Page->Content->find('first',
+                                                aa('conditions',
+                                                   aa('Content.page_id',
+                                                      $page['Page']['id'])));
     $export = isset($this->params['url']['export']) ? $this->params['url']['export'] : null;
     if ($export === 'html') {
       //export = render_to_string :action => 'export', :layout => false
@@ -30,11 +31,10 @@ class WikiController extends AppController {
       // send_data(@content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
       return;
     }
-    $author = $this->User->findById($content['WikiContent']['author_id']);
+    $author = $this->User->findById($content['Content']['author_id']);
     $author['User']['name'] = $author['User']['firstname'].$author['User']['lastname'];
-    $page['Page']['pretty_title'] = WikiPage::pretty_title($page['Page']['title']);
     $this->set('page', $page);
-    $this->set('content', $content['WikiContent']);
+    $this->set('content', $content);
     $this->set('author', $author);
     $this->set('editable', $this->is_editable());
     $this->render('show');
@@ -47,8 +47,30 @@ class WikiController extends AppController {
       case 'page_index':
       case 'date_index':
         // eager load information about last updates, without loading text
-        $wiki = $this->Wiki->find();
-        $this->set('pages', $wiki['Page']);
+        $this->Wiki->Page->recursive = -1;
+        $options = array('conditions'
+                         => aa('Page.wiki_id', $this->Wiki->field('id')),
+                         'fields'
+                         => 'Page.*, Content.updated_on',
+                         'joins'
+                         => a(aa(
+                                 "type", 'LEFT',
+                                 "table", 'wiki_contents',
+                                 "alias", 'Content',
+                                 "conditions", 'Content.page_id=Page.id')),
+                         'order' => 'Page.title');
+        //'order' => 'Content.updated_on DESC');
+        $pages = $this->Wiki->Page->find('all', $options);
+        $this->set('pages', $pages);
+
+        // 以下、viewのための整形
+        foreach ($pages as $page) {
+          $day = date('Y-m-d', strtotime($page['Content']['updated_on']));
+          $pages_by_date[$day][] = $page;
+        }
+        krsort($pages_by_date);
+        $this->set('pages_by_date', $pages_by_date);
+
         break;
       case 'export':
         $this->render("export_multiple"); // temporary implementation. fixme.

@@ -5,12 +5,12 @@
 <?php endif ?>
 
 <?php if (sizeof($pages) !== 0) : ?>
-<?php foreach($pages as $page) : ?>
-<h3><%= format_date(date) %></h3>
+<?php foreach($pages_by_date as $day=>$pages) : ?>
+<h3><?php echo $candy->format_date($day) ?></h3>
 <ul>
-<% @pages_by_date[date].each do |page| %>
-    <li><?php echo $html->link(WikiPage::pretty_title($page['title']), array('action' => 'index', 'project_id' => $project_id, 'wikipage' => $page['title'])) ?></li>
-<% end %>
+<?php foreach($pages as $page) : ?>
+    <li><?php echo $html->link($wiki->pretty_title($page['Page']['title']), array('action' => 'index', 'project_id' => $project_id, 'wikipage' => $page['Page']['title'])) ?></li>
+<?php endforeach ?>
 </ul>
 <?php endforeach ?>
 <?php endif ?>

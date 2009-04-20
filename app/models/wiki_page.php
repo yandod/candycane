@@ -121,15 +121,6 @@ class WikiPage extends AppModel
 #    c ? WikiAnnotate.new(c) : nil
 #  end
 #  
-
-  function pretty_title($str) {
-    if ($str && is_string($str)) {
-      return str_replace('_', ' ', $str);
-    } else {
-      return $str;
-    }
-  }
-
 #  def self.pretty_title(str)
 #    (str && str.is_a?(String)) ? str.tr('_', ' ') : str
 #  end
