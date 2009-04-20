@@ -308,7 +308,7 @@ class AppController extends Controller {
 #  end
   function setSettings()
   {
-  	$this->theme = $this->Setting->ui_theme;
+  	$this->theme = strtolower($this->Setting->ui_theme);
   	$this->set('Settings',$this->Setting);
   }
   
