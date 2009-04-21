@@ -1,4 +1,4 @@
-<h2><%= @page.pretty_title %></h2>
+<h2><?php echo h($wiki->pretty_title($page_title)) ?></h2>
 
 <% form_for :content, @content, :url => {:action => 'edit', :page => @page.title}, :html => {:id => 'wiki_form'} do |f| %>
 <%= f.hidden_field :version %>
@@ -23,4 +23,4 @@
   <%= stylesheet_link_tag 'scm' %>
 <% end %>
 
-<% html_title @page.pretty_title %>
+<?php $candy->html_title(h($wiki->pretty_title($page_title))) ?>
