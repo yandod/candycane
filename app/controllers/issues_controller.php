@@ -45,6 +45,11 @@ class IssuesController extends AppController
     }
     return parent::beforeFilter();
   }
+  function beforeRender()
+  {
+    $this->set('url_param', $this->params['url_param']);
+    parent::beforeRender();
+  }
 #  accept_key_auth :index, :changes
 #
 #  helper :journals
@@ -685,6 +690,11 @@ class IssuesController extends AppController
 #    render :layout => false if request.xhr?
 #  end
 #  
+  function context_menu()
+  {
+    $this->layout = 'ajax';
+    Configure::write('debug', Configure::read('debug') > 1 ? 1 : 0);
+  }
 #  def context_menu
 #    @issues = Issue.find_all_by_id(params[:ids], :include => :project)
 #    if (@issues.size == 1)

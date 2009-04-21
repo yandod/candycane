@@ -3,18 +3,25 @@
 class WikiController extends AppController {
   //var $helpers = array('attachments');
   var $uses = array('Wiki', 'Project', 'User');
-  var $helpers = array('Time', 'Number');
+  var $helpers = array('Time', 'Number', 'Wiki');
 
   function index() {
-    $page_title = $this->params['wikipage'];
-    $page = $this->Wiki->find_or_new_page($page_title);
-    /*
-    if ($page is new) {
+    $page_title = null;
+    if (isset($this->params['wikipage'])) {
+      $page_title = $this->params['wikipage'];
+    }
+    $page = $this->Wiki->find_page($page_title);
+    if (!$page) {
+      $this->set('page_title', $page_title);
       $this->render('edit');
     }
-    */
     $version = isset($this->params['url']['version']) ? $this->params['url']['version'] : null;
-    $content = $this->Wiki->Page->content_for_version($version);
+    // 仮の実装。本当はwiki_content_versionsから取得する実装が必要。
+    // @content = @page.content_for_version(params[:version])
+    $content = $this->Wiki->Page->Content->find('first',
+                                                aa('conditions',
+                                                   aa('Content.page_id',
+                                                      $page['Page']['id'])));
     $export = isset($this->params['url']['export']) ? $this->params['url']['export'] : null;
     if ($export === 'html') {
       //export = render_to_string :action => 'export', :layout => false
@@ -25,16 +32,59 @@ class WikiController extends AppController {
       return;
     }
     $author = $this->User->findById($content['Content']['author_id']);
-    // このへん、ホントはviewで操作したい。helperに移動するのが正解？
     $author['User']['name'] = $author['User']['firstname'].$author['User']['lastname'];
-    $page['Page']['pretty_title'] = WikiPage::pretty_title($page['Page']['title']);
     $this->set('page', $page);
     $this->set('content', $content);
     $this->set('author', $author);
     $this->set('editable', $this->is_editable());
     $this->render('show');
   }
+
   function special() {
+    $page_title = strtolower($this->params['wikipage']);
+    switch ($page_title) {
+      // show pages index, sorted by title
+      case 'page_index':
+      case 'date_index':
+        // eager load information about last updates, without loading text
+        $this->Wiki->Page->recursive = -1;
+        $options = array('conditions'
+                         => aa('Page.wiki_id', $this->Wiki->field('id')),
+                         'fields'
+                         => 'Page.*, Content.updated_on',
+                         'joins'
+                         => a(aa(
+                                 "type", 'LEFT',
+                                 "table", 'wiki_contents',
+                                 "alias", 'Content',
+                                 "conditions", 'Content.page_id=Page.id')),
+                         'order' => 'Page.title');
+        //'order' => 'Content.updated_on DESC');
+        $pages = $this->Wiki->Page->find('all', $options);
+        $this->set('pages', $pages);
+
+        // 以下、viewのための整形
+        foreach ($pages as $page) {
+          $day = date('Y-m-d', strtotime($page['Content']['updated_on']));
+          $pages_by_date[$day][] = $page;
+        }
+        krsort($pages_by_date);
+        $this->set('pages_by_date', $pages_by_date);
+
+        break;
+      case 'export':
+        $this->render("export_multiple"); // temporary implementation. fixme.
+        return;
+        break;
+      default:
+        // requested special page doesn't exist, redirect to default page
+        $this->redirect(array('controller' => 'wiki',
+                              'action'=>'index',
+                              'project_id'=>$this->params['project_id'],
+                              'wikipage' => null));
+        break;
+    }
+    $this->render("special_${page_title}");
   }
   function beforeFilter() {
     $this->_find_wiki();
@@ -50,15 +100,20 @@ class WikiController extends AppController {
 
   function _find_wiki()
   {
-    $project = $this->Project->find($this->params['project_id']);
+    $project_id = $this->params['project_id'];
+    $project = $this->Project->find($project_id);
     if (!$project) {
         $this->cakeError('error404');
     }
-    $wiki = $this->Wiki->Find('first', array('conditions'=>aa('Wiki.project_id', $project['Project']['id'])));
+    // projectsとwikisは1:1関係なので、アソシエーションを使わずにアクセス
+    $wiki = $this->Wiki->Find('first', aa('conditions',
+                                          aa('Wiki.project_id',
+                                             $project['Project']['id'])));
     if (!$wiki) {
         $this->cakeError('error404');
     }
     $this->set('wiki', $wiki);
+    $this->set('project_id', $project_id);
   }
 
   function _find_existing_page()

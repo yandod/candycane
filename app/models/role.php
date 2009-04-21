@@ -23,7 +23,6 @@ class Role extends AppModel {
   var $name = 'Role';
   var $actsAs = array('List');
 
-
 #  # Built-in roles
 #  BUILTIN_NON_MEMBER = 1
 #  BUILTIN_ANONYMOUS  = 2
@@ -60,6 +59,11 @@ class Role extends AppModel {
 #  validates_uniqueness_of :name
 #  validates_length_of :name, :maximum => 30
 #  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
+  var $validate = array('name' => array('validates_uniqueness_of' => array('rule' => array('isUnique')),
+                                        'validates_length_of' => array('rule' => array('maxLength', 10)),
+                                        'validates_format_of' => array('rule' => array('custom', '/^[\w\s\'\-]*$/i')),
+                                        ));
+
 #
 #  def permissions
   function permissions($permissions) {
@@ -67,6 +71,7 @@ class Role extends AppModel {
 #    read_attribute(:permissions) || []
 #  end
   }
+
 #  
 #  def permissions=(perms)
 #    perms = perms.collect {|p| p.to_sym unless p.blank? }.compact.uniq if perms
@@ -201,17 +206,20 @@ class Role extends AppModel {
 
   function toSymbol($data) {
     $tmp = array();
+    if (! is_array($data)) {
+      return $tmp;
+    }
     foreach ($data as $d) {
       $tmp[] = ':' . $d;
     }
     return $tmp;
   }
 
-  function convert_permissions($data) {
-    $tmp = $this->toSymbol($data['Role']['permissions']);
+  function convert_permissions($permissions_array) {
+    $tmp = $this->toSymbol($permissions_array);
     $tmp = $this->array2yaml($tmp);
-    $data['Role']['permissions'] = $tmp;
-    return $data;
+    $permissions_yaml = $tmp;
+    return $permissions_yaml;
   }
   
 }

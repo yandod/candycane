@@ -131,7 +131,8 @@ class UsersController extends AppController
     $name = null;
     if(!empty($this->params['url']['name'])) {
       $name = $this->params['url']['name'];
-      $condition['LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?'] = array($name, $name, $name);
+      $q_name = "%{$name}%";
+      $condition['LOWER(login) LIKE ? OR LOWER(firstname) LIKE ? OR LOWER(lastname) LIKE ?'] = array($q_name, $q_name, $q_name);
     } 
 
     $this->set('name', $name);

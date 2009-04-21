@@ -186,7 +186,8 @@ class IssuesHelper extends AppHelper
 #    export
 #  end
 #end
-  function spent_hours($issue) {
+  function spent_hours($issue)
+  {
     $spent_hours = 0;
     if(!empty($issue['TimeEntry'])) {
       foreach($issue['TimeEntry'] as $time_entry) {

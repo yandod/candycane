@@ -1,23 +1,28 @@
-<h2><%= l(:label_index_by_title) %></h2>
+<h2><?php echo __("Index by title") ?></h2>
 
-<% if @pages.empty? %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
+<?php if (sizeof($pages) === 0) : ?>
+<p class="nodata"><?php echo __("No data to display") ?></p>
+<?php endif ?>
 
-<%= render_page_hierarchy(@pages_by_parent_id) %>
+<!--%= render_page_hierarchy(@pages_by_parent_id) %-->
+<!--tmporary list start-->
+<ul class="pages-hierarchy">
+<?php foreach($pages as $page) : ?>
+  <li><?php echo $html->link($wiki->pretty_title($page['Page']['title']), array('action' => 'index', 'project_id' => $project_id, 'wikipage' => $page['Page']['title'])) ?></li>
+<?php endforeach ?>
+</ul>
+<!--tmporary list end-->
 
-<% content_for :sidebar do %>
-  <%= render :partial => 'sidebar' %>
-<% end %>
+<?php $this->set('Sidebar', $this->renderElement('wiki/sidebar')) ?>
 
-<% unless @pages.empty? %>
+<?php if (sizeof($pages) !== 0) : ?>
 <p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'Atom', {:controller => 'projects', :action => 'activity', :id => @project, :show_wiki_pages => 1, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
-<span><%= link_to 'HTML', {:action => 'special', :page => 'export'} %></span>
+<?php echo __("'Also available in:'") ?>
+<span><?php echo $html->link('Atom', array('controller' => 'projects', 'action' => 'activity', 'project_id' => $project_id, 'show_wiki_pages' => 1, 'format' => 'atom', 'key' => '' /*User.current.rss_key*/), array('class' => 'feed')) ?></span>
+<span><?php echo $html->link('HTML', array('action' => 'special', 'project_id' => $project_id ,'wikipage' => 'export'), array('class' => 'html')); ?></span>
 </p>
-<% end %>
+<?php endif ?>
 
-<% content_for :header_tags do %>
+<!--% content_for :header_tags do %>
 <%= auto_discovery_link_tag(:atom, :controller => 'projects', :action => 'activity', :id => @project, :show_wiki_pages => 1, :format => 'atom', :key => User.current.rss_key) %>
-<% end %>
+<% end %-->

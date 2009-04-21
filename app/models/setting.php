@@ -9,28 +9,24 @@ class Setting extends AppModel
 	'd.m.Y',
 	'd-m-Y',
 	'm/d/Y',
-	'd b Y',
-	'd B Y',
-	'b d, Y',
-	'B d, Y'
+	'd M Y',
+	'd F Y',
+	'M d, Y',
+	'F d, Y'
   );
-#  DATE_FORMATS = [
-#	'%Y-%m-%d',
-#	'%d/%m/%Y',
-#	'%d.%m.%Y',
-#	'%d-%m-%Y',
-#	'%m/%d/%Y',
-#	'%d %b %Y',
-#	'%d %B %Y',
-#	'%b %d, %Y',
-#	'%B %d, %Y'
-#    ]
-#    
-#  TIME_FORMATS = [
-#    '%H:%M',
-#    '%I:%M %p'
-#    ]
-#    
+    
+  var $TIME_FORMATS = array(
+    'H:i',
+    'h:i A'
+    );
+
+  var $USER_FORMATS = array(
+      'firstname_lastname' => '%1$s %2$s',
+      'firstname' => '%1$s',
+      'lastname_firstname' => '%2$s %1$s',
+      'lastname_coma_firstname' => '%2$s, %1$s',
+      'username' => '%3$s'
+  );
 #  ENCODINGS = %w(US-ASCII
 #                  windows-1250
 #                  windows-1251
@@ -103,14 +99,31 @@ class Setting extends AppModel
 #    v = @cached_settings[name]
 #    v ? v : (@cached_settings[name] = find_or_default(name).value)
 #  end
-#  
-#  def self.[]=(name, v)
-#    setting = find_or_default(name)
+  /**
+   * instead of self.[] method of ruby version
+   *
+   * @param string $name
+   * @param mixed $value
+   */
+  function store($name,$value)
+  {
+  	 $cond = aa('name',$name);
+  	 $data = $this->find('all',aa('conditions',$cond));
+     $id = null;
+     if (isset($data[0]['Setting']['id'])) $id = $data[0]['Setting']['id'];
+     
+     $arr = array(
+       'id' => $id,
+       'name' => $name,
+       'value' => $value
+     );
+     $this->save($arr);
+  	 #    setting = find_or_default(name)
 #    setting.value = (v ? v : "")
 #    @cached_settings[name] = nil
 #    setting.save
 #    setting.value
-#  end
+  }
 #  
 #  # Defines getter and setter for each setting
 #  # Then setting values can be read using: Setting.some_setting_name
@@ -168,7 +181,13 @@ class Setting extends AppModel
     }
     $data = $this->find('all');
     foreach ($data as $k => $v) {
-    	$this->{$v['Setting']['name']} = $v['Setting']['value'];
+      switch ($v['Setting']['name']){
+      	case 'per_page_options':
+      	  $this->{$v['Setting']['name']} = explode(',',$v['Setting']['value']);
+      	  break;
+      	default:
+          $this->{$v['Setting']['name']} = $v['Setting']['value'];
+      }
     }
   }
 }
