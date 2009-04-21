@@ -434,7 +434,7 @@ class CandyHelper extends AppHelper
     } else {
       $page_param = 'page';
     }
-    $url_param = $this->url_param($params);
+    $url_param = $params['url_param'];
 #    url_param.clear if url_param.has_key?(:set_filter)
     $html = '';
     if ($paging['prevPage']) {
@@ -494,7 +494,7 @@ class CandyHelper extends AppHelper
 #
   function per_page_links($selected = null)
   {
-    $url_param = $this->url_param($this->Paginator->params);
+    $url_param = $this->Paginator->params['url_param'];
 #    url_param.clear if url_param.has_key?(:set_filter)
     $links = a();
     foreach ($this->Settings->per_page_options as $v) {
@@ -993,11 +993,5 @@ function breadcrumb($args)
     if (!is_numeric($begin)) $begin = strtotime($begin);
     if (!is_numeric($end)) $end = strtotime($end);
     return sprintf('%d', abs($begin - $end) / 86400) . '' . __('days', true); // white space is need ?
-  }
-  
-  function url_param($url_param)
-  {
-    unset($url_param['url'], $url_param['form'], $url_param['isAjax'], $url_param['paging'], $url_param['plugin'], $url_param['models'], $url_param['pass'], $url_param['named']);
-    return $url_param;
   }
 }

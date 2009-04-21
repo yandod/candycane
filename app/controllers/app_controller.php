@@ -14,6 +14,7 @@ class AppController extends Controller {
     var $per_page;
     var $view = 'Theme';
     var $theme = '';
+    var $pure_params = array();
     /**
      * beforeFilter
      *
@@ -21,11 +22,28 @@ class AppController extends Controller {
      */
     function beforeFilter()
     {
+        $this->_setUrlParam();
         $this->user_setup();
         $this->check_if_login_required();
         $this->setSettings();
         $this->_findProject();
         //$this->set_localzation();
+    }
+    function _setUrlParam()
+    {
+      $url_param = $this->params;
+      foreach (array(
+        'url',
+        'form',
+        'isAjax',
+        'plugin',
+        'models',
+        'pass',
+        'named',
+      ) as $key) {
+        unset($url_param[$key]);
+      }
+      $this->params['url_param'] = $url_param;
     }
 #  filter_parameter_logging :password
 #  
