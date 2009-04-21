@@ -11,7 +11,8 @@ class Issue extends AppModel
                'author_key'=>'author_id')
       ),
     'Watchable',
-    'Customizable'
+    'Customizable',
+    'Attachable',
   );
 #  acts_as_attachable :after_remove => :attachment_removed
 #  acts_as_customizable
@@ -301,7 +302,50 @@ class Issue extends AppModel
 #    updated_on_will_change!
 #    @current_journal
     return $this->Journal;
-   }
+  }
+  function findValuesByJournalDetail($detail) {
+    $label = '';
+    $value = '';
+    $old_value = '';
+    $field_format = '';
+    $attachment = false;
+
+    switch($detail['property']) {
+    case 'attr' :
+      $options = array(
+        'fields'=>array('name'),
+        'conditions'=>array('id'=>0),
+        'recursive'=>-1);
+      foreach($this->belongsTo as $alias=>$assoc) {
+        if($detail['prop_key'] == $assoc['foreignKey']) {
+          if(!empty($detail['value'])) {
+            $options['conditions']['id'] = $detail['value'];
+            $result = $this->$alias->find('first', $options);
+            $value = $result[$alias]['name'];
+          }
+          if(!empty($detail['old_value'])) {
+            $options['conditions']['id'] = $detail['old_value'];
+            $result = $this->$alias->find('first', $options);
+            $old_value = $result[$alias]['name'];
+          }
+          break;
+        }
+      }
+      break;
+    case 'cf' :
+      $custom_field = $this->findCustomFieldById($detail['prop_key']);
+      if(!empty($custom_field)) {
+        $label = $custom_field['CustomField']['name'];
+        $field_format = $custom_field['CustomField']['field_format'];
+      }
+      break;
+    case 'attachment' :
+      $attachment = $this->findAttachableById($detail['prop_key']);
+      break;
+    }
+    return compact('label', 'value', 'old_value', 'field_format', 'attachment');
+  }
+   
 #  
 #  # Return true if the issue is closed, otherwise false
 #  def closed?

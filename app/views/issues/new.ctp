@@ -30,7 +30,7 @@
 <?php echo $form->create('Issue', array('url'=>'/projects/'.$mainProject['Project']['identifier'].'/issues/add', 'class'=>"tabular", 'enctype'=>"multipart/form-data", 'id'=>'IssueAddForm')); ?>
   <div class="box">
     <?php echo $this->renderElement('issues/form', compact(
-      'trackers', 'statuses', 'priorities', 'assignable_users', 'issueCategories', 
+      'trackers', 'statuses', 'priorities', 'assignableUsers', 'issueCategories', 
       'fixedVersions', 'customFieldValues', 'members')); ?>
   </div>
   <?php echo $form->submit(__('Create', true), array('div'=>false)); ?>

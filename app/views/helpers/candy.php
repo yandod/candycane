@@ -977,6 +977,15 @@ function breadcrumb($args)
       return $one;
     }
   }
+  function label_text($text) {
+    if (strpos($text, '.') !== false) {
+      $text = array_pop(explode('.', $text));
+    }
+    if (substr($text, -3) == '_id') {
+      $text = substr($text, 0, strlen($text) - 3);
+    }
+    return __(Inflector::humanize(Inflector::underscore($text)), true);
+  }
 
   function check_all_links($form_name) {
     $tmp = $this->Html->link(__('Check all',true), '#', array('onclick' => "checkAll('" . $form_name . "', true); return false;"));

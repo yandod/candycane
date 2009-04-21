@@ -1931,8 +1931,8 @@ msgid "Comment"
 msgstr "コメント"
 
 # text_user_wrote
-msgid "'%s wrote:'"
-msgstr "'%s wrote:'"
+msgid "%s wrote:"
+msgstr "%s wrote:"
 
 # text_plugin_assets_writable
 msgid "Plugin assets directory writable"

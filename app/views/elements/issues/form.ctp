@@ -1,3 +1,4 @@
+    <?php if(isset($trackers)): ?>
     <p>
       <?php echo $form->label('tracker_id', __('Tracker', true).'<span class="required"> *</span>'); ?>
       <?php echo $form->input('tracker_id', array('div'=>false, 'label'=>false)); ?></p>
@@ -9,6 +10,7 @@
         'with'=>'Form.serialize(\'IssueAddForm\')'
         )); ?>
     <hr />
+    <?php endif; ?>
     <div id="issue_descr_fields" >
       <p>
         <?php echo $form->label('subject', __('Subject', true).'<span class="required"> *</span>'); ?>
@@ -86,7 +88,7 @@
         </small>
       </p>
     <?php endif; ?>
-    <?php if(empty($this->data['Issue']['id']) && $candy->authorize_for(':add_issue_watchers')): ?>
+    <?php if(empty($this->data['Issue']['id']) && $candy->authorize_for(':add_issue_watchers') && isset($members)): ?>
       <p>
         <label><?php __('Watchers'); ?></label>
         <?php

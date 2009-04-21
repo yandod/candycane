@@ -2,7 +2,11 @@
 class IssuesHelper extends AppHelper
 {
   var $name = 'Issues';
-  
+  var $helpers = array(
+    'Candy',
+    'CustomField',
+    'Html'
+  );
 #require 'csv'
 #
 #module IssuesHelper
@@ -46,88 +50,82 @@ class IssuesHelper extends AppHelper
 #  end
 #
   function show_detail($detail, $no_html=false) {
+    $result = $this->requestAction(array('controller'=>'issues', 'action'=>'detail_values'), compact('detail'));
+    // $label, $value, $old_value, $field_format, $attachment
+    extract($result);
+    
     switch($detail['property']) {
     case 'attr' :
       $label = __($detail['prop_key'], true);
       switch($detail['prop_key']) {
       case 'due_date' :
       case 'start_date' :
-//        $value = format_date(detail.value.to_date) if detail.value
-//        $old_value = format_date(detail.old_value.to_date) if detail.old_value
+        if(!empty($detail['value'])) $value = $this->Candy->format_date($detail['value']);
+        if(!empty($detail['old_value'])) $old_value = $this->Candy->format_date($detail['old_value']);
         break;
-#      when 'project_id'
-#        p = Project.find_by_id(detail.value) and value = p.name if detail.value
-#        p = Project.find_by_id(detail.old_value) and old_value = p.name if detail.old_value
-#      when 'status_id'
-#        s = IssueStatus.find_by_id(detail.value) and value = s.name if detail.value
-#        s = IssueStatus.find_by_id(detail.old_value) and old_value = s.name if detail.old_value
-#      when 'tracker_id'
-#        t = Tracker.find_by_id(detail.value) and value = t.name if detail.value
-#        t = Tracker.find_by_id(detail.old_value) and old_value = t.name if detail.old_value
-      case 'assigned_to_id' :
-#        u = User.find_by_id(detail.value) and value = u.name if detail.value
-#        u = User.find_by_id(detail.old_value) and old_value = u.name if detail.old_value
-#      when 'priority_id'
-#        e = Enumeration.find_by_id(detail.value) and value = e.name if detail.value
-#        e = Enumeration.find_by_id(detail.old_value) and old_value = e.name if detail.old_value
-#      when 'category_id'
-#        c = IssueCategory.find_by_id(detail.value) and value = c.name if detail.value
-#        c = IssueCategory.find_by_id(detail.old_value) and old_value = c.name if detail.old_value
-#      when 'fixed_version_id'
-#        v = Version.find_by_id(detail.value) and value = v.name if detail.value
-#        v = Version.find_by_id(detail.old_value) and old_value = v.name if detail.old_value
-#      when 'estimated_hours'
-#        value = "%0.02f" % detail.value.to_f unless detail.value.blank?
-#        old_value = "%0.02f" % detail.old_value.to_f unless detail.old_value.blank?
-#      end
+      case 'estimated_hours' :
+        if($detail['value'] != '') $value = "%0.02f" % $detail['value'];
+        if($detail['old_value'] != '') $old_value = "%0.02f" % $detail['old_value'];
+        break;
+      }
       break;
-#    when 'cf'
-#      custom_field = CustomField.find_by_id(detail.prop_key)
-#      if custom_field
-#        label = custom_field.name
-#        value = format_value(detail.value, custom_field.field_format) if detail.value
-#        old_value = format_value(detail.old_value, custom_field.field_format) if detail.old_value
-#      end
-#    when 'attachment'
-#      label = l(:label_attachment)
-#    end
-#    call_hook(:helper_issues_show_detail_after_setting, {:detail => detail, :label => label, :value => value, :old_value => old_value })
-#
-#    label ||= detail.prop_key
-#    value ||= detail.value
-#    old_value ||= detail.old_value
-#    
-#    unless no_html
-#      label = content_tag('strong', label)
-#      old_value = content_tag("i", h(old_value)) if detail.old_value
-#      old_value = content_tag("strike", old_value) if detail.old_value and (!detail.value or detail.value.empty?)
-#      if detail.property == 'attachment' && !value.blank? && a = Attachment.find_by_id(detail.prop_key)
-#        # Link to the attachment if it has not been removed
-#        value = link_to_attachment(a)
-#      else
-#        value = content_tag("i", h(value)) if value
-#      end
-#    end
-#    
-#    if !detail.value.blank?
-#      case detail.property
-#      when 'attr', 'cf'
-#        if !detail.old_value.blank?
-#          label + " " + l(:text_journal_changed, old_value, value)
-#        else
-#          label + " " + l(:text_journal_set_to, value)
-#        end
-#      when 'attachment'
-#        "#{label} #{value} #{l(:label_added)}"
-#      end
-#    else
-#      case detail.property
-#      when 'attr', 'cf'
-#        label + " " + l(:text_journal_deleted) + " (#{old_value})"
-#      when 'attachment'
-#        "#{label} #{old_value} #{l(:label_deleted)}"
-#      end
+    case 'cf' :
+      if(!empty($field_format)) {
+        $value = $this->CustomField->format_value($detail['value'], $field_format);
+        $old_value = $this->CustomField->format_value($detail['old_value'], $field_format);
+      }
+      break;
+    case 'attachment' :
+      $label = __('File',true);
+      break;
     }
+    // TODO : For plugin, call_hook 
+    // call_hook(:helper_issues_show_detail_after_setting, {:detail => detail, :label => label, :value => value, :old_value => old_value })
+
+    if(empty($label)) $label = $detail['prop_key'];
+    if(empty($value)) $value = $detail['value'];
+    if(empty($old_value)) $old_value = $detail['old_value'];
+    
+    if(!empty($label)) $label = $this->Candy->label_text($label);
+    if(!$no_html) {
+      $label = $this->Html->tag('strong', $label);
+      if(!empty($detail['old_value'])) $old_value = $this->Html->tag("i", h($old_value));
+      if(!empty($detail['old_value']) && (!$detail['value'] || empty($detail['value']))) $old_value = $this->Html->tag("strike", $old_value); 
+      if($detail['property'] == 'attachment' && ($value != '') && !empty($attachment)) {
+        # Link to the attachment if it has not been removed
+        $value = $this->Candy->link_to_attachment($attachment);
+      } else {
+        if(!empty($value)) $value = $this->Html->tag("i", h($value));
+      }
+    }
+    
+    $out = '';
+    if($detail['value'] != '') {
+      switch($detail['property']) {
+      case 'attr' :
+      case 'cf' :
+        if($detail['old_value'] != '') {
+          $out = $label." ".sprintf(__('changed from %s to %s',true), $old_value, $value);
+        } else {
+          $out = $label." ".sprintf(__('set to %s',true), $value);
+        }
+        break;
+      case 'attachment' :
+        $out = "$label $value ".__('added',true);
+        break;
+      }
+    } else {
+      switch($detail['property']) {
+      case 'attr' :
+      case 'cf' :
+        $out = $label." ".__('deleted',true)." ($old_value)";
+        break;
+      case 'attachment' :
+        $out = "$label $old_value ".__('deleted',true);
+        break;
+      }
+    }
+    return $out;
   }
 #  
 #  def issues_to_csv(issues, project = nil)

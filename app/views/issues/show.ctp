@@ -102,23 +102,25 @@
 </div>
 <!--<% end %>-->
 
-<?php if(!empty($journals)): ?>
+<?php if(!empty($journalList)): ?>
 <div id="history">
 <h3><?php __('History') ?></h3>
   <?php echo $this->renderElement('issues/history', array(
-    'journals'=>$journals, 
+    'journalList'=>$journalList, 
     'issue'=>$issue
     )); ?>
 </div>
 <?php endif; ?>
 <div style="clear: both;"></div>
 
-<!--<% if authorize_for('issues', 'edit') %>-->
+<?php if($candy->authorize_for(array('controller'=>'issues', 'action'=>'edit'))): ?>
   <div id="update" style="display:none;">
-  <h3><!--<%= l(:button_update) %>--></h3>
-  <!--<%= render :partial => 'edit' %>-->
+  <h3><?php __('Update');?></h3>
+    <?php echo $this->renderElement('issues/edit', compact(
+      'statuses', 'priorities', 'assignableUsers', 'issueCategories', 
+      'fixedVersions', 'customFieldValues')); ?>
   </div>
-<!--<% end %>-->
+<?php endif; ?>
 
 <p class="other-formats">
 <?php __("'Also available in:'") ?>
