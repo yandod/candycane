@@ -13,6 +13,18 @@ class Issue extends AppModel
     'Watchable',
     'Customizable'
   );
+#  acts_as_attachable :after_remove => :attachment_removed
+#  acts_as_customizable
+#  acts_as_watchable
+#  acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
+#                     :include => [:project, :journals],
+#                     # sort by id so that limited eager loading doesn't break with postgresql
+#                     :order_column => "#{table_name}.id"
+#  acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id}: #{o.subject}"},
+#                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}}                
+#  
+#  acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
+#                            :author_key => :author_id
   
   var $belongsTo = array(
     'Project',
@@ -44,34 +56,18 @@ class Issue extends AppModel
   );
   
   var $Journal = false;
-#  belongs_to :project
-#  belongs_to :tracker
-#  belongs_to :status, :class_name => 'IssueStatus', :foreign_key => 'status_id'
-#  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
-#  belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
-#  belongs_to :fixed_version, :class_name => 'Version', :foreign_key => 'fixed_version_id'
-#  belongs_to :priority, :class_name => 'Enumeration', :foreign_key => 'priority_id'
-#  belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
-#
+
 #  has_many :journals, :as => :journalized, :dependent => :destroy
-#  has_many :time_entries, :dependent => :delete_all
-#  has_and_belongs_to_many :changesets, :order => "#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC"
+  var $hasMany = array(
+    'TimeEntry'=>array('dependent'=>true),
+  );
+  var $hasAndBelongsToMany = array(
+    'Changeset'=>array('order'=>"Changeset.committed_on ASC, Changeset.id ASC"),
+  );
 #  
 #  has_many :relations_from, :class_name => 'IssueRelation', :foreign_key => 'issue_from_id', :dependent => :delete_all
 #  has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
 #  
-#  acts_as_attachable :after_remove => :attachment_removed
-#  acts_as_customizable
-#  acts_as_watchable
-#  acts_as_searchable :columns => ['subject', "#{table_name}.description", "#{Journal.table_name}.notes"],
-#                     :include => [:project, :journals],
-#                     # sort by id so that limited eager loading doesn't break with postgresql
-#                     :order_column => "#{table_name}.id"
-#  acts_as_event :title => Proc.new {|o| "#{o.tracker.name} ##{o.id}: #{o.subject}"},
-#                :url => Proc.new {|o| {:controller => 'issues', :action => 'show', :id => o.id}}                
-#  
-#  acts_as_activity_provider :find_options => {:include => [:project, :author, :tracker]},
-#                            :author_key => :author_id
 #  
 #  validates_presence_of :subject, :priority, :project, :tracker, :author, :status
 #  validates_length_of :subject, :maximum => 255
@@ -338,9 +334,9 @@ class Issue extends AppModel
 #    recipients.compact.uniq
 #  end
 #  
-#  def spent_hours
-#    @spent_hours ||= time_entries.sum(:hours) || 0
-#  end
+  function spent_hours() {
+    // Move to IssuesHelper
+  }
 #  
 #  def relations
 #    (relations_from + relations_to).sort

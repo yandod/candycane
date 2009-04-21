@@ -69,8 +69,9 @@
 #  map.signout 'logout', :controller => 'account', :action => 'logout'
 #  
 
-Router::connect('/wiki/:project_id/:wikipage/:action/*', array('controller' => 'wiki'));
-Router::connect('/wiki/:project_id/*', array('controller' => 'wiki', 'action' => 'index'));
+Router::connect('/wiki/:project_id', array('controller' => 'wiki', 'action' => 'index'));
+Router::connect('/wiki/:project_id/:wikipage', array('controller' => 'wiki', 'action' => 'index'));
+Router::connect('/wiki/:project_id/:wikipage/:action/*', array('controller' => 'wiki', 'action' => 'index', 'wikipage' => null));
 
 #  map.connect 'wiki/:id/:page/:action', :controller => 'wiki', :page => nil
 #  map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
@@ -81,6 +82,8 @@ Router::connect('issues/:action/:issue_id/*', array('controller' => 'issues'));
 
 #  map.connect 'issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
 #  map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
+Router::connect('projects/:project_id/issues/:action', array('controller' => 'issues'));
+
 #  map.connect 'projects/:project_id/news/:action', :controller => 'news'
 #  map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
 #  map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'

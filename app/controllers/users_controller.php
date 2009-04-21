@@ -194,4 +194,10 @@ class UsersController extends AppController
     }
     #    @auth_sources = AuthSource.find(:all)
   }
+  function allowed_to() {
+    if(empty($this->params['requested'])) {
+      $this->cakeError('error404');
+    }
+    return $this->User->is_allowed_to($this->current_user, $this->params['aco'], $this->params['project']);
+  }
 }

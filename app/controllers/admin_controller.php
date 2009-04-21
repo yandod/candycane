@@ -173,8 +173,14 @@ class AdminController extends AppController {
   {
   }
 
+  /**
+   * info
+   *
+   */
   function info()
   {
+    $db =& ConnectionManager::getDataSource($this->Project->useDbConfig);
+    $this->set('db_driver', $db->config['driver']);
 
 /*    $this->set('currentuser','suzuki'); */
 /*    App::import('Vendor', 'candycane'); */

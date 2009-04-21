@@ -213,6 +213,7 @@ class User extends AppModel
    * @param : $action is string.
    * @param : $project is Project data. ex.$project['Project']['status']
    */
+  var $_map_role = array();
   function is_allowed_to($user, $action, $project, $options=array()) {
     if(!empty($project)) {
       $Project = & ClassRegistry::init('Project');
@@ -226,7 +227,12 @@ class User extends AppModel
       $role_id = $this->role_for_project($user, $project);
       if(empty($role_id)) return false;
       $Role = & ClassRegistry::init('Role');
-      $role = $Role->read(null, $role_id);
+      if(empty($this->_map_role[$role_id])) {
+        $role = $Role->read(null, $role_id);
+        $this->_map_role[$role_id] = $role;
+      } else {
+        $role = $this->_map_role[$role_id];
+      }
       return $Role->is_allowed_to($role, $action) && ($project['Project']['is_public'] || $Role->is_member($role));
     } elseif(!empty($options['global'])) {
       # authorize if user has at least one role that has this permission

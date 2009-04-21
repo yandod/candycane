@@ -16,6 +16,16 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
+class WatchersController extends AppController
+{
+  var $name = 'Watchers';
+  var $helpers = array(
+    'Watchers'
+  );
+  var $components = array(
+    'RequestHandler',
+  );
+
 #class WatchersController < ApplicationController
 #  before_filter :find_project
 #  before_filter :require_login, :check_project_privacy, :only => [:watch, :unwatch]
@@ -33,6 +43,30 @@
 #    set_watcher(User.current, false)
 #  end
 #  
+	function add() {
+    if($this->RequestHandler->isPost()) {
+    }
+    extract($this->params['named']);
+    $Model = & ClassRegistry::init(Inflector::camelize($object_type));
+    $data = $Model->read(null, $object_id);
+    $project_id = $Model->get_watched_project_id();
+    $project = $this->Project->read('identifier', $project_id);
+    $this->params['project_id'] = $project['Project']['identifier'];
+    parent::_findProject();
+    $members = $this->Project->members($project_id);
+    if(!empty($data['Watcher'])) {
+      foreach($data['Watcher'] as $value) {
+        if(array_key_exists($value['user_id'], $members)) {
+          unset($members[$value['user_id']]);
+        }
+      }
+    }
+    $this->set(array_merge(compact('members', 'object_type', 'object_id', 'data')));
+    $this->render('_watchers');
+    if($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+    }
+  }
 #  def new
 #    @watcher = Watcher.new(params[:watcher])
 #    @watcher.watchable = @watched
@@ -69,3 +103,4 @@
 #    render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true
 #  end
 #end
+}
