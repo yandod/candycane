@@ -59,11 +59,15 @@
 <% content_for :header_tags do %>
     <%= auto_discovery_link_tag(:atom, {:query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_issue_plural)) %>
     <%= auto_discovery_link_tag(:atom, {:action => 'changes', :query_id => @query, :format => 'atom', :page => nil, :key => User.current.rss_key}, :title => l(:label_changes_details)) %>
-    <%= javascript_include_tag 'context_menu' %>
-    <%= stylesheet_link_tag 'context_menu' %>
-<% end %>
 -->
+
+<?php
+  $for_header_tags = $javascript->link('context_menu') . $html->css('context_menu');
+  $this->viewVars['header_tags'] = isset($this->viewVars['header_tags']) ? $this->viewVars['header_tags'] . $for_header_tags : $for_header_tags;
+?>
 <div id="context-menu" style="display: none;"></div>
-<!--
-<%= javascript_tag "new ContextMenu('#{url_for(:controller => 'issues', :action => 'context_menu')}')" %>
--->
+<script type="text/javascript">
+//<![CDATA[
+new ContextMenu('<?php echo $javascript->escapeString($html->url(am($url_param, array('controller' => 'issues', 'action' => 'context_menu')))) ?>');
+//-->
+</script>
