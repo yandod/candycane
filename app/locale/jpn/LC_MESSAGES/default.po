@@ -226,6 +226,12 @@ msgstr "この日のうちに開始して終了するタスク"
 msgid "In chronological order"
 msgstr "古い順"
 
+#actionview_datehelper_time_in_words_day
+msgid "%d day"
+msgstr "%d日"
+msgid "%d days"
+msgstr "%d日"
+
 # activerecord_error_exclusion
 msgid "is reserved"
 msgstr "が予約されています"
@@ -1376,6 +1382,8 @@ msgstr "最大サイズ"
 
 # field_fixed_version
 msgid "Target version"
+msgstr "Target version"
+msgid "Fixed Version"
 msgstr "Target version"
 
 # activerecord_error_not_a_number

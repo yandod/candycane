@@ -68,5 +68,19 @@
 #  end
 #end
 class Journal extends AppModel {
-	var $name="Journal";
+  var $name="Journal";
+  var $belongsTo = array('User', 'Issue'=>array('foreignKey'=>'journalized_id')); 
+  var $hasMany = array('JournalDetail');
+
+  function is_editable_by($usr) {
+    $this->Issue->Project->recursive = -1;
+    $project = $this->Issue->Project->read(null, $this->data['Issue']['project_id']);
+    return $usr 
+      && $usr['logged'] 
+      && ($this->User->is_allowed_to($usr, ':edit_issue_notes', $project) 
+          || ($this->data['User']['id'] == $usr['id'] 
+            && $this->User->is_allowed_to($usr, ':edit_own_issue_notes', $project)
+             )
+         );
+  }
 }

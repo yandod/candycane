@@ -7,6 +7,15 @@ class IssuesHelper extends AppHelper
     'CustomField',
     'Html'
   );
+  var $relation_types = array();
+  function __construct() {
+    $this->relation_types = array(
+            "relates" =>     array('name'=>__('related to',true), 'sym_name'=>__('related to',true), 'order'=> 1),
+            "duplicates" =>  array('name'=>__('duplicates',true), 'sym_name'=>__('duplicated by',true), 'order'=>2),
+            "blocks" =>      array('name'=>__('blocks',true),     'sym_name'=>__('blocked by',true), 'order'=>3),
+            "precedes" =>    array('name'=>__('precedes',true),   'sym_name'=>__('follows',true), 'order'=>4)
+          );
+  }
 #require 'csv'
 #
 #module IssuesHelper
@@ -53,7 +62,6 @@ class IssuesHelper extends AppHelper
     $result = $this->requestAction(array('controller'=>'issues', 'action'=>'detail_values'), compact('detail'));
     // $label, $value, $old_value, $field_format, $attachment
     extract($result);
-    
     switch($detail['property']) {
     case 'attr' :
       $label = __($detail['prop_key'], true);
@@ -123,6 +131,33 @@ class IssuesHelper extends AppHelper
       case 'attachment' :
         $out = "$label $old_value ".__('deleted',true);
         break;
+      }
+    }
+    return $out;
+  }
+  function relation_issue($issue, $relation) {
+    return ($relation['IssueRelation']['issue_from_id'] == $issue['Issue']['id']) ? $relation['IssueFrom'] : $relation['IssueTo'];
+  }
+  function relation_other_issue($issue, $relation) {
+    return ($relation['IssueRelation']['issue_from_id'] == $issue['Issue']['id']) ? $relation['IssueTo'] : $relation['IssueFrom'];
+  }
+  function relation_type_select() {
+    $options = array();
+    foreach($this->relation_types as $key=>$type) {
+      $options[$key] = $type['name'];
+    }
+    return $options;
+  }
+  function relation_label_for($issue, $relation) {
+    return array_key_exists($relation['IssueRelation']['relation_type'], $this->relation_types) ? $this->relation_types[$relation['IssueRelation']['relation_type']][($relation['IssueRelation']['issue_from_id'] == $issue['Issue']['id']) ? 'name' : 'sym_name'] : __('unknow',true);
+  }
+  function relation_delay_day($relation) {
+    $out = '';
+    if(array_key_exists('delay', $relation['IssueRelation']) && $relation['IssueRelation']['delay'] != 0) {
+      if($relation['IssueRelation']['delay'] > 1) {
+        $out = sprintf(__('%d days', true), $relation['IssueRelation']['delay']);
+      } else {
+        $out = sprintf(__('%d day', true), $relation['IssueRelation']['delay']);
       }
     }
     return $out;

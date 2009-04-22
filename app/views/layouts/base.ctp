@@ -19,6 +19,7 @@
 <!-- page specific tags -->
 <!-- <%= yield :header_tags -%> -->
 <?php if (isset($header_tags)) echo $header_tags; ?>
+    <?php echo $scripts_for_layout; ?>
 </head>
 <body>
 <div id="wrapper">

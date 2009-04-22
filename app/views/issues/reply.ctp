@@ -6,6 +6,7 @@ $text = preg_replace('/(\r?\n|\r\n?)/', "\\n> ", $text);
 $text .= "\\n\\n"; 
 $content .= $text;
 
+header("Content-type: text/javascript; charset=utf-8");
 echo '$(\'notes\').value = "'.$content.'";'."\n";
 echo 'Element.show("update");'."\n";
 echo "Form.Element.focus('notes');"."\n";

@@ -16,27 +16,53 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-#class JournalsController < ApplicationController
-#  before_filter :find_journal
-#  
-#  def edit
-#    if request.post?
-#      @journal.update_attributes(:notes => params[:notes]) if params[:notes]
-#      @journal.destroy if @journal.details.empty? && @journal.notes.blank?
-#      call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
-#      respond_to do |format|
-#        format.html { redirect_to :controller => 'issues', :action => 'show', :id => @journal.journalized_id }
-#        format.js { render :action => 'update' }
-#      end
-#    end
-#  end
-#  
-#private
-#  def find_journal
-#    @journal = Journal.find(params[:id])
-#    render_403 and return false unless @journal.editable_by?(User.current)
-#    @project = @journal.journalized.project
-#  rescue ActiveRecord::RecordNotFound
-#    render_404
-#  end
-#end
+class JournalsController extends AppController
+{
+  var $name = 'Journals';
+  var $components = array(
+    'RequestHandler',
+  );
+  var $helpers = array(
+    'Journals'
+  );
+  
+  function edit($id) {
+    if($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+      Configure::write('debug', 0);
+    }
+    $journal = $this->_find_journal($id);
+    $this->set(compact('journal'));
+    $delete = false;
+    if(!empty($journal) && !empty($this->data)) {
+      if(empty($journal['JournalDetails']) && ($this->data['Journal']['notes'] == '')) {
+        $delete = $this->Journal->del($id);
+      } else {
+        $this->Journal->saveField('notes', $this->data['Journal']['notes']);
+      }
+      $this->set(compact('delete'));
+      // TODO call_hook for Plugins.
+      // call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
+      
+      if($this->RequestHandler->isAjax()) {
+        $this->render('update');
+      } else {
+        $this->redirect(array('controller'=>'issues', 'action'=>'show', 'id'=>$journal['Journal']['journalized_id']));
+      }
+    } else {
+      $this->data = $journal;
+    }
+  }
+  
+  function _find_journal($id) {
+    $this->Journal->recursive = 1;
+    $journal = $this->Journal->read(null, $id);
+    if(empty($journal)) {
+      $this->cakeError('error404');
+    }
+    if(!$this->Journal->is_editable_by($this->current_user)) {
+      $this->cakeError('error403');
+    }
+    return $journal;
+  }
+}

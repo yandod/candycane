@@ -47,6 +47,7 @@ class AttachableBehavior extends ModelBehavior {
     return $User->is_allowed_to($user, $this->settings[$Model->alias][':view_permission'], $project);
   }
   function is_attachments_deletable(&$Model, $user, $project) {
+    $User = & ClassRegistry::init('User');
     return $User->is_allowed_to($user, $this->settings[$Model->alias][':delete_permission'], $project);
   }
   function findAttachableById(&$Model, $id) {
@@ -54,6 +55,14 @@ class AttachableBehavior extends ModelBehavior {
       'container_type'=>$Model->name,
       'id' => $id),
       'recursive'=>-1
+    ));
+  }
+  function findAttachments(&$Model, $id=false) {
+    if(!$id) $id = $Model->id;
+    return $this->Attachment->find('all', array('conditions'=>array(
+      'container_type'=>$Model->name,
+      'container_id' => $id),
+      'recursive'=>0
     ));
   }
 }

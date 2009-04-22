@@ -27,7 +27,7 @@
     <td class="due-date"><b><?php __('Due date') ?>:</b></td><td class="due-date"><?php echo h($candy->format_date($issue['Issue']['due_date'])) ?></td>
 </tr>
 <tr>
-    <td class="assigned-to"><b><?php __('Assigned to') ?>:</b></td><td><?php echo $candy->avatar(array('User' => $issue['Author']), array('size' => 14)) ?><?php echo strlen($issue['Issue']['assigned_to_id']) ? 'link_to_user(@issue.assigned_to)' : "-" ?></td>
+    <td class="assigned-to"><b><?php __('Assigned to') ?>:</b></td><td><?php echo $candy->avatar(array('User' => $issue['Author']), array('size' => 14)) ?><?php echo strlen($issue['Issue']['assigned_to_id']) ? $candy->link_to_user($issue['AssignedTo']) : "-" ?></td>
     <td class="progress"><b><?php __('done_ratio') ?>:</b></td><td class="progress"><?php echo $candy->progress_bar($issue['Issue']['done_ratio'], array('width'=>'80px', 'legend'=>$issue['Issue']['done_ratio'].'%')); ?></td>
 </tr>
 <tr>
@@ -59,7 +59,7 @@
  <?php endforeach; ?>
 <?php endif; ?>
 </tr>
-<%= call_hook(:view_issues_show_details_bottom, :issue => @issue) %>
+<!-- TODO : call_hook(:view_issues_show_details_bottom, :issue => @issue) -->
 </table>
 <hr />
 
@@ -69,15 +69,20 @@
 
 <p><strong><?php __('Description') ?></strong></p>
 <div class="wiki">
-  <?php e(nl2br(h($issue['Issue']['description']))); ?>
+  <?php echo $candy->textilizable($issue['Issue']['description']); ?>
 </div>
 
-<%= link_to_attachments @issue %>
-
+<?php
+  // Copy from AttachmentHelper, because can not call element from Helper.
+  if(array_key_exists('Author', $issue)) {
+    $attach_options = array_merge(array('deletable'=>$attachmentsDeletable), $issue);
+    echo $this->renderElement('attachments/links', array('attachments'=>$attachments, 'options'=>$attach_options), array('Number'));
+  }
+?>
 <?php if($candy->authorize_for(':issue_relations') || !empty($issue['Relations'])) : /* TODO relation */ ?>
 <hr />
 <div id="relations">
-<!--<%= render :partial => 'relations' %>-->
+  <?php echo $this->renderElement('issues/relations', compact('issue', 'issueRelations')); ?>
 </div>
 <?php endif; ?>
 
@@ -95,12 +100,12 @@
 
 </div>
 
-<!--<% if @issue.changesets.any? && User.current.allowed_to?(:view_changesets, @project) %>-->
+<?php if(!empty($issue['Changeset']) && $candy->authorize_for(':view_changesets')): ?>
 <div id="issue-changesets">
 <h3><?php __('Associated revisions') ?></h3>
 <!--<%= render :partial => 'changesets', :locals => { :changesets => @issue.changesets} %>-->
 </div>
-<!--<% end %>-->
+<?php endif; ?>
 
 <?php if(!empty($journalList)): ?>
 <div id="history">
@@ -124,15 +129,12 @@
 
 <p class="other-formats">
 <?php __("'Also available in:'") ?>
-<span><!--<%= link_to 'Atom', {:format => 'atom', :key => User.current.rss_key}, :class => 'feed' %>--></span>
-<span><!--<%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %>--></span>
+<span><?php echo $html->link('Atom', array('action'=>'show', 'id'=>$issue['Issue']['id'], 'format'=>'atom', 'key'=>$rssToken), array('class'=>'feed'));?></span>
+<span><?php echo $html->link('PDF', array('action'=>'show', 'id'=>$issue['Issue']['id'], 'format'=>'pdf'), array('class'=>'pdf')); ?></span>
 </p>
 
     <?php $candy->html_title($issue['Tracker']['name'] . ' #' . $issue['Issue']['id'], ' ' . $issue['Issue']['subject']) ?>
 
 <?php $this->set('Sidebar', $this->renderElement('issues/sidebar')) ?>
-
-<!--<% content_for :header_tags do %>-->
-    <!--<%= auto_discovery_link_tag(:atom, {:format => 'atom', :key => User.current.rss_key}, :title => "#{@issue.project} - #{@issue.tracker} ##{@issue.id}: #{@issue.subject}") %>-->
-    <!--<%= stylesheet_link_tag 'scm' %>-->
-<!--<% end %>-->
+<?php $html->meta('atom', array('action'=>'show', 'id'=>$issue['Issue']['id'], 'format'=>'atom', 'key'=>$rssToken), array('title'=>$issue['Project']['name'].' - '.$issue['Tracker']['name'].' ##'.$issue['Issue']['id'].': '.$issue['Issue']['subject'], 'rel'=>'alternate'), false); ?>
+<?php $html->css('scm.css', null, array('media'=>'screen'), false); ?>

@@ -137,7 +137,7 @@ class IssuesController extends AppController
   function show()
   {
     $Journal = & ClassRegistry::init('Journal');
-    $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
+//    $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
     $conditions = array('journalized_type'=>'Issue', 'journalized_id'=>$this->_issue['Issue']['id']);
     $journal_list = $Journal->find('all', array('conditions'=>$conditions,'recursive'=>1, 'order'=>"Journal.created_on ASC"));
     if(!empty($journal_list) && !empty($this->current_user['wants_comments_in_reverse_order'])) {
@@ -156,7 +156,7 @@ class IssuesController extends AppController
     }
     $allowed_statuses = $this->Issue->Status->find_new_statuses_allowed_to(
       key($default_status),
-      $this->User->role_for_project($this->current_user, $this->_project['Project']['id']),
+      $this->User->role_for_project($this->current_user, $this->_project),
       $issue['Issue']['tracker_id']
     );
     $statuses = $default_status;
@@ -185,9 +185,16 @@ class IssuesController extends AppController
     foreach($time_entry_activity_datas as $time_entry_activity) {
       $time_entry_activities[$time_entry_activity['Enumeration']['id']] = $time_entry_activity['Enumeration']['name'];
     }
+    $rss_token = $this->User->rss_key($this->current_user['id']);
+    $attachments = $this->Issue->findAttachments($issue['Issue']['id']);
+    $attachments_deletable = $this->Issue->is_attachments_deletable($this->current_user, $this->_project);
+
+    $IssueRelation = & ClassRegistry::init('IssueRelation');
+    $issue_relations = $IssueRelation->findRelations($issue);
     $this->set(compact(
       'statuses', 'priorities', 'assignable_users', 'issue_categories', 'fixed_versions', 
-      'custom_field_values', 'time_entry_custom_fields', 'time_entry_activities'));
+      'custom_field_values', 'time_entry_custom_fields', 'time_entry_activities', 'rss_token', 
+      'attachments', 'attachments_deletable', 'issue_relations'));
     $this->data = $issue;
 
   }
@@ -255,7 +262,7 @@ class IssuesController extends AppController
     }
     $allowed_statuses = $this->Issue->Status->find_new_statuses_allowed_to(
       key($default_status),
-      $this->User->role_for_project($this->current_user, $this->_project['Project']['id']),
+      $this->User->role_for_project($this->current_user, $this->_project),
       empty($this->data['Issue']['tracker_id']) ? key($trackers) : $this->data['Issue']['tracker_id']
     );
     $statuses = $default_status;
@@ -338,7 +345,7 @@ class IssuesController extends AppController
     }
     $allowed_statuses = $this->Issue->Status->find_new_statuses_allowed_to(
       key($default_status),
-      $this->User->role_for_project($this->current_user, $this->_project['Project']['id']),
+      $this->User->role_for_project($this->current_user, $this->_project),
       $issue['Issue']['tracker_id']
     );
     $statuses = $default_status;
@@ -443,11 +450,12 @@ class IssuesController extends AppController
 #
   function reply() {
     if(!$this->RequestHandler->isAjax()) {
-//      $this->cakeError('error404');
+      $this->cakeError('error404');
     }
+    Configure::write('debug', 0);
     $issue = $this->_find_issue($this->params['issue_id']);
     $Journal = & ClassRegistry::init('Journal');
-    $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
+//    $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
     $journal = false;
     if($this->params['named']['journal_id']) {
       $journal = $Journal->read(null, $this->params['named']['journal_id']);

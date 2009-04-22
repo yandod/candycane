@@ -12,8 +12,12 @@
 class Token extends AppModel
 {
   var $blongsTo = array('User');
-  var $validity_time = 60 * 60 * 24; // 1.day
+  var $validity_time = 0;
 
+  function __construct($id = false, $table = null, $ds = null) {
+    parent::__construct($id, $table, $ds);
+    $validity_time = 60 * 60 * 24; // 1.day
+  }
   /**
    * beforeCreate
    *

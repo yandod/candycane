@@ -40,7 +40,7 @@ class JournalsHelper extends AppHelper
         $links[] = $this->Ajax->link(
           $this->Html->image('edit.png'), 
           array('controller'=>'journals', 'action'=>'edit', 'id'=>$journal['Journal']['id']),
-          array('title'=>__('Edit',true), 'update'=>"journal-".$journal['Journal']['id']."-notes")
+          array('title'=>__('Edit',true)/*, 'update'=>"journal-".$journal['Journal']['id']."-notes"*/)
           ,null,false
         );
       }
