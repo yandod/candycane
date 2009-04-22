@@ -1,6 +1,6 @@
 <?php $reply_links = $candy->authorize_for(array('controller'=>'issues', 'action'=>'edit')); ?>
 <?php $indice = 1; ?>
-<?php foreach($journals as $journal): ?>
+<?php foreach($journalList as $journal): ?>
   <div id="change-<?php e(h($journal['Journal']['id'])) ?>" class="journal">
     <h4><div style="float:right;"><?php echo $html->link("#$indice", array('id'=>$issue['Issue']['id'], '#'=>"note-$indice")); ?></div>
     <?php echo $html->tag('a', '', array('name'=>"note-$indice"));?>
@@ -8,11 +8,12 @@
     <?php echo $candy->avatar($journal['User'], array('size' => "32")); ?>
     <ul>
     <?php foreach($journal['JournalDetail'] as $detail): ?>
-       <li><%= show_detail(detail) %></li>
+       <li><?php echo $issues->show_detail($detail); ?></li>
     <?php endforeach; ?>
     </ul>
-    <%= render_notes(journal, :reply_links => reply_links) unless journal.notes.blank? %>
+    <?php if($journal['Journal']['notes'] != '') echo $journals->render_notes($journal, $currentuser, array('reply_links'=>$reply_links)); ?>
   </div>
-  <%= call_hook(:view_issues_history_journal_bottom, { :journal => journal }) %>
+  <!-- TODO : For Plugin, call_hook -->
+  <!-- <%= call_hook(:view_issues_history_journal_bottom, { :journal => journal }) %> -->
   <?php $indice++; ?>
 <?php endforeach; ?>

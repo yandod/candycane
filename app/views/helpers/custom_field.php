@@ -6,6 +6,9 @@
 
 class CustomFieldHelper extends AppHelper
 {
+  var $helpers = array(
+    'Candy'
+  );
 
   function show_value($value)
   {
@@ -120,15 +123,13 @@ class CustomFieldHelper extends AppHelper
     CustomField::FIELD_FORMATS.sort {|a,b| a[1][:order]<=>b[1][:order]}.collect { |k| [ l(k[1][:name]), k[0] ] }
   end
 */
-  function value($custom_value) {	
-    $custom_field = $custom_value['CustomField'];
-
-    switch($custom_field['field_format']) {
+  function format_value($value, $field_format) {
+    switch($field_format) {
     case "date" :
-      $out = $custom_value['value'];
+      $out = $this->Candy->format_date($value);
       break;
     case "bool" :
-      if(empty($custom_value['value'])) {
+      if(empty($value)) {
         $out = __('No', true);
       } else {
         $out = __('Yes', true);
@@ -137,10 +138,15 @@ class CustomFieldHelper extends AppHelper
     case "text" :
     case "list" :
     default :
-      $out = $custom_value['value'];
+      $out = $value;
       break;
     }
     return $out;
+  }
+
+  function value($custom_value) {	
+    $custom_field = $custom_value['CustomField'];
+    return $this->format_value($custom_value['value'], $custom_field['field_format']);
   }
 }
 

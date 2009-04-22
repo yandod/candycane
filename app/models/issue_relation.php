@@ -20,6 +20,10 @@ class IssueRelation extends AppModel
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 #class IssueRelation < ActiveRecord::Base
+  var $belongsTo = array(
+    'IssueFrom' => array('className'=>'Issue', 'foreign_key'=>'issue_from_id'),
+    'IssueTo' => array('className'=>'Issue', 'foreign_key'=>'issue_to_id')
+  );
 #  belongs_to :issue_from, :class_name => 'Issue', :foreign_key => 'issue_from_id'
 #  belongs_to :issue_to, :class_name => 'Issue', :foreign_key => 'issue_to_id'
 #  
@@ -81,4 +85,29 @@ class IssueRelation extends AppModel
 #    TYPES[self.relation_type][:order] <=> TYPES[relation.relation_type][:order]
 #  end
 #end
+  function findRelations($issue) {
+    $relations = $this->find('all', array(
+        'conditions'=>array('or'=>array(array('issue_from_id'=>$issue['Issue']['id']),array('issue_to_id'=>$issue['Issue']['id'])))
+    ));
+    $result = array();
+    foreach($relations as $key=>$relation) {
+      $body = ($issue['Issue']['id'] == $relation['IssueRelation']['issue_from_id']) ? 'IssueFrom' : 'IssueTo';
+      $rel = ($issue['Issue']['id'] == $relation['IssueRelation']['issue_from_id']) ? 'IssueTo' : 'IssueFrom';
+      $assoc = $this->$rel->find('first', array(
+        'conditions'=>array("$rel.id"=>$relation[$rel]['id']),
+        'fields'=>array('Project.*', 'Status.*', 'Tracker.*'),
+        'recursive'=>0
+      ));
+      $result[$key] = array(
+        'IssueFrom'=>array('Issue'=>$relation['IssueFrom']), 
+        'IssueTo'=>array('Issue'=>$relation['IssueTo']),
+        'IssueRelation'=>$relation['IssueRelation']
+      );
+      if(!empty($assoc)) {
+        $result[$key][$rel] = array_merge($result[$key][$rel], $assoc);
+        $result[$key][$body] = array_merge($result[$key][$body], $issue);
+      }
+    }
+    return $result;
+  }
 }

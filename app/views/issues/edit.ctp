@@ -2,7 +2,6 @@
 
 <?php echo $this->renderElement('issues/edit', compact(
     'statuses', 'priorities', 'assignableUsers', 'issueCategories', 'fixedVersions', 
-    'customFieldValues', 'editAllowed', 'timeEditAllowed', 'timeEntryCustomFields',
-    'timeEntryActivities')); ?>
+    'customFieldValues', 'timeEntryCustomFields', 'timeEntryActivities')); ?>
 
 

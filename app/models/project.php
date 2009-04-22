@@ -497,8 +497,10 @@ class Project extends AppModel
     }
     if (!empty($result['identifier'])) {
       $result['identifier_or_id'] = $result['identifier'];
-    } else {
+    } elseif(!empty($result['id'])) {
       $result['identifier_or_id'] = $result['id'];
+    } else {
+      $result['identifier_or_id'] = '';
     }
     $result['project_id'] = $result['identifier_or_id'];
 

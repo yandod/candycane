@@ -114,6 +114,10 @@ class CustomizableBehavior extends ModelBehavior {
     }
     return $result;
   }
+  function findCustomFieldById(&$Model, $id) {
+    $CustomField = & ClassRegistry::init('CustomField');
+    return $CustomField->read(null, $id); 
+  }
 
    // ==== privates 
 

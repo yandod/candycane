@@ -43,9 +43,10 @@ class WatchersController extends AppController
 #    set_watcher(User.current, false)
 #  end
 #  
-	function add() {
+  function add() {
     if($this->RequestHandler->isPost()) {
     }
+    Configure::write('debug', 0);
     extract($this->params['named']);
     $Model = & ClassRegistry::init(Inflector::camelize($object_type));
     $data = $Model->read(null, $object_id);

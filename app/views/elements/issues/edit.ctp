@@ -2,17 +2,25 @@
   <%= error_messages_for 'issue' %>
   <%= error_messages_for 'time_entry' %>
   <div class="box">
-  <?php if($editAllowed || !empty($allowedStatuses)): ?>
+  <?php if($candy->authorize_for(':edit_issues') || !empty($allowedStatuses)): ?>
   <fieldset class="tabular">
     <legend><?php __('Change properties'); ?>
-      <?php if(!empty($issue['Issue']['id']) && empty($this->validationErrors['Issue']) && $editAllowed): ?>
+      <?php if(!empty($issue['Issue']['id']) && empty($this->validationErrors['Issue']) && $candy->authorize_for(':edit_issues')): ?>
       <small>(<?php echo $html->link(__('More',true), '#', array('onclick'=> 'Effect.toggle("issue_descr_fields", "appear", {duration:0.3}); return false;')); ?>)</small>
       <?php endif; ?>
     </legend>
-    <%= render :partial => (@edit_allowed ? 'form' : 'form_update'), :locals => {:f => f} %>
+    <?php 
+    if($candy->authorize_for(':edit_issues')) {
+      echo $this->renderElement('issues/form', compact(
+        'statuses', 'priorities', 'assignableUsers', 'issueCategories', 
+        'fixedVersions', 'customFieldValues'));
+    } else {
+      // render 'form_update'
+    }
+    ?>
   </fieldset>
   <?php endif; ?>
-  <?php if($timeEditAllowed): ?>
+  <?php if($candy->authorize_for(array('controller'=>'timelog', 'action'=>'edit'))): ?>
   <fieldset class="tabular"><legend><?php __('Log time') ?></legend>
     <div class="splitcontentleft">
       <p>

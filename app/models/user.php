@@ -31,7 +31,10 @@ class User extends AppModel
 #  has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
 #  has_many :changesets, :dependent => :nullify
 #  has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
-  var $hasOne = array('UserPreference');
+  var $hasOne = array(
+    'UserPreference',
+    'RssToken'=>array('className'=>'Token', 'dependent'=>true, 'conditions'=>"action='feeds'"),
+  );
 #  has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
 #  belongs_to :auth_source
 #  
@@ -112,10 +115,10 @@ class User extends AppModel
 #  end
 #  
 #  # Return user's RSS key (a 40 chars long string), used to access feeds
-#  def rss_key
-#    token = self.rss_token || Token.create(:user => self, :action => 'feeds')
-#    token.value
-#  end
+  function rss_key($user_id) {
+    $token = $this->RssToken->find('first', array('conditions'=>array('action'=>'feeds', 'user_id'=>$user_id), 'fields'=>array('value')));
+    return $token['RssToken']['value'];
+  }
 #  
 #  # Return an array of project ids for which the user has explicitly turned mail notifications on
 #  def notified_projects_ids
@@ -414,7 +417,7 @@ class User extends AppModel
   /** 
    * Return user's role for project
    */
-  function role_for_project($user, $project_id) {
+  function role_for_project($user, $project) {
     $role_id = false;
     $role = & ClassRegistry::init('Role');
     if(!empty($user)) {
@@ -423,7 +426,7 @@ class User extends AppModel
       $role_id = $no_member_role['Role']['id'];
       if(!empty($user['memberships'])) {
         foreach($user['memberships'] as $membership) {
-          if($membership['project_id'] == $project_id) {
+          if($membership['project_id'] == $project['Project']['id']) {
             $role_id = $membership['role_id'];
             break;
           }
