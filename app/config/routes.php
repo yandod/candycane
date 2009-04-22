@@ -89,6 +89,9 @@ Router::connect('projects/:project_id/issues/:action', array('controller' => 'is
 #  map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
 #  map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
 #  map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
+
+Router::connect('news/:action/:news_id/*', array('controller' => 'news'));
+
 #
 #  map.with_options :controller => 'repositories' do |omap|
 #    omap.repositories_show 'repositories/browse/:id/*path', :action => 'browse'

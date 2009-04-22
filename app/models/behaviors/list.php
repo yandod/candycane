@@ -434,8 +434,12 @@ class ListBehavior extends ModelBehavior {
     }
     return $result;
   }
-  
-  
+ 
+  function beforeDelete(&$Model) {
+    $position_column = $this->settings[$Model->alias]['column'];
+    $result = $Model->read(null,$Model->id);
+    return $this->decrement_positions_on_lower_items(&$Model, $result[$Model->alias][$position_column]) ;
+  }
   
 }
 ?>

@@ -89,7 +89,10 @@ class NewsController extends AppController {
 			if ($this->News->save($this->data)) {
 				$this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash notice'));
 				$this->redirect(array('controller'=>'projects', 'action' => $this->_project['Project']['identifier'], 'news/index'));
-			}
+			} else {
+        $this->Session->setFlash($this->validateErrors($this->News), 'default', array('class'=>'flash flash_error'));
+		    $this->render( 'add' ) ;
+		  }
 		}
   }
 
@@ -197,12 +200,22 @@ class NewsController extends AppController {
   
   function beforeFilter()
   {
-    parent::beforeFilter();
-
     $except = array('show', 'edit', 'destroy', 'add_comment');
     if (!in_array($this->action, $except)) {
       $this->_find_project();
+    } else {
+      if ($this->_news = $this->News->find('first', array(
+        'conditions'=>array('News.id' => $this->params['news_id']),
+        'recursive'=>1
+      ))) {
+        $this->set(array('news'=>$this->_news));
+        $this->params['project_id'] = $this->_news['Project']['identifier'];
+      } else {
+        $this->cakeErorr('error404');
+      }
     }
+    
+    return parent::beforeFilter();
   }
 #  
 #  def find_optional_project
