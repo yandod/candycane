@@ -11,7 +11,7 @@
         )); ?>
     <hr />
     <?php endif; ?>
-    <div id="issue_descr_fields" >
+    <div id="issue_descr_fields" <?php if($this->action=='show') echo 'style="display: none;"'; ?>>
       <p>
         <?php echo $form->label('subject', __('Subject', true).'<span class="required"> *</span>'); ?>
         <?php echo $form->input('subject', array('div'=>false, 'label'=>false)); ?></p>
