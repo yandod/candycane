@@ -19,17 +19,17 @@
 
   <?php
   if(!empty($members)) :
-    echo $ajax->form('Watcher', 'post',
-      array('id'=>'new-watcher-form', 'url'=>array('controller'=>'watchers','action'=>'add',
-        'object_type'=>$object_type,
-        'object_id'=>$watched
-      ),
-    ));
+    $url = array('controller'=>'watchers','action'=>'add', 'object_type'=>$object_type, 'object_id'=>$watched);
+    echo $form->create('Watcher', array(
+        'id'=>"new-watcher-form", 'url'=>$url,
+        'onsubmit'=>$ajax->remoteFunction(array('url'=>$url, 'form'=>true, 'update'=>'watchers', 'after'=>'return false'))
+      )
+    );
   ?>
   <p>
-    <?php echo $ajax->Form->input('user_id', array('type'=>'select', 'options'=>$members, 'empty'=>'--- '.__('Please Select', true).' ---', 'div'=>false, 'label'=>false));?>
-    <?php echo $ajax->Form->submit(__('Add',true), array('div'=>false)); ?>
+    <?php echo $form->input('user_id', array('type'=>'select', 'options'=>$members, 'empty'=>'--- '.__('Please Select', true).' ---', 'div'=>false, 'label'=>false));?>
+    <?php echo $form->submit(__('Add',true), array('div'=>false)); ?>
     <?php echo $candy->toggle_link(__('Cancel',true), 'new-watcher-form');?></p>
   </p>
-  <?php echo $ajax->Form->end(); ?>
+  <?php echo $form->end(); ?>
 <?php endif; ?>

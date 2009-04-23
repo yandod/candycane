@@ -35,16 +35,20 @@ class WatchersController extends AppController
 #         :only => [ :watch, :unwatch ],
 #         :render => { :nothing => true, :status => :method_not_allowed }
 #  
-#  def watch
-#    set_watcher(User.current, true)
-#  end
-#  
-#  def unwatch
-#    set_watcher(User.current, false)
-#  end
-#  
+  function watch() {
+    $this->_set_watcher($this->current_user, true);
+  }
+  
+  function unwatch() {
+    $this->_set_watcher($this->current_user, false);
+  }
+  
   function add() {
-    if($this->RequestHandler->isPost()) {
+    if($this->RequestHandler->isPost() && !empty($this->data['Watcher']['user_id'])) {
+      $Model = & ClassRegistry::init($this->params['named']['object_type']);
+      if($Model->read(null, $this->params['named']['object_id']) && $this->Watcher->User->read(null, $this->data['Watcher']['user_id'])) {
+        $Model->add_watcher($this->Watcher->User->data);
+      }
     }
     Configure::write('debug', 0);
     extract($this->params['named']);
@@ -63,45 +67,24 @@ class WatchersController extends AppController
       }
     }
     $this->set(array_merge(compact('members', 'object_type', 'object_id', 'data')));
-    $this->render('_watchers');
     if($this->RequestHandler->isAjax()) {
+      $this->render('_watchers');
       $this->layout = 'ajax';
+    } else {
+      $this->redirect(env('HTTP_REFERER'));
     }
   }
-#  def new
-#    @watcher = Watcher.new(params[:watcher])
-#    @watcher.watchable = @watched
-#    @watcher.save if request.post?
-#    respond_to do |format|
-#      format.html { redirect_to :back }
-#      format.js do
-#        render :update do |page|
-#          page.replace_html 'watchers', :partial => 'watchers/watchers', :locals => {:watched => @watched}
-#        end
-#      end
-#    end
-#  rescue ::ActionController::RedirectBackError
-#    render :text => 'Watcher added.', :layout => true
-#  end
-#  
-#private
-#  def find_project
-#    klass = Object.const_get(params[:object_type].camelcase)
-#    return false unless klass.respond_to?('watched_by')
-#    @watched = klass.find(params[:object_id])
-#    @project = @watched.project
-#  rescue
-#    render_404
-#  end
-#  
-#  def set_watcher(user, watching)
-#    @watched.set_watcher(user, watching)
-#    respond_to do |format|
-#      format.html { redirect_to :back }
-#      format.js { render(:update) {|page| page.replace_html 'watcher', watcher_link(@watched, user)} }
-#    end
-#  rescue ::ActionController::RedirectBackError
-#    render :text => (watching ? 'Watcher added.' : 'Watcher removed.'), :layout => true
-#  end
-#end
+  function _set_watcher($user, $watching) {
+    Configure::write('debug', 0);
+    $Model = & ClassRegistry::init($this->params['named']['object_type']);
+    $Model->read(null, $this->params['named']['object_id']);
+    $this->set('data', $Model->data);
+    $result = $Model->set_watcher(array('User'=>$user), $watching);
+    if($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+      $this->render('update');
+    } else {
+      $this->redirect(env('HTTP_REFERER'));
+    }
+  }
 }

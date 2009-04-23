@@ -41,8 +41,11 @@ class WatchersHelper extends AppHelper
             'action' => ($watched ? 'unwatch' : 'watch'),
             'object_type' => $type,
             'object_id' => $object[$type]['id']);
-    return $this->Ajax->link(($watched ? __('Unwatch',true) : __('Watch',true)), $url,
-                   array('class'=> ($watched ? 'icon icon-fav' : 'icon icon-fav-off')));
+    $link = $this->Ajax->link(($watched ? __('Unwatch',true) : __('Watch',true)), $url, array(
+        'class'=> ($watched ? 'icon icon-fav' : 'icon icon-fav-off'),
+        'update'=>'watcher_link'
+    ));
+    return $this->Html->tag('span', $link, array('id'=>'watcher_link'));
   }
 
   # Returns a comma separated list of users watching the given object
