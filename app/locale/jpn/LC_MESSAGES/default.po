@@ -226,12 +226,6 @@ msgstr "この日のうちに開始して終了するタスク"
 msgid "In chronological order"
 msgstr "古い順"
 
-#actionview_datehelper_time_in_words_day
-msgid "%d day"
-msgstr "%d日"
-msgid "%d days"
-msgstr "%d日"
-
 # activerecord_error_exclusion
 msgid "is reserved"
 msgstr "が予約されています"
@@ -469,8 +463,10 @@ msgid "must be accepted"
 msgstr "を承諾してください"
 
 # general_fmt_date
-msgid "%%m/%%d/%%Y"
-msgstr "%%Y年%%m月%%d日"
+msgid "%m/%d/%Y"
+msgstr "%Y年%m月%d日"
+msgid "%Y-%m-%d"
+msgstr "%Y年%m月%d日"
 
 # default_issue_status_rejected
 msgid "Rejected"
@@ -2409,6 +2405,45 @@ msgstr "開発者"
 # label_updated_time
 msgid "Updated %s ago"
 msgstr "%s前に更新されました"
+
+#actionview_datehelper_time_in_words_day:
+msgid "1 day"
+msgstr "1日";
+msgid "%d day"
+msgstr "%d日"
+#actionview_datehelper_time_in_words_day_plural: 
+msgid "%d days"
+msgstr "%d日"
+#actionview_datehelper_time_in_words_hour_about: 
+msgid "about an hour"
+msgstr "約1時間"
+#actionview_datehelper_time_in_words_hour_about_plural: 
+msgid "about %d hours"
+msgstr "約%d時間"
+#actionview_datehelper_time_in_words_hour_about_single: 
+msgid "about an hour"
+msgstr "約1時間"
+#actionview_datehelper_time_in_words_minute: 
+msgid "1 minute"
+msgstr "1分"
+#actionview_datehelper_time_in_words_minute_half: 
+msgid "half a minute"
+msgstr "約30秒"
+#actionview_datehelper_time_in_words_minute_less_than: 
+msgid "less than a minute"
+msgstr "1分以内"
+#actionview_datehelper_time_in_words_minute_plural: 
+msgid "%d minutes"
+msgstr "%d分"
+#actionview_datehelper_time_in_words_minute_single: 
+msgid "1 minute"
+msgstr "1分"
+#actionview_datehelper_time_in_words_second_less_than: 
+msgid "less than a second"
+msgstr "1秒以内"
+#actionview_datehelper_time_in_words_second_less_than_plural: 
+msgid "less than %d seconds"
+msgstr "%d秒以内"
 
 # label_modified
 msgid "modified"

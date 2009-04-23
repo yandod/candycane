@@ -1,7 +1,7 @@
 <div class="contextual">
   <?php echo $candy->link_to_if_authorized(':button_update', __('Update', true), array('controller' => 'issues', 'action' => 'edit', 'id' => $issue['Issue']['id']), array('onclick' => 'showAndScrollTo("update", "notes"); return false;', 'class' => 'icon icon-edit', 'accesskey' => 'accesskey(:edit)')); ?>
   <?php echo $candy->link_to_if_authorized(':button_log_time', __('Log time', true), array('controller' => 'timelog', 'action' => 'edit', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-time')) ?>
-  <!--<%= watcher_tag(@issue, User.current) %>-->
+  <?php echo $watchers->watcher_link($issue, $currentuser); ?>
   <?php echo $candy->link_to_if_authorized(':button_copy', __('Copy', true), '/projects/'.$main_project['Project']['identifier'].'/issues/add/copy_from:'.$issue['Issue']['id'], array('class' => 'icon icon-copy')) ?>
   <?php echo $candy->link_to_if_authorized(':button_move', __('Move', true), array('controller' => 'issues', 'action' => 'move', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-move')); ?>
   <?php echo $candy->link_to_if_authorized(':button_move', __('Delete', true), array('controller' => 'issues', 'action' => 'destroy', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-del'), __('Are you sure ?',true)); ?>
@@ -28,7 +28,7 @@
 </tr>
 <tr>
     <td class="assigned-to"><b><?php __('Assigned to') ?>:</b></td><td><?php echo $candy->avatar(array('User' => $issue['Author']), array('size' => 14)) ?><?php echo strlen($issue['Issue']['assigned_to_id']) ? $candy->link_to_user($issue['AssignedTo']) : "-" ?></td>
-    <td class="progress"><b><?php __('done_ratio') ?>:</b></td><td class="progress"><?php echo $candy->progress_bar($issue['Issue']['done_ratio'], array('width'=>'80px', 'legend'=>$issue['Issue']['done_ratio'].'%')); ?></td>
+    <td class="progress"><b><?php __('done_ratio') ?> %:</b></td><td class="progress"><?php echo $candy->progress_bar($issue['Issue']['done_ratio'], array('width'=>'80px', 'legend'=>$issue['Issue']['done_ratio'].'%')); ?></td>
 </tr>
 <tr>
     <td class="category"><b><?php __('Category') ?>:</b></td><td><?php echo h(strlen($issue['Issue']['category_id']) ? $issue['Category']['name'] : "-") ?></td>
@@ -38,7 +38,7 @@
     <?php endif; ?>
 </tr>
 <tr>
-    <td class="fixed-version"><b><?php __('Target version') ?>:</b></td><td><?php echo h(strlen($issue['Issue']['fixed_version_id']) ? $issue['FixedVersion']['name'] : "-") ?></td>
+    <td class="fixed-version"><b><?php __('Target version') ?>:</b></td><td><?php echo strlen($issue['Issue']['fixed_version_id']) ? $candy->link_to_version($issue['FixedVersion']) : "-" ?></td>
     <?php if(!empty($issue['Issue']['estimated_hours'])): ?>
     <td class="estimated-hours"><b><?php __('Estimated time') ?>:</b></td><td><?php echo sprintf(__('%.2f hour',true), $issue['Issue']['estimated_hours']) ?></td>
     <?php endif; ?>
