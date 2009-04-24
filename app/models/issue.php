@@ -72,10 +72,33 @@ class Issue extends AppModel
 #  has_many :relations_to, :class_name => 'IssueRelation', :foreign_key => 'issue_to_id', :dependent => :delete_all
 #  
 #  
-#  validates_presence_of :subject, :priority, :project, :tracker, :author, :status
-#  validates_length_of :subject, :maximum => 255
-#  validates_inclusion_of :done_ratio, :in => 0..100
-#  validates_numericality_of :estimated_hours, :allow_nil => true
+  var $validate = array(
+    'subject' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_length_of'=>array('rule'=>array('maxLength', 255)),
+    ),
+    'priority_id' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+    ),
+    'project_id' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+    ),
+    'tracker_id' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+    ),
+    'author_id' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+    ),
+    'status_id' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+    ),
+    'done_ratio' => array(
+      'validates_inclusion_of'=>array('rule'=>array('range', -1, 101)),
+    ),
+    'estimated_hours' => array(
+      'validates_numericality_of'=>array('rule'=>array('numeric'), 'allowEmpty'=>true),
+    )
+  );
 #
 #  def after_initialize
 #    if new_record?
@@ -203,7 +226,7 @@ class Issue extends AppModel
 #    true
 #  end
   function beforeSave($options = array()) {
-    parent::beforeSave($options);
+    $result = parent::beforeSave($options);
     if(!$this->__exists) {
       if(empty($this->data['Issue']['assigned_to']) && !empty($this->data['Issue']['category_id'])) {
         $category = $this->Category->find('first', array('conditions'=>array('id'=>$this->data['Issue']['category_id']), 'recursive'=>-1));
@@ -224,34 +247,45 @@ class Issue extends AppModel
       # attributes changes
       $issue_column_names = array_keys($this->data['Issue']);
       $JournalDetail = & ClassRegistry::init('JournalDetail');
-      $detail = false;
+      $journalDetails = array();
       foreach ($this->data['Issue'] as $c=>$v) {
-        if(array_key_exists($c, array('id', 'description'))) {
+        if(in_array($c, array('id', 'description', 'created_on', 'updated_on', 'custom_field_values'))) {
           continue;
         }
-        $detail = array('property' =>'attr', 'prop_key' =>$c);
+        if (array_key_exists($c, $this->issue_before_change['Issue']) 
+        && ($this->issue_before_change['Issue'][$c]==$v)) { 
+          continue;
+        }
+        $detail = array('property' =>'attr', 'prop_key' =>$c, 'value'=>$v);
         if($this->data['Issue'][$c] != $this->issue_before_change['Issue'][$c]) {
           $detail['old_value'] = $this->issue_before_change['Issue'][$c];
         }
+        $journalDetails[] = $detail;
       }
       # custom fields changes
-      # TODO ジャーナルからカスタマイズビヘイビアの値は参照できるの？
-/*
-      $custom_values.each {|c|
-        next if (@custom_values_before_change[c.custom_field_id]==c.value ||
-                  (@custom_values_before_change[c.custom_field_id].blank? && c.value.blank?))
-        @current_journal.details << JournalDetail.new(:property => 'cf', 
-                                                      :prop_key => c.custom_field_id,
-                                                      :old_value => @custom_values_before_change[c.custom_field_id],
-                                                      :value => c.value)
-      }      
-*/
-/* TODO ジャーナル保存
-      $JournalDetail->create();
-      @current_journal.save
-*/
+      foreach($this->data[$this->alias]['custom_field_values'] as $field_id => $field_value) {
+        if (array_key_exists($field_id, $this->custom_values_before_change) 
+        && ($this->custom_values_before_change[$field_id]==$field_value)) { 
+          continue;
+        }
+        foreach($this->Journal->available_custom_fields as $custom_field) {
+          if($custom_field['CustomField']['id'] == $field_id) {
+            $journalDetails[] = array(
+              'property' => 'cf', 
+              'prop_key' => $field_id,
+              'old_value'=> array_key_exists($field_id, $this->custom_values_before_change) ? $this->custom_values_before_change[$field_id] : null,
+              'value' => $field_value
+            );
+            break;
+          }
+        }
+      }
+      if(!empty($journalDetails)) {
+        $this->Journal->set(array('JournalDetail' => $journalDetails));
+        $result = $this->Journal->saveAll();
+      }
     }
-    return true;
+    return $result;
   }
 
 
@@ -291,18 +325,20 @@ class Issue extends AppModel
       $this->Journal->create();
       $defaults = array(
         'journalized_id'=>$issue['Issue']['id'], 
-        'user'=>$user['id'], 
+        'journalized_type'=>$this->name,
+        'user_id'=>$user['id'], 
         'notes' => $notes);
       $this->Journal->set($defaults);
     }
     $this->issue_before_change = $issue;
     $this->issue_before_change_status = $issue['Issue']['status_id'];
     $this->custom_values_before_change = array();
-    // TODO : init_journal
-#    self.custom_values.each {|c| @custom_values_before_change.store c.custom_field_id, c.value }
-#    # Make sure updated_on is updated when adding a note.
+    if(!empty($issue['CustomValue'])) {
+      foreach($issue['CustomValue'] as $custom_value) {
+        $this->custom_values_before_change[$custom_value['custom_field_id']] = $custom_value['value'];
+      }
+    }
 #    updated_on_will_change!
-#    @current_journal
     return $this->Journal;
   }
   function findValuesByJournalDetail($detail) {
@@ -315,20 +351,21 @@ class Issue extends AppModel
     switch($detail['property']) {
     case 'attr' :
       $options = array(
-        'fields'=>array('name'),
+        'fields'=>array(),
         'conditions'=>array('id'=>0),
         'recursive'=>-1);
       foreach($this->belongsTo as $alias=>$assoc) {
+        $options['fields'] = method_exists($this->$alias, 'name_fields') ? $this->$alias->name_fields() : array('name');
         if($detail['prop_key'] == $assoc['foreignKey']) {
           if(!empty($detail['value'])) {
             $options['conditions']['id'] = $detail['value'];
             $result = $this->$alias->find('first', $options);
-            $value = $result[$alias]['name'];
+            $value = method_exists($this->$alias, 'name') ? $this->$alias->name(array('User'=>$result[$alias])) : $result[$alias]['name'];
           }
           if(!empty($detail['old_value'])) {
             $options['conditions']['id'] = $detail['old_value'];
             $result = $this->$alias->find('first', $options);
-            $old_value = $result[$alias]['name'];
+            $old_value = method_exists($this->$alias, 'name') ? $this->$alias->name(array('User'=>$result[$alias])) : $result[$alias]['name'];
           }
           break;
         }

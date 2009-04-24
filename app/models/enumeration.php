@@ -25,9 +25,9 @@ class Enumeration extends AppModel
     return $this->find('all', array('conditions'=>array('opt'=>$option), 'order'=>'position'));
   }
 #  
-#  def self.default(option)  
-#    find(:first, :conditions => {:opt => option, :is_default => true}, :order => 'position')
-#  end
+  function default_value($option) {
+    return $this->find('first', array('conditions'=>array('opt'=>$option, 'is_default'=>true), 'order'=>'position'));
+  }
 #
 #  def option_name
 #    OPTIONS[self.opt][:label]

@@ -8,6 +8,9 @@ class AppModel extends Model {
     'validates_uniqueness_of' => 'There are already exists.',
     'validates_length_of' => 'Please input by %2$d or less characters.',
     'validates_format_of' => 'Please input in readable charactors.',
+    'validates_inclusion_of' => 'Please input in the range %1$d through %2$d.',
+    'validates_numericality_of' => 'Please input the numerical value.',
+    'validates_invalid_of' => 'It is an invalid value. ',
 
     'date_format' => 'Please input in the date format.',
     'compare_from_to' => 'Start time should specify the past from finish time.',

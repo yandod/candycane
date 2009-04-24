@@ -1,6 +1,5 @@
 <?php echo $form->create('Issue', array('url'=>array('action'=>'edit', 'id'=>$issue['Issue']['id']), 'enctype'=>"multipart/form-data", 'id'=>'issue-form')); ?>
-  <%= error_messages_for 'issue' %>
-  <%= error_messages_for 'time_entry' %>
+  <?php echo $this->renderElement('error_explanation'); ?>
   <div class="box">
   <?php if($candy->authorize_for(':edit_issues') || !empty($allowedStatuses)): ?>
   <fieldset class="tabular">

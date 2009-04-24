@@ -28,6 +28,7 @@
 -->
 <h2><?php $candy->html_title();__('New issue'); ?></h2>
 <?php echo $form->create('Issue', array('url'=>'/projects/'.$mainProject['Project']['identifier'].'/issues/add', 'class'=>"tabular", 'enctype'=>"multipart/form-data", 'id'=>'IssueAddForm')); ?>
+  <?php echo $this->renderElement('error_explanation'); ?>
   <div class="box">
     <?php echo $this->renderElement('issues/form', compact(
       'trackers', 'statuses', 'priorities', 'assignableUsers', 'issueCategories', 

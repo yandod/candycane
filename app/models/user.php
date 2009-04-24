@@ -77,6 +77,9 @@ class User extends AppModel
 
     return $user['User']['firstname']. ' '.$user['User']['lastname'];
   }
+  function name_fields() {
+    return array('firstname', 'lastname');
+  }
 #  # Return user's full name for display
 #  def name(formatter = nil)
 #    if formatter

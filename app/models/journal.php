@@ -71,6 +71,7 @@ class Journal extends AppModel {
   var $name="Journal";
   var $belongsTo = array('User', 'Issue'=>array('foreignKey'=>'journalized_id')); 
   var $hasMany = array('JournalDetail');
+  var $available_custom_fields = array();
 
   function is_editable_by($usr) {
     $this->Issue->Project->recursive = -1;

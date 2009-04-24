@@ -91,6 +91,49 @@ class TimeEntry extends AppModel
     'Customizable'=>array('is_for_all'=>0)
   );
 
+  var $validate = array(
+    'user_id' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+    ),
+    'activity_id' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+    ),
+    'project_id' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+    ),
+    'issue_id' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+    ),
+    'hours' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_numericality_of'=>array('rule'=>array('numeric')),
+      'validates_inclusion_of'=>array('rule'=>array('range', -1, 1000)),
+    ),
+    'spent_on' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+    ),
+    'comments' => array(
+      'validates_length_of'=>array('rule'=>array('maxLength', 255)),
+    )
+  );
+
+  function create($data = array(), $filterKey = false) {
+    parent::create($data, $filterKey);
+    if(empty($this->data[$this->name]['activity_id'])) {
+      $default_activity = $this->Activity->default_value('ACTI');
+      if(!empty($default_activity)) {
+        $this->set('activity_id', $default_activity['Activity']['id']);
+      }
+    }
+    return $this->data;
+  }
+  
+  function beforeValidate() {
+    if(!empty($this->data['Issue']) && empty($this->data[$this->name]['project_id'])) {
+      $this->set('project_id', $issue['Issue']['project_id']);
+    }
+  }
+
   function find_visible_by($user)
   {
     // return $this->find('all', array('conditions' => $this->Project->allowed_to_condition($user, 'view_time_entries')));
