@@ -405,7 +405,7 @@ class CandyHelper extends AppHelper
 	{
 		//TODO:port
     $view =& ClassRegistry::getObject('view');
-    $project = $view->viewVars['main_project'];
+    $project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
     if(empty($project)) {
   	  $time_tag = $this->Html->tag('acronym',$this->distance_of_time_in_words(time(),$created),aa('title',$this->format_time($created)));
     } else {
