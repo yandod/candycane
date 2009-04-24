@@ -23,29 +23,29 @@ end
 */
 class WatchersHelper extends AppHelper
 {
-  var $helpers = array('Html', 'Candy');
+  var $helpers = array('Html', 'Ajax', 'Candy');
 
   function watcher_tag($object, $user) {
     return $this->Html->tag("span", $this->watcher_link($object, $user), array('id'=>'watcher', false));
   }
 
   function watcher_link($object, $user) {
-    // TODO ?????
-    // return '' unless user && user.logged? && object.respond_to?('watched_by?')
-    // TODO Helper -> Model(SQL)
-    // $watched = object.watched_by?(user)
-    /*
+    $watched_by = $this->requestAction(array('controller'=>'issues', 'action'=>'watched_by'), compact('object'));
+    if(!($user && $user['logged'])) {
+      return '';
+    }
+    $watched = !empty($watched_by);
+    $type = key($object);
     $url = array(
             'controller' => 'watchers',
-            'action' => (watched ? 'unwatch' : 'watch'),
-           :object_type => object.class.to_s.underscore,
-           :object_id => object.id}           
-    link_to_remote((watched ? l(:button_unwatch) : l(:button_watch)),
-                   {:url => url},
-                   :href => url_for(url),
-                   :class => (watched ? 'icon icon-fav' : 'icon icon-fav-off'))
-    */
-    return '';
+            'action' => ($watched ? 'unwatch' : 'watch'),
+            'object_type' => $type,
+            'object_id' => $object[$type]['id']);
+    $link = $this->Ajax->link(($watched ? __('Unwatch',true) : __('Watch',true)), $url, array(
+        'class'=> ($watched ? 'icon icon-fav' : 'icon icon-fav-off'),
+        'update'=>'watcher_link'
+    ));
+    return $this->Html->tag('span', $link, array('id'=>'watcher_link'));
   }
 
   # Returns a comma separated list of users watching the given object

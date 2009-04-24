@@ -187,17 +187,21 @@ class WatchableBehavior extends ModelBehavior {
     }
     return $mails;
   }
-  function watched_by(&$Model, $user) {
+  function watched_by(&$Model, $user, $object=false) {
+    if(!$object) {
+      $object = $Model->data;
+    }
+    $type = key($object);
     $model = & ClassRegistry::init('Watcher');
-    $watcher = $model->find('first',array('conditions' => array("Watcher.user_id"=>$user['User']['id'])));
+    $watcher = $model->find('first',array('conditions' => array(
+      "Watcher.user_id"=>$user['User']['id'],
+      'Watcher.watchable_type'=>$type,
+      'Watcher.watchable_id'=>$object[$type]['id']
+    )));
     if(!$watcher) {
       return array();
     }
-    $belongsModel = & ClassRegistry::init($watcher['Watcher']['watchable_type']);
-    $belongsData = $belongsModel->read(null, $watcher['Watcher']['watchable_id']);
-    $userModel = & ClassRegistry::init('User');
-    $user = $userModel->read(null, $watcher['Watcher']['user_id']);
-    return array_merge($watcher, $belongsData, $user);
+    return $watcher;
   }
   /**
    * This is default implement.

@@ -13,6 +13,8 @@ class Issue extends AppModel
     'Watchable',
     'Customizable',
     'Attachable',
+    'Event' => array('title' => array('Proc' => '_event_title'),
+                      'url'   => array('Proc' => '_event_url')),
   );
 #  acts_as_attachable :after_remove => :attachment_removed
 #  acts_as_customizable
@@ -425,6 +427,14 @@ class Issue extends AppModel
 #  end
 #  
 #  private
+
+  function _event_title($data) {
+     return $data['Tracker']['name'].' ##'.$data['Issue']['id'].': '.$data['Issue']['subject'];
+  }
+  function _event_url($data) {
+    return  array('controller'=>'issues', 'action'=>'show', 'id'=>$data['Issue']['id']);
+  }
+
 #  
 #  # Callback on attachment deletion
 #  def attachment_removed(obj)

@@ -223,6 +223,10 @@ class CandyHelper extends AppHelper
 #    link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
 #  end
 #
+  function link_to_version($version, $options = array()) {
+    return $this->Html->link(h($version['name']), array('controller'=>'versions', 'action'=>'show', 'id'=>$version['id']), $options);
+  }
+
   function toggle_link($name, $id, $options=array()) {
     $onclick = "Element.toggle('$id'); ";
     $onclick .= (!empty($options['focus']) ? "Form.Element.focus('".$options['focus']."'); " : "this.blur(); ");
@@ -253,10 +257,20 @@ class CandyHelper extends AppHelper
     if (!$date) {
       return null;
     }
+    
+    $view =& ClassRegistry::getObject('view');
+    $Settings = $view->viewVars['Settings'];
 
     // "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
-#    @date_format ||= (Setting.date_format.blank? || Setting.date_format.size < 2 ? l(:general_fmt_date) : Setting.date_format)
-#    date.strftime(@date_format)
+    $date_format = (empty($Settings->date_format) || strlen($Settings->date_format) < 2) ? '%m/%d/%Y' : $Settings->date_format;
+    if(is_string($date)) {
+      $date = strtotime($date);
+    }
+    $date_format = __($date_format,true);
+    // for hack windows.
+    $date_format = mb_convert_encoding($date_format, "SJIS", "UTF-8");
+    $date = strftime("{$date_format}",$date);
+    $date = mb_convert_encoding($date, "UTF-8", "SJIS");
     return $date;
   }
 #
@@ -390,12 +404,20 @@ class CandyHelper extends AppHelper
 	function authoring($created, $author, $options = array())
 	{
 		//TODO:port
-	 $time_tag = $this->Html->tag('acronym',$this->distance_of_time_in_words(time(),$created),aa('title',$this->format_time($created)));
+    $view =& ClassRegistry::getObject('view');
+    $project = $view->viewVars['main_project'];
+    if(empty($project)) {
+  	  $time_tag = $this->Html->tag('acronym',$this->distance_of_time_in_words(time(),$created),aa('title',$this->format_time($created)));
+    } else {
+      $time_tag = $this->Html->link($this->distance_of_time_in_words(time(),$created), 
+          array('controller'=>'projects', 'action'=>'activity', 'id'=>$project['Project']['id'], 'from'=>$created),
+          aa('title',$this->format_time($created)));
+    }
 #    time_tag = @project.nil? ? content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created)) :
 #                               link_to(distance_of_time_in_words(Time.now, created), 
 #                                       {:controller => 'projects', :action => 'activity', :id => @project, :from => created.to_date},
 #                                       :title => format_time(created))
-	 $author_tag = $this->Html->link($this->format_username($author),aa('controller','account','action','show','id',$author['id']));
+	  $author_tag = $this->Html->link($this->format_username($author),aa('controller','account','action','show','id',$author['id']));
 #    author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
 #    l(options[:label] || :label_added_time_by, author_tag, time_tag)
 		return $this->lwr('Added by %s %s ago',$author_tag, $time_tag);
@@ -997,10 +1019,41 @@ function breadcrumb($args)
   /**
    * rails 's ActionView::distance_of_time_in_words
    */
-  function distance_of_time_in_words($begin, $end)
+  function distance_of_time_in_words($begin, $end, $include_seconds=false)
   {
     if (!is_numeric($begin)) $begin = strtotime($begin);
     if (!is_numeric($end)) $end = strtotime($end);
-    return sprintf('%d', abs($begin - $end) / 86400) . '' . __('days', true); // white space is need ?
+
+    $distance_in_minutes = round(abs($begin - $end)/60);
+    $distance_in_seconds = round(abs($begin - $end));
+
+    switch(true) {
+    case (($distance_in_minutes == 0) || ($distance_in_minutes == 1)) :
+      if(!$include_seconds) return ($distance_in_minutes==0) ? __('less than a minute',true) : __('1 minute',true);
+      switch(true) {
+      case ($distance_in_seconds <= 5) :
+        return ($distance_in_seconds < 1) ? __('less than a second',true) : sprintf(__('less than %d seconds',true), 5);
+      case ($distance_in_seconds <= 10) :
+        return sprintf(__('less than %d seconds',true), 10);
+      case ($distance_in_seconds <= 20) :
+        return sprintf(__('less than %d seconds',true), 20);
+      case ($distance_in_seconds <= 40) :
+        return __('half a minute',true);
+      case ($distance_in_seconds <= 59) :
+        return __('less than a minute',true);
+      default :
+        return __('1 minute',true);
+      }
+    case ($distance_in_minutes <= 45) :
+      return sprintf(__('%d minutes',true), $distance_in_minutes);
+    case ($distance_in_minutes <= 90) :
+      return __('about an hour',true);
+    case ($distance_in_minutes <= 1440) :
+      return (round($distance_in_minutes / 60.0) == 1) ? __('about an hour',true) : sprintf(__('about %d hours',true),round($distance_in_minutes / 60.0));
+    case ($distance_in_minutes <= 2880) :
+      return  __('1 day',true);
+    default :
+      return sprintf(__('%d days',true),round($distance_in_minutes / 1440));
+    }
   }
 }

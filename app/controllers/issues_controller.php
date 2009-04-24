@@ -223,6 +223,12 @@ class IssuesController extends AppController
     $result = $this->Issue->findValuesByJournalDetail($this->params['detail']);
     return $result;
   }
+  function watched_by() {
+    if(empty($this->params['requested'])) {
+      $this->cakeError('error404');
+    }
+    return $this->Issue->watched_by(array('User'=>$this->current_user), $this->params['object']);
+  }
 
   /**
    * Add a new issue
