@@ -73,7 +73,7 @@ class VersionsController extends AppController
       $issues[$key]['Issue'] = $issue['FixedIssue'];
     }
     $this->set('issues', $issues); // @FIXME
-    $fixed_issue_count = 1;
+    $fixed_issue_count = count($issues);
     $this->set('fixed_issue_count', $fixed_issue_count);
     $wiki_content = $this->Wiki->Page->find('first',
                                                 aa('conditions',
