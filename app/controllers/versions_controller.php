@@ -68,7 +68,7 @@ class VersionsController extends AppController
     $this->Version->id = $id;
     $this->data = $this->Version->read();
 
-    $issues = $this->Version->FixedIssue->find('all');
+    $issues = $this->Version->FixedIssue->find('all', aa('conditions', aa('fixed_version_id', $id)));
     foreach($issues as $key=>$issue) {
       $issues[$key]['Issue'] = $issue['FixedIssue'];
     }

@@ -860,6 +860,13 @@ function breadcrumb($args)
 #    link_to_function(l(:button_uncheck_all), "checkAll('#{form_name}', false)")
 #  end
 #
+  function progress_bar_auto($pcts, $options=array()) {
+      $total = $pcts[0] + $pcts[1];
+      $pcts[0] = $pcts[0] * 100 / $total;
+      $pcts[1] = $pcts[1] * 100 / $total;
+      return $this->progress_bar($pcts, $options);
+  }
+
   function progress_bar($pcts, $options=array()) {
     if(!is_array($pcts)) $pcts = array($pcts, $pcts);
     $pcts[1] = $pcts[1] - $pcts[0];
