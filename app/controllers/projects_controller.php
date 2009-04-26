@@ -574,6 +574,11 @@ class ProjectsController extends AppController
       'conditions' => array('is_in_roadmap' => true)
     ));
     $this->set('trackers', $trackers);
+    if (isset($this->data['Version'])) {
+        foreach($this->data['Version'] as $key=>$version) {
+            $this->data['Version'][$key]['Issue'] = $this->Issue->find('all', aa('conditions', aa('fixed_version_id', $version['id'])));
+        }
+    }
     // $issues = $this->Version->FixedIssue->find('all', 
     $this->set('issues', array());
 
