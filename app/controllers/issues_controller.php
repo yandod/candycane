@@ -196,7 +196,11 @@ class IssuesController extends AppController
       'custom_field_values', 'time_entry_custom_fields', 'time_entry_activities', 'rss_token', 
       'attachments', 'attachments_deletable', 'issue_relations'));
     $this->data = $issue;
-
+    if(!empty($issue['CustomValue'])) {
+      foreach($issue['CustomValue'] as $value) {
+        $this->data['custom_field_values'][$value['CustomField']['id']] = $value['value'];
+      }
+    }
   }
 #  def show
 #    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
@@ -275,20 +279,30 @@ class IssuesController extends AppController
     foreach($allowed_statuses as $id => $value) {
       $statuses[$id] = $value;
     }
+    $custom_field_values = $this->Issue->available_custom_fields(
+      $this->_project['Project']['id'],
+      empty($this->data['Issue']['tracker_id']) ? key($trackers) : $this->data['Issue']['tracker_id']
+    );
+
     if(!empty($this->data) && $this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
-      $this->data['Issue']['project_id'] = $this->_project['Project']['id'];
-      $this->data['Issue']['author_id'] = $this->current_user['id'];
-      if(!$this->Issue->save($this->data)) {
+      $save_data = array();
+      $save_data['Issue'] = $this->data['Issue'];
+      $save_data['Issue']['project_id'] = $this->_project['Project']['id'];
+      $save_data['Issue']['author_id'] = $this->current_user['id'];
+      $save_data['Issue']['custom_field_values'] = $this->Issue->filterCustomFieldValue($this->data['custom_field_values']);
+      if(!$this->Issue->save($save_data) && empty($this->Issue->validationErrors)) {
         return $this->cakeError('error', array('message'=>"Can not save Issue."));
       }
-      // TODO : attach file 
-      # attach_files(@issue, params[:attachments])
-      $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
-      # Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
-      if(!empty($this->params['form']['continue'])) {
-        $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues/add/tracker_id:'.$this->data['Issue']['tracker_id']);
+      if(empty($this->Issue->validationErrors)) {
+        // TODO : attach file 
+        # attach_files(@issue, params[:attachments])
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+        # Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
+        if(!empty($this->params['form']['continue'])) {
+          $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues/add/tracker_id:'.$this->data['Issue']['tracker_id']);
+        }
+        $this->redirect(array('action'=>'show', 'id'=>$this->Issue->getLastInsertID()));
       }
-      $this->redirect(array('action'=>'show', 'id'=>$this->Issue->getLastInsertID()));
     } elseif(!$this->RequestHandler->isAjax() && empty($this->data['Issue']['start_date'])) {
       $this->data['Issue']['start_date'] = date('Y-m-d');
     }
@@ -303,10 +317,6 @@ class IssuesController extends AppController
     $assignable_users = $this->Project->assignable_users($this->_project['Project']['id']);
     $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
     $fixed_versions = $this->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
-    $custom_field_values = $this->Issue->available_custom_fields(
-      $this->_project['Project']['id'],
-      empty($this->data['Issue']['tracker_id']) ? key($trackers) : $this->data['Issue']['tracker_id']
-    );
     $members = $this->Project->members($this->_project['Project']['id']);
 
     $this->set(compact(
@@ -340,6 +350,7 @@ class IssuesController extends AppController
       return $this->cakeError('error', array('message'=>"Not exists issue."));
     }
     $issue = $this->_find_issue($this->params['issue_id']);
+    $this->Issue->set($issue);
     if(empty($this->_project)) {
       $this->params['project_id'] = $issue['Project']['identifier'];
       parent::_findProject();
@@ -366,7 +377,12 @@ class IssuesController extends AppController
         $this->data['Issue']['priority_id'] = $priority['Enumeration']['id'];
       }
     }
+    $custom_field_values = $this->Issue->available_custom_fields(
+      $this->_project['Project']['id'],
+      $issue['Issue']['tracker_id']
+    );
     $TimeEntry = & ClassRegistry::init('TimeEntry');
+    $time_entry_custom_fields = $TimeEntry->available_custom_fields();
 
     $notes = "";
     if(!empty($this->params['url']['notes'])) {
@@ -374,9 +390,10 @@ class IssuesController extends AppController
     }
     if(!empty($this->data['Issue']['notes'])) {
       $notes = $this->data['Issue']['notes'];
-      unset($this->data['Issue']['notes']);
     }
+    unset($this->data['Issue']['notes']);
     $this->Issue->init_journal($issue, $this->current_user, $notes);
+    $this->Issue->Journal->available_custom_fields = $custom_field_values;
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
     $edit_allowed = $this->User->is_allowed_to($this->current_user, ':edit_issues', $this->_project);
     if($edit_allowed || !empty($allowed_statuses) && (!empty($this->params['url']['issue']) || !empty($this->data['Issue'])) ) {
@@ -395,31 +412,37 @@ class IssuesController extends AppController
       }
       $issue['Issue'] = array_merge($issue['Issue'], $attrs);
     }
-    if($this->RequestHandler->isPost()) {
-      $TimeEntry.create();
-      $TimeEntry.set(array_merge(array(
+    if(($this->RequestHandler->isPost() || $this->RequestHandler->isPut()) && !empty($this->data)) {
+      $TimeEntry->create();
+      $TimeEntry->set(array_merge(array(
         'project_id'=>$this->_project['Project']['id'],
         'issue_id'  =>$issue['Issue']['id'],
         'user_id'   =>$this->current_user['id'],
-        'spent_on'  =>new Date('Y-m-d')
+        'spent_on'  =>date('Y-m-d')
       ), $this->data['TimeEntry']));
+      
+      $save_data = array();
+      $save_data['Issue'] = $this->data['Issue'];
+      $save_data['Issue']['id'] = $issue['Issue']['id'];
+      $save_data['Issue']['project_id'] = $this->_project['Project']['id'];
+      $save_data['Issue']['tracker_id'] = $issue['Issue']['tracker_id'];
+      $save_data['Issue']['custom_field_values'] = $this->Issue->filterCustomFieldValue($this->data['custom_field_values']);
+      if($this->User->is_allowed_to($this->current_user, ':log_time', $this->_project)
+      && (empty($TimeEntry->data['TimeEntry']['hours']) || $TimeEntry->validates()) ) {
+        # Log spend time
+        $TimeEntry->data['TimeEntry']['custom_field_values'] = $TimeEntry->filterCustomFieldValue($this->data['custom_field_values']);
+        $save_data['TimeEntry'] = array($TimeEntry->data['TimeEntry']);
+      }
       // TODO Issue edit attachement :
       // $attachments = attach_files(@issue, params[:attachments])
       // attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
-      
       // call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
-      
-      if((empty($TimeEntry->data['TimeEntry']['hours']) || $TimeEntry->validates()) && $this->Issue->save($issue)) {
-        # Log spend time
-        if($this->User->is_allowed_to($this->current_user, ':log_time', $this->_project)) {
-          $TimeEntry->save();
+      if($this->Issue->saveAll($save_data)) {
+        if($this->Issue->Journal) {
+          # Only send notification if something was actually changed
+          $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+          # TODO : Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
         }
-        // TODO ƒWƒƒ[ƒiƒ‹‚Í•Û—¯
-#        if !journal.new_record?
-#          # Only send notification if something was actually changed
-#          flash[:notice] = l(:notice_successful_update)
-#          Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
-#        end
         if(!empty($this->params['url']['back_to'])) {
           $this->redirect($this->params['url']['back_to']);
         }
@@ -429,11 +452,6 @@ class IssuesController extends AppController
     $assignable_users = $this->Project->assignable_users($this->_project['Project']['id']);
     $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
     $fixed_versions = $this->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
-    $custom_field_values = $this->Issue->available_custom_fields(
-      $this->_project['Project']['id'],
-      $issue['Issue']['tracker_id']
-    );
-    $time_entry_custom_fields = $TimeEntry->available_custom_fields();
     $time_entry_activity_datas = $this->Enumeration->get_values('ACTI');
     $time_entry_activities = array();
     foreach($time_entry_activity_datas as $time_entry_activity) {

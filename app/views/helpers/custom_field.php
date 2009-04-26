@@ -65,7 +65,7 @@ class CustomFieldHelper extends AppHelper
         $empty = false;
         if(empty($custom_field['default_value'])) {
           $options[] = '--- '.__('Please Select', true).' ---';
-        } else {
+        } elseif(empty($this->data['custom_field_values'][$custom_value['CustomField']['id']])) {
           $selected = $custom_field['default_value'];
         }
       }

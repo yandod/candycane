@@ -6,6 +6,7 @@ class CustomizableBehavior extends ModelBehavior {
   // array (example)
   // array[{n}]['CustomValue'][{fieldname}]
   var $custom_field_values = null;
+  var $available_custom_fields = array();
   
   function setup(&$Model, $config = array()) {
     $settings = $config;
@@ -17,7 +18,41 @@ class CustomizableBehavior extends ModelBehavior {
    * Check between Model->data[modelname][custom_field_values][] and Database values
    */
   function beforeValidate(&$Model){
+    $fields = $this->available_custom_fields[$Model->alias];
+    foreach($fields as $field) {
+      if(!empty($Model->data[$Model->alias]['custom_field_values']) && array_key_exists($field['CustomField']['id'], $Model->data[$Model->alias]['custom_field_values'])){
+        $data = $Model->data[$Model->alias]['custom_field_values'][$field['CustomField']['id']];
+      } else {
+        $data = '';
+      }
+      $message = '';
+      $regex = false;
+      if($field['CustomField']['is_required']) {
+        $regex = '/[^\s]+/m';
+        $message = 'validates_presence_of';
+      }
+      if(!$this->_check($regex, $data)) {
+        $Model->validationErrors[$field['CustomField']['name']] = $message;
+      } elseif(!empty($field['CustomField']['regexp'])) {
+        $regex = '/'.$field['CustomField']['regexp'].'/um';
+        $message = 'validates_invalid_of';
+        if(!$this->_check($regex, $data)) {
+          $Model->validationErrors[$field['CustomField']['name']] = $message;
+        }
+      }
+    }
+    // continue main model validates...
     return true;
+  }
+  function _check($regex, $data) {
+    if(empty($regex)) {
+      return true;
+    }
+    if (preg_match($regex, $data)) {
+      return true;
+    } else {
+      return false;
+    }
   }
   /**
    * Create save data
@@ -112,11 +147,26 @@ class CustomizableBehavior extends ModelBehavior {
     if(empty($result)) {
       $result = $availables;
     }
-    return $result;
+    $this->available_custom_fields[$Model->alias] = $result;
+    return $this->available_custom_fields[$Model->alias];
   }
   function findCustomFieldById(&$Model, $id) {
     $CustomField = & ClassRegistry::init('CustomField');
     return $CustomField->read(null, $id); 
+  }
+  /**
+   * Filter only available fields.
+   * @note : Before call this function, must be call available_custom_fields.
+   */
+  function filterCustomFieldValue(&$Model, $values) {
+    $result = array();
+    foreach($this->available_custom_fields[$Model->alias] as $available) {
+      $id = $available['CustomField']['id'];
+      if(array_key_exists($id, $values)) {
+        $result[$id] = $values[$id];
+      }
+    }
+    return $result;
   }
 
    // ==== privates 
@@ -147,6 +197,14 @@ class CustomizableBehavior extends ModelBehavior {
         $customValueModel->create();
         if($created) {
           $custom_value['CustomValue']['customized_id'] = $insertId;
+        } else {
+          $conditions = $custom_value['CustomValue'];
+          unset($conditions['value']);
+          $exists = $customValueModel->find('first', array('conditions'=>$conditions, 'fields'=>array('id')));
+          if(!empty($exists)) {
+            $custom_value['CustomValue']['id'] = $exists['CustomValue']['id'];
+            $customValueModel->id = $exists['CustomValue']['id'];
+          }
         }
         $customValueModel->save($custom_value);
       }
