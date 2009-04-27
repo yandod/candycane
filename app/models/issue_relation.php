@@ -1,7 +1,4 @@
 <?php
-class IssueRelation extends AppModel
-{
-  var $name = 'IssueRelation';
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
 ##
@@ -19,67 +16,101 @@ class IssueRelation extends AppModel
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-#class IssueRelation < ActiveRecord::Base
+define('ISSUERELATION_TYPE_RELATES',    "relates");
+define('ISSUERELATION_TYPE_DUPLICATES', "duplicates");
+define('ISSUERELATION_TYPE_BLOCKS',     "blocks");
+define('ISSUERELATION_TYPE_PRECEDES',   "precedes");
+
+class IssueRelation extends AppModel
+{
+  var $name = 'IssueRelation';
   var $belongsTo = array(
     'IssueFrom' => array('className'=>'Issue', 'foreign_key'=>'issue_from_id'),
     'IssueTo' => array('className'=>'Issue', 'foreign_key'=>'issue_to_id')
   );
-#  belongs_to :issue_from, :class_name => 'Issue', :foreign_key => 'issue_from_id'
-#  belongs_to :issue_to, :class_name => 'Issue', :foreign_key => 'issue_to_id'
-#  
-#  TYPE_RELATES      = "relates"
-#  TYPE_DUPLICATES   = "duplicates"
-#  TYPE_BLOCKS       = "blocks"
-#  TYPE_PRECEDES     = "precedes"
-#  
-#  TYPES = { TYPE_RELATES =>     { :name => :label_relates_to, :sym_name => :label_relates_to, :order => 1 },
-#            TYPE_DUPLICATES =>  { :name => :label_duplicates, :sym_name => :label_duplicated_by, :order => 2 },
-#            TYPE_BLOCKS =>      { :name => :label_blocks, :sym_name => :label_blocked_by, :order => 3 },
-#            TYPE_PRECEDES =>    { :name => :label_precedes, :sym_name => :label_follows, :order => 4 },
-#          }.freeze
-#  
-#  validates_presence_of :issue_from, :issue_to, :relation_type
-#  validates_inclusion_of :relation_type, :in => TYPES.keys
-#  validates_numericality_of :delay, :allow_nil => true
-#  validates_uniqueness_of :issue_to_id, :scope => :issue_from_id
-#  
-#  def validate
-#    if issue_from && issue_to
-#      errors.add :issue_to_id, :activerecord_error_invalid if issue_from_id == issue_to_id
-#      errors.add :issue_to_id, :activerecord_error_not_same_project unless issue_from.project_id == issue_to.project_id || Setting.cross_project_issue_relations?
-#      errors.add_to_base :activerecord_error_circular_dependency if issue_to.all_dependent_issues.include? issue_from
-#    end
-#  end
-#  
-#  def other_issue(issue)
-#    (self.issue_from_id == issue.id) ? issue_to : issue_from
-#  end
-#  
-#  def label_for(issue)
-#    TYPES[relation_type] ? TYPES[relation_type][(self.issue_from_id == issue.id) ? :name : :sym_name] : :unknow
-#  end
-#  
-#  def before_save
-#    if TYPE_PRECEDES == relation_type
-#      self.delay ||= 0
-#    else
-#      self.delay = nil
-#    end
-#    set_issue_to_dates
-#  end
-#  
-#  def set_issue_to_dates
-#    soonest_start = self.successor_soonest_start
-#    if soonest_start && (!issue_to.start_date || issue_to.start_date < soonest_start)
-#      issue_to.start_date, issue_to.due_date = successor_soonest_start, successor_soonest_start + issue_to.duration
-#      issue_to.save
-#    end
-#  end
-#  
-#  def successor_soonest_start
-#    return nil unless (TYPE_PRECEDES == self.relation_type) && (issue_from.start_date || issue_from.due_date)
-#    (issue_from.due_date || issue_from.start_date) + 1 + delay
-#  end
+  var $validate = array(
+    'issue_from_id' => array(
+      'validates_presence_of'=>array('rule'=>array('existsIssue', 'IssueFrom')),
+    ),
+    'issue_to_id' => array(
+      'validates_presence_of'=>array('rule'=>array('existsIssue', 'IssueTo')),
+      'validates_invalid_of'=>array('rule'=>array('sameId')),
+      'validates_uniqueness_of'=>array('rule'=>array('isUnique')),
+      'validates_not_same_project'=>array('rule'=>array('sameProject')),
+      'validates_circular_dependency'=>array('rule'=>array('circularDependency')),
+    ),
+    'relation_type' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_invalid_of'=>array('rule'=>array('inList', array(ISSUERELATION_TYPE_RELATES, ISSUERELATION_TYPE_DUPLICATES, ISSUERELATION_TYPE_BLOCKS, ISSUERELATION_TYPE_PRECEDES))),
+    ),
+    'delay' => array(
+      'validates_numericality_of'=>array('rule'=>array('numeric'), 'allowEmpty'=>true),
+    )
+  );
+  function existsIssue($data, $model) {
+    $field = key($data);
+    if(empty($this->data[$this->name][$field])) return false;
+    $recursive = $this->$model->recursive;
+    $this->$model->recursive = -1;
+    $result = $this->$model->read(null, $this->data[$this->name][$field]);
+    $this->$model->recursive = $recursive;
+    return $result;
+  }
+  function isUnique($field, $data) {
+    return parent::isUnique(array('issue_from_id', 'issue_to_id'), false);
+  }
+  function sameId($data) {
+    return $this->data[$this->name]['issue_to_id'] != $this->data[$this->name]['issue_from_id'];
+  }
+  function sameProject($data) {
+    $issue_from = $this->IssueFrom->data;
+    $issue_to = $this->IssueTo->data;
+    return ($issue_from['IssueFrom']['project_id'] == $issue_to['IssueTo']['project_id'] || $Settings->cross_project_issue_relations);
+  }
+  function circularDependency($data) {
+    return !in_array($this->data[$this->name]['issue_from_id'], $this->all_dependent_issues($this->data[$this->name]['issue_to_id']));
+  }
+  
+  function all_dependent_issues($issue_id) {
+    $dependencies = array();
+    $relations_from = $this->find('all', array('conditions'=>array('issue_from_id'=>$issue_id), 'fields'=>array('issue_to_id')));
+    foreach($relations_from as $relation) {
+      $dependencies[] = $relation[$this->name]['issue_to_id'];
+      $dependencies = array_merge($dependencies, $this->all_dependent_issues($relation[$this->name]['issue_to_id']));
+    }
+    return $dependencies;
+  }
+
+#  def other_issue(issue) ==> Move to IssuesHelper
+#  def label_for(issue) ==> Move to IssuesHelper
+
+  function beforeSave($options = array()) {
+    if(ISSUERELATION_TYPE_PRECEDES == $this->data[$this->name]['relation_type']) {
+      if(empty($this->data[$this->name]['delay'])) $this->data[$this->name]['delay'] = 0;
+      $this->set_issue_to_dates();
+    } else {
+      $this->data[$this->name]['delay'] = null;
+    }
+    return true;
+  }
+  
+  function set_issue_to_dates() {
+    $soonest_start = $this->successor_soonest_start();
+    if($soonest_start && (!$this->IssueTo->data['IssueTo']['start_date'] || strtotime($this->IssueTo->data['IssueTo']['start_date']) < $soonest_start)) {
+      $this->IssueTo->data['IssueTo']['start_date'] = date('Y-m-d', $soonest_start); 
+      $this->IssueTo->data['IssueTo']['due_date']   = date('Y-m-d', $soonest_start + $this->IssueTo->duration());
+      $this->IssueTo->save(null, false, array('start_date','due_date'));
+    }
+  }
+  
+  function successor_soonest_start() {
+    if(!((ISSUERELATION_TYPE_PRECEDES == $this->data[$this->name]['relation_type']) && ($this->IssueFrom->data['IssueFrom']['start_date'] || $this->IssueFrom->data['IssueFrom']['due_date']))) {
+      return null;
+    }
+    $date = !empty($this->IssueFrom->data['IssueFrom']['due_date']) ? $this->IssueFrom->data['IssueFrom']['due_date'] : $this->IssueFrom->data['IssueFrom']['start_date'];
+    $delay = $this->data[$this->name]['delay'] + 1;
+    return strtotime("+$delay day", strtotime($date));
+  }
 #  
 #  def <=>(relation)
 #    TYPES[self.relation_type][:order] <=> TYPES[relation.relation_type][:order]

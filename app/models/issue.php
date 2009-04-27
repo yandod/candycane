@@ -425,14 +425,10 @@ class Issue extends AppModel
 #    (relations_from + relations_to).sort
 #  end
 #  
-#  def all_dependent_issues
-#    dependencies = []
-#    relations_from.each do |relation|
-#      dependencies << relation.issue_to
-#      dependencies += relation.issue_to.all_dependent_issues
-#    end
-#    dependencies
-#  end
+  function all_dependent_issues() {
+    // Move to IssueRelation
+    $this->cakeError('error404');
+  }
 #  
 #  # Returns an array of issues that duplicate this one
 #  def duplicates
@@ -444,10 +440,19 @@ class Issue extends AppModel
 #  def due_before
 #    due_date || (fixed_version ? fixed_version.effective_date : nil)
 #  end
-#  
-#  def duration
-#    (start_date && due_date) ? due_date - start_date : 0
-#  end
+# 
+  /**
+   * @param : $issue['start_date']
+   * @return : Unix timestamp
+   * ex. $this->Issue->duration();
+   * ex. $this->Issue->duration($issue['Issue']);
+   */ 
+  function duration($issue = false) {
+    if(!$issue) {
+      $issue = $this->data[$this->alias];
+    }
+    ($issue['start_date'] && $issue['due_date']) ? strtotime($issue['due_date']) - strtotime($issue['start_date']) : 0;
+  }
 #  
 #  def soonest_start
 #    @soonest_start ||= relations_to.collect{|relation| relation.successor_soonest_start}.compact.min
