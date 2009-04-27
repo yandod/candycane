@@ -31,7 +31,7 @@ if($candy->authorize_for(array('controller'=>'issue_relations', 'action'=>'new')
   <?php if($candy->authorize_for(array('controller'=>'issue_relations', 'action'=>'destroy'))) {
     echo $ajax->link($html->image('delete.png'), 
       array('controller'=>'issue_relations', 'action'=>'destroy', 'issue_id'=>$issue['Issue']['id'], 'id'=>$relation['IssueRelation']['id']),
-      array('method'=>'post', 'title'=> __('Delete relation',true)), null, false);
+      array('method'=>'post', 'title'=> __('Delete relation',true), 'update'=>'relations'), null, false);
   }?>
 </td>
 </tr>
@@ -42,12 +42,12 @@ if($candy->authorize_for(array('controller'=>'issue_relations', 'action'=>'new')
 $url = array('controller'=>'issue_relations', 'action'=>'add', 'id'=>$issue['Issue']['id']);
 echo $form->create('IssueRelation', array(
         'id'=>"new-relation-form", 'url'=>$url,
-        'onsubmit'=>$ajax->remoteFunction(array('url'=>$url, 'form'=>true, 'after'=>'return false')),
-        'style'=>'display: none;'
+        'onsubmit'=>$ajax->remoteFunction(array('url'=>$url, 'form'=>true, 'after'=>'return false', 'update'=>'relations')),
+        'style'=> empty($this->validationErrors) ? 'display: none;' : ''
       )
     );
 ?>
-<?php /* TODO : error_messages_for 'relation' */?>
+<?php echo $this->renderElement('error_explanation'); ?>
 <p>
   <?php echo $form->input('relation_type', array('type'=>'select', 'options'=>$issues->relation_type_select(), 'onchange'=>"setPredecessorFieldsVisibility();", 'id'=>'relation_relation_type', 'div'=>false, 'label'=>false)); ?>
   <?php __('Issue') ?> #

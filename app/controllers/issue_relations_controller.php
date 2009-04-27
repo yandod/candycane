@@ -16,44 +16,83 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-#class IssueRelationsController < ApplicationController
-#  before_filter :find_project, :authorize
-#  
-#  def new
-#    @relation = IssueRelation.new(params[:relation])
-#    @relation.issue_from = @issue
-#    @relation.save if request.post?
-#    respond_to do |format|
-#      format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
-#      format.js do
-#        render :update do |page|
-#          page.replace_html "relations", :partial => 'issues/relations'
-#          if @relation.errors.empty?
-#            page << "$('relation_delay').value = ''"
-#            page << "$('relation_issue_to_id').value = ''"
-#          end
-#        end
-#      end
-#    end
-#  end
-#  
-#  def destroy
-#    relation = IssueRelation.find(params[:id])
-#    if request.post? && @issue.relations.include?(relation)
-#      relation.destroy
-#      @issue.reload
-#    end
-#    respond_to do |format|
-#      format.html { redirect_to :controller => 'issues', :action => 'show', :id => @issue }
-#      format.js { render(:update) {|page| page.replace_html "relations", :partial => 'issues/relations'} }
-#    end
-#  end
-#  
+class IssueRelationsController extends AppController
+{
+  var $name = 'IssueRelations';
+  var $components = array(
+    'RequestHandler',
+  );
+  var $helpers = array(
+    'Issues',
+  );
+  var $_issue;
+
+  function beforeFilter()
+  {
+    switch($this->action) {
+    case 'add' :
+      $this->_find_issue($this->params['pass'][0]);
+      break;
+    case 'destroy' :
+      $this->_find_issue($this->params['named']['issue_id']);
+      break;
+    }
+    if(!empty($this->_issue)) {
+      $this->params['project_id'] = $this->_issue['Project']['identifier'];
+    }
+    return parent::beforeFilter();
+  }
+  
+  function add($issue_id) {
+    if($this->RequestHandler->isAjax()) {
+      Configure::write('debug', 0);
+    }
+    if(!empty($this->data)) {
+      $this->IssueRelation->create($this->data);
+      $this->IssueRelation->data['IssueRelation']['issue_from_id'] = $this->_issue['Issue']['id'];
+      if($this->IssueRelation->save()) {
+        $this->data = array();
+      }
+    }
+    if($this->RequestHandler->isAjax()) {
+      $issue_relations = $this->IssueRelation->findRelations($this->_issue);
+      $this->set(compact('issue_relations'));
+      $this->layout = 'ajax';
+    } else {
+      $this->redirect(array('controller'=>'issues', 'action'=>'show', 'id'=>$this->_issue['Issue']['id']));
+    }
+  }
+  
+  function destroy($relation_id) {
+    if($this->RequestHandler->isAjax()) {
+      Configure::write('debug', 0);
+    }
+    $relation = $this->IssueRelation->read(null, $relation_id);
+    if($this->RequestHandler->isPost() && $relation) {
+      $this->IssueRelation->del();
+    }
+    if($this->RequestHandler->isAjax()) {
+      $issue_relations = $this->IssueRelation->findRelations($this->_issue);
+      $this->set(compact('issue_relations'));
+      $this->layout = 'ajax';
+    } else {
+      $this->redirect(array('controller'=>'issues', 'action'=>'show', 'id'=>$this->_issue['Issue']['id']));
+    }
+  }
+  
 #private
-#  def find_project
-#    @issue = Issue.find(params[:issue_id])
-#    @project = @issue.project
-#  rescue ActiveRecord::RecordNotFound
-#    render_404
-#  end
-#end
+  function _find_issue($id)
+  {
+    if ($this->_issue = $this->IssueRelation->IssueFrom->find('first', array(
+      'conditions'=>array('IssueFrom.id' => $id),
+      'recursive'=>0
+    ))) {
+      $this->_issue['Issue'] = $this->_issue['IssueFrom'];
+      unset($this->_issue['IssueFrom']);
+      $this->set(array('issue'=>$this->_issue));
+      return $this->_issue;
+    } else {
+      $this->cakeErorr('error404');
+    }
+  }
+}

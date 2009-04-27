@@ -11,6 +11,9 @@ class AppModel extends Model {
     'validates_inclusion_of' => 'Please input in the range %1$d through %2$d.',
     'validates_numericality_of' => 'Please input the numerical value.',
     'validates_invalid_of' => 'It is an invalid value. ',
+    'validates_uniqueness_of' => 'This value is already registed.',
+    'validates_not_same_project' => 'Doesn\'t belong to the same project.',
+    'validates_circular_dependency' => 'This relation would create a circular dependency',
 
     'date_format' => 'Please input in the date format.',
     'compare_from_to' => 'Start time should specify the past from finish time.',

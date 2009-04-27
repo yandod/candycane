@@ -159,6 +159,7 @@ class IssuesHelper extends AppHelper
       } else {
         $out = sprintf(__('%d day', true), $relation['IssueRelation']['delay']);
       }
+      $out = "($out)";
     }
     return $out;
   }
