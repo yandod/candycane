@@ -39,6 +39,7 @@ class IssuesController extends AppController
   {
     switch ($this->action) {
     case 'show':
+    case 'changes':
       $this->_find_issue($this->params['issue_id']);
       $this->params['project_id'] = $this->_issue['Project']['identifier'];
       break;
@@ -117,25 +118,31 @@ class IssuesController extends AppController
 #    render_404
 #  end
 #  
-#  def changes
-#    retrieve_query
-#    sort_init 'id', 'desc'
-#    sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
-#    
-#    if @query.valid?
-#      @journals = Journal.find :all, :include => [ :details, :user, {:issue => [:project, :author, :tracker, :status]} ],
-#                                     :conditions => @query.statement,
-#                                     :limit => 25,
-#                                     :order => "#{Journal.table_name}.created_on DESC"
-#    end
-#    @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
-#    render :layout => false, :content_type => 'application/atom+xml'
-#  rescue ActiveRecord::RecordNotFound
-#    render_404
-#  end
-#  
+  /**
+   * Single Issue RSS/Atom feed.
+   * The method can access without login.
+   * Call from only issue/show.
+   */
+  function changes() {
+    Configure::write('debug', 0);
+    $Journal = & ClassRegistry::init('Journal');
+    $conditions = array('journalized_type'=>'Issue', 'journalized_id'=>$this->_issue['Issue']['id']);
+    $journals = $Journal->find('all', array('conditions'=>$conditions, 'limit'=>25, 'recursive'=>1, 'order'=>'Journal.created_on DESC'));
+    $journals = array_reverse($journals);
+    $atom_title = $this->_project['Project']['name'];
+    $rss_token = $this->User->rss_key($this->current_user['id']);
+    $this->set(compact('journals', 'atom_title', 'rss_token'));
+    $this->layout = 'rss/atom';
+    $this->helpers = array('Candy', 'Issues', 'Xml', 'Time');
+    $this->render('changes');
+  }
+
   function show()
   {
+    if(!empty($this->params['named']['format']) && ($this->params['named']['format'] == 'atom')) {
+      return $this->changes();
+    }
+
     $Journal = & ClassRegistry::init('Journal');
 //    $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
     $conditions = array('journalized_type'=>'Issue', 'journalized_id'=>$this->_issue['Issue']['id']);
