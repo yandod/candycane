@@ -201,6 +201,17 @@ class IssuesController extends AppController
         $this->data['custom_field_values'][$value['CustomField']['id']] = $value['value'];
       }
     }
+    if(!empty($this->params['named']['format'])) {
+      switch($this->params['named']['format']) {
+      case 'pdf' :
+        $this->layout = 'pdf';
+        $this->helpers = array('Candy', 'CustomField', 'Issues', 'Number', 'Tcpdf'=>array());
+        $this->render('issue_to_pdf');
+        break;
+      case 'atom' :
+        break;
+      }
+    }
   }
 #  def show
 #    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
