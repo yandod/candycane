@@ -124,6 +124,13 @@ class Issue extends AppModel
     if(!empty($issue['Issue']['id'])) {
       unset($issue['Issue']['id']);
     }
+    if(!empty($issue['CustomValue'])) {
+      $issue['Issue']['custom_field_values'] = array();
+      foreach($issue['CustomValue'] as $customValue) {
+        $issue['Issue']['custom_field_values'][$customValue['custom_field_id']] = $customValue['value'];
+      }
+      unset($issue['CustomValue']);
+    }
     return $issue;
   }
 #  
@@ -145,9 +152,11 @@ class Issue extends AppModel
       }
       # issue is moved to another project
       # reassign to the category with same name if any
-      $new_category = empty($issue['Issue']['category_id']) ? null : $this->Category->find('first', array('conditions'=>array('project_id'=>$project_id, 'name'=>$issue['Category']['name'])));
-      $issue['Issue']['category_id'] = $new_category['Category']['id'];
-      $issue['Category'] = $new_category['Category'];
+      $new_category = empty($issue['Issue']['category_id']) ? null : $this->Category->find('first', array('conditions'=>array('Category.project_id'=>$project_id, 'Category.name'=>$issue['Category']['name'])));
+      if(!empty($new_category)) {
+        $issue['Issue']['category_id'] = $new_category['Category']['id'];
+        $issue['Category'] = $new_category['Category'];
+      }
       $issue['Issue']['fixed_version_id'] = null;
       $issue['Issue']['project_id'] = $project_id;
     }
@@ -173,11 +182,16 @@ class Issue extends AppModel
 #    write_attribute(:priority_id, pid)
 #  end
 #  
-#  def estimated_hours=(h)
-#    write_attribute :estimated_hours, (h.is_a?(String) ? h.to_hours : h)
-#  end
+  function estimated_hours() {
+    if(array_key_exists('estimated_hours', $this->data[$this->name])) {
+      $this->data[$this->name]['estimated_hours'] = $this->to_hours($this->data[$this->name]['estimated_hours']);
+    }
+  }
 #  
-#  def validate
+  function validates() {
+    // convert database format.
+    $this->estimated_hours();
+
 #    if self.due_date.nil? && @attributes['due_date'] && !@attributes['due_date'].empty?
 #      errors.add :due_date, :activerecord_error_not_a_date
 #    end
@@ -189,18 +203,16 @@ class Issue extends AppModel
 #    if start_date && soonest_start && start_date < soonest_start
 #      errors.add :start_date, :activerecord_error_invalid
 #    end
-#  end
+    return parent::validates();
+  }
 #  
 #  def validate_on_create
 #    errors.add :tracker_id, :activerecord_error_invalid unless project.trackers.include?(tracker)
 #  end
 #  
-#  def before_create
-#    # default assignment based on category
-#    if assigned_to.nil? && category && category.assigned_to
-#      self.assigned_to = category.assigned_to
-#    end
-#  end
+
+#  def before_create => move before save
+
 #  
 #  def before_save  
 #    if @current_journal
@@ -228,7 +240,7 @@ class Issue extends AppModel
   function beforeSave($options = array()) {
     $result = parent::beforeSave($options);
     if(!$this->__exists) {
-      if(empty($this->data['Issue']['assigned_to']) && !empty($this->data['Issue']['category_id'])) {
+      if(empty($this->data['Issue']['assigned_to_id']) && !empty($this->data['Issue']['category_id'])) {
         $category = $this->Category->find('first', array('conditions'=>array('id'=>$this->data['Issue']['category_id']), 'recursive'=>-1));
         if(!empty($category['Category']['assigned_to_id'])) {
           $this->data['Issue']['assigned_to_id'] = $category['Category']['assigned_to_id'];
@@ -263,20 +275,22 @@ class Issue extends AppModel
         $journalDetails[] = $detail;
       }
       # custom fields changes
-      foreach($this->data[$this->alias]['custom_field_values'] as $field_id => $field_value) {
-        if (array_key_exists($field_id, $this->custom_values_before_change) 
-        && ($this->custom_values_before_change[$field_id]==$field_value)) { 
-          continue;
-        }
-        foreach($this->Journal->available_custom_fields as $custom_field) {
-          if($custom_field['CustomField']['id'] == $field_id) {
-            $journalDetails[] = array(
-              'property' => 'cf', 
-              'prop_key' => $field_id,
-              'old_value'=> array_key_exists($field_id, $this->custom_values_before_change) ? $this->custom_values_before_change[$field_id] : null,
-              'value' => $field_value
-            );
-            break;
+      if(!empty($this->data[$this->alias]['custom_field_values'])) {
+        foreach($this->data[$this->alias]['custom_field_values'] as $field_id => $field_value) {
+          if (array_key_exists($field_id, $this->custom_values_before_change) 
+          && ($this->custom_values_before_change[$field_id]==$field_value)) { 
+            continue;
+          }
+          foreach($this->Journal->available_custom_fields as $custom_field) {
+            if($custom_field['CustomField']['id'] == $field_id) {
+              $journalDetails[] = array(
+                'property' => 'cf', 
+                'prop_key' => $field_id,
+                'old_value'=> array_key_exists($field_id, $this->custom_values_before_change) ? $this->custom_values_before_change[$field_id] : null,
+                'value' => $field_value
+              );
+              break;
+            }
           }
         }
       }
@@ -288,32 +302,46 @@ class Issue extends AppModel
     return $result;
   }
 
-
-#  
-#  def after_save
-#    # Reload is needed in order to get the right status
-#    reload
-#    
-#    # Update start/due dates of following issues
-#    relations_from.each(&:set_issue_to_dates)
-#    
-#    # Close duplicates if the issue was closed
-#    if @issue_before_change && !@issue_before_change.closed? && self.closed?
-#      duplicates.each do |duplicate|
-#        # Reload is need in case the duplicate was updated by a previous duplicate
-#        duplicate.reload
-#        # Don't re-close it if it's already closed
-#        next if duplicate.closed?
-#        # Same user and notes
-#        duplicate.init_journal(@current_journal.user, @current_journal.notes)
-#        duplicate.update_attribute :status, self.status
-#      end
-#    end
-#  end
-#  
+  function afterSave($created) {
+    parent::afterSave($created);
+    # Reload is needed in order to get the right status
+    if($created) {
+      $id = $this->getLastInsertID();
+    } else {
+      $id = $this->id;
+    }
+    $issue = $this->find('first', array('conditions'=>array('Issue.id'=>$id)));
+    
+    # Update start/due dates of following issues
+    $IssueRelation =& ClassRegistry::init('IssueRelation');
+    $relations = $IssueRelation->find('list', array('conditions'=>array('issue_from_id'=>$issue['Issue']['id']), 'fields'=>array('id','id')));
+    foreach($relations as $relation_id) {
+      $IssueRelation->read(null, $relation_id);
+      $IssueRelation->set_issue_to_dates();
+    }
+    
+    # Close duplicates if the issue was closed
+    if(!empty($this->issue_before_change['Status']) && !$this->issue_before_change['Status']['is_closed'] && $issue['Status']['is_closed']) {
+      foreach($this->duplicates($issue) as $duplicate) {
+        $Duplicate =& ClassRegistry::init('Issue');
+        # Reload is need in case the duplicate was updated by a previous duplicate
+        $Duplicate->read(null, $duplicate['IssueFrom']['id']);
+        # Don't re-close it if it's already closed
+        if($Duplicate->is_closed()) {
+          continue;
+        }
+        # Same user and notes
+        $Duplicate->init_journal($Duplicate->data, $this->current_journal_user, $this->current_journal_notes);
+        $Duplicate->saveField('status_id', $issue['Issue']['status_id']);
+      }
+    }
+  }
+  
   var $issue_before_change = false;
   var $issue_before_change_status = false;
   var $custom_values_before_change = array();
+  var $current_journal_user = false;
+  var $current_journal_notes = false;
   /**
    * @param : $issue  ex.$issue['Issue']['id']
    * @param : $user   ex.$user['id']
@@ -330,6 +358,8 @@ class Issue extends AppModel
         'notes' => $notes);
       $this->Journal->set($defaults);
     }
+    $this->current_journal_user = $user;
+    $this->current_journal_notes = $notes;
     $this->issue_before_change = $issue;
     $this->issue_before_change_status = $issue['Issue']['status_id'];
     $this->custom_values_before_change = array();
@@ -385,16 +415,22 @@ class Issue extends AppModel
     return compact('label', 'value', 'old_value', 'field_format', 'attachment');
   }
    
-#  
-#  # Return true if the issue is closed, otherwise false
-#  def closed?
-#    self.status.is_closed?
-#  end
-#  
-#  # Returns true if the issue is overdue
-#  def overdue?
-#    !due_date.nil? && (due_date < Date.today)
-#  end
+  
+  # Return true if the issue is closed, otherwise false
+  function is_closed($data = false) {
+    if(!$data) {
+      $data = $this->data;
+    }
+    return !empty($data['Status']['is_closed']);
+  }
+  
+  # Returns true if the issue is overdue
+  function is_overdue($data = false) {
+    if(!$data) {
+      $data = $this->data;
+    }
+    return !empty($data['Issue']['due_date']) && (strtotime($data['Issue']['due_date']) < mktime());
+  }
 #  
 #  # Users the issue can be assigned to
 #  def assignable_users
@@ -430,10 +466,20 @@ class Issue extends AppModel
     $this->cakeError('error404');
   }
 #  
-#  # Returns an array of issues that duplicate this one
-#  def duplicates
-#    relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
-#  end
+  # Returns an array of issues that duplicate this one
+  function duplicates($data = false) {
+    if(!$data) {
+      $data = $this->data;
+    }
+    $IssueRelation =& ClassRegistry::init('IssueRelation');
+    $conditions = array(
+      'relation_type' => ISSUERELATION_TYPE_DUPLICATES,
+      'issue_to_id' => $data['Issue']['id'],
+    );
+    $fields = array('IssueFrom.*');
+    # relations_to.select {|r| r.relation_type == IssueRelation::TYPE_DUPLICATES}.collect {|r| r.issue_from}
+    return $IssueRelation->find('all', compact('conditions', 'fields'));
+  }
 #  
 #  # Returns the due date or the target due date if any
 #  # Used on gantt chart

@@ -18,6 +18,9 @@ class CustomizableBehavior extends ModelBehavior {
    * Check between Model->data[modelname][custom_field_values][] and Database values
    */
   function beforeValidate(&$Model){
+    if(empty($this->available_custom_fields[$Model->alias])) {
+      return true;
+    }
     $fields = $this->available_custom_fields[$Model->alias];
     foreach($fields as $field) {
       if(!empty($Model->data[$Model->alias]['custom_field_values']) && array_key_exists($field['CustomField']['id'], $Model->data[$Model->alias]['custom_field_values'])){
@@ -37,6 +40,13 @@ class CustomizableBehavior extends ModelBehavior {
         $regex = '/'.$field['CustomField']['regexp'].'/um';
         $message = 'validates_invalid_of';
         if(!$this->_check($regex, $data)) {
+          $Model->validationErrors[$field['CustomField']['name']] = $message;
+        }
+      }
+      if(!empty($field['CustomField']['possible_values']) && !empty($data)) {
+        App::Import('vendor', 'spyc');
+        $list = Spyc::YAMLLoad($field['CustomField']['possible_values']);
+        if(!in_array($data, $list)) {
           $Model->validationErrors[$field['CustomField']['name']] = $message;
         }
       }
@@ -167,6 +177,20 @@ class CustomizableBehavior extends ModelBehavior {
       }
     }
     return $result;
+  }
+  function custom_value_for(&$Model, $custom_field, $data=false) {
+    if(!$data) {
+      $data = $Model->data;
+    }
+    $field_id = $custom_field['CustomField']['id'];
+    if(!empty($data['CustomValue'])) {
+      foreach($data['CustomValue'] as $value) {
+        if($value['custom_field_id'] == $field_id) {
+          return $value;
+        }
+      }
+    }
+    return false;
   }
 
    // ==== privates 

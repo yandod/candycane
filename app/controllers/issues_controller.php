@@ -262,13 +262,6 @@ class IssuesController extends AppController
   function add() {
     if(!empty($this->params['named']['copy_from'])) {
       $issue = $this->Issue->copy_from($this->params['named']['copy_from']);
-      if(!empty($issue['CustomValue'])) {
-        $issue['custom_field_values'] = array();
-        foreach($issue['CustomValue'] as $customValue) {
-          $issue['custom_field_values'][$customValue['custom_field_id']] = $customValue['value'];
-        }
-        unset($issue['CustomValue']);
-      }
       $this->data = $issue;
     }
     if(!empty($this->params['named']['tracker_id'])) {
