@@ -43,10 +43,19 @@ class CustomizableBehavior extends ModelBehavior {
           $Model->validationErrors[$field['CustomField']['name']] = $message;
         }
       }
-      if(!empty($field['CustomField']['possible_values']) && !empty($data)) {
+      if(($field['CustomField']['field_format']  == 'list') && !empty($field['CustomField']['possible_values']) && !empty($data)) {
         App::Import('vendor', 'spyc');
         $list = Spyc::YAMLLoad($field['CustomField']['possible_values']);
-        if(!in_array($data, $list)) {
+        $options = array();
+        if(!empty($list)) {
+          foreach($list as $item) {
+            if(is_array($item)) {
+              $item = $item[0];
+            }
+            $options[$item] = $item;
+          }
+        }
+        if(!in_array($data, $options)) {
           $Model->validationErrors[$field['CustomField']['name']] = $message;
         }
       }
@@ -111,6 +120,9 @@ class CustomizableBehavior extends ModelBehavior {
     return $results;
   }
   
+  function cached_available_custom_fields(&$Model) {
+    return $this->available_custom_fields[$Model->alias];
+  }
   /**
    * Get available field values 
    */
@@ -191,6 +203,9 @@ class CustomizableBehavior extends ModelBehavior {
       }
     }
     return false;
+  }
+  function custom_field_type_name($Model) {
+    return $Model->name.'CustomField';
   }
 
    // ==== privates 

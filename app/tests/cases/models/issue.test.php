@@ -1,18 +1,20 @@
 <?php 
 class IssueTestCase extends CakeTestCase {
   var $Issue = null;
+  var $autoFixtures = false;
   var $fixtures = array(
       'app.issue', 'app.project', 'app.tracker', 'app.issue_status', 'app.user', 'app.version',
       'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
       'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
       'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher', 'app.issue_relation',
-      'app.journal', 'app.journal_detail');
+      'app.journal', 'app.journal_detail', 'app.workflow');
 
   function startTest() {
     $this->Issue =& ClassRegistry::init('Issue');
   }
 
   function test_create() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset');
     $priorities = $this->Issue->Priority->get_values('IPRI');
     $this->Issue->create();
     $this->Issue->set(array(
@@ -29,6 +31,7 @@ class IssueTestCase extends CakeTestCase {
     $this->assertEqual(1.5, $this->Issue->data['Issue']['estimated_hours']);
   }
   function test_create_minimal() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset');
     $priorities = $this->Issue->Priority->get_values('IPRI');
     $this->Issue->create();
     $this->Issue->set(array(
@@ -41,7 +44,9 @@ class IssueTestCase extends CakeTestCase {
     $this->assertTrue($this->Issue->save());
     $this->assertNull($this->Issue->data['Issue']['description']);
   }
+
   function test_create_with_required_custom_field() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue');
     $IssueCustomField = & ClassRegistry::init('CustomField');
     $field = $IssueCustomField->findByName('Database');
     $field['CustomField']['is_required'] = true;
@@ -82,7 +87,9 @@ class IssueTestCase extends CakeTestCase {
     $this->Issue->read(null, $this->Issue->getLastInsertID());
     $this->assertEqual('PostgreSQL', $this->Issue->data['CustomValue'][0]['value']);
   }
+
   function test_update_issue_with_required_custom_field() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue');
     $IssueCustomField = & ClassRegistry::init('CustomField');
     $field = $IssueCustomField->findByName('Database');
     $field['CustomField']['is_required'] = true;
@@ -117,6 +124,7 @@ class IssueTestCase extends CakeTestCase {
     $this->assertEqual('PostgreSQL', $this->Issue->data['CustomValue'][0]['value']);
   }
   function test_should_not_update_attributes_if_custom_fields_validation_fails() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue');
     $this->Issue->read(null, 1);
     $data = $this->Issue->data;
     $IssueCustomField = & ClassRegistry::init('CustomField');
@@ -135,6 +143,7 @@ class IssueTestCase extends CakeTestCase {
     $this->assertEqual('Can\'t print recipes', $this->Issue->data['Issue']['subject']);
   }
   function test_should_not_recreate_custom_values_objects_on_update() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue');
     $IssueCustomField = & ClassRegistry::init('CustomField');
     $field = $IssueCustomField->findByName('Database');
 
@@ -159,6 +168,7 @@ class IssueTestCase extends CakeTestCase {
   }
 
   function test_category_based_assignment() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset');
     $priorities = $this->Issue->Priority->get_values('IPRI');
     $this->Issue->create();
     $this->Issue->set(array(
@@ -178,6 +188,7 @@ class IssueTestCase extends CakeTestCase {
   }
 
   function test_copy() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue');
     $issue = $this->Issue->copy_from('1');
     $this->Issue->create();
     $this->assertTrue($this->Issue->save($issue));
@@ -189,6 +200,7 @@ class IssueTestCase extends CakeTestCase {
   }
 
   function test_should_close_duplicates() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail');
     # Create 3 issues
     $priorities = $this->Issue->Priority->get_values('IPRI');
     $data = array(
@@ -238,6 +250,7 @@ class IssueTestCase extends CakeTestCase {
   }
 
   function test_should_not_close_duplicated_issue() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail');
     # Create 3 issues
     $priorities = $this->Issue->Priority->get_values('IPRI');
     $data = array(
@@ -275,6 +288,7 @@ class IssueTestCase extends CakeTestCase {
   }
 
   function test_move_to_another_project_with_same_category() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail');
     $Setting =& ClassRegistry::init('Setting');
     $this->Issue->read(null, 1);
     $this->assertTrue($this->Issue->move_to($Setting, $this->Issue->data, 2));
@@ -287,6 +301,7 @@ class IssueTestCase extends CakeTestCase {
   }
 
   function test_move_to_another_project_without_same_category() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail');
     $Setting =& ClassRegistry::init('Setting');
     $this->Issue->read(null, 2);
     $this->assertTrue($this->Issue->move_to($Setting, $this->Issue->data, 2));
@@ -297,6 +312,7 @@ class IssueTestCase extends CakeTestCase {
   }
 
   function test_issue_destroy() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail');
     $this->Issue->read(null, 1);
     $this->Issue->del();
     $this->assertFalse($this->Issue->read(null, 1));
@@ -309,6 +325,83 @@ class IssueTestCase extends CakeTestCase {
     $this->assertFalse($this->Issue->is_overdue(array('Issue'=>array('due_date' => date('Y-m-d H:m:s', strtotime('+1 days'))))));
     $this->assertFalse($this->Issue->is_overdue(array('Issue'=>array('due_date' => null))));
   }
+
+  function testFindRssJournal() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'Journal', 'JournalDetail');
+    $this->Issue->read(null, 1);
+    $journals = $this->Issue->findRssJournal();
+    $this->assertEqual(2, count($journals));
+    $this->assertEqual(1, $journals[0]['Journal']['id']);
+    $this->assertEqual(2, $journals[1]['Journal']['id']);
+    $this->assertEqual(2, count($journals[0]['JournalDetail']));
+    $this->assertEqual(0, count($journals[1]['JournalDetail']));
+  }
+  function testFindAllJournal() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'Journal', 'JournalDetail');
+    $this->Issue->read(null, 1);
+    $user = $this->Issue->Author->find('first');
+    $journals = $this->Issue->findAllJournal($user['Author']);
+    $this->assertEqual(2, count($journals));
+    $this->assertEqual(1, $journals[0]['Journal']['id']);
+    $this->assertEqual(2, $journals[1]['Journal']['id']);
+    $this->assertEqual(2, count($journals[0]['JournalDetail']));
+    $this->assertEqual(0, count($journals[1]['JournalDetail']));
+  }
+  function testFindManagerStatusList() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'Workflow');
+    $this->Issue->read(null, 1);
+    $list = $this->Issue->findStatusList(1);
+    $except = array('1' => 'New', '6' => 'Rejected', '2' => 'Assigned', '3' => 'Resolved', '4' => 'Feedback', '5' => 'Closed');
+    $this->assertEqual($except, $list);
+  }
+  function testFindDeveloperStatusList() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'Workflow');
+    $this->Issue->read(null, 1);
+    $list = $this->Issue->findStatusList(2);
+    $except = array('1' => 'New', '6' => 'Rejected', '2' => 'Assigned', '3' => 'Resolved', '4' => 'Feedback', '5' => 'Closed');
+    $this->assertEqual($except, $list);
+  }
+  function testFindReporterStatusList() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'Workflow');
+    $this->Issue->read(null, 1);
+    $list = $this->Issue->findStatusList(3);
+    $except = array('1' => 'New', '6' => 'Rejected', '2' => 'Assigned', '3' => 'Resolved', '4' => 'Feedback', '5' => 'Closed');
+    $this->assertEqual($except, $list);
+  }
+  function testFindNonMemberStatusList() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'Workflow');
+    $this->Issue->read(null, 1);
+    $list = $this->Issue->findStatusList(4);
+    $except = array('1' => 'New');
+    $this->assertEqual($except, $list);
+  }
+  function testFindAnonymousStatusList() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'Workflow');
+    $this->Issue->read(null, 1);
+    $list = $this->Issue->findStatusList(5);
+    $except = array('1' => 'New');
+    $this->assertEqual($except, $list);
+  }
+
+  function testFindDefaultPriorities() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory');
+    $this->Issue->read(null, 1);
+    $default = null;
+    $except = array('4' => 'Low', '5' => 'Normal', '6' => 'High', '7' => 'Urgent', '8' => 'Immediate');
+    $list = $this->Issue->findPriorities($default);
+    $this->assertEqual($except, $list);
+    $this->assertEqual(5, $default);
+  }
+  function testFindPriorities() {
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory');
+    $this->Issue->read(null, 1);
+    $default = '7';
+    $except = array('4' => 'Low', '5' => 'Normal', '6' => 'High', '7' => 'Urgent', '8' => 'Immediate');
+    $list = $this->Issue->findPriorities($default);
+    $this->assertEqual($except, $list);
+    $this->assertEqual(7, $default);
+  }
+
 
 }
 ?>

@@ -296,7 +296,9 @@ class Issue extends AppModel
       }
       if(!empty($journalDetails)) {
         $this->Journal->set(array('JournalDetail' => $journalDetails));
-        $result = $this->Journal->saveAll();
+        // Transaction already stated at IssueController#edit
+        $result = $this->Journal->saveAll(null, array('atomic'=>false));
+        $this->actually_changed = true;
       }
     }
     return $result;
@@ -342,6 +344,7 @@ class Issue extends AppModel
   var $custom_values_before_change = array();
   var $current_journal_user = false;
   var $current_journal_notes = false;
+  var $actually_changed = false;
   /**
    * @param : $issue  ex.$issue['Issue']['id']
    * @param : $user   ex.$user['id']
@@ -414,8 +417,70 @@ class Issue extends AppModel
     }
     return compact('label', 'value', 'old_value', 'field_format', 'attachment');
   }
-   
-  
+
+  function findRssJournal() {
+    $Journal = & ClassRegistry::init('Journal');
+    $conditions = array('journalized_type'=>'Issue', 'journalized_id'=>$this->data['Issue']['id']);
+    $journals = $Journal->find('all', array('conditions'=>$conditions, 'limit'=>25, 'recursive'=>1, 'order'=>'Journal.created_on DESC'));
+    $journals = array_reverse($journals);
+    return $journals;
+  }
+  function findAllJournal($current_user) {
+    $Journal = & ClassRegistry::init('Journal');
+    $conditions = array('journalized_type'=>'Issue', 'journalized_id'=>$this->data['Issue']['id']);
+    $journal_list = $Journal->find('all', array('conditions'=>$conditions,'recursive'=>1, 'order'=>"Journal.created_on ASC"));
+    if(!empty($journal_list) && !empty($current_user['wants_comments_in_reverse_order'])) {
+      $journal_list = array_reverse($journal_list);
+    }
+    return $journal_list;
+  }
+  function findStatusList($role_for_project, $tracker_id=false) {
+    if(!$tracker_id) {
+      $tracker_id = $this->data['Issue']['tracker_id'];
+    }
+    $default_status = $this->Status->findDefault();
+    if(empty($default_status)) {
+      return false;
+    }
+    $allowed_statuses = $this->Status->find_new_statuses_allowed_to(key($default_status), $role_for_project, $tracker_id);
+    $statuses = $default_status;
+    foreach($allowed_statuses as $id => $value) {
+      $statuses[$id] = $value;
+    }
+    return $statuses;
+  }
+  function findPriorities(&$default_set) {
+    $priority_datas = $this->Priority->get_values('IPRI');
+    $priorities = array();
+    foreach($priority_datas as $priority) {
+      $priorities[$priority['Priority']['id']] = $priority['Priority']['name'];
+      if(empty($default_set) && $priority['Priority']['is_default']) {
+        $default_set = $priority['Priority']['id'];
+      }
+    }
+    return $priorities;
+  }
+  function findTimeEntryActivities() {
+    $time_entry_activity_datas = $this->Priority->get_values('ACTI');
+    $time_entry_activities = array();
+    foreach($time_entry_activity_datas as $time_entry_activity) {
+      $time_entry_activities[$time_entry_activity['Priority']['id']] = $time_entry_activity['Priority']['name'];
+    }
+    return $time_entry_activities;
+  }
+  function findProjectsTrackerList($project_id=false) {
+    if(!$project_id) {
+      $project_id = $this->data['Project']['id'];
+    }
+    $trackers = $this->Project->ProjectsTracker->find('list', array(
+      'conditions'=>array('ProjectsTracker.project_id' => $project_id),
+      'fields'=>'Tracker.id, Tracker.name', 
+      'recursive'=>0, 
+      'order'=>'Tracker.position'
+    ));
+    return $trackers;
+  }
+
   # Return true if the issue is closed, otherwise false
   function is_closed($data = false) {
     if(!$data) {
