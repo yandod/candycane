@@ -88,10 +88,16 @@ class AppModel extends Model {
       $s = !preg_match('/^(\d+):(\d+)$/', $h, $matches) ? false : $matches[1] + ($matches[2] / 60.0);
       # 2h30, 2h, 30m => 2.5, 2, 0.5
       if($s === false) {
-        if(preg_match('/^((\d+)\s*(h|hours?))?\s*((\d+)\s*(m|min)?)?$/', $h, $matches) && (count($matches)>4)) {
-          $matches[2] + ($matches[5] / 60.0);
-        } else {
-          $s = 0;
+        if(preg_match('/^((\d+)\s*(h|hours)?)?\s*((\d+)\s*(m|min)?)?$/', $h, $matches)) {
+          if((count($matches)>4) && !empty($matches[3]) && ($matches[3][0] == 'h')) {
+            $s = $matches[2] + ($matches[5] / 60.0);
+          } elseif((count($matches)>2) && !empty($matches[3]) && ($matches[3][0] == 'h')) {
+            $s = $matches[2];
+          } elseif((count($matches)>4) && !empty($matches[6]) && ($matches[6][0] == 'm')) {
+            $s = ($matches[2] * 10 + $matches[5]) / 60.0;
+          } else {
+            $s = 0;
+          }
         }
       }
     }

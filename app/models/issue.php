@@ -299,6 +299,9 @@ class Issue extends AppModel
         // Transaction already stated at IssueController#edit
         $result = $this->Journal->saveAll(null, array('atomic'=>false));
         $this->actually_changed = true;
+      } elseif(!empty($this->Journal->data['Journal']['notes'])) {
+        $result = $this->Journal->save();
+        $this->actually_changed = true;
       }
     }
     return $result;

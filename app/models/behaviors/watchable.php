@@ -140,9 +140,6 @@ class WatchableBehavior extends ModelBehavior {
     $model = & ClassRegistry::init('Watcher');
     $model->create();
     $data = array('watchable_type'=>$Model->name, 'watchable_id'=>$Model->id, 'user_id'=>$user['User']['id']);
-    if($model->hasAny($data)) {
-      return true;
-    }
     return $model->save(array('Watcher'=>$data));
   }
 

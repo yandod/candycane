@@ -120,6 +120,7 @@ class User extends AppModel
 #  # Return user's RSS key (a 40 chars long string), used to access feeds
   function rss_key($user_id) {
     $token = $this->RssToken->find('first', array('conditions'=>array('action'=>'feeds', 'user_id'=>$user_id), 'fields'=>array('value')));
+    // TODO ‚È‚©‚Á‚½‚çì¬‚·‚éB
     return $token['RssToken']['value'];
   }
 #  
@@ -333,7 +334,7 @@ class User extends AppModel
    */
   function beforeSave()
   {
-    if ($this->data['User']['password']) {
+    if (!empty($this->data['User']['password'])) {
       $this->data['User']['hashed_password'] = $this->hash_password($this->data['User']['password']);
     }
 
@@ -440,6 +441,15 @@ class User extends AppModel
       $role_id = $anonymous_member_role['Role']['id'];
     }
     return $role_id;
+  }
+  
+  #  def active?
+  function is_active($id=false) {
+    if(!$id) {
+      return $this->data['User']['status'] == USER_STATUS_ACTIVE;
+    } else {
+      return $this->hasAny(array('User.id'=>$id, 'User.status'=>USER_STATUS_ACTIVE));
+    }
   }
 
 }

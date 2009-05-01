@@ -84,4 +84,11 @@ class Journal extends AppModel {
              )
          );
   }
+  function saveAll($data = null, $options = array()) {
+    if (empty($data)) {
+      $data = $this->data;
+    }
+    # Do not save an empty journal
+    return (empty($data['JournalDetail']) && empty($data['Journal']['notes'])) ? false : parent::saveAll($data, $options);
+  }
 }

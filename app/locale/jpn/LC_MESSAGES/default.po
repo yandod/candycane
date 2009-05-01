@@ -2408,7 +2408,7 @@ msgstr "%s前に更新されました"
 
 #actionview_datehelper_time_in_words_day:
 msgid "1 day"
-msgstr "1日";
+msgstr "1日"
 msgid "%d day"
 msgstr "%d日"
 #actionview_datehelper_time_in_words_day_plural: 
