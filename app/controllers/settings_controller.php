@@ -66,8 +66,8 @@ class SettingsController extends AppController
       aa('name', 'projects', 'partial', 'settings/projects', 'label', __('Projects',true)),
       aa('name', 'issues', 'partial', 'settings/issues', 'label', __('Issue tracking',true)),
       aa('name', 'notifications', 'partial', 'settings/notifications', 'label', __('Email notifications',true)),
-      aa('name', 'mail_handler', 'partial', 'settings/mail_handler', 'label', __('Incoming emails',true)),
-      aa('name', 'repositories', 'partial', 'settings/repositories', 'label', __('Repositories',true))
+      //aa('name', 'mail_handler', 'partial', 'settings/mail_handler', 'label', __('Incoming emails',true)),
+      //aa('name', 'repositories', 'partial', 'settings/repositories', 'label', __('Repositories',true))
     );
     $this->set('settings_tabs',$tabs);
     $selected_tab = $tabs[0]['name'];
