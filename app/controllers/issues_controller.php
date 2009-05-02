@@ -646,13 +646,25 @@ class IssuesController extends AppController
 #    render :action => :new, :layout => false
 #  end
 #  
-#  def preview
-#    @issue = @project.issues.find_by_id(params[:id]) unless params[:id].blank?
-#    @attachements = @issue.attachments if @issue
-#    @text = params[:notes] || (params[:issue] ? params[:issue][:description] : nil)
-#    render :partial => 'common/preview'
-#  end
-#  
+  function preview() {
+    if($this->RequestHandler->isAjax()) {
+      Configure::write('debug', 0);
+      $this->layout = 'ajax';
+    }
+    // TODO attachement
+    // @issue = @project.issues.find_by_id(params[:id]) unless params[:id].blank?
+    // $attachements = $issue.attachments if @issue
+    if(array_key_exists('notes', $this->data['Issue'])) {
+      $text = $this->data['Issue']['notes'];
+    } elseif(array_key_exists('description', $this->data['Issue'])) {
+      $text = $this->data['Issue']['description'];
+    } else {
+      $text = '';
+    }
+    $this->set(compact('text'));
+    $this->render('/common/_preview');
+  }
+  
 #private
   function _find_issue($id)
   {

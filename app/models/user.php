@@ -136,10 +136,22 @@ class User extends AppModel
 #    notified_projects_ids
 #  end
 #  
-#  def self.find_by_rss_key(key)
-#    token = Token.find_by_value(key)
-#    token && token.user.active? ? token.user : nil
-#  end
+  function find_by_rss_key($key) {
+    $token = $this->RssToken->find('first', array('conditions'=>array('value'=>$key)));
+    return (!empty($token) && ($token['User']['status'] == USER_STATUS_ACTIVE)) ? $token['User'] : null;
+  }
+  function find_by_id_logged($id) {
+
+    $cond = aa('User.id',$id);
+    $user = $this->find('first',aa('recursive', 2,'conditions',$cond));
+    if(empty($user)) {
+      return false;
+    }
+    $user['User']['logged'] = true; // @todo fixme
+    $user['User']['name'] = $user['User']['login']; // @todo fixme
+    $user['User']['memberships'] = $user['Membership'];
+    return $user['User'];
+  }
 #  
 #  def self.find_by_autologin_key(key)
 #    token = Token.find_by_action_and_value('autologin', key)
