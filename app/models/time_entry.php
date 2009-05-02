@@ -48,6 +48,7 @@ class TimeEntry extends AppModel
   var $belongsTo = array(
     'Project',
     'Activity'=>array('className' => 'Enumeration', 'foreignKey' => 'activity_id'),
+    'User',
   );
   var $actsAs = array(
     'Customizable'=>array('is_for_all'=>0)
@@ -113,7 +114,7 @@ class TimeEntry extends AppModel
     return $sum;
   }
   function hours() {
-    if(array_key_exists('hours', $this->data[$this->name])) {
+    if(!empty($this->data[$this->name]['hours'])) {
       $this->data[$this->name]['hours'] = $this->to_hours($this->data[$this->name]['hours']);
     }
   }
@@ -135,6 +136,10 @@ class TimeEntry extends AppModel
     return parent::validates();
   }
   # Returns true if the time entry can be edited by usr, otherwise false
-  # def editable_by?(usr) --> Move to Helper
+  function is_editable_by($current_user, $project) {
+    $User = & ClassRegistry::init('User');
+    $user_id = !empty($this->data['User']['id']) ? $this->data['User']['id'] : '';
+    return (($user_id == $current_user['id']) && $User->is_allowed_to($current_user, 'edit_own_time_entries', $project)) || $User->is_allowed_to($current_user, 'edit_time_entries', $project);
+  }
 }
 
