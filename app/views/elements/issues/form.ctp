@@ -48,10 +48,12 @@
       <p>
         <?php echo $form->label('start_date', __('start_date', true)); ?>
         <?php echo $form->input('start_date', array('div'=>false, 'label'=>false, 'size'=>10, 'type'=>'text')); ?>
+        <?php echo $candy->calendar_for('IssueStartDate'); ?>
       </p>
       <p>
         <?php echo $form->label('due_date', __('due_date', true)); ?>
         <?php echo $form->input('due_date', array('div'=>false, 'label'=>false, 'size'=>10, 'type'=>'text')); ?>
+        <?php echo $candy->calendar_for('IssueDueDate'); ?>
       </p>
       <p>
         <?php echo $form->label('estimated_hours', __('estimated_hours', true)); ?>
