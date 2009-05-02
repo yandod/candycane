@@ -1,3 +1,3 @@
-<fieldset class="preview"><legend><%= l(:label_preview) %></legend>
-<%= textilizable @text, :attachments => @attachements, :object => @previewed %>
+<fieldset class="preview"><legend><?php __('Preview') ?></legend>
+<?php echo $candy->textilizable($text); /*:attachments => @attachements, :object => @previewed*/ ?>
 </fieldset>
