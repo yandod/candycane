@@ -1,34 +1,52 @@
 <h2><?php __('Workflow'); ?></h2>
 
-<?php if (empty($workflow_counts)): ?>
+<?php if (empty($roles) && empry($trackers)): ?>
 <p class="nodata"><?php __('No data to display'); ?></p>
 <?php else: ?>
 <table class="list">
 <thead>
     <tr>
-    <th></th>
-<!--    <% @workflow_counts.first.last.each do |role, count| %> -->
-
-
-    <th>
-<!--        <%= content_tag(role.builtin? ? 'em' : 'span', h(role.name)) %>  -->
-    </th>
-    
-<!--    <% end %> -->
+      <th></th>
+      <?php foreach($roles as $role): ?>
+      <th>
+        <?php
+          if ($role['Role']['builtin'] == true) {
+            $tag = 'em';
+          } else {
+            $tag = 'span';
+          }
+          echo $html->tag($tag, $role['Role']['name']);
+        ?>
+      </th>
+      <?php endforeach; ?>
     </tr>
 </thead>
 <tbody>
-<!-- <% @workflow_counts.each do |tracker, roles| -%> -->
-<tr class="<%= cycle('odd', 'even') %>">
-  <td><%= h tracker %></td>
-  <% roles.each do |role, count| -%>
+<?php foreach ($trackers as $tracker): ?>
+<tr class="<?php echo $candy->cycle('odd', 'even'); ?>">
+<td><?php echo h($tracker['Tracker']['name']); ?></td>
+  <?php foreach ($roles as $role): ?>
     <td align="center">
-      <%= link_to((count > 1 ? count : image_tag('false.png')), {:action => 'edit', :role_id => role, :tracker_id => tracker}, :title => l(:button_edit)) %>
+      <?php
+        $tracker_id = $tracker['Tracker']['id'];
+        $role_id = $role['Role']['id'];
+
+        if ($counts[$tracker_id][$role_id] > 0) {
+          $link = $counts[$tracker_id][$role_id];
+        } else {
+          $link = $html->image('false.png');
+        }
+
+        echo $html->link($link,
+                 'edit?role_id=' . $role['Role']['id'] . '&tracker_id=' . $tracker['Tracker']['id'],
+                 array('title' => __('Edit', true)),
+                 false,
+                 false);
+      ?>
     </td>
-  <% end -%>
+    <?php endforeach; ?>
 </tr>
-<% end -%>
+<?php endforeach; ?>
 </tbody>
 </table>
 <?php endif; ?>
-?>
