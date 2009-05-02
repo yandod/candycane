@@ -207,22 +207,19 @@ class AppController extends Controller {
 #    end
 #  end
 #
-#  def redirect_back_or_default(default)
-#    back_url = CGI.unescape(params[:back_url].to_s)
-#    if !back_url.blank?
-#      begin
-#        uri = URI.parse(back_url)
-#        # do not redirect user to another host or to the login or register page
-#        if (uri.relative? || (uri.host == request.host)) && !uri.path.match(%r{/(login|account/register)})
-#          redirect_to(back_url) and return
-#        end
-#      rescue URI::InvalidURIError
-#        # redirect to default
-#      end
-#    end
-#    redirect_to default
-#  end
-#  
+  function redirect_back_or_default($default_url) {
+    if(!empty($this->data['back_url'])) {
+      $back_url = urldecode($this->data['back_url']);
+      $uri = parse_url($back_url);
+      # do not redirect user to another host or to the login or register page
+      # TODO relative
+      if (($uri['host'] == env('HTTP_HOST')) && !preg_match('/(login|account\/register)$/', $uri['path'])) {
+        $this->redirect($back_url);
+      }
+    }
+    $this->redirect($default_url);
+  }
+  
 #  def render_403
 #    @project = nil
 #    render :template => "common/403", :layout => !request.xhr?, :status => 403

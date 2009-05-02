@@ -16,20 +16,28 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-#class TimelogController < ApplicationController
+class TimelogController extends AppController
+{
+  var $name = 'Timelog';
 #  menu_item :issues
-#  before_filter :find_project, :authorize, :only => [:edit, :destroy]
-#  before_filter :find_optional_project, :only => [:report, :details]
+  function beforeFilter() {
+    switch($this->action) {
+    case 'edit' :
+    case 'destroy' :
+      $this->_find_project();
+      break;
+    case 'report' :
+    case 'details' :
+      $this->_find_optional_project();
+      break;
+    }
+    return parent::beforeFilter();
+  }
 #
 #  verify :method => :post, :only => :destroy, :redirect_to => { :action => :details }
 #  
-#  helper :sort
-#  include SortHelper
-#  helper :issues
-#  include TimelogHelper
-#  helper :custom_fields
-#  include CustomFieldsHelper
-#  
+  var $helpers = array('Sort', 'Issues', 'CustomField');
+  var $uses = array('TimeEntry', 'Issue');
 #  def report
 #    @available_criterias = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
 #                                          :klass => Project,
@@ -194,16 +202,33 @@
 #    end
 #  end
 #  
-#  def edit
-#    render_403 and return if @time_entry && !@time_entry.editable_by?(User.current)
-#    @time_entry ||= TimeEntry.new(:project => @project, :issue => @issue, :user => User.current, :spent_on => Date.today)
-#    @time_entry.attributes = params[:time_entry]
-#    if request.post? and @time_entry.save
-#      flash[:notice] = l(:notice_successful_update)
-#      redirect_back_or_default :action => 'details', :project_id => @time_entry.project
-#      return
-#    end    
-#  end
+  function edit() {
+    if(!$this->TimeEntry->is_editable_by($this->current_user, $this->_project)) {
+      $this->cakeError('error404');
+    }
+    if(empty($this->TimeEntry->data)) {
+      $this->TimeEntry->create();
+      $this->TimeEntry->set(array(
+        'project_id' => $this->_project['Project']['id'], 
+        'issue_id' => $this->Issue->id, 
+        'user_id' => $this->current_user['id'], 
+        'spent_on' => date('Y-m-d')
+      ));
+    }
+    if(!empty($this->data)) {
+      $this->TimeEntry->set($this->data);
+      if($this->TimeEntry->save()) {
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect_back_or_default(array('action' => 'details', 'project_id' => $this->TimeEntry->data['TimeEntry']['project_id']));
+      }
+    } else {
+      $this->data = $this->TimeEntry->data;
+    }
+    $this->set('time_entry', $this->TimeEntry->data);
+    $time_entry_activities = $this->Issue->findTimeEntryActivities();
+    $time_entry_custom_fields = $this->TimeEntry->available_custom_fields();
+    $this->set(compact('time_entry_activities', 'time_entry_custom_fields'));
+  }
 #  
 #  def destroy
 #    render_404 and return unless @time_entry
@@ -216,24 +241,23 @@
 #  end
 #
 #private
-#  def find_project
-#    if params[:id]
-#      @time_entry = TimeEntry.find(params[:id])
-#      @project = @time_entry.project
-#    elsif params[:issue_id]
-#      @issue = Issue.find(params[:issue_id])
-#      @project = @issue.project
-#    elsif params[:project_id]
-#      @project = Project.find(params[:project_id])
-#    else
-#      render_404
-#      return false
-#    end
-#  rescue ActiveRecord::RecordNotFound
-#    render_404
-#  end
-#  
-#  def find_optional_project
+  function _find_project() {
+    if(!empty($this->params['id'])) {
+      $this->TimeEntry->recursive = 2;
+      $this->TimeEntry->bindModel(array('belongsTo'=>array('Issue')));
+      $this->TimeEntry->read(null, $this->params['id']);
+      $this->params['project_id'] = $this->TimeEntry->data['Project']['identifier'];
+    } elseif(!empty($this->params['named']['issue_id'])) {
+      $this->Issue->read(null, $this->params['named']['issue_id']);
+      $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
+    } elseif(!empty($this->params['project_id'])) {
+      ;
+    } else {
+      $this->cakeError('error404');
+    }
+  }
+  
+  function _find_optional_project() {
 #    if !params[:issue_id].blank?
 #      @issue = Issue.find(params[:issue_id])
 #      @project = @issue.project
@@ -241,7 +265,7 @@
 #      @project = Project.find(params[:project_id])
 #    end
 #    deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true)
-#  end
+  }
 #  
 #  # Retrieves the date range based on predefined ranges or specific from/to param dates
 #  def retrieve_date_range
@@ -288,4 +312,4 @@
 #    @from ||= (TimeEntry.minimum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today) - 1
 #    @to   ||= (TimeEntry.maximum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today)
 #  end
-#end
+}

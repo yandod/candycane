@@ -848,11 +848,11 @@ function breadcrumb($args)
 #    form_for(name, object, options.merge({ :builder => TabularFormBuilder, :lang => current_language}), &proc)
 #  end
 #
-#  def back_url_hidden_field_tag
-#    back_url = params[:back_url] || request.env['HTTP_REFERER']
-#    back_url = CGI.unescape(back_url.to_s)
-#    hidden_field_tag('back_url', CGI.escape(back_url)) unless back_url.blank?
-#  end
+  function back_url_hidden_field_tag($form) {
+    $back_url = !empty($this->data['back_url']) ? $this->data['back_url'] : urlencode(env('HTTP_REFERER'));
+    $out = $form->hidden('back_url', array('name'=>'data[back_url]', 'value'=>$back_url));
+    return $out;
+  }
 #
 #  def check_all_links(form_name)
 #    link_to_function(l(:button_check_all), "checkAll('#{form_name}', true)") +
@@ -892,24 +892,21 @@ function breadcrumb($args)
 #    link_to name, url, options
 #  end
 #
-#  def calendar_for(field_id)
-#    include_calendar_headers_tags
-#    image_tag("calendar.png", {:id => "#{field_id}_trigger",:class => "calendar-trigger"}) +
-#    javascript_tag("Calendar.setup({inputField : '#{field_id}', ifFormat : '%Y-%m-%d', button : '#{field_id}_trigger' });")
-#  end
-#
-#  def include_calendar_headers_tags
-#    unless @calendar_headers_tags_included
-#      @calendar_headers_tags_included = true
-#      content_for :header_tags do
-#        javascript_include_tag('calendar/calendar') +
-#        javascript_include_tag("calendar/lang/calendar-#{current_language}.js") +
-#        javascript_include_tag('calendar/calendar-setup') +
-#        stylesheet_link_tag('calendar')
-#      end
-#    end
-#  end
-#
+  function calendar_for($field_id) {
+    $out = $this->include_calendar_headers_tags();
+    $out .= $this->Html->image("calendar.png", array('id' => "{$field_id}_trigger", 'class' => "calendar-trigger"));
+    $out .= $this->Ajax->Javascript->codeBlock("Calendar.setup({inputField : '$field_id', ifFormat : '%Y-%m-%d', button : '{$field_id}_trigger' });");
+    return $out;
+  }
+
+  function include_calendar_headers_tags() {
+    $current_language = Configure::read('Config.language');
+    $this->Ajax->Javascript->link('calendar/calendar.js', false);
+    $this->Ajax->Javascript->link("calendar/lang/calendar-$current_language.js", false);
+    $this->Ajax->Javascript->link('calendar/calendar-setup', false);
+    $this->Html->css('calendar.css', null, array(), false);
+  }
+
 #  def content_for(name, content = nil, &block)
 #    @has_content ||= {}
 #    @has_content[name] = true
