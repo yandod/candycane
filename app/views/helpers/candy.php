@@ -5,7 +5,7 @@
  */
 class CandyHelper extends AppHelper
 {
-	var $helpers = array('Html','Users', 'Paginator', 'Ajax');
+  var $helpers = array('Html','Users', 'Paginator', 'Ajax');
   var $row = 0;
 
 	function link($user)

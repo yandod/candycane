@@ -112,6 +112,15 @@ class Setting extends AppModel
      $id = null;
      if (isset($data[0]['Setting']['id'])) $id = $data[0]['Setting']['id'];
      
+     //convert array value
+     if (is_array($value)) {
+       $tmp_value = "---\n";
+       foreach($value as $v) {
+         $tmp_value .= '- '.$v."\n";
+       }
+       $value = $tmp_value;
+     }
+     
      $arr = array(
        'id' => $id,
        'name' => $name,
@@ -184,6 +193,9 @@ class Setting extends AppModel
       switch ($v['Setting']['name']){
       	case 'per_page_options':
       	  $this->{$v['Setting']['name']} = explode(',',$v['Setting']['value']);
+      	  break;
+      	case 'issue_list_default_columns':
+      	  $this->{$v['Setting']['name']} = array_slice(array_map('trim',explode('- ',$v['Setting']['value'])),1);
       	  break;
       	default:
           $this->{$v['Setting']['name']} = $v['Setting']['value'];

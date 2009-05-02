@@ -6,17 +6,16 @@ class SettingsController extends AppController
 #
   function index()
   {
-	$this->_prepateSettingTabs();
-	$this->_prepateThemes();
-	$this->_prepareWikiformatting();
+	$this->edit();
     $this->render('edit');
   }
 
   function edit()
   {
-	$this->_prepateSettingTabs();
-	$this->_prepateThemes();
+	$this->_prepareSettingTabs();
+	$this->_prepareThemes();
 	$this->_prepareWikiformatting();
+	$this->_prepareColumns();
   	
 #    @notifiables = %w(issue_added issue_updated news_added document_added file_added message_posted)
 #    if request.post? && params[:settings] && params[:settings].is_a?(Hash)
@@ -59,7 +58,7 @@ class SettingsController extends AppController
 #  rescue Redmine::PluginNotFound
 #    render_404
 #  
-  function _prepateSettingTabs()
+  function _prepareSettingTabs()
   {
     $tabs = array(
       aa('name', 'general', 'partial', 'settings/general', 'label', __('General',true)),
@@ -77,7 +76,7 @@ class SettingsController extends AppController
     }
     $this->set('selected_tab',$selected_tab);
   }
-  function _prepateThemes()
+  function _prepareThemes()
   {
   	//TODO; scan real status on tehemes
   	$themes = aa(
@@ -93,6 +92,13 @@ class SettingsController extends AppController
   	  'Pukiwiki'
   	);
   	$this->set('text_formattings',$text_formattings);
+  }
+  function _prepareColumns()
+  {
+    App::import('model','Query');
+    $this->Query = new Query();
+    $available_columns = $this->Query->available_columns();
+    $this->set('available_columns',$available_columns);
   }
 }
 
