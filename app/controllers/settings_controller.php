@@ -6,10 +6,6 @@ class SettingsController extends AppController
 #
   function index()
   {
-#  def index
-#    edit
-#    render :action => 'edit'
-#  end
 	$this->_prepateSettingTabs();
 	$this->_prepateThemes();
 	$this->_prepareWikiformatting();
@@ -36,7 +32,7 @@ class SettingsController extends AppController
       }
       $this->Session->setFlash(__('Successful update.',true),'default',aa('class','flash notice'));
       $tab = 'general';
-      if ( isset($this->params['tab'])) $tab = $this->params['tab'];
+      if ( isset($this->params['url']['tab'])) $tab = $this->params['url']['tab'];
       $this->redirect(aa('action','edit','?','tab='.$tab));
       return;
     }
@@ -65,16 +61,21 @@ class SettingsController extends AppController
 #  
   function _prepateSettingTabs()
   {
-  	$tabs = array(
-  	  aa('name', 'general', 'partial', 'settings/general', 'label', __('General',true)),
+    $tabs = array(
+      aa('name', 'general', 'partial', 'settings/general', 'label', __('General',true)),
       aa('name', 'authentication', 'partial', 'settings/authentication', 'label', __('Authentication',true)),
       aa('name', 'projects', 'partial', 'settings/projects', 'label', __('Projects',true)),
       aa('name', 'issues', 'partial', 'settings/issues', 'label', __('Issue tracking',true)),
       aa('name', 'notifications', 'partial', 'settings/notifications', 'label', __('Email notifications',true)),
       aa('name', 'mail_handler', 'partial', 'settings/mail_handler', 'label', __('Incoming emails',true)),
       aa('name', 'repositories', 'partial', 'settings/repositories', 'label', __('Repositories',true))
-  	);
-  	$this->set('settings_tabs',$tabs);
+    );
+    $this->set('settings_tabs',$tabs);
+    $selected_tab = $tabs[0]['name'];
+    if (isset($this->params['url']['tab'])) {
+      $selected_tab = $this->params['url']['tab'];
+    }
+    $this->set('selected_tab',$selected_tab);
   }
   function _prepateThemes()
   {

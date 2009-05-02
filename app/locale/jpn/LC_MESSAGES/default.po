@@ -2660,7 +2660,3 @@ msgstr "%s別のチケット"
 # label_ticket
 msgid "Ticket"
 msgstr "チケット"
-
-# label_days
-msgid "days"
-msgstr "日間"

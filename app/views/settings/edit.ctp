@@ -1,7 +1,7 @@
 <h2><?php echo $candy->html_title(__('Settings',true)) ?></h2>
 
 <!-- <% selected_tab = params[:tab] ? params[:tab].to_s : administration_settings_tabs.first[:name] %> -->
-<?php $selected_tab = 'general' ?>
+<?php //$selected_tab = 'general' ?>
 <div class="tabs">
 <?php //pr($settings_tabs) ?>
 <ul>

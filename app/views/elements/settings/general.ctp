@@ -56,7 +56,7 @@ foreach ($Settings->USER_FORMATS as $k => $v) {
 <?php echo $form->input('diff_max_lines_displayed',aa('value',$Settings->diff_max_lines_displayed,'size',6,'label',false,'div',false))?></p>
 
 <p><label><?php __('Use Gravatar user icons') ?></label>
-<?php echo $form->input('gravatar_enabled', array('type' => 'checkbox', 'options' => array(1), 'div' => false,'label' => false)); ?></p>
+<?php echo $form->checkbox('gravatar_enabled',aa('checked', ($Settings->gravatar_enabled == '1'))); ?></p>
 </div>
 
 <?php echo $form->submit(__('Save',true)) ?>
