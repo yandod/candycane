@@ -318,15 +318,17 @@ class IssuesController extends AppController
         'user_id'   =>$this->current_user['id'],
         'spent_on'  =>date('Y-m-d')
       ), $this->data['TimeEntry']));
-      $this->Issue->TimeEntry->data['TimeEntry']['custom_field_values'] = $this->Issue->TimeEntry->filterCustomFieldValue($this->data['custom_field_values']);
-      
+      if(!empty($this->data['custom_field_values'])) {
+        $this->Issue->TimeEntry->data['TimeEntry']['custom_field_values'] = $this->Issue->TimeEntry->filterCustomFieldValue($this->data['custom_field_values']);
+      }
       $save_data = array();
       $save_data['Issue'] = $this->data['Issue'];
       $save_data['Issue']['id'] = $issue['Issue']['id'];
       $save_data['Issue']['project_id'] = $this->_project['Project']['id'];
       $save_data['Issue']['tracker_id'] = $issue['Issue']['tracker_id'];
-      $save_data['Issue']['custom_field_values'] = $this->Issue->filterCustomFieldValue($this->data['custom_field_values']);
-
+      if(!empty($this->data['custom_field_values'])) {
+        $save_data['Issue']['custom_field_values'] = $this->Issue->filterCustomFieldValue($this->data['custom_field_values']);
+      }
       if($this->User->is_allowed_to($this->current_user, ':log_time', $this->_project)
       && !empty($this->Issue->TimeEntry->data['TimeEntry']['hours']) && $this->Issue->TimeEntry->validates()) {
         # Log spend time
