@@ -83,25 +83,28 @@ class AppController extends Controller {
      * @todo rss key authentication
      */
     function _find_current_user() {
-        if ($this->Session->read('user_id')) {
-            // existing session
-            $cond = aa('User.id',$this->Session->read('user_id'));
-            $user = $this->User->find('first',aa('recursive', 2,'conditions',$cond));
-            $user['User']['logged'] = true; // @todo fixme
-            $user['User']['name'] = $user['User']['login']; // @todo fixme
-            $user['User']['memberships'] = $user['Membership'];
-            return $user['User'];
+      if ($this->Session->read('user_id')) {
+        // existing session
+        return $this->User->find_by_id_logged($this->Session->read('user_id'));
 #      (User.active.find(session[:user_id]) rescue nil)
-        } else if ($this->Cookie->read('autologin')) {
+      } else if ($this->Cookie->read('autologin')) {
 #    elsif cookies[:autologin] && Setting.autologin?
 #      # auto-login feature
 #      User.find_by_autologin_key(cookies[:autologin])
 #    elsif params[:key] && accept_key_auth_actions.include?(params[:action])
 #      # RSS key authentication
 #      User.find_by_rss_key(params[:key])
+      } elseif (!empty($this->params['named']['key'])) {
+        // from rss reader
+        $user = $this->User->find_by_rss_key($this->params['named']['key']);
+        if(!empty($user)) {
+          $user = $this->User->find_by_id_logged($user['id']);
         }
-        return null;
-      return $this->find_current_user();
+        if(empty($user)) {
+          $this->cakeError('error404');
+        }
+      }
+      return null;
     }
     function find_current_user() {
       return $this->_find_current_user();
