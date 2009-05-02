@@ -58,6 +58,8 @@ class AppModel extends Model {
     }
     if (isset($this->data[$this->alias])) {
       $fields = array_keys($this->data[$this->alias]);
+    } else {
+      return true;
     }
     $db =& ConnectionManager::getDataSource($this->useDbConfig);
     foreach ($dateFields as $updateCol) {
@@ -77,8 +79,32 @@ class AppModel extends Model {
     }
     return true;
   }
-  
-  
+  # Parses hours format and returns a float
+  function to_hours($h) {
+    if(preg_match('/^(\d+([.,]\d+)?)h?$/', $h, $matches)) {
+      $s = $matches[1];
+    } else {
+      # 2:30 => 2.5
+      $s = !preg_match('/^(\d+):(\d+)$/', $h, $matches) ? false : $matches[1] + ($matches[2] / 60.0);
+      # 2h30, 2h, 30m => 2.5, 2, 0.5
+      if($s === false) {
+        if(preg_match('/^((\d+)\s*(h|hours)?)?\s*((\d+)\s*(m|min)?)?$/', $h, $matches)) {
+          if((count($matches)>4) && !empty($matches[3]) && ($matches[3][0] == 'h')) {
+            $s = $matches[2] + ($matches[5] / 60.0);
+          } elseif((count($matches)>2) && !empty($matches[3]) && ($matches[3][0] == 'h')) {
+            $s = $matches[2];
+          } elseif((count($matches)>4) && !empty($matches[6]) && ($matches[6][0] == 'm')) {
+            $s = ($matches[2] * 10 + $matches[5]) / 60.0;
+          } else {
+            $s = 0;
+          }
+        }
+      }
+    }
+    # 2,5 => 2.5
+    $s = str_replace(',', '.', $s);
+    return $s;
+  }
 }
 
 /*

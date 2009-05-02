@@ -80,7 +80,7 @@ class IssueStatus extends AppModel
       'validates_presence_of'=>array('rule'=>array('notEmpty')),
       'validates_uniqueness_of'=>array('rule'=>array('isUnique')),
       'validates_length_of'=>array('rule'=>array('maxLength', 30)),
-      'validates_format_of'=>array('rule'=>array('alphaNumeric'))
+      'validates_format_of'=>array('rule'=>array('custom', '/\w+/'))
     ),
   );
 
@@ -111,5 +111,25 @@ class IssueStatus extends AppModel
     $new_statuses = $workflow->find('list', compact('conditions', 'order', 'group', 'fields', 'recursive'));
     return $new_statuses;
   }
+  function beforeDelete($cascade = true) {
+    return $this->check_integrity();
+  }
+  function afterSave($created) {
+    if(!empty($this->data[$this->alias]['is_default'])) {
+      if($created) {
+        $id = $this->getLastInsertID();
+      } else {
+        $id = $this->id;
+      }
+      $this->updateAll(array('is_default'=>0), array($this->alias.'.id !='=>$id));
+    }
+  }
+
+#private
+  function check_integrity() {
+    $Issue =& ClassRegistry::init('Issue');
+    return !$Issue->hasAny(array("status_id"=>$this->id));
+  }
+
 }
 

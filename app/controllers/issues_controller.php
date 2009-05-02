@@ -6,8 +6,6 @@ class IssuesController extends AppController
     'Issue',
     'User',
     'Query',
-    'Project',
-    'Enumeration',
   );
   var $helpers = array(
     'Issues',
@@ -25,7 +23,6 @@ class IssuesController extends AppController
   var $_query;
   var $_show_filters;
   var $_project;
-  var $_issue;
   
 #class IssuesController < ApplicationController
 #  menu_item :new_issue, :only => :new
@@ -39,8 +36,9 @@ class IssuesController extends AppController
   {
     switch ($this->action) {
     case 'show':
+    case 'changes':
       $this->_find_issue($this->params['issue_id']);
-      $this->params['project_id'] = $this->_issue['Project']['identifier'];
+      $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
       break;
     }
     return parent::beforeFilter();
@@ -117,105 +115,59 @@ class IssuesController extends AppController
 #    render_404
 #  end
 #  
-#  def changes
-#    retrieve_query
-#    sort_init 'id', 'desc'
-#    sort_update({'id' => "#{Issue.table_name}.id"}.merge(@query.columns.inject({}) {|h, c| h[c.name.to_s] = c.sortable; h}))
-#    
-#    if @query.valid?
-#      @journals = Journal.find :all, :include => [ :details, :user, {:issue => [:project, :author, :tracker, :status]} ],
-#                                     :conditions => @query.statement,
-#                                     :limit => 25,
-#                                     :order => "#{Journal.table_name}.created_on DESC"
-#    end
-#    @title = (@project ? @project.name : Setting.app_title) + ": " + (@query.new_record? ? l(:label_changes_details) : @query.name)
-#    render :layout => false, :content_type => 'application/atom+xml'
-#  rescue ActiveRecord::RecordNotFound
-#    render_404
-#  end
-#  
+  /**
+   * Single Issue RSS/Atom feed.
+   * The method can access without login.
+   * Call from only issue/show.
+   */
+  function changes() {
+    Configure::write('debug', 0);
+    $journals = $this->Issue->findRssJournal();
+    $atom_title = $this->_project['Project']['name'];
+    $rss_token = $this->User->rss_key($this->current_user['id']);
+    $this->set(compact('journals', 'atom_title', 'rss_token'));
+    $this->layout = 'rss/atom';
+    $this->helpers = array('Candy', 'Issues', 'Xml', 'Time');
+    $this->render('changes');
+  }
+
   function show()
   {
-    $Journal = & ClassRegistry::init('Journal');
-//    $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
-    $conditions = array('journalized_type'=>'Issue', 'journalized_id'=>$this->_issue['Issue']['id']);
-    $journal_list = $Journal->find('all', array('conditions'=>$conditions,'recursive'=>1, 'order'=>"Journal.created_on ASC"));
-    if(!empty($journal_list) && !empty($this->current_user['wants_comments_in_reverse_order'])) {
-      $journal_list = array_reverse($journal_list);
+    if(!empty($this->params['named']['format']) && ($this->params['named']['format'] == 'atom')) {
+      return $this->changes();
     }
-    $this->set(compact(
-      'journal_list'
-    ));
+
+    $this->set(array('journal_list' => $this->Issue->findAllJournal($this->current_user)));
 
     // For Edit values
-    $issue = $this->_issue;
-    $default_status = $this->Issue->Status->findDefault();
-    if(empty($default_status)) {
+    $this->data = $this->Issue->data;
+
+    $statuses = $this->Issue->findStatusList($this->User->role_for_project($this->current_user, $this->_project));
+    if(empty($statuses)) {
       $this->Session->setFlash(__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
-    $allowed_statuses = $this->Issue->Status->find_new_statuses_allowed_to(
-      key($default_status),
-      $this->User->role_for_project($this->current_user, $this->_project),
-      $issue['Issue']['tracker_id']
-    );
-    $statuses = $default_status;
-    foreach($allowed_statuses as $id => $value) {
-      $statuses[$id] = $value;
-    }
-    $priority_datas = $this->Enumeration->get_values('IPRI');
-    $priorities = array();
-    foreach($priority_datas as $priority) {
-      $priorities[$priority['Enumeration']['id']] = $priority['Enumeration']['name'];
-      if(empty($this->data['Issue']['priority_id']) && $priority['Enumeration']['is_default']) {
-        $this->data['Issue']['priority_id'] = $priority['Enumeration']['id'];
-      }
-    }
-    $TimeEntry = & ClassRegistry::init('TimeEntry');
-    $assignable_users = $this->Project->assignable_users($this->_project['Project']['id']);
-    $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
-    $fixed_versions = $this->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
-    $custom_field_values = $this->Issue->available_custom_fields(
-      $this->_project['Project']['id'],
-      $issue['Issue']['tracker_id']
-    );
-    $time_entry_custom_fields = $TimeEntry->available_custom_fields();
-    $time_entry_activity_datas = $this->Enumeration->get_values('ACTI');
-    $time_entry_activities = array();
-    foreach($time_entry_activity_datas as $time_entry_activity) {
-      $time_entry_activities[$time_entry_activity['Enumeration']['id']] = $time_entry_activity['Enumeration']['name'];
-    }
-    $rss_token = $this->User->rss_key($this->current_user['id']);
-    $attachments = $this->Issue->findAttachments($issue['Issue']['id']);
-    $attachments_deletable = $this->Issue->is_attachments_deletable($this->current_user, $this->_project);
-
-    $IssueRelation = & ClassRegistry::init('IssueRelation');
-    $issue_relations = $IssueRelation->findRelations($issue);
-    $this->set(compact(
-      'statuses', 'priorities', 'assignable_users', 'issue_categories', 'fixed_versions', 
-      'custom_field_values', 'time_entry_custom_fields', 'time_entry_activities', 'rss_token', 
-      'attachments', 'attachments_deletable', 'issue_relations'));
-    $this->data = $issue;
-    if(!empty($issue['CustomValue'])) {
-      foreach($issue['CustomValue'] as $value) {
+    $this->set(compact('statuses'));
+    $this->_set_edit_form_values();
+    
+    if(!empty($this->Issue->data['CustomValue'])) {
+      foreach($this->Issue->data['CustomValue'] as $value) {
         $this->data['custom_field_values'][$value['CustomField']['id']] = $value['value'];
       }
     }
+    if(!empty($this->params['named']['format'])) {
+      switch($this->params['named']['format']) {
+      case 'pdf' :
+        $this->layout = 'pdf';
+        $this->helpers = array('Candy', 'CustomField', 'Issues', 'Number', 'Tcpdf'=>array());
+        $this->render('issue_to_pdf');
+        break;
+      case 'atom' :
+        break;
+      }
+    }
   }
-#  def show
-#    @journals = @issue.journals.find(:all, :include => [:user, :details], :order => "#{Journal.table_name}.created_on ASC")
-#    @journals.each_with_index {|j,i| j.indice = i+1}
-#    @journals.reverse! if User.current.wants_comments_in_reverse_order?
-#    @allowed_statuses = @issue.new_statuses_allowed_to(User.current)
-#    @edit_allowed = User.current.allowed_to?(:edit_issues, @project)
-#    @priorities = Enumeration::get_values('IPRI')
-#    @time_entry = TimeEntry.new
-#    respond_to do |format|
-#      format.html { render :template => 'issues/show.rhtml' }
-#      format.atom { render :action => 'changes', :layout => false, :content_type => 'application/atom+xml' }
-#      format.pdf  { send_data(issue_to_pdf(@issue), :type => 'application/pdf', :filename => "#{@project.identifier}-#{@issue.id}.pdf") }
-#    end
-#  end
+
   /**
    * JournalDetail values of history.
    * This called from IssuesHelper#show_detail on history.ctp
@@ -244,45 +196,26 @@ class IssuesController extends AppController
   function add() {
     if(!empty($this->params['named']['copy_from'])) {
       $issue = $this->Issue->copy_from($this->params['named']['copy_from']);
-      if(!empty($issue['CustomValue'])) {
-        $issue['custom_field_values'] = array();
-        foreach($issue['CustomValue'] as $customValue) {
-          $issue['custom_field_values'][$customValue['custom_field_id']] = $customValue['value'];
-        }
-        unset($issue['CustomValue']);
-      }
       $this->data = $issue;
     }
-    if(!empty($this->params['named']['tracker_id'])) {
-      $this->data['Issue']['tracker_id'] = $this->params['named']['tracker_id'];
-    }
     # Tracker must be set before custom field values
-    $trackers = $this->Issue->Project->ProjectsTracker->find('list', array(
-      'conditions'=>array('ProjectsTracker.project_id' => $this->_project['Project']['id']),
-      'fields'=>'Tracker.id, Tracker.name', 'recursive'=>0, 'order'=>'Tracker.position'
-    ));
+    $trackers = $this->Issue->findProjectsTrackerList($this->_project['Project']['id']);
     if(empty($trackers)){
       $this->Session->setFlash(__("No tracker is associated to this project. Please check the Project settings.", true), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
-    $default_status = $this->Issue->Status->findDefault();
-    if(empty($default_status)) {
+    if(!empty($this->params['named']['tracker_id'])) {
+      $this->data['Issue']['tracker_id'] = $this->params['named']['tracker_id'];
+    } elseif(empty($this->data['Issue']['tracker_id'])) {
+      $this->data['Issue']['tracker_id'] = key($trackers);
+    }
+    $statuses = $this->Issue->findStatusList($this->User->role_for_project($this->current_user, $this->_project), $this->data['Issue']['tracker_id']);
+    if(empty($statuses)) {
       $this->Session->setFlash(__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
-    $allowed_statuses = $this->Issue->Status->find_new_statuses_allowed_to(
-      key($default_status),
-      $this->User->role_for_project($this->current_user, $this->_project),
-      empty($this->data['Issue']['tracker_id']) ? key($trackers) : $this->data['Issue']['tracker_id']
-    );
-    $statuses = $default_status;
-    foreach($allowed_statuses as $id => $value) {
-      $statuses[$id] = $value;
-    }
-    $custom_field_values = $this->Issue->available_custom_fields(
-      $this->_project['Project']['id'],
-      empty($this->data['Issue']['tracker_id']) ? key($trackers) : $this->data['Issue']['tracker_id']
-    );
+    $this->set(compact('trackers', 'statuses')); 
+    $this->_set_edit_form_values();
 
     if(!empty($this->data) && $this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
       $save_data = array();
@@ -306,22 +239,7 @@ class IssuesController extends AppController
     } elseif(!$this->RequestHandler->isAjax() && empty($this->data['Issue']['start_date'])) {
       $this->data['Issue']['start_date'] = date('Y-m-d');
     }
-    $priority_datas = $this->Enumeration->get_values('IPRI');
-    $priorities = array();
-    foreach($priority_datas as $priority) {
-      $priorities[$priority['Enumeration']['id']] = $priority['Enumeration']['name'];
-      if(empty($this->data['Issue']['priority_id']) && $priority['Enumeration']['is_default']) {
-        $this->data['Issue']['priority_id'] = $priority['Enumeration']['id'];
-      }
-    }
-    $assignable_users = $this->Project->assignable_users($this->_project['Project']['id']);
-    $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
-    $fixed_versions = $this->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
-    $members = $this->Project->members($this->_project['Project']['id']);
 
-    $this->set(compact(
-      'trackers', 'statuses', 'priorities', 'assignable_users', 'issue_categories', 
-      'fixed_versions', 'custom_field_values', 'members'));
     $this->render('new');
     if($this->RequestHandler->isAjax()) {
       $this->layout = 'ajax';
@@ -350,39 +268,19 @@ class IssuesController extends AppController
       return $this->cakeError('error', array('message'=>"Not exists issue."));
     }
     $issue = $this->_find_issue($this->params['issue_id']);
-    $this->Issue->set($issue);
     if(empty($this->_project)) {
       $this->params['project_id'] = $issue['Project']['identifier'];
       parent::_findProject();
     }
-    $default_status = $this->Issue->Status->findDefault();
-    if(empty($default_status)) {
+    $statuses = $this->Issue->findStatusList($this->User->role_for_project($this->current_user, $this->_project));
+    if(empty($statuses)) {
       $this->Session->setFlash(__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
-    $allowed_statuses = $this->Issue->Status->find_new_statuses_allowed_to(
-      key($default_status),
-      $this->User->role_for_project($this->current_user, $this->_project),
-      $issue['Issue']['tracker_id']
-    );
-    $statuses = $default_status;
-    foreach($allowed_statuses as $id => $value) {
-      $statuses[$id] = $value;
-    }
-    $priority_datas = $this->Enumeration->get_values('IPRI');
-    $priorities = array();
-    foreach($priority_datas as $priority) {
-      $priorities[$priority['Enumeration']['id']] = $priority['Enumeration']['name'];
-      if(empty($this->data['Issue']['priority_id']) && $priority['Enumeration']['is_default']) {
-        $this->data['Issue']['priority_id'] = $priority['Enumeration']['id'];
-      }
-    }
-    $custom_field_values = $this->Issue->available_custom_fields(
-      $this->_project['Project']['id'],
-      $issue['Issue']['tracker_id']
-    );
-    $TimeEntry = & ClassRegistry::init('TimeEntry');
-    $time_entry_custom_fields = $TimeEntry->available_custom_fields();
+    $this->data['Issue']['tracker_id'] = $issue['Issue']['tracker_id'];
+
+    $this->set(compact('statuses'));
+    $this->_set_edit_form_values();
 
     $notes = "";
     if(!empty($this->params['url']['notes'])) {
@@ -393,10 +291,10 @@ class IssuesController extends AppController
     }
     unset($this->data['Issue']['notes']);
     $this->Issue->init_journal($issue, $this->current_user, $notes);
-    $this->Issue->Journal->available_custom_fields = $custom_field_values;
+    $this->Issue->Journal->available_custom_fields = $this->Issue->cached_available_custom_fields();
     # User can change issue attributes only if he has :edit permission or if a workflow transition is allowed
     $edit_allowed = $this->User->is_allowed_to($this->current_user, ':edit_issues', $this->_project);
-    if($edit_allowed || !empty($allowed_statuses) && (!empty($this->params['url']['issue']) || !empty($this->data['Issue'])) ) {
+    if($edit_allowed || !empty($statuses) && (!empty($this->params['url']['issue']) || !empty($this->data['Issue'])) ) {
       $attrs = empty($this->params['url']['issue']) ? $this->data['Issue'] : $this->params['url']['issue'];
       if(!$edit_allowed) {
         foreach($attrs as $k=>$v) {
@@ -406,20 +304,21 @@ class IssuesController extends AppController
         }
       }
       if(!empty($attrs['status_id'])) {
-        if(!array_key_exists($attrs['status_id'], $allowed_statuses)) {
+        if(!array_key_exists($attrs['status_id'], $statuses)) {
           unset($attrs['status_id']);
         }
       }
       $issue['Issue'] = array_merge($issue['Issue'], $attrs);
     }
     if(($this->RequestHandler->isPost() || $this->RequestHandler->isPut()) && !empty($this->data)) {
-      $TimeEntry->create();
-      $TimeEntry->set(array_merge(array(
+      $this->Issue->TimeEntry->create();
+      $this->Issue->TimeEntry->set(array_merge(array(
         'project_id'=>$this->_project['Project']['id'],
         'issue_id'  =>$issue['Issue']['id'],
         'user_id'   =>$this->current_user['id'],
         'spent_on'  =>date('Y-m-d')
       ), $this->data['TimeEntry']));
+      $this->Issue->TimeEntry->data['TimeEntry']['custom_field_values'] = $this->Issue->TimeEntry->filterCustomFieldValue($this->data['custom_field_values']);
       
       $save_data = array();
       $save_data['Issue'] = $this->data['Issue'];
@@ -427,18 +326,18 @@ class IssuesController extends AppController
       $save_data['Issue']['project_id'] = $this->_project['Project']['id'];
       $save_data['Issue']['tracker_id'] = $issue['Issue']['tracker_id'];
       $save_data['Issue']['custom_field_values'] = $this->Issue->filterCustomFieldValue($this->data['custom_field_values']);
+
       if($this->User->is_allowed_to($this->current_user, ':log_time', $this->_project)
-      && (empty($TimeEntry->data['TimeEntry']['hours']) || $TimeEntry->validates()) ) {
+      && !empty($this->Issue->TimeEntry->data['TimeEntry']['hours']) && $this->Issue->TimeEntry->validates()) {
         # Log spend time
-        $TimeEntry->data['TimeEntry']['custom_field_values'] = $TimeEntry->filterCustomFieldValue($this->data['custom_field_values']);
-        $save_data['TimeEntry'] = array($TimeEntry->data['TimeEntry']);
+        $save_data['TimeEntry'] = array($this->Issue->TimeEntry->data['TimeEntry']);
       }
       // TODO Issue edit attachement :
       // $attachments = attach_files(@issue, params[:attachments])
       // attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
       // call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
       if($this->Issue->saveAll($save_data)) {
-        if($this->Issue->Journal) {
+        if($this->Issue->actually_changed) {
           # Only send notification if something was actually changed
           $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
           # TODO : Mailer.deliver_issue_edit(journal) if Setting.notified_events.include?('issue_updated')
@@ -448,18 +347,9 @@ class IssuesController extends AppController
         }
         $this->redirect(array('action'=>'show', 'id'=>$issue['Issue']['id']));
       }
+    } else {
+      $this->data = $issue;
     }
-    $assignable_users = $this->Project->assignable_users($this->_project['Project']['id']);
-    $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
-    $fixed_versions = $this->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
-    $time_entry_activity_datas = $this->Enumeration->get_values('ACTI');
-    $time_entry_activities = array();
-    foreach($time_entry_activity_datas as $time_entry_activity) {
-      $time_entry_activities[$time_entry_activity['Enumeration']['id']] = $time_entry_activity['Enumeration']['name'];
-    }
-    $this->set(compact(
-      'statuses', 'priorities', 'assignable_users', 'issue_categories', 'fixed_versions', 
-      'custom_field_values', 'time_entry_custom_fields', 'time_entry_activities'));
     if($this->RequestHandler->isAjax()) {
       $this->layout = 'ajax';
     }
@@ -488,8 +378,8 @@ class IssuesController extends AppController
       $user = $journal['User'];
       $text = $journal['Journal']['notes'];
     } else {
-      $user = $this->_issue['Author'];
-      $text = $this->_issue['Issue']['description'];
+      $user = $this->Issue->data['Author'];
+      $text = $this->Issue->data['Issue']['description'];
     }
     $this->layout = 'ajax';
     $this->set(compact('user', 'text'));
@@ -560,7 +450,7 @@ class IssuesController extends AppController
     # find projects to which the user is allowed to move the issue
     if($this->current_user['admin']) {
       # admin is allowed to move issues to any active (visible) project
-      $allowed_projects = $this->Project->find('list', array('conditions'=>$this->Project->visible_by($this->current_user), 'order'=>'name'));
+      $allowed_projects = $this->Issue->Project->find('list', array('conditions'=>$this->Issue->Project->visible_by($this->current_user), 'order'=>'name'));
     } else  {
       $Role = & ClassRegistry::init('Role');
       foreach($this->current_user['memberships'] as $member) {
@@ -597,11 +487,7 @@ class IssuesController extends AppController
     } else {
       $this->data['Issue']['project_id'] = $issues[0]['Issue']['project_id'];
     }
-    $trackers = $this->Project->ProjectsTracker->find('list', array(
-      'conditions'=>array('ProjectsTracker.project_id'=>$this->data['Issue']['project_id']), 
-      'fields'=>array('Tracker.id', 'Tracker.name'),
-      'recursive'=>0
-    ));
+    $trackers = $this->Issue->findProjectsTrackerList($this->data['Issue']['project_id']);
     $this->set(compact('allowed_projects', 'trackers'));
     $this->set('issue_datas', $issues);
     if($this->RequestHandler->isAjax()) {
@@ -770,22 +656,44 @@ class IssuesController extends AppController
 #private
   function _find_issue($id)
   {
-    if ($this->_issue = $this->Issue->find('first', array(
-      'conditions'=>array('Issue.id' => $id),
-      'recursive'=>1
-    ))) {
-      $this->set(array('issue'=>$this->_issue));
-      return $this->_issue;
-    } else {
+    $this->Issue->recursive = 1;
+    if($this->Issue->read(null, $id) === false) {
       $this->cakeErorr('error404');
     }
+    $this->set(array('issue'=>$this->Issue->data));
+    return $this->Issue->data;
   }
-#  def find_issue
-#    @issue = Issue.find(params[:id], :include => [:project, :tracker, :status, :author, :priority, :category])
-#    @project = @issue.project
-#  rescue ActiveRecord::RecordNotFound
-#    render_404
-#  end
+
+  function _set_edit_form_values() {
+    $priorities = $this->Issue->findPriorities($this->data['Issue']['priority_id']);
+
+    $assignable_users = $this->Issue->Project->assignable_users($this->_project['Project']['id']);
+    $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
+    $fixed_versions = $this->Issue->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
+    $custom_field_values = $this->Issue->available_custom_fields($this->_project['Project']['id'], $this->data['Issue']['tracker_id']);
+
+    $this->set(compact('priorities', 'assignable_users', 'issue_categories', 'fixed_versions', 'custom_field_values'));
+
+    if($this->action == 'add') {
+      $members = $this->Issue->Project->members($this->_project['Project']['id']);
+      $this->set(compact('members'));
+    } else {
+      $time_entry_custom_fields = $this->Issue->TimeEntry->available_custom_fields();
+      $time_entry_activities = $this->Issue->findTimeEntryActivities();
+      $rss_token = $this->User->rss_key($this->current_user['id']);
+      $attachments = $this->Issue->findAttachments($this->Issue->data['Issue']['id']);
+      $attachments_deletable = $this->Issue->is_attachments_deletable($this->current_user, $this->_project);
+
+      $IssueRelation = & ClassRegistry::init('IssueRelation');
+      $issue_relations = $IssueRelation->findRelations($this->Issue->data);
+
+      $this->set(compact(
+        'time_entry_custom_fields', 'time_entry_activities', 'rss_token', 'attachments', 'attachments_deletable', 'issue_relations'
+      ));
+    }
+
+  }
+
 #  
 #  # Filter for bulk operations
 #  def find_issues

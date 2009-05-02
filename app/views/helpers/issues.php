@@ -72,8 +72,8 @@ class IssuesHelper extends AppHelper
         if(!empty($detail['old_value'])) $old_value = $this->Candy->format_date($detail['old_value']);
         break;
       case 'estimated_hours' :
-        if($detail['value'] != '') $value = "%0.02f" % $detail['value'];
-        if($detail['old_value'] != '') $old_value = "%0.02f" % $detail['old_value'];
+        if($detail['value'] != '') $value = ($detail['value'] ==0 ? 0 : "%0.02f" % $detail['value']);
+        if($detail['old_value'] != '') $old_value = ($detail['old_value'] == 0 ? 0 : "%0.02f" % $detail['old_value']);
         break;
       }
       break;
