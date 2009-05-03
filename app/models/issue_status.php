@@ -105,11 +105,15 @@ class IssueStatus extends AppModel
       $conditions["tracker_id"] = $tracker_id;
     }
     $group = 'new_status_id';
-    $fields = array('Status.id', 'Status.name');
+    $fields = array('Status.id', 'Status.name', 'Workflow.new_status_id');
     $recursive = 0;
 
-    $new_statuses = $workflow->find('list', compact('conditions', 'order', 'group', 'fields', 'recursive'));
-    return $new_statuses;
+    $new_statuses = $workflow->find('all', compact('conditions', 'order', 'group', 'fields', 'recursive'));
+    $list = array();
+    foreach($new_statuses as $new_status) {
+      $list[$new_status['Status']['id']] = $new_status['Status']['name'];
+    }
+    return $list;
   }
   function beforeDelete($cascade = true) {
     return $this->check_integrity();
