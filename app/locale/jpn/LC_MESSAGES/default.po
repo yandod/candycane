@@ -2146,6 +2146,9 @@ msgstr "ウォッチ中のチケット"
 msgid "Spent time"
 msgstr "経過時間"
 
+msgid "Spent On"
+msgstr "日付"
+
 # label_register
 msgid "Register"
 msgstr "登録する"

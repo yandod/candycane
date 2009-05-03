@@ -127,7 +127,7 @@ class Version extends AppModel
     ),
   );
 
-  function afterFind($results, $primary)
+  function afterFind($results, $primary = false)
   {
     if (isset($results['id'])) {
       $results = $this->afterFindOne($results);
