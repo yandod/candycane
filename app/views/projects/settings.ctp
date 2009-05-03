@@ -1,4 +1,4 @@
-<h2><?php $candy->html_title(__('Settings',true)) ?></h2>
+<h2><?php echo $candy->html_title(__('Settings',true)) ?></h2>
 
 <div class="tabs">
 <ul>

@@ -756,6 +756,24 @@ class ProjectsController extends AppController
 	
   function settings()
   {
+    $trackers = $this->Tracker->find('all');
+    $this->set('trackers', $trackers);
+
+#    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
+    $issue_custom_fields = $this->IssueCustomField->find('all', array('order'=>$this->IssueCustomField->name.".position"));
+    $this->set('issue_custom_fields', $issue_custom_fields);
+
+    $root_project_inputs = $this->Project->find('all', array('conditions'=>array($this->Project->name.'.parent_id'=>NULL, $this->Project->name.'.status'=>PROJECT_STATUS_ACTIVE), 'order'=>$this->Project->name.'.name'));
+    $root_projects = array(null=>'');
+    foreach($root_project_inputs as $project) {
+      $root_projects[$project['Project']['id']] = $project['Project']['name'];
+    }
+    $this->set('root_projects', $root_projects);
+
+#      @project.enabled_module_names = Redmine::AccessControl.available_project_modules
+    $enabled_module_names = $this->Permission->available_project_modules();
+    $this->set('enabled_module_names', $enabled_module_names);
+    
     //:TODO yando やる
     $tabs = array(
       aa('name', 'info', 'partial', 'projects/edit', 'label', __('Information',true)),
@@ -764,8 +782,8 @@ class ProjectsController extends AppController
       aa('name', 'versions', 'partial', 'projects/settings/versions', 'label', __('Versions',true)),
       aa('name', 'categories', 'partial', 'projects/settings/categories', 'label', __('Issue categories',true)),
       aa('name', 'wiki', 'partial', 'projects/settings/wiki', 'label', __('Wiki',true)),
-      aa('name', 'repository', 'partial', 'projects/settings/repository', 'label', __('Repository',true)),
-      aa('name', 'boards', 'partial', 'projects/settings/boards', 'label', __('Boards',true)),
+      //aa('name', 'repository', 'partial', 'projects/settings/repository', 'label', __('Repository',true)),
+      //aa('name', 'boards', 'partial', 'projects/settings/boards', 'label', __('Boards',true)),
       
 //            {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
 //            {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
