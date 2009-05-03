@@ -14,10 +14,12 @@
 </ul>
 </div>
 
-<% tabs.each do |tab| -%>
-<%= content_tag('div', render(:partial => tab[:partial]), 
-                       :id => "tab-content-#{tab[:name]}",
-                       :style => (tab[:name] != selected_tab ? 'display:none' : nil),
-                       :class => 'tab-content') %>
-<% end -%>
-
+<?php foreach($tabs as $tab): ?>
+<?php $disp = ($selected_tab !== $tab['name']) ? 'display:none' : ''; ?>
+<?php echo $html->tag('div',$this->renderElement($tab['partial']),
+						aa('id','tab-content-'.$tab['name'],
+						   'style', $disp,
+						   'class', 'tab-content'
+						)
+) ?>
+<?php endforeach; ?>
