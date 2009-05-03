@@ -754,10 +754,34 @@ class ProjectsController extends AppController
 #  end
 #end
 	
-	function settings()
-	{
-         //:TODO yando やる
-	}
+  function settings()
+  {
+    //:TODO yando やる
+    $tabs = array(
+      aa('name', 'info', 'partial', 'projects/edit', 'label', __('Information',true)),
+      aa('name', 'modules', 'partial', 'projects/settings/modules', 'label', __('Modules',true)),
+      aa('name', 'members', 'partial', 'projects/settings/members', 'label', __('Members',true)),
+      aa('name', 'versions', 'partial', 'projects/settings/versions', 'label', __('Versions',true)),
+      aa('name', 'categories', 'partial', 'projects/settings/categories', 'label', __('Issue categories',true)),
+      aa('name', 'wiki', 'partial', 'projects/settings/wiki', 'label', __('Wiki',true)),
+      aa('name', 'repository', 'partial', 'projects/settings/repository', 'label', __('Repository',true)),
+      aa('name', 'boards', 'partial', 'projects/settings/boards', 'label', __('Boards',true)),
+      
+//            {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
+//            {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
+//            {:name => 'versions', :action => :manage_versions, :partial => 'projects/settings/versions', :label => :label_version_plural},
+//            {:name => 'categories', :action => :manage_categories, :partial => 'projects/settings/issue_categories', :label => :label_issue_category_plural},
+//            {:name => 'wiki', :action => :manage_wiki, :partial => 'projects/settings/wiki', :label => :label_wiki},
+//            {:name => 'repository', :action => :manage_repository, :partial => 'projects/settings/repository', :label => :label_repository},
+//            {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural}
+      );
+    $selected_tab = $tabs[0]['name'];
+    if (isset($this->params['url']['tab'])) {
+      $selected_tab = $this->params['url']['tab'];
+    }
+    $this->set('selected_tab',$selected_tab);
+    $this->set('tabs', $tabs);  
+  }
 
   function list_members()
   {

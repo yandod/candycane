@@ -1,16 +1,16 @@
-<h2><?php __('Settings') ?></h2>
-
-<% tabs = project_settings_tabs %>
-<% selected_tab = params[:tab] ? params[:tab].to_s : tabs.first[:name] %>
+<h2><?php $candy->html_title(__('Settings',true)) ?></h2>
 
 <div class="tabs">
 <ul>
-<% tabs.each do |tab| -%>
-    <li><%= link_to l(tab[:label]), { :tab => tab[:name] },
-                                    :id => "tab-#{tab[:name]}",
-                                    :class => (tab[:name] != selected_tab ? nil : 'selected'),
-                                    :onclick => "showTab('#{tab[:name]}'); this.blur(); return false;" %></li>
-<% end -%>
+<?php foreach($tabs as $tab): ?>
+<?php $selected = ($selected_tab == $tab['name']) ? "selected" : ""; ?>
+    <li><?php echo $html->link($tab['label'],aa('tab',$tab['name']),
+                                     aa('id', "tab-".$tab['name'],
+                                     'class',$selected,
+                                     'onclick', "showTab('{$tab['name']}'); this.blur(); return false;",
+                                     'escape', false
+                                     )) ?></li>
+<?php endforeach; ?>
 </ul>
 </div>
 
@@ -21,4 +21,3 @@
                        :class => 'tab-content') %>
 <% end -%>
 
-<% html_title(l(:label_settings)) -%>
