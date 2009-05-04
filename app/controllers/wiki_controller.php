@@ -2,7 +2,7 @@
 
 class WikiController extends AppController {
   //var $helpers = array('attachments');
-  var $uses = array('Wiki', 'Project', 'User');
+  var $uses = array('Wiki', 'WikiContent', 'Project', 'User');
   var $helpers = array('Time', 'Number', 'Wiki');
 
   function index() {
@@ -10,10 +10,11 @@ class WikiController extends AppController {
     if (isset($this->params['wikipage'])) {
       $page_title = $this->params['wikipage'];
     }
-    $page = $this->Wiki->find_page($page_title);
-    if (!$page) {
-      $this->set('page_title', $page_title);
+    $page = $this->Wiki->find_or_new_page($page_title);
+    if (!isset($page['Page']['id'])) {
+      $this->edit();
       $this->render('edit');
+      return;
     }
     $version = isset($this->params['url']['version']) ? $this->params['url']['version'] : null;
     // 仮の実装。本当はwiki_content_versionsから取得する実装が必要。
@@ -87,33 +88,29 @@ class WikiController extends AppController {
     $this->render("special_${page_title}");
   }
   function beforeFilter() {
+    parent::beforeFilter();
     $this->_find_wiki();
 
     $only = aa('rename', 'protect', 'history', 'diff', 'annotate', 'add_attachment', 'destroy');
     if (in_array($this->action, $only)) {
-      $this->find_existing_page();
+      $this->_find_existing_page();
     }
-    parent::beforeFilter();
   }
 
   // private
 
   function _find_wiki()
   {
-    $project_id = $this->params['project_id'];
-    $project = $this->Project->find($project_id);
-    if (!$project) {
-        $this->cakeError('error404');
-    }
+    $project_id = $this->viewVars['main_project']['Project']['id'];
     // projectsとwikisは1:1関係なので、アソシエーションを使わずにアクセス
-    $wiki = $this->Wiki->Find('first', aa('conditions',
-                                          aa('Wiki.project_id',
-                                             $project['Project']['id'])));
+    $wiki = $this->Wiki->find('first',
+                              aa('conditions',
+                                 aa('Wiki.project_id', $project_id)));
     if (!$wiki) {
         $this->cakeError('error404');
     }
+    $this->Wiki->id = $wiki['Wiki']['id'];
     $this->set('wiki', $wiki);
-    $this->set('project_id', $project_id);
   }
 
   function _find_existing_page()
@@ -164,6 +161,47 @@ class WikiController extends AppController {
 #    render :action => 'show'
 #  end
 #  
+
+  // edit an existing page or a new one
+  function edit() {
+    $page_title = null;
+    if (isset($this->params['wikipage'])) {
+      $page_title = $this->params['wikipage'];
+    }
+    $page = $this->Wiki->find_or_new_page($page_title);
+    $content = null;
+    if (isset($page['Page']['id'])) {
+      $content = $this->WikiContent->find('first',
+                                          aa('conditions',
+                                             aa('WikiContent.page_id',
+                                                $page['Page']['id'])));
+    } else {
+      $content = array();
+      $content['WikiContent']['version'] = 1; // 暫定
+    }
+    if (empty($this->data)) {
+      if ($content) {
+        $this->data = $content;
+      }
+    } else {
+      if (!isset($page['Page']['id'])) {
+        // wiki_pagesにレコード新規作成
+        $page['Page']['wiki_id'] = $this->Wiki->id;
+        $this->Wiki->Page->save($page);
+        $this->data['WikiContent']['page_id'] = $this->Wiki->Page->id;
+      }
+      // wiki_contentsにレコード新規作成or更新
+      $data = array_merge($content['WikiContent'],
+                          $this->data['WikiContent']);
+      $this->WikiContent->save($data);
+      $this->redirect(array('controller' => 'wiki',
+                            'action'     => 'index',
+                            'project_id' => $this->params['project_id'],
+                            'wikipage'   => $this->params['wikipage']));
+    }
+    $this->set('page', $page);
+  }
+
 #  # edit an existing page or a new one
 #  def edit
 #    @page = @wiki.find_or_new_page(params[:page])    
@@ -322,6 +360,14 @@ class WikiController extends AppController {
 #    page.editable_by?(User.current)
 #  end
 #
+
+  function _initial_page_content($page) {
+    //helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
+    //extend helper unless self.instance_of?(helper)
+    //helper.instance_method(:initial_page_content).bind(self).call(page)
+  }
+
+
 #  # Returns the default content of a new wiki page
 #  def initial_page_content(page)
 #    helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)

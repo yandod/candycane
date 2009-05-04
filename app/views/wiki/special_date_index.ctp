@@ -9,7 +9,7 @@
 <h3><?php echo $candy->format_date($day) ?></h3>
 <ul>
 <?php foreach($pages as $page) : ?>
-    <li><?php echo $html->link($wiki->pretty_title($page['Page']['title']), array('action' => 'index', 'project_id' => $project_id, 'wikipage' => $page['Page']['title'])) ?></li>
+    <li><?php echo $html->link($wiki->pretty_title($page['Page']['title']), array('action' => 'index', 'project_id' => $main_project['Project']['identifier'], 'wikipage' => $page['Page']['title'])) ?></li>
 <?php endforeach ?>
 </ul>
 <?php endforeach ?>
@@ -20,8 +20,8 @@
 <?php if (sizeof($pages) !== 0) : ?>
 <p class="other-formats">
 <?php echo __("'Also available in:'") ?>
-<span><?php echo $html->link('Atom', array('controller' => 'projects', 'action' => 'activity', 'project_id' => $project_id, '?show_wiki_pages=1&format=atom'  /*key User.current.rss_key*/), array('class' => 'feed')) ?></span>
-<span><?php echo $html->link('HTML', array('action' => 'special', 'project_id' => $project_id ,'wikipage' => 'export'), array('class' => 'html')); ?></span>
+<span><?php echo $html->link('Atom', array('controller' => 'projects', 'action' => 'activity', 'project_id' => $main_project['Project']['identifier'], '?show_wiki_pages=1&format=atom'  /*key User.current.rss_key*/), array('class' => 'feed')) ?></span>
+<span><?php echo $html->link('HTML', array('action' => 'special', 'project_id' => $main_project['Project']['identifier'] ,'wikipage' => 'export'), array('class' => 'html')); ?></span>
 </p>
 <?php endif ?>
 
