@@ -759,7 +759,6 @@ class ProjectsController extends AppController
     $trackers = $this->Tracker->find('all');
     $this->set('trackers', $trackers);
 
-#    @issue_custom_fields = IssueCustomField.find(:all, :order => "#{CustomField.table_name}.position")
     $issue_custom_fields = $this->IssueCustomField->find('all', array('order'=>$this->IssueCustomField->name.".position"));
     $this->set('issue_custom_fields', $issue_custom_fields);
 
@@ -770,7 +769,6 @@ class ProjectsController extends AppController
     }
     $this->set('root_projects', $root_projects);
 
-#      @project.enabled_module_names = Redmine::AccessControl.available_project_modules
     $enabled_module_names = $this->Permission->available_project_modules();
     $this->set('enabled_module_names', $enabled_module_names);
     
@@ -780,7 +778,7 @@ class ProjectsController extends AppController
       aa('name', 'modules', 'partial', 'projects/settings/modules', 'label', __('Modules',true)),
       aa('name', 'members', 'partial', 'projects/settings/members', 'label', __('Members',true)),
       aa('name', 'versions', 'partial', 'projects/settings/versions', 'label', __('Versions',true)),
-      aa('name', 'categories', 'partial', 'projects/settings/categories', 'label', __('Issue categories',true)),
+      aa('name', 'categories', 'partial', 'projects/settings/issue_categories', 'label', __('Issue categories',true)),
       aa('name', 'wiki', 'partial', 'projects/settings/wiki', 'label', __('Wiki',true)),
       //aa('name', 'repository', 'partial', 'projects/settings/repository', 'label', __('Repository',true)),
       //aa('name', 'boards', 'partial', 'projects/settings/boards', 'label', __('Boards',true)),
