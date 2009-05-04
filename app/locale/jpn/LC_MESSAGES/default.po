@@ -1381,6 +1381,8 @@ msgid "Target version"
 msgstr "Target version"
 msgid "Fixed Version"
 msgstr "Target version"
+msgid "fixed_version"
+msgstr "Target version"
 
 # activerecord_error_not_a_number
 msgid "is not a number"
@@ -1440,6 +1442,8 @@ msgstr "管理者"
 
 # field_category
 msgid "Category"
+msgstr "カテゴリ"
+msgid "category"
 msgstr "カテゴリ"
 
 # field_homepage
