@@ -1,4 +1,5 @@
-<% content_tag 'fieldset', :id => 'columns', :style => (query.has_default_columns? ? 'display:none;' : nil) do %>
+<fieldset id="columns" style="display:none">
+<!--<% content_tag 'fieldset', :id => 'columns', :style => (query.has_default_columns? ? 'display:none;' : nil) do %>-->
 <legend><%= l(:field_column_names) %></legend>
 
 <%= hidden_field_tag 'query[column_names][]', '', :id => nil %>
@@ -20,7 +21,8 @@
 		</td>
 	</tr>
 </table>
-<% end %>
+<!--<% end %>-->
+</fieldset>
 
 <% content_for :header_tags do %>
 <%= javascript_include_tag 'select_list_move' %>

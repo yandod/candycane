@@ -3,8 +3,8 @@
     <h2><?php __('Issues') ?></h2>
     <?php  $candy->html_title(__('Issues', true)) ?>
     
-    <form action="<?php echo h($html->url(array('controller' => 'queries', 'action' => 'add'))) ?>" method="get" id="query_form">
-    <?php if (isset($main_project)): ?><input type="hidden" name="project_id" value="<?php echo h($main_project['Project']['id']) ?>" /><?php endif ?>
+    <form action="<?php echo h($html->url(array('controller' => 'queries', 'action' => 'add'))) ?>" method="post" id="query_form">
+    <?php if (isset($main_project)): ?><input type="hidden" name="project_id" value="<?php echo h($main_project['Project']['identifier']) ?>" /><?php endif ?>
     <fieldset id="filters"><legend><?php __('Filters') ?></legend>
     <?php echo $this->renderElement('queries/filters', array('show_filters' => $show_filters, 'available_filters' => $available_filters)) ?>
     <p class="buttons">
@@ -12,7 +12,10 @@
       <?php echo $ajax->link(__('Clear', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => $main_project['Project']['identifier_or_id'], '?set_filter=1'), array('update' => 'content', 'class' => 'icon icon-reload')) ?>
     <!--
     <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
-    <%= link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save' %>
+    -->
+    <?php echo $html->link(__('Save', true), '', array('onclick' => "$('query_form').submit(); return false;", 'class' => 'icon icon-save')) ?>
+    <!--<%= link_to l(:button_save), {}, :onclick => "$('query_form').submit(); return false;", :class => 'icon icon-save' %>-->
+    <!--
     <% end %>
     -->
     </p>

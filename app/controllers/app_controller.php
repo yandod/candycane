@@ -33,6 +33,7 @@ class AppController extends Controller {
     {
       $url_param = $this->params;
       foreach (array(
+        'data',
         'url',
         'form',
         'isAjax',

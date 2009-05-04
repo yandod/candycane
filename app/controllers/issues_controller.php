@@ -19,9 +19,9 @@ class IssuesController extends AppController
   );
   var $components = array(
     'RequestHandler',
+    'Queries',
   );
   var $_query;
-  var $_show_filters;
   var $_project;
   
 #class IssuesController < ApplicationController
@@ -70,13 +70,14 @@ class IssuesController extends AppController
 #  
   function index()
   {
-    $this->_retrieve_query();
+    $this->Queries->retrieve_query();
     $limit = $this->_per_page_option();
     $this->paginate = array('Issue' => array(
-      'conditions' => $this->_query['Query']['filter_cond'],
+      'conditions' => $this->Queries->query_filter_cond,
       'order' => 'Issue.id DESC',
       'limit' => $limit,
     ));
+    $this->set('query', array('Query' => $this->Query->defaults()));
     $this->set('issue_list', $this->paginate('Issue'));
     $this->set('params', $this->params);
     if ($this->RequestHandler->isAjax()) $this->layout = 'ajax';
@@ -739,59 +740,6 @@ class IssuesController extends AppController
 #  end
 #  
 #  # Retrieve query from session or build a new query
-  function _retrieve_query()
-  {
-    $this->set('force_show_filters', $force_show_filters = $this->Query->show_filters());
-    $show_filters = isset($this->params['url']['set_filter']) ? a() : $force_show_filters;
-    $available_filters = $this->Query->available_filters($this->_project, $this->current_user);
-    $query = a();
-    if (!isset($this->data['Filter'])) $this->data['Filter'] = a();
-    foreach ($show_filters as $field => $options) {
-      $this->data['Filter']['fields_' . $field] = $field;
-      $this->data['Filter']['operators_' . $field] = $options['operator'];
-      $this->data['Filter']['values_' . $field] = $options['values'];
-    }
-    if (isset($this->params['query_id'])) {
-    } else {
-      $query = $this->Query->defaults();
-      $query = am($query, $this->_project);
-      $query['Query']['filter_cond'][] = array('Issue.project_id' => $this->_project['Project']['id']);
-      if (isset($this->params['url']['set_filter'], $this->params['form']['fields'])) {
-        foreach ($this->params['form']['fields'] as $field) {
-          $operator = $this->params['form']['operators'][$field];
-          $value = isset($this->params['form']['values'][$field]) ? $this->params['form']['values'][$field] : null;
-          if (isset($available_filters[$field])) {
-            $show_filters[$field] = $available_filters[$field];
-            $this->data['Filter']['fields_' . $field] = $field;
-            $this->data['Filter']['operators_' . $field] = $operator;
-            $this->data['Filter']['values_' . $field] = $value;
-          }
-        }
-      }
-    }
-    foreach ($show_filters as $field => $options) {
-      $operator = $this->data['Filter']['operators_' . $field];
-      $value = $this->data['Filter']['values_' . $field];
-      switch ($field) {
-      case 'author_id':
-      case 'assigned_to_id':
-        if ($value == 'me') {
-          if ($this->current_user) {
-            $value = $this->current_user['id'];
-          } else {
-            continue;
-          }
-        }
-        break;
-      }
-      if ($add_filter_cond = $this->Query->get_filter_cond('Issue', $field, $operator, $value)) {
-        $query['Query']['filter_cond'][] = $add_filter_cond;
-      }
-    }
-    $this->set('available_filters', $available_filters);
-    $this->set('show_filters', $this->_show_filters = $show_filters);
-    $this->set('query', $this->_query = $query);
-  }
 #  def retrieve_query
 #    if !params[:query_id].blank?
 #      cond = "project_id IS NULL"
