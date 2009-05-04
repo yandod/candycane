@@ -89,7 +89,7 @@ Router::connect('projects/:project_id/issues/:action', array('controller' => 'is
 #  map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
 #  map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
 #  map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
-Router::connect('timelog/:action/*', array('controller' => 'timelog'));
+Router::connect('timelog/:action/:id/*', array('controller' => 'timelog'));
 
 #  map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
 
