@@ -1,4 +1,21 @@
 <?php
+class WikisController extends AppController {
+  var $uses = array('Wiki', 'Project', 'User');
+  var $components = array('RequestHandler');
+
+  function edit() {
+    $wiki=null;
+#    @wiki = @project.wiki || Wiki.new(:project => @project)
+#    @wiki.attributes = params[:wiki]
+    if($this->RequestHandler->isPost()) {
+#    @wiki.save if request.post?
+    }
+    $this->set('wiki', $wiki);
+    $this->render('edit'); // temporary implementation. fixme.
+#    render(:update) {|page| page.replace_html "tab-content-wiki", :partial => 'projects/settings/wiki'}
+  }
+
+
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
 ##
@@ -43,3 +60,4 @@
 #    render_404
 #  end
 #end
+}

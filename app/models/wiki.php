@@ -13,23 +13,34 @@ class Wiki extends AppModel
                                            'dependent' => true, // :dependent => :delete_all
                                            ),
                        );
+
+  // titleに合うpageのモデル配列を取得する。
+  // DB上に無い場合はidの無いsave用のdataを返す。
   function find_or_new_page($title)
   {
-    //title = start_page if title.blank?
-    return $this->find_page($title); //|| WikiPage.new(:wiki => self, :title => Wiki.titleize(title))
+    if ($title === null || $title === "") {
+      $title = $this->field('start_page');
+    }
+    $page  =$this->find_page($title);
+    if (!$page) {
+      $page = aa('Page',
+                 aa('wiki_id', $this->id,
+                    'title', Wiki::titleize($title)));
+    }
+    return $page;
   }
-
 
   function find_page($title, $options = array())
   {
     $param = array();
-    if (empty($title)) {
-      $wiki = $this->find();
-      $title = $wiki['Wiki']['start_page'];
+    if ($title === "") {
+      $title = $this->field('start_page');
     }
-    //title = start_page if title.blank?
     $title = Wiki::titleize($title);
-    $page = $this->Page->findByTitle($title);
+    $page = $this->Page->find('first',
+                              aa('conditions',
+                                 aa('Page.wiki_id', $this->id,
+                                    'Page.title', $title)));
     //    if !page && !(options[:with_redirect] == false)
     //      # search for a redirect
     //      redirect = redirects.find_by_title(title)
