@@ -1,13 +1,59 @@
 <div class="contextual">
 <?php if ($editable) : ?>
-   <?php if ($content['Content']['version'] === $page['Content']['version']) { e($html->link(__('Edit', true), array('action' => 'edit', 'project_id' => $main_project['Project']['identifier'], 'wikipage' => $page['Page']['title']), aa('class', 'icon icon-edit' /*'accesskey', $candy->accesskey('edit')*/))); } ?>
-<?php if (!$page['Page']['protected']) { e($html->link(__('Lock', true), array('action' => 'protect', 'project_id' => $main_project['Project']['identifier'], 'wikipage' => $page['Page']['title'], '?protected=1'), aa('method', 'post', 'class', 'icon icon-lock'))); } ?>
-<?php if ($page['Page']['protected']) { e($html->link(__('Unlock', true), array('action' => 'protect', 'project_id' => $main_project['Project']['identifier'], 'wikipage' => $page['Page']['title'], '?protected=0'), aa('method', 'post', 'class', 'icon icon-unlock'))); } ?>
-<?php if ($content['Content']['version'] == $page['Content']['version']) { e($html->link(__('Rename', true), array('action' => 'rename', 'project_id' => $main_project['Project']['identifier'], 'wikipage' => $page['Page']['title']), aa('class', 'icon icon-move'))); } ?>
-<?php e($html->link(__('Delete', true), array('action' => 'destroy', 'project_id' => $main_project['Project']['identifier'], 'wikipage', $page['Page']['title']), aa('method', 'post', 'confirm', __('Are you sure ?', true), 'class', 'icon icon-del'))); ?>
-<?php if ($content['Content']['version'] < $page['Content']['version']) { $html->link(__('Rollback to this version', true), aa('action', 'edit', 'page', $page['Page']['title'], 'version',$content['Content']['version']), aa('class', 'icon icon-cancel')); } ?>
+<?php if ($content['Content']['version'] === $page['Content']['version']) {
+     e($html->link(__('Edit', true),
+                   array('action' => 'edit',
+                         'project_id' => $main_project['Project']['identifier'],
+                         'wikipage' => $page['Page']['title']),
+                   aa('class', 'icon icon-edit'
+                      /*'accesskey', $candy->accesskey('edit')*/)));
+   } ?>
+<?php if (!$page['Page']['protected']) {
+     e($html->link(__('Lock', true),
+                   array('action' => 'protect',
+                         'project_id' => $main_project['Project']['identifier'],
+                         'wikipage' => $page['Page']['title'],
+                         '?protected=1'),
+                   aa('method', 'post', 'class', 'icon icon-lock')));
+   } ?>
+<?php if ($page['Page']['protected']) {
+  e($html->link(__('Unlock', true),
+                array('action' => 'protect',
+                      'project_id' => $main_project['Project']['identifier'],
+                      'wikipage' => $page['Page']['title'],
+                      '?protected=0'),
+                aa('method', 'post', 'class', 'icon icon-unlock')));
+ } ?>
+<?php if ($content['Content']['version'] == $page['Content']['version']) {
+   e($html->link(__('Rename', true),
+                 array('action' => 'rename',
+                       'project_id' => $main_project['Project']['identifier'],
+                       'wikipage' => $page['Page']['title']),
+                 aa('class', 'icon icon-move')));
+ } ?>
+<?php e($html->link(__('Delete', true),
+                    array('action' => 'destroy',
+                          'project_id' => $main_project['Project']['identifier'],
+                          'wikipage'=> $page['Page']['title']),
+                    aa('method', 'post',
+                       'confirm', __('Are you sure ?', true),
+                       'class', 'icon icon-del')));
+?>
+<?php if ($content['Content']['version'] < $page['Content']['version']) {
+   e($html->link(__('Rollback to this version', true),
+                 array('action' => 'edit',
+                       'project_id' => $main_project['Project']['identifier'],
+                       'wikipage' => $page['Page']['title'],
+                       '?version='.$content['Content']['version']),
+                 aa('class', 'icon icon-cancel')));
+ } ?>
 <?php endif; ?>
-<?php $html->link(__('label_history', true), aa('action', 'history', 'page', $page['Page']['title']), aa('class', 'icon icon-history')) ?>
+<?php e($html->link(__('History', true),
+                    array('action' => 'history',
+                          'project_id' => $main_project['Project']['identifier'],
+                          'wikipage' => $page['Page']['title']),
+                    aa('class', 'icon icon-history')));
+?>
 </div>
 
 <?php $candy->breadcrumb($page); /*breadcrumb(@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:page => parent.title}}) */ ?>

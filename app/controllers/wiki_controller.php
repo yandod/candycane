@@ -91,7 +91,7 @@ class WikiController extends AppController {
     parent::beforeFilter();
     $this->_find_wiki();
 
-    $only = aa('rename', 'protect', 'history', 'diff', 'annotate', 'add_attachment', 'destroy');
+    $only = a('rename', 'protect', 'history', 'diff', 'annotate', 'add_attachment', 'destroy');
     if (in_array($this->action, $only)) {
       $this->_find_existing_page();
     }
@@ -255,8 +255,8 @@ class WikiController extends AppController {
     $this->data['Page']['protected'] = $this->params['url']['protected'];
     $this->Wiki->Page->save($this->data);
     $this->redirect(array('controller' => 'wiki',
-                          'action'=>'index',
-                          'project_id'=>$this->params['project_id'],
+                          'action'     => 'index',
+                          'project_id' => $this->params['project_id'],
                           'wikipage'   => $this->params['wikipage']));
   }
 
@@ -288,8 +288,17 @@ class WikiController extends AppController {
 #    @annotate = @page.annotate(params[:version])
 #    render_404 unless @annotate
 #  end
-#  
-#  # remove a wiki page and its history
+
+  // remove a wiki page and its history
+  function destroy() {
+    //return render_403 unless editable?
+    $this->Wiki->Page->del($this->data['Page']['id']);
+    $this->redirect(array('controller' => 'wiki',
+                          'action'     => 'special',
+                          'project_id' => $this->params['project_id'],
+                          'wikipage'   => 'Page_index'));
+  }
+
 #  def destroy
 #    return render_403 unless editable?
 #    @page.destroy
