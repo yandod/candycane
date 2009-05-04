@@ -35,6 +35,7 @@ class Project extends AppModel
     'Version',
     'TimeEntry',
     'IssueCategory',
+    'EnabledModule',
   );
   var $hasAndBelongsToMany = array(
     'Tracker' => array(

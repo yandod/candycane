@@ -1943,8 +1943,8 @@ msgid "Plugin assets directory writable"
 msgstr "Plugin assets directory writable"
 
 # text_select_project_modules
-msgid "'Select modules to enable for this project:'"
-msgstr "'このプロジェクトで使用するモジュールを選択してください:'"
+msgid "Select modules to enable for this project:"
+msgstr "このプロジェクトで使用するモジュールを選択してください:"
 
 # text_journal_set_to
 msgid "set to %s"

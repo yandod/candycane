@@ -339,11 +339,25 @@ class ProjectsController extends AppController
     $this->settings();
     $this->render('settings');
   }
-#  
-#  def modules
-#    @project.enabled_module_names = params[:enabled_modules]
-#    redirect_to :action => 'settings', :id => @project, :tab => 'modules'
-#  end
+  
+  function modules()
+  {
+    if (!empty($this->data)) {
+      $modules = array_filter($this->data['Project']['EnabledModule']);
+      $data = array();
+      foreach ($modules as $v) {
+        $data[] = array(
+          'id' => null,
+          'project_id' => $this->id,
+          'name' => $v
+        );
+      }
+      $this->Project->EnabledModule->deleteAll(aa('project_id',$this->id));
+      $this->Project->EnabledModule->saveAll($data);
+      $this->Session->setFlash(__('Successful update.',true),'default',aa('class','flash notice'));
+    }
+    $this->redirect(aa('action','settings','id',$this->params['project_id'],'?','tab=modules'));
+  }
 #
 #  def archive
 #    @project.archive if request.post? && @project.active?
@@ -780,8 +794,8 @@ class ProjectsController extends AppController
     }
     $this->set('root_projects', $root_projects);
 
-    $enabled_module_names = $this->Permission->available_project_modules();
-    $this->set('enabled_module_names', $enabled_module_names);
+    $available_project_modules = $this->Permission->available_project_modules();
+    $this->set('available_project_modules', $available_project_modules);
     
     //:TODO yando やる
     $tabs = array(
