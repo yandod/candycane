@@ -199,30 +199,29 @@ class Project extends AppModel
    *                  + logged
    *                  + memberships
    * @param permission  : 'view_issues'
-   * @return base_statement : find conditions
-   *          exists_statement : SQL condition (TODO: merge)
+   * @return find conditions
    */
   function allowed_to_condition($user, $permission, $options=array()) {
     $statements = array();
     $base_statement = array();
-    $base_statement[] = array($this->table.".status" => PROJECT_STATUS_ACTIVE);
+    $base_statement[] = array($this->alias.".status" => PROJECT_STATUS_ACTIVE);
     $exists_statement = false;
-    $projectTable = $this->table;
-    $permission = & ClassRegistry::init('Permission');
-    $perm = $permission->permissions[$permission];
+    $projectTable = $this->alias;
+    $Permission = & ClassRegistry::init('Permission');
+    $perm = $Permission->findByName($permission);
     if(!empty($perm['project_module'])) {
       # If the permission belongs to a project module, make sure the module is enabled
       $this->bindModel(array('hasMany' => array('EnabledModule')), false);
-      $enableModuleTable = $this->EnabledModule->table;
+      $enabledModuleTable =  $this->EnabledModule->tablePrefix . $this->EnabledModule->table;
       $emName = $perm['project_module'];
 
-      $exists_statement = "EXISTS (SELECT em.id FROM $enabledModuleTable em WHERE em.name='$emName' AND em.project_id=$projectTable.id)";
+      $base_statement[] = array("EXISTS (SELECT em.id FROM $enabledModuleTable em WHERE em.name='$emName' AND em.project_id=$projectTable.id)" => true);
     }
     if(isset($options['project'])) {
       $project_statement = array();
-      $project_statement[] = array("Project.id" => $options['project']['id']);
+      $project_statement[] = array("$projectTable.id" => $options['project']['id']);
       if(isset($options['with_subprojects'])) {
-        $project_statement[] = array("Project.parent_id" => $options['project']['id']); 
+        $project_statement[] = array("$projectTable.parent_id" => $options['project']['id']); 
         $project_statement = array('or'=> array($project_statement));
       }
       $base_statement = array('and' => array($project_statement, $base_statement));
@@ -235,16 +234,16 @@ class Project extends AppModel
       $statements[] = array("1=0");
       if($user['logged']) {
         if($role->non_member_allowed_to($permission)) {
-          $statements[] = array("Project.is_public"=>1) ;
+          $statements[] = array("$projectTable.is_public"=>1) ;
         }
         $allowed_project_ids = array();
         foreach($user['memberships'] as $member) {
           $allowed_project_ids[] = $member['Project'][0]['Project']['id'];
         }
-        $statements[] = array("Project.id" => $allowed_project_ids);
+        $statements[] = array("$projectTable.id" => $allowed_project_ids);
       } elseif($role->anonymous_allowed_to($permission)) {
         # anonymous user allowed on public project
-        $statements[] = array("Project.is_public"=>1);
+        $statements[] = array("$projectTable.is_public"=>1);
       } else {
         # anonymous user is not authorized
       }
@@ -252,7 +251,7 @@ class Project extends AppModel
     if(!empty($statements)) {
       $base_statement['or'] = array($statements);
     }
-    return compact('base_statement', 'exists_statement');
+    return $base_statement;
   }
 #  def self.allowed_to_condition(user, permission, options={})
 #    statements = []
@@ -290,8 +289,9 @@ class Project extends AppModel
   {
     $cond = array($this->name.'.id' => $this->id);
     if ($with_subprojects) {
-      $cond['or'] = $cond;
-      $cond['or'][$this->name.'.parent_id'] = $this->id;
+      $temp = array('or' => $cond);
+      $temp['or'][$this->name.'.parent_id'] = $this->id;
+      $cond = $temp;
     }
 
     return $cond;

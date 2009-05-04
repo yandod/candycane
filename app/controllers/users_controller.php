@@ -23,8 +23,10 @@ class UsersController extends AppController
    */
   function beforeFilter()
   {
+    if(empty($this->params['requested'])) {
+      $this->require_admin();
+    }
     parent::beforeFilter();
-    $this->require_admin();
   }
 
   /**

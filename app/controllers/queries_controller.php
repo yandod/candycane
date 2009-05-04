@@ -2,12 +2,26 @@
 class QueriesController extends AppController
 {
   var $name = 'Queries';
+  var $uses = array(
+    'User',
+    'Query',
+  );
+  var $helpers = array(
+    'Queries',
+    'QueryColumn',
+    'CustomField',
+    'Number',
+    'Watchers',
+    'Journals'
+  );
+  var $components = array(
+    'RequestHandler',
+    'Queries',
+  );
+  var $_query;
+  var $_show_filters;
+  var $_project;
   
-  function edit()
-  {
-  }
-}
-
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
 ##
@@ -27,9 +41,32 @@ class QueriesController extends AppController
 #
 #class QueriesController < ApplicationController
 #  menu_item :issues
+  function beforeFilter()
+  {
+    $this->params['project_id'] = $this->params['form']['project_id'];
+    return parent::beforeFilter();
+  }
+  
 #  before_filter :find_query, :except => :new
 #  before_filter :find_optional_project, :only => :new
 #  
+  function add() {
+    $this->Queries->retrieve_query(true);
+    $this->set('query_new_record', true);
+    
+    $query = $this->Query->defaults();
+    $query['project'] = $this->_project;
+    $query['user'] = $this->current_user;
+    $query['is_public'] = $query['project'] && $this->User->is_allowed_to($this->current_user, ':manage_public_queries', $this->_project) || $this->current_user['admin'] ? true : false;
+    $query['default_columns'] = true;
+    if (isset($this->data['Query'])) $query = am($query, $this->data['Query']);
+    $this->data = am($this->data, array(
+      'Query' => $query,
+    ));
+    $this->set('params', $this->params);
+    if ($this->RequestHandler->isAjax()) $this->layout = 'ajax';
+  }
+
 #  def new
 #    @query = Query.new(params[:query])
 #    @query.project = params[:query_is_for_all] ? nil : @project
@@ -49,6 +86,10 @@ class QueriesController extends AppController
 #    render :layout => false if request.xhr?
 #  end
 #  
+  function edit()
+  {
+  }
+
 #  def edit
 #    if request.post?
 #      @query.filters = {}
@@ -88,3 +129,4 @@ class QueriesController extends AppController
 #    render_404
 #  end
 #end
+}

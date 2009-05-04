@@ -81,6 +81,8 @@ class CandyHelper extends AppHelper
       }
       $title = join(' - ', $title);
       $str = $view->pageTitle = $title;
+    } elseif(is_array($str)) {
+      $str = join(' - ', $str);
     }
     $view->pageTitle = $str;
     return $view->pageTitle;
@@ -539,6 +541,8 @@ class CandyHelper extends AppHelper
 #
 function breadcrumb($args)
 {
+  $elements = Set::flatten($args);
+  return (count($elements) > 0) ? $this->Html->tag('p', join(' &#187; ', $args).' &#187; ', array('class' => 'breadcrumb')) : '';
 }
 #  def breadcrumb(*args)
 #    elements = args.flatten
@@ -987,7 +991,22 @@ function breadcrumb($args)
       return "<img class=\"{$options['class']}\" alt=\"{$options['alt']}\" width=\"{$options['size']}\" height=\"{$options['size']}\" src=\"{$url}\" />"      
 ;    }
   }
-
+  function truncate($text, $length, $ending = 'Åc', $exact = true) {
+    if (strlen($text) <= $length) {
+      return $text;
+    } else {
+      mb_internal_encoding("UTF-8");
+      if (mb_strlen($text) > $length) {
+        $length -= mb_strlen($ending);
+        if (!$exact) {
+          $text = preg_replace('/\s+?(\S+)?$/', '', mb_substr($text, 0, $length+1));
+        }
+        return mb_substr($text, 0, $length).$ending;
+      } else {
+        return $text;
+      }
+    }
+  }
 #  private
 #
 #  def wiki_helper

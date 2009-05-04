@@ -274,7 +274,7 @@ class ProjectsController extends AppController
     ));
     $this->set('news', $news);
 
-    $time_entries = $this->TimeEntry->find_visible_by($this->current_user);
+    $time_entries = $this->TimeEntry->find_visible_by($this->current_user, $this->data);
     $total_hours = 0;
     foreach($time_entries as $time_entry) {
       // @TODO 足さなくていいのか？

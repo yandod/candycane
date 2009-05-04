@@ -14,7 +14,7 @@
         <h3><?php echo h($issue['Issue']['subject']) ?></h3>
         <p class="author">
         <?php echo $candy->authoring($issue['Issue']['created_on'], $issue['Author']) ?>.
-        <?php if ($issue['Issue']['created_on'] !=  $issue['Issue']['updated_on']) echo $candy->lwr('Updated %s ago', $candy->distance_of_time_in_words(time(), $issue['Issue']['updated_on'])) ?>
+        <?php if ($issue['Issue']['created_on'] !=  $issue['Issue']['updated_on']) $candy->lwr('Updated %s ago', $candy->distance_of_time_in_words(time(), $issue['Issue']['updated_on'])) ?>
         </p>
 
 <table width="100%">
@@ -34,13 +34,13 @@
     <td class="category"><b><?php __('Category') ?>:</b></td><td><?php echo h(strlen($issue['Issue']['category_id']) ? $issue['Category']['name'] : "-") ?></td>
     <?php if($candy->authorize_for(':view_time_entries')): ?>
     <td class="spent-time"><b><?php __('Spent time') ?>:</b></td>
-    <td class="spent-hours"><?php echo ($issues->spent_hours($issue) > 0) ? $html->link(sprintf(__('%.2f hour',true), $issues->spent_hours($issue)), '/projects/'.$main_project['Project']['identifier'].'/timelog/details/'.$issue['Issue']['id'], array('class'=>'icon icon-time')) : "-"; ?></td>
+    <td class="spent-hours"><?php echo ($issues->spent_hours($issue) > 0) ? $html->link(sprintf(__('%.2f hour',true), $issues->spent_hours($issue)), '/projects/'.$main_project['Project']['identifier'].'/timelog/details?issue_id='.$issue['Issue']['id'], array('class'=>'icon icon-time')) : "-"; ?></td>
     <?php endif; ?>
 </tr>
 <tr>
     <td class="fixed-version"><b><?php __('Target version') ?>:</b></td><td><?php echo strlen($issue['Issue']['fixed_version_id']) ? $candy->link_to_version($issue['FixedVersion']) : "-" ?></td>
     <?php if(!empty($issue['Issue']['estimated_hours'])): ?>
-    <td class="estimated-hours"><b><?php __('Estimated time') ?>:</b></td><td><?php echo sprintf(__('%.2f hour',true), $issue['Issue']['estimated_hours']) ?></td>
+    <td class="estimated-hours"><b><?php __('Estimated time') ?>:</b></td><td><?php $candy->lwr('%.2f hour', $issue['Issue']['estimated_hours']) ?></td>
     <?php endif; ?>
 </tr>
 <tr>
