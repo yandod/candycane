@@ -60,19 +60,31 @@ class SortComponent extends Object
     if (isset($this->params['url']['sort_key'])) {
       $r_sort_key = $this->params['url']['sort_key'];
     }
+    if (isset($this->controller->params['named']['sort'])) {
+      $r_sort_key = $this->controller->params['named']['sort'];
+    }
 
     $sort_key = null;
 
-    if (is_array($r_sort_key) && in_array($r_sort_key, $sort_keys)) {
-      $sort_key = $sort_keys[$r_sort_key];
+    if (is_array($sort_keys) && in_array($r_sort_key, $sort_keys)) {
+      $sort_key = $r_sort_key;
     }
 
-    if (isset($this->params['url']['sort_order']) && strtolower($this->params['url']['sort_order']) == 'desc') {
-      $sort_order = 'DESC';
+    if (isset($this->params['url']['sort_order'])) {
+      if (strtolower($this->params['url']['sort_order']) == 'desc') {
+        $sort_order = 'DESC';
+      } else {
+        $sort_order = 'ASC';
+      }
+    } elseif (isset($this->controller->params['named']['direction'])) {
+     if (strtolower($this->controller->params['named']['direction']) == 'desc') {
+        $sort_order = 'DESC';
+      } else {
+        $sort_order = 'ASC';
+      }
     } else {
       $sort_order = 'ASC';
     }
-
     if ($sort_key != null) {
       $sort = array('key' => $sort_key, 'order' => $sort_order);
     } else if ($this->Session->read($this->sort_name)) {
@@ -97,7 +109,8 @@ class SortComponent extends Object
     if (!empty($sort_column)) {
       $this->sort_clause = "{$sort_column} {$sort['order']}";
     }
-
+    $this->controller->params['named']['sort'] = $sort_column;
+    $this->controller->params['named']['direction'] = strtolower($sort['order']);
     return $this->sort_clause;
   }
 

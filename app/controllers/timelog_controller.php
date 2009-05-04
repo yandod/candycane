@@ -152,12 +152,12 @@ class TimelogController extends AppController
     $this->TimeEntry->_customFieldAfterFindDisable = true;
     $this->Sort->sort_init('spent_on', 'desc');
     $this->Sort->sort_update(array(
-                'spent_on' => 'spent_on',
-                'user' => 'user_id',
-                'activity' => 'activity_id',
-                'project' => "Project.name",
-                'issue' => 'issue_id',
-                'hours' => 'hours'
+                'TimeEntry.spent_on' => 'TimeEntry.spent_on',
+                'TimeEntry.user_id' => 'TimeEntry.user_id',
+                'TimeEntry.activity_id' => 'TimeEntry.activity_id',
+                'Project.name' => "Project.name",
+                'TimeEntry.issue_id' => 'TimeEntry.issue_id',
+                'TimeEntry.hours' => 'TimeEntry.hours'
     ));
     $data = array_merge(array('from'=>null, 'to'=>null, 'period_type'=>'1', 'period'=>'all'), $this->params['url']);
     if(!empty($this->data['TimeEntry'])) {
@@ -187,7 +187,6 @@ class TimelogController extends AppController
         $limit = $this->_per_page_option();
         $this->paginate['TimeEntry'] = array(
           'conditions' => $cond,
-          'order' => $this->Sort->sort_clause(),
           'limit' => $limit
         );
         $entries = $this->paginate($this->TimeEntry);
@@ -200,7 +199,6 @@ class TimelogController extends AppController
         }
         if ($this->RequestHandler->isAjax()) {
           $this->layout = 'ajax';
-          $this->render('list');
         }
       }
     }

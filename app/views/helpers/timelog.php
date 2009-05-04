@@ -55,6 +55,19 @@ class TimelogHelper extends AppHelper
     }
     return $this->Candy->breadcrumb($links);
   }
+  function url_options($project, $issue) {
+    $options = array('?'=>array());
+    if(!empty($project)) {
+      $options['project_id'] = $project['Project']['identifier'];
+    }
+    if(!empty($issue)) {
+      $options['?'] = array('issue_id'=>$issue['Issue']['id']);
+    }
+    $get_params = $this->params['url'];
+    unset($get_params['url']);
+    $options['?'] = array_merge($options['?'], $get_params);
+    return $options;
+  }
 /*
   def activity_collection_for_select_options
     activities = Enumeration::get_values('ACTI')

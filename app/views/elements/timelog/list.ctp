@@ -1,14 +1,13 @@
 <table class="list time-entries">
 <thead>
 <tr>
-  <th><?php echo $paginator->sort(__('Date',true), 'spent_on'); ?></th>
-  <th><?php echo $paginator->sort(__('Member',true), 'user_id'); ?></th>
-  <th><?php echo $paginator->sort(__('Activity',true), 'activity_id'); ?></th>
-  <th><?php echo $paginator->sort(__('Project',true), 'project_id'); ?></th>
-  <th><?php echo $paginator->sort(__('Issue',true), 'issue_id'); ?></th>
+  <?php echo $sort->sort_header_tag('TimeEntry.spent_on', array('caption'=>__('Date',true), 'url'=>$timelog->url_options($main_project, $issue))); ?>
+  <?php echo $sort->sort_header_tag('TimeEntry.user_id', array('caption'=>__('Member',true), 'url'=>$timelog->url_options($main_project, $issue))); ?>
+  <?php echo $sort->sort_header_tag('TimeEntry.activity_id', array('caption'=>__('Activity',true), 'url'=>$timelog->url_options($main_project, $issue))); ?>
+  <?php echo $sort->sort_header_tag('Project.name', array('caption'=>__('Project',true), 'url'=>$timelog->url_options($main_project, $issue))); ?>
+  <?php echo $sort->sort_header_tag('TimeEntry.issue_id', array('caption'=>__('Issue',true), 'url'=>$timelog->url_options($main_project, $issue))); ?>
   <th><?php __('Comment') ?></th>
-  <th><?php echo $paginator->sort(__('Hours',true), 'hours'); ?></th>
-  <?php /* sort_header_tag('hours', :caption => l(:field_hours))  */ ?>
+  <?php echo $sort->sort_header_tag('TimeEntry.hours', array('caption'=>__('Hours',true), 'url'=>$timelog->url_options($main_project, $issue))); ?>
   <th></th>
 </tr>
 </thead>

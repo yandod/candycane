@@ -25,7 +25,7 @@
 </div>
 
 <?php if(!empty($entries)) : ?>
-<?php echo $this->renderElement('timelog/list', array('entries' => $entries)); ?>
+<?php echo $this->renderElement('timelog/list', array('entries' => $entries, 'main_project'=>$main_project, 'issue'=>$issue)); ?>
 <p class="pagination"><?php echo $candy->pagination_links_full(); ?></p>
 
 <p class="other-formats">

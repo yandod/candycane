@@ -61,11 +61,9 @@
  *
  *
  */
-class SortHelper extends AppHelper
+App::import('Helper', 'Paginator');
+class SortHelper extends PaginatorHelper
 {
-  var $helpers = array('Session', 'Html', 'Ajax');
-  var $components = array('Sort');
-
   // sort_init moved SortComponent
   // sort_update moved SortComponent
   // sort_clause moved SortComponent
@@ -98,24 +96,16 @@ class SortHelper extends AppHelper
     if (isset($options['caption'])) {
       $caption = $options['caption'];
     } else {
-      trigger_error('no implement!');
-      // $caption = $this->titleize(Inflector::humanize($column));
+      $caption = Inflector::humanize($column);
     }
-
-    if (isset($options['default_order'])) {
-      $default_order = $options['default_order'];
-    } else {
-      $default_order = 'asc';
-    }
-
     if (!isset($options['title'])) {
       $options['title'] = sprintf(__('Sort by %s', true), '"'.$caption.'"');
     }
-
-    return $this->Html->tableHeaders(array($column), $options);
-    /*
-    content_tag('th', sort_link(column, caption, default_order), options)
-     */
+    if (!isset($options['update'])) {
+      $options['update'] = 'contents';
+    }
+    unset($options['update']);
+    return $this->Html->tag('th', $this->sort_link($column, $caption, $options));
   }
 
   /**
@@ -152,48 +142,26 @@ class SortHelper extends AppHelper
    * - The optional caption explicitly specifies the displayed link text.
    * - A sort icon image is positioned to the right of the sort link.
    */
-  function sort_link($column, $caption = null, $default_order)
+  function sort_link($column, $caption = null, $options)
   {
     if ($caption == null) {
       $caption = __($column, true);
     }
+    
+    $html = $this->sort($caption, $column, $options);
 
-    $html = $this->Ajax->link($caption,
-      '?sort_key=login&amp;sort_order=desc',
-      array(),
-      array('update' => 'post')
-    );
-    $html.= "&nbsp;&nbsp;";
-
-    //$key = $this->Session->read()
-    //if 
-
-#    key, order = session[@sort_name][:key], session[@sort_name][:order]
-#    if key == column
-#      if order.downcase == 'asc'
-#        icon = 'sort_asc.png'
-#        order = 'desc'
-#      else
-#        icon = 'sort_desc.png'
-#        order = 'asc'
-#      end
-#    else
-#      icon = nil
-#      order = default_order
-#    end
-#    caption = titleize(Inflector::humanize(column)) unless caption
-
-#    
-#    sort_options = { :sort_key => column, :sort_order => order }
-#    # don't reuse params if filters are present
-#    url_options = params.has_key?(:set_filter) ? sort_options : params.merge(sort_options)
-#    
-#    link_to_remote(caption,
-#                  {:update => "content", :url => url_options},
-#                  {:href => url_for(url_options)}) +
-#    (icon ? nbsp(2) + image_tag(icon) : '')
+    if($this->params['named']['sort'] == $column) {
+      if($this->params['named']['direction'] == 'asc') {
+        $icon = 'sort_asc.png';
+      } else {
+        $icon = 'sort_desc.png';
+      }
+      $html.= "&nbsp;&nbsp;".$this->Html->image($icon);
+    }
+    return $html;
   }
 
+// overwrite
 }
 
 ?>
