@@ -116,7 +116,10 @@ class WikiController extends AppController {
   function _find_existing_page()
   {
     $page = $this->Wiki->find_page($this->params['wikipage']);
-    //render_404 if @page.nil?
+    if (!$page) {
+      $this->cakeError('error404');
+    }
+    $this->data = $page;
   }
 
 #require 'diff'
@@ -247,6 +250,16 @@ class WikiController extends AppController {
 #    end
 #  end
 #  
+
+  function protect() {
+    $this->data['Page']['protected'] = $this->params['url']['protected'];
+    $this->Wiki->Page->save($this->data);
+    $this->redirect(array('controller' => 'wiki',
+                          'action'=>'index',
+                          'project_id'=>$this->params['project_id'],
+                          'wikipage'   => $this->params['wikipage']));
+  }
+
 #  def protect
 #    @page.update_attribute :protected, params[:protected]
 #    redirect_to :action => 'index', :id => @project, :page => @page.title
