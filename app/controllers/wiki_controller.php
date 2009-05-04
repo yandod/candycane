@@ -238,6 +238,27 @@ class WikiController extends AppController {
 #    flash[:error] = l(:notice_locking_conflict)
 #  end
 #  
+
+  // rename a page
+  function rename() {
+    $page = $this->_find_existing_page();
+    // return render_403 unless editable?
+    $page['Page']['redirect_existing_links'] = true;
+    $this->set('original_title', $page['Page']['title']);
+    if (empty($this->data)) {
+      $this->data = $page;
+    } else {
+      $this->Wiki->Page->save($this->data);
+      $this->Session->setFlash(__('Successful update.', true),
+                               'default',
+                               array('class'=>'flash flash_notice'));
+      $this->redirect(array('controller' => 'wiki',
+                            'action'     => 'index',
+                            'project_id' => $this->params['project_id'],
+                            'wikipage'   => $this->data['Page']['title']));
+    }
+  }
+
 #  # rename a page
 #  def rename
 #    return render_403 unless editable?
