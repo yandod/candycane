@@ -46,6 +46,8 @@ class QueriesHelper extends AppHelper
     switch ($column) {
     case 'subject':
       return $this->Html->link($issue['Issue']['subject'], array('controller' => 'issues', 'action' => 'show', 'id' => $issue['Issue']['id']));
+    case 'author':
+      return $this->Candy->format_username($issue['Author']);
     case 'tracker':
       return h($issue['Tracker']['name']);
     case 'status':
@@ -53,9 +55,23 @@ class QueriesHelper extends AppHelper
     case 'priority':
       return h($issue['Priority']['name']);
     case 'assigned_to':
-      return h($issue['AssignedTo']['firstname'] . ' ' . $issue['AssignedTo']['lastname']);
+      return strlen($issue['Issue']['assigned_to_id']) ? $this->Candy->format_username($issue['AssignedTo']) : '';
     case 'updated_on':
       return $this->Candy->format_date($issue['Issue']['updated_on']);
+    case 'category':
+      return $issue['Category']['name'];
+    case 'fixed_version':
+      return $this->Candy->link_to_version($issue['FixedVersion']);
+    case 'start_date':
+      return $this->Candy->format_date($issue['Issue']['start_date']);
+    case 'due_date':
+      return $this->Candy->format_date($issue['Issue']['start_date']);
+    case 'estimated_hours':
+      return sprintf(__('%.2f hour', true), $issue['Issue']['estimated_hours']);
+    case 'done_ratio':
+      return $this->Candy->progress_bar($issue['Issue']['done_ratio'], array('width' => '80px', 'legend' => $issue['Issue']['done_ratio'] . '%'));
+    case 'created_on':
+      return $this->Candy->format_date($issue['Issue']['created_on']);
     default:
       return $column;
     }

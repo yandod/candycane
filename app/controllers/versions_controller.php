@@ -58,7 +58,7 @@
 class VersionsController extends AppController
 {
   var $name = 'Versions';
-  var $uses = array('User', 'Version');
+  var $uses = array('User', 'Version', 'Wiki');
   var $helpers = array('Time');
 #  menu_item :roadmap
 #  before_filter :find_project, :authorize
@@ -68,10 +68,18 @@ class VersionsController extends AppController
     $this->Version->id = $id;
     $this->data = $this->Version->read();
 
-    $issues = $this->Version->FixedIssue->find('all');
+    $issues = $this->Version->FixedIssue->find('all', aa('conditions', aa('fixed_version_id', $id)));
+    foreach($issues as $key=>$issue) {
+      $issues[$key]['Issue'] = $issue['FixedIssue'];
+    }
     $this->set('issues', $issues); // @FIXME
-    $fixed_issue_count = 1;
+    $fixed_issue_count = count($issues);
     $this->set('fixed_issue_count', $fixed_issue_count);
+    $wiki_content = $this->Wiki->Page->find('first',
+                                                aa('conditions',
+                                                   aa('Page.title',
+                                                   $this->data['Version']['wiki_page_title'])));
+    $this->set('wiki_content', $wiki_content);
     /*
 <% issues = @version.fixed_issues.find(:all,
                                        :include => [:status, :tracker],

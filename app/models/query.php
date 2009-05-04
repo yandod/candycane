@@ -513,15 +513,49 @@ class Query extends AppModel
 #    label ||= field.gsub(/\_id$/, "")
 #  end
 #
-#  def available_columns
+  function available_columns()
+  {
 #    return @available_columns if @available_columns
 #    @available_columns = Query.available_columns
 #    @available_columns += (project ? 
 #                            project.all_issue_custom_fields :
 #                            IssueCustomField.find(:all, :conditions => {:is_for_all => true})
-#                           ).collect {|cf| QueryCustomFieldColumn.new(cf) }      
-#  end
-#  
+#                           ).collect {|cf| QueryCustomFieldColumn.new(cf) }
+
+#  @@available_columns = [
+#    QueryColumn.new(:tracker, :sortable => "#{Tracker.table_name}.position"),
+#    QueryColumn.new(:status, :sortable => "#{IssueStatus.table_name}.position"),
+#    QueryColumn.new(:priority, :sortable => "#{Enumeration.table_name}.position", :default_order => 'desc'),
+#    QueryColumn.new(:subject, :sortable => "#{Issue.table_name}.subject"),
+#    QueryColumn.new(:author),
+#    QueryColumn.new(:assigned_to, :sortable => "#{User.table_name}.lastname"),
+#    QueryColumn.new(:updated_on, :sortable => "#{Issue.table_name}.updated_on", :default_order => 'desc'),
+#    QueryColumn.new(:category, :sortable => "#{IssueCategory.table_name}.name"),
+#    QueryColumn.new(:fixed_version, :sortable => "#{Version.table_name}.effective_date", :default_order => 'desc'),
+#    QueryColumn.new(:start_date, :sortable => "#{Issue.table_name}.start_date"),
+#    QueryColumn.new(:due_date, :sortable => "#{Issue.table_name}.due_date"),
+#    QueryColumn.new(:estimated_hours, :sortable => "#{Issue.table_name}.estimated_hours"),
+#    QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio"),
+#    QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
+#  ]
+    $columns = array(
+      aa('name','tracker','sortable','Tracker.postion','default_order','','caption',__('tracker',true)),
+      aa('name','status','sortable','Tracker.postion','default_order','','caption',__('status',true)),
+      aa('name','priority','sortable','Tracker.postion','default_order','','caption',__('priority',true)),
+      aa('name','subject','sortable','Tracker.postion','default_order','','caption',__('subject',true)),
+      aa('name','author','sortable','Tracker.postion','default_order','','caption',__('author',true)),
+      aa('name','assigned_to','sortable','Tracker.postion','default_order','','caption',__('assigned_to',true)),
+      aa('name','updated_on','sortable','Tracker.postion','default_order','','caption',__('updated_on',true)),
+      aa('name','category','sortable','Tracker.postion','default_order','','caption',__('category',true)),
+      aa('name','fixed_version','sortable','Tracker.postion','default_order','','caption',__('fixed_version',true)),
+      aa('name','start_date','sortable','Tracker.postion','default_order','','caption',__('start_date',true)),
+      aa('name','due_date','sortable','Tracker.postion','default_order','','caption',__('due_date',true)),
+      aa('name','estimated_hours','sortable','Tracker.postion','default_order','','caption',__('estimated_hours',true)),
+      aa('name','done_ratio','sortable','Tracker.postion','default_order','','caption',__('done_ratio',true)),
+      aa('name','created_on','sortable','Tracker.postion','default_order','','caption',__('created_on',true)),
+    );
+    return $columns;
+  }
 #  def columns
 #    if has_default_columns?
 #      available_columns.select {|c| Setting.issue_list_default_columns.include?(c.name.to_s) }

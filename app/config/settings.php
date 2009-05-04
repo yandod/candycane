@@ -105,9 +105,7 @@ $vars = array(
 'ui_theme' =>
   '',
 'emails_footer' =>
-  '|-
-    You have received this notification because you have either subscribed to it, or are involved in it.
-    To change your notification preferences, please click here: http://hostname/my/account',
+  "You have received this notification because you have either subscribed to it, or are involved in it.\nTo change your notification preferences, please click here: http://hostname/my/account",
 'gravatar_enabled' => 
   '0',
 'file_upload_dir' => 

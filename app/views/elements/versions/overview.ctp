@@ -1,5 +1,3 @@
-<?php $fixed_issue_count = 0; /* @FIXME */ ?>
-
 <?php if ($version['completed']): ?>
   <p><?php echo $time->nice($version['effective_date']) ?></p>
 <?php elseif ($version['effective_date']): ?>
@@ -9,7 +7,10 @@
 <p><?php echo h($version['description']) ?></p>
 
 <?php if ($fixed_issue_count > 0): ?>
+    <?php echo $candy->progress_bar_auto(array($version['closed_issues_count'], $version['open_issues_count'])) ?>
+<?php /*
     <%= progress_bar([version.closed_pourcent, version.completed_pourcent], :width => '40em', :legend => ('%0.0f%' % version.completed_pourcent)) %>
+ */ ?>
     <p class="progress-info">
         <?php echo $html->link($version['closed_issues_count'], array('controller'=>'issues', 'action'=>'index', 'project_id'=>$version['project_id'], 'status_id'=>'c', 'fixed_version_id'=>$version['id'], 'set_filter'=>1)) ?>
 <?php /*

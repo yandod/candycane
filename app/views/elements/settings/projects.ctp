@@ -1,12 +1,13 @@
-<!-- <% form_tag({:action => 'edit', :tab => 'projects'}) do %> -->
+<?php echo $form->create('Setting',aa('action','edit','url',aa('?','tab=projects'))) ?>
+
 
 <div class="box tabular settings">
-<p><label><%= l(:setting_default_projects_public) %></label>
-<%= check_box_tag 'settings[default_projects_public]', 1, Setting.default_projects_public? %><%= hidden_field_tag 'settings[default_projects_public]', 0 %></p>
+<p><label><?php __('New projects are public by default') ?></label>
+<?php echo $form->checkbox('default_projects_public', aa('checked', ($Settings->default_projects_public == '1'))); ?></p>
 
-<p><label><%= l(:setting_sequential_project_identifiers) %></label>
-<%= check_box_tag 'settings[sequential_project_identifiers]', 1, Setting.sequential_project_identifiers? %><%= hidden_field_tag 'settings[sequential_project_identifiers]', 0 %></p>
+<p><label><?php __('Generate sequential project identifiers') ?></label>
+<?php echo $form->checkbox('sequential_project_identifiers', aa('checked', ($Settings->sequential_project_identifiers == '1'))); ?></p>
 </div>
 
-<%= submit_tag l(:button_save) %>
-<% end %>
+<?php echo $form->submit(__('Save',true)) ?>
+<?php echo $form->end(); ?>

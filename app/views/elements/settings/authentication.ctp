@@ -1,27 +1,34 @@
-<% form_tag({:action => 'edit', :tab => 'authentication'}) do %>
-
+<?php echo $form->create('Setting',aa('action','edit','url',aa('?','tab=authentication'))) ?>
 <div class="box tabular settings">
-<p><label><%= l(:setting_login_required) %></label>
-<%= check_box_tag 'settings[login_required]', 1, Setting.login_required? %><%= hidden_field_tag 'settings[login_required]', 0 %></p>
+<p><label><?php __('Authentication required') ?></label>
+<?php echo $form->checkbox('login_required', aa('checked', ($Settings->login_required == '1'))); ?></p>
 
-<p><label><%= l(:setting_autologin) %></label>
-<%= select_tag 'settings[autologin]', options_for_select( [[l(:label_disabled), "0"]] + [1, 7, 30, 365].collect{|days| [lwr(:actionview_datehelper_time_in_words_day, days), days.to_s]}, Setting.autologin) %></p>
+<p><label><?php __('Autologin') ?></label>
+<?php
+$autologin_values = array(
+  0 => __('disabled',true),
+  1 => '1'.__('days',true),
+  7 => '7'.__('days',true),
+  30 => '30'.__('days',true),
+  365 => '365'.__('days',true)
+);
+?><?php echo $form->select('autologin',$autologin_values,$Settings->autologin,array(),null) ?></p>
 
-<p><label><%= l(:setting_self_registration) %></label>
-<%= select_tag 'settings[self_registration]',
-      options_for_select( [[l(:label_disabled), "0"],
-                           [l(:label_registration_activation_by_email), "1"],
-                           [l(:label_registration_manual_activation), "2"],
-                           [l(:label_registration_automatic_activation), "3"]
-                          ], Setting.self_registration ) %></p>
+<p><label><?php __('Self-registration') ?></label>
+<?php $self_registration_values = array(
+  0 => __('disabled',true),
+  1 => __('account activation by email',true),
+  2 => __('manual account activation',true),
+  3 => __('automatic account activation',true)
+); ?><?php echo $form->select('self_registration',$self_registration_values,$Settings->self_registration,array(),null) ?></p>
 
-<p><label><%= l(:label_password_lost) %></label>
-<%= check_box_tag 'settings[lost_password]', 1, Setting.lost_password? %><%= hidden_field_tag 'settings[lost_password]', 0 %></p>
+<p><label><?php __('Lost password') ?></label>
+<?php echo $form->checkbox('lost_password', aa('checked', ($Settings->lost_password == '1'))); ?></p>
 </div>
 
 <div style="float:right;">
-    <%= link_to l(:label_ldap_authentication), :controller => 'auth_sources', :action => 'list' %>
+    <?php echo $html->link(__('LDAP authentication',true),aa('controller','auth_sources','action','list')) ?>
 </div>
 
-<%= submit_tag l(:button_save) %>
-<% end %>
+<?php echo $form->submit(__('Save',true)) ?>
+<?php echo $form->end(); ?>

@@ -37,14 +37,16 @@
 
 <div id="status_by">
 <?php if ($fixed_issue_count > 0): ?>
+<?php /*
 <%= render_issue_status_by(@version, params[:status_by]) %>
+ */ ?>
 <?php endif ?>
 </div>
 </div>
 
 <div id="roadmap">
 <?php echo $this->element('versions/overview', array('version'=>$this->data['Version'])) ?>
-<?php echo $this->element('wiki/content') ?>
+<?php echo $this->renderElement('wiki/content', aa('content', $wiki_content)); ?>
 <?php /*
 <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
  */ ?>
@@ -53,14 +55,16 @@
 <fieldset class="related-issues"><legend><?php __('Related issues') ?></legend>
 <ul>
 <?php foreach ($issues as $issue): ?>
-    <li><%= link_to_issue(issue) %>: <?php echo h($issue['FixedIssue']['subject']) ?></li>
+    <li><?php echo $candy->link_to_issue($issue) ?>: <?php echo h($issue['FixedIssue']['subject']) ?></li>
 <?php endforeach ?>
 </ul>
 </fieldset>
 <?php endif ?>
 </div>
 
+<?php /*
 <%= call_hook :view_versions_show_bottom, :version => @version %>
+ */ ?>
 
 <?php $candy->html_title($this->data['Version']['name']) ?>
 
