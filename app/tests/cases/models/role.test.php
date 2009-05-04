@@ -30,7 +30,18 @@ class RoleTestCase extends CakeTestCase {
     $this->assertTrue($this->Role->anonymous_allowed_to("browse_repository"));
 //    $this->assertTrue($this->Role->anonymous_allowed_to(array('action'=>"browse", 'controller'=>"repositories")));
   }
-
+  function testRoleExistsSubquery() {
+    $results = $this->Role->find('all', array('conditions'=>array(
+      "EXISTS (SELECT ROLE.id FROM test_suite_roles ROLE WHERE ROLE.name='Manager' AND ROLE.position=1)" => true
+    )));
+    $this->assertEqual(5, count($results));
+  }
+  function testRoleNotExistsSubquery() {
+    $results = $this->Role->find('all', array('conditions'=>array(
+      "EXISTS (SELECT ROLE.id FROM test_suite_roles ROLE WHERE ROLE.name='Manager' AND ROLE.position=0)" => true
+    )));
+    $this->assertEqual(0, count($results));
+  }
 
 }
 ?>

@@ -34,7 +34,7 @@
     <td class="category"><b><?php __('Category') ?>:</b></td><td><?php echo h(strlen($issue['Issue']['category_id']) ? $issue['Category']['name'] : "-") ?></td>
     <?php if($candy->authorize_for(':view_time_entries')): ?>
     <td class="spent-time"><b><?php __('Spent time') ?>:</b></td>
-    <td class="spent-hours"><?php echo ($issues->spent_hours($issue) > 0) ? $html->link(sprintf(__('%.2f hour',true), $issues->spent_hours($issue)), '/projects/'.$main_project['Project']['identifier'].'/timelog/details/'.$issue['Issue']['id'], array('class'=>'icon icon-time')) : "-"; ?></td>
+    <td class="spent-hours"><?php echo ($issues->spent_hours($issue) > 0) ? $html->link(sprintf(__('%.2f hour',true), $issues->spent_hours($issue)), '/projects/'.$main_project['Project']['identifier'].'/timelog/details?issue_id='.$issue['Issue']['id'], array('class'=>'icon icon-time')) : "-"; ?></td>
     <?php endif; ?>
 </tr>
 <tr>

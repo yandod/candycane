@@ -36,8 +36,11 @@ class TimelogController extends AppController
 #
 #  verify :method => :post, :only => :destroy, :redirect_to => { :action => :details }
 #  
-  var $helpers = array('Sort', 'Issues', 'CustomField');
+  var $helpers = array('Sort', 'Issues', 'CustomField', 'Timelog', 'Ajax', 'Paginator');
   var $uses = array('TimeEntry', 'Issue');
+  var $components = array('Sort', 'RequestHandler');
+  var $_project = false;
+  
 #  def report
 #    @available_criterias = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
 #                                          :klass => Project,
@@ -145,28 +148,62 @@ class TimelogController extends AppController
 #    end
 #  end
 #  
-#  def details
-#    sort_init 'spent_on', 'desc'
-#    sort_update 'spent_on' => 'spent_on',
-#                'user' => 'user_id',
-#                'activity' => 'activity_id',
-#                'project' => "#{Project.table_name}.name",
-#                'issue' => 'issue_id',
-#                'hours' => 'hours'
-#    
-#    cond = ARCondition.new
-#    if @project.nil?
-#      cond << Project.allowed_to_condition(User.current, :view_time_entries)
-#    elsif @issue.nil?
-#      cond << @project.project_condition(Setting.display_subprojects_issues?)
-#    else
-#      cond << ["#{TimeEntry.table_name}.issue_id = ?", @issue.id]
-#    end
-#    
-#    retrieve_date_range
-#    cond << ['spent_on BETWEEN ? AND ?', @from, @to]
-#
-#    TimeEntry.visible_by(User.current) do
+  function details() {
+    $this->TimeEntry->_customFieldAfterFindDisable = true;
+    $this->Sort->sort_init('spent_on', 'desc');
+    $this->Sort->sort_update(array(
+                'spent_on' => 'spent_on',
+                'user' => 'user_id',
+                'activity' => 'activity_id',
+                'project' => "Project.name",
+                'issue' => 'issue_id',
+                'hours' => 'hours'
+    ));
+    $data = array_merge(array('from'=>null, 'to'=>null, 'period_type'=>'1', 'period'=>'all'), $this->params['url']);
+    if(!empty($this->data['TimeEntry'])) {
+      $data = $this->data['TimeEntry'];
+    }
+    $result = $this->TimeEntry->details_condition($this->Setting, $this->current_user, $this->_project, $this->Issue->data, $data);
+    // $result ==> $cond, $range
+    extract($result);
+    $data = array_merge($data, $range);
+    $this->params['url'] = $data;
+    $visible = $this->TimeEntry->find_visible_by($this->current_user, $this->_project);
+    if(!empty($visible)) {
+      if(!empty($this->params['named']['format'])) {
+        switch($this->params['named']['format']) {
+        case 'pdf' :
+//          $this->layout = 'pdf';
+//          $this->helpers = array('Candy', 'CustomField', 'Issues', 'Number', 'Tcpdf'=>array());
+//          $this->render('issue_to_pdf');
+          break;
+        case 'atom' :
+          break;
+        }
+      } else { 
+        # Paginate results
+        $this->TimeEntry->bindModel(array('belongsTo'=>array('Issue')), false);
+        $this->TimeEntry->Issue->_customFieldAfterFindDisable = true;
+        $limit = $this->_per_page_option();
+        $this->paginate['TimeEntry'] = array(
+          'conditions' => $cond,
+          'order' => $this->Sort->sort_clause(),
+          'limit' => $limit
+        );
+        $entries = $this->paginate($this->TimeEntry);
+        $trackers = $this->Issue->Tracker->find('list');
+        $total_hours = $this->TimeEntry->sum('hours', $cond);
+        $rss_token = $this->TimeEntry->User->rss_key($this->current_user['id']);
+        $this->set(compact('entries', 'trackers', 'total_hours', 'rss_token'));
+        if(!empty($this->Issue->data)) {
+          $this->set('issue', $this->Issue->data);
+        }
+        if ($this->RequestHandler->isAjax()) {
+          $this->layout = 'ajax';
+          $this->render('list');
+        }
+      }
+    }
 #      respond_to do |format|
 #        format.html {
 #          # Paginate results
@@ -200,8 +237,9 @@ class TimelogController extends AppController
 #        }
 #      end
 #    end
-#  end
-#  
+
+  }
+  
   function edit() {
     if(!$this->TimeEntry->is_editable_by($this->current_user, $this->_project)) {
       $this->cakeError('error404');
@@ -247,8 +285,8 @@ class TimelogController extends AppController
       $this->TimeEntry->bindModel(array('belongsTo'=>array('Issue')));
       $this->TimeEntry->read(null, $this->params['id']);
       $this->params['project_id'] = $this->TimeEntry->data['Project']['identifier'];
-    } elseif(!empty($this->params['named']['issue_id'])) {
-      $this->Issue->read(null, $this->params['named']['issue_id']);
+    } elseif(!empty($this->params['url']['issue_id'])) {
+      $this->Issue->read(null, $this->params['url']['issue_id']);
       $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
     } elseif(!empty($this->params['project_id'])) {
       ;
@@ -258,58 +296,16 @@ class TimelogController extends AppController
   }
   
   function _find_optional_project() {
-#    if !params[:issue_id].blank?
-#      @issue = Issue.find(params[:issue_id])
-#      @project = @issue.project
-#    elsif !params[:project_id].blank?
-#      @project = Project.find(params[:project_id])
-#    end
-#    deny_access unless User.current.allowed_to?(:view_time_entries, @project, :global => true)
+    if(!empty($this->params['url']['issue_id'])) {
+      $this->Issue->read(null, $this->params['url']['issue_id']);
+      $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
+    } elseif(!empty($this->params['project_id'])) {
+      ; // parent::beforeFilter
+    }
+    parent::_findProject();
+    if(!$this->TimeEntry->User->is_allowed_to($this->current_user, 'view_time_entries', $this->_project, array('global' => true))) {
+      // TODO deny_access
+      $this->cakeError('error404');
+    }
   }
-#  
-#  # Retrieves the date range based on predefined ranges or specific from/to param dates
-#  def retrieve_date_range
-#    @free_period = false
-#    @from, @to = nil, nil
-#
-#    if params[:period_type] == '1' || (params[:period_type].nil? && !params[:period].nil?)
-#      case params[:period].to_s
-#      when 'today'
-#        @from = @to = Date.today
-#      when 'yesterday'
-#        @from = @to = Date.today - 1
-#      when 'current_week'
-#        @from = Date.today - (Date.today.cwday - 1)%7
-#        @to = @from + 6
-#      when 'last_week'
-#        @from = Date.today - 7 - (Date.today.cwday - 1)%7
-#        @to = @from + 6
-#      when '7_days'
-#        @from = Date.today - 7
-#        @to = Date.today
-#      when 'current_month'
-#        @from = Date.civil(Date.today.year, Date.today.month, 1)
-#        @to = (@from >> 1) - 1
-#      when 'last_month'
-#        @from = Date.civil(Date.today.year, Date.today.month, 1) << 1
-#        @to = (@from >> 1) - 1
-#      when '30_days'
-#        @from = Date.today - 30
-#        @to = Date.today
-#      when 'current_year'
-#        @from = Date.civil(Date.today.year, 1, 1)
-#        @to = Date.civil(Date.today.year, 12, 31)
-#      end
-#    elsif params[:period_type] == '2' || (params[:period_type].nil? && (!params[:from].nil? || !params[:to].nil?))
-#      begin; @from = params[:from].to_s.to_date unless params[:from].blank?; rescue; end
-#      begin; @to = params[:to].to_s.to_date unless params[:to].blank?; rescue; end
-#      @free_period = true
-#    else
-#      # default
-#    end
-#    
-#    @from, @to = @to, @from if @from && @to && @from > @to
-#    @from ||= (TimeEntry.minimum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today) - 1
-#    @to   ||= (TimeEntry.maximum(:spent_on, :include => :project, :conditions => Project.allowed_to_condition(User.current, :view_time_entries)) || Date.today)
-#  end
 }

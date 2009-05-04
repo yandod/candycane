@@ -92,6 +92,9 @@ class CustomizableBehavior extends ModelBehavior {
    * Add relation of CustomValues
    */
   function afterFind(&$Model, $results, $primary = false) {
+    if(isset($Model->_customFieldAfterFindDisable)) {
+      return $results;
+    }
     $single = false;
     if(empty($results[0])) {
       $results = array($results);

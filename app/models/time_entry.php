@@ -97,10 +97,9 @@ class TimeEntry extends AppModel
     }
   }
 
-  function find_visible_by($user)
+  function find_visible_by($user, $project)
   {
-    // return $this->find('all', array('conditions' => $this->Project->allowed_to_condition($user, 'view_time_entries')));
-    return array();
+    return $this->find('all', array('conditions' => $this->Project->allowed_to_condition($user, 'view_time_entries', array('project'=>$project['Project']))));
   }
   function sum($field, $conditions) {
     $results = $this->find('all', array('conditions'=>$conditions, 'fields'=>array($field)));
@@ -140,6 +139,132 @@ class TimeEntry extends AppModel
     $User = & ClassRegistry::init('User');
     $user_id = !empty($this->data['User']['id']) ? $this->data['User']['id'] : '';
     return (($user_id == $current_user['id']) && $User->is_allowed_to($current_user, 'edit_own_time_entries', $project)) || $User->is_allowed_to($current_user, 'edit_time_entries', $project);
+  }
+  
+  /**
+   *
+   * Controller->details_condition($this->current_user, $this->_project, $this->Issue->data, $this->data['TimeEntry'])
+   */
+  function details_condition($Setting, $current_user, $project, $issue, $data) {
+    $cond = array();
+    if(empty($project)) {
+      $cond[] = $this->Project->allowed_to_condition($current_user, 'view_time_entries');
+    } elseif(empty($issue)) {
+      $this->Project->id = $project['Project']['id'];
+      $cond[] = $this->Project->project_condition($Setting->display_subprojects_issues);
+    } else {
+      $cond[] = array("TimeEntry.issue_id" => $issue['Issue']['id']);
+    }
+    $range = $this->retrieve_date_range($data['period_type'], $data['period'], 
+      $current_user, $project, array('from'=>$data['from'], 'to'=>$data['to']));
+    $cond[] = array('spent_on BETWEEN ? AND ?'=> array($range['from'], $range['to']));
+    return compact('cond', 'range');
+  }
+  # Retrieves the date range based on predefined ranges or specific from/to param dates
+  function retrieve_date_range($period_type, $period, $current_user, $project, $options=array(), $time=false) {
+    $free_period = false;
+    $from = null;
+    $to = null;
+    if(!$time) {
+      $time = mktime();
+    }
+    if($period_type == '1' || ($period_type == null && $period != null)) {
+      switch($period) {
+      case 'today' :
+        $from = $to = $time;
+        break;
+      case 'yesterday' :
+        $from = $to = strtotime('-1 day', $time);
+        break;
+      case 'current_week' :
+        $w = date('w', $time);
+        if($w == 1) {
+          $from = $time;
+        } else {
+          $from = strtotime("last Monday", $time);
+        }
+        if($w == 0) {
+          $to = $time;
+        } else {
+          $to = strtotime("next Sunday", $time);
+        }
+        break;
+      case 'last_week' :
+        $time = strtotime("-1 week", $time);
+        $w = date('w', $time);
+        if($w == 1) {
+          $from = $time;
+        } else {
+          $from = strtotime("last Monday", $time);
+        }
+        if($w == 0) {
+          $to = $time;
+        } else {
+          $to = strtotime("next Sunday", $time);
+        }
+        break;
+      case '7_days' :
+        $from = strtotime('-7 day', $time);
+        $to = $time;
+        break;
+      case 'current_month' :
+        $from = strtotime(date('Y-m-1', $time));
+        $day = date('t', $time) -1;
+        $to = strtotime("+$day day", $from);
+        break;
+      case 'last_month' :
+        $from = strtotime('last month', strtotime(date('Y-m-1', $time)));
+        $day = date('t', $from) -1;
+        $to = strtotime("+$day day", $from);
+        break;
+      case '30_days' :
+        $from = strtotime('-30 day', $time);
+        $to = $time;
+        break;
+      case 'current_year' :
+        $from = strtotime(date('Y-1-1', $time));
+        $to = strtotime(date('Y-12-31', $time));
+        break;
+      }
+    } elseif($period_type == '2' || ($period_type == null && (!empty($options['from']) || !empty($options['to'])))) {
+      if(!empty($options['from'])) $from = strtotime($options['from']);
+      if(!empty($options['to']))   $to   = strtotime($options['to']);
+      $free_period = true;
+    } else {
+      # default
+    }
+    if($from && $to && $from > $to) {
+      $from = $to;
+      $to = $from;
+    }
+    if(empty($from)) {
+      $minimum = $this->find('first', array(
+        'fields'=>array('spent_on'), 
+        'conditions'=>$this->Project->allowed_to_condition($current_user, 'view_time_entries', array('project'=>$project['Project'])),
+        'order' => 'spent_on ASC'
+      ));
+      if(empty($minimum)) {
+        $from = strtotime('-1 day', $time);
+      } else {
+        $from = strtotime($minimum[$this->name]['spent_on']);
+      }
+    }
+    if(empty($to)) {
+      $max = $this->find('first', array(
+        'fields'=>array('spent_on'), 
+        'conditions'=>$this->Project->allowed_to_condition($current_user, 'view_time_entries', array('project'=>$project['Project'])),
+        'order' => 'spent_on DESC'
+      ));
+      if(empty($max)) {
+        $to = $time;
+      } else {
+        $to = strtotime($max[$this->name]['spent_on']);
+      }
+    }
+    $from = date('Y-m-d', $from);
+    $to =   date('Y-m-d', $to);
+    
+    return compact('from', 'to');
   }
 }
 
