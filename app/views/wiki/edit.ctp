@@ -1,4 +1,4 @@
-<h2><?php echo h($wiki->pretty_title($page['Page']['title'])) ?></h2>
+<h2><?php e(h($wiki->pretty_title($page['Page']['title']))); ?></h2>
 <?php e($form->create('WikiContent',
                       aa('url',
                          array('controller' => 'wiki',
@@ -7,12 +7,24 @@
                                'wikipage' => $page['Page']['title'],
                                /* formヘルパがedit時にidを上書きするのを禁止するためのtrick */
                                'id' => null)))); ?>
-<?php echo $form->hidden('version') ?>
+<?php e($form->hidden('version')); ?>
 <?php /* $candy->error_messages_for 'content'*/ ?>
-
-<p><?php echo $form->textarea('text', array('cols' => 100, 'rows' => 25, 'class' => 'wiki-edit' /*'accesskey' => accesskey(:edit)*/ )) ?></p>
-<p><label><?php __("Comment") ?></label><br /><?php echo $form->text('comments', array('size' => 120)); ?></p>
-<p><?php echo $form->submit(__("Save", true)) ?>
+<p><?php e($form->input('WikiContent.text',
+                        array('type' => 'textarea',
+                              'cols' => 100,
+                              'rows' => 25,
+                              'class' => 'wiki-edit',
+                              'label' => false,
+                              'div' => false,
+                              /*'accesskey' => accesskey(:edit)*/ ))) ?></p>
+<p><label><?php __("Comment"); ?></label><br />
+<?php e($form->input('WikiContent.comments',
+                     array('type' => 'text',
+                           'size' => 120,
+                           'label' => false,
+                           'div' => false))); ?></p>
+<p><?php e($form->submit(__("Save", true),
+                         aa('div', false))); ?>
 <?php e($ajax->link(__('Preview', true),
                     array('controller' => 'wiki',
                           'action' => 'preview',
