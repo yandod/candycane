@@ -13,13 +13,40 @@ class MenuManagerComponent extends Object
     $this->_prepareMainmenu();
   }
   
+  function _detectProjectId()
+  {
+    $project_id = null;
+  	if ( isset($this->controller->params['project_id'])) {
+  	  $project_id = $this->controller->params['project_id'];
+  	}
+  	
+  	if ( $this->controller->name == 'Versions') {
+  	  $version_id = $this->controller->params['pass'][0];
+  	  App::import('model','Version');
+  	  $version = new Version();
+  	  $bind = array(
+  	    'belongsTo' => array(
+  	      'Project' => array(
+  	        'className' => 'Project'
+  	      )
+  	    )
+  	  );
+  	  $version->bindModel($bind);
+  	  $version_row = $version->find('first',aa('condtions',aa('id',$version_id)));
+  	  $project_id = $version_row['Project']['identifier'];
+  	}
+  	
+    
+    return $project_id;
+  }
+  
   function _prepareMainmenu()
   {
   	//pr($this->controller->params);
   	$meta_data = array();
-  	
-  	if ( isset($this->controller->params['project_id'])) {
-  	  $meta_data = $this->_getProjectMenu($this->controller->params['project_id']);
+  	$project_id = $this->_detectProjectId();
+  	if ( $project_id ) {
+  	  $meta_data = $this->_getProjectMenu($project_id);
   	}
   	$menu_data = array();
   	
