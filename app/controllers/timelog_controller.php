@@ -149,8 +149,9 @@ class TimelogController extends AppController
 #  end
 #  
   function details() {
+    Configure::write('debug', 0);
     $this->TimeEntry->_customFieldAfterFindDisable = true;
-    $this->Sort->sort_init('spent_on', 'desc');
+    $this->Sort->sort_init('TimeEntry.spent_on', 'desc');
     $this->Sort->sort_update(array(
                 'TimeEntry.spent_on' => 'TimeEntry.spent_on',
                 'TimeEntry.user_id' => 'TimeEntry.user_id',
@@ -172,7 +173,7 @@ class TimelogController extends AppController
     if(!empty($visible)) {
       if(!empty($this->params['named']['format'])) {
         switch($this->params['named']['format']) {
-        case 'pdf' :
+        case 'csv' :
 //          $this->layout = 'pdf';
 //          $this->helpers = array('Candy', 'CustomField', 'Issues', 'Number', 'Tcpdf'=>array());
 //          $this->render('issue_to_pdf');
