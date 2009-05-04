@@ -52,7 +52,7 @@
     if ( in_array($tracker['Tracker']['id'],$checked_trackers) ) {
       $checked = 'checked';
     }
-    echo $form->input('[tracker_ids][]',
+    echo $form->input('Tracker][',
                   array('type'=>'checkbox',
                         'value'=>$tracker['Tracker']['id'],
                         'checked' => $checked,
@@ -65,7 +65,7 @@
  */ ?>
     </label>
 <?php endforeach ?>
-<?php echo $form->input('[tracker_ids][]', array('type'=>'hidden', 'value'=>'', 'div'=>false)) ?>
+<?php //echo $form->input('[tracker_ids][]', array('type'=>'hidden', 'value'=>'', 'div'=>false)) ?>
 </fieldset>
 <?php endif ?>
 

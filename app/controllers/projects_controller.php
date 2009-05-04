@@ -152,8 +152,9 @@ class ProjectsController extends AppController
 
     if(!empty($this->data)) {
       if($this->Project->save($this->data, true, array('name', 'description', 'parent_id', 'identifier', 'homepage', 'is_public'))) {
-        foreach($this->data['Project']['tracker_ids'] as $tracker_id) {
-        }
+        //foreach($this->data['Project']['tracker_ids'] as $tracker_id) {
+        //}
+        $this->data['Tracker']['Tracker'] = array_filter($this->data['Project']['Tracker']);
         foreach($this->data['Project']['issue_custom_field_ids'] as $custom_field_id) {
           $this->CustomFieldsProject->save(array('custom_field_id'=>$custom_field_id, 'project_id'=>$this->data->id));
         }
@@ -316,7 +317,8 @@ class ProjectsController extends AppController
 #  end
 #  
 #  # Edit @project
-#  def edit
+  function edit()
+  {
 #    if request.post?
 #      @project.attributes = params[:project]
 #      if @project.save
@@ -327,7 +329,16 @@ class ProjectsController extends AppController
 #        render :action => 'settings'
 #      end
 #    end
-#  end
+
+    $fields = array('name','description','homepage','is_public');
+    $this->data['Tracker']['Tracker'] = array_filter($this->data['Project']['Tracker']);
+    if ($this->Project->save($this->data,true,$fields)) {
+      $this->Session->setFlash(__('Successful update.',true),'default',aa('class','flash notice'));
+      $this->redirect(aa('action','settings','id',$this->params['project_id']));
+    }
+    $this->settings();
+    $this->render('settings');
+  }
 #  
 #  def modules
 #    @project.enabled_module_names = params[:enabled_modules]
