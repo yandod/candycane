@@ -41,6 +41,9 @@ class Wiki extends AppModel
                               aa('conditions',
                                  aa('Page.wiki_id', $this->id,
                                     'Page.title', $title)));
+    if (isset($page['Page']['id'])) {
+      $this->Page->id = $page['Page']['id'];
+    }
     //    if !page && !(options[:with_redirect] == false)
     //      # search for a redirect
     //      redirect = redirects.find_by_title(title)

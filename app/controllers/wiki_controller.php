@@ -93,7 +93,7 @@ class WikiController extends AppController {
 
     $only = a('rename', 'protect', 'history', 'diff', 'annotate', 'add_attachment', 'destroy');
     if (in_array($this->action, $only)) {
-      $this->_find_existing_page();
+      //$this->_find_existing_page();
     }
   }
 
@@ -119,7 +119,7 @@ class WikiController extends AppController {
     if (!$page) {
       $this->cakeError('error404');
     }
-    $this->data = $page;
+    return $page;
   }
 
 #require 'diff'
@@ -252,8 +252,9 @@ class WikiController extends AppController {
 #  
 
   function protect() {
-    $this->data['Page']['protected'] = $this->params['url']['protected'];
-    $this->Wiki->Page->save($this->data);
+    $page = $this->_find_existing_page();
+    $page['Page']['protected'] = $this->params['url']['protected'];
+    $this->Wiki->Page->save($page);
     $this->redirect(array('controller' => 'wiki',
                           'action'     => 'index',
                           'project_id' => $this->params['project_id'],
@@ -291,8 +292,9 @@ class WikiController extends AppController {
 
   // remove a wiki page and its history
   function destroy() {
+    $page = $this->_find_existing_page();
     //return render_403 unless editable?
-    $this->Wiki->Page->del($this->data['Page']['id']);
+    $this->Wiki->Page->del($page['Page']['id']);
     $this->redirect(array('controller' => 'wiki',
                           'action'     => 'special',
                           'project_id' => $this->params['project_id'],
