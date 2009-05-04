@@ -13,9 +13,9 @@
 <?php foreach ($main_project['Version'] as $version_row): ?>
     <tr class="<?php echo $candy->cycle() ?>">
     <td><?php echo $html->link($version_row['name'],aa('controller','versions','action','show','id',$version_row['id'])); ?></td>
-    <td align="center"><%= format_date(version.effective_date) %></td>
-    <td><%=h version.description %></td>
-    <td><%= link_to(version.wiki_page_title, :controller => 'wiki', :page => Wiki.titleize(version.wiki_page_title)) unless version.wiki_page_title.blank? || @project.wiki.nil? %></td>
+    <td align="center"><?php echo $candy->format_date($version_row['effective_date']) ?></td>
+    <td><?php echo h($version_row['description']) ?></td>
+    <td>hoge<!-- <%= link_to(version.wiki_page_title, :controller => 'wiki', :page => Wiki.titleize(version.wiki_page_title)) unless version.wiki_page_title.blank? || @project.wiki.nil? %>--></td>
     <td align="center"><%= link_to_if_authorized l(:button_edit), { :controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %></td>
     <td align="center"><%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></td>
     </tr>
