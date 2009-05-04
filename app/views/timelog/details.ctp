@@ -1,34 +1,62 @@
+<?php
+  if(!isset($main_project)) $main_project = array();
+  if(!isset($issue))        $issue = array();
+?>
 <div class="contextual">
-<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time' %>
+  <?php
+  if(!empty($main_project)) {
+    echo $candy->link_to_if_authorized('button_log_time', __('Log time',true), $timelog->link_to_timelog_edit_url($main_project, $issue), array('class' => 'icon icon-time')); 
+  }
+  ?>
 </div>
 
-<%= render_timelog_breadcrumb %>
+<?php echo $timelog->render_timelog_breadcrumb($main_project, $issue); ?>
 
-<h2><%= l(:label_spent_time) %></h2>
+<h2><?php __('Spent time') ?></h2>
 
-<% form_remote_tag( :url => {}, :method => :get, :update => 'content' ) do %>
-<%= hidden_field_tag 'project_id', params[:project_id] %>
-<%= hidden_field_tag 'issue_id', params[:issue_id] if @issue %>
-<%= render :partial => 'date_range' %>
-<% end %>
+<?php echo $ajax->form(array('model'=>'TimeEntry'), 'get', array('url'=>$timelog->link_to_timelog_detail_url($main_project), 'update' => 'content')); ?>
+  <?php echo $ajax->Form->hidden('project_id'); ?>
+  <?php if(!empty($issue)) { echo $ajax->Form->hidden('issue_id'); } ?>
+  <?php echo $this->renderElement('timelog/date_range', array('main_project'=>$main_project)); ?>
+<?php echo $ajax->Form->end() ?>
 
 <div class="total-hours">
-<p><%= l(:label_total) %>: <%= html_hours(lwr(:label_f_hour, @total_hours)) %></p>
+<p><?php __('Total') ?>: <?php echo $candy->html_hours(sprintf(__('%.2f hour',true), $totalHours)); ?></p>
 </div>
 
-<% unless @entries.empty? %>
-<%= render :partial => 'list', :locals => { :entries => @entries }%>
-<p class="pagination"><%= pagination_links_full @entry_pages, @entry_count %></p>
+<?php if(!empty($entries)) : ?>
+<?php echo $this->renderElement('timelog/list', array('entries' => $entries)); ?>
+<p class="pagination"><?php echo $candy->pagination_links_full(); ?></p>
 
 <p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'Atom', {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
-<span><%= link_to 'CSV', params.merge(:format => 'csv'), :class => 'csv' %></span>
+<?php __("'Also available in:'") ?>
+<span>
+<?php 
+  if(!empty($this->params['url']['issue_id'])) {
+    echo $html->link('Atom', array('?'=>array('issue_id' => $this->params['url']['issue_id'], 'format' => 'atom', 'key' => $rssToken)), array('class' => 'feed'));
+  } else {
+    echo $html->link('Atom', array('?'=>array('format' => 'atom', 'key' => $rssToken)), array('class' => 'feed'));
+  }
+?>
+</span>
+<span><?php echo $html->link('CSV', array('?'=>array_merge(array('format' => 'csv'), $this->params['url'])), array('class' => 'csv')); ?></span>
 </p>
-<% end %>
+<?php endif; ?>
 
-<% html_title l(:label_spent_time), l(:label_details) %>
+<?php
+  if(empty($main_project)) {
+    $candy->html_title(array(__('Spent time',true), __('Details',true)));
+  } else {
+    $candy->html_title(array($main_project['Project']['name'], __('Spent time',true), __('Details',true)));
+  }
+?>
 
-<% content_for :header_tags do %>
-    <%= auto_discovery_link_tag(:atom, {:issue_id => @issue, :format => 'atom', :key => User.current.rss_key}, :title => l(:label_spent_time)) %>
-<% end %>
+<?php 
+  if(!empty($this->params['url']['issue_id'])) {
+    $html->meta('atom', array('project_id'=>$main_project['Project']['identifier'], '?'=>array('issue_id' => $this->params['url']['issue_id'], 'format'=>'atom', 'key'=>$rssToken)), array('title'=>__('Spent time',true), 'rel'=>'alternate'), false);
+  } elseif(!empty($main_project)) {
+    $html->meta('atom', array('project_id'=>$main_project['Project']['identifier'], '?'=>array('format'=>'atom', 'key'=>$rssToken)), array('title'=>__('Spent time',true), 'rel'=>'alternate'), false);
+  } else {
+    $html->meta('atom', array('?'=>array('format'=>'atom', 'key'=>$rssToken)), array('title'=>__('Spent time',true)), false);
+  }
+?>

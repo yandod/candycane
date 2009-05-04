@@ -109,7 +109,7 @@ class SortHelper extends AppHelper
     }
 
     if (!isset($options['title'])) {
-      $options['title'] = sprintf(__('label_sort_by', true), '"'.$caption.'"');
+      $options['title'] = sprintf(__('Sort by %s', true), '"'.$caption.'"');
     }
 
     return $this->Html->tableHeaders(array($column), $options);

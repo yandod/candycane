@@ -122,6 +122,15 @@ class Permission extends AppModel
     $this->permissions[$module][$name] = $permission;
   }
 
+  function findByName($name) {
+    foreach($this->permissions as $permission) {
+      if (!empty($permission[$name])) {
+        return $permission[$name];
+      }
+    }
+    return array();
+  }
+
   function available_project_modules()
   {
     $modules = array();

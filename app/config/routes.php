@@ -40,7 +40,7 @@
 	Router::connect('/projects/:project_id/news/:action/', array('controller' => 'news'));
 	Router::connect('/projects/:project_id/documents/:action/', array('controller' => 'documents'));
 	Router::connect('/projects/:project_id/boards/:action/:id/', array('controller' => 'boards'));
-	Router::connect('/projects/:project_id/timelog/:action/:id/', array('controller' => 'timelog'), array('project_id' => '.+'));
+	Router::connect('/projects/:project_id/timelog/:action/*', array('controller' => 'timelog'), array('project_id' => '.+'));
 	
 	Router::connect('/users/list', array('controller' => 'users', 'action' => 'list_'));
 
