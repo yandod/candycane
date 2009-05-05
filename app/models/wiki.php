@@ -2,6 +2,19 @@
 class Wiki extends AppModel
 {
   var $name = 'Wiki';
+  var $hasMany = array(
+                       'WikiPage' => array(
+                                           'className' => 'WikiPage',
+                                           'dependent' => true,
+                                           // :dependent => :destroy
+                                           'order' => 'title',
+                                           ),
+                       'WikiRedirect' => array(
+                                               'className' => 'WikiRedirect',
+                                               'dependent' => true,
+                                               // :dependent => :delete_all
+                                               ),
+                       );
   var $validate = array(
                         'start_page' =>
                         array(
@@ -12,20 +25,9 @@ class Wiki extends AppModel
                               array('rule' =>
                                     array('custom', '/^[^,\.\/\?\;\|\:]*$/'))));
 
-  var $hasMany = array(
-                       'WikiPage' => array(
-                                           'className' => 'WikiPage',
-                                           'dependent' => true, // :dependent => :destroy
-                                           'order' => 'title',
-                                           ),
-                       'WikiRedirect' => array(
-                                               'className' => 'WikiRedirect',
-                                               'dependent' => true, // :dependent => :delete_all
-                                               ),
-                       );
 
-  // titleに合うpageのモデル配列を取得する。
-  // DB上に無い場合はidの無いsave用のdataを返す。
+  // find the page with the given title
+  // if page doesn't exist, return a data array for saving new page
   function find_or_new_page($title)
   {
     if ($title === null || $title === "") {
@@ -37,12 +39,13 @@ class Wiki extends AppModel
                  aa('wiki_id', $this->id,
                     'title', Wiki::titleize($title)),
                  'WikiContent',
-                 aa('version', 1) // 暫定
+                 aa('version', 1) // temporary (until supporting WikiContentVersion)
                  );
     }
     return $page;
   }
 
+  // find the page with the given title
   function find_page($title, $options = array())
   {
     $param = array();
