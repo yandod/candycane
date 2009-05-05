@@ -1,12 +1,33 @@
-<h2><%= l(:button_rename) %>: <%= @original_title %></h2>
+<h2><?php __('Rename'); ?>: <?php e($original_title); ?></h2>
 
-<%= error_messages_for 'page' %>
+<?php echo $this->renderElement('error_explanation'); ?>
 
-<% labelled_tabular_form_for :wiki_page, @page, :url => { :action => 'rename' } do |f| %>
+<?php /* labelled_tabular_form_for :wiki_page, @page, :url => { :action => 'rename' } do |f| */ ?>
+<?php e($form->create('WikiPage',
+                      aa('url',
+                         array('controller' => 'wiki',
+                               'action' => 'rename',
+                               'project_id' => $main_project['Project']['identifier'],
+                               'wikipage' => $original_title,
+                               /* formヘルパが更新時にidを上書きするのを禁止するためのtrick */
+                               'id' => null),
+                         'class', 'tabular'))); ?>
 <div class="box">
-<p><%= f.text_field :title, :required => true, :size => 100  %></p>
-<p><%= f.check_box :redirect_existing_links %></p>
-<p><%= f.text_field :parent_title, :size => 100  %></p>
+<p><?php e($form->input('WikiPage.title',
+                        array('type' => 'text',
+                              'required' => true,
+                              'size' => 100,
+                              'label' => __('Title', true),
+                              'div' => false))); ?></p>
+<p><?php e($form->input('WikiPage.redirect_existing_links',
+                        array('type' => 'checkbox',
+                              'label' => __('Redirect existing links', true),
+                              'div' => false))); ?></p>
+<p><?php e($form->input('WikiPage.parent_title',
+                        array('type' => 'text',
+                              'size' => 100,
+                              'label' => __('Parent page', true),
+                              'div' => false))); ?></p>
 </div>
-<%= submit_tag l(:button_rename) %>
-<% end %>
+<?php e($form->submit(__('Rename', true))); ?>
+<?php $form->end() ?>

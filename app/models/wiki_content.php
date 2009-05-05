@@ -8,6 +8,7 @@ class WikiContent extends AppModel
                                            'foreignKey' => 'author_id'
                                            ),
                          );
+  var $validate = array('text' => 'notEmpty');
 }
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang

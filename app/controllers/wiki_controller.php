@@ -11,7 +11,7 @@ class WikiController extends AppController {
       $page_title = $this->params['wikipage'];
     }
     $page = $this->Wiki->find_or_new_page($page_title);
-    if (!isset($page['Page']['id'])) {
+    if (!isset($page['WikiPage']['id'])) {
       $this->edit();
       $this->render('edit');
       return;
@@ -19,10 +19,10 @@ class WikiController extends AppController {
     $version = isset($this->params['url']['version']) ? $this->params['url']['version'] : null;
     // 仮の実装。本当はwiki_content_versionsから取得する実装が必要。
     // @content = @page.content_for_version(params[:version])
-    $content = $this->Wiki->Page->Content->find('first',
-                                                aa('conditions',
-                                                   aa('Content.page_id',
-                                                      $page['Page']['id'])));
+    $content = $this->Wiki->WikiPage->WikiContent->find('first',
+                                                        aa('conditions',
+                                                           aa('WikiContent.page_id',
+                                                              $page['WikiPage']['id'])));
     $export = isset($this->params['url']['export']) ? $this->params['url']['export'] : null;
     if ($export === 'html') {
       //export = render_to_string :action => 'export', :layout => false
@@ -32,7 +32,7 @@ class WikiController extends AppController {
       // send_data(@content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
       return;
     }
-    $author = $this->User->findById($content['Content']['author_id']);
+    $author = $this->User->findById($content['WikiContent']['author_id']);
     $author['User']['name'] = $author['User']['firstname'].$author['User']['lastname'];
     $this->set('page', $page);
     $this->set('content', $content);
@@ -48,25 +48,25 @@ class WikiController extends AppController {
       case 'page_index':
       case 'date_index':
         // eager load information about last updates, without loading text
-        $this->Wiki->Page->recursive = -1;
+        $this->Wiki->WikiPage->recursive = -1;
         $options = array('conditions'
-                         => aa('Page.wiki_id', $this->Wiki->field('id')),
+                         => aa('WikiPage.wiki_id', $this->Wiki->field('id')),
                          'fields'
-                         => 'Page.*, Content.updated_on',
+                         => 'WikiPage.*, WikiContent.updated_on',
                          'joins'
                          => a(aa(
                                  "type", 'LEFT',
                                  "table", 'wiki_contents',
-                                 "alias", 'Content',
-                                 "conditions", 'Content.page_id=Page.id')),
-                         'order' => 'Page.title');
+                                 "alias", 'WikiContent',
+                                 "conditions", 'WikiContent.page_id=WikiPage.id')),
+                         'order' => 'WikiPage.title');
         //'order' => 'Content.updated_on DESC');
-        $pages = $this->Wiki->Page->find('all', $options);
+        $pages = $this->Wiki->WikiPage->find('all', $options);
         $this->set('pages', $pages);
 
         // 以下、viewのための整形
         foreach ($pages as $page) {
-          $day = date('Y-m-d', strtotime($page['Content']['updated_on']));
+          $day = date('Y-m-d', strtotime($page['WikiContent']['updated_on']));
           $pages_by_date[$day][] = $page;
         }
         krsort($pages_by_date);
@@ -93,7 +93,7 @@ class WikiController extends AppController {
 
     $only = a('rename', 'protect', 'history', 'diff', 'annotate', 'add_attachment', 'destroy');
     if (in_array($this->action, $only)) {
-      $this->_find_existing_page();
+      //$this->_find_existing_page();
     }
   }
 
@@ -119,7 +119,7 @@ class WikiController extends AppController {
     if (!$page) {
       $this->cakeError('error404');
     }
-    $this->data = $page;
+    return $page;
   }
 
 #require 'diff'
@@ -172,35 +172,35 @@ class WikiController extends AppController {
       $page_title = $this->params['wikipage'];
     }
     $page = $this->Wiki->find_or_new_page($page_title);
-    $content = null;
-    if (isset($page['Page']['id'])) {
-      $content = $this->WikiContent->find('first',
-                                          aa('conditions',
-                                             aa('WikiContent.page_id',
-                                                $page['Page']['id'])));
-    } else {
-      $content = array();
-      $content['WikiContent']['version'] = 1; // 暫定
-    }
+
     if (empty($this->data)) {
-      if ($content) {
-        $this->data = $content;
+      if ($page['WikiContent']) {
+        $this->data = $page;
       }
     } else {
-      if (!isset($page['Page']['id'])) {
+      $save_data = $page;
+      if (!isset($save_data['WikiPage']['id'])) {
         // wiki_pagesにレコード新規作成
-        $page['Page']['wiki_id'] = $this->Wiki->id;
-        $this->Wiki->Page->save($page);
-        $this->data['WikiContent']['page_id'] = $this->Wiki->Page->id;
+        $save_data['WikiPage']['wiki_id'] = $this->Wiki->id;
+      } else {
+        // fixme: wiki_pagesに更新が無いのにUPDATE文が走ってしまう。
+        unset($save_data['WikiPage']);
+        $save_data['WikiPage']['id'] = $page['WikiPage']['id'];
       }
       // wiki_contentsにレコード新規作成or更新
-      $data = array_merge($content['WikiContent'],
-                          $this->data['WikiContent']);
-      $this->WikiContent->save($data);
-      $this->redirect(array('controller' => 'wiki',
-                            'action'     => 'index',
-                            'project_id' => $this->params['project_id'],
-                            'wikipage'   => $this->params['wikipage']));
+      $save_data['WikiContent'] = $this->data['WikiContent'];
+      if (isset($page['WikiContent']['id'])) {
+        $save_data['WikiContent']['id'] = $page['WikiContent']['id'];
+      }
+      if (empty($save_data['WikiContent']['version'])) {
+        $save_data['WikiContent']['version'] = 1; // 暫定
+      }
+      if ($this->Wiki->WikiPage->saveAll($save_data)) {
+        $this->redirect(array('controller' => 'wiki',
+                              'action'     => 'index',
+                              'project_id' => $this->params['project_id'],
+                              'wikipage'   => $this->params['wikipage']));
+      }
     }
     $this->set('page', $page);
   }
@@ -238,6 +238,28 @@ class WikiController extends AppController {
 #    flash[:error] = l(:notice_locking_conflict)
 #  end
 #  
+
+  // rename a page
+  function rename() {
+    $page = $this->_find_existing_page();
+    // return render_403 unless editable?
+    $page['WikiPage']['redirect_existing_links'] = true;
+    $this->set('original_title', $page['WikiPage']['title']);
+    if (empty($this->data)) {
+      $this->data = $page;
+    } else {
+      if ($this->Wiki->WikiPage->save($this->data)) {
+        $this->Session->setFlash(__('Successful update.', true),
+                                 'default',
+                                 array('class'=>'flash flash_notice'));
+        $this->redirect(array('controller' => 'wiki',
+                              'action'     => 'index',
+                              'project_id' => $this->params['project_id'],
+                              'wikipage'   => $this->data['WikiPage']['title']));
+      }
+    }
+  }
+
 #  # rename a page
 #  def rename
 #    return render_403 unless editable?
@@ -252,8 +274,9 @@ class WikiController extends AppController {
 #  
 
   function protect() {
-    $this->data['Page']['protected'] = $this->params['url']['protected'];
-    $this->Wiki->Page->save($this->data);
+    $page = $this->_find_existing_page();
+    $page['WikiPage']['protected'] = $this->params['url']['protected'];
+    $this->Wiki->WikiPage->save($page);
     $this->redirect(array('controller' => 'wiki',
                           'action'     => 'index',
                           'project_id' => $this->params['project_id'],
@@ -291,8 +314,9 @@ class WikiController extends AppController {
 
   // remove a wiki page and its history
   function destroy() {
+    $page = $this->_find_existing_page();
     //return render_403 unless editable?
-    $this->Wiki->Page->del($this->data['Page']['id']);
+    $this->Wiki->WikiPage->del($page['WikiPage']['id']);
     $this->redirect(array('controller' => 'wiki',
                           'action'     => 'special',
                           'project_id' => $this->params['project_id'],

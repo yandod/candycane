@@ -2,16 +2,26 @@
 class Wiki extends AppModel
 {
   var $name = 'Wiki';
+  var $validate = array(
+                        'start_page' =>
+                        array(
+                              'validates_presence_of' =>
+                              array('rule' => 'notEmpty'),
+
+                              'validates_format_of' =>
+                              array('rule' =>
+                                    array('custom', '/^[^,\.\/\?\;\|\:]*$/'))));
+
   var $hasMany = array(
-                       'Page' => array(
-                                       'className' => 'WikiPage',
-                                       'dependent' => true, // :dependent => :destroy
-                                       'order' => 'title',
-                                       ),
-                       'Redirect' => array(
-                                           'className' => 'WikiRedirect',
-                                           'dependent' => true, // :dependent => :delete_all
+                       'WikiPage' => array(
+                                           'className' => 'WikiPage',
+                                           'dependent' => true, // :dependent => :destroy
+                                           'order' => 'title',
                                            ),
+                       'WikiRedirect' => array(
+                                               'className' => 'WikiRedirect',
+                                               'dependent' => true, // :dependent => :delete_all
+                                               ),
                        );
 
   // titleに合うpageのモデル配列を取得する。
@@ -23,9 +33,12 @@ class Wiki extends AppModel
     }
     $page  =$this->find_page($title);
     if (!$page) {
-      $page = aa('Page',
+      $page = aa('WikiPage',
                  aa('wiki_id', $this->id,
-                    'title', Wiki::titleize($title)));
+                    'title', Wiki::titleize($title)),
+                 'WikiContent',
+                 aa('version', 1) // 暫定
+                 );
     }
     return $page;
   }
@@ -37,10 +50,13 @@ class Wiki extends AppModel
       $title = $this->field('start_page');
     }
     $title = Wiki::titleize($title);
-    $page = $this->Page->find('first',
-                              aa('conditions',
-                                 aa('Page.wiki_id', $this->id,
-                                    'Page.title', $title)));
+    $page = $this->WikiPage->find('first',
+                                  aa('conditions',
+                                     aa('WikiPage.wiki_id', $this->id,
+                                        'WikiPage.title', $title)));
+    if (isset($page['WikiPage']['id'])) {
+      $this->WikiPage->id = $page['WikiPage']['id'];
+    }
     //    if !page && !(options[:with_redirect] == false)
     //      # search for a redirect
     //      redirect = redirects.find_by_title(title)
