@@ -195,7 +195,7 @@ class WikiController extends AppController {
       if (empty($save_data['WikiContent']['version'])) {
         $save_data['WikiContent']['version'] = 1; // 暫定
       }
-      if (!$this->Wiki->WikiPage->saveAll($save_data)) {
+      if ($this->Wiki->WikiPage->saveAll($save_data)) {
         $this->redirect(array('controller' => 'wiki',
                               'action'     => 'index',
                               'project_id' => $this->params['project_id'],
