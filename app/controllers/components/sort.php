@@ -109,8 +109,8 @@ class SortComponent extends Object
     if (!empty($sort_column)) {
       $this->sort_clause = "{$sort_column} {$sort['order']}";
     }
-    $this->controller->params['named']['sort'] = $sort_column;
-    $this->controller->params['named']['direction'] = strtolower($sort['order']);
+    $this->controller->params['url']['sort'] = $sort_column;
+    $this->controller->params['url']['direction'] = strtolower($sort['order']);
     return $this->sort_clause;
   }
 

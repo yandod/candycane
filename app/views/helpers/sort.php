@@ -102,9 +102,8 @@ class SortHelper extends PaginatorHelper
       $options['title'] = sprintf(__('Sort by %s', true), '"'.$caption.'"');
     }
     if (!isset($options['update'])) {
-      $options['update'] = 'contents';
+      $options['update'] = 'content';
     }
-    unset($options['update']);
     return $this->Html->tag('th', $this->sort_link($column, $caption, $options));
   }
 
@@ -150,8 +149,8 @@ class SortHelper extends PaginatorHelper
     
     $html = $this->sort($caption, $column, $options);
 
-    if($this->params['named']['sort'] == $column) {
-      if($this->params['named']['direction'] == 'asc') {
+    if($this->params['url']['sort'] == $column) {
+      if($this->params['url']['direction'] == 'asc') {
         $icon = 'sort_asc.png';
       } else {
         $icon = 'sort_desc.png';
