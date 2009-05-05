@@ -98,9 +98,10 @@ class WikiController extends AppController {
   {
     $project_id = $this->viewVars['main_project']['Project']['id'];
     // projectsとwikisは1:1関係なので、アソシエーションを使わずにアクセス
+    $conditions = aa('Wiki.project_id', $project_id);
     $wiki = $this->Wiki->find('first',
-                              aa('conditions',
-                                 aa('Wiki.project_id', $project_id)));
+                              aa('conditions', $conditions,
+                                 'recursive', -1));
     if (!$wiki) {
         $this->cakeError('error404');
     }
@@ -169,17 +170,24 @@ class WikiController extends AppController {
     $page = $this->Wiki->find_or_new_page($page_title);
 
     if (empty($this->data)) {
-      if ($page['WikiContent']) {
-        $this->data = $page;
-      }
+      $this->data = $page;
     } else {
-      $save_data = $page;
+      $save_data = array();
       if (!isset($save_data['WikiPage']['id'])) {
         // wiki_pagesにレコード新規作成
+        $save_data = $page;
         $save_data['WikiPage']['wiki_id'] = $this->Wiki->id;
       } else {
+        // wiki_pagesは既に存在
+        if ($page['WikiContent']['text'] == $this->data['WikiContent']['text']) {
+          // don't save if text wasn't changed
+          $this->redirect(array('controller' => 'wiki',
+                                'action'     => 'index',
+                                'project_id' => $this->params['project_id'],
+                                'wikipage'   => $this->params['wikipage']));
+          return;
+        }
         // fixme: wiki_pagesに更新が無いのにUPDATE文が走ってしまう。
-        unset($save_data['WikiPage']);
         $save_data['WikiPage']['id'] = $page['WikiPage']['id'];
       }
       // wiki_contentsにレコード新規作成or更新

@@ -33,7 +33,7 @@ class Wiki extends AppModel
     if ($title === null || $title === "") {
       $title = $this->field('start_page');
     }
-    $page  =$this->find_page($title);
+    $page = $this->find_page($title);
     if (!$page) {
       $page = aa('WikiPage',
                  aa('wiki_id', $this->id,
