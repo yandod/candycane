@@ -8,7 +8,7 @@
 <!--tmporary list start-->
 <ul class="pages-hierarchy">
 <?php foreach($pages as $page) : ?>
-  <li><?php echo $html->link($wiki->pretty_title($page['Page']['title']), array('action' => 'index', 'project_id' => $main_project['Project']['identifier'], 'wikipage' => $page['Page']['title'])) ?></li>
+  <li><?php echo $html->link($wiki->pretty_title($page['WikiPage']['title']), array('action' => 'index', 'project_id' => $main_project['Project']['identifier'], 'wikipage' => $page['WikiPage']['title'])) ?></li>
 <?php endforeach ?>
 </ul>
 <!--tmporary list end-->

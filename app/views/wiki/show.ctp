@@ -1,99 +1,99 @@
 <div class="contextual">
 <?php if ($editable) : ?>
-<?php if ($content['Content']['version'] === $page['Content']['version']) {
+<?php if ($content['WikiContent']['version'] === $page['WikiContent']['version']) {
      e($html->link(__('Edit', true),
                    array('action' => 'edit',
                          'project_id' => $main_project['Project']['identifier'],
-                         'wikipage' => $page['Page']['title']),
+                         'wikipage' => $page['WikiPage']['title']),
                    aa('class', 'icon icon-edit'
                       /*'accesskey', $candy->accesskey('edit')*/)));
    } ?>
-<?php if (!$page['Page']['protected']) {
+<?php if (!$page['WikiPage']['protected']) {
      e($html->link(__('Lock', true),
                    array('action' => 'protect',
                          'project_id' => $main_project['Project']['identifier'],
-                         'wikipage' => $page['Page']['title'],
+                         'wikipage' => $page['WikiPage']['title'],
                          '?protected=1'),
                    aa('method', 'post', 'class', 'icon icon-lock')));
    } ?>
-<?php if ($page['Page']['protected']) {
+<?php if ($page['WikiPage']['protected']) {
   e($html->link(__('Unlock', true),
                 array('action' => 'protect',
                       'project_id' => $main_project['Project']['identifier'],
-                      'wikipage' => $page['Page']['title'],
+                      'wikipage' => $page['WikiPage']['title'],
                       '?protected=0'),
                 aa('method', 'post', 'class', 'icon icon-unlock')));
  } ?>
-<?php if ($content['Content']['version'] == $page['Content']['version']) {
+<?php if ($content['WikiContent']['version'] == $page['WikiContent']['version']) {
    e($html->link(__('Rename', true),
                  array('action' => 'rename',
                        'project_id' => $main_project['Project']['identifier'],
-                       'wikipage' => $page['Page']['title']),
+                       'wikipage' => $page['WikiPage']['title']),
                  aa('class', 'icon icon-move')));
  } ?>
 <?php e($html->link(__('Delete', true),
                     array('action' => 'destroy',
                           'project_id' => $main_project['Project']['identifier'],
-                          'wikipage'=> $page['Page']['title']),
+                          'wikipage'=> $page['WikiPage']['title']),
                     aa('method', 'post',
                        'confirm', __('Are you sure ?', true),
                        'class', 'icon icon-del')));
 ?>
-<?php if ($content['Content']['version'] < $page['Content']['version']) {
+<?php if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
    e($html->link(__('Rollback to this version', true),
                  array('action' => 'edit',
                        'project_id' => $main_project['Project']['identifier'],
-                       'wikipage' => $page['Page']['title'],
-                       '?version='.$content['Content']['version']),
+                       'wikipage' => $page['WikiPage']['title'],
+                       '?version='.$content['WikiContent']['version']),
                  aa('class', 'icon icon-cancel')));
  } ?>
 <?php endif; ?>
 <?php e($html->link(__('History', true),
                     array('action' => 'history',
                           'project_id' => $main_project['Project']['identifier'],
-                          'wikipage' => $page['Page']['title']),
+                          'wikipage' => $page['WikiPage']['title']),
                     aa('class', 'icon icon-history')));
 ?>
 </div>
 
 <?php /*$candy->breadcrumb($page);*/ /*breadcrumb(@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:page => parent.title}}) */ ?>
 
-<?php if ($content['Content']['version'] !== $page['Content']['version']) : ?>
+<?php if ($content['WikiContent']['version'] !== $page['WikiContent']['version']) : ?>
     <p>
-<?php if ($content['Content']['version'] > 1) {
+<?php if ($content['WikiContent']['version'] > 1) {
    e($html->link('&#171; ' . __('Previous', true),
                  array('action' => 'index',
                        'project_id' => $main_project['Project']['identifier'],
-                       'wikipage' => $page['Page']['title'],
-                       '?version='. $content['Content']['version'] - 1),
+                       'wikipage' => $page['WikiPage']['title'],
+                       '?version='. $content['WikiContent']['version'] - 1),
                  array(), false, false)); e(" - "); } ?>
 <?php printf('%s %s/%s',
              __('Versions'),
-             $content['Content']['version'],
-             $page['Content']['version']) ?>
+             $content['WikiContent']['version'],
+             $page['WikiContent']['version']) ?>
 <?php
-if ($content['Content']['version'] > 1) {
+if ($content['WikiContent']['version'] > 1) {
   printf('(%s)',
          $html->link('diff',
                      array('action'     => 'diff',
                            'project_id' => $main_project['Project']['identifier'],
-                           'wikipage'   => $page['Page']['title'],
-                           '?version='. $content['Content']['version'])));
+                           'wikipage'   => $page['WikiPage']['title'],
+                           '?version='. $content['WikiContent']['version'])));
 } ?> - <?php
-if ($content['Content']['version'] < $page['Content']['version']) {
+if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
   e($html->link(__('Next', true). ' &#187;',
                 array('action'     => 'index',
                       'project_id' => $main_project['Project']['identifier'],
-                      'wikipage'   => $page['Page']['title'],
-                      '?version='. $content['Content']['version'] + 1),
+                      'wikipage'   => $page['WikiPage']['title'],
+                      '?version='. $content['WikiContent']['version'] + 1),
                 aa(), false, false), " - "); } ?>
 <?php e($html->link(__('Current version', true),
                     array('action'     => 'index',
                           'project_id' => $main_project['Project']['identifier'],
-                          'wikipage'   => $page['Page']['title']))); ?>
+                          'wikipage'   => $page['WikiPage']['title']))); ?>
     <br />
-    <em><?php e(isset($author['User']) ? $author['User']['name'] : "anonyme"); ?>, <?php e($candy->format_time($content['Content']['updated_on'])); ?> </em><br />
-    <?php e(h($content['Content']['comments'])); ?>
+    <em><?php e(isset($author['User']) ? $author['User']['name'] : "anonyme"); ?>, <?php e($candy->format_time($content['WikiContent']['updated_on'])); ?> </em><br />
+    <?php e(h($content['WikiContent']['comments'])); ?>
     </p>
     <hr />
 <?php endif; ?>
@@ -108,7 +108,7 @@ if ($content['Content']['version'] < $page['Content']['version']) {
                       array('url' => 
                             array('action' => 'add_attachment',
                                   'project_id' => $main_project['Project']['identifier'],
-                                  'wikipage' => $page['Page']['title']),
+                                  'wikipage' => $page['WikiPage']['title']),
                             'type' => 'file',
                             'id' => "add_attachment_form",
                             'style' => "display:none;"
@@ -128,14 +128,14 @@ if ($content['Content']['version'] < $page['Content']['version']) {
 <span><?php e($html->link('HTML',
                           array('action' => 'index',
                                 'project_id' => $main_project['Project']['identifier'],
-                                'wikipage' => $page['Page']['title'],
-                                '?export=html&version='. $content['Content']['version']),
+                                'wikipage' => $page['WikiPage']['title'],
+                                '?export=html&version='. $content['WikiContent']['version']),
                           aa('class', 'html'))); ?></span>
 <span><?php e($html->link('TXT',
                           array('action' => 'index',
                                 'project_id' => $main_project['Project']['identifier'],
-                                'wikipage' => $page['Page']['title'],
-                                '?export=txt&version='. $content['Content']['version']),
+                                'wikipage' => $page['WikiPage']['title'],
+                                '?export=txt&version='. $content['WikiContent']['version']),
                           aa('class', 'text'))); ?></span>
 </p>
 
@@ -143,4 +143,4 @@ if ($content['Content']['version'] < $page['Content']['version']) {
 
 <?php $this->set('Sidebar', $this->renderElement('wiki/sidebar')) ?>
 
-<?php $candy->html_title(h($wiki->pretty_title($page['Page']['title']))) ?>
+<?php $candy->html_title(h($wiki->pretty_title($page['WikiPage']['title']))) ?>

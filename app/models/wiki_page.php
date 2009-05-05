@@ -1,12 +1,18 @@
 <?php
 class WikiPage extends AppModel
 {
+  var $validate = array('title' =>
+                        array('validates_presence_of' =>
+                              array('rule' => 'notEmpty'),
+                              'validates_format_of' =>
+                              array('rule' =>
+                                    array('custom', '/^[^,\.\/\?\;\|\:]*$/'))));
   var $hasOne = array(
-                      'Content' => array(
-                                         'className' => 'WikiContent',
-                                         'foreignKey' => 'page_id',
-                                         'dependent' => true //:dependent => :destroy
-                                         ));
+                      'WikiContent' => array(
+                                             'className' => 'WikiContent',
+                                             'foreignKey' => 'page_id',
+                                             'dependent' => true //:dependent => :destroy
+                                             ));
 
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
@@ -86,7 +92,7 @@ class WikiPage extends AppModel
   {
     $result = null;
     if ($version) {
-      //$result = $this->Content->Versions->findByVersion($version);
+      //$result = $this->WikiContent->WikiVersions->findByVersion($version);
     }
     if ($result === null) {
       $result = $this->find('all',

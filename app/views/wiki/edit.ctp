@@ -1,14 +1,16 @@
-<h2><?php e(h($wiki->pretty_title($page['Page']['title']))); ?></h2>
+<h2><?php e(h($wiki->pretty_title($page['WikiPage']['title']))); ?></h2>
 <?php e($form->create('WikiContent',
                       aa('url',
                          array('controller' => 'wiki',
                                'action' => 'edit',
                                'project_id' => $main_project['Project']['identifier'],
-                               'wikipage' => $page['Page']['title'],
-                               /* formヘルパがedit時にidを上書きするのを禁止するためのtrick */
+                               'wikipage' => $page['WikiPage']['title'],
+                               /* formヘルパが更新時にidを上書きするのを禁止するためのtrick */
                                'id' => null)))); ?>
 <?php e($form->hidden('version')); ?>
-<?php /* $candy->error_messages_for 'content'*/ ?>
+
+<?php echo $this->renderElement('error_explanation'); ?>
+
 <p><?php e($form->input('WikiContent.text',
                         array('type' => 'textarea',
                               'cols' => 100,
@@ -29,7 +31,7 @@
                     array('controller' => 'wiki',
                           'action' => 'preview',
                           'project_id' => $main_project['Project']['identifier'],
-                          'wikipage' => $page['Page']['title']),
+                          'wikipage' => $page['WikiPage']['title']),
                     array('method' => 'post',
                           'update' => 'preview',
                           'with' => "Form.serialize('wiki_form')",
@@ -42,4 +44,4 @@
 
 <?php $this->set('header_tags', $html->css('scm')) ?>
 
-<?php $candy->html_title(h($wiki->pretty_title($page['Page']['title']))); ?>
+<?php $candy->html_title(h($wiki->pretty_title($page['WikiPage']['title']))); ?>
