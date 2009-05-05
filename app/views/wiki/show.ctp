@@ -65,9 +65,9 @@
                  array('action' => 'index',
                        'project_id' => $main_project['Project']['identifier'],
                        'wikipage' => $page['WikiPage']['title'],
-                       '?version='. $content['WikiContent']['version'] - 1),
+                       '?version='. ($content['WikiContent']['version'] - 1)),
                  array(), false, false)); e(" - "); } ?>
-<?php printf('%s %s/%s',
+<?php printf('%s %s/%s ',
              __('Versions'),
              $content['WikiContent']['version'],
              $page['WikiContent']['version']) ?>
@@ -85,8 +85,8 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
                 array('action'     => 'index',
                       'project_id' => $main_project['Project']['identifier'],
                       'wikipage'   => $page['WikiPage']['title'],
-                      '?version='. $content['WikiContent']['version'] + 1),
-                aa(), false, false), " - "); } ?>
+                      '?version='. ($content['WikiContent']['version'] + 1)),
+                a(), false, false)); e(" - "); } ?>
 <?php e($html->link(__('Current version', true),
                     array('action'     => 'index',
                           'project_id' => $main_project['Project']['identifier'],
