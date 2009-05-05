@@ -96,17 +96,22 @@ class WikiPage extends AppModel
   function content_for_version($version = null)
   {
     $result = null;
+    $conditions = aa('page_id', $this->field('id'));
     if ($version) {
-      //$result = $this->WikiContent->WikiVersions->findByVersion($version);
+      $conditions['version'] = $version;
+      // temporary implementation
+      $result = $this->WikiContent->WikiContentVersion
+        ->find('first', aa('conditions', $conditions, 'recursive', -1));
+      $result['WikiContent'] = $result['WikiContentVersion'];
+      $result['WikiContent']['text'] = $result['WikiContent']['data'];
+      unset($result['WikiContent']['data']);
+      unset($result['WikiContent']['compression']);
     }
-    if ($result === null) {
-      $result = $this->find('all',
-                            aa('conditions',
-                               aa('Wiki.project_id',
-                                  $project['Project']['id'])));
-
+    if (empty($result)) {
+      $result = $this->WikiContent->find('first',
+                                         aa('conditions', $conditions,
+                                            'recursive', -1));
     }
-    // $result .= $this->content;
     return $result;
   }
 #  def content_for_version(version=nil)

@@ -17,12 +17,7 @@ class WikiController extends AppController {
       return;
     }
     $version = isset($this->params['url']['version']) ? $this->params['url']['version'] : null;
-    // 仮の実装。本当はwiki_content_versionsから取得する実装が必要。
-    // @content = @page.content_for_version(params[:version])
-    $content = $this->Wiki->WikiPage->WikiContent->find('first',
-                                                        aa('conditions',
-                                                           aa('WikiContent.page_id',
-                                                              $page['WikiPage']['id'])));
+    $content = $this->Wiki->WikiPage->content_for_version($version);
     $export = isset($this->params['url']['export']) ? $this->params['url']['export'] : null;
     if ($export === 'html') {
       //export = render_to_string :action => 'export', :layout => false
