@@ -329,6 +329,8 @@ msgstr "下へ"
 # label_export_to
 msgid "'Also available in:'"
 msgstr "他の形式に出力"
+msgid "Also available in:"
+msgstr "他の形式に出力"
 
 # notice_successful_delete
 msgid "Successful deletion."
