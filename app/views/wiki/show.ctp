@@ -68,7 +68,7 @@
                        '?version='. ($content['WikiContent']['version'] - 1)),
                  array(), false, false)); e(" - "); } ?>
 <?php printf('%s %s/%s ',
-             __('Versions'),
+             __('Version'),
              $content['WikiContent']['version'],
              $page['WikiContent']['version']) ?>
 <?php
