@@ -15,9 +15,9 @@
     <td><?php echo $html->link($version_row['name'],aa('controller','versions','action','show','id',$version_row['id'])); ?></td>
     <td align="center"><?php echo $candy->format_date($version_row['effective_date']) ?></td>
     <td><?php echo h($version_row['description']) ?></td>
-    <td>hoge<!-- <%= link_to(version.wiki_page_title, :controller => 'wiki', :page => Wiki.titleize(version.wiki_page_title)) unless version.wiki_page_title.blank? || @project.wiki.nil? %>--></td>
-    <td align="center"><%= link_to_if_authorized l(:button_edit), { :controller => 'versions', :action => 'edit', :id => version }, :class => 'icon icon-edit' %></td>
-    <td align="center"><%= link_to_if_authorized l(:button_delete), {:controller => 'versions', :action => 'destroy', :id => version}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %></td>
+    <td><?php if (!empty($version_row['wiki_page_title'])): ?><?php echo $html->link($version_row['wiki_page_title'],aa('controller','wiki','page',Wiki::titleize($version_row['wiki_page_title']))); ?><?php endif; ?></td>
+    <td align="center"><?php echo $html->link(__('Edit',true),aa('controller','versions','action','edit','id',$version_row['id']),aa('class','icon icon-edit')); ?></td>
+    <td align="center"><?php echo $html->link(__('Delete',true),aa('controller','versions','action','destroy','id',$version_row['id']),aa('class','icon icon-del','confirm',__('Are you sure ?',true),'method','post')); ?></td>
     </tr>
 <?php endforeach; ?>
     </tbody>
