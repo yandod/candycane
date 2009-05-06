@@ -314,9 +314,10 @@ class CandyHelper extends AppHelper
     }
   }
 #  
-#  def format_activity_title(text)
-#    h(truncate_single_line(text, 100))
-#  end
+  function format_activity_title($text)
+  {
+    return h($this->truncate_single_line($text, 100));
+  }
 #  
 #  def format_activity_day(date)
 #    date == Date.today ? l(:label_today).titleize : format_date(date)
@@ -388,11 +389,13 @@ class CandyHelper extends AppHelper
 #    s
 #  end
 #
-#  # Truncates and returns the string as a single line
-#  def truncate_single_line(string, *args)
-#    truncate(string, *args).gsub(%r{[\r\n]+}m, ' ')
-#  end
-#
+
+  function truncate_single_line($string, $width) {
+    $string = mb_strimwidth($string, 0, $width, "...", "UTF-8");
+    $string = preg_replace('{[\r\n]+}m', ' ', $string);
+    return $string;
+  }
+
 #  def html_hours(text)
 #    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
 #  end
