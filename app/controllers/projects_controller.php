@@ -797,7 +797,10 @@ class ProjectsController extends AppController
 
     $available_project_modules = $this->Permission->available_project_modules();
     $this->set('available_project_modules', $available_project_modules);
-    
+
+    $members = $this->Member->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id'])));
+    $this->set('members',$members);
+
     //:TODO yando やる
     $tabs = array(
       aa('name', 'info', 'partial', 'projects/edit', 'label', __('Information',true)),

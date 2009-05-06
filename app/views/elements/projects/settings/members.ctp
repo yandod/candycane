@@ -1,10 +1,11 @@
+<!-- 
 <%= error_messages_for 'member' %>
 <% roles = Role.find_all_givable %>
 <% users = User.active.find(:all).sort - @project.users %>
 <% # members sorted by role position
    members = @project.members.find(:all, :include => [:role, :user]).sort %>
-   
-<% if members.any? %>
+-->   
+<?php if ( !empty($members) ): ?>
 <table class="list">
 	<thead>
 	  <th><%= l(:label_user) %></th>
@@ -36,15 +37,25 @@
 	</tbody>
 <% end; reset_cycle %>
 </table>
-<% else %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
+<?php else: ?>
+<p class="nodata"><?php __('No data to display') ?></p>
+<?php endif; ?>
 
-<% if authorize_for('members', 'new') && !users.empty? %>
-  <% remote_form_for(:member, @member, :url => {:controller => 'members', :action => 'new', :id => @project}, :method => :post) do |f| %>
-    <p><label for="member_user_id"><%=l(:label_member_new)%></label><br />
+<!-- <% if authorize_for('members', 'new') && !users.empty? %> -->
+  <?php echo $ajax->form(
+    array('options' =>array(
+      'model' => 'Member',
+      'update' => 'tab-content-members',
+      'url' => array(
+        'controller' => 'members',
+        'action' => 'add',
+        'id' => $main_project['Project']['identifier'],
+      )
+    ))
+  ) ?>
+    <p><label for="member_user_id"><?php __('New member') ?></label><br />
     <%= f.select :user_id, users.collect{|user| [user.name, user.id]} %>
-    <%= l(:label_role) %>: <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, :selected => nil %>
-    <%= submit_tag l(:button_add) %></p>
-  <% end %>
-<% end %>
+    <?php __('Role') ?>: <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, :selected => nil %>
+    <?php echo $form->submit(__('Add',true)) ?></p>
+  <?php echo '</form>' ?>
+<!-- <% end %> -->
