@@ -36,7 +36,7 @@ class ProjectsController extends AppController
     'IssueCategory',
     'Attachment',
   );
-  var $helpers = array('Time', 'Project', 'CustomField', 'Number');
+  var $helpers = array('Time', 'Project', 'CustomField', 'Number','Wiki');
   var $components = array('RequestHandler');
 
 #  menu_item :overview
@@ -442,9 +442,10 @@ class ProjectsController extends AppController
   function add_version()
   {
     if($this->RequestHandler->isPost()) {
+      $this->data['Version']['project_id'] = $this->_project['Project']['id'];
       if($this->Version->save($this->data, true, array('project_id', 'name', 'description', 'wiki_page_title', 'effective_date'))) {
-        $this->Session->setFlash(__('Successful create.'));
-        $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['project_id']));
+        $this->Session->setFlash(__('Successful creation.',true),'default',aa('class','flash notice'));
+        $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['project_id'],'?'=>'tab=versions'));
       }
     }
   }
