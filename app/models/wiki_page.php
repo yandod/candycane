@@ -93,6 +93,8 @@ class WikiPage extends AppModel
 #    WikiPage.pretty_title(title)
 #  end
 #  
+
+  // return wiki_content and author for specified version
   function content_for_version($version = null)
   {
     $result = null;
@@ -101,7 +103,7 @@ class WikiPage extends AppModel
       $conditions['version'] = $version;
       // temporary implementation
       $result = $this->WikiContent->WikiContentVersion
-        ->find('first', aa('conditions', $conditions, 'recursive', -1));
+        ->find('first', aa('conditions', $conditions, 'recursive', 0));
       $result['WikiContent'] = $result['WikiContentVersion'];
       $result['WikiContent']['text'] = $result['WikiContent']['data'];
       unset($result['WikiContent']['data']);
@@ -110,7 +112,7 @@ class WikiPage extends AppModel
     if (empty($result)) {
       $result = $this->WikiContent->find('first',
                                          aa('conditions', $conditions,
-                                            'recursive', -1));
+                                            'recursive', 0));
     }
     return $result;
   }

@@ -92,7 +92,7 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
                           'project_id' => $main_project['Project']['identifier'],
                           'wikipage'   => $page['WikiPage']['title']))); ?>
     <br />
-    <em><?php e(isset($author['User']) ? $author['User']['name'] : "anonyme"); ?>, <?php e($candy->format_time($content['WikiContent']['updated_on'])); ?> </em><br />
+    <em><?php e(isset($content['Author']) ? $candy->format_username($content['Author']) : "anonyme"); ?>, <?php e($candy->format_time($content['WikiContent']['updated_on'])); ?> </em><br />
     <?php e(h($content['WikiContent']['comments'])); ?>
     </p>
     <hr />

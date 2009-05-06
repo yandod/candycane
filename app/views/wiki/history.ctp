@@ -73,7 +73,7 @@ if (isset($next_version[$first_version_value])) {
                           'label' => false)));
    } ?></td>
     <td align="center"><?php e($candy->format_time($ver['WikiContentVersion']['updated_on'])); ?></td>
-    <td><em><?php e(isset($ver['Author']) ? $ver['Author']['firstname'].' '.$ver['Author']['lastname'] : "anonyme"); ?></em></td>
+    <td><em><?php e(isset($ver['Author']) ? $candy->format_username($ver['Author']) : "anonyme"); ?></em></td>
     <td><?php e(h($ver['WikiContentVersion']['comments'])) ?></td>
     <td align="center"><?php e($html->link(__('Annotate', true),
                                            array('action'     => 'annotate',

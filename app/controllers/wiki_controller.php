@@ -27,11 +27,8 @@ class WikiController extends AppController {
       // send_data(@content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
       return;
     }
-    $author = $this->User->findById($content['WikiContent']['author_id']);
-    $author['User']['name'] = $author['User']['firstname'].$author['User']['lastname'];
     $this->set('page', $page);
     $this->set('content', $content);
-    $this->set('author', $author);
     $this->set('editable', $this->is_editable());
     $this->render('show');
   }
@@ -274,6 +271,7 @@ class WikiController extends AppController {
     $this->paginate = aa('fields', a('WikiContentVersion.id',
                                      'Author.firstname',
                                      'Author.lastname',
+                                     'Author.login',
                                      'WikiContentVersion.comments',
                                      'WikiContentVersion.updated_on',
                                      'WikiContentVersion.version'),
