@@ -1,18 +1,23 @@
 <?php
 class WikiPage extends AppModel
 {
+  var $name = 'WikiPage';
+  var $hasOne = array(
+                      'WikiContent' => array(
+                                             'className' => 'WikiContent',
+                                             'foreignKey' => 'page_id',
+                                             'dependent' => true
+                                             //:dependent => :destroy
+                                             ));
   var $validate = array('title' =>
                         array('validates_presence_of' =>
                               array('rule' => 'notEmpty'),
                               'validates_format_of' =>
                               array('rule' =>
-                                    array('custom', '/^[^,\.\/\?\;\|\:]*$/'))));
-  var $hasOne = array(
-                      'WikiContent' => array(
-                                             'className' => 'WikiContent',
-                                             'foreignKey' => 'page_id',
-                                             'dependent' => true //:dependent => :destroy
-                                             ));
+                                    array('custom', '/^[^,\.\/\?\;\|\:]*$/')),
+                              'validates_uniqueness_of' =>
+                              array('rule' => '_isUniqueTitle')
+                              ));
 
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
@@ -91,17 +96,22 @@ class WikiPage extends AppModel
   function content_for_version($version = null)
   {
     $result = null;
+    $conditions = aa('page_id', $this->field('id'));
     if ($version) {
-      //$result = $this->WikiContent->WikiVersions->findByVersion($version);
+      $conditions['version'] = $version;
+      // temporary implementation
+      $result = $this->WikiContent->WikiContentVersion
+        ->find('first', aa('conditions', $conditions, 'recursive', -1));
+      $result['WikiContent'] = $result['WikiContentVersion'];
+      $result['WikiContent']['text'] = $result['WikiContent']['data'];
+      unset($result['WikiContent']['data']);
+      unset($result['WikiContent']['compression']);
     }
-    if ($result === null) {
-      $result = $this->find('all',
-                            aa('conditions',
-                               aa('Wiki.project_id',
-                                  $project['Project']['id'])));
-
+    if (empty($result)) {
+      $result = $this->WikiContent->find('first',
+                                         aa('conditions', $conditions,
+                                            'recursive', -1));
     }
-    // $result .= $this->content;
     return $result;
   }
 #  def content_for_version(version=nil)
@@ -218,4 +228,18 @@ class WikiPage extends AppModel
 #    @lines.each { |line| line[0] ||= current.version }
 #  end
 #end
+  function _isUniqueTitle($check)
+  {
+    $conditions = a();
+    if (!empty($this->id) && $this->field('wiki_id')) {
+      $conditions[] = aa("WikiPage.id <>", $this->id);
+      $conditions[] = aa("WikiPage.wiki_id", $this->field('wiki_id'));
+    } elseif (isset($this->data['WikiPage']['wiki_id'])) {
+      $conditions[] = aa("WikiPage.wiki_id", $this->data['WikiPage']['wiki_id']);
+    }
+    $conditions[] = aa("LOWER(WikiPage.title)", strtolower($check["title"]));
+    $count = $this->find('count',
+                         aa('conditions', $conditions, 'recursive', -1));
+    return ($count === 0);
+  }
 }

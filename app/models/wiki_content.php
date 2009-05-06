@@ -2,6 +2,13 @@
 class WikiContent extends AppModel
 {
   var $name = 'WikiContent';
+  var $hasMany = array(
+                       'WikiContentVersion' =>
+                       array(
+                             'className' => 'WikiContentVersion',
+                             'foreignKey' => 'wiki_content_id',
+                             'dependent' => true
+                             ));
   var $belongsTo = array(
                          'Author' => array(
                                            'className' => 'User',
