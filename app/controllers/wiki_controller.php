@@ -376,13 +376,12 @@ class WikiController extends AppController {
   {
     $project_id = $this->viewVars['main_project']['Project']['id'];
     // projectsとwikisは1:1関係なので、アソシエーションを使わずにアクセス
-    $conditions = aa('Wiki.project_id', $project_id);
-    $wiki = $this->Wiki->find('first',
-                              aa('conditions', $conditions,
-                                 'recursive', -1));
+    $this->Wiki->recursive = -1;
+    $wiki = $this->Wiki->findByProjectId($project_id);
     if (!$wiki) {
         $this->cakeError('error404');
     }
+    $this->Wiki->recursive = 1;
     $this->Wiki->id = $wiki['Wiki']['id'];
     $this->set('wiki', $wiki);
   }

@@ -25,6 +25,12 @@ class Wiki extends AppModel
                               array('rule' =>
                                     array('custom', '/^[^,\.\/\?\;\|\:]*$/'))));
 
+  function findByProjectId($project_id)
+  {
+    $conditions = aa('Wiki.project_id', $project_id);
+    $wiki = $this->find('first', aa('conditions', $conditions));
+    return $wiki;
+  }
 
   // find the page with the given title
   // if page doesn't exist, return a data array for saving new page
