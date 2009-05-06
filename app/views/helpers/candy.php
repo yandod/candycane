@@ -572,9 +572,16 @@ function breadcrumb($args)
 #  def textilizable(*args)
   function textilizable($text, $options=array())
   {
-  	 App::import('Vendor','Textile',aa('file','textile-2.0.0/classTextile.php'));
-  	 $Textile = new Textile();
-  	 return $Textile->TextileThis($text);
+    App::import('Vendor','Textile',aa('file','textile-2.0.0/classTextile.php'));
+    $Textile = new Textile();
+    $text = $Textile->TextileThis($text);
+    $text = preg_replace_callback('/(!)?(\[\[([^\]\n\|]+)(?:\|([^\]\n\|]+))?()\]\])/',
+                                  array($this, '_replaceWikiLinks'),
+                                  $text);
+    $text = preg_replace_callback('{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|\s|<|$)}',
+                                  array($this, '_replaceCandycaneLinks'),
+                                  $text);
+    return $text;
 
 #    options = args.last.is_a?(Hash) ? args.pop : {}
 #    case args.size
@@ -778,6 +785,200 @@ function breadcrumb($args)
 #    text
 #  end
   }
+
+  function _replaceWikiLinks($already_matched)
+  {
+    /* Wiki links
+     * Examples:
+     * [[mypage]]
+     *   [[mypage|mytext]]
+     * wiki links can refer other project wikis, using project name or identifier:
+     *   [[project:]] -> wiki starting page
+     *   [[project:|mytext]]
+     *   [[project:mypage]]
+     *   [[project:mypage|mytext]]
+     */
+    $view =& ClassRegistry::getObject('view');
+    $link_project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
+    list(, $esc, $all, $page, $title) = $already_matched;
+    $result = $all;
+    if ($esc === "") {
+      if (preg_match('/^([^\:]+)\:(.*)$/', $page, $matches)) {
+        list(,$project_name, $page) = $matches;
+        App::import('Model', 'Project');
+        $project_model = new Project;
+        $project_model->recursive = -1;
+        $link_project = $project_model->findByName($project_name);
+        if (empty($link_project)) {
+          $link_project = $project_model->findByIdentifier($project_name);
+        }
+        if ($title === "" && $page === "") {
+          $title = $project_name;
+        }
+      }
+
+      App::import('Model', 'Wiki');
+      $wiki_model = new Wiki;
+      $wiki_model->recursive = -1;
+      $link_project_wiki = $wiki_model->findByProjectId($link_project['Project']['id']);
+      if ($link_project && $link_project_wiki) {
+        // extract anchor
+        $anchor = "";
+        if (preg_match('/^(.+?)\#(.+)$/', $page, $matches)) {
+          list(,$page, $anchor) = $matches;
+        }
+        // check if page exists
+        $wiki_page = null;
+        $wiki_model->id = $link_project_wiki['Wiki']['id'];
+        $wiki_page = $wiki_model->find_page($page);
+
+        $class = 'wiki-page';
+        if (!$wiki_page) {
+          $class .= ' new';
+        }
+        $result = $this->Html->link(($title !== "") ? $title : $page,
+                                    array('controller' => 'wiki',
+                                          'action'     => 'index',
+                                          'project_id' => $link_project['Project']['identifier'],
+                                          'wikipage'   => $page),
+                                    aa('class', $class));
+      } else {
+
+        if ($title !== "") {
+          $result = $title;
+        } else {
+          $result = $page;
+        }
+      }
+    } else {
+      $result = $all;
+    }
+    return $result;
+  }
+
+  function _replaceCandycaneLinks($already_matched)
+  {
+    /* Redmine links
+     *
+     * Examples:
+     *   Issues:
+     *     #52 -> Link to issue #52
+     *   Changesets:
+     *     r52 -> Link to revision 52
+     *     commit:a85130f -> Link to scmid starting with a85130f
+     *   Documents:
+     *     document#17 -> Link to document with id 17
+     *     document:Greetings -> Link to the document with title "Greetings"
+     *     document:"Some document" -> Link to the document with title "Some document"
+     *   Versions:
+     *     version#3 -> Link to version with id 3
+     *     version:1.0.0 -> Link to version named "1.0.0"
+     *     version:"1.0 beta 2" -> Link to version named "1.0 beta 2"
+     *   Attachments:
+     *     attachment:file.zip -> Link to the attachment of the current object named file.zip
+     *   Source files:
+     *     source:some/file -> Link to the file located at /some/file in the project's repository
+     *     source:some/file@52 -> Link to the file's revision 52
+     *     source:some/file#L120 -> Link to line 120 of the file
+     *     source:some/file@52#L120 -> Link to line 120 of the file's revision 52
+     *     export:some/file -> Force the download of the file
+     *  Forum messages:
+     *     message#1218 -> Link to message with id 1218
+     */
+    $view =& ClassRegistry::getObject('view');
+    $project = isset($view->viewVars['main_project']['Project']['identifier']) ? $view->viewVars['main_project']['Project']['identifier'] : null;
+
+    list($all, $leading, $esc, $prefix,, $sep, $oid) = $already_matched;
+    if ($sep === "" && $oid === "") {
+      $sep = $already_matched[7];
+      $oid = $already_matched[8];
+    }
+    $link = "";
+    if ($esc === "") {
+      if ($prefix === "" && $sep === 'r') {
+        if ($project !== ""
+            /*&& (changeset = project.changesets.find_by_revision(oid))*/ ) {
+          $link = $this->Html->link("r${oid}",
+                                    array('controller' => 'repositories',
+                                          'action' => 'revision',
+                                          'id' => $project,
+                                          'rev' => $oid),
+                                    aa('class', 'changeset',
+                                       'title',
+                                       ''/*truncate_single_line(changeset.comments, 100)*/));
+
+        }
+      } elseif ($sep === '#') {
+        $oid = (int)$oid;
+        switch($prefix) {
+        case '':
+          $issue = true;
+          /*$issue = Issue.find_by_id(oid, :include => [:project, :status], :conditions => Project.visible_by(User.current))*/
+          if ($issue) {
+            $class = /*$issue.closed?*/false ? 'issue closed' : 'issue';
+            $link = $this->Html->link("#${oid}",
+                                      array('controller' => 'issues',
+                                            'action' => 'show',
+                                            'id' => $oid),
+                                      aa('class', $class,
+                                         'title', ''/*"#{truncate(issue.subject, 100)} (#{issue.status.name})")*/));
+            if (/*issue.closed?*/false) {
+              $link = $this->Html->tag('del', $link);
+            }
+          }
+          break;
+        case 'document':
+          $document = 1;
+          /*document =Document.find_by_id(oid, :include => [:project], :conditions => Project.visible_by(User.current))*/
+          if ($document) {
+            $link = $this->Html->link($oid/*h(document.title)*/,
+                                      array('controller' => 'documents',
+                                            'action' => 'show',
+                                            'id' => $document),
+                                      aa('class', 'document'));
+          }
+          break;
+        case 'version':
+          break;
+        case 'message':
+          break;
+        }
+      } elseif ($sep === ':') {
+        // removes the double quotes if any
+        $name = preg_replace('{^"(.*)"$}', '\\1', $oid);
+        switch ($prefix) {
+        case 'document':
+          $document = 1;
+          /*document = project.documents.find_by_title(name)*/
+          if ($project !== "" &&  $document !== "") {
+            $link = $this->Html->link($name/*h(document.title)*/,
+                                      array('controller' => 'documents',
+                                            'action' => 'show',
+                                            'id' => $document),
+                                      aa('class', 'document'));
+          }
+          break;
+        case 'version':
+          break;
+        case 'commit':
+          break;
+        case 'source':
+        case 'export':
+          break;
+        case 'attachment':
+          break;
+        }
+      }
+    }
+    $result = $leading;
+    if ($link !== "") {
+      $result .= $link;
+    } else {
+      $result .= "${prefix}${sep}${oid}";
+    }
+    return $result;
+  }
+
 #
 #  # Same as Rails' simple_format helper without using paragraphs
 #  def simple_format_without_paragraph(text)
