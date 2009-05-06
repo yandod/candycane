@@ -23,7 +23,8 @@
 <?php $line_num = 1; ?>
 <?php
 /* prepare neighbour version number for JavaScript */
-$prev_version = null;
+$prev_version = $next_version = array();
+$first_version_value = $second_version_value = null;
 foreach ($versions as $ver) {
    $current_value = $ver['WikiContentVersion']['version'];
    if (!isset($prev_value)) {
@@ -34,7 +35,9 @@ foreach ($versions as $ver) {
    }
    $prev_value = $current_value;
 }
-$second_version_value = $next_version[$first_version_value];
+if (isset($next_version[$first_version_value])) {
+  $second_version_value = $next_version[$first_version_value];
+}
 ?>
 <?php foreach ($versions as $ver) : /*@versions.each do |ver|*/ ?>
 <tr class="<?php e($candy->cycle("odd", "even")); ?>">
