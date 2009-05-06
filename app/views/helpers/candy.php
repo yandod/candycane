@@ -294,13 +294,13 @@ class CandyHelper extends AppHelper
 #    local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
 
     if (empty($this->Settings->date_format) || (strlen($this->Settings->date_format) < 2)) {
-      $date_format = __('general_fmt_date', true);
+      $date_format = __('%m/%d/%Y', true);
     } else {
       $date_format = $this->Settings->date_format;
     }
 
     if (empty($this->Settings->time_format)) {
-      $time_format = __('general_fmt_time', true);
+      $time_format = __('%I:%M %p', true);
     } else {
       $time_format = $this->Settings->time_format;
     }

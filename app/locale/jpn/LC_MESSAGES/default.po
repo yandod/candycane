@@ -2179,8 +2179,8 @@ msgid "Messages"
 msgstr "メッセージ"
 
 # general_fmt_time
-msgid "%%I:%%M %%p"
-msgstr "%%H:%%M %%p"
+msgid "%I:%M %p"
+msgstr "%H:%M %p"
 
 # text_tip_task_begin_day
 msgid "task beginning this day"
