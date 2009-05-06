@@ -92,32 +92,6 @@ class WikiController extends AppController {
     }
   }
 
-  // private
-
-  function _find_wiki()
-  {
-    $project_id = $this->viewVars['main_project']['Project']['id'];
-    // projectsとwikisは1:1関係なので、アソシエーションを使わずにアクセス
-    $conditions = aa('Wiki.project_id', $project_id);
-    $wiki = $this->Wiki->find('first',
-                              aa('conditions', $conditions,
-                                 'recursive', -1));
-    if (!$wiki) {
-        $this->cakeError('error404');
-    }
-    $this->Wiki->id = $wiki['Wiki']['id'];
-    $this->set('wiki', $wiki);
-  }
-
-  function _find_existing_page()
-  {
-    $page = $this->Wiki->find_page($this->params['wikipage']);
-    if (!$page) {
-      $this->cakeError('error404');
-    }
-    return $page;
-  }
-
 #require 'diff'
 #
 #class WikiController < ApplicationController
@@ -291,7 +265,25 @@ class WikiController extends AppController {
 #    redirect_to :action => 'index', :id => @project, :page => @page.title
 #  end
 #
-#  # show page history
+
+  // show page history
+  function history() {
+    $page = $this->_find_existing_page();
+    $this->set('page', $page);
+    $conditions = aa('WikiContentVersion.page_id', $page['WikiPage']['id']);
+    $this->paginate = aa('fields', a('WikiContentVersion.id',
+                                     'Author.firstname',
+                                     'Author.lastname',
+                                     'WikiContentVersion.comments',
+                                     'WikiContentVersion.updated_on',
+                                     'WikiContentVersion.version'),
+                         'conditions', $conditions,
+                         'order',  aa('WikiContentVersion.version', 'DESC')
+                         );
+    $versions = $this->paginate($this->Wiki->WikiPage->WikiContent->WikiContentVersion);
+    $this->set('versions', $versions);
+  }
+
 #  def history
 #    @version_count = @page.content.versions.count
 #    @version_pages = Paginator.new self, @version_count, per_page_option, params['p']
@@ -376,6 +368,34 @@ class WikiController extends AppController {
 #  end
 #
 #private
+
+
+  // private
+
+  function _find_wiki()
+  {
+    $project_id = $this->viewVars['main_project']['Project']['id'];
+    // projectsとwikisは1:1関係なので、アソシエーションを使わずにアクセス
+    $conditions = aa('Wiki.project_id', $project_id);
+    $wiki = $this->Wiki->find('first',
+                              aa('conditions', $conditions,
+                                 'recursive', -1));
+    if (!$wiki) {
+        $this->cakeError('error404');
+    }
+    $this->Wiki->id = $wiki['Wiki']['id'];
+    $this->set('wiki', $wiki);
+  }
+
+  function _find_existing_page()
+  {
+    $page = $this->Wiki->find_page($this->params['wikipage']);
+    if (!$page) {
+      $this->cakeError('error404');
+    }
+    return $page;
+  }
+
 #  
 #  def find_wiki
 #    @project = Project.find(params[:id])
