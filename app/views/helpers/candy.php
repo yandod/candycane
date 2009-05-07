@@ -390,10 +390,11 @@ class CandyHelper extends AppHelper
 #    s
 #  end
 #
-#  # Truncates and returns the string as a single line
-#  def truncate_single_line(string, *args)
-#    truncate(string, *args).gsub(%r{[\r\n]+}m, ' ')
-#  end
+  # Truncates and returns the string as a single line
+  function truncate_single_line($string, $length, $ending = 'c', $exact = true) {
+    $string = $this->truncate($string, $length, $ending, $exact);
+    return preg_replace('/[\r\n]+/', ' ', $string);
+  }
 #
 #  def html_hours(text)
 #    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')

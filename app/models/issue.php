@@ -585,7 +585,7 @@ class Issue extends AppModel
 #  private
 
   function _event_title($data) {
-     return $data['Tracker']['name'].' ##'.$data['Issue']['id'].': '.$data['Issue']['subject'];
+     return $data['Tracker']['name'].' #'.$data['Issue']['id'].': '.$data['Issue']['subject'];
   }
   function _event_url($data) {
     return  array('controller'=>'issues', 'action'=>'show', 'id'=>$data['Issue']['id']);

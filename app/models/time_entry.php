@@ -19,21 +19,9 @@
 #class TimeEntry < ActiveRecord::Base
 #  # could have used polymorphic association
 #  # project association here allows easy loading of time entries at project level with one database trip
-#  belongs_to :project
-#  belongs_to :issue
-#  belongs_to :user
-#  belongs_to :activity, :class_name => 'Enumeration', :foreign_key => :activity_id
 #  
 #  attr_protected :project_id, :user_id, :tyear, :tmonth, :tweek
 #
-#  acts_as_customizable
-#  acts_as_event :title => Proc.new {|o| "#{o.user}: #{lwr(:label_f_hour, o.hours)} (#{(o.issue || o.project).event_title})"},
-#                :url => Proc.new {|o| {:controller => 'timelog', :action => 'details', :project_id => o.project}},
-#                :author => :user,
-#                :description => :comments
-#  
-#  
-#  
 #  def self.visible_by(usr)
 #    with_scope(:find => { :conditions => Project.allowed_to_condition(usr, :view_time_entries) }) do
 #      yield
@@ -51,8 +39,32 @@ class TimeEntry extends AppModel
     'User',
   );
   var $actsAs = array(
-    'Customizable'=>array('is_for_all'=>0)
+    'Customizable'=>array('is_for_all'=>0),
+#  acts_as_event :title => Proc.new {|o| "#{o.user}: #{lwr(:label_f_hour, o.hours)} (#{(o.issue || o.project).event_title})"},
+#                :url => Proc.new {|o| {:controller => 'timelog', :action => 'details', :project_id => o.project}},
+#                :author => :user,
+#                :description => :comments
+    'Event' => array('title' => array('Proc' => '_event_title'),
+                      'url' => array('Proc' => '_event_url'),
+                      'author' => array('Proc' => '_event_author'),
+                      'description' => 'comments',
+                ),
   );
+  function _event_title($data) {
+    if(!empty($data['Issue'])) {
+      $this->bindModel(array('belongsTo'=>array('Issue')));
+      $event_title = $this->Issue->event_title($data);
+    } else {
+      $event_title = $this->Project->event_title($data);
+    }
+    return $this->User->name($data).': '.sprintf(__('%.2f hour',true), $data['TimeEntry']['hours'])." ($event_title)";
+  }
+  function _event_url($data) {
+    return  array('controller'=>'timelog', 'action'=>'details', 'project_id'=>$data['Project']['identifier']);
+  }
+  function _event_author($data) {
+    return  $data['User'];
+  }
 
   var $validate = array(
     'user_id' => array(

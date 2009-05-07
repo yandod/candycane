@@ -23,7 +23,11 @@ define('PROJECT_ARCHIVED', 9);
 class Project extends AppModel
 {
   var $name = 'Project';
-  var $actsAs = array('ActivityProvider');
+  var $actsAs = array(
+      'ActivityProvider',
+      'Event' => array('title' => array('Proc' => '_event_title'),
+                      'url'   => array('Proc' => '_event_url')),
+  );
 
 //  var $belongsTo = array(
 //    'Parent' => array(
@@ -92,9 +96,6 @@ class Project extends AppModel
 #
 #  acts_as_customizable
 #  acts_as_searchable :columns => ['name', 'description'], :project_key => 'id', :permission => nil
-#  acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
-#                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
-#                :author => nil
 #
 #  attr_protected :status, :enabled_module_names
 #  
@@ -548,6 +549,15 @@ class Project extends AppModel
 #  end
 #  
 #private
+#  acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
+#                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
+#                :author => nil
+  function _event_title($data) {
+     return __('Project',true).': '.$data['Project']['name'];
+  }
+  function _event_url($data) {
+    return  array('controller'=>'projects', 'action'=>'show', 'id'=>$data['Project']['id']);
+  }
 #  def allowed_permissions
 #    @allowed_permissions ||= begin
 #      module_names = enabled_modules.collect {|m| m.name}
