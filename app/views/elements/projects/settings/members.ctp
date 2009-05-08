@@ -74,7 +74,13 @@
     ))
   ) ?>
     <p><label for="member_user_id"><?php __('New member') ?></label><br />
-    <%= f.select :user_id, users.collect{|user| [user.name, user.id]} %>
+    <?php
+    $users_list = array();
+    foreach ($users_data as $user_row) {
+      $users_list[$user_row['User']['id']] = $candy->format_username($user_row['User']);
+    }
+    ?>
+    <?php echo $form->select('Member.user_id',$users_list,false) ?>
     <?php __('Role') ?>: <?php echo $form->select('Member.role_id',$roles,false,aa('class','small')) ?>
     <?php echo $form->submit(__('Add',true),aa('div',false)) ?></p>
   <?php echo '</form>' ?>
