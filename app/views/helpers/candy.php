@@ -5,7 +5,7 @@
  */
 class CandyHelper extends AppHelper
 {
-  var $helpers = array('Html','Users', 'Paginator', 'Ajax');
+  var $helpers = array('Html','Users', 'Paginator', 'AppAjax');
   var $row = 0;
 
 	function link($user)
@@ -460,10 +460,25 @@ class CandyHelper extends AppHelper
       $page_param = 'page';
     }
     $url_param = $params['url_param'];
-#    url_param.clear if url_param.has_key?(:set_filter)
+    $get_param = array();
+    if(!empty($this->params['url'])) {
+      $get_param = $this->params['url'];
+      unset($get_param['url']);
+    }
+    $paginator_params = array('sort', 'page', 'direction');
+    foreach($paginator_params as $paginator_param) {
+      if(!empty($get_param[$paginator_param])) {
+        $url_oaram[$paginator_param] = $get_param[$paginator_param];
+        unset($get_param[$paginator_param]);
+      }
+    }
+    $url_param['?'] = !empty($url_param['?']) ? am($url_param['?'], $get_param) : $get_param;
+    if(!empty($url_param['?']['set_filter'])) {
+      unset($url_param['?']['set_filter']);
+    }
     $html = '';
     if ($paging['prevPage']) {
-      $html .= $this->Ajax->link('&#171;' . __('Previous', true), $url = am($url_param, array($page_param => $paging['page'] - 1)), array(
+      $html .= $this->AppAjax->link('&#171;' . __('Previous', true), $url = am($url_param, array($page_param => $paging['page'] - 1)), array(
         'update' => 'content',
         'url' => $url,
         'complete' => 'window.scrollTo(0, 0)',
@@ -471,7 +486,7 @@ class CandyHelper extends AppHelper
     }
     $html .= $this->Paginator->numbers(array('update' => 'content', 'complete' => 'window.scrollTo(0,0)', 'url' => $url_param));
     if ($paging['nextPage']) {
-      $html .= ' ' . $this->Ajax->link(__('Next', true) . '&#187;', $url = am($url_param, array($page_param => $paging['page'] + 1)), array(
+      $html .= ' ' . $this->AppAjax->link(__('Next', true) . '&#187;', $url = am($url_param, array($page_param => $paging['page'] + 1)), array(
         'update' => 'content',
         'url' => $url,
         'complete' => 'window.scrollTo(0, 0)',
@@ -520,12 +535,29 @@ class CandyHelper extends AppHelper
   function per_page_links($selected = null)
   {
     $url_param = $this->Paginator->params['url_param'];
-#    url_param.clear if url_param.has_key?(:set_filter)
+    $get_param = array();
+    if(!empty($this->params['url'])) {
+      $get_param = $this->params['url'];
+      unset($get_param['url']);
+    }
+    $paginator_params = array('sort', 'page', 'direction');
+    foreach($paginator_params as $paginator_param) {
+      if(!empty($get_param[$paginator_param])) {
+        $url_oaram[$paginator_param] = $get_param[$paginator_param];
+        unset($get_param[$paginator_param]);
+      }
+    }
+    if(!empty($get_param['set_filter'])) {
+      unset($get_param['set_filter']);
+    }
     $links = a();
     foreach ($this->Settings->per_page_options as $v) {
-      $links[] = $v == $selected ? $v : $this->Ajax->link($v, am($url_param, array('?' . http_build_query(array('per_page' => $v)))), array(
-        'update' => 'content',
-      ));
+      if ($v == $selected) {
+        $links[] = $v; 
+      } else {
+        $url = am($url_param, array('?' => am($get_param, array('per_page' => $v))));
+        $links[] = $this->AppAjax->link($v, $url, array('update' => 'content', 'url' => $url));
+      }
     }
     return count($links) > 1 ? __("'Per page", true) . join(', ', $links) : '';
   }
@@ -907,15 +939,15 @@ function breadcrumb($args)
   function calendar_for($field_id) {
     $out = $this->include_calendar_headers_tags();
     $out .= $this->Html->image("calendar.png", array('id' => "{$field_id}_trigger", 'class' => "calendar-trigger"));
-    $out .= $this->Ajax->Javascript->codeBlock("Calendar.setup({inputField : '$field_id', ifFormat : '%Y-%m-%d', button : '{$field_id}_trigger' });");
+    $out .= $this->AppAjax->Javascript->codeBlock("Calendar.setup({inputField : '$field_id', ifFormat : '%Y-%m-%d', button : '{$field_id}_trigger' });");
     return $out;
   }
 
   function include_calendar_headers_tags() {
     $current_language = Configure::read('Config.language');
-    $this->Ajax->Javascript->link('calendar/calendar.js', false);
-    $this->Ajax->Javascript->link("calendar/lang/calendar-$current_language.js", false);
-    $this->Ajax->Javascript->link('calendar/calendar-setup', false);
+    $this->AppAjax->Javascript->link('calendar/calendar.js', false);
+    $this->AppAjax->Javascript->link("calendar/lang/calendar-$current_language.js", false);
+    $this->AppAjax->Javascript->link('calendar/calendar-setup', false);
     $this->Html->css('calendar.css', null, array(), false);
   }
 

@@ -162,7 +162,7 @@ class TimelogController extends AppController
     ));
     $data = array_merge(array('from'=>null, 'to'=>null, 'period_type'=>'1', 'period'=>'all'), $this->params['url']);
     if(!empty($this->data['TimeEntry'])) {
-      $data = $this->data['TimeEntry'];
+      $data = array_merge($data, $this->data['TimeEntry']);
     }
     $result = $this->TimeEntry->details_condition($this->Setting, $this->current_user, $this->_project, $this->Issue->data, $data);
     // $result ==> $cond, $range
@@ -174,9 +174,20 @@ class TimelogController extends AppController
       if(!empty($this->params['url']['format'])) {
         switch($this->params['url']['format']) {
         case 'csv' :
-//          $this->layout = 'pdf';
-//          $this->helpers = array('Candy', 'CustomField', 'Issues', 'Number', 'Tcpdf'=>array());
-//          $this->render('issue_to_pdf');
+          # Export all entries
+          unset($this->TimeEntry->_customFieldAfterFindDisable);
+          $this->TimeEntry->bindModel(array('belongsTo'=>array('Issue')), false);
+          $this->TimeEntry->Issue->_customFieldAfterFindDisable = true;
+          $entries = $this->TimeEntry->find('all', array(
+            'conditions' => $cond,
+            'order' => $this->Sort->sort_clause()
+          ));
+          $trackers = $this->Issue->Tracker->find('list');
+          $custom_fields = $this->TimeEntry->available_custom_fields();
+          $this->set(compact('entries', 'trackers', 'custom_fields'));
+          $this->helpers = array('Candy', 'Csv', 'CustomField');
+          $this->layout = 'csv';
+          $this->render('details_csv');
           break;
         case 'atom' :
           $this->TimeEntry->bindModel(array('belongsTo'=>array('Issue')), false);
@@ -217,17 +228,6 @@ class TimelogController extends AppController
         }
       }
     }
-#        format.csv {
-#          # Export all entries
-#          @entries = TimeEntry.find(:all, 
-#                                    :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
-#                                    :conditions => cond.conditions,
-#                                    :order => sort_clause)
-#          send_data(entries_to_csv(@entries).read, :type => 'text/csv; header=present', :filename => 'timelog.csv')
-#        }
-#      end
-#    end
-
   }
   
   function edit() {

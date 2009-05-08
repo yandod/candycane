@@ -14,11 +14,19 @@
 
 <h2><?php __('Spent time') ?></h2>
 
-<?php echo $ajax->form(array('model'=>'TimeEntry'), 'get', array('url'=>$timelog->link_to_timelog_detail_url($main_project), 'update' => 'content')); ?>
-  <?php echo $ajax->Form->hidden('project_id'); ?>
-  <?php if(!empty($issue)) { echo $ajax->Form->hidden('issue_id'); } ?>
-  <?php echo $this->renderElement('timelog/date_range', array('main_project'=>$main_project)); ?>
-<?php echo $ajax->Form->end() ?>
+<?php
+echo $form->create('TimeEntry', array(
+        'url'=>$timelog->link_to_timelog_detail_url($main_project),
+        'onsubmit'=>$ajax->remoteFunction(array('url'=>$timelog->link_to_timelog_detail_url($main_project), 'form'=>true, 'after'=>'return false', 'update'=>'content')),
+        )
+      );
+  echo $form->hidden('project_id');
+  if(!empty($issue)) {
+    echo $form->hidden('issue_id');
+  }
+  echo $this->renderElement('timelog/date_range', array('main_project'=>$main_project));
+echo $form->end();
+?>
 
 <div class="total-hours">
 <p><?php __('Total') ?>: <?php echo $candy->html_hours(sprintf(__('%.2f hour',true), $totalHours)); ?></p>
@@ -27,7 +35,6 @@
 <?php if(!empty($entries)) : ?>
 <?php echo $this->renderElement('timelog/list', array('entries' => $entries, 'main_project'=>$main_project, 'issue'=>$issue)); ?>
 <p class="pagination"><?php echo $candy->pagination_links_full(); ?></p>
-
 <p class="other-formats">
 <?php __("'Also available in:'") ?>
 <span>

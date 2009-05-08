@@ -64,6 +64,7 @@
 App::import('Helper', 'Paginator');
 class SortHelper extends PaginatorHelper
 {
+  var $helpers = array('AppAjax', 'Html');
   // sort_init moved SortComponent
   // sort_update moved SortComponent
   // sort_clause moved SortComponent
@@ -146,11 +147,10 @@ class SortHelper extends PaginatorHelper
     if ($caption == null) {
       $caption = __($column, true);
     }
-    
     $html = $this->sort($caption, $column, $options);
 
-    if($this->params['url']['sort'] == $column) {
-      if($this->params['url']['direction'] == 'asc') {
+    if($this->params['named']['sort'] == $column) {
+      if($this->params['named']['direction'] == 'asc') {
         $icon = 'sort_asc.png';
       } else {
         $icon = 'sort_desc.png';
@@ -161,6 +161,37 @@ class SortHelper extends PaginatorHelper
   }
 
 // overwrite
+/**
+ * Generates a plain or Ajax link with pagination parameters
+ *
+ * FIX: Because two or more GET parameters.
+ *  from: $obj = isset($options['update']) ? 'Ajax' : 'Html';
+ *  to:   $obj = isset($options['update']) ? 'AppAjax' : 'Html';
+ *
+ * @param  string $title Title for the link.
+ * @param  mixed $url Url for the action. See Router::url()
+ * @param  array $options Options for the link. See #options for list of keys.
+ * @return string A link with pagination parameters.
+ */
+  function link($title, $url = array(), $options = array()) {
+    $options = array_merge(array('model' => null, 'escape' => true), $options);
+    $model = $options['model'];
+    unset($options['model']);
+
+    if (!empty($this->options)) {
+      $options = array_merge($this->options, $options);
+    }
+    if (isset($options['url'])) {
+      $url = array_merge((array)$options['url'], (array)$url);
+      unset($options['url']);
+    }
+    $url = $this->url($url, true, $model);
+
+    $obj = isset($options['update']) ? 'AppAjax' : 'Html';
+    $url = array_merge(array('page' => $this->current($model)), $url);
+    $url = array_merge(Set::filter($url, true), array_intersect_key($url, array('plugin'=>true)));
+    return $this->{$obj}->link($title, $url, $options);
+  }
 }
 
 ?>
