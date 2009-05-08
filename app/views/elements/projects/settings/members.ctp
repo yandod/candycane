@@ -8,34 +8,54 @@
 <?php if ( !empty($members) ): ?>
 <table class="list">
 	<thead>
-	  <th><%= l(:label_user) %></th>
-	  <th><%= l(:label_role) %></th>
+	  <th><?php __('User') ?></th>
+	  <th><?php __('Role') ?></th>
 	  <th style="width:15%"></th>
-          <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %>
+<!--            <%= call_hook(:view_projects_settings_members_table_header, :project => @project) %> -->
 	</thead>
 	<tbody>
-	<% members.each do |member| %>
-	<% next if member.new_record? %>
-	<tr class="<%= cycle 'odd', 'even' %>">
-	<td><%= member.name %></td>
+	<?php foreach ($members as $member_row): ?>
+<?php	#<% next if member.new_record? %> ?>
+	<tr class="<?php echo $candy->cycle() ?>">
+	<td><?php echo $candy->format_username($member_row['User']) ?></td>
     <td align="center">
-    <% if authorize_for('members', 'edit') %>
-      <% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member}, :method => :post) do |f| %>
-        <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, {}, :class => "small" %>
-        <%= submit_tag l(:button_change), :class => "small" %>
-      <% end %>
-    <% end %>
+    <?php if ($candy->authorize_for(':members')): ?>
+    <!-- <% if authorize_for('members', 'edit') %> -->
+  <?php echo $ajax->form(
+    array('options' =>array(
+      'model' => 'Member',
+      'update' => 'tab-content-members',
+      'url' => array(
+        'controller' => 'members',
+        'action' => 'edit',
+        'id' => $member_row['Member']['id'],
+      )
+    ))
+  ) ?>
+<?php       //<% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member}, :method => :post) do |f| %> ?> 
+        <!-- <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, {}, :class => "small" %> -->
+        <?php echo $form->select('Member.role_id',$roles,false,aa('class','small')) ?>
+        <?php echo $form->submit(__('Change',true),aa('class','small','div',false)) ?>
+      <?php endif; ?>
+    <?php endforeach; ?>
     </td>
     <td align="center">
-      <%= link_to_remote l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
+  <?php echo $ajax->link(__('Delete',true),array(
+        'controller' => 'members',
+        'action' => 'destroy',
+        'id' => $member_row['Member']['id'],
+      ),aa('class','icon icon-del')
+    )
+   ?>
+<!--       <%= link_to_remote l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
                                               :method => :post
                                             }, :title => l(:button_delete),
-                                               :class => 'icon icon-del' %>
+                                               :class => 'icon icon-del' %> -->
     </td>
-    <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %>
+<!--     <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %> -->
 	</tr>
 	</tbody>
-<% end; reset_cycle %>
+<!-- <% end; reset_cycle %> -->
 </table>
 <?php else: ?>
 <p class="nodata"><?php __('No data to display') ?></p>
@@ -55,7 +75,7 @@
   ) ?>
     <p><label for="member_user_id"><?php __('New member') ?></label><br />
     <%= f.select :user_id, users.collect{|user| [user.name, user.id]} %>
-    <?php __('Role') ?>: <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, :selected => nil %>
-    <?php echo $form->submit(__('Add',true)) ?></p>
+    <?php __('Role') ?>: <?php echo $form->select('Member.role_id',$roles,false,aa('class','small')) ?>
+    <?php echo $form->submit(__('Add',true),aa('div',false)) ?></p>
   <?php echo '</form>' ?>
 <!-- <% end %> -->

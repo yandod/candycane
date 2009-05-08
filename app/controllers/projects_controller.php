@@ -801,6 +801,9 @@ class ProjectsController extends AppController
     $members = $this->Member->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id'])));
     $this->set('members',$members);
 
+    $roles = $this->Member->Role->find('list');
+    $this->set('roles',$roles);
+    
     //:TODO yando やる
     $tabs = array(
       aa('name', 'info', 'partial', 'projects/edit', 'label', __('Information',true)),
