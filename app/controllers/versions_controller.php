@@ -75,9 +75,9 @@ class VersionsController extends AppController
     $this->set('issues', $issues); // @FIXME
     $fixed_issue_count = count($issues);
     $this->set('fixed_issue_count', $fixed_issue_count);
-    $wiki_content = $this->Wiki->Page->find('first',
+    $wiki_content = $this->Wiki->WikiPage->find('first',
                                                 aa('conditions',
-                                                   aa('Page.title',
+                                                   aa('WikiPage.title',
                                                    $this->data['Version']['wiki_page_title'])));
     $this->set('wiki_content', $wiki_content);
     /*
