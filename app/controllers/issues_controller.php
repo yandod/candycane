@@ -235,7 +235,7 @@ class IssuesController extends AppController
         if(!empty($this->params['form']['continue'])) {
           $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues/add/tracker_id:'.$this->data['Issue']['tracker_id']);
         }
-        $this->redirect(array('action'=>'show', 'id'=>$this->Issue->getLastInsertID()));
+        $this->redirect(array('action'=>'show', 'issue_id'=>$this->Issue->getLastInsertID()));
       }
     } elseif(!$this->RequestHandler->isAjax() && empty($this->data['Issue']['start_date'])) {
       $this->data['Issue']['start_date'] = date('Y-m-d');

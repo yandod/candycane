@@ -105,6 +105,36 @@ class AppModel extends Model {
     $s = str_replace(',', '.', $s);
     return $s;
   }
+/**
+ * Gets full table name including prefix
+ *
+ * @param boolean $quote
+ * @return string Full quoted table name
+ */
+  function fullTableName($quote = true) {  
+    $db =& ConnectionManager::getDataSource($this->useDbConfig);
+    return $db->fullTableName($this, $quote);
+  }
+  function quoted_date($date, $colname) {
+    $db =& ConnectionManager::getDataSource($this->useDbConfig);
+    $default = array('formatter' => 'date');
+    $colType = array_merge($default, $db->columns[$this->getColumnType($colname)]);
+    $time = strtotime($date);
+    if (array_key_exists('format', $colType)) {
+      $time = $colType['formatter']($colType['format'], strtotime($date));
+    }
+    return $time;
+  }
+  function toString($data = false) {
+    $out = '';
+    if(!$data) {
+      $data = $this->data;
+    }
+    if(array_key_exists('name', $data)) {
+      $out = $data['name'];
+    }
+    return $out;
+  }
 }
 
 /*

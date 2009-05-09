@@ -253,45 +253,71 @@ class Project extends AppModel
     }
     return $base_statement;
   }
-#  def self.allowed_to_condition(user, permission, options={})
-#    statements = []
-#    base_statement = "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
-#    if perm = Redmine::AccessControl.permission(permission)
-#      unless perm.project_module.nil?
-#        # If the permission belongs to a project module, make sure the module is enabled
-#        base_statement << " AND EXISTS (SELECT em.id FROM #{EnabledModule.table_name} em WHERE em.name='#{perm.project_module}' AND em.project_id=#{Project.table_name}.id)"
-#      end
-#    end
-#    if options[:project]
+  // This method use only timelog_controller.
+  // Not use $options
+  function allowed_to_condition_string($user, $permission) {
+    $statements = array();
+    $table_name = $this->fullTableName();
+    $this->bindModel(array('hasMany' => array('EnabledModule')), false);
+    $enabled_module_table_name = $this->EnabledModule->fullTableName();
+    $base_statement = "{$table_name}.status=".PROJECT_STATUS_ACTIVE;
+    $Permission = & ClassRegistry::init('Permission');
+    $perm = $Permission->findByName($permission);
+    if(!empty($perm['project_module'])) {
+      # If the permission belongs to a project module, make sure the module is enabled
+      $base_statement .= " AND EXISTS (SELECT em.id FROM {$enabled_module_table_name} em WHERE em.name='{$perm['project_module']}' AND em.project_id={$table_name}.id)";
+    }
+// TimelogController not specify $options    
+#    if(isset($options['project'])) {
 #      project_statement = "#{Project.table_name}.id = #{options[:project].id}"
 #      project_statement << " OR #{Project.table_name}.parent_id = #{options[:project].id}" if options[:with_subprojects]
 #      base_statement = "(#{project_statement}) AND (#{base_statement})"
 #    end
-#    if user.admin?
-#      # no restriction
-#    else
-#      statements << "1=0"
-#      if user.logged?
-#        statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" if Role.non_member.allowed_to?(permission)
-#        allowed_project_ids = user.memberships.select {|m| m.role.allowed_to?(permission)}.collect {|m| m.project_id}
-#        statements << "#{Project.table_name}.id IN (#{allowed_project_ids.join(',')})" if allowed_project_ids.any?
-#      elsif Role.anonymous.allowed_to?(permission)
-#        # anonymous user allowed on public project
-#        statements << "#{Project.table_name}.is_public = #{connection.quoted_true}" 
-#      else
-#        # anonymous user is not authorized
-#      end
-#    end
-#    statements.empty? ? base_statement : "((#{base_statement}) AND (#{statements.join(' OR ')}))"
-#  end
-#  
-  function project_condition($with_subprojects)
+    if($user['admin']) {
+      # no restriction
+    } else {
+      $role = & ClassRegistry::init('Role');
+      $statements[] = "1=0";
+      if($user['logged']) {
+        if($role->non_member_allowed_to($permission)) {
+          $statements[] = "{$table_name}.is_public = 1";
+        }
+        $allowed_project_ids = array();
+        foreach($user['memberships'] as $member) {
+          $allowed_project_ids[] = $member['Project'][0]['Project']['id'];
+        }
+        if(!empty($allowed_project_ids)) {
+          $statements[] = "{$table_name}.id IN (".join(',', $allowed_project_ids).")";
+        }
+      } elseif($role->anonymous_allowed_to($permission)) {
+        # anonymous user allowed on public project
+        $statements[] = "{$table_name}.is_public = 1"; 
+      } else {
+        # anonymous user is not authorized
+      }
+    }
+    return empty($statements) ? $base_statement : "(({$base_statement}) AND (".join(' OR ', $statements)."))";
+  }
+  
+  function project_condition($with_subprojects, $data=false, $string=false)
   {
-    $cond = array($this->name.'.id' => $this->id);
-    if ($with_subprojects) {
-      $temp = array('or' => $cond);
-      $temp['or'][$this->name.'.parent_id'] = $this->id;
-      $cond = $temp;
+    if(!$data) {
+      $data = $this->data[$this->name];
+      $data['id'] = $this->id;
+    }
+    if($string) {
+      $table_name = $this->fullTableName();
+      $cond = "{$table_name}.id = {$data['id']}";
+      if ($with_subprojects) {
+        $cond = "({$cond} OR {$table_name}.parent_id = {$data['id']})";
+      }
+    } else {
+      $cond = array($this->name.'.id' => $data['id']);
+      if ($with_subprojects) {
+        $temp = array('or' => $cond);
+        $temp['or'][$this->name.'.parent_id'] = $data['id'];
+        $cond = $temp;
+      }
     }
 
     return $cond;

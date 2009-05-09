@@ -18,7 +18,7 @@
 class TimelogHelper extends AppHelper
 {
   var $helpers = array(
-    'Candy', 'Html'
+    'Candy', 'Html', 'AppAjax', 'CustomField'
   );
 
   function link_to_timelog_edit_url($project, $issue) {
@@ -39,9 +39,9 @@ class TimelogHelper extends AppHelper
   }
   function link_to_timelog_report_url($project=array()) {
     if(!empty($project)) {
-      $url = array('controller'=>'timelog', 'action'=>'reports', 'project_id'=>$project['Project']['identifier']);
+      $url = array('controller'=>'timelog', 'action'=>'report', 'project_id'=>$project['Project']['identifier']);
     } else {
-      $url =  array('controller'=>'timelog', 'action'=>'reports');
+      $url =  array('controller'=>'timelog', 'action'=>'report');
     }
     return $url;
   }
@@ -78,18 +78,24 @@ class TimelogHelper extends AppHelper
     collection
   end
 
-  def select_hours(data, criteria, value)
-    data.select {|row| row[criteria] == value}
-  end
-
-  def sum_hours(data)
-    sum = 0
-    data.each do |row|
-      sum += row['hours'].to_f
-    end
-    sum
-  end
 */
+  function select_hours($data, $criteria, $value) {
+    $result = array();
+    foreach($data as $row) {
+      if($row['TimeEntry'][$criteria] == $value) {
+        $result[] = $row;
+      }
+    }
+    return $result;
+  }
+
+  function sum_hours($data) {
+    $sum = 0;
+    foreach($data as $row) {
+      $sum += $row['0']['hours'];
+    }
+    return $sum;
+  }
   function options_for_period_select() {
     return array(
       'all'           => __('all time',true),
@@ -104,6 +110,24 @@ class TimelogHelper extends AppHelper
       'current_year'  => __('this year',true),
     );
   }
+  function selectable_criterias($available_criterias, $criterias) {
+    $selectable_criterias = array();
+    foreach($available_criterias as $k=>$available) {
+      if(!in_array($k, $criterias)) {
+        $selectable_criterias[$k] = __($available['label'],true);
+      }
+    }
+    return $selectable_criterias;
+  }
+  function clear_link($project, $columns) {
+    $get_params = $this->params['url'];
+    unset($get_params['url']);
+    $url = $this->AppAjax->link(__('Clear',true), 
+        array('project_id' => $project['Project']['identifier'], '?'=>array_merge($get_params, array('columns' => $columns))),
+        array('class' => 'icon icon-reload', 'update' => 'content'));
+    return $url;
+  }
+
 /*
   def entries_to_csv(entries)
     ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
@@ -146,11 +170,28 @@ class TimelogHelper extends AppHelper
     export.rewind
     export
   end
-
-  def format_criteria_value(criteria, value)
-    value.blank? ? l(:label_none) : ((k = @available_criterias[criteria][:klass]) ? k.find_by_id(value.to_i) : format_value(value, @available_criterias[criteria][:format]))
-  end
-
+*/
+  function format_criteria_value($available_criterias, $criteria, $value) {
+    $out = __('none',true);
+    if(!empty($value)) {
+      $k = $available_criterias[$criteria]['klass'];
+      if(!empty($k)) {
+        $k->read(null, $value);
+        $out = $k->toString();
+      } else {
+        $this->CustomField->format_value($value, $available_criterias[$criteria]['format']);
+      }
+    }
+    return $out;
+  }
+  function empty_td($count) {
+    $out = '';
+    for($i = 0; $i < $count; $i++) {
+      $out .= '<td></td>';
+    }
+    return $out;
+  }
+/*
   def report_to_csv(criterias, periods, hours)
     export = StringIO.new
     CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|

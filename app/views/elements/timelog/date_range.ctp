@@ -67,6 +67,6 @@
           array('class' => ($this->action == 'details' ? 'selected' : ''))); ?></li>
   <li><?php echo $html->link(__('Reports',true), 
           array_merge($timelog->link_to_timelog_report_url($main_project), array('?'=>$url_params)),
-          array('class' => ($this->action == 'reports' ? 'selected' : ''))); ?></li>
+          array('class' => ($this->action == 'report' ? 'selected' : ''))); ?></li>
 </ul>
 </div>
