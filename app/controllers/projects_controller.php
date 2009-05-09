@@ -405,7 +405,7 @@ class ProjectsController extends AppController
     if($this->RequestHandler->isPost()) {
       $this->data['IssueCategory']['project_id'] = $this->_project['Project']['id'];
       if($this->IssueCategory->save($this->data, true, array('name', 'assigned_to_id','project_id'))) {
-        $this->Session->setFlash(__('Successful create.',true), 'default', array('class'=>'flash flash_notice'));
+        $this->Session->setFlash(__('Successful creation.',true), 'default', array('class'=>'flash flash_notice'));
         $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['project_id'], '?'=>'tab=categories'));
       }
     }
