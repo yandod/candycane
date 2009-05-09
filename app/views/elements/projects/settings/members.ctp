@@ -17,12 +17,10 @@ foreach ($roles_data as $roles_row) {
 	</thead>
 	<tbody>
 	<?php foreach ($members as $member_row): ?>
-<?php	#<% next if member.new_record? %> ?>
 	<tr class="<?php echo $candy->cycle() ?>">
 	<td><?php echo $candy->format_username($member_row['User']) ?></td>
     <td align="center">
     <?php if ($candy->authorize_for(aa('contrller','members','action','edit'))): ?>
-    <!-- <% if authorize_for('members', 'edit') %> -->
   <?php echo $ajax->form(
     array('options' =>array(
       'model' => 'Member',
@@ -30,34 +28,30 @@ foreach ($roles_data as $roles_row) {
       'url' => array(
         'controller' => 'members',
         'action' => 'edit',
+        'project_id' => $main_project['Project']['identifier'],
         'id' => $member_row['Member']['id'],
       )
     ))
   ) ?>
-<?php       //<% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member}, :method => :post) do |f| %> ?> 
-        <!-- <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, {}, :class => "small" %> -->
-        <?php echo $form->select('Member.role_id',$roles_list,false,aa('class','small'),false) ?>
+        <?php echo $form->select('Member.role_id',$roles_list,$member_row['Member']['role_id'],aa('class','small'),false) ?>
         <?php echo $form->submit(__('Change',true),aa('class','small','div',false)) ?>
+      <?php echo '</form>'; ?>
       <?php endif; ?>
-    <?php endforeach; ?>
     </td>
     <td align="center">
   <?php echo $ajax->link(__('Delete',true),array(
         'controller' => 'members',
         'action' => 'destroy',
+        'project_id' => $main_project['Project']['identifier'],
         'id' => $member_row['Member']['id'],
-      ),aa('class','icon icon-del')
+      ),aa('class','icon icon-del','update','tab-content-members')
     )
    ?>
-<!--       <%= link_to_remote l(:button_delete), { :url => {:controller => 'members', :action => 'destroy', :id => member},                                              
-                                              :method => :post
-                                            }, :title => l(:button_delete),
-                                               :class => 'icon icon-del' %> -->
     </td>
 <!--     <%= call_hook(:view_projects_settings_members_table_row, { :project => @project, :member => member}) %> -->
 	</tr>
+    <?php endforeach; ?>
 	</tbody>
-<!-- <% end; reset_cycle %> -->
 </table>
 <?php else: ?>
 <p class="nodata"><?php __('No data to display') ?></p>
@@ -71,7 +65,7 @@ foreach ($roles_data as $roles_row) {
     $users_list[$user_row['User']['id']] = $candy->format_username($user_row['User']);
   }
 ?>
-<!-- <% if authorize_for('members', 'new') && !users.empty? %> -->
+<?php if ($candy->authorize_for(aa('controller','members','action','new') && !empty($users_list))): ?>
   <?php echo $ajax->form(
     array('options' =>array(
       'model' => 'Member',
@@ -79,7 +73,7 @@ foreach ($roles_data as $roles_row) {
       'url' => array(
         'controller' => 'members',
         'action' => 'add',
-        'id' => $main_project['Project']['identifier'],
+        'project_id' => $main_project['Project']['identifier'],
       )
     ))
   ) ?>
@@ -88,4 +82,4 @@ foreach ($roles_data as $roles_row) {
     <?php __('Role') ?>: <?php echo $form->select('Member.role_id',$roles_list,false,aa('class','small'),false) ?>
     <?php echo $form->submit(__('Add',true),aa('div',false)) ?></p>
   <?php echo '</form>' ?>
-<!-- <% end %> -->
+<?php endif; ?>
