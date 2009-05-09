@@ -75,6 +75,7 @@
 Router::connect('/wiki/:project_id', array('controller' => 'wiki', 'action' => 'index'));
 Router::connect('/wiki/:project_id/:wikipage', array('controller' => 'wiki', 'action' => 'index'));
 Router::connect('/wiki/:project_id/:wikipage/:action/*', array('controller' => 'wiki', 'action' => 'index', 'wikipage' => null));
+Router::connect('/wikis/:action/:project_id', array('controller' => 'wikis'));
 
 #  map.connect 'wiki/:id/:page/:action', :controller => 'wiki', :page => nil
 #  map.connect 'roles/workflow/:id/:role_id/:tracker_id', :controller => 'roles', :action => 'workflow'
