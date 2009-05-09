@@ -1,64 +1,91 @@
+<?php
+  if(!isset($main_project)) $main_project = array();
+  if(!isset($issue))        $issue = array();
+?>
 <div class="contextual">
-<%= link_to_if_authorized l(:button_log_time), {:controller => 'timelog', :action => 'edit', :project_id => @project, :issue_id => @issue}, :class => 'icon icon-time' %>
+  <?php
+  if(!empty($main_project)) {
+    echo $candy->link_to_if_authorized('button_log_time', __('Log time',true), $timelog->link_to_timelog_edit_url($main_project, $issue), array('class' => 'icon icon-time')); 
+  }
+  ?>
 </div>
 
-<%= render_timelog_breadcrumb %>
+<?php echo $timelog->render_timelog_breadcrumb($main_project, $issue); ?>
 
-<h2><%= l(:label_spent_time) %></h2>
+<h2><?php __('Spent time') ?></h2>
 
-<% form_remote_tag(:url => {}, :update => 'content') do %>
-  <% @criterias.each do |criteria| %>
-    <%= hidden_field_tag 'criterias[]', criteria, :id => nil %>
-  <% end %>
-  <%= hidden_field_tag 'project_id', params[:project_id] %>
-  <%= render :partial => 'date_range' %>
+<?php
+echo $form->create('TimeEntry', array(
+        'url'=>$timelog->link_to_timelog_report_url($main_project),
+        'onsubmit'=>$ajax->remoteFunction(array('url'=>$timelog->link_to_timelog_report_url($main_project), 'form'=>true, 'after'=>'return false', 'update'=>'content')),
+        )
+      );
+  foreach($criterias as $criteria) {
+    echo $form->hidden('criterias[]', array('value'=>$criteria, 'id' => null));
+  }
+  echo $form->hidden('project_id', array('value'=>$this->params['project_id']));
+  echo $this->renderElement('timelog/date_range', array('main_project'=>$main_project));
+?>
+  <p><?php __('Details') ?>: <?php echo $form->input('columns', array('type'=>'select', 'div'=>false, 'label'=>false,
+                                                        'options' => array('year' =>__('Year',true),
+                                                                           'month'=>__('Month',true),
+                                                                           'week' =>__('Week',true),
+                                                                           'day'  =>__('days',true)),
+                                                        'value'   => $columns,
+                                                        'onchange' => "this.form.onsubmit();")); ?>
 
-  <p><%= l(:label_details) %>: <%= select_tag 'columns', options_for_select([[l(:label_year), 'year'],
-                                                                            [l(:label_month), 'month'],
-                                                                            [l(:label_week), 'week'],
-                                                                            [l(:label_day_plural).titleize, 'day']], @columns),
-                                                        :onchange => "this.form.onsubmit();" %>
+  <?php __('Add') ?>: <?php echo $form->input('criterias', array('type'=>'select', 'div'=>false, 'label'=>false,
+                                                        'options' => $timelog->selectable_criterias($availableCriterias, $criterias),
+                                                        'empty' => true,
+                                                        'onchange' => "this.form.onsubmit();",
+                                                        'style' => 'width: 200px',
+                                                        'id' => null,
+                                                        'name'=>'data[TimeEntry][criterias][]',
+                                                        'disabled' => (count($criterias) >= 3))); ?>
+     <?php echo $timelog->clear_link($main_project, $columns); ?>
+  </p>
+<?php echo $form->end(); ?>
 
-  <%= l(:button_add) %>: <%= select_tag('criterias[]', options_for_select([[]] + (@available_criterias.keys - @criterias).collect{|k| [l(@available_criterias[k][:label]), k]}),
-                                                          :onchange => "this.form.onsubmit();",
-                                                          :style => 'width: 200px',
-                                                          :id => nil,
-                                                          :disabled => (@criterias.length >= 3)) %>
-     <%= link_to_remote l(:button_clear), {:url => {:project_id => @project, :period_type => params[:period_type], :period => params[:period], :from => @from, :to => @to, :columns => @columns},
-                                           :update => 'content'
-                                          }, :class => 'icon icon-reload' %></p>
-<% end %>
-
-<% unless @criterias.empty? %>
+<?php if(!empty($criterias)): ?>
 <div class="total-hours">
-<p><%= l(:label_total) %>: <%= html_hours(lwr(:label_f_hour, @total_hours)) %></p>
+<p><?php __('Total') ?>: <?php echo $candy->html_hours(sprintf(__("%.2f hour",true), $totalHours)); ?></p>
 </div>
 
-<% unless @hours.empty? %>
+<?php if(!empty($hours)): ?>
 <table class="list" id="time-report">
 <thead>
 <tr>
-<% @criterias.each do |criteria| %>
-  <th><%= l(@available_criterias[criteria][:label]) %></th>
-<% end %>
-<% columns_width = (40 / (@periods.length+1)).to_i %>
-<% @periods.each do |period| %>
-  <th class="period" width="<%= columns_width %>%"><%= period %></th>
-<% end %>
-  <th class="total" width="<%= columns_width %>%"><%= l(:label_total) %></th>
+<?php foreach($criterias as $criteria): ?>
+  <th><?php __($availableCriterias[$criteria]['label'], true) ?></th>
+<?php endforeach; ?>
+<?php $columns_width = (40 / (count($periods)+1)); ?>
+<?php foreach($periods as $period): ?>
+  <th class="period" width="<?php echo $columns_width; ?>%"><?php echo $period; ?></th>
+<?php endforeach; ?>
+  <th class="total" width="<?php echo $columns_width; ?>%"><?php __('Total') ?></th>
 </tr>
 </thead>
 <tbody>
-<%= render :partial => 'report_criteria', :locals => {:criterias => @criterias, :hours => @hours, :level => 0} %>
+<?php echo $this->renderElement('timelog/report_criteria', array(
+    'criterias' => $criterias, 
+    'hours'=>$hours, 
+    'level'=>0, 
+    'availableCriterias'=>$availableCriterias,
+    'columns'=>$columns,
+    'periods'=>$periods,
+    )); ?>
   <tr class="total">
-  <td><%= l(:label_total) %></td>
-  <%= '<td></td>' * (@criterias.size - 1) %>
-  <% total = 0 -%>
-  <% @periods.each do |period| -%>
-    <% sum = sum_hours(select_hours(@hours, @columns, period.to_s)); total += sum -%>
-    <td class="hours"><%= html_hours("%.2f" % sum) if sum > 0 %></td>
-  <% end -%>
-  <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
+  <td><?php __('Total') ?></td>
+  <!-- TODO: <%= '<td></td>' * (@criterias.size - 1) %> -->
+  <?php $total = 0; ?>
+<?php
+//e(pr($periods));
+?>
+  <?php foreach($periods as $period): ?>
+    <?php $sum = $timelog->sum_hours($timelog->select_hours($hours, $columns, $period)); $total += $sum; ?>
+    <td class="hours"><?php if($sum > 0) { echo $candy->html_hours(sprintf(__("%.2f",true), $sum)); } ?></td>
+  <?php endforeach; ?>
+  <td class="hours"><?php if($total > 0) { echo $candy->html_hours(sprintf(__("%.2f",true), $total)); } ?></td>
   </tr>
 </tbody>
 </table>
@@ -67,8 +94,8 @@
 <%= l(:label_export_to) %>
 <span><%= link_to 'CSV', params.merge({:format => 'csv'}), :class => 'csv' %></span>
 </p>
-<% end %>
-<% end %>
+<?php endif; ?>
+<?php endif; ?>
 
 <% html_title l(:label_spent_time), l(:label_report) %>
 

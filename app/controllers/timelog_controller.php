@@ -41,115 +41,173 @@ class TimelogController extends AppController
   var $components = array('Sort', 'RequestHandler');
   var $_project = false;
   
-#  def report
-#    @available_criterias = { 'project' => {:sql => "#{TimeEntry.table_name}.project_id",
-#                                          :klass => Project,
-#                                          :label => :label_project},
-#                             'version' => {:sql => "#{Issue.table_name}.fixed_version_id",
-#                                          :klass => Version,
-#                                          :label => :label_version},
-#                             'category' => {:sql => "#{Issue.table_name}.category_id",
-#                                            :klass => IssueCategory,
-#                                            :label => :field_category},
-#                             'member' => {:sql => "#{TimeEntry.table_name}.user_id",
-#                                         :klass => User,
-#                                         :label => :label_member},
-#                             'tracker' => {:sql => "#{Issue.table_name}.tracker_id",
-#                                          :klass => Tracker,
-#                                          :label => :label_tracker},
-#                             'activity' => {:sql => "#{TimeEntry.table_name}.activity_id",
-#                                           :klass => Enumeration,
-#                                           :label => :label_activity},
-#                             'issue' => {:sql => "#{TimeEntry.table_name}.issue_id",
-#                                         :klass => Issue,
-#                                         :label => :label_issue}
-#                           }
-#    
-#    # Add list and boolean custom fields as available criterias
-#    custom_fields = (@project.nil? ? IssueCustomField.for_all : @project.all_issue_custom_fields)
-#    custom_fields.select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-#      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'Issue' AND c.customized_id = #{Issue.table_name}.id)",
-#                                             :format => cf.field_format,
-#                                             :label => cf.name}
-#    end if @project
-#    
-#    # Add list and boolean time entry custom fields
-#    TimeEntryCustomField.find(:all).select {|cf| %w(list bool).include? cf.field_format }.each do |cf|
-#      @available_criterias["cf_#{cf.id}"] = {:sql => "(SELECT c.value FROM #{CustomValue.table_name} c WHERE c.custom_field_id = #{cf.id} AND c.customized_type = 'TimeEntry' AND c.customized_id = #{TimeEntry.table_name}.id)",
-#                                             :format => cf.field_format,
-#                                             :label => cf.name}
-#    end
-#    
-#    @criterias = params[:criterias] || []
-#    @criterias = @criterias.select{|criteria| @available_criterias.has_key? criteria}
-#    @criterias.uniq!
-#    @criterias = @criterias[0,3]
-#    
-#    @columns = (params[:columns] && %w(year month week day).include?(params[:columns])) ? params[:columns] : 'month'
-#    
-#    retrieve_date_range
-#    
-#    unless @criterias.empty?
-#      sql_select = @criterias.collect{|criteria| @available_criterias[criteria][:sql] + " AS " + criteria}.join(', ')
-#      sql_group_by = @criterias.collect{|criteria| @available_criterias[criteria][:sql]}.join(', ')
-#      
-#      sql = "SELECT #{sql_select}, tyear, tmonth, tweek, spent_on, SUM(hours) AS hours"
-#      sql << " FROM #{TimeEntry.table_name}"
-#      sql << " LEFT JOIN #{Issue.table_name} ON #{TimeEntry.table_name}.issue_id = #{Issue.table_name}.id"
-#      sql << " LEFT JOIN #{Project.table_name} ON #{TimeEntry.table_name}.project_id = #{Project.table_name}.id"
-#      sql << " WHERE"
-#      sql << " (%s) AND" % @project.project_condition(Setting.display_subprojects_issues?) if @project
-#      sql << " (%s) AND" % Project.allowed_to_condition(User.current, :view_time_entries)
-#      sql << " (spent_on BETWEEN '%s' AND '%s')" % [ActiveRecord::Base.connection.quoted_date(@from.to_time), ActiveRecord::Base.connection.quoted_date(@to.to_time)]
-#      sql << " GROUP BY #{sql_group_by}, tyear, tmonth, tweek, spent_on"
-#      
-#      @hours = ActiveRecord::Base.connection.select_all(sql)
-#      
-#      @hours.each do |row|
-#        case @columns
-#        when 'year'
-#          row['year'] = row['tyear']
-#        when 'month'
-#          row['month'] = "#{row['tyear']}-#{row['tmonth']}"
-#        when 'week'
-#          row['week'] = "#{row['tyear']}-#{row['tweek']}"
-#        when 'day'
-#          row['day'] = "#{row['spent_on']}"
-#        end
-#      end
-#      
-#      @total_hours = @hours.inject(0) {|s,k| s = s + k['hours'].to_f}
-#      
-#      @periods = []
-#      # Date#at_beginning_of_ not supported in Rails 1.2.x
-#      date_from = @from.to_time
-#      # 100 columns max
-#      while date_from <= @to.to_time && @periods.length < 100
-#        case @columns
-#        when 'year'
-#          @periods << "#{date_from.year}"
-#          date_from = (date_from + 1.year).at_beginning_of_year
-#        when 'month'
-#          @periods << "#{date_from.year}-#{date_from.month}"
-#          date_from = (date_from + 1.month).at_beginning_of_month
-#        when 'week'
-#          @periods << "#{date_from.year}-#{date_from.to_date.cweek}"
-#          date_from = (date_from + 7.day).at_beginning_of_week
-#        when 'day'
-#          @periods << "#{date_from.to_date}"
-#          date_from = date_from + 1.day
-#        end
-#      end
-#    end
+  function report() {
+    $available_criterias = array(
+      'project'  => array('sql' => 'TimeEntry.project_id',
+                           'klass' => $this->TimeEntry->Project,
+                           'label' => 'Project'),
+      'version'  => array('sql' => "Issue.fixed_version_id",
+                           'klass' => $this->Issue->FixedVersion,
+                           'label' => 'Version'),
+      'category' => array('sql' => "Issue.category_id",
+                           'klass' => $this->Issue->Category,
+                           'label' => 'Category'),
+      'member'   => array('sql' => "TimeEntry.user_id",
+                           'klass' => $this->TimeEntry->User,
+                           'label' => 'Member'),
+      'tracker'  => array('sql' => "Issue.tracker_id",
+                           'klass' => $this->Issue->Tracker,
+                           'label' => 'Tracker'),
+      'activity' => array('sql' => "TimeEntry.activity_id",
+                           'klass' => $this->TimeEntry->Activity,
+                           'label' => 'Activity'),
+      'issue'    => array('sql' => "TimeEntry.issue_id",
+                           'klass' => $this->Issue,
+                           'label' => 'Issue'),
+    );
+    $CustomValue = & ClassRegistry::init('CustomValue');
+    $custom_value_table_name = $CustomValue->fullTableName();
+    $project_table_name = $this->TimeEntry->Project->fullTableName();
+    $issue_table_name = $this->Issue->fullTableName();
+    $time_entry_table_name = $this->TimeEntry->fullTableName();
+    #    # Add list and boolean custom fields as available criterias
+    $custom_fields = empty($this->params['project_id']) ? $this->Issue->available_custom_fields() : $this->Issue->available_custom_fields($this->params['project_id']);
+    foreach($custom_fields as $cf) {
+      if(!empty($cf['CustomField']['field_format'])) {
+        $available_criterias["cf_{$cf['CustomField']['id']}"] = array(
+          'sql' => "(SELECT c.value FROM $custom_value_table_name c WHERE c.custom_field_id = {$cf['CustomField']['id']} AND c.customized_type = 'Issue' AND c.customized_id = {$issue_table_name}.id)",
+          'format' => $cf['CustomField']['field_format'],
+          'label' => $cf['CustomField']['name']);
+      }
+    }
+  
+    # Add list and boolean time entry custom fields
+    $custom_fields = $this->TimeEntry->available_custom_fields();
+    foreach($custom_fields as $cf) {
+      if(!empty($cf['CustomField']['field_format'])) {
+        $available_criterias["cf_{$cf['CustomField']['id']}"] = array(
+          'sql' => "(SELECT c.value FROM $custom_value_table_name c WHERE c.custom_field_id = {$cf['CustomField']['id']} AND c.customized_type = 'TimeEntry' AND c.customized_id = {$time_entry_table_name}.id)",
+          'format' => $cf['CustomField']['field_format'],
+          'label' => $cf['CustomField']['name']);
+      }
+    }
+  
+    $criterias = array();
+    if(!empty($this->data['TimeEntry']['criterias'])) {
+      foreach($this->data['TimeEntry']['criterias'] as $criteria) {
+        if(array_key_exists($criteria, $available_criterias) && !in_array($criteria, $criterias)) {
+          $criterias[] = $criteria;
+        }
+      }
+    }
+    $criterias = array_slice($criterias, 0, 3);
+  
+    $columns = 'month';
+    if(!empty($this->data['TimeEntry']['columns']) && in_array($this->data['TimeEntry']['columns'], array('year', 'month', 'week', 'day'))) {
+      $columns = $this->data['TimeEntry']['columns'];
+    }
+  
+    $data = array_merge(array('from'=>null, 'to'=>null, 'period_type'=>'1', 'period'=>'all'), $this->params['url']);
+    if(!empty($this->data['TimeEntry'])) {
+      $data = array_merge($data, $this->data['TimeEntry']);
+    }
+    $range = $this->TimeEntry->retrieve_date_range($data['period_type'], $data['period'], 
+      $this->current_user, $this->_project, array('from'=>$data['from'], 'to'=>$data['to']));
+    $data = array_merge($data, $range);
+    $this->params['url'] = $data;
+  
+    if(!empty($criterias)) {
+      $sql_select = array();
+      $sql_group_by = array();
+      foreach($criterias as $criteria) {
+        $sql_select[]   = $available_criterias[$criteria]['sql']." AS ".$criteria;
+        $sql_group_by[] = $available_criterias[$criteria]['sql'];
+      }
+      $sql_select = join(', ', $sql_select).', ';
+      $sql_group_by = join(', ', $sql_group_by).', ';
+  
+      $sql  = "SELECT {$sql_select} tyear, tmonth, tweek, spent_on, SUM(hours) AS hours";
+      $sql .= " FROM $time_entry_table_name AS TimeEntry";
+      $sql .= " LEFT JOIN $issue_table_name ON TimeEntry.issue_id = {$issue_table_name}.id";
+      $sql .= " LEFT JOIN $project_table_name ON TimeEntry.project_id = {$project_table_name}.id";
+      $sql .= " WHERE";
+      if(!empty($this->_project)) {
+        $sql .= sprintf(" (%s) AND", $this->TimeEntry->Project->project_condition($this->Setting->display_subprojects_issues, $this->_project['Project'], true));
+      }
+      $sql .= sprintf(" (%s) AND", $this->TimeEntry->Project->allowed_to_condition_string($this->current_user, ':view_time_entries'));
+      $sql .= sprintf(" (spent_on BETWEEN '%s' AND '%s')" , $this->TimeEntry->quoted_date($range['from'], 'spent_on'), $this->TimeEntry->quoted_date($range['to'], 'spent_on'));
+      $sql .= " GROUP BY {$sql_group_by} tyear, tmonth, tweek, spent_on";
+  
+      $hours = $this->TimeEntry->query($sql);
+
+      $total_hours = 0;
+      foreach($hours as $k=>$row) {
+        $total_hours += $row[0]['hours'];
+        $row = $row['TimeEntry'];
+        switch($columns) {
+        case 'year' :
+          $hours[$k]['TimeEntry']['year'] = $row['tyear'];
+          break;
+        case 'month' :
+          $hours[$k]['TimeEntry']['month'] = "{$row['tyear']}-{$row['tmonth']}";
+          break;
+        case 'week' :
+          $hours[$k]['TimeEntry']['week'] = "{$row['tyear']}-{$row['tweek']}";
+          break;
+        case 'day' :
+          $hours[$k]['TimeEntry']['day'] = "{$row['spent_on']}";
+          break;
+        }
+      }
+      
+      $periods = array();
+      # Date#at_beginning_of_ not supported in Rails 1.2.x
+      $date_from = strtotime($range['from']);
+      # 100 columns max
+      while($date_from <= strtotime($range['to']) && count($periods) < 100) {
+        switch($columns) {
+        case 'year' :
+          $periods[] = date('Y', $date_from);
+          $date_from = strtotime(date('Y-1-1', strtotime('+1 year', $date_from)));
+          break;
+        case 'month' :
+          $periods[] = date('Y-n', $date_from);
+          $date_from = strtotime(date('Y-n-1', strtotime('+1 month', $date_from)));
+          break;
+        case 'week' :
+          $periods[] = date("Y-W", $date_from);
+          $w = date('w', $time);
+          if($w == 1) {
+            $add = 7;
+          } else {
+            $add = 8 - $w;
+          }
+          $date_from = strtotime("+{$add} day", $date_from);
+          break;
+        case 'day' :
+          $periods[] = date('Y-n-j', $date_from);
+          $date_from = strtotime('+1 day', $date_from);
+          break;
+        }
+      }
+    } else {
+      $total_hours = 0;
+      $hours = array();
+      $periods = array();
+    }
+    $this->set(compact('criterias', 'columns', 'available_criterias', 'total_hours', 'hours', 'periods'));
 #    
 #    respond_to do |format|
 #      format.html { render :layout => !request.xhr? }
 #      format.csv  { send_data(report_to_csv(@criterias, @periods, @hours).read, :type => 'text/csv; header=present', :filename => 'timelog.csv') }
 #    end
-#  end
-#  
+
+  }
+  
   function details() {
-    Configure::write('debug', 0);
+    if ($this->RequestHandler->isAjax()) {
+      Configure::write('debug', 0);
+    }
     $this->TimeEntry->_customFieldAfterFindDisable = true;
     $this->Sort->sort_init('TimeEntry.spent_on', 'desc');
     $this->Sort->sort_update(array(
@@ -286,8 +344,9 @@ class TimelogController extends AppController
   }
   
   function _find_optional_project() {
-    if(!empty($this->params['url']['issue_id'])) {
-      $this->Issue->read(null, $this->params['url']['issue_id']);
+    if(!empty($this->params['url']['issue_id']) || !empty($this->data['TimeEntry']['issue_id'])) {
+      $issue_id = !empty($this->params['url']['issue_id']) ? $this->params['url']['issue_id'] : $this->data['TimeEntry']['issue_id'];
+      $this->Issue->read(null, $issue_id);
       $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
     } elseif(!empty($this->params['project_id'])) {
       ; // parent::beforeFilter

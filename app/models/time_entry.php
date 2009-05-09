@@ -114,14 +114,12 @@ class TimeEntry extends AppModel
     return $this->find('all', array('conditions' => $this->Project->allowed_to_condition($user, 'view_time_entries', array('project'=>$project['Project']))));
   }
   function sum($field, $conditions) {
-    $results = $this->find('all', array('conditions'=>$conditions, 'fields'=>array($field)));
+    $fields = array("SUM($field) as sum_$field");
+    $results = $this->find('first', array('conditions'=>$conditions, 'fields'=>$fields));
     if(!$results) {
       return 0;
     }
-    $sum = 0;
-    foreach($results as $result) {
-      $sum += $result['TimeEntry'][$field];
-    }
+    $sum = $results[0]["sum_$field"];
     return $sum;
   }
   function hours() {
