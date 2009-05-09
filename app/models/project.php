@@ -41,6 +41,9 @@ class Project extends AppModel
     'IssueCategory',
     'EnabledModule',
   );
+  var $hasOne = array(
+    'Wiki'
+  );
   var $hasAndBelongsToMany = array(
     'Tracker' => array(
       'with' => 'ProjectsTracker',
@@ -167,7 +170,7 @@ class Project extends AppModel
   function get_visible_by_condition($user = null)
   {
     if ($user == null) {
-      return array('status'=>PROJECT_STATUS_ACTIVE, 'is_public'=>true); // @TODO current取れる？
+      return array('Project.status'=>PROJECT_STATUS_ACTIVE, 'is_public'=>true); // @TODO current取れる？
     }
 
     if ($user['admin']) {
