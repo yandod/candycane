@@ -162,7 +162,7 @@ class TimelogController extends AppController
     ));
     $data = array_merge(array('from'=>null, 'to'=>null, 'period_type'=>'1', 'period'=>'all'), $this->params['url']);
     if(!empty($this->data['TimeEntry'])) {
-      $data = $this->data['TimeEntry'];
+      $data = array_merge($data, $this->data['TimeEntry']);
     }
     $result = $this->TimeEntry->details_condition($this->Setting, $this->current_user, $this->_project, $this->Issue->data, $data);
     // $result ==> $cond, $range
@@ -171,14 +171,39 @@ class TimelogController extends AppController
     $this->params['url'] = $data;
     $visible = $this->TimeEntry->find_visible_by($this->current_user, $this->_project);
     if(!empty($visible)) {
-      if(!empty($this->params['named']['format'])) {
-        switch($this->params['named']['format']) {
+      if(!empty($this->params['url']['format'])) {
+        switch($this->params['url']['format']) {
         case 'csv' :
-//          $this->layout = 'pdf';
-//          $this->helpers = array('Candy', 'CustomField', 'Issues', 'Number', 'Tcpdf'=>array());
-//          $this->render('issue_to_pdf');
+          # Export all entries
+          unset($this->TimeEntry->_customFieldAfterFindDisable);
+          $this->TimeEntry->bindModel(array('belongsTo'=>array('Issue')), false);
+          $this->TimeEntry->Issue->_customFieldAfterFindDisable = true;
+          $entries = $this->TimeEntry->find('all', array(
+            'conditions' => $cond,
+            'order' => $this->Sort->sort_clause()
+          ));
+          $trackers = $this->Issue->Tracker->find('list');
+          $custom_fields = $this->TimeEntry->available_custom_fields();
+          $this->set(compact('entries', 'trackers', 'custom_fields'));
+          $this->helpers = array('Candy', 'Csv', 'CustomField');
+          $this->layout = 'csv';
+          $this->render('details_csv');
           break;
         case 'atom' :
+          $this->TimeEntry->bindModel(array('belongsTo'=>array('Issue')), false);
+          $this->TimeEntry->Issue->_customFieldAfterFindDisable = true;
+          $entries = $this->TimeEntry->find('all', array(
+            'conditions' => $cond,
+            'order' => "TimeEntry.created_on DESC",
+            'limit' => $this->Setting->feeds_limit
+          ));
+          $trackers = $this->Issue->Tracker->find('list');
+          foreach($entries as $k=>$v) {
+            if(!empty($v['Issue']['tracker_id'])) {
+              $entries[$k]['Tracker'] = array('name'=>$trackers[$v['Issue']['tracker_id']]);
+            }
+          }
+          $this->render_feed($this->TimeEntry, $entries, array('title' => __('Spent time',true)));
           break;
         }
       } else { 
@@ -203,40 +228,6 @@ class TimelogController extends AppController
         }
       }
     }
-#      respond_to do |format|
-#        format.html {
-#          # Paginate results
-#          @entry_count = TimeEntry.count(:include => :project, :conditions => cond.conditions)
-#          @entry_pages = Paginator.new self, @entry_count, per_page_option, params['page']
-#          @entries = TimeEntry.find(:all, 
-#                                    :include => [:project, :activity, :user, {:issue => :tracker}],
-#                                    :conditions => cond.conditions,
-#                                    :order => sort_clause,
-#                                    :limit  =>  @entry_pages.items_per_page,
-#                                    :offset =>  @entry_pages.current.offset)
-#          @total_hours = TimeEntry.sum(:hours, :include => :project, :conditions => cond.conditions).to_f
-#
-#          render :layout => !request.xhr?
-#        }
-#        format.atom {
-#          entries = TimeEntry.find(:all,
-#                                   :include => [:project, :activity, :user, {:issue => :tracker}],
-#                                   :conditions => cond.conditions,
-#                                   :order => "#{TimeEntry.table_name}.created_on DESC",
-#                                   :limit => Setting.feeds_limit.to_i)
-#          render_feed(entries, :title => l(:label_spent_time))
-#        }
-#        format.csv {
-#          # Export all entries
-#          @entries = TimeEntry.find(:all, 
-#                                    :include => [:project, :activity, :user, {:issue => [:tracker, :assigned_to, :priority]}],
-#                                    :conditions => cond.conditions,
-#                                    :order => sort_clause)
-#          send_data(entries_to_csv(@entries).read, :type => 'text/csv; header=present', :filename => 'timelog.csv')
-#        }
-#      end
-#    end
-
   }
   
   function edit() {

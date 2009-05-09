@@ -1,16 +1,16 @@
 <fieldset id="filters"><legend><?php __('Date range') ?></legend>
 <p>
 <?php 
-  $period_select = $ajax->Form->input('period', array(
+  $period_select = $form->input('period', array(
       'type' => 'select',
       'options' => $timelog->options_for_period_select(),
       'onchange' => 'this.form.onsubmit();',
-      'onfocus' => '$("period_type_1").checked = true;',
+      'onfocus' => '$("TimeEntryPeriodType1").checked = true;',
       'label'=>false,
       'div'=>false,
       'value'=>$this->params['url']['period'],
   ));
-  echo $ajax->Form->input('period_type', array(
+  echo $form->input('period_type', array(
       'type'=>'radio', 
       'options'=>array('1'=>' '.$period_select), 
       'div'=>false, 
@@ -21,9 +21,9 @@
 </p>
 <p>
 <?php
-  $date_select = '<span onclick="$(\'period_type_2\').checked = true;">';
+  $date_select = '<span onclick="$(\'TimeEntryPeriodType2\').checked = true;">';
   $date_select .= __('From',true).': ';
-  $date_select .= $ajax->Form->input('from', array(
+  $date_select .= $form->input('from', array(
       'type' => 'text',
       'size' => 10,
       'id'   => 'from',
@@ -33,7 +33,7 @@
   ));
   $date_select .= $candy->calendar_for('from');
   $date_select .= ' '.__('To',true).' ';
-  $date_select .= $ajax->Form->input('to', array(
+  $date_select .= $form->input('to', array(
       'type' => 'text',
       'size' => 10,
       'id'   => 'to',
@@ -43,14 +43,14 @@
   ));
   $date_select .= $candy->calendar_for('to');
   $date_select .= '</span>';
-  echo $ajax->Form->input('period_type', array(
+  echo $form->input('period_type', array(
       'type'=>'radio', 
       'options'=>array('2'=>' '.$date_select), 
       'div'=>false, 
       'label'=>false,
       'value'=>$this->params['url']['period_type'],
   ));
-  echo ' '.$ajax->Form->submit(__('Apply',true), array('name' => null, 'div'=>false));
+  echo ' '.$form->submit(__('Apply',true), array('name' => null, 'div'=>false));
 ?>
 </p>
 </fieldset>

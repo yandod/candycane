@@ -10,12 +10,11 @@ class CustomFieldHelper extends AppHelper
     'Candy'
   );
 
-  function show_value($value)
+  function show_value($custom_value)
   {
-    if (empty($value)) { return ""; }
+    if (empty($custom_value)) { return ""; }
 
-    // @FIXME
-    // format_value(custom_value.value, custom_value.custom_field.field_format)
+    $value = $this->format_value($custom_value['CustomValue']['value'], $custom_value['CustomValue']['CustomField']['field_format']);
     return $value;
   }
 
@@ -147,6 +146,16 @@ class CustomFieldHelper extends AppHelper
   function value($custom_value) {	
     $custom_field = $custom_value['CustomField'];
     return $this->format_value($custom_value['value'], $custom_field['field_format']);
+  }
+  function field_value($custom_field_id, $custom_values) {
+    $value = '';
+    foreach($custom_values as $custom_value) {
+      if($custom_value['custom_field_id'] == $custom_field_id) {
+        $value = $this->value($custom_value);
+        break;
+      }
+    }
+    return $value;
   }
 }
 

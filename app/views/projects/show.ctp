@@ -23,7 +23,7 @@ vim: filetype=php
 <?php if (isset($custom_values)): ?>
 <?php foreach($custom_values as $custom_value): ?>
   <?php if (!empty($custom_value['CustomValue']['value'])): ?>
-  <li><?php echo h($custom_value['CustomField']['name']) ?>: <?php echo h($custom_field->show_value($custom_value['CustomValue']['value'])) ?></li>
+  <li><?php echo h($custom_value['CustomField']['name']) ?>: <?php echo h($custom_field->show_value($custom_value)) ?></li>
    <?php endif ?>
 <?php endforeach ?>
 <?php endif ?>

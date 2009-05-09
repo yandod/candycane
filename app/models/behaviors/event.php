@@ -56,7 +56,7 @@ class EventBehavior extends ModelBehavior {
     if(empty($data)) $data = $Model->data;
     $option = $this->settings[$Model->alias]['url'];
     $result = (is_array($option) && array_key_exists('Proc', $option)) ? @$Model->$option['Proc']($data) : $option;
-    return array_merge($option, $options);
+    return array_merge($result, $options);
   }
   function event_datetime(&$Model, $data=false) {
     if(empty($data)) $data = $Model->data;
@@ -89,5 +89,8 @@ class EventBehavior extends ModelBehavior {
       $result = $option;
     }
     return $result;
+  }
+  function cmp_event_datetime(&$Model, $l, $r) {
+    return strtotime($Model->event_datetime($l)) - strtotime($Model->event_datetime($r));
   }
 }

@@ -22,25 +22,26 @@ class TimelogHelper extends AppHelper
   );
 
   function link_to_timelog_edit_url($project, $issue) {
-    $url = '/projects/'.$project['Project']['identifier'].'/timelog/edit';
-    if(!empty($issue)) {
-      $url .= '/issue_id:'.$issue['Issue']['id'];
+    if (empty($issue)) {
+      $url = $this->url(array('controller'=>'timelog', 'action'=>'edit', 'project_id'=>$project['Project']['identifier']));
+    } else {
+      $url = $this->url(array('controller'=>'timelog', 'action'=>'edit', 'project_id'=>$project['Project']['identifier'], '?'=>array('issue_id'=>$issue['Issue']['id'])));
     }
-    return compact('url');
+    return $url;
   }
   function link_to_timelog_detail_url($project=array()) {
     if(!empty($project)) {
-      $url = array('controller'=>'projects', 'action'=>$project['Project']['identifier'].'/timelog/details');
+      $url = array('controller'=>'timelog', 'action'=>'details', 'project_id'=>$project['Project']['identifier']);
     } else {
-      $url = array('controller'=>'timelog', 'action'=>'details');
+      $url =  array('controller'=>'timelog', 'action'=>'details');
     }
     return $url;
   }
   function link_to_timelog_report_url($project=array()) {
     if(!empty($project)) {
-      $url = array('controller'=>'projects', 'action'=>$project['Project']['identifier'].'/timelog/reports');
+      $url = array('controller'=>'timelog', 'action'=>'reports', 'project_id'=>$project['Project']['identifier']);
     } else {
-      $url = array('controller'=>'timelog', 'action'=>'reports');
+      $url =  array('controller'=>'timelog', 'action'=>'reports');
     }
     return $url;
   }
