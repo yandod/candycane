@@ -403,9 +403,10 @@ class ProjectsController extends AppController
     }
 
     if($this->RequestHandler->isPost()) {
-      if($this->IssueCategory->save($this->data, true, array('name', 'assigned_to_id'))) {
-        $this->Session->setFlash(__('Successful create.'));
-        $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['project_id'], 'tab'=>'categories'));
+      $this->data['IssueCategory']['project_id'] = $this->_project['Project']['id'];
+      if($this->IssueCategory->save($this->data, true, array('name', 'assigned_to_id','project_id'))) {
+        $this->Session->setFlash(__('Successful create.',true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['project_id'], '?'=>'tab=categories'));
       }
     }
 
@@ -808,6 +809,11 @@ class ProjectsController extends AppController
     $users = $this->Member->User->find('all',aa('conditions',aa('status',USER_STATUS_ACTIVE), 'recursive',-1));
     $this->set('users_data',$users);
     // for members tab end
+    
+    // for issue categories tab start
+    $issue_categories = $this->Project->IssueCategory->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id'])));
+    $this->set('issue_categories_data',$issue_categories);
+    // for issue categories tab end
     
     //:TODO yando やる
     $tabs = array(

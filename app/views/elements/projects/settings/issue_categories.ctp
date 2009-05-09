@@ -1,26 +1,23 @@
-<% if @project.issue_categories.any? %>
+<?php if ( !empty($issue_categories_data) ) : ?>
 <table class="list">
 	<thead>
-	<th><%= l(:label_issue_category) %></th>
-	<th><%= l(:field_assigned_to) %></th>
+	<th><?php __('Issue category') ?></th>
+	<th><?php __('Assigned to') ?></th>
 	<th style="width:15%"></th>
 	<th style="width:15%"></th>
 	</thead>
 	<tbody>
-<% for category in @project.issue_categories %>
-	<% unless category.new_record? %>
-	<tr class="<%= cycle 'odd', 'even' %>">
-    <td><%=h(category.name) %></td>
-    <td><%=h(category.assigned_to.name) if category.assigned_to %></td>
-    <td align="center"><%= link_to_if_authorized l(:button_edit), { :controller => 'issue_categories', :action => 'edit', :id => category }, :class => 'icon icon-edit' %></td>
-    <td align="center"><%= link_to_if_authorized l(:button_delete), {:controller => 'issue_categories', :action => 'destroy', :id => category}, :method => :post, :class => 'icon icon-del' %></td>
+<?php foreach ($issue_categories_data as $issue_category_row): ?>
+	<tr class="<?php echo $candy->cycle() ?>">
+    <td><?php echo h($issue_category_row['IssueCategory']['name']) ?></td>
+    <td><?php if ( !empty($issue_category_row['AssignedTo'])) { echo h($candy->format_username($issue_category_row['AssignedTo'])); } ?></td>
+    <td align="center"><?php echo $candy->link_to_if_authorized(aa('controller','issue_categories','action','edit'),__('Edit',true),aa('controller','issue_categories','action','edit','project_id',$main_project['Project']['identifier'],'id',$issue_category_row['IssueCategory']['id']),aa('class','icon icon-edit')); ?></td>
+    <td align="center"><?php echo $candy->link_to_if_authorized(aa('controller','issue_categories','action','edit'),__('Delete',true),aa('controller','issue_categories','action','destroy','project_id',$main_project['Project']['identifier'],'id',$issue_category_row['IssueCategory']['id']),aa('class','icon icon-del')); ?></td>
 	</tr>
-	<% end %>
-<% end %>
+<?php endforeach; ?>
     </tbody>
 </table>
-<% else %>
-<p class="nodata"><%= l(:label_no_data) %></p>
-<% end %>
-
-<p><%= link_to_if_authorized l(:label_issue_category_new), :controller => 'projects', :action => 'add_issue_category', :id => @project %></p>
+<?php else: ?>
+<p class="nodata"><?php __('No data to display') ?></p>
+<?php endif; ?>
+<p><?php echo $candy->link_to_if_authorized(aa('controller','projects','action','add_issue_category'),__('New category',true),aa('controller','projects','action','add_issue_category','project_id',$main_project['Project']['identifier'])); ?></p>
