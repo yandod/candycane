@@ -8,6 +8,7 @@
                    aa('class', 'icon icon-edit'
                       /*'accesskey', $candy->accesskey('edit')*/)));
    } ?>
+
 <?php if (!$page['WikiPage']['protected']) {
      e($html->link(__('Lock', true),
                    array('action' => 'protect',
@@ -16,6 +17,7 @@
                          '?protected=1'),
                    aa('method', 'post', 'class', 'icon icon-lock')));
    } ?>
+
 <?php if ($page['WikiPage']['protected']) {
   e($html->link(__('Unlock', true),
                 array('action' => 'protect',
@@ -24,6 +26,7 @@
                       '?protected=0'),
                 aa('method', 'post', 'class', 'icon icon-unlock')));
  } ?>
+
 <?php if ($content['WikiContent']['version'] == $page['WikiContent']['version']) {
    e($html->link(__('Rename', true),
                  array('action' => 'rename',
@@ -31,6 +34,7 @@
                        'wikipage' => $page['WikiPage']['title']),
                  aa('class', 'icon icon-move')));
  } ?>
+
 <?php e($html->link(__('Delete', true),
                     array('action' => 'destroy',
                           'project_id' => $main_project['Project']['identifier'],
@@ -39,6 +43,7 @@
                        'confirm', __('Are you sure ?', true),
                        'class', 'icon icon-del')));
 ?>
+
 <?php if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
    e($html->link(__('Rollback to this version', true),
                  array('action' => 'edit',
@@ -48,6 +53,7 @@
                  aa('class', 'icon icon-cancel')));
  } ?>
 <?php endif; ?>
+
 <?php e($html->link(__('History', true),
                     array('action' => 'history',
                           'project_id' => $main_project['Project']['identifier'],
@@ -68,7 +74,7 @@
                        '?version='. ($content['WikiContent']['version'] - 1)),
                  array(), false, false)); e(" - "); } ?>
 <?php printf('%s %s/%s ',
-             __('Versions'),
+             __('Version'),
              $content['WikiContent']['version'],
              $page['WikiContent']['version']) ?>
 <?php
@@ -92,7 +98,7 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
                           'project_id' => $main_project['Project']['identifier'],
                           'wikipage'   => $page['WikiPage']['title']))); ?>
     <br />
-    <em><?php e(isset($author['User']) ? $author['User']['name'] : "anonyme"); ?>, <?php e($candy->format_time($content['WikiContent']['updated_on'])); ?> </em><br />
+    <em><?php e(isset($content['Author']) ? $candy->format_username($content['Author']) : "anonyme"); ?>, <?php e($candy->format_time($content['WikiContent']['updated_on'])); ?> </em><br />
     <?php e(h($content['WikiContent']['comments'])); ?>
     </p>
     <hr />
@@ -124,7 +130,8 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
 <?php endif; ?>
 
 <p class="other-formats">
-<?php e(__("'Also available in:'", true)); ?>
+<?php e(__('Also available in:', true)); ?>
+
 <span><?php e($html->link('HTML',
                           array('action' => 'index',
                                 'project_id' => $main_project['Project']['identifier'],
