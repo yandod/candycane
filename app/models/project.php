@@ -302,7 +302,7 @@ class Project extends AppModel
   function project_condition($with_subprojects, $data=false, $string=false)
   {
     if(!$data) {
-      $data = $this->data[$this->name];
+      $data = !empty($this->data[$this->name]) ? $this->data[$this->name] : array();
       $data['id'] = $this->id;
     }
     if($string) {
