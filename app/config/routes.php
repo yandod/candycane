@@ -44,7 +44,9 @@
 	Router::connect('/projects/:project_id/timelog/:action/:page/:sort/:direction/*', array('controller' => 'timelog'), array('project_id' => '.+'));
 	
 	Router::connect('/users/list', array('controller' => 'users', 'action' => 'list_'));
-
+    Router::connect('/members/:action/:project_id/', array('controller' => 'members'));
+    Router::connect('/members/:action/:project_id/:id', array('controller' => 'members'));
+	
 #  map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
 #  map.connect 'projects/:project_id/news/:action', :controller => 'news'
 #  map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
