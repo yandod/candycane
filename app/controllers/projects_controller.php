@@ -798,13 +798,13 @@ class ProjectsController extends AppController
     $available_project_modules = $this->Permission->available_project_modules();
     $this->set('available_project_modules', $available_project_modules);
 
-    $members = $this->Member->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id'])));
+    $members = $this->Member->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id']),'order','Role.position'));
     $this->set('members',$members);
 
-    $roles = $this->Member->Role->find('list');
-    $this->set('roles',$roles);
+    $roles = $this->Member->Role->find_all_givable();
+    $this->set('roles_data',$roles);
     
-    $users = $this->User->find('all');
+    $users = $this->User->find('all',aa('conditions',aa('status',USER_STATUS_ACTIVE), 'recursive',-1));
     $this->set('users_data',$users);
     
     //:TODO yando やる

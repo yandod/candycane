@@ -158,9 +158,11 @@ class Role extends AppModel {
 #  end
 #
 #  # Find all the roles that can be given to a project member
-#  def self.find_all_givable
-#    find(:all, :conditions => {:builtin => 0}, :order => 'position')
-#  end
+  function find_all_givable()
+  {
+//    find(:all, :conditions => {:builtin => 0}, :order => 'position')
+    return $this->find('all',aa('conditions',aa('builtin',0),'order','position'));
+  }
 #
 #  # Return the builtin 'non member' role
 #  def self.non_member

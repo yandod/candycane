@@ -1,10 +1,12 @@
 <!-- 
 <%= error_messages_for 'member' %>
-<% roles = Role.find_all_givable %>
-<% users = User.active.find(:all).sort - @project.users %>
-<% # members sorted by role position
-   members = @project.members.find(:all, :include => [:role, :user]).sort %>
 -->   
+<?php 
+$roles_list = array();
+foreach ($roles_data as $roles_row) {
+  $roles_list[$roles_row['Role']['id']] = $roles_row['Role']['name'];
+}
+?>
 <?php if ( !empty($members) ): ?>
 <table class="list">
 	<thead>
@@ -19,7 +21,7 @@
 	<tr class="<?php echo $candy->cycle() ?>">
 	<td><?php echo $candy->format_username($member_row['User']) ?></td>
     <td align="center">
-    <?php if ($candy->authorize_for(':members')): ?>
+    <?php if ($candy->authorize_for(aa('contrller','members','action','edit'))): ?>
     <!-- <% if authorize_for('members', 'edit') %> -->
   <?php echo $ajax->form(
     array('options' =>array(
@@ -34,7 +36,7 @@
   ) ?>
 <?php       //<% remote_form_for(:member, member, :url => {:controller => 'members', :action => 'edit', :id => member}, :method => :post) do |f| %> ?> 
         <!-- <%= f.select :role_id, roles.collect{|role| [role.name, role.id]}, {}, :class => "small" %> -->
-        <?php echo $form->select('Member.role_id',$roles,false,aa('class','small')) ?>
+        <?php echo $form->select('Member.role_id',$roles_list,false,aa('class','small'),false) ?>
         <?php echo $form->submit(__('Change',true),aa('class','small','div',false)) ?>
       <?php endif; ?>
     <?php endforeach; ?>
@@ -61,6 +63,14 @@
 <p class="nodata"><?php __('No data to display') ?></p>
 <?php endif; ?>
 
+<?php
+  $project_member_map = Set::extract('/Member/user_id',$members);
+  $users_list = array();
+  foreach ($users_data as $user_row) {
+    if (in_array($user_row['User']['id'],$project_member_map) ) { continue; } 
+    $users_list[$user_row['User']['id']] = $candy->format_username($user_row['User']);
+  }
+?>
 <!-- <% if authorize_for('members', 'new') && !users.empty? %> -->
   <?php echo $ajax->form(
     array('options' =>array(
@@ -74,14 +84,8 @@
     ))
   ) ?>
     <p><label for="member_user_id"><?php __('New member') ?></label><br />
-    <?php
-    $users_list = array();
-    foreach ($users_data as $user_row) {
-      $users_list[$user_row['User']['id']] = $candy->format_username($user_row['User']);
-    }
-    ?>
-    <?php echo $form->select('Member.user_id',$users_list,false) ?>
-    <?php __('Role') ?>: <?php echo $form->select('Member.role_id',$roles,false,aa('class','small')) ?>
+    <?php echo $form->select('Member.user_id',$users_list,false,false,false) ?>
+    <?php __('Role') ?>: <?php echo $form->select('Member.role_id',$roles_list,false,aa('class','small'),false) ?>
     <?php echo $form->submit(__('Add',true),aa('div',false)) ?></p>
   <?php echo '</form>' ?>
 <!-- <% end %> -->
