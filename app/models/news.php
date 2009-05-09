@@ -16,6 +16,19 @@ class News extends AppModel
             'dependent' => true
         )
     ); 
+
+  var $validate = array(
+    'title'  =>  array(
+      'Required' =>  array( 'rule' => array('notEmpty'), 'required' => true ),
+      'maxLength' =>  array( 'rule' => array('maxLength', 60) ),
+    ),
+    'summary'  =>  array(
+      'maxLength' =>  array( 'rule' => array('maxLength', 255) ),
+    ),
+    'description'  =>  array(
+      'Required' =>  array( 'rule' => array('notEmpty'), 'required' => true ),
+    ),
+  ) ;
 //  belongs_to :author, :class_name => 'User', :foreign_key => 'author_id'
 //  has_many :comments, :as => :commented, :dependent => :delete_all, :order => "created_on"
 //  
