@@ -1,5 +1,5 @@
 <?php
-class QueriesComponent extends Component
+class QueriesComponent extends Object
 {
   var $name = 'Queries';
   var $controller;
