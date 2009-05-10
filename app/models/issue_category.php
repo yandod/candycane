@@ -9,6 +9,13 @@ class IssueCategory extends AppModel
       'foreignKey' => 'assigned_to_id',
     ),
   );
+  var $validate = array(
+    'name' => array(
+      'rule' => array('maxLength',30),
+      'required' => true,
+      'allowEmpty' => false
+    )
+  );
 #  belongs_to :project
 #  belongs_to :assigned_to, :class_name => 'User', :foreign_key => 'assigned_to_id'
 #  has_many :issues, :foreign_key => 'category_id', :dependent => :nullify
@@ -21,12 +28,18 @@ class IssueCategory extends AppModel
 #  
 #  # Destroy the category
 #  # If a category is specified, issues are reassigned to this category
-#  def destroy(reassign_to = nil)
-#    if reassign_to && reassign_to.is_a?(IssueCategory) && reassign_to.project == self.project
-#      Issue.update_all("category_id = #{reassign_to.id}", "category_id = #{id}")
-#    end
-#    destroy_without_reassign
-#  end
+  function del_with_reassgin($id,$reassgin_to = null)
+  {
+    $this->bindModel(array(
+       'hasMany' => array(
+         'Issue' => array(
+           'foreignKey' => 'category_id'
+         )
+       )
+    ));
+    $this->Issue->updateAll(aa('category_id',$reassgin_to),aa('category_id',$id));
+    $this->del($id);
+  }
 #  
 #  def <=>(category)
 #    name <=> category.name

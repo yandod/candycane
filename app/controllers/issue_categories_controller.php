@@ -32,8 +32,24 @@ class IssueCategoriesController extends AppController
 #      @category.destroy(reassign_to)
 #      redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'categories'
 #    end
-    $this->IssueCategory->del($this->params['id']);
-    $this->redirect(aa('controller','projects','action','settings','project_id',$this->_project['Project']['identifier'],'?','tab=categories'));
+    App::import('model','Issue');
+    $Issue = new Issue();
+    $issue_count = $Issue->find('count',aa('conditions',aa('category_id',$this->params['id'])));
+    
+    if ($issue_count == 0) {
+      $this->IssueCategory->del($this->params['id']);
+      $this->redirect(aa('controller','projects','action','settings','project_id',$this->_project['Project']['identifier'],'?','tab=categories'));
+    } elseif ( $this->data ) {
+      $reassgin_to = null;
+      if ($this->data['IssueCategory']['todo'] == 'reassgin_to') {
+        $reassgin_to = $this->data['IssueCategory']['reassign_to_id'];
+      }
+      $this->IssueCategory->del_with_reassgin($this->params['id'],$reassgin_to);
+      $this->redirect(aa('controller','projects','action','settings','project_id',$this->_project['Project']['identifier'],'?','tab=categories'));
+    }
+    $issue_category_data = $this->IssueCategory->find('first',aa('conditions',aa('IssueCategory.id',$this->params['id'])));
+    $this->set('issue_category_data',$issue_category_data);    
+    $this->set('issue_count',$issue_count);
   }
 #
 #private
