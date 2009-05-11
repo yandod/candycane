@@ -21,7 +21,7 @@ echo $form->create('TimeEntry', array(
         )
       );
   foreach($criterias as $criteria) {
-    echo $form->hidden('criterias[]', array('value'=>$criteria, 'id' => null));
+    echo $form->hidden('criterias', array('value'=>$criteria, 'id' => null, 'name'=>'data[TimeEntry][criterias][]'));
   }
   echo $form->hidden('project_id', array('value'=>$this->params['project_id']));
   echo $this->renderElement('timelog/date_range', array('main_project'=>$main_project));
@@ -56,7 +56,7 @@ echo $form->create('TimeEntry', array(
 <thead>
 <tr>
 <?php foreach($criterias as $criteria): ?>
-  <th><?php __($availableCriterias[$criteria]['label'], true) ?></th>
+  <th><?php echo __($availableCriterias[$criteria]['label'], true) ?></th>
 <?php endforeach; ?>
 <?php $columns_width = (40 / (count($periods)+1)); ?>
 <?php foreach($periods as $period): ?>
@@ -76,7 +76,7 @@ echo $form->create('TimeEntry', array(
     )); ?>
   <tr class="total">
   <td><?php __('Total') ?></td>
-  <!-- TODO: <%= '<td></td>' * (@criterias.size - 1) %> -->
+  <?php echo $timelog->empty_td(count($criterias) - 1); ?>
   <?php $total = 0; ?>
 <?php
 //e(pr($periods));

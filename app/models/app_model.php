@@ -130,8 +130,8 @@ class AppModel extends Model {
     if(!$data) {
       $data = $this->data;
     }
-    if(array_key_exists('name', $data)) {
-      $out = $data['name'];
+    if(array_key_exists('name', $data[$this->alias])) {
+      $out = $data[$this->alias]['name'];
     }
     return $out;
   }

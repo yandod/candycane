@@ -256,7 +256,7 @@ class TimeEntry extends AppModel
       if(empty($minimum)) {
         $from = strtotime('-1 day', $time);
       } else {
-        $from = strtotime($minimum[$this->name]['spent_on']);
+        $from = strtotime('-1 day', strtotime($minimum[$this->name]['spent_on']));
       }
     }
     if(empty($to)) {

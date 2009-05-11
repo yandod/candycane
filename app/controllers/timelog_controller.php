@@ -70,23 +70,23 @@ class TimelogController extends AppController
     $project_table_name = $this->TimeEntry->Project->fullTableName();
     $issue_table_name = $this->Issue->fullTableName();
     $time_entry_table_name = $this->TimeEntry->fullTableName();
-    #    # Add list and boolean custom fields as available criterias
-    $custom_fields = empty($this->params['project_id']) ? $this->Issue->available_custom_fields() : $this->Issue->available_custom_fields($this->params['project_id']);
+    # Add list and boolean custom fields as available criterias
+    $custom_fields = empty($this->_project['Project']['id']) ? $this->Issue->available_custom_fields() : $this->Issue->available_custom_fields($this->_project['Project']['id']);
     foreach($custom_fields as $cf) {
-      if(!empty($cf['CustomField']['field_format'])) {
+      if(!empty($cf['CustomField']['field_format']) && (($cf['CustomField']['field_format'] == 'list') || ($cf['CustomField']['field_format'] == 'bool'))) {
         $available_criterias["cf_{$cf['CustomField']['id']}"] = array(
-          'sql' => "(SELECT c.value FROM $custom_value_table_name c WHERE c.custom_field_id = {$cf['CustomField']['id']} AND c.customized_type = 'Issue' AND c.customized_id = {$issue_table_name}.id)",
+          'sql' => "(SELECT c.value FROM $custom_value_table_name c WHERE c.custom_field_id = {$cf['CustomField']['id']} AND c.customized_type = 'Issue' AND c.customized_id = Issue.id)",
           'format' => $cf['CustomField']['field_format'],
           'label' => $cf['CustomField']['name']);
       }
     }
-  
+
     # Add list and boolean time entry custom fields
     $custom_fields = $this->TimeEntry->available_custom_fields();
     foreach($custom_fields as $cf) {
-      if(!empty($cf['CustomField']['field_format'])) {
+      if(!empty($cf['CustomField']['field_format']) && (($cf['CustomField']['field_format'] == 'list') || ($cf['CustomField']['field_format'] == 'bool'))) {
         $available_criterias["cf_{$cf['CustomField']['id']}"] = array(
-          'sql' => "(SELECT c.value FROM $custom_value_table_name c WHERE c.custom_field_id = {$cf['CustomField']['id']} AND c.customized_type = 'TimeEntry' AND c.customized_id = {$time_entry_table_name}.id)",
+          'sql' => "(SELECT c.value FROM $custom_value_table_name c WHERE c.custom_field_id = {$cf['CustomField']['id']} AND c.customized_type = 'TimeEntry' AND c.customized_id = TimeEntry.id)",
           'format' => $cf['CustomField']['field_format'],
           'label' => $cf['CustomField']['name']);
       }
@@ -128,8 +128,8 @@ class TimelogController extends AppController
   
       $sql  = "SELECT {$sql_select} tyear, tmonth, tweek, spent_on, SUM(hours) AS hours";
       $sql .= " FROM $time_entry_table_name AS TimeEntry";
-      $sql .= " LEFT JOIN $issue_table_name ON TimeEntry.issue_id = {$issue_table_name}.id";
-      $sql .= " LEFT JOIN $project_table_name ON TimeEntry.project_id = {$project_table_name}.id";
+      $sql .= " LEFT JOIN $issue_table_name AS Issue ON TimeEntry.issue_id = Issue.id";
+      $sql .= " LEFT JOIN $project_table_name AS Project ON TimeEntry.project_id = Project.id";
       $sql .= " WHERE";
       if(!empty($this->_project)) {
         $sql .= sprintf(" (%s) AND", $this->TimeEntry->Project->project_condition($this->Setting->display_subprojects_issues, $this->_project['Project'], true));
@@ -155,7 +155,7 @@ class TimelogController extends AppController
           $hours[$k]['TimeEntry']['week'] = "{$row['tyear']}-{$row['tweek']}";
           break;
         case 'day' :
-          $hours[$k]['TimeEntry']['day'] = "{$row['spent_on']}";
+          $hours[$k]['TimeEntry']['day'] = date('Y-n-j', strtotime($row['spent_on']));
           break;
         }
       }
@@ -176,7 +176,7 @@ class TimelogController extends AppController
           break;
         case 'week' :
           $periods[] = date("Y-W", $date_from);
-          $w = date('w', $time);
+          $w = date('w', $date_from);
           if($w == 1) {
             $add = 7;
           } else {

@@ -82,8 +82,11 @@ class TimelogHelper extends AppHelper
   function select_hours($data, $criteria, $value) {
     $result = array();
     foreach($data as $row) {
-      if($row['TimeEntry'][$criteria] == $value) {
-        $result[] = $row;
+      foreach($row as $model => $values) { // some model include a record
+        if(array_key_exists($criteria, $values) && ($values[$criteria] == $value)) {
+          $result[] = $row; // found column 
+          break; // next record.
+        }
       }
     }
     return $result;
@@ -172,15 +175,19 @@ class TimelogHelper extends AppHelper
   end
 */
   function format_criteria_value($available_criterias, $criteria, $value) {
-    $out = __('none',true);
-    if(!empty($value)) {
-      $k = $available_criterias[$criteria]['klass'];
-      if(!empty($k)) {
+    $out = '';
+    if(!empty($available_criterias[$criteria]['klass'])) {
+      if(!empty($value)) {
+        $k = $available_criterias[$criteria]['klass'];
+        $k->_customFieldAfterFindDisable = true;
         $k->read(null, $value);
         $out = $k->toString();
-      } else {
-        $this->CustomField->format_value($value, $available_criterias[$criteria]['format']);
       }
+    } else {
+      $out = $this->CustomField->format_value($value, $available_criterias[$criteria]['format']);
+    }
+    if(empty($out)) {
+      $out = __('none',true);
     }
     return $out;
   }
