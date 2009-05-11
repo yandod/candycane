@@ -578,10 +578,13 @@ class Issue extends AppModel
 #    end
 #  end
 #  
-#  def to_s
-#    "#{tracker} ##{id}: #{subject}"
-#  end
-#  
+  function toString($data=false) {
+    if(!$data) {
+      $data = $this->data;
+    }
+    return "{$data['Tracker']['name']} #{$data['Issue']['id']}: {$data['Issue']['subject']}";
+  }
+  
 #  private
 
   function _event_title($data) {

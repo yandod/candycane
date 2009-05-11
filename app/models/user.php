@@ -168,9 +168,12 @@ class User extends AppModel
 #    self.to_s.downcase <=> user.to_s.downcase
 #  end
 #  
-#  def to_s
-#    name
-#  end
+  function toString($data=false) {
+    if(!$data) {
+      $data = $this->data;
+    }
+    return $this->name($data);
+  }
 #  
 #  def logged?
 #    true

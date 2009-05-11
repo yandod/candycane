@@ -257,15 +257,14 @@ class Project extends AppModel
   // Not use $options
   function allowed_to_condition_string($user, $permission) {
     $statements = array();
-    $table_name = $this->fullTableName();
     $this->bindModel(array('hasMany' => array('EnabledModule')), false);
     $enabled_module_table_name = $this->EnabledModule->fullTableName();
-    $base_statement = "{$table_name}.status=".PROJECT_STATUS_ACTIVE;
+    $base_statement = "Project.status=".PROJECT_STATUS_ACTIVE;
     $Permission = & ClassRegistry::init('Permission');
     $perm = $Permission->findByName($permission);
     if(!empty($perm['project_module'])) {
       # If the permission belongs to a project module, make sure the module is enabled
-      $base_statement .= " AND EXISTS (SELECT em.id FROM {$enabled_module_table_name} em WHERE em.name='{$perm['project_module']}' AND em.project_id={$table_name}.id)";
+      $base_statement .= " AND EXISTS (SELECT em.id FROM {$enabled_module_table_name} em WHERE em.name='{$perm['project_module']}' AND em.project_id=Project.id)";
     }
 // TimelogController not specify $options    
 #    if(isset($options['project'])) {
@@ -306,10 +305,9 @@ class Project extends AppModel
       $data['id'] = $this->id;
     }
     if($string) {
-      $table_name = $this->fullTableName();
-      $cond = "{$table_name}.id = {$data['id']}";
+      $cond = "Project.id = {$data['id']}";
       if ($with_subprojects) {
-        $cond = "({$cond} OR {$table_name}.parent_id = {$data['id']})";
+        $cond = "({$cond} OR Project.parent_id = {$data['id']})";
       }
     } else {
       $cond = array($this->name.'.id' => $data['id']);
