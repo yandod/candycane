@@ -125,7 +125,7 @@ class AppModel extends Model {
     }
     return $time;
   }
-  function toString($data = false) {
+  function to_string($data = false) {
     $out = '';
     if(!$data) {
       $data = $this->data;

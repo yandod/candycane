@@ -578,7 +578,7 @@ class Issue extends AppModel
 #    end
 #  end
 #  
-  function toString($data=false) {
+  function to_string($data=false) {
     if(!$data) {
       $data = $this->data;
     }

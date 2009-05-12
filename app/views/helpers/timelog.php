@@ -181,7 +181,7 @@ class TimelogHelper extends AppHelper
         $k = $available_criterias[$criteria]['klass'];
         $k->_customFieldAfterFindDisable = true;
         $k->read(null, $value);
-        $out = $k->toString();
+        $out = $k->to_string();
       }
     } else {
       $out = $this->CustomField->format_value($value, $available_criterias[$criteria]['format']);

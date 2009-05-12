@@ -127,9 +127,9 @@ class ActivityProviderBehavior extends ModelBehavior {
       }
       $cond->add(array($provider_options['author_key'] => $options['author']['id']));
     }
-    if(isset($options['permission'])) {
+    if(isset($provider_options['permission'])) {
       $project = & ClassRegistry::init('Project');
-      $cond->add($project->allowed_to_condition($user, $options['permission'], options));
+      $cond->add($project->allowed_to_condition($user, $provider_options['permission'], $options));
     }
     $scope_options['conditions'] = $cond->conditions;
     if(isset($options['limit'])) {

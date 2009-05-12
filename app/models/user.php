@@ -168,7 +168,7 @@ class User extends AppModel
 #    self.to_s.downcase <=> user.to_s.downcase
 #  end
 #  
-  function toString($data=false) {
+  function to_string($data=false) {
     if(!$data) {
       $data = $this->data;
     }

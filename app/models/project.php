@@ -222,7 +222,7 @@ class Project extends AppModel
       $project_statement[] = array("$projectTable.id" => $options['project']['id']);
       if(isset($options['with_subprojects'])) {
         $project_statement[] = array("$projectTable.parent_id" => $options['project']['id']); 
-        $project_statement = array('or'=> array($project_statement));
+        $project_statement = array('or'=> $project_statement);
       }
       $base_statement = array('and' => array($project_statement, $base_statement));
     }
@@ -232,13 +232,13 @@ class Project extends AppModel
       $role = & ClassRegistry::init('Role');
       $statements = array();
       $statements[] = array("1=0");
-      if($user['logged']) {
+      if(array_key_exists('logged', $user) && $user['logged']) {
         if($role->non_member_allowed_to($permission)) {
           $statements[] = array("$projectTable.is_public"=>1) ;
         }
         $allowed_project_ids = array();
         foreach($user['memberships'] as $member) {
-          $allowed_project_ids[] = $member['Project'][0]['Project']['id'];
+          $allowed_project_ids[] = $member['Project']['id'];
         }
         $statements[] = array("$projectTable.id" => $allowed_project_ids);
       } elseif($role->anonymous_allowed_to($permission)) {
@@ -249,7 +249,7 @@ class Project extends AppModel
       }
     }
     if(!empty($statements)) {
-      $base_statement['or'] = array($statements);
+      $base_statement['or'] = $statements;
     }
     return $base_statement;
   }

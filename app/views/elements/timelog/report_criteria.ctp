@@ -1,7 +1,5 @@
 <?php 
 $values = array();
-//e(pr($hours));
-//e(pr($criterias[$level]));
 $col = $criterias[$level];
 foreach($hours as $hour) {
   foreach($hour as $model => $h) { // some model include a record
@@ -12,7 +10,6 @@ foreach($hours as $hour) {
   }
 }
 $values = array_keys($values);
-//e(pr($values));
 foreach($values as $value):
 ?>
 <?php $hours_for_value = $timelog->select_hours($hours, $criterias[$level], $value); ?>
