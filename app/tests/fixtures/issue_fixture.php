@@ -123,5 +123,15 @@ class IssueFixture extends CakeTestFixture {
           'due_date'=>"now", 'lock_version'=>0
     )
   );
+  function init() {
+    foreach($this->records as $index => $record) {
+      $this->records[$index]['created_on'] = date('Y-m-d H:m:s', strtotime($record['created_on']));
+      $this->records[$index]['updated_on'] = date('Y-m-d H:m:s', strtotime($record['updated_on']));
+      $this->records[$index]['due_date'] = date('Y-m-d H:m:s', strtotime($record['due_date']));
+      if(!empty($record['start_date'])) $this->records[$index]['start_date'] = date('Y-m-d H:m:s', strtotime($record['start_date']));
+    }
+
+    return parent::init();
+  }
 }
 ?>

@@ -1,18 +1,5 @@
 <?php 
-$values = array();
-//e(pr($hours));
-//e(pr($criterias[$level]));
-$col = $criterias[$level];
-foreach($hours as $hour) {
-  foreach($hour as $model => $h) { // some model include a record
-    if(array_key_exists($col, $h)) {
-      $values[$h[$col]] = true; // found column 
-      break; // next record.
-    }
-  }
-}
-$values = array_keys($values);
-//e(pr($values));
+$values = $timelog->criteria_values($criterias, $hours, $level);
 foreach($values as $value):
 ?>
 <?php $hours_for_value = $timelog->select_hours($hours, $criterias[$level], $value); ?>

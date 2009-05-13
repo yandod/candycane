@@ -91,11 +91,20 @@ echo $form->create('TimeEntry', array(
 </table>
 
 <p class="other-formats">
-<%= l(:label_export_to) %>
-<span><%= link_to 'CSV', params.merge({:format => 'csv'}), :class => 'csv' %></span>
+<?php __("'Also available in:'") ?>
+<span><?php 
+echo $html->link('CSV', array('?'=>array_merge(
+    array(
+      'format' => 'csv',
+      'criterias'=>$criteria,
+      'columns'=>$columns
+    ), 
+    $this->params['url']
+  )), array('class' => 'csv')); 
+?></span>
 </p>
 <?php endif; ?>
 <?php endif; ?>
 
-<% html_title l(:label_spent_time), l(:label_report) %>
+<?php $candy->html_title(array(__('Spent time',true), __('Report',true))); ?>
 

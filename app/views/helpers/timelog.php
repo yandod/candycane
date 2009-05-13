@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 # redMine - project management software
 # Copyright (C) 2006  Jean-Philippe Lang
 #
@@ -69,6 +69,7 @@ class TimelogHelper extends AppHelper
     $options['?'] = array_merge($options['?'], $get_params);
     return $options;
   }
+
 /*
   def activity_collection_for_select_options
     activities = Enumeration::get_values('ACTI')
@@ -79,6 +80,7 @@ class TimelogHelper extends AppHelper
   end
 
 */
+
   function select_hours($data, $criteria, $value) {
     $result = array();
     foreach($data as $row) {
@@ -131,49 +133,6 @@ class TimelogHelper extends AppHelper
     return $url;
   }
 
-/*
-  def entries_to_csv(entries)
-    ic = Iconv.new(l(:general_csv_encoding), 'UTF-8')    
-    decimal_separator = l(:general_csv_decimal_separator)
-    custom_fields = TimeEntryCustomField.find(:all)
-    export = StringIO.new
-    CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
-      # csv header fields
-      headers = [l(:field_spent_on),
-                 l(:field_user),
-                 l(:field_activity),
-                 l(:field_project),
-                 l(:field_issue),
-                 l(:field_tracker),
-                 l(:field_subject),
-                 l(:field_hours),
-                 l(:field_comments)
-                 ]
-      # Export custom fields
-      headers += custom_fields.collect(&:name)
-
-      csv << headers.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
-      # csv lines
-      entries.each do |entry|
-        fields = [format_date(entry.spent_on),
-                  entry.user,
-                  entry.activity,
-                  entry.project,
-                  (entry.issue ? entry.issue.id : nil),
-                  (entry.issue ? entry.issue.tracker : nil),
-                  (entry.issue ? entry.issue.subject : nil),
-                  entry.hours.to_s.gsub('.', decimal_separator),
-                  entry.comments
-                  ]
-        fields += custom_fields.collect {|f| show_value(entry.custom_value_for(f)) }
-
-        csv << fields.collect {|c| begin; ic.iconv(c.to_s); rescue; c.to_s; end }
-      end
-    end
-    export.rewind
-    export
-  end
-*/
   function format_criteria_value($available_criterias, $criteria, $value) {
     $out = '';
     if(!empty($available_criterias[$criteria]['klass'])) {
@@ -181,7 +140,7 @@ class TimelogHelper extends AppHelper
         $k = $available_criterias[$criteria]['klass'];
         $k->_customFieldAfterFindDisable = true;
         $k->read(null, $value);
-        $out = $k->toString();
+        $out = $k->to_string();
       }
     } else {
       $out = $this->CustomField->format_value($value, $available_criterias[$criteria]['format']);
@@ -198,59 +157,49 @@ class TimelogHelper extends AppHelper
     }
     return $out;
   }
-/*
-  def report_to_csv(criterias, periods, hours)
-    export = StringIO.new
-    CSV::Writer.generate(export, l(:general_csv_separator)) do |csv|
-      # Column headers
-      headers = criterias.collect {|criteria| l(@available_criterias[criteria][:label]) }
-      headers += periods
-      headers << l(:label_total)
-      csv << headers.collect {|c| to_utf8(c) }
-      # Content
-      report_criteria_to_csv(csv, criterias, periods, hours)
-      # Total row
-      row = [ l(:label_total) ] + [''] * (criterias.size - 1)
-      total = 0
-      periods.each do |period|
-        sum = sum_hours(select_hours(hours, @columns, period.to_s))
-        total += sum
-        row << (sum > 0 ? "%.2f" % sum : '')
-      end
-      row << "%.2f" %total
-      csv << row
-    end
-    export.rewind
-    export
-  end
 
-  def report_criteria_to_csv(csv, criterias, periods, hours, level=0)
-    hours.collect {|h| h[criterias[level]].to_s}.uniq.each do |value|
-      hours_for_value = select_hours(hours, criterias[level], value)
-      next if hours_for_value.empty?
-      row = [''] * level
-      row << to_utf8(format_criteria_value(criterias[level], value))
-      row += [''] * (criterias.length - level - 1)
-      total = 0
-      periods.each do |period|
-        sum = sum_hours(select_hours(hours_for_value, @columns, period.to_s))
-        total += sum
-        row << (sum > 0 ? "%.2f" % sum : '')
-      end
-      row << "%.2f" %total
-      csv << row
+  function criteria_values($criterias, $hours, $level) {
+    $values = array();
+    $col = $criterias[$level];
+    foreach($hours as $hour) {
+      foreach($hour as $model => $h) { // some model include a record
+        if(array_key_exists($col, $h)) {
+          $values[$h[$col]] = true; // found column 
+          break; // next record.
+        }
+      }
+    }
+    $values = array_keys($values);
+    return $values;
+  }
 
-      if criterias.length > level + 1
-        report_criteria_to_csv(csv, criterias, periods, hours_for_value, level + 1)
-      end
-    end
-  end
+  function report_criteria_to_csv($csv, $availableCriterias, $criterias, $periods, $hours, $columns, $level=0) {
+    $values = $this->criteria_values($criterias, $hours, $level);
+    foreach($values as $value) {
+      $row = array();
+      $hours_for_value = $this->select_hours($hours, $criterias[$level], $value);
+      if(empty($hours_for_value)) {
+        continue;
+      }
+      for($i = 0; $i < $level; $i++) {
+        $row[] = '';
+      }
+      $row[] = $this->format_criteria_value($availableCriterias, $criterias[$level], $value);
+      for($i = 0; $i < (count($criterias) - $level - 1); $i++) {
+        $row[] = '';
+      }
+      $total = 0;
+      foreach($periods as $period) {
+        $sum = $this->sum_hours($this->select_hours($hours_for_value, $columns, $period));
+        $total += $sum;
+        $row[] = ($sum > 0 ? sprintf("%.2f", $sum) : '');
+      }
+      $row[] = sprintf("%.2f", $total);
+      $csv->addRow($row);
+      if(count($criterias) > $level + 1) {
+        $this->report_criteria_to_csv($csv, $availableCriterias, $criterias, $periods, $hours_for_value, $columns, $level + 1);
+      }
+    }
+  }
 
-  def to_utf8(s)
-    @ic ||= Iconv.new(l(:general_csv_encoding), 'UTF-8')
-    begin; @ic.iconv(s.to_s); rescue; s.to_s; end
-  end
-end
-*/
 }
-

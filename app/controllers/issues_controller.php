@@ -34,6 +34,8 @@ class IssuesController extends AppController
 #  before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
   function beforeFilter()
   {
+    $this->MenuManager->menu_item('issues', array('only'=>array('show', 'edit', 'move', 'destroy')));
+    
     switch ($this->action) {
     case 'show':
     case 'changes':
@@ -134,7 +136,7 @@ class IssuesController extends AppController
 
   function show()
   {
-    if(!empty($this->params['named']['format']) && ($this->params['named']['format'] == 'atom')) {
+    if($this->_get_param('format') == 'atom') {
       return $this->changes();
     }
 
@@ -156,16 +158,14 @@ class IssuesController extends AppController
         $this->data['custom_field_values'][$value['CustomField']['id']] = $value['value'];
       }
     }
-    if(!empty($this->params['named']['format'])) {
-      switch($this->params['named']['format']) {
-      case 'pdf' :
-        $this->layout = 'pdf';
-        $this->helpers = array('Candy', 'CustomField', 'Issues', 'Number', 'Tcpdf'=>array());
-        $this->render('issue_to_pdf');
-        break;
-      case 'atom' :
-        break;
-      }
+    switch($this->_get_param('format')) {
+    case 'pdf' :
+      $this->layout = 'pdf';
+      $this->helpers = array('Candy', 'CustomField', 'Issues', 'Number', 'Tcpdf'=>array());
+      $this->render('issue_to_pdf');
+      break;
+    case 'atom' :
+      break;
     }
   }
 
@@ -195,8 +195,8 @@ class IssuesController extends AppController
    *    /projects/test/issues/add/tracker_id:30
    */
   function add() {
-    if(!empty($this->params['named']['copy_from'])) {
-      $issue = $this->Issue->copy_from($this->params['named']['copy_from']);
+    if($this->_get_param('copy_from')) {
+      $issue = $this->Issue->copy_from($this->_get_param('copy_from'));
       $this->data = $issue;
     }
     # Tracker must be set before custom field values
@@ -205,8 +205,8 @@ class IssuesController extends AppController
       $this->Session->setFlash(__("No tracker is associated to this project. Please check the Project settings.", true), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
-    if(!empty($this->params['named']['tracker_id'])) {
-      $this->data['Issue']['tracker_id'] = $this->params['named']['tracker_id'];
+    if($this->_get_param('tracker_id')) {
+      $this->data['Issue']['tracker_id'] = $this->_get_param('tracker_id');
     } elseif(empty($this->data['Issue']['tracker_id'])) {
       $this->data['Issue']['tracker_id'] = key($trackers);
     }
@@ -284,11 +284,8 @@ class IssuesController extends AppController
     $this->_set_edit_form_values();
 
     $notes = "";
-    if(!empty($this->params['url']['notes'])) {
-      $notes = $this->params['url']['notes'];
-    }
-    if(!empty($this->data['Issue']['notes'])) {
-      $notes = $this->data['Issue']['notes'];
+    if($this->_get_param('notes')) {
+      $notes = $this->_get_param('notes');
     }
     unset($this->data['Issue']['notes']);
     $this->Issue->init_journal($issue, $this->current_user, $notes);
@@ -350,6 +347,7 @@ class IssuesController extends AppController
         }
         $this->redirect(array('action'=>'show', 'id'=>$issue['Issue']['id']));
       }
+      $this->data['Issue']['notes'] = $notes;
     } else {
       $this->data = $issue;
     }
@@ -374,8 +372,8 @@ class IssuesController extends AppController
     $Journal = & ClassRegistry::init('Journal');
 //    $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
     $journal = false;
-    if($this->params['named']['journal_id']) {
-      $journal = $Journal->read(null, $this->params['named']['journal_id']);
+    if($this->_get_param('journal_id')) {
+      $journal = $Journal->read(null, $this->_get_param('journal_id'));
     }
     if(!empty($journal)) {
       $user = $journal['User'];
@@ -490,6 +488,7 @@ class IssuesController extends AppController
     } else {
       $this->data['Issue']['project_id'] = $issues[0]['Issue']['project_id'];
     }
+    $this->params['project_id'] = $issues[0]['Project']['identifier'];
     $trackers = $this->Issue->findProjectsTrackerList($this->data['Issue']['project_id']);
     $this->set(compact('allowed_projects', 'trackers'));
     $this->set('issue_datas', $issues);
@@ -516,6 +515,7 @@ class IssuesController extends AppController
     if(empty($issues)) {
       return $this->cakeError('error', array('message'=>"Not exists issue."));
     }
+    $this->params['project_id'] = $issues[0]['Project']['identifier'];
     $this->set('issue_datas', $issues);
     $TimeEntry = & ClassRegistry::init('TimeEntry');
     $hours = $TimeEntry->sum('hours', array('issue_id'=>$issue_ids));
