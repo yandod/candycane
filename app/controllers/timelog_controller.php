@@ -19,8 +19,10 @@
 class TimelogController extends AppController
 {
   var $name = 'Timelog';
-#  menu_item :issues
+
   function beforeFilter() {
+    $this->MenuManager->menu_item('issues');
+
     switch($this->action) {
     case 'edit' :
     case 'destroy' :

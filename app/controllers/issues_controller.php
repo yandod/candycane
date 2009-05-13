@@ -34,6 +34,8 @@ class IssuesController extends AppController
 #  before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
   function beforeFilter()
   {
+    $this->MenuManager->menu_item('issues', array('only'=>array('show', 'edit', 'move', 'destroy')));
+    
     switch ($this->action) {
     case 'show':
     case 'changes':
@@ -486,6 +488,7 @@ class IssuesController extends AppController
     } else {
       $this->data['Issue']['project_id'] = $issues[0]['Issue']['project_id'];
     }
+    $this->params['project_id'] = $issues[0]['Project']['identifier'];
     $trackers = $this->Issue->findProjectsTrackerList($this->data['Issue']['project_id']);
     $this->set(compact('allowed_projects', 'trackers'));
     $this->set('issue_datas', $issues);
@@ -512,6 +515,7 @@ class IssuesController extends AppController
     if(empty($issues)) {
       return $this->cakeError('error', array('message'=>"Not exists issue."));
     }
+    $this->params['project_id'] = $issues[0]['Project']['identifier'];
     $this->set('issue_datas', $issues);
     $TimeEntry = & ClassRegistry::init('TimeEntry');
     $hours = $TimeEntry->sum('hours', array('issue_id'=>$issue_ids));
