@@ -232,7 +232,7 @@ class Project extends AppModel
       $role = & ClassRegistry::init('Role');
       $statements = array();
       $statements[] = array("1=0");
-      if(array_key_exists('logged', $user) && $user['logged']) {
+      if(is_array($user) && array_key_exists('logged', $user) && $user['logged']) {
         if($role->non_member_allowed_to($permission)) {
           $statements[] = array("$projectTable.is_public"=>1) ;
         }

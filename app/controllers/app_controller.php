@@ -285,9 +285,34 @@ class AppController extends Controller {
 #    end
 #    attached
 #  end
-#
-#  # Returns the number of objects that should be displayed
-#  # on the paginated list
+
+  /**
+   * The presence of the parameter is checked in the following order, and the value matched first is returned.
+   * 
+   * - $this->params[$name]
+   * - $this->params['named'][$name]
+   * - $this->params['url'][$name]
+   * - $this->data[$this->{$this->modelClass}->name][$name]
+   *
+   * @return null if $name is not found. 
+   */
+  function _get_param($name) {
+    if(array_key_exists($name, $this->params)) {
+      $value = $this->params[$name];
+    } elseif(array_key_exists('named', $this->params) && array_key_exists($name, $this->params['named'])) {
+      $value = $this->params['named'][$name];
+    } elseif(array_key_exists('url', $this->params) && array_key_exists($name, $this->params['url'])) {
+      $value = $this->params['url'][$name];
+    } elseif(is_array($this->data) && array_key_exists($this->{$this->modelClass}->name, $this->data) && array_key_exists($name, $this->data[$this->{$this->modelClass}->name])) {
+      $value = $this->data[$this->{$this->modelClass}->name][$name];
+    } else {
+      $value = null;
+    }
+    return $value;
+  }
+
+  # Returns the number of objects that should be displayed
+  # on the paginated list
   function _per_page_option()
   {
     if (isset($this->params['url']['per_page']) && in_array($this->params['url']['per_page'], $this->Setting->per_page_options)) {
