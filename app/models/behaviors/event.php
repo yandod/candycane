@@ -48,6 +48,21 @@ class EventBehavior extends ModelBehavior {
     return str_replace('_', '-', $text);
   }
 
+  function create_event_data(&$Model, $data=false) {
+    if(empty($data)) $data = $Model->data;
+    $event_data = array(
+      'date'         => $this->event_date($Model, $data),
+      'datetime'     => $this->event_datetime($Model, $data),
+      'title'        => $this->event_title($Model, $data),
+      'description'  => $this->event_description($Model, $data),
+      'author'       => $this->event_author($Model, $data),
+      'url'          => $this->event_url($Model, $data),
+      'type'         => $this->event_type($Model, $data),
+      'id'           => $data[$Model->alias]['id']
+    );
+    return $event_data;
+  }
+
   function event_date(&$Model, $data=false) {
     if(empty($data)) $data = $Model->data;
     return $this->event_datetime($Model, $data);
@@ -76,7 +91,7 @@ class EventBehavior extends ModelBehavior {
   }
   function event_type(&$Model, $data=false) {
     if(empty($data)) $data = $Model->data;
-    return $this->_event($Model, 'description', $data);
+    return $this->_event($Model, 'type', $data);
   }
   function _event(&$Model, $attr, $data) {
     $result = false;
