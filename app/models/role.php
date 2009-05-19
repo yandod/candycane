@@ -138,7 +138,7 @@ class Role extends AppModel {
         // allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
         return true;
     }
-    $list = $this->permissions($role['Role']['permissions']);
+    $list = $this->_allowed_permissions($role);
     if(!empty($list)) {
       foreach($list as $item) {
         if(($item == $action) || ($item == ':'.$action)) {
@@ -186,9 +186,17 @@ class Role extends AppModel {
 #
 #  
 #private
-#  def allowed_permissions
-#    @allowed_permissions ||= permissions + Redmine::AccessControl.public_permissions.collect {|p| p.name}
-#  end
+  function _allowed_permissions($role) {
+    $Permission =& ClassRegistry::init('Permission');
+    $names = array();
+    $publics = $Permission->public_permissions();
+    foreach ($publics as $perms) {
+      $names = array_merge($names, array_keys($perms));
+    }
+    $list = array_merge($this->permissions($role['Role']['permissions']), $names);
+    
+    return $list;
+  }
 #
 #  def allowed_actions
 #    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten

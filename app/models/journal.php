@@ -73,6 +73,79 @@ class Journal extends AppModel {
   var $hasMany = array('JournalDetail');
   var $available_custom_fields = array();
 
+  var $actsAs = array(
+    'ActivityProvider'=> array(
+        'type'=>'issues',
+        'permission'=>'view_issues',
+        'author_key'=>'author_id',
+        'find_options'=> array(
+            // 'include'=>array('Issue'=>array('Project'), 'JournalDetail', 'User'), 
+            'recursive' =>-1,
+            'conditions'=>array('or'=>array('Journal.journalized_type'=>'Issue', 'JournalDetail.prop_key'=>'status_id'),array('Journal.notes <>'=>'')),
+            'fields'=> array('Journal.*', 'Issue.*'),
+            'joins' => array(
+              array(
+                'type'=>'INNER',
+                'table' => 'test_suite_issues',
+                'alias' => 'Issue',
+                'conditions'=>'Issue.id=Journal.journalized_id',
+              ),
+              array(
+                'type'=>'LEFT',
+                'table' => 'test_suite_projects',
+                'alias' => 'Project',
+                'conditions'=>'Project.id=Issue.project_id',
+              ),
+              array(
+                'type'=>'INNER',
+                'table' => 'test_suite_journal_details',
+                'alias' => 'JournalDetail',
+                'conditions'=>'Journal.id=JournalDetail.journal_id',
+              ),
+            ),
+        ),
+      ),
+    'Event' => array('title'       => array('Proc' => '_event_title'),
+                      'description' => 'notes',
+                      'author'      => array('Proc' => '_event_author'),
+                      'author'      => array('Proc' => '_event_type'),
+                      'url'         => array('Proc' => '_event_url')),
+  );
+  function _event_title($data) {
+    $new_status = $this->__new_status($data);
+    if(isset($status['Status']['name'])) {
+      $new_status = $status['Status']['name'];
+    } else {
+      $new_status = '';
+    }
+    $this->Issue->Tracker->read(null, $data['Issue']['tracker_id']);
+    $this->Issue->Status->read(null, $data['Issue']['stautus_id']);
+    return $this->Issue->Tracker->data['Tracker']['name'].' #'.$data['Issue']['id'].$new_status.': '.$data['Issue']['subject'];
+  }
+  function _event_type($data) {
+    $new_status = $this->__new_status($data);
+    if(!empty($new_status)) {
+      if($new_status['Status']['is_closed']) {
+        return 'issue-closed';
+      } else {
+        return 'issue-edit';
+      }
+    }
+    return 'issue-note';
+  }
+  function _event_url($data) {
+    return  array('controller'=>'issues', 'action'=>'show', 'id'=>$data['Issue']['id'], '#' => "change-".$data['Journal']['id']);
+  }
+  function __new_status($data) {
+    $new_status = array();
+    foreach($data['JournalDetail'] as $detail) {
+      if($detail['prop_key'] == 'status_id') {
+        $new_status = $this->Issue->Status->read(null, $detail['value']);
+      }
+    }
+    return $new_status;
+  }
+
   function is_editable_by($usr) {
     $this->Issue->Project->recursive = -1;
     $project = $this->Issue->Project->read(null, $this->data['Issue']['project_id']);

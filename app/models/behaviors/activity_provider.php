@@ -76,20 +76,17 @@ class ActivityProviderBehavior extends ModelBehavior {
     'find_options'=>false);
 
   function setup(&$Model, $config = array()) {
-    $table_name = $Model->table;
+    $config = array_intersect_key($config, $this->_defaults);
+
     $alias = Inflector::pluralize(Inflector::underscore($Model->alias));
     $this->_defaults = array(
       'type'=>$alias, 
-      'permission'=>"view_$alias",
+      'permission'=>"view_{$alias}",
       'timestamp'=>"{$Model->alias}.created_on",
       'author_key'=>false, 
       'find_options'=>array()
     );
 
-    $diff = array_diff_key($config, $this->_defaults);
-    if(!empty($diff)) {
-      return false;
-    }
     $settings = array_merge($this->_defaults, $config);
 
     # One model can provide different event types
@@ -97,9 +94,10 @@ class ActivityProviderBehavior extends ModelBehavior {
     $event_type = $settings['type'];
     unset($settings['type']);
     if(!empty($settings['author_key'])) {
+      $table_name = $Model->alias;
       $settings['author_key'] = "$table_name.".$settings['author_key'];
     }
-    $this->settings[$event_type] = $settings;
+    $this->settings[$event_type][$Model->alias] = $settings;
     return true;
   }
 
@@ -112,7 +110,7 @@ class ActivityProviderBehavior extends ModelBehavior {
       $to = date('Y-m-d H:i:s', $to);
     }
 
-    $provider_options = $this->settings[$event_type];
+    $provider_options = $this->settings[$event_type][$Model->alias];
     if(empty($provider_options)) {
       return $this->cakeError('error', array('message'=>"Can not provide $event_type events."));
     }
@@ -132,12 +130,12 @@ class ActivityProviderBehavior extends ModelBehavior {
       $cond->add($project->allowed_to_condition($user, $provider_options['permission'], $options));
     }
     $scope_options['conditions'] = $cond->conditions;
-    if(isset($options['limit'])) {
+    if(isset($provider_options['limit'])) {
       # id and creation time should be in same order in most cases
-      $scope_options['order'] = $Model->table.".id DESC";
+      $scope_options['order'] = $Model->alias.".id DESC";
       $scope_options['limit'] = $provider_options['limit'];
     }
-    $values = $Model->find('all', array_merge($provider_options['find_options'], $scope_options));
+    $values = $Model->find('all', array_merge_recursive($provider_options['find_options'], $scope_options));
     $ret = array();
     list($mname, $cname) = explode('.', $provider_options['timestamp']);
     foreach($values as $value) {

@@ -7,8 +7,8 @@ class Issue extends AppModel
       array('find_options'=>
         array('include'=>array('Project', 
                                  'Author'=>array('className'=>'User','foreignKey'=>'author_id'),
-                                 'Tracker'),
-               'author_key'=>'author_id')
+                                 'Tracker')),
+             'author_key'=>'author_id'
       ),
     'Watchable',
     'Customizable',
