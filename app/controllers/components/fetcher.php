@@ -29,7 +29,7 @@ class FetcherComponent extends Object
 
   function initialize(&$controller) {
     $this->controller =& $controller;
-    App::import('Activity');
+    App::import('model', 'Activity');
     foreach(Activity::getInstance()->providers as $k=>$t) {
       $this->__constantized_providers[$k] = array();
       foreach($t as $model) {
@@ -138,10 +138,14 @@ class FetcherComponent extends Object
     $this->options['limit'] = $options['limit'];
 
     foreach ($this->scope as $event_type) {
-      foreach ($this->constantized_providers($event_type) as $provider) {
-        $results = $provider->find_events($event_type, $this->user, $from, $to, $this->options));
-        foreach ($results as $result) {
-          $e[] = $provider->create_event_data($result);
+      foreach ($this->_constantized_providers($event_type) as $provider) {
+        $results = $provider->find_events($event_type, $this->user, $from, $to, $this->options);
+        foreach($results as $day=>$times) {
+          foreach($times as $time=>$events) {
+            foreach ($events as $result) {
+              $e[] = $provider->create_event_data($result);
+            }
+          }
         }
       }
     }
@@ -153,7 +157,7 @@ class FetcherComponent extends Object
   }
 
   function cmp_event_datetime($l, $r) {
-    return strtotime($l['datetime']) - strtotime($r['datetime']));
+    return strtotime($l['datetime']) - strtotime($r['datetime']);
   }
 
   # private

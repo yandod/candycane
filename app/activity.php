@@ -64,16 +64,23 @@ class Activity extends Object {
     if ($options['default'] != false) {
       $this->default_event_types[] = $event_type;
     }
+    if(!array_key_exists($event_type, $this->providers)) {
+      $this->providers[$event_type] = array();
+    }
     $this->providers[$event_type] = array_merge($this->providers[$event_type], $providers);
   }
   
   function __loadDefault($boot) {
     $this->_register('issues', array('class_name' => array('Issue', 'Journal')));
-    $this->_register('changesets');
     $this->_register('news');
-    $this->_register('documents', array('class_name' => array('Document', 'Attachment')));
-    $this->_register('files', array('class_name' => 'Attachment'));
-    $this->_register('wiki_edits', array('class_name' => 'WikiContentVersion', 'default' => false));
-    $this->_register('messages', array('default' => false));
+
+    // TODO : attachment ....
+    // $this->_register('documents', array('class_name' => array('Document', 'Attachment')));
+    // $this->_register('files', array('class_name' => 'Attachment'));
+    // TODO : Wiki... 
+    // $this->_register('wiki_edits', array('class_name' => 'WikiContentVersion', 'default' => false));
+    // TODO : next version.
+    // $this->_register('changesets');
+    // $this->_register('messages', array('default' => false));
   }
 }

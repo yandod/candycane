@@ -40,7 +40,16 @@ class News extends AppModel
 //  acts_as_event :url => Proc.new {|o| {:controller => 'news', :action => 'show', :id => o.id}}
 //  acts_as_activity_provider :find_options => {:include => [:project, :author]},
 //                            :author_key => :author_id
-//  
+  var $actsAs = array(
+    'ActivityProvider'=> array(
+      'find_options'=> array('include'=>array('Project', 'Author')),
+      'author_key'=>'author_id'),
+    'Event' => array('url' => array('Proc' => '_event_url')),
+  );
+  function _event_url($data) {
+    return  array('controller'=>'news', 'action'=>'show', 'id'=>$data['News']['id']);
+  }
+
 //  # returns latest news for projects visible by user
 //  def self.latest(user = User.current, count = 5)
 	function latest($user,$count = 5)

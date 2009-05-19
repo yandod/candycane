@@ -16,7 +16,9 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-#class Document < ActiveRecord::Base
+class Document extends AppModel
+{
+  var $name = 'Document';
 #  belongs_to :project
 #  belongs_to :category, :class_name => "Enumeration", :foreign_key => "category_id"
 #  acts_as_attachable :delete_permission => :manage_documents
@@ -26,6 +28,27 @@
 #                :author => Proc.new {|o| (a = o.attachments.find(:first, :order => "#{Attachment.table_name}.created_on ASC")) ? a.author : nil },
 #                :url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.id}}
 #  acts_as_activity_provider :find_options => {:include => :project}
+  var $actsAs = array(
+    'Attachable',
+    'ActivityProvider'=>array('find_options'=>array('include'=>array('Project'))),
+    'Event' => array('title' => array('Proc' => '_event_title'),
+                      'author'=> array('Proc' => '_event_author'),
+                      'url'   => array('Proc' => '_event_url')),
+  );
+  function _event_title($data) {
+     return __('Document',true).': '.$data[$this->alias]['title'];
+  }
+  function _event_author($data) {
+    $attachments = $this->findAttachments($data[$this->alias]['id']);
+    if(!empty($attachment)) {
+      $User =& ClassRegistry::init('User');
+      return $User->to_string($attachments[0]);
+    }
+     return null;
+  }
+  function _event_url($data) {
+    return  array('controller'=>'documents', 'action'=>'show', 'id'=>$data[$this->alias]['id']);
+  }
 #  
 #  validates_presence_of :project, :title, :category
 #  validates_length_of :title, :maximum => 60
@@ -35,4 +58,4 @@
 #      self.category ||= Enumeration.default('DCAT')
 #    end
 #  end
-#end
+}
