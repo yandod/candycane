@@ -1,4 +1,4 @@
-<h2><?php __('account activation by email'); ?></h2>
+<h2><?php __('Register'); ?></h2>
 
 <?php
 echo $form->create('User', array('url' => '/account/register', 'class' => 'tabular'));
@@ -10,18 +10,18 @@ echo $form->create('User', array('url' => '/account/register', 'class' => 'tabul
 <?php if (empty($user['User']['auth_source_id'])): ?>
 <p>
   <label for="user_login"><?php __('Login'); ?> <span class="required">*</span></label>
-  <?php echo $form->input('login', array('size' => '25%', 'div' => false, 'label' => false)); ?>
+  <?php echo $form->input('login', array('size' => '25', 'div' => false, 'label' => false)); ?>
 </p>
 
 <p>
   <label for="password"><?php __('Password'); ?> <span class="required">*</span></label>
-  <?php echo $form->input('password', array('type' => 'password', 'size' => '25%', 'div' => false, 'label' => false)); ?><br />
-  <em><?php echo sprintf(__('%d characters maximum.', true), 4); ?></em>
+  <?php echo $form->input('password', array('type' => 'password', 'size' => '25', 'div' => false, 'label' => false)); ?><br />
+  <em><?php echo sprintf(__('Must be at least %d characters long.', true), 4); ?></em>
 </p>
 
 <p>
   <label for="password_confirmation"><?php __('Confirmation'); ?> <span class="required">*</span></label>
-  <?php echo $form->input('password_confirmation', array('type' => 'password', 'size' => '25%', 'div' => false, 'label' => false)); ?><br />
+  <?php echo $form->input('password_confirmation', array('type' => 'password', 'size' => '25', 'div' => false, 'label' => false)); ?><br />
 </p>
 <?php endif; ?>
 
@@ -44,10 +44,13 @@ echo $form->create('User', array('url' => '/account/register', 'class' => 'tabul
   <label for="user_language"><?php __('Language'); ?></label>
   <?php echo $form->input('language', array('type' => 'select', 'options' => $candy->lang_options_for_select(), 'div' => false, 'label' => false)); ?>
 </p>
-
+<?php
+/* TODO:port
 <% @user.custom_field_values.each do |value| %>
   <p><%= custom_field_tag_with_label :user, value %></p>
 <% end %>
+**/
+?>
 <!--[eoform:user]-->
 </div>
 
