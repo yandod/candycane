@@ -20,7 +20,7 @@
 
 <tr>
   <td align="left" colspan="2">
-    &nbsp;&nbsp;<?php if (isset($setting->autologin)): ?>
+    &nbsp;&nbsp;<?php if ($setting->autologin): ?>
     <?php echo $form->input('autologin', array('type' => 'checkbox', 'options' => array(1))); ?>
     <?php endif; ?>
   </td>
@@ -28,7 +28,7 @@
 
 <tr>
   <td align="left">
-    <?php if (isset($setting->lost_password)): ?>
+    <?php if ($setting->lost_password): ?>
       <?php e($html->link(__('Lost password', true), '/account/lost_password')); ?>
     <?php endif; ?>
   </td>
