@@ -170,20 +170,20 @@ class Project extends AppModel
   function get_visible_by_condition($user = null)
   {
     if ($user == null) {
-      return array('Project.status'=>PROJECT_STATUS_ACTIVE, 'is_public'=>true); // @TODO current取れる？
+      return array('Project.status'=>PROJECT_STATUS_ACTIVE, 'Project.is_public'=>true); // @TODO current取れる？
     }
 
     if ($user['admin']) {
-      return array('status'=>PROJECT_STATUS_ACTIVE);
+      return array('Project.status'=>PROJECT_STATUS_ACTIVE);
     } else {
       if (isset($user['memberships']) && (count($user['memberships']) > 0)) {
         $ids = array();
         foreach($user['memberships'] as $membership) {
           $ids[] = $membership['project_id'];
         }
-        return array('status'=>PROJECT_STATUS_ACTIVE, 'or'=>array('is_public'=>true, 'id'=>$ids));
+        return array('Project.status'=>PROJECT_STATUS_ACTIVE, 'or'=>array('Project.is_public'=>true, 'Project.id'=>$ids));
       } else {
-        return array('status'=>PROJECT_STATUS_ACTIVE, 'is_public'=>true);
+        return array('Project.status'=>PROJECT_STATUS_ACTIVE, 'Project.is_public'=>true);
       }
     }
 #    user ||= User.current
