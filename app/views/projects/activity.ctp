@@ -1,38 +1,29 @@
 <h2><?php echo ($author==null) ? __('Activity') : $candy->lwr("\"%s's activity\"", $link_to_user($author)) ?></h2>
-<p class="subtitle"><?php echo __('From', true), ' ', $time->niceShort($date_from), ' ', strtolower(__('To', true)), ' ', $time->niceShort($date_to) ?></p>
+<p class="subtitle"><?php echo __('From', true), ': ', $candy->format_date($date_from), ' ', strtolower(__('To', true)), ' ', $candy->format_date($date_to) ?></p>
 
 <div id="activity">
 <?php foreach($events_by_day as $day=>$events): ?>
-<h3><?php echo $time->format('Y-m-d', $day) ?></h3>
+<h3><?php echo $candy->format_activity_day($day) ?></h3>
 <dl>
-<?php foreach($events as $event_time=>$event): ?>
-<?php foreach($event as $e): ?>
-  <dt class="<%= e.event_type %>  <%= User.current.logged? && e.respond_to?(:event_author) && User.current == e.event_author ? 'me' : nil %>">
-<?php echo $candy->avatar($e['Author'], array('size'=>24)) ?>
+<?php foreach($events as $event): ?>
+  <dt class="<?php echo $event['type']; ?>  <?php echo ($currentuser['logged'] && !empty($event['author']) && $currentuser['id'] == $event['author']['id']) ? 'me' : ''; ?>">
+<?php if(!empty($event['author'])) { echo $candy->avatar($event['author'], array('size'=>24)); } ?>
 <?php /*
 	<%= avatar(e.event_author, :size => "24") if e.respond_to?(:event_author) %>
  */ ?>
-  <span class="time"><?php echo $time->niceShort($event_time) ?></span>
-<?php /*
-  <%= content_tag('span', h(e.project), :class => 'project') if @project.nil? || @project != e.project %>
- */ ?>
-<?php echo $html->link($e['Issue']['subject'], $e['Issue']['id']) ?></dt>
-<dd><span class="description"><?php echo $e['Issue']['description'] ?></span>
-<span class="author"><?php echo $candy->link_to_user($e['Author']) ?></span></dd>
-<?php /*
-  <%= link_to format_activity_title(e.event_title), e.event_url %></dt>
-  <dd><span class="description"><%= format_activity_description(e.event_description) %></span>
-  <span class="author"><%= e.event_author if e.respond_to?(:event_author) %></span></dd>
- */ ?>
-<?php endforeach ?>
+  <span class="time"><?php echo $candy->format_time($event['datetime'], false) ?></span>
+<?php if(empty($main_project) || (!empty($main_project) && $main_project['Project']['id'] != $event['project']['id'])) {
+  echo $html->tag('span', h($event['project']['name']), array('class' => 'project'));
+} ?>
+<?php echo $html->link($candy->format_activity_title($event['title']), $event['url']) ?></dt>
+<dd><span class="description"><?php echo $candy->format_activity_title($event['description']) ?></span>
+<span class="author"><?php if(!empty($event['author'])) { echo $candy->link_to_user($event['author']); } ?></span></dd>
 <?php endforeach ?>
 </dl>
 <?php endforeach ?>
 </div>
 
-<?php /*
-<%= content_tag('p', l(:label_no_data), :class => 'nodata') if @events_by_day.empty? %>
- */ ?>
+<?php if(empty($events_by_day)) { echo $html->tag('p', __('No data to display',true), array('class' => 'nodata')); } ?>
 
 <div style="float:left;">
 <?php /*

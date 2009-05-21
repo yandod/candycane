@@ -77,40 +77,62 @@ class Journal extends AppModel {
     'ActivityProvider'=> array(
         'type'=>'issues',
         'permission'=>'view_issues',
-        'author_key'=>'author_id',
+        'author_key'=>'user_id',
         'find_options'=> array(
-            // 'include'=>array('Issue'=>array('Project'), 'JournalDetail', 'User'), 
-            'recursive' =>-1,
-            'conditions'=>array('or'=>array('Journal.journalized_type'=>'Issue', 'JournalDetail.prop_key'=>'status_id'),array('Journal.notes <>'=>'')),
-            'fields'=> array('Journal.*', 'Issue.*'),
+            'conditions'=>array('Journal.journalized_type'=>'Issue', 'or'=>array('JournalDetail.prop_key'=>'status_id','Journal.notes <>'=>'')),
+            'fields'=> array('Journal.*', 'Issue.*', 'User.*', 'Project.*', 'Tracker.name'),
+            // Convert include to manual joins.Becase CakePHP can not specify conditions by recursive over 2.
+            // 'include'=>array('Issue'=>array('Project'), 'JournalDetail', 'User'),
+            'recursive' =>-1,   // use manual join
             'joins' => array(
               array(
-                'type'=>'INNER',
-                'table' => 'test_suite_issues',
+                'type'=>'LEFT',
+                'table' => '', // set by construct
                 'alias' => 'Issue',
                 'conditions'=>'Issue.id=Journal.journalized_id',
               ),
               array(
                 'type'=>'LEFT',
-                'table' => 'test_suite_projects',
+                'table' => '', // set by construct
                 'alias' => 'Project',
                 'conditions'=>'Project.id=Issue.project_id',
               ),
               array(
-                'type'=>'INNER',
-                'table' => 'test_suite_journal_details',
+                'type'=>'LEFT',
+                'table' => '', // set by construct
+                'alias' => 'Tracker',
+                'conditions'=>'Tracker.id=Issue.tracker_id',
+              ),
+              array(
+                'type'=>'LEFT',
+                'table' => '', // set by construct
                 'alias' => 'JournalDetail',
                 'conditions'=>'Journal.id=JournalDetail.journal_id',
               ),
+              array(
+                'type'=>'LEFT',
+                'table' => '', // set by construct
+                'alias' => 'User',
+                'conditions'=>'User.id=Journal.user_id',
+              ),
             ),
+            'group' =>'Journal.id',
         ),
       ),
     'Event' => array('title'       => array('Proc' => '_event_title'),
                       'description' => 'notes',
                       'author'      => array('Proc' => '_event_author'),
-                      'author'      => array('Proc' => '_event_type'),
+                      'type'      => array('Proc' => '_event_type'),
                       'url'         => array('Proc' => '_event_url')),
   );
+  
+  function __construct($id = false, $table = null, $ds = null) {
+    foreach($this->actsAs['ActivityProvider']['find_options']['joins'] as $index=>$join) {
+      $this->actsAs['ActivityProvider']['find_options']['joins'][$index]['table'] = $this->fullTableName($join['alias']);
+    }
+    parent::__construct($id, $table, $ds);
+  }
+  
   function _event_title($data) {
     $new_status = $this->__new_status($data);
     if(isset($status['Status']['name'])) {
@@ -118,9 +140,10 @@ class Journal extends AppModel {
     } else {
       $new_status = '';
     }
-    $this->Issue->Tracker->read(null, $data['Issue']['tracker_id']);
-    $this->Issue->Status->read(null, $data['Issue']['stautus_id']);
-    return $this->Issue->Tracker->data['Tracker']['name'].' #'.$data['Issue']['id'].$new_status.': '.$data['Issue']['subject'];
+    return $data['Tracker']['name'].' #'.$data['Issue']['id'].$new_status.': '.$data['Issue']['subject'];
+  }
+  function _event_author($data) {
+    return $data['User'];
   }
   function _event_type($data) {
     $new_status = $this->__new_status($data);

@@ -34,13 +34,16 @@ class EventBehavior extends ModelBehavior {
     'datetime'    => 'created_on',
     'title'       => 'title',
     'description' => 'description',
-    'author'      => 'author',
+    'author'      => '',
     'url'         => array('controller' => 'welcome'),
     'type'        => ''
   );
   
   function setup(&$Model, $config = array()) {
     $this->default_options['type'] = $this->_dasherize(Inflector::underscore($Model->name));
+    if(isset($Model->Author)) {
+      $this->default_options['author'] = $Model->Author;
+    }
     $settings = array_merge($this->default_options, $config);
     $this->settings[$Model->alias] = $settings;
   }
@@ -58,6 +61,7 @@ class EventBehavior extends ModelBehavior {
       'author'       => $this->event_author($Model, $data),
       'url'          => $this->event_url($Model, $data),
       'type'         => $this->event_type($Model, $data),
+      'project'      => $data['Project'],
       'id'           => $data[$Model->alias]['id']
     );
     return $event_data;
@@ -65,7 +69,7 @@ class EventBehavior extends ModelBehavior {
 
   function event_date(&$Model, $data=false) {
     if(empty($data)) $data = $Model->data;
-    return $this->event_datetime($Model, $data);
+    return date('Y-m-d', strtotime($this->event_datetime($Model, $data)));
   }
   function event_url(&$Model, $data=false, $options = array()) {
     if(empty($data)) $data = $Model->data;
@@ -100,6 +104,8 @@ class EventBehavior extends ModelBehavior {
       $result = @$Model->$option['Proc']($data);
     } elseif(is_string($option) && array_key_exists($option, $data[$Model->alias])) {
       $result = $data[$Model->alias][$option];
+    } elseif(is_object($option)) {
+      $result = $data[$option->alias];
     } else {
       $result = $option;
     }

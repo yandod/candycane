@@ -32,20 +32,103 @@ class FetcherComponentTestCase extends CakeTestCase {
 
   function test_activity_without_subprojects() {
     $User =& ClassRegistry::init('User');
-    $user = $User->find_by_id_logged(2);  // User.anonymous
-    $this->Component->fetch($user, array('project' => $this->Project->data));
+    $user = $User->read(null, 6);  // User.anonymous
+    $this->Component->fetch($user['User'], array('project' => $this->Project->data));
     $events = $this->Component->events(date('Y-m-d', strtotime('-30 day')), date('Y-m-d', strtotime('+1 day')));
     $this->assertNotNull($events);
-    
-    e(pr($events));
-
-/*
-    assert events.include?(Issue.find(1))
-    assert !events.include?(Issue.find(4))
-    # subproject issue
-    assert !events.include?(Issue.find(5))
-*/
+    $this->assertEqual(4, count($events));
+    $this->assertEqual('issue', $events[0]['type']);
+    $this->assertEqual(1, $events[0]['id']);
+    $this->assertEqual('issue', $events[1]['type']);
+    $this->assertEqual(7, $events[1]['id']);
+    $this->assertEqual('issue-note', $events[2]['type']);
+    $this->assertEqual(1, $events[2]['id']);
+    $this->assertEqual('issue-note', $events[3]['type']);
+    $this->assertEqual(2, $events[3]['id']);
   }
 
+  function test_activity_with_subprojects() {
+    $User =& ClassRegistry::init('User');
+    $user = $User->read(null, 6);  // User.anonymous
+    $this->Component->fetch($user['User'], array('project' => $this->Project->data, 'with_subprojects' => 1));
+    $events = $this->Component->events(date('Y-m-d', strtotime('-30 day')), date('Y-m-d', strtotime('+1 day')));
+    $this->assertNotNull($events);
+    $this->assertEqual(5, count($events));
+    $this->assertEqual('issue', $events[0]['type']);
+    $this->assertEqual(1, $events[0]['id']);
+    $this->assertEqual('issue', $events[2]['type']);
+    $this->assertEqual(7, $events[2]['id']);
+    # subproject issue
+    $this->assertEqual('issue', $events[1]['type']);
+    $this->assertEqual(5, $events[1]['id']);
 
+    $this->assertEqual('issue-note', $events[3]['type']);
+    $this->assertEqual(1, $events[3]['id']);
+    $this->assertEqual('issue-note', $events[4]['type']);
+    $this->assertEqual(2, $events[4]['id']);
+  }
+
+  function test_global_activity_anonymous() {
+    $User =& ClassRegistry::init('User');
+    $user = $User->read(null, 6);  // User.anonymous
+    $this->Component->fetch($user['User']);
+    $events = $this->Component->events(date('Y-m-d', strtotime('-30 day')), date('Y-m-d', strtotime('+1 day')));
+    $this->assertNotNull($events);
+    $this->assertEqual(5, count($events));
+    $this->assertEqual('issue', $events[0]['type']);
+    $this->assertEqual(1, $events[0]['id']);
+    $this->assertEqual('issue', $events[2]['type']);
+    $this->assertEqual(7, $events[2]['id']);
+    # subproject issue
+    $this->assertEqual('issue', $events[1]['type']);
+    $this->assertEqual(5, $events[1]['id']);
+
+    $this->assertEqual('issue-note', $events[3]['type']);
+    $this->assertEqual(1, $events[3]['id']);
+    $this->assertEqual('issue-note', $events[4]['type']);
+    $this->assertEqual(2, $events[4]['id']);
+
+// TODO Message feature
+//    assert events.include?(Message.find(5))
+    # Issue of a private project
+  }
+
+  function test_global_activity_logged_user() {
+    $User =& ClassRegistry::init('User');
+    $user = $User->find_by_id_logged(2);  // manager
+    $this->Component->fetch($user);
+    $events = $this->Component->events(date('Y-m-d', strtotime('-30 day')), date('Y-m-d', strtotime('+1 day')));
+    $this->assertNotNull($events);
+
+    $this->assertEqual(7, count($events));
+    $this->assertEqual('issue', $events[0]['type']);
+    $this->assertEqual(1, $events[0]['id']);
+    $this->assertEqual('issue', $events[1]['type']);
+    # Issue of a private project the user belongs to
+    $this->assertEqual(4, $events[1]['id']);
+    $this->assertEqual('issue', $events[2]['type']);
+    $this->assertEqual(5, $events[2]['id']);
+    $this->assertEqual('issue', $events[3]['type']);
+    # Issue of a private project the user belongs to
+    $this->assertEqual(6, $events[3]['id']);
+    $this->assertEqual('issue', $events[4]['type']);
+    $this->assertEqual(7, $events[4]['id']);
+
+    $this->assertEqual('issue-note', $events[5]['type']);
+    $this->assertEqual(1, $events[5]['id']);
+    $this->assertEqual('issue-note', $events[6]['type']);
+    $this->assertEqual(2, $events[6]['id']);
+  }
+
+  function test_user_activity() {
+    $User =& ClassRegistry::init('User');
+    $user = $User->find_by_id_logged(2);  // manager
+    $anonymous = $User->read(null, 6);  // User.anonymous
+    $this->Component->fetch($anonymous['User'], array('author'=>$user));
+    $events = $this->Component->events(null, null, array('limit'=>10));
+
+    $this->assertTrue(count($events) > 0);
+    $this->assertTrue(count($events) <= 10);
+    $this->assertEqual(array('2'=>count($events)), array_count_values(Set::extract('{n}.author.id', $events)));
+  }
 }

@@ -315,19 +315,19 @@ class CandyHelper extends AppHelper
       // return strftime("{$time_format}", $local);
     }
   }
-#  
-  function format_activity_title($text)
-  {
+  
+  function format_activity_title($text) {
     return h($this->truncate_single_line($text, 100));
   }
-#  
-#  def format_activity_day(date)
-#    date == Date.today ? l(:label_today).titleize : format_date(date)
-#  end
-#  
-#  def format_activity_description(text)
-#    h(truncate(text.to_s, 250).gsub(%r{<(pre|code)>.*$}m, '...'))
-#  end
+  
+  function format_activity_day($date) {
+    return date('Y-m-d',strtotime($date)) == date('Y-m-d') ? ucwords(__('today',true)) : $this->format_date($date);
+  }
+  
+  function format_activity_description($text) {
+    $out = $this->truncate($text, 250);
+    return h(preg_replace('/<(pre|code)>.*$/', '...', $out));
+  }
 #
 #  def distance_of_date_in_words(from_date, to_date = 0)
 #    from_date = from_date.to_date if from_date.respond_to?(:to_date)

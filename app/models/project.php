@@ -221,7 +221,7 @@ class Project extends AppModel
 
       $base_statement[] = array("EXISTS (SELECT em.id FROM $enabledModuleTable em WHERE em.name='$emName' AND em.project_id=$projectTable.id)" => true);
     }
-    if(isset($options['project'])) {
+    if(!empty($options['project'])) {
       $project_statement = array();
       $project_statement[] = array("$projectTable.id" => $options['project']['id']);
       if(isset($options['with_subprojects'])) {
@@ -244,7 +244,9 @@ class Project extends AppModel
         foreach($user['memberships'] as $member) {
           $allowed_project_ids[] = $member['Project']['id'];
         }
-        $statements[] = array("$projectTable.id" => $allowed_project_ids);
+        if(!empty($allowed_project_ids)) {
+          $statements[] = array("$projectTable.id" => $allowed_project_ids);
+        }
       } elseif($role->anonymous_allowed_to($permission)) {
         # anonymous user allowed on public project
         $statements[] = array("$projectTable.is_public"=>1);

@@ -43,7 +43,7 @@ class ActivityProviderTestCase extends CakeTestCase {
     $this->assertTrue(in_array(3, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
     $this->assertTrue(in_array(7, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
     # subproject issue
-    $this->assertFalse(in_array(5, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
+    $this->assertTrue(in_array(5, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
     $this->assertTrue(in_array(6, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
   }
 
@@ -58,7 +58,7 @@ class ActivityProviderTestCase extends CakeTestCase {
     $this->assertTrue(in_array(2, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
     $this->assertTrue(in_array(3, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
     $this->assertTrue(in_array(4, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
-    $this->assertFalse(in_array(5, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
+    $this->assertTrue(in_array(5, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
     $this->assertTrue(in_array(6, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
     $this->assertTrue(in_array(7, Set::flatten(Set::extract('{n}.{n}.{n}.Issue.id', $events))));
   }

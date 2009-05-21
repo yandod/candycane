@@ -130,11 +130,15 @@ class ActivityProviderBehavior extends ModelBehavior {
       $cond->add($project->allowed_to_condition($user, $provider_options['permission'], $options));
     }
     $scope_options['conditions'] = $cond->conditions;
-    if(isset($provider_options['limit'])) {
+    if(isset($options['limit']) && $options['limit'] > 1) {
       # id and creation time should be in same order in most cases
       $scope_options['order'] = $Model->alias.".id DESC";
-      $scope_options['limit'] = $provider_options['limit'];
+      $scope_options['limit'] = $options['limit'];
     }
+    if(isset($provider_options['include']) && !(array_key_exists('CustomField', $provider_options['include']) || in_array('CustomField', $provider_options['include']))) {
+      $Model->_customFieldAfterFindDisable = false;
+    }
+
     $values = $Model->find('all', array_merge_recursive($provider_options['find_options'], $scope_options));
     $ret = array();
     list($mname, $cname) = explode('.', $provider_options['timestamp']);

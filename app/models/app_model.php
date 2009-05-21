@@ -116,7 +116,12 @@ class AppModel extends Model {
  */
   function fullTableName($quote = true) {  
     $db =& ConnectionManager::getDataSource($this->useDbConfig);
-    return $db->fullTableName($this, $quote);
+    $model =& $this;
+    if(is_string($quote)) {
+      $model = & ClassRegistry::init($quote);
+      $quote = true;
+    }
+    return $db->fullTableName($model, $quote);
   }
   function quoted_date($date, $colname) {
     $db =& ConnectionManager::getDataSource($this->useDbConfig);

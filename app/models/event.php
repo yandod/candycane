@@ -4,30 +4,46 @@ class Event extends AppModel {
   var $useTable = false;
 
   function event_date($data=false) {
-    return $this->event_datetime($data);
+    return date('Y-m-d', strtotime($this->event_datetime($data)));
   }
   function event_url($data=false, $options = array()) {
-    if(empty($data)) $data = $Model->data;
-    return array_merge($data[$this->name]['url'], $options);
+    $data = $this->__get_data($data);
+    return array_merge($data['url'], $options);
   }
   function event_datetime($data=false) {
-    if(empty($data)) $data = $Model->data;
-    return $data[$this->name]['datetime'];
+    $data = $this->__get_data($data);
+    return $data['datetime'];
   }
   function event_title($data=false) {
-    if(empty($data)) $data = $Model->data;
-    return $data[$this->name]['title'];
+    $data = $this->__get_data($data);
+    return $data['title'];
   }
   function event_description($data=false) {
-    if(empty($data)) $data = $Model->data;
-    return $data[$this->name]['description'];
+    $data = $this->__get_data($data);
+    return $data['description'];
   }
   function event_author($data=false) {
-    if(empty($data)) $data = $Model->data;
-    return $data[$this->name]['author'];
+    $data = $this->__get_data($data);
+    return $data['author'];
   }
   function event_type($data=false) {
-    if(empty($data)) $data = $Model->data;
-    return $data[$this->name]['type'];
+    $data = $this->__get_data($data);
+    return $data['type'];
+  }
+  
+  function group_by($events, $element) {
+    $results = array();
+    foreach($events as $event) {
+      $results[$this->$element($event)][] = $event;
+    }
+    return $results;
+  }
+  
+  function __get_data($data) {
+    if(empty($data)) $data = $this->data;
+    if(array_key_exists($this->name, $data)) {
+      $data = $data[$this->name];
+    }
+    return $data;
   }
 }
