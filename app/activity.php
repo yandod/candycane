@@ -51,7 +51,7 @@ class Activity extends Object {
 
   function _register($event_type, $options=array()) {
     $options = array_intersect_key($options, array('class_name'=>false, 'default'=>false));
-    $options = array_merge(array('default'=>false), $options);
+    $options = array_merge(array('default'=>true), $options);
 
     $providers = empty($options['class_name']) ? Inflector::classify($event_type) : $options['class_name'];
     if (!is_array($providers)) {

@@ -47,6 +47,9 @@ class FetcherComponent extends Object
 
     $this->user = $user;
     $this->project = $options['project'];
+    if(!empty($this->project)) {
+      $options['project'] = $this->project['Project'];
+    }
     $this->_options = $options;
 
     $this->scope = $this->event_types();
@@ -135,11 +138,11 @@ class FetcherComponent extends Object
   function events($from = null, $to = null, $options=array()) {
     $e = array();
     $options = array_merge(array('limit'=>0), $options);
-    $this->options['limit'] = $options['limit'];
+    $this->_options['limit'] = $options['limit'];
 
     foreach ($this->scope as $event_type) {
       foreach ($this->_constantized_providers($event_type) as $provider) {
-        $results = $provider->find_events($event_type, $this->user, $from, $to, $this->options);
+        $results = $provider->find_events($event_type, $this->user, $from, $to, $this->_options);
         foreach($results as $day=>$times) {
           foreach($times as $time=>$events) {
             foreach ($events as $result) {
@@ -159,7 +162,7 @@ class FetcherComponent extends Object
   function cmp_event_datetime($l, $r) {
     return strtotime($l['datetime']) - strtotime($r['datetime']);
   }
-
+  
   # private
 
   function _constantized_providers($event_type) {

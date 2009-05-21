@@ -35,9 +35,10 @@ class ProjectsController extends AppController
     'TimeEntry',
     'IssueCategory',
     'Attachment',
+    'Event',
   );
   var $helpers = array('Time', 'Project', 'CustomField', 'Number');
-  var $components = array('RequestHandler');
+  var $components = array('RequestHandler', 'Fetcher');
 
 #  menu_item :overview
 #  menu_item :activity, :only => :activity
@@ -634,55 +635,50 @@ class ProjectsController extends AppController
 #  end
   function activity()
   {
-#    @days = Setting.activity_days_default.to_i
-#    
-#    if params[:from]
-#      begin; @date_to = params[:from].to_date + 1; rescue; end
-#    end
-#    @date_to ||= Date.today + 1
-#    @date_from = @date_to - @days
-    if (isset($this->params['date_to'])) {
-      $date_to = $this->params['date_to'];
-    } else {
-      $date_to = time() + (1*60*60*24);
+    $days = $this->Setting->activity_days_default;
+    
+    if ($this->_get_param('from')) {
+      $date_to = strtotime('+1 day', strtotime($this->_get_param('from')));
     }
-    $days = 30; // @FIXME
-    if (isset($this->params['days'])) {
-      $days = $this->params['days'];
+    if (!isset($date_to)) {
+      $date_to = strtotime('+1 day');
     }
-    $date_from = $date_to - ($days * 60*60*24);
+    $date_from = strtotime("-{$days} day", $date_to);
+    $date_from = strtotime(date('Y-m-d 0:0:0', $date_from));
+    $date_to = strtotime(date('Y-m-d 0:0:0', $date_to)) - 1;
+    
     $this->set('date_from', $date_from);
     $this->set('date_to', $date_to);
     $this->set('days', $days);
 
-    $author = empty($this->params['user_id']) ? null : $this->User->find('first', array(
-        'conditions' => array('id' => $this->parmas['user_id'])
+    $author = empty($this->_get_param['user_id']) ? null : $this->User->find('first', array(
+        'conditions' => array('id' => $this->parmas['user_id'], 'status'=>USER_STATUS_ACTIVE)
       ));
     $this->set('author', $author);
 #    @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
 
-    $issues = $this->Issue->find_events('issues', $this->current_user, $date_from, $date_to, array(
+    $with_subprojects = ($this->_get_param('with_subprojects')!=null) ? $this->Setting->display_subprojects_issues : ($this->_get_param('with_subprojects') == '1');
+    $this->Fetcher->fetch($this->current_user, array(
       'projects' => $this->data,
-      'with_subprojects' => false,
-      'author' => $author,
+      'with_subprojects' => $with_subprojects,
+      'author' => $author['User'],
     ));
-
-    $events_by_day = array();
-    foreach($issues as $day=>$issue) {
-      if (!isset($events_by_day[$day])) {
-        $events_by_day[$day] = array();
-      }
-      foreach($issue as $time=>$data) {
-        if (!isset($events_by_day[$day][$time])) {
-          $events_by_day[$day][$time] = array();
-        }
-        $events_by_day[$day][$time] = $data;
-      }
-      krsort($events_by_day[$day]);
+    $scope = $this->Fetcher->scope_select('_callback_activity_scope_select');
+    if (empty($scope)) {
+      $this->Fetcher->set_scope(empty($author) ? 'default' : 'all');
     }
+    $events = $this->Fetcher->events($date_from, $date_to);
+    $events_by_day = $this->Event->group_by($events, 'event_date');
     krsort($events_by_day);
-
+    foreach($events_by_day as $day=>$events_by) {
+      usort($events_by, array($this->Fetcher, 'cmp_event_datetime'));
+      $events_by_day[$day] = array_reverse($events_by);
+    }
     $this->set('events_by_day', $events_by_day);
+
+  }
+  function _callback_activity_scope_select($scope) {
+    return $this->_get_param("show_{$scope}") != null;
   }
 #  
 #private

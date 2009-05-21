@@ -74,8 +74,12 @@ class User extends AppModel
     if ($formatter != null) {
     } else {
     }
+    $alias = 'User';
+    if(array_key_exists($this->alias, $user)) {
+      $alias = $this->alias;
+    }
 
-    return $user['User']['firstname']. ' '.$user['User']['lastname'];
+    return $user[$alias]['firstname']. ' '.$user[$alias]['lastname'];
   }
   function name_fields() {
     return array('firstname', 'lastname');
