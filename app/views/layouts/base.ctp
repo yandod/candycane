@@ -56,7 +56,9 @@
   unset($url['caption']);
   $option = aa('class',$item['class']); 
 ?>
+<?php if($candy->authorize_for($url)): ?>
 			<li><?php echo $html->link($item['caption'],$url,$option); ?></li>
+<?php endif; ?>
 <?php endforeach; ?>
 		</ul>
 <!--         <%= render_main_menu(@project) %> -->
