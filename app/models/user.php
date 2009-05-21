@@ -120,7 +120,7 @@ class User extends AppModel
 #  # Return user's RSS key (a 40 chars long string), used to access feeds
   function rss_key($user_id) {
     $token = $this->RssToken->find('first', array('conditions'=>array('action'=>'feeds', 'user_id'=>$user_id), 'fields'=>array('value')));
-    // TODO ‚È‚©‚Á‚½‚çì¬‚·‚éB
+    // TODO ï¿½È‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì¬ï¿½ï¿½ï¿½ï¿½B
     return $token['RssToken']['value'];
   }
 #  
@@ -313,23 +313,38 @@ class User extends AppModel
    */
   var $validate = array(
     'login' => array(
-      'rule' => array('isUnique' => array('onCreate' => true), 'notEmpty')
+      'validates_uniqueness_of' => array(
+        'rule' => 'isUnique',
+        'onCreate' => true,
+        'allowEmpty' => false,
+      )
     ),
     'firstname' => array(
-      'rule' => array('alphaNumeric')
+      'validates_not_empty' => array(
+        'rule' => array('notEmpty')
+      ),
     ),
     'lastname' => array(
-      'rule' => array('alphaNumeric')
+      'validates_not_empty' => array(
+        'rule' => array('notEmpty')
+      ),
     ),
     'mail' => array(
-      'rule' => array('email', false),
-      'allowEmpty' => true,
+      'validates_invalid_of' => array(
+        'rule' => array('email', false),
+      ),
+      'validates_not_empty' => array(
+        'rule' => array('notEmpty'),
+      )
     ),
     'username' => array(
-      'rule' => array('alphaNumeric', 'notEmpty')
+      'rule' => 'alphaNumeric',
+      'allowEmpty' => false
     ),
     'password' => array(
-      'rule' => array('alphaNumeric', 'notEmpty')
+      'minLength' => array(
+        'rule' => array('minLength',4)
+      ),
     ),
   );
 
