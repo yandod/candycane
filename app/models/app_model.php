@@ -10,14 +10,17 @@ class AppModel extends Model {
     'validates_format_of' => 'Please input in readable charactors.',
     'validates_inclusion_of' => 'Please input in the range %1$d through %2$d.',
     'validates_numericality_of' => 'Please input the numerical value.',
-    'validates_invalid_of' => 'It is an invalid value. ',
-    'validates_uniqueness_of' => 'This value is already registed.',
+    'validates_invalid_of' => 'is invalid',
+    'validates_uniqueness_of' => 'has already been taken',
     'validates_not_same_project' => 'Doesn\'t belong to the same project.',
     'validates_circular_dependency' => 'This relation would create a circular dependency',
-
+    'validates_not_empty' => 'can\'t be blank',
+ 
+  
     'date_format' => 'Please input in the date format.',
     'compare_from_to' => 'Start time should specify the past from finish time.',
-    'minLength' => 'Please input by %2$d or more characters.',
+    //'minLength' => 'Please input by %2$d or more characters.',
+    'minLength' => 'is too short',
     'email' => 'Please input in mail address form.',
     'harfWidthChar'=> 'Please input a half-width alphanumeric character.',
     'equalPasswords' => 'Invalid Password Confirmation.',
