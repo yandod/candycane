@@ -46,11 +46,10 @@ class MenuManagerComponent extends Object
 
   function _prepareMainmenu()
   {
-  	//pr($this->controller->params);
   	$meta_data = array();
   	
   	if (isset($this->controller->params['project_id'])) {
-  	  $meta_data = $this->project_menu;
+  	  $meta_data = $this->_allowed_items($this->project_menu);
   	} else {
       $meta_data = $this->application_menu;
     }
@@ -98,5 +97,19 @@ class MenuManagerComponent extends Object
     $item['class'] .= " selected";
     $this->__selected = true;
   }
+  
+  function _allowed_items($menu_items) {
+    $allows = array();
+    $User = & ClassRegistry::init('User');
+    foreach ($menu_items as $key => $menu_item) {
+      if(!empty($this->controller->current_user) && $User->is_allowed_to($this->controller->current_user, $this->__url($menu_item), $this->controller->_project)) {
+        $allows[$key] = $menu_item;
+      }
+    }
+    return $allows;
+  }
 
+  function __url($menu_item) {
+    return array_intersect_key($menu_item, array('controller'=>true,'action'=>true));
+  }
 }

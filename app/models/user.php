@@ -246,7 +246,7 @@ class User extends AppModel
       # No action allowed on archived projects
       if(!$Project->is_active($project)) return false;
       # No action allowed on disabled modules
-      if(!$Project->is_allows_to($action)) return false;
+      if(!$Project->is_allows_to($action, $project)) return false;
       # Admin users are authorized for anything else
       if($user['admin']) return true ;
       

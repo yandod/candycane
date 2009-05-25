@@ -140,6 +140,27 @@ class AppModel extends Model {
     }
     return $out;
   }
+
+  function filterBindings($bindings = null, $reset=true) { 
+    if (empty($bindings) && !is_array($bindings)) { 
+      return false; 
+    } 
+    $relations = array('hasOne', 'hasMany', 'belongsTo', 'hasAndBelongsToMany'); 
+    $unbind = array(); 
+    foreach ($bindings as $binding) { 
+      foreach ($relations as $relation) { 
+        if (isset($this->$relation)) { 
+          $currentRelation = $this->$relation; 
+          if (isset($currentRelation) && isset($currentRelation[$binding])) { 
+            $unbind[$relation][] = $binding; 
+          } 
+        } 
+      } 
+    } 
+    if (!empty($unbind)) { 
+      $this->unbindModel($unbind, false); 
+    }
+  }
 }
 
 /*

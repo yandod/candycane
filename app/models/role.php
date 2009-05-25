@@ -134,9 +134,8 @@ class Role extends AppModel {
   # * a permission Symbol (eg. :edit_project)
   function is_allowed_to($role, $action) {
     if(is_array($action)) {
-        // TODO AccessControll
-        // allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
-        return true;
+      $include = in_array("{$action['controller']}/{$action['action']}", $this->_allowed_actions($role));
+      return $include;
     }
     $list = $this->_allowed_permissions($role);
     if(!empty($list)) {
@@ -148,15 +147,11 @@ class Role extends AppModel {
     }
     return false;
   }
-#  
-#  # Return all the permissions that can be given to the role
+  
+# Return all the permissions that can be given to the role
 #  def setable_permissions
-#    setable_permissions = Redmine::AccessControl.permissions - Redmine::AccessControl.public_permissions
-#    setable_permissions -= Redmine::AccessControl.members_only_permissions if self.builtin == BUILTIN_NON_MEMBER
-#    setable_permissions -= Redmine::AccessControl.loggedin_only_permissions if self.builtin == BUILTIN_ANONYMOUS
-#    setable_permissions
-#  end
-#
+#  Move to Permission.php
+
 #  # Find all the roles that can be given to a project member
 #  def self.find_all_givable
 #    find(:all, :conditions => {:builtin => 0}, :order => 'position')
@@ -197,10 +192,18 @@ class Role extends AppModel {
     
     return $list;
   }
-#
-#  def allowed_actions
-#    @actions_allowed ||= allowed_permissions.inject([]) { |actions, permission| actions += Redmine::AccessControl.allowed_actions(permission) }.flatten
-#  end
+
+  function _allowed_actions($role = false) {
+    if (!$role) {
+      $role = $this->data;
+    }
+    $Permission =& ClassRegistry::init('Permission');
+    $actions = array();
+    foreach($this->_allowed_permissions($role) as $permission) {
+      $actions[] = $Permission->allowed_actions($permission);
+    }
+    return Set::flatten($actions);
+  }
 #    
 #  def check_deletable
 #    raise "Can't delete role" if members.any?

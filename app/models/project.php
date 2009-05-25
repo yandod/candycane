@@ -63,6 +63,19 @@ class Project extends AppModel
     return $this->find('all', array('conditions'=>array($this->name.'.parent_id'=>$id)));
   }
 
+  /**
+   * include EnabledModule because check access control.
+   */
+  function findMainProject($identifier) {
+    $this->bindModel(array('hasMany' => array('EnabledModule')));
+    $this->filterBindings(array('Version', 'TimeEntry', 'IssueCategory'));
+    $ret = $this->find('first', array(
+      'conditions' => array('Project.identifier' => $identifier,),
+      'recursive'  => 1,
+    ));
+    
+    return $ret;
+  }
 #  # Project statuses
 #  STATUS_ACTIVE     = 1
 #  STATUS_ARCHIVED   = 9
@@ -534,17 +547,20 @@ class Project extends AppModel
     return $result;
   }
 
-#  
-#  def allows_to?(action)
-#    if action.is_a? Hash
-#      allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
-#    else
-#      allowed_permissions.include? action
-#    end
-#  end
-  function is_allows_to($action) {
-    // TODO 
-    return true;
+  function is_allows_to($action, $project=false) {
+    if(is_array($action)) {
+      $include = in_array("{$action['controller']}/{$action['action']}", $this->_allowed_actions($project));
+      return $include;
+    }
+    $list = $this->_allowed_permissions($project);
+    if(!empty($list)) {
+      foreach($list as $item) {
+        if(($item == $action) || ($item == ':'.$action)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
 #  
@@ -584,6 +600,34 @@ class Project extends AppModel
   function _event_url($data) {
     return  array('controller'=>'projects', 'action'=>'show', 'id'=>$data['Project']['id']);
   }
+
+  function _allowed_permissions($project=false) {
+    if (!$project) {
+      $project = $this->data;
+    }
+    $Permission =& ClassRegistry::init('Permission');
+    $allowed_permissions = array();
+    $module_names = Set::extract('{n}.name', $project['EnabledModule']);
+    $modules = $Permission->modules_permissions($module_names);
+
+    $names = array();
+    foreach ($modules as $perms) {
+      $names = array_merge($names, array_keys($perms));
+    }
+
+    return $names;
+  }
+
+  function _allowed_actions($project) {
+    $Permission =& ClassRegistry::init('Permission');
+    $actions = array();
+    foreach($this->_allowed_permissions($project) as $permission) {
+      $actions[] = $Permission->allowed_actions($permission);
+    }
+    return Set::flatten($actions);
+  }
+
+
 #  def allowed_permissions
 #    @allowed_permissions ||= begin
 #      module_names = enabled_modules.collect {|m| m.name}
