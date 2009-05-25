@@ -151,7 +151,6 @@ class Permission extends AppModel
   // from role.php
   function setable_permissions_name($builtin = null)
   {
-    // todo: members_only_permissions, loggedin_only_permissions
     $tmp = array();
     foreach ($this->permissions as $module => $perms) {
       foreach ($perms as $p) {
@@ -176,7 +175,6 @@ class Permission extends AppModel
   // from role.php
   function setable_permissions($builtin = null)
   {
-    // todo: members_only_permissions, loggedin_only_permissions
     $tmp = array();
     foreach ($this->permissions as $module => $perms) {
       foreach ($perms as $p) {
@@ -231,27 +229,22 @@ class Permission extends AppModel
     return $tmp;
   }
       
-  /*
 
   # Returns the actions that are allowed by the permission of given name
-  def allowed_actions(permission_name)
-    perm = permission(permission_name)
-    perm ? perm.actions : []
-  end
-  def members_only_permissions
-    @members_only_permissions ||= @permissions.select {|p| p.require_member?}
-  end
+  function allowed_actions($permission_name) {
+    $perm = $this->findByName($permission_name);
+    return $perm ? $perm['actions'] : array();
+  }
 
-  def loggedin_only_permissions
-    @loggedin_only_permissions ||= @permissions.select {|p| p.require_loggedin?}
-  end
-
-  def available_project_modules
-    @available_project_modules ||= @permissions.collect(&:project_module).uniq.compact
-  end
-
-  def modules_permissions(modules)
-    @permissions.select {|p| p.project_module.nil? || modules.include?(p.project_module.to_s)}
-  end
- */
+  function modules_permissions($modules) {
+    $tmp = array();
+    foreach ($this->permissions as $module => $perms) {
+      foreach ($perms as $name => $p) {
+        if (($p['project_module'] == null) || in_array($p['project_module'], $modules)) {
+          $tmp[$module][$name] = $this->permissions[$module][$name];
+        }
+      }
+    }
+    return $tmp;
+  }
 }

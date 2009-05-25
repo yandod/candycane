@@ -33,7 +33,7 @@ class User extends AppModel
 #  has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   var $hasOne = array(
     'UserPreference',
-    'RssToken'=>array('className'=>'Token', 'dependent'=>true, 'conditions'=>"action='feeds'"),
+    'RssToken'=>array('className'=>'Token', 'dependent'=>true, 'conditions'=>"action='feeds'", 'external'=>true),
   );
 #  has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
 #  belongs_to :auth_source
@@ -246,7 +246,7 @@ class User extends AppModel
       # No action allowed on archived projects
       if(!$Project->is_active($project)) return false;
       # No action allowed on disabled modules
-      if(!$Project->is_allows_to($action)) return false;
+      if(!$Project->is_allows_to($action, $project)) return false;
       # Admin users are authorized for anything else
       if($user['admin']) return true ;
       

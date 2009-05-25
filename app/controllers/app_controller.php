@@ -374,11 +374,7 @@ class AppController extends Controller {
   function _findProject()
   {
     if ( isset($this->params['project_id']) ) {
-        if ($this->_project = $this->Project->find('first', array(
-	      'conditions' => array(
-	        'Project.identifier' => $this->params['project_id'],
-	      ),
-	    ))) {
+        if ($this->_project = $this->Project->findMainProject($this->params['project_id'])) {
 	      $this->set(array('main_project'=> $this->_project));
 	      $this->set('main_project', $this->_project);
 	    } else {
