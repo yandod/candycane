@@ -33,7 +33,7 @@ class User extends AppModel
 #  has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
   var $hasOne = array(
     'UserPreference',
-    'RssToken'=>array('className'=>'Token', 'dependent'=>true, 'conditions'=>"action='feeds'"),
+    'RssToken'=>array('className'=>'Token', 'dependent'=>true, 'conditions'=>"action='feeds'", 'external'=>true),
   );
 #  has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
 #  belongs_to :auth_source
