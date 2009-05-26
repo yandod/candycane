@@ -104,6 +104,12 @@ class AppController extends Controller {
         if(empty($user)) {
           $this->cakeError('error404');
         }
+      } else {
+        $user = $this->User->anonymous();
+        $user['User']['logged'] = false;
+        $user['User']['name'] = $user['User']['login'];
+        $user['User']['memberships'] = array();
+        return $user['User'];
       }
       return null;
     }

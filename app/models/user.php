@@ -281,15 +281,13 @@ class User extends AppModel
 #    @current_user ||= User.anonymous
 #  end
 #  
-#  def self.anonymous
-#    anonymous_user = AnonymousUser.find(:first)
-#    if anonymous_user.nil?
-#      anonymous_user = AnonymousUser.create(:lastname => 'Anonymous', :firstname => '', :mail => '', :login => '', :status => 0)
-#      raise 'Unable to create the anonymous user.' if anonymous_user.new_record?
-#    end
-#    anonymous_user
-#  end
-#end
+  function anonymous() {
+    $anonymous_user = $this->find('first', array('conditions'=>array('status'=>USER_STATUS_ANONYMOUS)));
+    if (empty($anonymous_user)) {
+      $anonymous_user = array('User'=>array('lastname' => 'Anonymous', 'firstname' => '', 'mail' => '', 'login' => '', 'status' => 0));
+    }
+    return $anonymous_user;
+  }
 
 
   var $hasMany = array(
