@@ -221,7 +221,10 @@ class AppController extends Controller {
     $this->redirect($default_url);
   }
   function render_feed($event_model, $items, $options=array()) {
-    usort($items, array($event_model, 'cmp_event_datetime'));
+    if (!($options['sort'] === false)) {
+      usort($items, array($event_model, 'cmp_event_datetime'));
+    }
+    unset($options['sort']);
     $items = array_reverse($items);
     $items = array_slice($items, 0, $this->Setting->feeds_limit);
     $atom_title = !empty($options['title']) ? $options['title'] : $this->Setting->app_title;

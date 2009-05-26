@@ -26,29 +26,41 @@
 <?php if(empty($events_by_day)) { echo $html->tag('p', __('No data to display',true), array('class' => 'nodata')); } ?>
 
 <div style="float:left;">
-<?php /*
-<%= link_to_remote(('&#171; ' + l(:label_previous)), 
-                   {:update => "content", :url => params.merge(:from => @date_to - @days - 1), :complete => 'window.scrollTo(0,0)'},
-                   {:href => url_for(params.merge(:from => @date_to - @days - 1)),
-                    :title => "#{l(:label_date_from)} #{format_date(@date_to - 2*@days)} #{l(:label_date_to).downcase} #{format_date(@date_to - @days - 1)}"}) %>
- */ ?>
+<?php 
+  $prev_days = 2*$days-1;
+  $get_params = array_merge($this->params['url'], $this->params['named']);
+  unset($get_params['url']);
+  echo $appAjax->link(('&#171; '.__('Previous',true)),
+                    array('project_id'=>$this->params['project_id'], '?'=>array_merge($get_params, array('from' => date('Y-m-d', strtotime("-{$days} day", $date_to) - 1)))),
+                    array(
+                      'update' => "content", 
+                      'complete' => 'window.scrollTo(0,0)', 
+                      'title' => __('From',true).' '.$candy->format_date(strtotime("-{$prev_days} day", $date_to)).' '.strtolower(__('To',true)).' '.$candy->format_date(strtotime("-{$days} day", $date_to) - 1)
+                    ),
+                    null, false);
+?>
 </div>
 <div style="float:right;">
-<?php /*
-<%= link_to_remote((l(:label_next) + ' &#187;'), 
-                   {:update => "content", :url => params.merge(:from => @date_to + @days - 1), :complete => 'window.scrollTo(0,0)'},
-                   {:href => url_for(params.merge(:from => @date_to + @days - 1)),
-                    :title => "#{l(:label_date_from)} #{format_date(@date_to)} #{l(:label_date_to).downcase} #{format_date(@date_to + @days - 1)}"}) unless @date_to >= Date.today %>
- */ ?>
+<?php 
+  if(date("Ymd") > date("Ymd",$date_to)) {
+    echo $appAjax->link((__('Next',true).' &#187;'),
+                    array('project_id'=>$this->params['project_id'], '?'=>array_merge($get_params, array('from' => date('Y-m-d', strtotime("$days day", $date_to) - 1)))),
+                    array(
+                      'update' => "content", 
+                      'complete' => 'window.scrollTo(0,0)', 
+                      'title' => __('From',true).' '.$candy->format_date($date_to).' '.strtolower(__('To',true)).' '.$candy->format_date(strtotime("$days day", $date_to) - 1)
+                    ),
+                    null, false);
+  }
+?>
 </div>
 &nbsp;
 <p class="other-formats">
-    <?php __("'Also available in:'") ?>
-    <?php echo $html->link('Atom', array('action'=>'activity', 'format'=>'atom', 'from'=>null, 'key'=>isset($currentuser['User']) ? $currentuser['User']['rss_key'] : ''
-    ), array('class' => 'feed')) ?>
+    <?php __("'Also available in:'"); ?>
+    <?php echo $html->link('Atom', array('project_id'=>$this->params['project_id'], '?'=>array_merge($this->params['url'], array('key'=>$rss_token, 'format'=>'atom', 'from'=>null, 'url'=>null))), array('class' => 'feed')); ?>
 </p>
+<?php $this->renderElement('projects/rss'); ?>
 
-<?php $this->set('Sidebar', $this->renderElement('projects/sidebar/activity')) ?>
-<?php $this->set('header_tags', $this->renderElement('projects/rss')) ?>
+<?php $this->set('Sidebar', $this->renderElement('projects/sidebar/activity')); ?>
 
 <?php $candy->html_title(__('Activity', true), $author['Project']['name']) ?>

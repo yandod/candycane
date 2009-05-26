@@ -63,7 +63,7 @@ class FetcherComponent extends Object
    */
   function event_types() {
     if (!empty($this->_event_types)) {
-      return $ths->_event_types;
+      return $this->_event_types;
     }
 
     $this->_event_types = Activity::getInstance()->available_event_types;
