@@ -37,7 +37,7 @@ class ProjectsController extends AppController
     'Attachment',
     'Event',
   );
-  var $helpers = array('Time', 'Project', 'CustomField', 'Number');
+  var $helpers = array('Time', 'Project', 'CustomField', 'Number', 'AppAjax');
   var $components = array('RequestHandler', 'Fetcher');
 
 #  menu_item :overview
@@ -303,6 +303,8 @@ class ProjectsController extends AppController
 #      @total_issues_by_tracker = Issue.count(:group => :tracker,
 #                                            :include => [:project, :status, :tracker],
 #                                            :conditions => cond)
+    $this->set('rss_title', 'Atom');
+    $this->set('rss_token', $this->Project->User->rss_key($this->current_user['id']));
   }
 #
 #  def settings
@@ -620,48 +622,12 @@ class ProjectsController extends AppController
      */
 
   }
-#  
-#  def activity
-#    @days = Setting.activity_days_default.to_i
-#    
-#    if params[:from]
-#      begin; @date_to = params[:from].to_date + 1; rescue; end
-#    end
-#
-#    @date_to ||= Date.today + 1
-#    @date_from = @date_to - @days
-#    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_issues? : (params[:with_subprojects] == '1')
-#    @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
-#    
-#    @activity = Redmine::Activity::Fetcher.new(User.current, :project => @project, 
-#                                                             :with_subprojects => @with_subprojects,
-#                                                             :author => @author)
-#    @activity.scope_select {|t| !params["show_#{t}"].nil?}
-#    @activity.scope = (@author.nil? ? :default : :all) if @activity.scope.empty?
-#
-#    events = @activity.events(@date_from, @date_to)
-#    
-#    respond_to do |format|
-#      format.html { 
-#        @events_by_day = events.group_by(&:event_date)
-#        render :layout => false if request.xhr?
-#      }
-#      format.atom {
-#        title = l(:label_activity)
-#        if @author
-#          title = @author.name
-#        elsif @activity.scope.size == 1
-#          title = l("label_#{@activity.scope.first.singularize}_plural")
-#        end
-#        render_feed(events, :title => "#{@project || Setting.app_title}: #{title}")
-#      }
-#    end
-#    
-#  rescue ActiveRecord::RecordNotFound
-#    render_404
-#  end
+
   function activity()
   {
+    if ($this->RequestHandler->isAjax() || $this->_get_param('format')) {
+      Configure::write('debug', 0);
+    }
     $days = $this->Setting->activity_days_default;
     
     if ($this->_get_param('from')) {
@@ -682,7 +648,6 @@ class ProjectsController extends AppController
         'conditions' => array('id' => $this->parmas['user_id'], 'status'=>USER_STATUS_ACTIVE)
       ));
     $this->set('author', $author);
-#    @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
 
     $with_subprojects = ($this->_get_param('with_subprojects')!=null) ? $this->Setting->display_subprojects_issues : ($this->_get_param('with_subprojects') == '1');
     $this->Fetcher->fetch($this->current_user, array(
@@ -703,9 +668,39 @@ class ProjectsController extends AppController
     }
     $this->set('events_by_day', $events_by_day);
 
+    $this->set('activity_event_types', $this->Fetcher->event_types());
+    $this->set('activity_scope', $this->Fetcher->scope);
+    $this->set('active_children', $this->Project->active_children($this->_project['Project']['id']));
+    $this->set('with_subprojects', $with_subprojects);
+    $this->set('param_user_id', $this->_get_param('user_id'));
+    $this->set('rss_token', $this->Project->User->rss_key($this->current_user['id']));
+
+    $title = __('Activity',true);
+    if ($author) {
+      $title = $this->User->to_string($author);
+    } elseif (count($this->Fetcher->scope) == 1) {
+      $title = __(Inflector::classify($this->Fetcher->scope[0]),true);
+    }
+    if (empty($this->_project)) {
+      $title = $this->Setting->app_title.": $title";
+    } else {
+      $title = $this->Project->to_string($this->_project).": $title";
+    }
+    $this->set('rss_title', $title);
+    
+    switch($this->_get_param('format')) {
+    case 'atom' :
+      usort($events, array($this->Fetcher, 'cmp_event_datetime'));
+      $this->render_feed($this->Event, $events, array('title' => $title, 'sort'=>false));
+      break;
+    default :
+      if ($this->RequestHandler->isAjax()) {
+        $this->layout = 'ajax';
+      }
+    }
   }
   function _callback_activity_scope_select($scope) {
-    return $this->_get_param("show_{$scope}") != null;
+    return $this->_get_param("show_{$scope}") == 1;
   }
 #  
 #private
