@@ -121,7 +121,7 @@ class AdminController extends AppController {
     $this->set('status_options', $status_options);
 
     if ($status == '1') {
-      $condition = array('status' => $status);
+      $condition = array('Project.status' => $status);
     } else {
       $condition = array();
     }
