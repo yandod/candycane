@@ -213,6 +213,14 @@ class AccountController extends AppController
         }
 
         $this->set('user', $user);
+        
+        $project_ids = Set::extract($user,'/Membership/project_id');
+        $param = array(
+          'conditions' => aa('Project.id',$project_ids),
+          'recursive' => -1
+        );
+        $projects = $this->Project->find('all',$param);
+        $this->set('project_data',$projects);
         #@custom_values = @user.custom_values
         
         # show only public projects and private projects that the logged in user is also a member of

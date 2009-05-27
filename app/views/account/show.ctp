@@ -1,6 +1,6 @@
 <div class="contextual">
 <?php if ($currentuser['admin'] == 1): ?>
-  <?php e($html->link(__('button_edit', true), '/users/edit/'.$currentuser['id'], array('class' => 'icon icon-edit'))); ?>
+  <?php e($html->link(__('Edit', true), '/users/edit/'.$currentuser['id'], array('class' => 'icon icon-edit'))); ?>
 <?php endif; ?>
 </div>
 
@@ -9,31 +9,33 @@
 <div class="splitcontentleft">
 <ul>
   <?php if (!$user['UserPreference']['hide_mail']): ?>
-  <li><?php __('field_mail'); ?>: <?php echo $text->autoLinkEmails(h($user['User']['mail']));?></li>
+  <li><?php __('Email'); ?>: <?php echo $text->autoLinkEmails(h($user['User']['mail']));?></li>
   <?php endif; ?>
-
+<?php /*
+      
   <% for custom_value in @custom_values %>
     <% if !custom_value.value.empty? %>
       <li><%= custom_value.custom_field.name%>: <%=h show_value(custom_value) %></li>
     <% end %>
   <% end %>
-
-  <li><?php __('label_registered_on'); ?>: <?php e($candy->format_date($currentuser['created_on'])); ?></li>
+*/
+?>
+  <li><?php __('Registered on'); ?>: <?php e($candy->format_date($currentuser['created_on'])); ?></li>
 
   <?php if (!empty($currentuser['last_login_on'])): ?>
-  <li><?php __('field_last_login_on'); ?>: <?php e($candy->format_date($currentuser['last_login_on'])); ?></li>
+  <li><?php __('Last connection'); ?>: <?php e($candy->format_date($currentuser['last_login_on'])); ?></li>
   <?php endif; ?>
 </ul>
 
-<% unless @memberships.empty? %>
-  <h3><?php __('label_project_plural'); ?></h3>
+<?php if( !empty($user['Membership']) ): ?>
+  <h3><?php __('Projects'); ?></h3>
   <ul>
-  <% for membership in @memberships %>
+  <?php foreach($user['Membership'] as $row): ?>
     <li><%= link_to(h(membership.project.name), :controller => 'projects', :action => 'show', :id => membership.project) %>
     (<%=h membership.role.name %>, <%= format_date(membership.created_on) %>)</li>
-  <% end %>
+  <?php endforeach; ?>
   </ul>
-<% end %>
+<?php endif; ?>
 </div>
 
 <div class="splitcontentright">
