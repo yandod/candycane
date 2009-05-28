@@ -26,13 +26,12 @@
   <li><?php __('Last connection'); ?>: <?php e($candy->format_date($currentuser['last_login_on'])); ?></li>
   <?php endif; ?>
 </ul>
-
 <?php if( !empty($user['Membership']) ): ?>
   <h3><?php __('Projects'); ?></h3>
   <ul>
   <?php foreach($user['Membership'] as $row): ?>
-    <li><%= link_to(h(membership.project.name), :controller => 'projects', :action => 'show', :id => membership.project) %>
-    (<%=h membership.role.name %>, <%= format_date(membership.created_on) %>)</li>
+    <li><?php echo $html->link($row['Project']['name'],aa('controller','projects','action','show','project_id',$row['Project']['identifier'])); ?>
+    (<?php echo h($row['Role']['name']) ?>, <?php echo $candy->format_date($row['created_on']) ?>)</li>
   <?php endforeach; ?>
   </ul>
 <?php endif; ?>
