@@ -37,7 +37,12 @@
       <p>
         <?php echo $form->label('category_id', __('Category', true)); ?>
         <?php echo $form->input('category_id', array('type'=>'select', 'div'=>false, 'label'=>false, 'empty'=>true, 'options'=>$issueCategories)); ?>
-        <a href="/projects/test/issues/new" class="small" onclick="promptToRemote('<?php __('New category'); ?>', 'category[name]', '/projects/add_issue_category/test'); return false;" tabindex="199"><?php __('New category'); ?></a></p>
+        <?php
+          if ($candy->authorize_for(array('controller'=>'projects', 'action'=>'add_issue_category'))) {
+            $add_issue_category_url = $html->url(array('controller'=>'projects', 'action'=>'add_issue_category', 'project_id'=>$this->params['project_id']));
+            echo $html->link(__('New category',true), array('action'=>'add', 'project_id'=>$this->params['project_id']), array('class'=>"small", 'onclick'=>"promptToRemote('".__('New category',true)."', 'data[IssueCategory][name]', '{$add_issue_category_url}'); return false;", 'tabindex'=>"199") );
+          }
+        ?>
       </p>
       <p>
         <?php echo $form->label('fixed_version_id', __('Target version', true)); ?>

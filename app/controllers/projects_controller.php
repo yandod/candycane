@@ -30,10 +30,8 @@ class ProjectsController extends AppController
     'Version',
     'Issue',
     'CustomValue',
-    'Member',
     'News',
     'TimeEntry',
-    'IssueCategory',
     'Attachment',
   );
   var $helpers = array('Time', 'Project', 'CustomField', 'Number');
@@ -221,7 +219,7 @@ class ProjectsController extends AppController
     $subprojects = $this->Project->findSubprojects($this->data['Project']['id']);
     $this->set('subprojects', $subprojects);
 
-    $cond = $this->Project->project_condition( /*Setting.display_subprojects_issues?*/ false);
+    $cond = $this->Project->project_condition($this->Setting->display_subprojects_issues, $this->data['Project']);
 
     foreach($this->data['Tracker'] as $key=>$tracker) {
       $cond_open = $cond;
@@ -367,7 +365,14 @@ class ProjectsController extends AppController
 #	
   function add_issue_category()
   {
-    $members = $this->Member->find('all', array(
+    if ($this->RequestHandler->isAjax()) {
+      Configure::write('debug', 0);
+      $data = $this->params['url']['data'];
+      $data['IssueCategory']['project_id'] = $this->data['Project']['id'];
+    } else {
+      $data = $this->data;
+    }
+    $members = $this->Project->Member->find('all', array(
       'conditions' => array(
         'project_id' => $this->data['Project']['id'],
       ),
@@ -378,12 +383,23 @@ class ProjectsController extends AppController
     }
 
     if($this->RequestHandler->isPost()) {
-      if($this->IssueCategory->save($this->data, true, array('name', 'assigned_to_id'))) {
-        $this->Session->setFlash(__('Successful create.'));
-        $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['project_id'], 'tab'=>'categories'));
+      $this->Project->IssueCategory->create();
+      $this->Project->IssueCategory->set($data);
+      if($this->Project->IssueCategory->save(null, true, array('project_id', 'name', 'assigned_to_id'))) {
+        if (!$this->RequestHandler->isAjax()) {
+          $this->Session->setFlash(__('Successful create.'));
+          $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['identifier'], 'tab'=>'categories'));
+        } else {
+          $this->layout = 'ajax';
+          $issue_categories = $this->Project->IssueCategory->find('list', array(
+            'conditions' => array('project_id' => $this->data['Project']['id']),
+            'order' => "IssueCategory.name",
+          ));
+          $this->set(compact('issue_categories'));
+          $this->render('add_issue_category_ajax');
+        }
       }
     }
-
     $this->set('project_users', $project_users);
   }
 
@@ -808,10 +824,11 @@ class ProjectsController extends AppController
 
   function _get_members_by_role()
   {
-    $members = $this->Member->find('all', array(
+    $members = $this->Project->Member->find('all', array(
       'order' => 'Role.position',
       'conditions'=>array(
-        'project_id'=>$this->id
+        'project_id'=>$this->id,
+        'User.status'=>USER_STATUS_ACTIVE
       ),
     ));
     $members_by_role = array();
