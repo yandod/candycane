@@ -806,13 +806,13 @@ class ProjectsController extends AppController
     $this->set('available_project_modules', $available_project_modules);
 
     // for members tab start
-    $members = $this->Member->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id']),'order','Role.position'));
+    $members = $this->Project->Member->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id']),'order','Role.position'));
     $this->set('members',$members);
 
-    $roles = $this->Member->Role->find_all_givable();
+    $roles = $this->Project->Member->Role->find_all_givable();
     $this->set('roles_data',$roles);
     
-    $users = $this->Member->User->find('all',aa('conditions',aa('status',USER_STATUS_ACTIVE), 'recursive',-1));
+    $users = $this->Project->Member->User->find('all',aa('conditions',aa('status',USER_STATUS_ACTIVE), 'recursive',-1));
     $this->set('users_data',$users);
     // for members tab end
     
