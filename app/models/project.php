@@ -38,7 +38,7 @@ class Project extends AppModel
   var $hasMany = array(
     'Version',
     'TimeEntry',
-    'IssueCategory',
+    'IssueCategory'=>array('dependent' => true, 'order' => "IssueCategory.name"),
     'EnabledModule',
   );
   var $hasOne = array(

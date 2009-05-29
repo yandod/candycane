@@ -36,7 +36,7 @@
   </div>
   <?php echo $form->submit(__('Create', true), array('div'=>false)); ?>
   <?php echo $form->submit(__('Create and continue', true), array('div'=>false, 'name'=>'continue')); ?>
-  <a accesskey="r" href="#" onclick="new Ajax.Updater('preview', '/projects/test/issues/preview', {asynchronous:true, evalScripts:true, method:'post', onComplete:function(request){Element.scrollTo('preview')}, parameters:Form.serialize('IssueAddForm')}); return false;"><?php __('Preview');?></a>
+  <?php echo $ajax->link(__('Preview',true), array('action'=>'preview', 'project_id'=>$this->params['project_id']), array('update'=>'preview', 'complete'=>"Element.scrollTo('preview')", 'with'=>"Form.serialize('IssueAddForm')")); ?>
 
 
 <script type="text/javascript">
