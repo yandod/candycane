@@ -1,10 +1,10 @@
 <div class="contextual">
-  <?php echo $candy->link_to_if_authorized(':button_update', __('Update', true), array('controller' => 'issues', 'action' => 'edit', 'id' => $issue['Issue']['id']), array('onclick' => 'showAndScrollTo("update", "notes"); return false;', 'class' => 'icon icon-edit', 'accesskey' => 'accesskey(:edit)')); ?>
-  <?php echo $candy->link_to_if_authorized(':button_log_time', __('Log time', true), array('controller' => 'timelog', 'action' => 'edit', 'issue_id' => $issue['Issue']['id']), array('class' => 'icon icon-time')) ?>
+  <?php echo $candy->link_to_if_authorized(null, __('Update', true), array('controller' => 'issues', 'action' => 'edit', 'id' => $issue['Issue']['id']), array('onclick' => 'showAndScrollTo("update", "notes"); return false;', 'class' => 'icon icon-edit', 'accesskey' => 'accesskey(:edit)')); ?>
+  <?php echo $candy->link_to_if_authorized(null, __('Log time', true), array('controller' => 'timelog', 'action' => 'edit', 'issue_id' => $issue['Issue']['id']), array('class' => 'icon icon-time')) ?>
   <?php echo $watchers->watcher_link($issue, $currentuser); ?>
-  <?php echo $candy->link_to_if_authorized(':button_copy', __('Copy', true), '/projects/'.$main_project['Project']['identifier'].'/issues/add/copy_from:'.$issue['Issue']['id'], array('class' => 'icon icon-copy')) ?>
-  <?php echo $candy->link_to_if_authorized(':button_move', __('Move', true), array('controller' => 'issues', 'action' => 'move', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-move')); ?>
-  <?php echo $candy->link_to_if_authorized(':button_move', __('Delete', true), array('controller' => 'issues', 'action' => 'destroy', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-del'), __('Are you sure ?',true)); ?>
+  <?php echo $candy->link_to_if_authorized(aa('controller','issues', 'action','new'), __('Copy', true), array('controller' => 'issues', 'action' => 'add', 'project_id' => $main_project['Project']['identifier'], '?'=>array('copy_from'=>$issue['Issue']['id'])), array('class' => 'icon icon-copy')) ?>
+  <?php echo $candy->link_to_if_authorized(null, __('Move', true), array('controller' => 'issues', 'action' => 'move', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-move')); ?>
+  <?php echo $candy->link_to_if_authorized(null, __('Delete', true), array('controller' => 'issues', 'action' => 'destroy', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-del'), __('Are you sure ?',true)); ?>
 </div>
 
 <h2><?php echo h($issue['Tracker']['name']) ?> #<?php echo h($issue['Issue']['id']) ?></h2>
@@ -64,7 +64,7 @@
 <hr />
 
 <div class="contextual">
-  <?php if($candy->authorize_for(':button_quote') && !empty($issue['Issue']['description'])) echo $ajax->link(__('Quote', true), array('controller' => 'issues', 'action' => 'reply', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-comment')); ?>
+  <?php if($candy->authorize_for(aa('controller','issues', 'action','reply')) && !empty($issue['Issue']['description'])) echo $ajax->link(__('Quote', true), array('controller' => 'issues', 'action' => 'reply', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-comment')); ?>
 </div>
 
 <p><strong><?php __('Description') ?></strong></p>

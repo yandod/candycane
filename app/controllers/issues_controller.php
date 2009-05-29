@@ -23,6 +23,7 @@ class IssuesController extends AppController
   );
   var $_query;
   var $_project;
+  var $authorize = array('except' => array('index', 'changes', 'gantt', 'calendar', 'preview', 'update_form', 'context_menu'));
   
 #class IssuesController < ApplicationController
 #  menu_item :new_issue, :only => :new

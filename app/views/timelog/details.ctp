@@ -5,7 +5,7 @@
 <div class="contextual">
   <?php
   if(!empty($main_project)) {
-    echo $candy->link_to_if_authorized('button_log_time', __('Log time',true), $timelog->link_to_timelog_edit_url($main_project, $issue), array('class' => 'icon icon-time')); 
+    echo $candy->link_to_if_authorized(null, __('Log time',true), $timelog->link_to_timelog_edit_url($main_project, $issue), array('class' => 'icon icon-time')); 
   }
   ?>
 </div>

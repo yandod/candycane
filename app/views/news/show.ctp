@@ -45,8 +45,8 @@
     <div class="contextual">
 <!--    <%= link_to_if_authorized image_tag('delete.png'), {:controller => 'news', :action => 'destroy_comment', :id => @news, :comment_id => comment},
                                                        :confirm => l(:text_are_you_sure), :method => :post, :title => l(:button_delete) %> -->
-    <?php $candy->link_to_if_authorized( $html->image('delete.png'), array( 'controller' => 'news', 'action' => 'destroy_comment', 'id' => $news['News']['id'], 'comment_id' => $comment['id']),
-                                                       array( 'confirm' => __('Are you sure ?',true), 'method' => 'post', 'title' => __('Delete',true))) ; ?>
+    <?php $candy->link_to_if_authorized(null, $html->image('delete.png'), array( 'controller' => 'news', 'action' => 'destroy_comment', 'id' => $news['News']['id'], 'comment_id' => $comment['id']),
+                                                       array( 'confirm' => __('Are you sure ?',true), 'method' => 'post', 'title' => __('Delete',true)), false) ; ?>
 
     </div>
     <h4><?php echo $candy->authoring($comment['created_on'], NULL) ; ?></h4>

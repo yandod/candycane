@@ -15,6 +15,7 @@ class AppController extends Controller {
     var $view = 'Theme';
     var $theme = '';
     var $pure_params = array();
+    var $authorize = false;
     /**
      * beforeFilter
      *
@@ -27,6 +28,7 @@ class AppController extends Controller {
         $this->check_if_login_required();
         $this->setSettings();
         $this->_findProject();
+        $this->_authorize();
         //$this->set_localzation();
     }
     function _setUrlParam()
@@ -161,7 +163,7 @@ class AppController extends Controller {
      */
     function require_login()
     {
-        if (!$this->current_user) {
+        if (!$this->current_user || !$this->current_user['logged']) {
             $this->redirect('/account/login');
 #      redirect_to :controller => "account", :action => "login", :back_url => url_for(params)
             return false;
@@ -187,17 +189,35 @@ class AppController extends Controller {
 
         return true;
     }
-#  
-#  def deny_access
-#    User.current.logged? ? render_403 : require_login
-#  end
-#
-#  # Authorize the user for the requested action
-#  def authorize(ctrl = params[:controller], action = params[:action])
-#    allowed = User.current.allowed_to?({:controller => ctrl, :action => action}, @project)
-#    allowed ? true : deny_access
-#  end
-#  
+  
+  function deny_access() {
+    return $this->current_user['logged'] ? $this->cakeError('error_403') : $this->require_login();
+  }
+
+  # Authorize the user for the requested action
+  function _authorize($ctrl = false, $action = false) {
+    if(!empty($this->params['requested'])) {
+      return true;
+    }
+    if ($this->authorize === false) {
+      return true;
+    }
+    if ($ctrl === false) {
+      $ctrl = $this->params['controller'];
+    }
+    if ($action === false) {
+      $action = $this->params['action'];
+    }
+    $authorize = array_merge(array('only'=>array(), 'except'=>array()), $this->authorize);
+    extract($authorize);
+    
+    if ((!empty($only) && !in_array($action, $only)) || (!empty($except) && in_array($action, $except)) ) {
+      return true;
+    }
+    $allowed = $this->User->is_allowed_to($this->current_user, array('controller' => $ctrl, 'action' => $action), $this->_project);
+    return $allowed ? true : $this->deny_access();
+  }
+  
 #  # make sure that the user is a member of the project (or admin) if project is private
 #  # used as a before_filter for actions that do not require any particular permission on the project
 #  def check_project_privacy
@@ -383,7 +403,7 @@ class AppController extends Controller {
   function _findProject()
   {
     if ( isset($this->params['project_id']) ) {
-        if ($this->_project = $this->Project->findMainProject($this->params['project_id'])) {
+      if ($this->_project = $this->Project->findMainProject($this->params['project_id'])) {
 	      $this->set(array('main_project'=> $this->_project));
 	      $this->set('main_project', $this->_project);
 	    } else {

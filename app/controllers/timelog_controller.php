@@ -27,6 +27,7 @@ class TimelogController extends AppController
     case 'edit' :
     case 'destroy' :
       $this->_find_project();
+      $this->authorize = array();
       break;
     case 'report' :
     case 'details' :
@@ -243,9 +244,9 @@ class TimelogController extends AppController
       ; // parent::beforeFilter
     }
     parent::_findProject();
+    parent::user_setup();
     if(!$this->TimeEntry->User->is_allowed_to($this->current_user, 'view_time_entries', $this->_project, array('global' => true))) {
-      // TODO deny_access
-      $this->cakeError('error404');
+      return parent::deny_access();
     }
   }
 }

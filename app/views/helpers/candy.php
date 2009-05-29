@@ -123,6 +123,9 @@ class CandyHelper extends AppHelper
    */
   function link_to_if_authorized($aco, $name, $url, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true) {
     $out = '';
+    if($aco == null) {
+      $aco = $url;
+    }
     if($this->authorize_for($aco)) {
       $out = $this->Html->link($name, $url, $htmlAttributes, $confirmMessage = false, $escapeTitle);
     }

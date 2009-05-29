@@ -23,9 +23,9 @@ class TimelogHelper extends AppHelper
 
   function link_to_timelog_edit_url($project, $issue) {
     if (empty($issue)) {
-      $url = $this->url(array('controller'=>'timelog', 'action'=>'edit', 'project_id'=>$project['Project']['identifier']));
+      $url = array('controller'=>'timelog', 'action'=>'edit', 'project_id'=>$project['Project']['identifier']);
     } else {
-      $url = $this->url(array('controller'=>'timelog', 'action'=>'edit', 'project_id'=>$project['Project']['identifier'], '?'=>array('issue_id'=>$issue['Issue']['id'])));
+      $url = array('controller'=>'timelog', 'action'=>'edit', 'project_id'=>$project['Project']['identifier'], '?'=>array('issue_id'=>$issue['Issue']['id']));
     }
     return $url;
   }

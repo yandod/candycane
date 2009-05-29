@@ -456,7 +456,7 @@ class User extends AppModel
   function role_for_project($user, $project) {
     $role_id = false;
     $role = & ClassRegistry::init('Role');
-    if(!empty($user)) {
+    if(!empty($user) && $user['status'] != USER_STATUS_ANONYMOUS) {
       # Find project membership
       $no_member_role = $role->non_member();
       $role_id = $no_member_role['Role']['id'];

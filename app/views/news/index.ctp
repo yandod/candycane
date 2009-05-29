@@ -1,5 +1,5 @@
 <div class="contextual">
-<?php echo $candy->link_to_if_authorized(':label_news_new', __('Add news', true), array('controller' => 'news', 'action' => 'add', 'project_id' => $main_project['Project']['identifier']), array('onclick' => 'Element.show("add-news"); return false;', 'class' => 'icon icon-add', 'accesskey' => 'accesskey(:edit)')); ?>
+<?php echo $candy->link_to_if_authorized(aa('controller','news', 'action','new'), __('Add news', true), array('controller' => 'news', 'action' => 'add', 'project_id' => $main_project['Project']['identifier']), array('onclick' => 'Element.show("add-news"); return false;', 'class' => 'icon icon-add', 'accesskey' => 'accesskey(:edit)')); ?>
 </div>
 
 <div id="add-news" style="display:none;">

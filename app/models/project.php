@@ -298,18 +298,18 @@ class Project extends AppModel
       $statements[] = "1=0";
       if($user['logged']) {
         if($role->non_member_allowed_to($permission)) {
-          $statements[] = "{$table_name}.is_public = 1";
+          $statements[] = "Project.is_public = 1";
         }
         $allowed_project_ids = array();
         foreach($user['memberships'] as $member) {
           $allowed_project_ids[] = $member['Project'][0]['Project']['id'];
         }
         if(!empty($allowed_project_ids)) {
-          $statements[] = "{$table_name}.id IN (".join(',', $allowed_project_ids).")";
+          $statements[] = "Project.id IN (".join(',', $allowed_project_ids).")";
         }
       } elseif($role->anonymous_allowed_to($permission)) {
         # anonymous user allowed on public project
-        $statements[] = "{$table_name}.is_public = 1"; 
+        $statements[] = "Project.is_public = 1"; 
       } else {
         # anonymous user is not authorized
       }
@@ -557,9 +557,10 @@ class Project extends AppModel
       return $include;
     }
     $list = $this->_allowed_permissions($project);
+
     if(!empty($list)) {
       foreach($list as $item) {
-        if(($item == $action) || ($item == ':'.$action)) {
+        if(($item == $action) || ($item == ':'.$action) || (':'.$item == $action)) {
           return true;
         }
       }
@@ -611,7 +612,10 @@ class Project extends AppModel
     }
     $Permission =& ClassRegistry::init('Permission');
     $allowed_permissions = array();
-    $module_names = Set::extract('{n}.name', $project['EnabledModule']);
+    $module_names = array();
+    if (array_key_exists('EnabledModule', $project)) {
+      $module_names = Set::extract('{n}.name', $project['EnabledModule']);
+    }
     $modules = $Permission->modules_permissions($module_names);
 
     $names = array();
