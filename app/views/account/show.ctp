@@ -39,38 +39,37 @@
 
 <div class="splitcontentright">
 
-<% unless @events_by_day.empty? %>
-  <h3><%= link_to l(:label_activity), :controller => 'projects', :action => 'activity', :user_id => @user, :from => @events_by_day.keys.first %></h3>
+<?php if ( !empty($events_by_day_data) ): ?>
+  <h3><?php echo $html->link(__('Activity',true),aa('controller','projects','action','activity','?',aa('user_id',$user['User']['id'],'from',array_shift(array_keys($events_by_day_data))))) ?></h3>
 
 <p>
-<?php __('label_reported_issues'); ?>:
-<%= Issue.count(:conditions => ["author_id=?", @user.id]) %>
+<?php __('Reported issues'); ?>:
+<?php echo $issue_count ?>
 </p>
 
 <div id="activity">
-  <% @events_by_day.keys.sort.reverse.each do |day| %>
-  <h4><%= format_activity_day(day) %></h4>
+  <?php foreach(array_reverse($events_by_day_data) as $day => $row): ?>
+  <h4><?php echo $candy->format_activity_day($day) ?></h4>
   <dl>
-    <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>
-    <dt class="<%= e.event_type %>">
-    <span class="time"><%= format_time(e.event_datetime, false) %></span>
-    <%= content_tag('span', h(e.project), :class => 'project') %>
-    <%= link_to format_activity_title(e.event_title), e.event_url %></dt>
-    <dd><span class="description"><%= format_activity_description(e.event_description) %></span></dd>
-    <% end -%>
+<?php
+#    <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>?><dd>
+  <?php foreach($row as $event): ?>
+    <dt class="<?php echo $event['type'] ?>">
+    <span class="time"><?php echo $candy->format_time($event['datetime'], false) ?></span>
+    <?php echo $html->tag('span', h($event['project']['name']), array('class' => 'project')); ?>
+    <?php echo $html->link($candy->format_activity_title($event['title']), $event['url']) ?>
+    <dd><span class="description"><?php echo $candy->format_activity_title($event['description']) ?></span></dd>
+    <?php endforeach; ?>
   </dl>
-  <% end -%>
+  <?php endforeach; ?>
 </div>
 
 <p class="other-formats">
-  <?php __('label_export_to'); ?>
-  <%= link_to 'Atom', {:controller => 'projects', :action => 'activity', :user_id => @user, :format => :atom, :key => User.current.rss_key}, :class => 'feed' %>
+  <?php __("'Also available in:'"); ?>
+  <?php echo $html->link('Atom', array('controller'=>'projects','action','activity','user_id'=>$user['User']['id'], '?'=>array_merge($this->params['url'], array('key'=>$user['RssToken']['value'], 'format'=>'atom', 'from'=>null, 'url'=>null))), array('class' => 'feed')); ?>
 </p>
 
-<% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, :controller => 'projects', :action => 'activity', :user_id => @user, :format => :atom, :key => User.current.rss_key) %>
-<% end %>
-<% end %>
+<?php endif; ?>
 </div>
 
 <?php $candy->html_title($currentuser['name'], true); ?>

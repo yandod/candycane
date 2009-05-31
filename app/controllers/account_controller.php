@@ -12,7 +12,7 @@
 class AccountController extends AppController
 {
 
-  var $uses = array('User', 'Project', 'Setting');
+  var $uses = array('User', 'Project', 'Setting','Event','Issue');
   var $helpers = array('Text');
   var $components = array('Fetcher');
   
@@ -225,7 +225,10 @@ class AccountController extends AppController
         
         $this->Fetcher->fetch($user['User']);
         $events = $this->Fetcher->events(null, null, array('limit'=>10));
-        $this->set('events_data',$events, array('author'=>$user));
+        $events_by_day_data = $this->Event->group_by($events, 'event_date');
+        
+        $this->set('events_by_day_data',$events_by_day_data);
+        $this->set('issue_count',$this->Issue->find('count',aa('conditions',aa('author_id',$user['User']['id']))));
         #    events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
         #    @events_by_day = events.group_by(&:event_date)
         #  rescue ActiveRecord::RecordNotFound
