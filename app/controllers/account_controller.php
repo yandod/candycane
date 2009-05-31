@@ -14,7 +14,8 @@ class AccountController extends AppController
 
   var $uses = array('User', 'Project', 'Setting');
   var $helpers = array('Text');
-
+  var $components = array('Fetcher');
+  
   //  helper :custom_fields
   //  include CustomFieldsHelper   
  
@@ -222,6 +223,9 @@ class AccountController extends AppController
         #      membership.project.is_public? || (User.current.member_of?(membership.project))
         #    end
         
+        $this->Fetcher->fetch($user['User']);
+        $events = $this->Fetcher->events(null, null, array('limit'=>10));
+        $this->set('events_data',$events, array('author'=>$user));
         #    events = Redmine::Activity::Fetcher.new(User.current, :author => @user).events(nil, nil, :limit => 10)
         #    @events_by_day = events.group_by(&:event_date)
         #  rescue ActiveRecord::RecordNotFound
