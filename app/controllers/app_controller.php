@@ -25,11 +25,11 @@ class AppController extends Controller {
     {
         $this->_setUrlParam();
         $this->user_setup();
-        $this->check_if_login_required();
         $this->setSettings();
+        $this->set_localization();
+        $this->check_if_login_required();
         $this->_findProject();
         $this->_authorize();
-        //$this->set_localzation();
     }
     function _setUrlParam()
     {
@@ -139,7 +139,8 @@ class AppController extends Controller {
         }
     }
 
-#  def set_localization
+  function set_localization()
+  {
 #    User.current.language = nil unless User.current.logged?
 #    lang = begin
 #      if !User.current.language.blank? && GLoc.valid_language?(User.current.language)
@@ -153,9 +154,19 @@ class AppController extends Controller {
 #    rescue
 #      nil
 #    end || Setting.default_language
-#    set_language_if_valid(lang)    
-#  end
-#  
+#    set_language_if_valid(lang)
+    $lang = null;
+    if ( !empty($this->current_user['language']) ) {
+      $lang = $this->current_user['language'];
+    } elseif (!empty($this->Setting->default_language)) {
+  	  $lang = $this->Setting->default_language;
+  	}
+  	$this->set('lang',$lang);
+  	$this->L10n = new L10n();
+  	$this->L10n->get($lang);
+  	Configure::write('Config.language',$lang);
+  }
+  
     /**
      * require_login
      *
@@ -393,10 +404,6 @@ class AppController extends Controller {
   function setSettings()
   {
   	$this->theme = strtolower($this->Setting->ui_theme);
-  	if (!empty($this->Setting->default_language)) {
-  	  $this->L10n = new L10n();
-  	  $this->L10n->get($this->Setting->default_language);
-  	}
   	$this->set('Settings',$this->Setting);
   }
   
