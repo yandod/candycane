@@ -73,10 +73,9 @@ class Activity extends Object {
   function __loadDefault($boot) {
     $this->_register('issues', array('class_name' => array('Issue', 'Journal')));
     $this->_register('news');
+    $this->_register('documents', array('class_name' => array('Document', 'Attachment')));
+    $this->_register('files', array('class_name' => 'Attachment'));
 
-    // TODO : attachment ....
-    // $this->_register('documents', array('class_name' => array('Document', 'Attachment')));
-    // $this->_register('files', array('class_name' => 'Attachment'));
     // TODO : Wiki... 
     // $this->_register('wiki_edits', array('class_name' => 'WikiContentVersion', 'default' => false));
     // TODO : next version.

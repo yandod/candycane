@@ -26,9 +26,33 @@ class Attachment extends AppModel
       'foreignKey'=>'author_id',
     ),
   );
-  var $actsAs = array('ActivityProvider' => array(
-      'author_key' => 'author_id'
-    ));
+  var $actsAs = array(
+    'ActivityProvider'=> array(
+        'type'=>'files',
+        'permission'=>'view_files',
+        'author_key'=>'author_id',
+        'find_options'=> array(
+            'fields'=> array('Attachment.*', 'Project.*', 'Author.*'),
+            'joins' => array(
+              array(
+                'type'=>'LEFT',
+                'table' => '', // set by construct
+                'alias' => 'Version',
+                'conditions'=>'Attachment.container_type=\'Version\' AND Version.id = Attachment.container_id',
+              ),
+              array(
+                'type'=>'LEFT',
+                'table' => '', // set by construct
+                'alias' => 'Project',
+                'conditions'=>'Project.id=Version.project_id',
+              ),
+            ),
+            'group' =>'Attachment.id',
+        ),
+      ),
+    'Event' => array('title'       => 'filename',
+                      'url'         => array('Proc' => '_event_url')),
+  );
 #  belongs_to :container, :polymorphic => true
 #  belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 #  
@@ -36,23 +60,41 @@ class Attachment extends AppModel
 #  validates_length_of :filename, :maximum => 255
 #  validates_length_of :disk_filename, :maximum => 255
 #
-#  acts_as_event :title => :filename,
-#                :url => Proc.new {|o| {:controller => 'attachments', :action => 'download', :id => o.id, :filename => o.filename}}
-#
-#  acts_as_activity_provider :type => 'files',
-#                            :permission => :view_files,
-#                            :author_key => :author_id,
-#                            :find_options => {:select => "#{Attachment.table_name}.*", 
-#                                              :joins => "LEFT JOIN #{Version.table_name} ON #{Attachment.table_name}.container_type='Version' AND #{Version.table_name}.id = #{Attachment.table_name}.container_id " +
-#                                                        "LEFT JOIN #{Project.table_name} ON #{Version.table_name}.project_id = #{Project.table_name}.id"}
-#  
-#  acts_as_activity_provider :type => 'documents',
-#                            :permission => :view_documents,
-#                            :author_key => :author_id,
-#                            :find_options => {:select => "#{Attachment.table_name}.*", 
-#                                              :joins => "LEFT JOIN #{Document.table_name} ON #{Attachment.table_name}.container_type='Document' AND #{Document.table_name}.id = #{Attachment.table_name}.container_id " +
-#                                                        "LEFT JOIN #{Project.table_name} ON #{Document.table_name}.project_id = #{Project.table_name}.id"}
-#
+  function __construct($id = false, $table = null, $ds = null) {
+    foreach($this->actsAs['ActivityProvider']['find_options']['joins'] as $index=>$join) {
+      $this->actsAs['ActivityProvider']['find_options']['joins'][$index]['table'] = $this->fullTableName($join['alias']);
+    }
+    parent::__construct($id, $table, $ds);
+
+    // Add multi provider
+    $this->addActivityProvider(array(
+        'type'=>'documents',
+        'permission'=>'view_documents',
+        'author_key'=>'author_id',
+        'find_options'=> array(
+            'fields'=> array('Attachment.*', 'Project.*', 'Author.*'),
+            'joins' => array(
+              array(
+                'type'=>'LEFT',
+                'table' => $this->fullTableName('Document'),
+                'alias' => 'Document',
+                'conditions'=>'Attachment.container_type=\'Document\' AND Document.id = Attachment.container_id',
+              ),
+              array(
+                'type'=>'LEFT',
+                'table' => $this->fullTableName('Project'),
+                'alias' => 'Project',
+                'conditions'=>'Project.id=Document.project_id',
+              ),
+            ),
+            'group' =>'Attachment.id',
+        ),
+      ));
+  }
+  function _event_url($data) {
+    return  array('controller'=>'attachments', 'action'=>'download', 'id'=>$data['Attachment']['id'], '?' => array('filename'=>$data['Attachment']['filename']));
+  }
+
 #  cattr_accessor :storage_path
 #  @@storage_path = "#{RAILS_ROOT}/files"
 #  
