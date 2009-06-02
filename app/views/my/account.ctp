@@ -2,7 +2,7 @@
 <%= link_to(l(:button_change_password), :action => 'password') unless @user.auth_source_id %>
 </div>
 
-<h2><?php e(__('label_my_account')); ?></h2>
+<h2><?php e(__('My account')); ?></h2>
 <!--
 @todo implement
 <%= error_messages_for 'user' %>
@@ -15,21 +15,33 @@
                           :lang => current_language,
                           :html => { :id => 'my_account_form' } do |f| %>
 -->
-<?php e($form->create()); ?>
+<?php e($form->create('User',array('url'=>aa('controller','my','action','account')))); ?>
 <div class="splitcontentleft">
-  <h3><?php e(__('label_information_plural')); ?></h3>
+  <h3><?php e(__('Information')); ?></h3>
   <div class="box tabular">
-    <p><?php e($form->input('firstname')); ?></p>
-    <p><?php e($form->input('lastname')); ?></p>
-    <p><?php e($form->input('mail')); ?></p>
-    <p><%= f.select :language, lang_options_for_select %></p>
+    <p>
+      <label for="UserFirstname"><?php __('Firstname') ?> <span class="required">*</span></label>
+      <?php e($form->input('firstname',aa('div',false,'label',false,'size',30,'error',false,'value',$currentuser['firstname']))); ?>
+    </p>
+    <p>
+      <label for="UserLastname"><?php __('Lastname') ?> <span class="required">*</span></label>
+      <?php e($form->input('lastname',aa('div',false,'label',false,'size',30,'error',false,'value',$currentuser['lastname']))); ?>
+    </p>
+    <p>
+      <label for="UserEmail"><?php __('Email') ?> <span class="required">*</span></label>
+      <?php e($form->input('mail',aa('div',false,'label',false,'size',30,'error',false,'value',$currentuser['mail']))); ?>
+    </p>
+    <p>
+      <label for="UserLanguage"><?php __('Language'); ?></label>
+      <?php echo $form->input('language', array('type' => 'select', 'options' => $candy->lang_options_for_select(), 'div' => false, 'label' => false, 'error' => false),$currentuser['language']); ?>
+    </p>
   </div>
 
-  <?php e($form->submit('button_save')); ?>
+  <?php e($form->submit(__('Save',true))); ?>
 </div>
 
 <div class="splitcontentright">
-  <h3><?php e(__('field_mail_notification')); ?></h3>
+  <h3><?php e(__('Email notifications')); ?></h3>
   <div class="box">
   <%= select_tag 'notification_option',
   options_for_select(@notification_options, @notification_option),
