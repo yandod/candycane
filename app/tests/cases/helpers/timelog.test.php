@@ -12,8 +12,9 @@ class AppFormTest extends CakeTestCase {
   var $fixtures = array(
       'app.issue', 'app.project', 'app.tracker', 'app.issue_status', 'app.user', 'app.version',
       'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
-      'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
-      'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher'
+      'app.enabled_module', 'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
+      'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher',
+      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect',
   );
 
   function setUp() {
@@ -36,8 +37,8 @@ class AppFormTest extends CakeTestCase {
   function test_link_to_timelog_edit_url() {
     $project = array('Project'=>array('identifier'=>'timelogtest'));
     $issue   = array('Issue'  =>array('id' => '123'));
-    $this->assertEqual('/projects/timelogtest/timelog/edit', $this->Timelog->link_to_timelog_edit_url($project, array()));
-    $this->assertEqual('/projects/timelogtest/timelog/edit?issue_id=123', $this->Timelog->link_to_timelog_edit_url($project, $issue));
+    $this->assertEqual('/projects/timelogtest/timelog/edit', $this->Timelog->url($this->Timelog->link_to_timelog_edit_url($project, array())));
+    $this->assertEqual('/projects/timelogtest/timelog/edit?issue_id=123', $this->Timelog->url($this->Timelog->link_to_timelog_edit_url($project, $issue)));
   }
 
   function test_link_to_timelog_detail_url() {

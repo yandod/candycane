@@ -76,6 +76,10 @@ class ActivityProviderBehavior extends ModelBehavior {
     'find_options'=>false);
 
   function setup(&$Model, $config = array()) {
+    $this->addActivityProvider($Model, $config);
+    return true;
+  }
+  function addActivityProvider(&$Model, $config = array()) {
     $config = array_intersect_key($config, $this->_defaults);
 
     $alias = Inflector::pluralize(Inflector::underscore($Model->alias));

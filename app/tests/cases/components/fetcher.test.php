@@ -10,7 +10,8 @@ class FetcherComponentTestCase extends CakeTestCase {
     'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
     'app.enabled_module', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
     'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher', 'app.journal', 'app.journal_detail',
-    'app.news', 'app.comment', 'app.document', 'app.wiki_content_version',
+    'app.news', 'app.comment', 'app.document',
+    'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect',
   );
   var $Controller = null;
   var $Component = null;
@@ -131,4 +132,38 @@ class FetcherComponentTestCase extends CakeTestCase {
     $this->assertTrue(count($events) <= 10);
     $this->assertEqual(array('2'=>count($events)), array_count_values(Set::extract('{n}.author.id', $events)));
   }
+
+  function test_news_and_files_activity() {
+    $this->loadFixtures('Attachment');
+    $User =& ClassRegistry::init('User');
+    $user = $User->find_by_id_logged(2);  // manager
+    $this->Component->fetch($user);
+    $events = $this->Component->events(date('Y-m-d', strtotime('2006-07-19 0:0:0')), date('Y-m-d', strtotime('2006-07-20 0:0:0')));
+    $this->assertNotNull($events);
+    $this->assertEqual(3, count($events));
+    $this->assertEqual('news', $events[0]['type']);
+    $this->assertEqual(1, $events[0]['id']);
+    $this->assertEqual(array('controller'=>'news', 'action'=>'show', 'id'=>1), $events[0]['url']);
+    $this->assertEqual('news', $events[1]['type']);
+    $this->assertEqual(2, $events[1]['id']);
+    $this->assertEqual(array('controller'=>'news', 'action'=>'show', 'id'=>2), $events[1]['url']);
+    $this->assertEqual('attachment', $events[2]['type']);
+    $this->assertEqual(9, $events[2]['id']);
+    $this->assertEqual(array('controller'=>'attachments', 'action'=>'download', 'id'=>9, '?'=>array('filename'=>'version_file.zip')), $events[2]['url']);
+  }
+
+  function test_documents_activity() {
+    $this->loadFixtures('Attachment');
+    $User =& ClassRegistry::init('User');
+    $user = $User->find_by_id_logged(2);  // manager
+    $this->Component->fetch($user);
+    $events = $this->Component->events(date('Y-m-d', strtotime('2007-01-27 0:0:0')), date('Y-m-d', strtotime('2007-01-28 0:0:0')));
+    $this->assertNotNull($events);
+    $this->assertEqual(1, count($events));
+    $this->assertEqual('document', $events[0]['type']);
+    $this->assertEqual(1, $events[0]['id']);
+    $this->assertEqual(array('controller'=>'documents', 'action'=>'show', 'id'=>1), $events[0]['url']);
+    
+  }
+
 }
