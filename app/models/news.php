@@ -51,11 +51,13 @@ class News extends AppModel
   }
 
 //  # returns latest news for projects visible by user
-//  def self.latest(user = User.current, count = 5)
 	function latest($user,$count = 5)
 	{
-		return $this->find('all');
-//    find(:all, :limit => count, :conditions => Project.allowed_to_condition(user, :view_news), :include => [ :author, :project ], :order => "#{News.table_name}.created_on DESC")	
+	    $param = array(
+	      'order' => 'News.created_on DESC',
+	      'conditions' => $this->Project->allowed_to_condition($user,':view_news'),
+	      'limit' => $count
+	    );
+		return $this->find('all',$param);
 	}
-//end
 }
