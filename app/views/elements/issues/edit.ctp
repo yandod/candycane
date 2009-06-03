@@ -51,7 +51,10 @@ var toolbar = new jsToolBar($('notes')); toolbar.setHelpLink('<?php __("Text for
 //]]>
 </script>
 
-  <p><%=l(:label_attachment_plural)%><br /><%= render :partial => 'attachments/form' %></p>
+    <p>
+      <label><?php __('File'); ?></label><br />
+      <?php echo $this->renderElement('attachments/form'); ?>
+    </p>
   </fieldset>
   </div>
 

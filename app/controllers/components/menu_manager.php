@@ -135,7 +135,7 @@ class MenuManagerComponent extends Object
     $allows = array();
     $User = & ClassRegistry::init('User');
     foreach ($menu_items as $key => $menu_item) {
-      if(!empty($this->controller->current_user) && $User->is_allowed_to($this->controller->current_user, $this->__url($menu_item), $this->controller->_project)) {
+      if(!empty($this->controller->current_user) && $User->is_allowed_to($this->controller->current_user, $this->__url($this->__to_allowed_action($menu_item)), $this->controller->_project)) {
         $allows[$key] = $menu_item;
       }
     }
@@ -144,5 +144,11 @@ class MenuManagerComponent extends Object
 
   function __url($menu_item) {
     return array_intersect_key($menu_item, array('controller'=>true,'action'=>true));
+  }
+  function __to_allowed_action($menu_item) {
+    if ($menu_item['action'] == 'add') {
+      $menu_item['action'] = 'new';
+    }
+    return $menu_item;
   }
 }
