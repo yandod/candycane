@@ -3,10 +3,8 @@
 </div>
 
 <h2><?php e(__('My account')); ?></h2>
-<!--
-@todo implement
-<%= error_messages_for 'user' %>
--->
+<?php echo $this->renderElement('error_explanation'); ?>
+
 
 <!--
 @todo implement
@@ -21,19 +19,19 @@
   <div class="box tabular">
     <p>
       <label for="UserFirstname"><?php __('Firstname') ?> <span class="required">*</span></label>
-      <?php e($form->input('firstname',aa('div',false,'label',false,'size',30,'error',false,'value',$currentuser['firstname']))); ?>
+      <?php e($form->input('firstname',aa('div',false,'label',false,'size',30,'error',false))); ?>
     </p>
     <p>
       <label for="UserLastname"><?php __('Lastname') ?> <span class="required">*</span></label>
-      <?php e($form->input('lastname',aa('div',false,'label',false,'size',30,'error',false,'value',$currentuser['lastname']))); ?>
+      <?php e($form->input('lastname',aa('div',false,'label',false,'size',30,'error',false))); ?>
     </p>
     <p>
       <label for="UserEmail"><?php __('Email') ?> <span class="required">*</span></label>
-      <?php e($form->input('mail',aa('div',false,'label',false,'size',30,'error',false,'value',$currentuser['mail']))); ?>
+      <?php e($form->input('mail',aa('div',false,'label',false,'size',30,'error',false))); ?>
     </p>
     <p>
       <label for="UserLanguage"><?php __('Language'); ?></label>
-      <?php echo $form->input('language', array('type' => 'select', 'options' => $candy->lang_options_for_select(), 'div' => false, 'label' => false, 'error' => false),$currentuser['language']); ?>
+      <?php echo $form->select('language', $candy->lang_options_for_select(),$currentuser['language'],array('type' => 'select', 'div' => false, 'label' => false, 'error' => false),false); ?>
     </p>
   </div>
 
@@ -70,10 +68,7 @@
 <% end %>
 </div>
 </div>
-<% end %>
-
-<% content_for :sidebar do %>
-<%= render :partial => 'sidebar' %>
-<% end %>
+<?php echo $form->end() ?>
+<?php $this->set('Sidebar',$this->renderElement('my/sidebar')) ?>
 
 <% html_title(l(:label_my_account)) -%>

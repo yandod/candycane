@@ -173,8 +173,9 @@ class MyController extends AppController
         $this->redirect('account');
         #        return
       }
+    } else {
+      $this->data = array('User' => $this->current_user);
     }
-
     #    @notification_options = [[l(:label_user_mail_option_all), 'all'],
     #                             [l(:label_user_mail_option_none), 'none']]
     #    # Only users that belong to more than 1 project can select projects for which they are notified
