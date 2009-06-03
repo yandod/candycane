@@ -161,7 +161,6 @@ class AppController extends Controller {
     } elseif (!empty($this->Setting->default_language)) {
   	  $lang = $this->Setting->default_language;
   	}
-  	$this->set('lang',$lang);
   	$this->L10n = new L10n();
   	$this->L10n->get($lang);
   	Configure::write('Config.language',$lang);
