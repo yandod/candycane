@@ -237,7 +237,7 @@ class Project extends AppModel
     if(!empty($options['project'])) {
       $project_statement = array();
       $project_statement[] = array("$projectTable.id" => $options['project']['id']);
-      if(isset($options['with_subprojects'])) {
+      if(!empty($options['with_subprojects'])) {
         $project_statement[] = array("$projectTable.parent_id" => $options['project']['id']); 
         $project_statement = array('or'=> $project_statement);
       }

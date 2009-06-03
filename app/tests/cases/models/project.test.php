@@ -7,7 +7,9 @@ class ProjectTestCase extends CakeTestCase {
       'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
       'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
       'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher', 'app.issue_relation',
-      'app.journal', 'app.journal_detail', 'app.workflow', 'app.enabled_module');
+      'app.journal', 'app.journal_detail', 'app.workflow', 'app.enabled_module',
+      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect',
+      );
 
   function startTest() {
     $this->Project =& ClassRegistry::init('Project');

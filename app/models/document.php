@@ -19,7 +19,9 @@
 class Document extends AppModel
 {
   var $name = 'Document';
-#  belongs_to :project
+  var $belongsTo = array(
+    'Project',
+  );
 #  belongs_to :category, :class_name => "Enumeration", :foreign_key => "category_id"
 #  acts_as_attachable :delete_permission => :manage_documents
 #
@@ -29,7 +31,7 @@ class Document extends AppModel
 #                :url => Proc.new {|o| {:controller => 'documents', :action => 'show', :id => o.id}}
 #  acts_as_activity_provider :find_options => {:include => :project}
   var $actsAs = array(
-    'Attachable',
+    'Attachable'=>array(':delete_permission' => ':manage_documents'),
     'ActivityProvider'=>array('find_options'=>array('include'=>array('Project'))),
     'Event' => array('title' => array('Proc' => '_event_title'),
                       'author'=> array('Proc' => '_event_author'),
@@ -42,7 +44,7 @@ class Document extends AppModel
     $attachments = $this->findAttachments($data[$this->alias]['id']);
     if(!empty($attachment)) {
       $User =& ClassRegistry::init('User');
-      return $User->to_string($attachments[0]);
+      return $User->to_string(array('User'=>$attachments[0]['Author']));
     }
      return null;
   }

@@ -8,7 +8,8 @@ class ActivityProviderTestCase extends CakeTestCase {
       'app.issue', 'app.project', 'app.tracker', 'app.issue_status', 'app.user', 'app.version',
       'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
       'app.enabled_module', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
-      'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher'
+      'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher', 
+      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect',
   );
 
   function startTest() {

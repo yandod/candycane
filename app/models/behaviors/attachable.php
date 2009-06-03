@@ -35,7 +35,6 @@ class AttachableBehavior extends ModelBehavior {
     $settings = array_merge($defaults, $config);
     $this->settings[$Model->alias] = $settings;
     
-    $this->Attachment = & ClassRegistry::init('Attachment');
     return true;
   }
   /**
@@ -51,6 +50,7 @@ class AttachableBehavior extends ModelBehavior {
     return $User->is_allowed_to($user, $this->settings[$Model->alias][':delete_permission'], $project);
   }
   function findAttachableById(&$Model, $id) {
+    $this->__initAttachment();
     return $this->Attachment->find('first', array('conditions'=>array(
       'container_type'=>$Model->name,
       'id' => $id),
@@ -59,10 +59,16 @@ class AttachableBehavior extends ModelBehavior {
   }
   function findAttachments(&$Model, $id=false) {
     if(!$id) $id = $Model->id;
+    $this->__initAttachment();
     return $this->Attachment->find('all', array('conditions'=>array(
       'container_type'=>$Model->name,
       'container_id' => $id),
       'recursive'=>0
     ));
+  }
+  function __initAttachment() {
+    if(!$this->Attachment) {
+      $this->Attachment = & ClassRegistry::init('Attachment');
+    }
   }
 }

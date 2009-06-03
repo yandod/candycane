@@ -5,9 +5,11 @@ class IssueTestCase extends CakeTestCase {
   var $fixtures = array(
       'app.issue', 'app.project', 'app.tracker', 'app.issue_status', 'app.user', 'app.version',
       'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
-      'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
+      'app.enabled_module', 'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
       'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher', 'app.issue_relation',
-      'app.journal', 'app.journal_detail', 'app.workflow');
+      'app.journal', 'app.journal_detail', 'app.workflow',
+      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect',
+      );
 
   function startTest() {
     $this->Issue =& ClassRegistry::init('Issue');
