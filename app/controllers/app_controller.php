@@ -218,6 +218,9 @@ class AppController extends Controller {
     if ($action === false) {
       $action = $this->params['action'];
     }
+    if ($action == 'add') {
+      $action = 'new';
+    }
     $authorize = array_merge(array('only'=>array(), 'except'=>array()), $this->authorize);
     extract($authorize);
     
