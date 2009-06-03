@@ -111,14 +111,14 @@ class MenuManagerComponent extends Object
   function _getProjectMenu()
   {
   	return array(
-      'overview' => aa('controller','projects','action','show','class','','caption',__('Overview',true),'params','project_id'),
-      'activity' => aa('controller','projects','action','activity','class','','caption',__('Activity',true),'params','project_id'),
-      'roadmap'  => aa('controller','projects','action','roadmap','class','','caption',__('Roadmap',true),'params','project_id'),
-      'issues'   => aa('controller','issues','action','index','class','','caption',__('Issues',true),'params','project_id'),
-      'new_issue'=> aa('controller','issues','action','add','class','','caption',__('New issue',true),'params','project_id'),
-      'news'     => aa('controller','news','action','index','class','','caption',__('News',true),'params','project_id'),
-      'wiki'     => aa('controller','wiki','action','index','class','','caption',__('Wiki',true),'params','project_id'),
-      'settings' => aa('controller','projects','action','settings','class','','caption',__('Preferences',true),'params','project_id'),  		
+      'overview' => aa('controller','projects','action','show','class','','caption','Overview','params','project_id'),
+      'activity' => aa('controller','projects','action','activity','class','','caption','Activity','params','project_id'),
+      'roadmap'  => aa('controller','projects','action','roadmap','class','','caption','Roadmap','params','project_id'),
+      'issues'   => aa('controller','issues','action','index','class','','caption','Issues','params','project_id'),
+      'new_issue'=> aa('controller','issues','action','add','class','','caption','New issue','params','project_id'),
+      'news'     => aa('controller','news','action','index','class','','caption','News','params','project_id'),
+      'wiki'     => aa('controller','wiki','action','index','class','','caption','Wiki','params','project_id'),
+      'settings' => aa('controller','projects','action','settings','class','','caption','Preferences','params','project_id'),  		
   	);
   }
   function _getApplicationMenu()

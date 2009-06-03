@@ -33,6 +33,7 @@ class AccountController extends AppController
       parent::beforeFilter();
     } else {
       $this->setSettings(); // todo: kimoi
+      $this->set_localization();
       $this->set('currentuser',aa('logged',false));
     }
   }
