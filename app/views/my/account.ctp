@@ -1,18 +1,12 @@
 <div class="contextual">
+<?php if ( empty($currentuser['auth_source_id'])) echo $html->link(__('Change password',true),aa('action','password')) ?>
 <%= link_to(l(:button_change_password), :action => 'password') unless @user.auth_source_id %>
 </div>
 
-<h2><?php e(__('My account')); ?></h2>
+<h2><?php echo $candy->html_title(__('My account',true)) ?></h2>
 <?php echo $this->renderElement('error_explanation'); ?>
 
 
-<!--
-@todo implement
-<% form_for :user, @user, :url => { :action => "account" }, 
-                          :builder => TabularFormBuilder, 
-                          :lang => current_language,
-                          :html => { :id => 'my_account_form' } do |f| %>
--->
 <?php e($form->create('User',array('url'=>aa('controller','my','action','account')))); ?>
 <div class="splitcontentleft">
   <h3><?php e(__('Information')); ?></h3>
@@ -39,7 +33,7 @@
 </div>
 
 <div class="splitcontentright">
-  <h3><?php e(__('Email notifications')); ?></h3>
+  <h3><?php __('Email notifications') ?></h3>
   <div class="box">
   <%= select_tag 'notification_option',
   options_for_select(@notification_options, @notification_option),
@@ -53,13 +47,13 @@
     <% end %>
   </p>
 
-  <p><em><?php e(__('text_user_mail_option')); ?></em></p>
+  <p><em><?php __("\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""); ?></em></p>
 <% end %>
 
   <p><label><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %> <%= l(:label_user_mail_no_self_notified) %></label></p>
 </div>
 
-<h3><?php e(__('label_preferences')); ?></h3>
+<h3><?php __('Preferences') ?></h3>
 <div class="box tabular">
 <% fields_for :pref, @user.pref, :builder => TabularFormBuilder, :lang => current_language do |pref_fields| %>
 <p><%= pref_fields.check_box :hide_mail %></p>
@@ -71,4 +65,3 @@
 <?php echo $form->end() ?>
 <?php $this->set('Sidebar',$this->renderElement('my/sidebar')) ?>
 
-<% html_title(l(:label_my_account)) -%>
