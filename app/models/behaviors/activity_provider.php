@@ -146,7 +146,12 @@ class ActivityProviderBehavior extends ModelBehavior {
     $values = $Model->find('all', array_merge_recursive($provider_options['find_options'], $scope_options));
     $ret = array();
     list($mname, $cname) = explode('.', $provider_options['timestamp']);
+    $_ids = array();
     foreach($values as $value) {
+      if (in_array($value[$mname][$Model->primaryKey], $_ids)) {
+        continue;
+      }
+      $_ids[] = $value[$mname][$Model->primaryKey];
       $time = strtotime($value[$mname][$cname]);
       $day = strtotime(date('Y-m-d 00:00:00', strtotime($value[$mname][$cname])));
       if (!isset($ret[$day])) {

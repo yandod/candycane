@@ -263,7 +263,8 @@ class User extends AppModel
     } elseif(!empty($options['global'])) {
       # authorize if user has at least one role that has this permission
       $Role = & ClassRegistry::init('Role');
-      $roles = $this->Membership->find('all', array('fields'=>array('Role.*'), 'group'=>'role_id'));
+      $role_ids = $this->Membership->find('all', array('fields'=>array('role_id'), 'group'=>'role_id', 'recursive'=>-1));
+      $roles = $this->Membership->Role->find('all', array('conditions'=>array('id'=>Set::extract('{n}.Membership.role_id', $role_ids))));
       foreach($roles as $role) {
         if($Role->is_allowed_to($role, $action)) return true;
       }

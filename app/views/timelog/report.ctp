@@ -23,7 +23,9 @@ echo $form->create('TimeEntry', array(
   foreach($criterias as $criteria) {
     echo $form->hidden('criterias', array('value'=>$criteria, 'id' => null, 'name'=>'data[TimeEntry][criterias][]'));
   }
-  echo $form->hidden('project_id', array('value'=>$this->params['project_id']));
+  if(!empty($this->params['project_id'])) {
+    echo $form->hidden('project_id', array('value'=>$this->params['project_id']));
+  }
   echo $this->renderElement('timelog/date_range', array('main_project'=>$main_project));
 ?>
   <p><?php __('Details') ?>: <?php echo $form->input('columns', array('type'=>'select', 'div'=>false, 'label'=>false,

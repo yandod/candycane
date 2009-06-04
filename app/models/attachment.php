@@ -47,7 +47,6 @@ class Attachment extends AppModel
                 'conditions'=>'Project.id=Version.project_id',
               ),
             ),
-            'group' =>'Attachment.id',
         ),
       ),
     'Event' => array('title'       => 'filename',
@@ -87,7 +86,6 @@ class Attachment extends AppModel
                 'conditions'=>'Project.id=Document.project_id',
               ),
             ),
-            'group' =>'Attachment.id',
         ),
       ));
   }

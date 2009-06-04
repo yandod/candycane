@@ -20,7 +20,9 @@ echo $form->create('TimeEntry', array(
         'onsubmit'=>$ajax->remoteFunction(array('url'=>$timelog->link_to_timelog_detail_url($main_project), 'form'=>true, 'after'=>'return false', 'update'=>'content')),
         )
       );
-  echo $form->hidden('project_id', array('value'=>$this->params['project_id']));
+  if(!empty($this->params['project_id'])) {
+    echo $form->hidden('project_id', array('value'=>$this->params['project_id']));
+  }
   if(!empty($issue)) {
     echo $form->hidden('issue_id', array('value'=>$this->params['url']['issue_id']));
   }
