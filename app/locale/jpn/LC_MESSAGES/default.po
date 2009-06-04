@@ -1007,8 +1007,8 @@ msgid "in"
 msgstr "残日数"
 
 # warning_attachments_not_saved
-msgid "\"%d file(s) could not be saved.\""
-msgstr "\"%d file(s) could not be saved.\""
+msgid "%d file(s) could not be saved."
+msgstr "%d file(s) could not be saved."
 
 # label_tracker_new
 msgid "New tracker"

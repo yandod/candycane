@@ -104,7 +104,7 @@ class IssueStatus extends AppModel
       $conditions["role_id"] = $role_id;
       $conditions["tracker_id"] = $tracker_id;
     }
-    $group = 'new_status_id';
+    $group = array('new_status_id', 'Status.id', 'Status.name');
     $fields = array('Status.id', 'Status.name', 'Workflow.new_status_id');
     $recursive = 0;
 

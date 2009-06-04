@@ -1,5 +1,5 @@
 <span id="attachments_fields">
-  <?php echo $form->input('attachments.1.file', array('name'=>'attachments[1][file]', 'type'=>'file', 'size'=>30, 'div'=>false, 'label'=>false)); ?><?php echo $form->input('attachments.1.description', array('name'=>'attachments[1][description]', 'size'=>60, 'div'=>false, 'label'=>false)); ?>
+  <?php echo $form->input('attachments_file.1', array('name'=>'attachments_file[1]', 'type'=>'file', 'size'=>30, 'div'=>false, 'label'=>false)); ?><?php echo $form->input('attachments_description.1.', array('name'=>'attachments_description[1]', 'size'=>60, 'div'=>false, 'label'=>false)); ?>
   <em><?php __('Optional description'); ?></em>
 </span>
 <br />

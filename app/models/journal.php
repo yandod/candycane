@@ -116,7 +116,6 @@ class Journal extends AppModel {
                 'conditions'=>'User.id=Journal.user_id',
               ),
             ),
-            'group' =>'Journal.id',
         ),
       ),
     'Event' => array('title'       => array('Proc' => '_event_title'),

@@ -125,10 +125,14 @@ class TimelogHelper extends AppHelper
     return $selectable_criterias;
   }
   function clear_link($project, $columns) {
+    $project_id = null;
+    if (!empty($project['Project']['identifier'])) {
+      $project_id = $project['Project']['identifier'];
+    }
     $get_params = $this->params['url'];
     unset($get_params['url']);
     $url = $this->AppAjax->link(__('Clear',true), 
-        array('project_id' => $project['Project']['identifier'], '?'=>array_merge($get_params, array('columns' => $columns))),
+        array('project_id' => $project_id, '?'=>array_merge($get_params, array('columns' => $columns))),
         array('class' => 'icon icon-reload', 'update' => 'content'));
     return $url;
   }

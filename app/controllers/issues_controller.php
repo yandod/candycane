@@ -40,6 +40,8 @@ class IssuesController extends AppController
     switch ($this->action) {
     case 'show':
     case 'changes':
+    case 'edit' :
+    case 'reply' :
       $this->_find_issue($this->params['issue_id']);
       $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
       break;
@@ -333,9 +335,19 @@ class IssuesController extends AppController
         # Log spend time
         $save_data['TimeEntry'] = array($this->Issue->TimeEntry->data['TimeEntry']);
       }
-      // TODO Issue edit attachement :
-      // $attachments = attach_files(@issue, params[:attachments])
-      // attachments.each {|a| journal.details << JournalDetail.new(:property => 'attachment', :prop_key => a.id, :value => a.filename)}
+      if (!empty($this->params['form'])) {
+        $attachments = $this->Issue->attach_files($this->params['form'], $this->current_user);
+        if (!empty($attachments['unsaved'])) {
+          $this->Session->setFlash(sprintf(__("%d file(s) could not be saved.",true), count($attachments['unsaved'])), 'default', array('class'=>'flash flash_warning'));
+        }
+        foreach ($attachments['attached'] as $a) {
+          $this->Issue->attachJournalDetails[] =  array(
+                'property' => 'attachment', 
+                'prop_key' => $a['id'],
+                'value' => $a['filename']
+              );
+        }
+      }
       // call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
       if($this->Issue->saveAll($save_data)) {
         if($this->Issue->actually_changed) {
