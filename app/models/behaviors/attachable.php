@@ -71,4 +71,85 @@ class AttachableBehavior extends ModelBehavior {
       $this->Attachment = & ClassRegistry::init('Attachment');
     }
   }
+
+  /**
+   * @param attachments is followings:
+   * Array
+        (
+            [attachments_description] => Array
+                (
+                    [1] => banner1
+                    [2] => banner2
+                )
+
+            [attachments_file] => Array
+                (
+                    [name] => Array
+                        (
+                            [1] => pokenjp_katakana_logo_20090.jpg
+                            [2] => 000313_m.jpg
+                        )
+
+                    [type] => Array
+                        (
+                            [1] => image/jpeg
+                            [2] => image/jpeg
+                        )
+
+                    [tmp_name] => Array
+                        (
+                            [1] => C:\CalendarNote\xampp\tmp\php633.tmp
+                            [2] => C:\CalendarNote\xampp\tmp\php634.tmp
+                        )
+
+                    [error] => Array
+                        (
+                            [1] => 0
+                            [2] => 0
+                        )
+
+                    [size] => Array
+                        (
+                            [1] => 13956
+                            [2] => 996530
+                        )
+
+                )
+
+        )
+   */
+  function attach_files(&$Model, $attachments, $current_user) {
+    $attached = array();
+    $unsaved = array();
+    if (!empty($attachments) && is_array($attachments)) {
+      $this->__initAttachment();
+      extract($attachments);
+      extract($attachments_file);
+      $num = count($name);
+      for ($i = 1; $i <= $num; $i++) {
+        if ($size[$i] <= 0) {
+          continue;
+        }
+        $attachment = $this->Attachment->create();
+        $data = array(
+          'container_id' => $Model->id, 
+          'container_type' => $Model->name, 
+          'filename' => $name[$i], 
+          'filesize' => $size[$i],
+          'content_type' => $type[$i],
+          'description' => trim($attachments_description[$i]),
+          'author_id' => $current_user['id'],
+          'temp_file' => $tmp_name[$i],
+        );
+        $result = $this->Attachment->save($data);
+        $data['id'] = $this->Attachment->getLastInsertID();
+        !$result ? ($unsaved[] = $data) : ($attached[] = $data);
+      }
+#      if unsaved.any?
+#        flash[:warning] = l(:warning_attachments_not_saved, unsaved.size)
+#      end
+    }
+    return compact('attached', 'unsaved');
+  }
+  
 }

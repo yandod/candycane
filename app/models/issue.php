@@ -59,6 +59,7 @@ class Issue extends AppModel
   );
   
   var $Journal = false;
+  var $attachJournalDetails = array();
 
 #  has_many :journals, :as => :journalized, :dependent => :destroy
   var $hasMany = array(
@@ -294,6 +295,7 @@ class Issue extends AppModel
           }
         }
       }
+      $journalDetails = array_merge($this->attachJournalDetails, $journalDetails);
       if(!empty($journalDetails)) {
         $this->Journal->set(array('JournalDetail' => $journalDetails));
         // Transaction already stated at IssueController#edit

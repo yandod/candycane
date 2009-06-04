@@ -52,6 +52,7 @@ class Attachment extends AppModel
     'Event' => array('title'       => 'filename',
                       'url'         => array('Proc' => '_event_url')),
   );
+  var $storage_path = null;
 #  belongs_to :container, :polymorphic => true
 #  belongs_to :author, :class_name => "User", :foreign_key => "author_id"
 #  
@@ -88,59 +89,61 @@ class Attachment extends AppModel
             ),
         ),
       ));
+    
+    $this->storage_path = APP.DS."files".DS;
   }
   function _event_url($data) {
     return  array('controller'=>'attachments', 'action'=>'download', 'id'=>$data['Attachment']['id'], '?' => array('filename'=>$data['Attachment']['filename']));
   }
 
-#  cattr_accessor :storage_path
-#  @@storage_path = "#{RAILS_ROOT}/files"
-#  
 #  def validate
 #    errors.add_to_base :too_long if self.filesize > Setting.attachment_max_size.to_i.kilobytes
 #  end
-#
-#  def file=(incoming_file)
-#    unless incoming_file.nil?
-#      @temp_file = incoming_file
-#      if @temp_file.size > 0
-#        self.filename = sanitize_filename(@temp_file.original_filename)
-#        self.disk_filename = Attachment.disk_filename(filename)
-#        self.content_type = @temp_file.content_type.to_s.chomp
-#        self.filesize = @temp_file.size
-#      end
-#    end
-#  end
-#	
+
+  function create_disk_filename($incoming_file, $original_filename) {
+    if (!empty($incoming_file)) {
+      $temp_file = $incoming_file;
+      $filename = $this->sanitize_filename($original_filename);
+      $disk_filename = $this->disk_filename($filename);
+    }
+    return $disk_filename;
+  }
+	
 #  def file
 #    nil
 #  end
-#
-#  # Copy temp file to its final location
-#  def before_save
-#    if @temp_file && (@temp_file.size > 0)
-#      logger.debug("saving '#{self.diskfile}'")
-#      File.open(diskfile, "wb") do |f| 
-#        f.write(@temp_file.read)
-#      end
-#      self.digest = self.class.digest(diskfile)
-#    end
-#    # Don't save the content type if it's longer than the authorized length
-#    if self.content_type && self.content_type.length > 255
-#      self.content_type = nil
-#    end
-#  end
-#
-#  # Deletes file on the disk
-#  def after_destroy
-#    File.delete(diskfile) if !filename.blank? && File.exist?(diskfile)
-#  end
-#
-#  # Returns file's location on disk
-#  def diskfile
-#    "#{@@storage_path}/#{self.disk_filename}"
-#  end
-#  
+
+  # Copy temp file to its final location
+  function beforeSave($options = array()) {
+    parent::beforeSave($options);
+    if (!empty($this->data[$this->alias]['temp_file']) && !empty($this->data[$this->alias]['filesize'])) {
+      $this->data[$this->alias]['disk_filename'] = $this->create_disk_filename($this->data[$this->alias]['temp_file'], $this->data[$this->alias]['filename']);
+      $this->log("saving '{$this->diskfile()}'", LOG_DEBUG);
+      @copy($this->data[$this->alias]['temp_file'], $this->diskfile());
+      unset($this->data[$this->alias]['temp_file']);
+      $this->data[$this->alias]['digest'] = $this->digest($this->diskfile());
+    }
+    # Don't save the content type if it's longer than the authorized length
+    if (!empty($this->data[$this->alias]['content_type']) && (strlen($this->data[$this->alias]['content_type']) > 255)) {
+      unset($this->data[$this->alias]['content_type']);
+    }
+    return true;
+  }
+
+  # Deletes file on the disk
+  function beforeDelete($cascade = true) {
+    $this->read('disk_filename');
+    return true;
+  }
+  function afterDelete() {
+    @unlink($this->diskfile());
+  }
+
+  # Returns file's location on disk
+  function diskfile() {
+    return $this->storage_path.$this->data[$this->alias]['disk_filename'];
+  }
+  
 #  def increment_download
 #    increment!(:downloads)
 #  end
@@ -170,16 +173,16 @@ class Attachment extends AppModel
 #  end
 #  
 #private
-#  def sanitize_filename(value)
-#    # get only the filename, not the whole path
-#    just_filename = value.gsub(/^.*(\\|\/)/, '')
-#    # NOTE: File.basename doesn't work right with Windows paths on Unix
-#    # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/')) 
-#
-#    # Finally, replace all non alphanumeric, hyphens or periods with underscore
-#    @filename = just_filename.gsub(/[^\w\.\-]/,'_') 
-#  end
-#  
+  function sanitize_filename($value) {
+    # get only the filename, not the whole path
+    $just_filename = preg_replace('/^.*(\\|\/)/', '', $value);
+    # NOTE: File.basename doesn't work right with Windows paths on Unix
+    # INCORRECT: just_filename = File.basename(value.gsub('\\\\', '/')) 
+
+    # Finally, replace all non alphanumeric, hyphens or periods with underscore
+    return preg_replace('/[^\w\.\-]/','_', $just_filename);
+  }
+  
   function disk_filename($filename)
   {
     $df = strftime("%y%m%d%H%M%S") . "_";
