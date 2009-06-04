@@ -40,6 +40,8 @@ class IssuesController extends AppController
     switch ($this->action) {
     case 'show':
     case 'changes':
+    case 'edit' :
+    case 'reply' :
       $this->_find_issue($this->params['issue_id']);
       $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
       break;
