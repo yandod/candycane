@@ -154,6 +154,7 @@ class User extends AppModel
     $user['User']['logged'] = true; // @todo fixme
     $user['User']['name'] = $user['User']['login']; // @todo fixme
     $user['User']['memberships'] = $user['Membership'];
+    $user['User']['RssToken'] = $user['RssToken'];
     return $user['User'];
   }
 #  

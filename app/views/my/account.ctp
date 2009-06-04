@@ -1,6 +1,5 @@
 <div class="contextual">
 <?php if ( empty($currentuser['auth_source_id'])) echo $html->link(__('Change password',true),aa('action','password')) ?>
-<%= link_to(l(:button_change_password), :action => 'password') unless @user.auth_source_id %>
 </div>
 
 <h2><?php echo $candy->html_title(__('My account',true)) ?></h2>
