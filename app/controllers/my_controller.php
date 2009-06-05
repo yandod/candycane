@@ -176,11 +176,17 @@ class MyController extends AppController
     } else {
       $this->data = array('User' => $this->current_user);
     }
-    #    @notification_options = [[l(:label_user_mail_option_all), 'all'],
-    #                             [l(:label_user_mail_option_none), 'none']]
-    #    # Only users that belong to more than 1 project can select projects for which they are notified
-    #    # Note that @user.membership.size would fail since AR ignores :include association option when doing a count
-    #    @notification_options.insert 1, [l(:label_user_mail_option_selected), 'selected'] if @user.memberships.length > 1
+      $notification_options = array();
+      $notification_options['all']= __("\"For any event on all my projects\"",true);
+       
+      
+      if ( !empty($this->current_user['memberships'])) {
+        $notification_options['selected']= __("\"For any event on the selected projects only...\"",true);
+      }
+      $notification_options['none']= __("\"Only for things I watch or I'm involved in\"",true);
+      $notification_option = $this->current_user['mail_notification'] == 'all' ? 'none' : 'selected';
+      $this->set('notification_options',$notification_options);
+      $this->set('notification_option',$notification_option);      
     #    @notification_option = @user.mail_notification? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')    
   }
 }

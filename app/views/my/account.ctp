@@ -34,12 +34,14 @@
 <div class="splitcontentright">
   <h3><?php __('Email notifications') ?></h3>
   <div class="box">
+  <?php echo $form->select('notification_option',$notification_options) ?>
+  <!--
   <%= select_tag 'notification_option',
   options_for_select(@notification_options, @notification_option),
   :onchange => 'if ($("notification_option").value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
-
-  <% content_tag 'div', :id => 'notified-projects', :style => (@notification_option == 'selected' ? '' : 'display:none;') do %>
-
+  -->
+  <!-- <% content_tag 'div', :id => 'notified-projects', :style => (@notification_option == 'selected' ? '' : 'display:none;') do %>-->
+  <?php echo $html->tag('div') ?>
   <p>
     <% User.current.projects.each do |project| %>
     <label><%= check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %> <%=h project.name %></label><br />
@@ -47,7 +49,7 @@
   </p>
 
   <p><em><?php __("\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""); ?></em></p>
-<% end %>
+  </div>
 
   <p><label><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %> <%= l(:label_user_mail_no_self_notified) %></label></p>
 </div>
