@@ -174,7 +174,7 @@ class MyController extends AppController
         #        return
       }
     } else {
-      $this->data = array('User' => $this->current_user);
+      $this->data = $this->User->find('first',aa('conditions',aa('User.id',$this->current_user['id'])));
     }
       $notification_options = array();
       $notification_options['all']= __("\"For any event on all my projects\"",true);
@@ -184,9 +184,10 @@ class MyController extends AppController
         $notification_options['selected']= __("\"For any event on the selected projects only...\"",true);
       }
       $notification_options['none']= __("\"Only for things I watch or I'm involved in\"",true);
-      $notification_option = $this->current_user['mail_notification'] == 'all' ? 'none' : 'selected';
+      
+      $project_ids = $this->User->notified_projects_ids($this->current_user['id']);
+      $notification_option = empty($project_ids) ? 'none' : 'selected';
       $this->set('notification_options',$notification_options);
       $this->set('notification_option',$notification_option);      
-    #    @notification_option = @user.mail_notification? ? 'all' : (@user.notified_projects_ids.empty? ? 'none' : 'selected')    
   }
 }

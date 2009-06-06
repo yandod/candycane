@@ -24,7 +24,7 @@
     </p>
     <p>
       <label for="UserLanguage"><?php __('Language'); ?></label>
-      <?php echo $form->select('language', $candy->lang_options_for_select(),$currentuser['language'],array('type' => 'select', 'div' => false, 'label' => false, 'error' => false),false); ?>
+      <?php echo $form->select('language', $candy->lang_options_for_select(),$currentuser['language'],array('type' => 'select', 'error' => false),false); ?>
     </p>
   </div>
 
@@ -34,35 +34,29 @@
 <div class="splitcontentright">
   <h3><?php __('Email notifications') ?></h3>
   <div class="box">
-  <?php echo $form->select('notification_option',$notification_options) ?>
-  <!--
-  <%= select_tag 'notification_option',
-  options_for_select(@notification_options, @notification_option),
-  :onchange => 'if ($("notification_option").value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}' %>
-  -->
+  <?php echo $form->select('notification_option',$notification_options,$notification_option,aa('onchange','if ($("UserNotificationOption").value == "selected") {Element.show("notified-projects")} else {Element.hide("notified-projects")}'),false) ?>
   <!-- <% content_tag 'div', :id => 'notified-projects', :style => (@notification_option == 'selected' ? '' : 'display:none;') do %>-->
-  <?php echo $html->tag('div') ?>
+  <?php $opt = aa('id','notified-projects','style', $notification_option == 'selected' ? '' : 'display:none'); ?>
+  <?php echo $html->tag('div',null,$opt) ?>
   <p>
-    <% User.current.projects.each do |project| %>
-    <label><%= check_box_tag 'notified_project_ids[]', project.id, @user.notified_projects_ids.include?(project.id) %> <%=h project.name %></label><br />
-    <% end %>
+    <?php foreach($currentuser['memberships'] as $row ): ?>
+    <label><?php echo $form->checkbox('notified_project_ids][',aa('value',$row['project_id'],'label',false,'hidden',false)) ?> <?php echo h($row['Project']['name']) ?></label><br />
+    <?php endforeach; ?>
   </p>
 
   <p><em><?php __("\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""); ?></em></p>
   </div>
 
-  <p><label><%= check_box_tag 'no_self_notified', 1, @user.pref[:no_self_notified] %> <%= l(:label_user_mail_no_self_notified) %></label></p>
+  <p><label><?php echo $form->checkbox('no_self_notified',aa('value',1)) ?> <?php echo (__("\"I don't want to be notified of changes that I make myself\"",true))?></label></p>
 </div>
 
 <h3><?php __('Preferences') ?></h3>
 <div class="box tabular">
-<% fields_for :pref, @user.pref, :builder => TabularFormBuilder, :lang => current_language do |pref_fields| %>
-<p><%= pref_fields.check_box :hide_mail %></p>
-<p><%= pref_fields.select :time_zone, ActiveSupport::TimeZone.all.collect {|z| [ z.to_s, z.name ]}, :include_blank => true %></p>
-<p><%= pref_fields.select :comments_sorting, [[l(:label_chronological_order), 'asc'], [l(:label_reverse_chronological_order), 'desc']] %></p>
-<% end %>
+<p><label><?php __('Hide my email address') ?></label><?php echo $form->checkbox('UserPreference.hide_mail') ?></p>
+<!-- <p><label><?php __('Time zone') ?></label></p> -->
+<p><label><?php __('Display comments') ?></label><?php echo $form->select('UserPreference.comments_sorting',aa('asc',__('In chronological order',true),'desc',__('In reverse chronological order',true)),null,null,false) ?></p>
 </div>
-</div>
+<?php echo "</div>" ?>
 <?php echo $form->end() ?>
 <?php $this->set('Sidebar',$this->renderElement('my/sidebar')) ?>
 

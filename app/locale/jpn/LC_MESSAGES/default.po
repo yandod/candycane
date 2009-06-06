@@ -1726,7 +1726,7 @@ msgstr "活動"
 
 # text_user_mail_option
 msgid "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
-msgstr "\"未選択のプロジェクトでは、ウォッチまたは関係しているチケット(例"
+msgstr "未選択のプロジェクトでは、ウォッチまたは関係しているチケット(例 自分が報告者もしくは担当者であるチケット)のみメールが送信されます。"
 
 # button_create_and_continue
 msgid "Create and continue"
