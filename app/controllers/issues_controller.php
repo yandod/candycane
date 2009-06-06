@@ -231,8 +231,9 @@ class IssuesController extends AppController
         return $this->cakeError('error', array('message'=>"Can not save Issue."));
       }
       if(empty($this->Issue->validationErrors)) {
-        // TODO : attach file 
-        # attach_files(@issue, params[:attachments])
+        if (!empty($this->params['form'])) {
+          $this->Issue->attach_files($this->params['form'], $this->current_user);
+        }
         $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
         # Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
         if(!empty($this->params['form']['continue'])) {

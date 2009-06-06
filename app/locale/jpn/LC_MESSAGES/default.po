@@ -1917,8 +1917,8 @@ msgid "Used by"
 msgstr "使用中"
 
 # text_diff_truncated
-msgid "'... This diff was truncated because it exceeds the maximum size that can be displayed.'"
-msgstr "'... This diff was truncated because it exceeds the maximum size that can be displayed.'"
+msgid "... This diff was truncated because it exceeds the maximum size that can be displayed."
+msgstr "... This diff was truncated because it exceeds the maximum size that can be displayed."
 
 # label_commits_per_author
 msgid "Commits per author"
