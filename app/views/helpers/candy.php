@@ -68,7 +68,7 @@ class CandyHelper extends AppHelper
     #    end
     #  end
     $view =& ClassRegistry::getObject('view');
-    $project = $view->viewVars['main_project'];
+    $project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
     if (empty($str)) {
       $title = array();
       if (! empty($project)) {
