@@ -15,61 +15,97 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
-#class AttachmentsController < ApplicationController
-#  before_filter :find_project
-#  before_filter :read_authorize, :except => :destroy
-#  before_filter :delete_authorize, :only => :destroy
-#  
-#  verify :method => :post, :only => :destroy
-#  
-#  def show
-#    if @attachment.is_diff?
-#      @diff = File.new(@attachment.diskfile, "rb").read
-#      render :action => 'diff'
-#    elsif @attachment.is_text?
-#      @content = File.new(@attachment.diskfile, "rb").read
-#      render :action => 'file'
-#    elsif
-#      download
-#    end
-#  end
-#  
-#  def download
-#    if @attachment.container.is_a?(Version) || @attachment.container.is_a?(Project)
-#      @attachment.increment_download
-#    end
-#    
-#    # images are sent inline
-#    send_file @attachment.diskfile, :filename => filename_for_content_disposition(@attachment.filename),
-#                                    :type => @attachment.content_type, 
-#                                    :disposition => (@attachment.image? ? 'inline' : 'attachment')
-#   
-#  end
-#  
-#  def destroy
-#    # Make sure association callbacks are called
-#    @attachment.container.attachments.delete(@attachment)
-#    redirect_to :back
-#  rescue ::ActionController::RedirectBackError
-#    redirect_to :controller => 'projects', :action => 'show', :id => @project
-#  end
-#  
+
+class AttachmentsController extends AppController
+{
+  var $name = 'Attachments';
+  var $helpers = array(
+    'UnifiedDiff',
+    'Number',
+  );
+  function beforeFilter()
+  {
+    $this->_find_project();
+    parent::beforeFilter();
+
+    switch ($this->action) {
+    case 'destroy':
+      $this->_delete_authorize();
+      break;
+    default :
+      $this->_read_authorize();
+      break;
+    }
+    return true;
+  }
+
+  function show() {
+    if ($this->Attachment->is_diff()) {
+      $diff = @file($this->Attachment->diskfile());
+      $this->set('diff', $diff);
+      $this->set('diff_type', $this->_get_param('diff_type'));
+      
+      $this->render('diff');
+    } elseif ($this->Attachment->is_text()) {
+      $content = @file($this->Attachment->diskfile());
+      $this->set('content', $content);
+      $this->render('file');
+    } else {
+      $this->download();
+    }
+  }
+  
+  function download() {
+    $data = $this->Attachment->data[$this->Attachment->alias];
+    if ($data['container_type'] == 'Version' || $data['container_type'] == 'Project') {
+      $this->Attachment->increment_download();
+    }
+    $path = pathinfo($this->Attachment->diskfile());
+    $this->view = 'Media';
+    $params = array(
+      'id' => $data['disk_filename'],
+      'name' => basename($data['filename'], '.'.$path['extension']),
+      'download' => !$this->Attachment->is_image(),
+      'path' => $path['dirname'].DS,
+      'extension' => $path['extension'],
+    );
+    $this->set($params);
+  }
+  
+  function destroy() {
+    # Make sure association callbacks are called
+    $this->Attachment->del();
+    if ($this->referer(false)) {
+      $this->redirect($this->referer());
+    } else {
+      $this->redirect(array('controller' => 'projects', 'action' => 'show', 'id' => $this->params['project_id']));
+    }
+  }
+  
 #private
-#  def find_project
-#    @attachment = Attachment.find(params[:id])
-#    # Show 404 if the filename in the url is wrong
-#    raise ActiveRecord::RecordNotFound if params[:filename] && params[:filename] != @attachment.filename
-#    @project = @attachment.project
-#  rescue ActiveRecord::RecordNotFound
-#    render_404
-#  end
-#  
-#  def read_authorize
-#    @attachment.visible? ? true : deny_access
-#  end
-#  
-#  def delete_authorize
-#    @attachment.deletable? ? true : deny_access
-#  end
-#end
+  function _find_project() {
+    $this->Attachment->read(null, $this->params['id']);
+    $this->set('attachment', $this->Attachment->data[$this->Attachment->alias]);
+    $this->set('author', $this->Attachment->data['Author']);
+    # Show 404 if the filename in the url is wrong
+    if (!empty($this->params['filename']) && $this->params['filename'] != $this->Attachment->data[$this->Attachment->name]['filename']) {
+      $this->cakeError('error404');
+    }
+    $project = $this->Attachment->project();
+    if (!empty($project['Project']['identifier'])) {
+      $this->params['project_id'] = $project['Project']['identifier'];
+      parent::_findProject();
+    } else {
+      $this->cakeError('error404');
+    }
+  }
+  
+  function _read_authorize() {
+    $this->Attachment->is_visible($this->current_user, $this->_project) ?  true : $this->deny_access();
+  }
+  
+  function _delete_authorize() {
+    $this->Attachment->is_deletable($this->current_user, $this->_project) ?  true : $this->deny_access();
+  }
+
+}

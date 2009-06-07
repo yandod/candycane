@@ -1,15 +1,14 @@
-<h2><%=h @attachment.filename %></h2>
+<h2><?php echo $attachment['filename'] ?></h2>
 
 <div class="attachments">
-<p><%= h("#{@attachment.description} - ") unless @attachment.description.blank? %>
-   <span class="author"><%= @attachment.author %>, <%= format_time(@attachment.created_on) %></span></p>
-<p><%= link_to_attachment @attachment, :text => l(:button_download), :download => true -%>
-   <span class="size">(<%= number_to_human_size @attachment.filesize %>)</span></p>
+<p><?php if (!empty($attachment['description'])) { echo h("{$attachment['description']} - "); } ?>
+  <span class="author"><?php echo $candy->format_username($author) ?>, <?php echo $candy->format_time($attachment['created_on']) ?></span></p>
+<p><?php echo $candy->link_to_attachment( array('Attachment'=>$attachment), array('text' => __('Download',true), 'download' => true)); ?>
+   <span class="size">(<?php echo $number->toReadableSize($attachment['filesize']) ?>)</span></p>
 
 </div>
 &nbsp;
-<%= render :partial => 'common/file', :locals => {:content => @content, :filename => @attachment.filename} %>
+<?php echo $this->renderElement('file', array('content'=>$content)); ?>
 
-<% content_for :header_tags do -%>
-    <%= stylesheet_link_tag "scm" -%>
-<% end -%>
+<?php $candy->html_title() ?>
+<?php $html->css("scm", null, array(), false); ?>

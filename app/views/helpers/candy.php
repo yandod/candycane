@@ -68,10 +68,11 @@ class CandyHelper extends AppHelper
     #    end
     #  end
     $view =& ClassRegistry::getObject('view');
+    $project = $view->viewVars['main_project'];
     if (empty($str)) {
       $title = array();
-      if (! empty($this->project)) {
-        $title[0] = $this->project['name'];
+      if (! empty($project)) {
+        $title[0] = $project['Project']['name'];
       } else {
         $Settings =& ClassRegistry::getObject('Setting');
         $title[0] = $Settings->app_title;
@@ -443,10 +444,10 @@ class CandyHelper extends AppHelper
 #    l(:actionview_datehelper_select_month_names).split(',')[month-1]
 #  end
 #
-#  def syntax_highlight(name, content)
-#    type = CodeRay::FileType[name]
-#    type ? CodeRay.scan(content, type).html : h(content)
-#  end
+  function syntax_highlight($name, $content) {
+    // Use StyleHelper
+    // echo $style->formatCode($filename);
+  }
 #
 #  def to_path_param(path)
 #    path.to_s.split(%r{[/\\]}).select {|p| !p.blank?}

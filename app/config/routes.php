@@ -87,6 +87,11 @@ Router::connect('news/:action/:news_id/*', array('controller' => 'news'));
 #  map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
 #  map.connect 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/
 #  map.connect 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/
+Router::connect('attachments/:id', array('controller' => 'attachments', 'action' => 'show'), array('id' => '\\d+'));
+Router::connect('attachments/:id/:filename', array('controller' => 'attachments', 'action' => 'show'), array('id' => '\\d+', 'filename' => '.*'));
+Router::connect('attachments/download/:id/:filename', array('controller' => 'attachments', 'action' => 'download'), array('id' => '\\d+', 'filename' => '.*'));
+Router::connect('attachments/destroy/:id', array('controller' => 'attachments', 'action' => 'destroy'), array('id' => '\\d+'));
+
 #   
 #  # Allow downloading Web Service WSDL as a file with an extension
 #  # instead of a file named 'wsdl'

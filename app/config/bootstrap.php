@@ -143,3 +143,18 @@ if (!function_exists('array_intersect_key')) {
     return $isec;
   }
 }
+
+if(!function_exists('str_split')) {
+    function str_split($string,$string_length=1) {
+        if(strlen($string)>$string_length || !$string_length) {
+            do {
+                $c = strlen($string);
+                $parts[] = substr($string,0,$string_length);
+                $string = substr($string,$string_length);
+            } while($string !== false);
+        } else {
+            $parts = array($string);
+        }
+        return $parts;
+    }
+}

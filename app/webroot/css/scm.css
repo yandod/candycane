@@ -40,6 +40,10 @@ table.filecontent th.line-num {
 	padding-right: 3px;
 	color: #999;
 }
+table.filecontent span.line-num {
+    padding-right: 3em;
+    color: #999;
+}
 table.filecontent td.line-code pre {
     white-space: pre-wrap; /* CSS2.1 compliant */
     white-space: -moz-pre-wrap; /* Mozilla-based browsers */

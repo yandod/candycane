@@ -144,34 +144,48 @@ class Attachment extends AppModel
     return $this->storage_path.$this->data[$this->alias]['disk_filename'];
   }
   
-#  def increment_download
-#    increment!(:downloads)
-#  end
-#
-#  def project
-#    container.project
-#  end
-#  
-#  def visible?(user=User.current)
-#    container.attachments_visible?(user)
-#  end
-#  
-#  def deletable?(user=User.current)
-#    container.attachments_deletable?(user)
-#  end
-#  
-#  def image?
-#    self.filename =~ /\.(jpe?g|gif|png)$/i
-#  end
-#  
-#  def is_text?
-#    Redmine::MimeType.is_type?('text', filename)
-#  end
-#  
-#  def is_diff?
-#    self.filename =~ /\.(patch|diff)$/i
-#  end
-#  
+  function is_visible($user, $project) {
+    $Container = & ClassRegistry::init($this->data[$this->name]['container_type']);
+    return $Container->is_attachments_visible($user, $project);
+  }
+
+  function is_deletable($user, $project) {
+    $Container = & ClassRegistry::init($this->data[$this->name]['container_type']);
+    return $Container->is_attachments_deletable($user, $project);
+  }
+
+  function increment_download() {
+    $this->saveField('downloads', $data[$this->alias]['downloads']+1);
+  }
+
+  function project() {
+    $Container = & ClassRegistry::init($this->data[$this->name]['container_type']);
+    $Container->read('Project.*', $this->data[$this->name]['container_id']);
+    return $Container->data;
+  }
+  
+  function is_image($data=false) {
+    if (!$data) {
+      $data = $this->data;
+    }
+    return preg_match('/\.(jpe?g|gif|png)$/i', $data[$this->alias]['filename']);
+  }
+  
+  function is_text($data=false) {
+    if (!$data) {
+      $data = $this->data;
+    }
+    App::import('Model', 'MimeType');
+    return MimeType::is_type('text', $this->data[$this->alias]['filename']);
+  }
+  
+  function is_diff($data=false) {
+    if (!$data) {
+      $data = $this->data;
+    }
+    return preg_match('/\.(patch|diff)$/i', $data[$this->alias]['filename']);
+  }
+  
 #private
   function sanitize_filename($value) {
     # get only the filename, not the whole path
