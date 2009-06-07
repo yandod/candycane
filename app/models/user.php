@@ -129,9 +129,12 @@ class User extends AppModel
   }
 #  
 #  # Return an array of project ids for which the user has explicitly turned mail notifications on
-#  def notified_projects_ids
+  function notified_projects_ids($id)
+  {
+    $membership = $this->Membership->find('all',aa('conditions',aa('user_id',$id,'Membership.mail_notification','1'),'recurisive',-1));
+    return Set::extract('Membership/project_id',$membership);
 #    @notified_projects_ids ||= memberships.select {|m| m.mail_notification?}.collect(&:project_id)
-#  end
+  }
 #  
 #  def notified_project_ids=(ids)
 #    Member.update_all("mail_notification = #{connection.quoted_false}", ['user_id = ?', id])
@@ -155,6 +158,7 @@ class User extends AppModel
     $user['User']['name'] = $user['User']['login']; // @todo fixme
     $user['User']['memberships'] = $user['Membership'];
     $user['User']['RssToken'] = $user['RssToken'];
+    $user['User']['UserPreference'] = $user['UserPreference'];
     return $user['User'];
   }
 #  
