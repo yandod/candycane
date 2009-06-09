@@ -821,6 +821,10 @@ class ProjectsController extends AppController
     $issue_categories = $this->Project->IssueCategory->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id'])));
     $this->set('issue_categories_data',$issue_categories);
     // for issue categories tab end
+
+    $versions = $this->Project->Version->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id'])));
+    $this->set('versions_data',$versions);
+    
     
     //:TODO yando やる
     $tabs = array(

@@ -1,4 +1,4 @@
-<?php if (!empty($main_project['Version'])) : ?>
+<?php if (!empty($versions_data)) : ?>
 <table class="list">
 	<thead>
     <th><?php __('Version') ?></th>
@@ -10,14 +10,14 @@
     </thead>
 	<tbody>
 <!-- TODO: sort -->
-<?php foreach ($main_project['Version'] as $version_row): ?>
+<?php foreach ($versions_data as $version_row): ?>
     <tr class="<?php echo $candy->cycle() ?>">
-    <td><?php echo $html->link($version_row['name'],aa('controller','versions','action','show','id',$version_row['id'])); ?></td>
-    <td align="center"><?php echo $candy->format_date($version_row['effective_date']) ?></td>
-    <td><?php echo h($version_row['description']) ?></td>
-    <td><?php if (!empty($version_row['wiki_page_title'])): ?><?php echo $html->link($version_row['wiki_page_title'],aa('controller','wiki','page',$wiki->titleize($version_row['wiki_page_title']))); ?><?php endif; ?></td>
-    <td align="center"><?php echo $html->link(__('Edit',true),aa('controller','versions','action','edit','id',$version_row['id']),aa('class','icon icon-edit')); ?></td>
-    <td align="center"><?php echo $html->link(__('Delete',true),aa('controller','versions','action','destroy','id',$version_row['id']),aa('class','icon icon-del','confirm',__('Are you sure ?',true),'method','post')); ?></td>
+    <td><?php echo $html->link($version_row['Version']['name'],aa('controller','versions','action','show','id',$version_row['Version']['id'])); ?></td>
+    <td align="center"><?php echo $candy->format_date($version_row['Version']['effective_date']) ?></td>
+    <td><?php echo h($version_row['Version']['description']) ?></td>
+    <td><?php if (!empty($version_row['Version']['wiki_page_title'])): ?><?php echo $html->link($version_row['Version']['wiki_page_title'],aa('controller','wiki','page',$wiki->titleize($version_row['Version']['wiki_page_title']))); ?><?php endif; ?></td>
+    <td align="center"><?php echo $html->link(__('Edit',true),aa('controller','versions','action','edit','id',$version_row['Version']['id']),aa('class','icon icon-edit')); ?></td>
+    <td align="center"><?php echo $html->link(__('Delete',true),aa('controller','versions','action','destroy','id',$version_row['Version']['id']),aa('class','icon icon-del','confirm',__('Are you sure ?',true),'method','post')); ?></td>
     </tr>
 <?php endforeach; ?>
     </tbody>
