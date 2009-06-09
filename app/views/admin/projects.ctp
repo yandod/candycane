@@ -2,7 +2,7 @@
 <?php echo $html->link(__('New project', TRUE), array('controller' => 'projects', 'action' => 'add'), array('class' => 'icon icon-add')); ?> 
 </div>
 
-<h2><?php __('Projects'); ?></h2>
+<h2><?php echo $candy->html_title(__('Projects',true));  ?></h2>
 
 <?php echo $form->create(null, array('type' => 'get', 'url' => '/admin/projects')); ?>
 <fieldset>
@@ -82,13 +82,13 @@
      <td>
 	 <?php echo (($project['Project']['status'] == PROJECT_STATUS_ACTIVE) ? ($html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'settings', 'id' => $project['Project']['identifier']))) : h($project['Project']['name'])); ?>
 	 <td><?php echo nl2br($project['Project']['short_description']); ?></td>
-	 <td align="center">project.children.size
-	 <td align="center"><?php if ($project['Project']['is_public'] == TRUE) { echo $html->image('true.png'); } ?>
-	 <td align="center"><?php echo $project['Project']['created_on']; ?>
+	 <td align="center"> </td>
+	 <td align="center"><?php if ($project['Project']['is_public'] == TRUE) { echo $html->image('true.png'); } ?></td>
+	 <td align="center"><?php echo $project['Project']['created_on']; ?></td>
 	 <td align="center" style="width:10%">
 	 <small>
-	 <?php echo $html->link(__('Archive', TRUE), array('controller' => 'projects', 'action' => 'archive', 'id' => $project['Project']['id'])); ?>
-	 <?php echo $html->link(__('Unarchive', TRUE), array('controller' => 'projects', 'action' => 'unarchive', 'id' => $project['Project']['id'])); ?>
+	 <?php echo $html->link(__('Archive', TRUE), array('controller' => 'projects', 'action' => 'archive', 'id' => $project['Project']['id']),aa('class','icon icon-lock')); ?>
+	 <?php if ($project['Project']['status'] !== "1") echo $html->link(__('Unarchive', TRUE), array('controller' => 'projects', 'action' => 'unarchive', 'id' => $project['Project']['id']),aa('class','icon-unlock')); ?>
 <!--
     <%= link_to(l(:button_archive), { :controller => 'projects', :action => 'archive', :id => project }, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-lock') if project.active? %>
     <%= link_to(l(:button_unarchive), { :controller => 'projects', :action => 'unarchive', :id => project }, :method => :post, :class => 'icon icon-unlock') if !project.active? && (project.parent.nil? || project.parent.active?) %>
@@ -99,13 +99,12 @@
 <!--
     <small><%= link_to(l(:button_delete), { :controller => 'projects', :action => 'destroy', :id => project }, :class => 'icon icon-del') %></small>
 -->
-	 <small><?php echo $html->link(__('Delete', TRUE), array('controller' => 'projects', 'action' => 'destroy', 'id' => $project['Project']['id'], 'class' => 'icon icon-del')); ?></small>
+	 <small><?php echo $html->link(__('Delete', TRUE), array('controller' => 'projects', 'action' => 'destroy', 'id' => $project['Project']['id']),aa('class','icon icon-del')); ?></small>
   </td>
   </tr>
   <?php endforeach; ?>
   </tbody>
 </table>
+<?php // @todo paginate ?>
+<p class="pagination"><!-- <%= pagination_links_full @project_pages, @project_count %>--></p>
 
-<p class="pagination"><%= pagination_links_full @project_pages, @project_count %></p>
-
-<?php $candy->html_title(__('label_project_plural')); ?>
