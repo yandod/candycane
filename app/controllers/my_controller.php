@@ -170,9 +170,7 @@ class MyController extends AppController
           $notified_project_ids = array_filter($this->data['User']['notified_project_ids']);
         }
         $this->User->set_notified_project_ids($notified_project_ids,$this->current_user['id']);
-        #        @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
         #        set_language_if_valid @user.language
-        #        flash[:notice] = l(:notice_account_updated)
         $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
         $this->redirect('account');
         #        return
@@ -190,6 +188,7 @@ class MyController extends AppController
       $notification_options['none']= __("\"Only for things I watch or I'm involved in\"",true);
       
       $project_ids = $this->User->notified_projects_ids($this->current_user['id']);
+      $this->data['User']['notified_projects_ids'] = $project_ids;
       $notification_option = empty($project_ids) ? 'none' : 'selected';
       $this->set('notification_options',$notification_options);
       $this->set('notification_option',$notification_option);      
