@@ -165,10 +165,14 @@ class MyController extends AppController
       $this->data['User']['id'] = $this->current_user['id'];
       if($this->User->save($this->data)) {
         #        @user.pref.save
+        $notified_project_ids = array();
+        if ($this->data['User']['notification_option'] === 'selected') {
+          $notified_project_ids = array_filter($this->data['User']['notified_project_ids']);
+        }
+        $this->User->set_notified_project_ids($notified_project_ids,$this->current_user['id']);
         #        @user.notified_project_ids = (params[:notification_option] == 'selected' ? params[:notified_project_ids] : [])
         #        set_language_if_valid @user.language
         #        flash[:notice] = l(:notice_account_updated)
-        #        redirect_to :action => 'account'
         $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
         $this->redirect('account');
         #        return

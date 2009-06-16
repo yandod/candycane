@@ -26,6 +26,13 @@ class User extends AppModel
 #  }
 #
 #  has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name"
+  var $hasMany = array(
+    'Membership' => array(
+      'className' => 'Member',
+      //'conditions' => array('Project.status' => 1)
+    )
+  );
+  
 #  has_many :members, :dependent => :delete_all
 #  has_many :projects, :through => :memberships
 #  has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
@@ -135,13 +142,15 @@ class User extends AppModel
     return Set::extract('Membership/project_id',$membership);
 #    @notified_projects_ids ||= memberships.select {|m| m.mail_notification?}.collect(&:project_id)
   }
-#  
-#  def notified_project_ids=(ids)
-#    Member.update_all("mail_notification = #{connection.quoted_false}", ['user_id = ?', id])
+#
+  function set_notified_project_ids($ids,$user_id)
+  {
+    $this->Membership->updateAll(aa('Membership.mail_notification',0),aa('Membership.user_id',$user_id));
+    $this->Membership->updateAll(aa('Membership.mail_notification',1),aa('Membership.user_id',$user_id,'Membership.project_id',$ids));
+
 #    Member.update_all("mail_notification = #{connection.quoted_true}", ['user_id = ? AND project_id IN (?)', id, ids]) if ids && !ids.empty?
-#    @notified_projects_ids = nil
-#    notified_projects_ids
-#  end
+    return $this->notified_projects_ids($user_id);
+  }
 #  
   function find_by_rss_key($key) {
     $token = $this->RssToken->find('first', array('conditions'=>array('value'=>$key)));
@@ -296,11 +305,6 @@ class User extends AppModel
   }
 
 
-  var $hasMany = array(
-    'Membership' =>array(
-      'className' => 'Member'
-      )
-  );
 
   /**
    * no implement:
