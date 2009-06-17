@@ -40,19 +40,23 @@
   <?php echo $html->tag('div',null,$opt) ?>
   <p>
     <?php foreach($currentuser['memberships'] as $row ): ?>
-    <label><?php echo $form->checkbox('notified_project_ids][',aa('value',$row['project_id'],'label',false,'hidden',false)) ?> <?php echo h($row['Project']['name']) ?></label><br />
+    <?php
+      $opt = aa('value',$row['project_id'],'label',false,'hidden',false);
+      if (in_array($row['project_id'],$this->data['User']['notified_project_ids'])) $opt['checked'] = 'checked';
+    ?>
+    <label><?php echo $form->checkbox('notified_project_ids][',$opt) ?> <?php echo h($row['Project']['name']) ?></label><br />
     <?php endforeach; ?>
   </p>
 
   <p><em><?php __("\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""); ?></em></p>
   </div>
 
-  <p><label><?php echo $form->checkbox('no_self_notified',aa('value',1)) ?> <?php echo (__("\"I don't want to be notified of changes that I make myself\"",true))?></label></p>
+  <p><label><?php echo $form->checkbox('UserPreference.no_self_notified',aa('value',1)) ?> <?php echo (__("\"I don't want to be notified of changes that I make myself\"",true))?></label></p>
 </div>
 
 <h3><?php __('Preferences') ?></h3>
 <div class="box tabular">
-<p><label><?php __('Hide my email address') ?></label><?php echo $form->checkbox('UserPreference.hide_mail') ?></p>
+<p><label><?php __('Hide my email address') ?></label><?php echo $form->checkbox('UserPreference.hide_mail',aa('value','1','checked',$this->data['UserPreference']['hide_mail'])) ?></p>
 <!-- <p><label><?php __('Time zone') ?></label></p> -->
 <p><label><?php __('Display comments') ?></label><?php echo $form->select('UserPreference.comments_sorting',aa('asc',__('In chronological order',true),'desc',__('In reverse chronological order',true)),null,null,false) ?></p>
 </div>

@@ -164,7 +164,9 @@ class MyController extends AppController
       #      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
       $this->data['User']['id'] = $this->current_user['id'];
       if($this->User->save($this->data)) {
-        #        @user.pref.save
+        $this->data['UserPreference']['user_id'] = $this->User->id;
+        if (isset($this->current_user['UserPreference']['id'])) $this->data['UserPreference']['id'] = $this->current_user['UserPreference']['id'];
+        $this->User->UserPreference->save($this->data);
         $notified_project_ids = array();
         if ($this->data['User']['notification_option'] === 'selected') {
           $notified_project_ids = array_filter($this->data['User']['notified_project_ids']);
@@ -188,7 +190,7 @@ class MyController extends AppController
       $notification_options['none']= __("\"Only for things I watch or I'm involved in\"",true);
       
       $project_ids = $this->User->notified_projects_ids($this->current_user['id']);
-      $this->data['User']['notified_projects_ids'] = $project_ids;
+      $this->data['User']['notified_project_ids'] = $project_ids;
       $notification_option = empty($project_ids) ? 'none' : 'selected';
       $this->set('notification_options',$notification_options);
       $this->set('notification_option',$notification_option);      

@@ -2138,7 +2138,7 @@ msgstr "テスト"
 
 # label_user_mail_option_selected
 msgid "\"For any event on the selected projects only...\""
-msgstr "\"選択したプロジェクト...\""
+msgstr "選択したプロジェクト..."
 
 # label_start_to_start
 msgid "start to start"
@@ -2608,7 +2608,7 @@ msgstr "有効にする"
 
 # label_user_mail_option_all
 msgid "\"For any event on all my projects\""
-msgstr "\"参加しているプロジェクトの全てのチケット\""
+msgstr "参加しているプロジェクトの全てのチケット"
 
 # field_column_names
 msgid "Columns"
@@ -2624,7 +2624,7 @@ msgstr "ユーザ文書"
 
 # label_user_mail_option_none
 msgid "\"Only for things I watch or I'm involved in\""
-msgstr "\"ウォッチまたは関係しているチケットのみ\""
+msgstr "ウォッチまたは関係しているチケットのみ"
 
 # label_topic_plural
 msgid "Topics"

@@ -28,6 +28,7 @@ class UserPreference extends AppModel
   function beforeSave()
   {
 #    self.others ||= {}
+    return true;
   }
   
 #  def [](attr_name)
