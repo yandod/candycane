@@ -29,12 +29,26 @@ class UserPreference extends AppModel
   function beforeSave()
   {
     //pr($this->data);
-    if (isset($this->data['pref'])) {
-      $this->data['UserPreference']['others'] = Spyc::YAMLDump($this->data['pref']);
+    if (isset($this->data['UserPreference']['pref'])) {
+      $this->data['UserPreference']['others'] = Spyc::YAMLDump($this->data['UserPreference']['pref']);
     }
 #    self.others ||= {}
     return true;
   }
+  
+  function afterFind($results, $primary = false)
+  {
+    if (isset($results['id'])) {
+      $results['pref'] = Spyc::YAMLLoad($results['others']);
+      return $results;
+    }
+    foreach($results as $key => $result) {
+      $result['UserPreference']['pref'] = Spyc::YAMLLoad($result['UserPreference']['others']);
+      $results[$key] = $result;
+    }
+    return $results;  
+  }
+  
   
 #  def [](attr_name)
 #    if attribute_present? attr_name

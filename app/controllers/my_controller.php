@@ -161,7 +161,7 @@ class MyController extends AppController
       #      @user.attributes = params[:user]
       #      @user.mail_notification = (params[:notification_option] == 'all')
       #      @user.pref.attributes = params[:pref]
-      $this->data['pref']['no_self_notified'] = ($this->data['pref']['no_self_notified'] == '1');
+      $this->data['UserPreference']['pref']['no_self_notified'] = ($this->data['UserPreference']['pref']['no_self_notified'] == '1');
       $this->data['User']['id'] = $this->current_user['id'];
       if($this->User->save($this->data)) {
         $this->data['UserPreference']['user_id'] = $this->User->id;
@@ -179,6 +179,7 @@ class MyController extends AppController
       }
     } else {
       $this->data = $this->User->find('first',aa('conditions',aa('User.id',$this->current_user['id'])));
+//      $this->set('pref',$this->User->UserPreference->yaml2array($this->data['UserPreference']['others']));
     }
       $notification_options = array();
       $notification_options['all']= __("\"For any event on all my projects\"",true);
