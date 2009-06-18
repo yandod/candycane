@@ -161,7 +161,7 @@ class MyController extends AppController
       #      @user.attributes = params[:user]
       #      @user.mail_notification = (params[:notification_option] == 'all')
       #      @user.pref.attributes = params[:pref]
-      #      @user.pref[:no_self_notified] = (params[:no_self_notified] == '1')
+      $this->data['pref']['no_self_notified'] = ($this->data['pref']['no_self_notified'] == '1');
       $this->data['User']['id'] = $this->current_user['id'];
       if($this->User->save($this->data)) {
         $this->data['UserPreference']['user_id'] = $this->User->id;

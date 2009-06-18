@@ -8,6 +8,7 @@
  * UserPreference
  *
  */
+App::Import('vendor', 'spyc');
 class UserPreference extends AppModel
 {
   var $belongsTo = array('User');
@@ -27,6 +28,10 @@ class UserPreference extends AppModel
    */
   function beforeSave()
   {
+    //pr($this->data);
+    if (isset($this->data['pref'])) {
+      $this->data['UserPreference']['others'] = Spyc::YAMLDump($this->data['pref']);
+    }
 #    self.others ||= {}
     return true;
   }
