@@ -42,7 +42,8 @@ class MyController extends AppController
   #         :only => [:add_block, :remove_block, :order_blocks]
   #
   #  # Manage user's password
-  #  def password
+  function password()
+  {
   #    @user = User.current
   #    flash[:error] = l(:notice_can_t_change_password) and redirect_to :action => 'account' and return if @user.auth_source_id
   #    if request.post?
@@ -56,7 +57,7 @@ class MyController extends AppController
   #        flash[:error] = l(:notice_account_wrong_password)
   #      end
   #    end
-  #  end
+  }
   #  
   #  # Create a new feeds key
   #  def reset_rss_key
@@ -179,7 +180,6 @@ class MyController extends AppController
       }
     } else {
       $this->data = $this->User->find('first',aa('conditions',aa('User.id',$this->current_user['id'])));
-//      $this->set('pref',$this->User->UserPreference->yaml2array($this->data['UserPreference']['others']));
     }
       $notification_options = array();
       $notification_options['all']= __("\"For any event on all my projects\"",true);
