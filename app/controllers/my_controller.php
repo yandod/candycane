@@ -44,19 +44,26 @@ class MyController extends AppController
   #  # Manage user's password
   function password()
   {
-  #    @user = User.current
-  #    flash[:error] = l(:notice_can_t_change_password) and redirect_to :action => 'account' and return if @user.auth_source_id
-  #    if request.post?
+    // cann't change password ,user has auth_source_id
+    if ($this->current_user['auth_source_id']) {
+      $this->Session->setFlash(__('This account uses an external authentication source. Impossible to change the password.', true), 'default', array('class'=>'flash flash_notice'));
+      $this->redirect('account');
+    }
+    if( !empty($this->data)) {
+      if ($this->User->check_password($this->data['User']['password'],$this->current_user)) {
   #      if @user.check_password?(params[:password])
   #        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
   #        if @user.save
+        $this->Session->setFlash(__('Password was successfully updated.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect('account');
   #          flash[:notice] = l(:notice_account_password_updated)
   #          redirect_to :action => 'account'
   #        end
-  #      else
-  #        flash[:error] = l(:notice_account_wrong_password)
-  #      end
-  #    end
+      } else {
+        $this->Session->setFlash(__('Wrong password', true), 'default', array('class'=>'flash flash_error'));
+        #        flash[:error] = l(:notice_account_wrong_password)
+      }
+    }
   }
   #  
   #  # Create a new feeds key

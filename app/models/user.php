@@ -112,9 +112,10 @@ class User extends AppModel
 #    self.status == STATUS_LOCKED
 #  end
 #
-#  def check_password?(clear_password)
-#    User.hash_password(clear_password) == self.hashed_password
-#  end
+  function check_password($clear_password,$current_user)
+  {
+    return strcmp($this->hash_password($clear_password),$current_user['hashed_password']) === 0;
+  }
 #  
 #  def pref
 #    self.preference ||= UserPreference.new(:user => self)
