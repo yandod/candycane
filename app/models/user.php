@@ -115,6 +115,9 @@ class User extends AppModel
   );
   function validates_confirmation_of($params,$opt)
   {
+    if ( !isset($this->data['User']['password'])) {
+      return true;
+    }
     $assoc = each($params);
     if ($this->data['User'][$assoc['key']] === $this->data['User'][$assoc['key'].'_confirmation']) {
       return true;
@@ -458,7 +461,7 @@ class User extends AppModel
   function updateAttribute($user, $last_login_on)
   {
     $user['last_login_on'] = $last_login_on;
-    $this->save($user);
+    $this->save($user,false);
   }
 
   /** 
