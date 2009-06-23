@@ -108,7 +108,8 @@ class User extends AppModel
         'rule' => array('minLength',4)
       ),
       'validates_confirmation_of' => array(
-        'rule' => array('validates_confirmation_of')
+        'rule' => array('validates_confirmation_of'),
+        'on' => 'update'
       ),
     ),
   );
