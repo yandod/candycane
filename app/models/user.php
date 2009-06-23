@@ -56,19 +56,70 @@ class User extends AppModel
 #  # Prevents unauthorized assignments
 #  attr_protected :login, :admin, :password, :password_confirmation, :hashed_password
 #	
-#  validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
-#  validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
-#  validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }
-#  # Login must contain lettres, numbers, underscores only
-#  validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
-#  validates_length_of :login, :maximum => 30
-#  validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i
-#  validates_length_of :firstname, :lastname, :maximum => 30
-#  validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
-#  validates_length_of :mail, :maximum => 60, :allow_nil => true
-#  validates_length_of :password, :minimum => 4, :allow_nil => true
-#  validates_confirmation_of :password, :allow_nil => true
-  
+  /**
+   * no implement:
+   * validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
+   * validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
+   * validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }
+   * # Login must contain lettres, numbers, underscores only
+   * validates_length_of :login, :maximum => 30
+   * validates_length_of :firstname, :lastname, :maximum => 30
+   * validates_length_of :mail, :maximum => 60, :allow_nil => true
+   * validates_length_of :password, :minimum => 4, :allow_nil => true
+   * validates_confirmation_of :password, :allow_nil => true
+   *
+   * implemented:
+   * validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
+   * validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i
+   * validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
+   */
+  var $validate = array(
+    'login' => array(
+      'validates_uniqueness_of' => array(
+        'rule' => 'isUnique',
+        'onCreate' => true,
+        'allowEmpty' => false,
+      )
+    ),
+    'firstname' => array(
+      'validates_not_empty' => array(
+        'rule' => array('notEmpty')
+      ),
+    ),
+    'lastname' => array(
+      'validates_not_empty' => array(
+        'rule' => array('notEmpty')
+      ),
+    ),
+    'mail' => array(
+      'validates_invalid_of' => array(
+        'rule' => array('email', false),
+      ),
+      'validates_not_empty' => array(
+        'rule' => array('notEmpty'),
+      )
+    ),
+    'username' => array(
+      'rule' => 'alphaNumeric',
+      'allowEmpty' => false
+    ),
+    'password' => array(
+      'minLength' => array(
+        'rule' => array('minLength',4)
+      ),
+      'validates_confirmation_of' => array(
+        'rule' => array('validates_confirmation_of')
+      ),
+    ),
+  );
+  function validates_confirmation_of($params,$opt)
+  {
+    $assoc = each($params);
+    if ($this->data['User'][$assoc['key']] === $this->data['User'][$assoc['key'].'_confirmation']) {
+      return true;
+    }
+    return false;
+  }
 #  def reload(*args)
 #    @name = nil
 #    super
@@ -307,59 +358,7 @@ class User extends AppModel
 
 
 
-  /**
-   * no implement:
-   * validates_presence_of :login, :firstname, :lastname, :mail, :if => Proc.new { |user| !user.is_a?(AnonymousUser) }
-   * validates_uniqueness_of :login, :if => Proc.new { |user| !user.login.blank? }
-   * validates_uniqueness_of :mail, :if => Proc.new { |user| !user.mail.blank? }
-   * # Login must contain lettres, numbers, underscores only
-   * validates_length_of :login, :maximum => 30
-   * validates_length_of :firstname, :lastname, :maximum => 30
-   * validates_length_of :mail, :maximum => 60, :allow_nil => true
-   * validates_length_of :password, :minimum => 4, :allow_nil => true
-   * validates_confirmation_of :password, :allow_nil => true
-   *
-   * implemented:
-   * validates_format_of :login, :with => /^[a-z0-9_\-@\.]*$/i
-   * validates_format_of :firstname, :lastname, :with => /^[\w\s\'\-\.]*$/i
-   * validates_format_of :mail, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_nil => true
-   */
-  var $validate = array(
-    'login' => array(
-      'validates_uniqueness_of' => array(
-        'rule' => 'isUnique',
-        'onCreate' => true,
-        'allowEmpty' => false,
-      )
-    ),
-    'firstname' => array(
-      'validates_not_empty' => array(
-        'rule' => array('notEmpty')
-      ),
-    ),
-    'lastname' => array(
-      'validates_not_empty' => array(
-        'rule' => array('notEmpty')
-      ),
-    ),
-    'mail' => array(
-      'validates_invalid_of' => array(
-        'rule' => array('email', false),
-      ),
-      'validates_not_empty' => array(
-        'rule' => array('notEmpty'),
-      )
-    ),
-    'username' => array(
-      'rule' => 'alphaNumeric',
-      'allowEmpty' => false
-    ),
-    'password' => array(
-      'minLength' => array(
-        'rule' => array('minLength',4)
-      ),
-    ),
-  );
+
 
   /**
    * beforeCreate

@@ -51,14 +51,14 @@ class MyController extends AppController
     }
     if( !empty($this->data)) {
       if ($this->User->check_password($this->data['User']['password'],$this->current_user)) {
-  #      if @user.check_password?(params[:password])
-  #        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
-  #        if @user.save
-        $this->Session->setFlash(__('Password was successfully updated.', true), 'default', array('class'=>'flash flash_notice'));
-        $this->redirect('account');
-  #          flash[:notice] = l(:notice_account_password_updated)
-  #          redirect_to :action => 'account'
-  #        end
+        $data = $this->data;
+        $data['User']['id'] = $this->current_user['id'];
+        $data['User']['password'] = $this->data['User']['new_password'];
+        $data['User']['password_confirmation'] = $this->data['User']['new_password_confirmation'];
+        if ($this->User->save($data)) {
+          $this->Session->setFlash(__('Password was successfully updated.', true), 'default', array('class'=>'flash flash_notice'));
+          $this->redirect('account');
+        }
       } else {
         $this->Session->setFlash(__('Wrong password', true), 'default', array('class'=>'flash flash_error'));
         #        flash[:error] = l(:notice_account_wrong_password)

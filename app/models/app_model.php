@@ -15,7 +15,8 @@ class AppModel extends Model {
     'validates_not_same_project' => 'Doesn\'t belong to the same project.',
     'validates_circular_dependency' => 'This relation would create a circular dependency',
     'validates_not_empty' => 'can\'t be blank',
- 
+    'validates_confirmation_of' => 'doesn\'t match confirmation',
+  
   
     'date_format' => 'Please input in the date format.',
     'compare_from_to' => 'Start time should specify the past from finish time.',
