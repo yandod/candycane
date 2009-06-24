@@ -65,15 +65,18 @@ class MyController extends AppController
       }
     }
   }
-  #  
-  #  # Create a new feeds key
-  #  def reset_rss_key
+
+  # Create a new feeds key
+  function reset_rss_key()
+  {
   #    if request.post? && User.current.rss_token
   #      User.current.rss_token.destroy
   #      flash[:notice] = l(:notice_feeds_access_key_reseted)
   #    end
-  #    redirect_to :action => 'account'
-  #  end
+    $this->User->RssToken->destroy($this->current_user['id'],'feeds');
+    $this->Session->setFlash(__('Your RSS access key was reset.', true), 'default', array('class'=>'flash flash_notice'));
+    $this->redirect('account');
+  }
   #
   #  # User's page layout configuration
   #  def page_layout

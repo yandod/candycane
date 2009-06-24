@@ -71,5 +71,24 @@ class Token extends AppModel
 #    40.times { |i| token_value << chars[rand(chars.size-1)] }
 #    token_value
   }
+  
+  function destroy($user_id,$action)
+  {
+    $this->deleteAll(
+      array(
+        'action =' => $action,
+        'user_id =' => $user_id,
+      )
+    );
+    $this->save(
+      array(
+        $this->alias => array(
+          'user_id' => $user_id,
+          'action' => $action,
+          'value' => $this->_generate_token_value()
+        )
+      )
+    );
+  }
 }
 
