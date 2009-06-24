@@ -1,8 +1,8 @@
 <div class="contextual">
-  <?php e($html->link(__('label_personalize_page', true), '/my/page_layout')); ?>
+  <?php e($html->link(__('Personalize this page', true), '/my/page_layout')); ?>
 </div>
 
-<h2><?php __('label_my_page'); ?></h2>
+<h2><?php echo $candy->html_title(__('My page',true), true); ?></h2>
 
 <div id="list-top">
   <% @blocks['top'].each do |b| 
@@ -39,4 +39,3 @@
 <div id="context-menu" style="display: none;"></div>
 <%= javascript_tag "new ContextMenu('#{url_for(:controller => 'issues', :action => 'context_menu')}')" %>
 
-<?php $candy->html_title(__('label_my_page'), true); ?>
