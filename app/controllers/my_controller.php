@@ -13,6 +13,8 @@ class MyController extends AppController
   var $uses = array('User', 'Project');
   #  helper :issues
 
+  var $BLOCKS;
+  var $DEFAULT_LAYOUT;
   /**
    * beforeFilter
    *
@@ -22,9 +24,13 @@ class MyController extends AppController
   {
     parent::beforeFilter();
     $this->require_login();
+    $this->defineBlocks();
   }
 
-  #  BLOCKS = { 'issuesassignedtome' => :label_assigned_to_me_issues,
+  function defineBlocks()
+  {
+    $this->BLOCKS = array(
+      'issuesassignedtome' => __('Issues assigned to me',true),
   #             'issuesreportedbyme' => :label_reported_issues,
   #             'issueswatched' => :label_watched_issues,
   #             'news' => :label_news_latest,
@@ -32,11 +38,13 @@ class MyController extends AppController
   #             'documents' => :label_document_plural,
   #             'timelog' => :label_spent_time
   #           }.freeze
-  #
-  #  DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'], 
-  #                      'right' => ['issuesreportedbyme'] 
-  #                   }.freeze
-  #
+    );
+  
+    $this->DEFAULT_LAYOUT = array(
+      'left' => a('issuesassignedtome'), 
+      'right' => a('issuesreportedbyme') 
+    );
+  }
   #  verify :xhr => true,
   #         :session => :page_layout,
   #         :only => [:add_block, :remove_block, :order_blocks]
@@ -155,6 +163,7 @@ class MyController extends AppController
   function page()
   {
     $this->set('user', $this->current_user);
+    $this->set('blocks',$this->DEFAULT_LAYOUT);
     #    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
   }
 

@@ -5,30 +5,33 @@
 <h2><?php echo $candy->html_title(__('My page',true), true); ?></h2>
 
 <div id="list-top">
-  <% @blocks['top'].each do |b| 
-    next unless MyController::BLOCKS.keys.include? b	%>
+  <?php if (isset($blocks['top'])):
+  foreach($blocks['top'] as $b): ?>
   <div class="mypage-box">        
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+    <?php echo $this->renderElement("my/blocks/{$b}") ?>        
   </div>
-  <% end if @blocks['top'] %>
+  <?php endforeach; ?>
+  <?php endif; ?>
 </div>
 
 <div id="list-left" class="splitcontentleft">
-  <% @blocks['left'].each do |b| 
-    next unless MyController::BLOCKS.keys.include? b %>
-  <div class="mypage-box">        
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+  <?php if (isset($blocks['left'])):
+  foreach($blocks['left'] as $b): ?>
+  <div class="mypage-box">
+    <?php echo $this->renderElement("my/blocks/{$b}") ?>        
   </div>
-  <% end if @blocks['left'] %>
+  <?php endforeach; ?>
+  <?php endif; ?>
 </div>
 
 <div id="list-right" class="splitcontentright">
-  <% @blocks['right'].each do |b| 
-    next unless MyController::BLOCKS.keys.include? b %>
+  <?php if (isset($blocks['right'])):
+  foreach($blocks['right'] as $b): ?>
   <div class="mypage-box">        
-    <%= render :partial => "my/blocks/#{b}", :locals => { :user => @user } %>
+    <?php echo $this->renderElement("my/blocks/{$b}") ?>        
   </div>
-  <% end if @blocks['right'] %>
+  <?php endforeach; ?>
+  <?php endif; ?>
 </div>
 
 <% content_for :header_tags do %>
