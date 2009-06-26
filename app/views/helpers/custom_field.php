@@ -30,15 +30,17 @@ class CustomFieldHelper extends AppHelper
       }
     }
   }
-/*
-  def custom_fields_tabs
-    tabs = [{:name => 'IssueCustomField', :label => :label_issue_plural},
-            {:name => 'TimeEntryCustomField', :label => :label_spent_time},
-            {:name => 'ProjectCustomField', :label => :label_project_plural},
-            {:name => 'UserCustomField', :label => :label_user_plural}
-            ]
-  end
-*/
+
+  function custom_fields_tabs() {
+    $tabs = array(
+      array('name' => 'IssueCustomField', 'label' => __('Issues',true)),
+      array('name' => 'TimeEntryCustomField', 'label' => __('Spent time',true)),
+      array('name' => 'ProjectCustomField', 'label' => __('Projects',true)),
+      array('name' => 'UserCustomField', 'label' => __('Users',true))
+    );
+    return $tabs;
+  }
+
   # Return custom field html tag corresponding to its format
   function custom_field_tag($formHelper, $name, $custom_value) {	
     $custom_field = $custom_value['CustomField'];
@@ -156,6 +158,23 @@ class CustomFieldHelper extends AppHelper
       }
     }
     return $value;
+  }
+  
+  function sort_custom_fields_by_type($custom_fields_by_type, $tab) {
+    $target = array();
+    if (!empty($custom_fields_by_type[$tab['name']])) {
+      $target = $custom_fields_by_type[$tab['name']];
+    }
+    usort($target, array($this, '__sort_custom_fields_by_type'));
+    return $target;
+  }
+  function __sort_custom_fields_by_type($a, $b) {
+    return $a['CustomField']['position'] - $b['CustomField']['position'];
+  }
+  
+  function field_format($field_format, $name) {
+    $model = ClassRegistry::init('CustomField');
+    return $model->FIELD_FORMATS[$field_format][$name];
   }
 }
 

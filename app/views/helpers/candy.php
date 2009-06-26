@@ -1261,6 +1261,9 @@ function breadcrumb($args)
       return $one;
     }
   }
+  function reset_cycle() {
+    $this->row = 0;
+  }
   function label_text($text) {
     if (strpos($text, '.') !== false) {
       $text = array_pop(explode('.', $text));
