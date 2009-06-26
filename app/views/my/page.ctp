@@ -33,12 +33,12 @@
   <?php endforeach; ?>
   <?php endif; ?>
 </div>
-
+<!-- 
 <% content_for :header_tags do %>
     <%= javascript_include_tag 'context_menu' %>
     <%= stylesheet_link_tag 'context_menu' %>
 <% end %>
-
+-->
 <div id="context-menu" style="display: none;"></div>
 <%= javascript_tag "new ContextMenu('#{url_for(:controller => 'issues', :action => 'context_menu')}')" %>
 

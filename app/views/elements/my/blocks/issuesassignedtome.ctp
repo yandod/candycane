@@ -3,7 +3,9 @@
 $Issue = ClassRegistry::init('Issue');
 $assigned_issues = $Issue->find('all',
   array(
-    'conditions' => aa('Issue.assigned_to_id',$currentuser['id'])
+    'conditions' => aa('Issue.assigned_to_id',$currentuser['id']),
+    'limit' => 10,
+    'order' => 'Issue.updated_on DESC'
   )
 );
 ?>
@@ -16,9 +18,10 @@ $assigned_issues = $Issue->find('all',
 ?>
 <?php echo $this->renderElement('issues/list_simple',array('issues'=>$assigned_issues)) ?>
 <?php //<%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %> ?>
-<% if assigned_issues.length > 0 %>
-<p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => 'me' %></p>
-<% end %>
+<?php if (count($assigned_issues) > 0): ?>
+<?php //<p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => 'me' %></p> ?>
+<p class="small"><?php echo $html->link(__('View all issues',true), aa('controller','issues','action','index','set_filter',1,'assigned_to_id','me' )) ?></p>
+<?php endif; ?>
 <?php
 //<% content_for :header_tags do %>
 //<%= auto_discovery_link_tag(:atom, 

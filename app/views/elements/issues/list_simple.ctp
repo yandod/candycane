@@ -26,5 +26,5 @@
 	</table>
 <!-- <% end %> -->
 <?php else: ?>
-	<p class="nodata"><%= l(:label_no_data) %></p>
+	<p class="nodata"><?php __('No data to display') ?></p>
 <?php endif; ?>
