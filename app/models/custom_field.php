@@ -3,7 +3,25 @@
 class CustomField extends AppModel
 {
   var $name = 'CustomField';
+  var $actsAs = array('List');
 
+  var $FIELD_FORMATS = array(
+            "string" => array( 'name' => 'Text', 'order' => 1 ),
+            "text" => array( 'name' => 'Long text', 'order' => 2 ),
+            "int" => array( 'name' => 'Integer', 'order' => 3 ),
+            "float" => array( 'name' => 'Float', 'order' => 4 ),
+            "list" => array( 'name' => 'List', 'order' => 5 ),
+			      "date" => array( 'name' => 'Date', 'order' => 6 ),
+			      "bool" => array( 'name' => 'Boolean', 'order' => 7 )
+  );
+
+  function group_by($fields, $name) {
+    $results = array();
+    foreach($fields as $field) {
+      $results[$field[$this->name][$name]][] = $field;
+    }
+    return $results;
+  }
 }
 
 ## redMine - project management software

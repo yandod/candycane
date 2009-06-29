@@ -17,18 +17,35 @@
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 #class CustomFieldsController < ApplicationController
-#  before_filter :require_admin
-#
-#  def index
-#    list
-#    render :action => 'list' unless request.xhr?
-#  end
-#
-#  def list
-#    @custom_fields_by_type = CustomField.find(:all).group_by {|f| f.class.name }
-#    @tab = params[:tab] || 'IssueCustomField'
-#    render :action => "list", :layout => false if request.xhr?
-#  end
+class CustomFieldsController extends AppController {
+  var $name = 'CustomFields';
+  var $components = array(
+    'RequestHandler',
+  );
+  var $helpers = array(
+    'CustomField',
+  );
+
+  function beforeFilter()
+  {
+    parent::beforeFilter();
+    $this->require_admin();
+  }
+    
+  function index() {
+    $custom_fields_by_type = $this->CustomField->group_by($this->CustomField->find('all'), 'type');
+    $tab = $this->_get_param('tab');
+    if (empty($tab)) {
+      $tab = 'IssueCustomField';
+    }
+
+    $this->set('selected_tab', $tab);
+    $this->set('custom_fields_by_type', $custom_fields_by_type);
+    if ($this->RequestHandler->isAjax()) {
+      $this->layout = 'ajax';
+    }
+    $this->render("list");
+  }
 #  
 #  def new
 #    case params[:type]
@@ -87,3 +104,4 @@
 #    redirect_to :action => 'list'
 #  end
 #end
+}
