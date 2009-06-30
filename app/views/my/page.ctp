@@ -33,12 +33,7 @@
   <?php endforeach; ?>
   <?php endif; ?>
 </div>
-<!-- 
-<% content_for :header_tags do %>
-    <%= javascript_include_tag 'context_menu' %>
-    <%= stylesheet_link_tag 'context_menu' %>
-<% end %>
--->
+<?php echo $javascript->link(a('context_menu')) ?>
+<?php echo $html->css('context_menu')  ?>
 <div id="context-menu" style="display: none;"></div>
-<%= javascript_tag "new ContextMenu('#{url_for(:controller => 'issues', :action => 'context_menu')}')" %>
-
+<?php echo $javascript->codeBlock("new ContextMenu('".$html->url(aa('controller','issues','action','context_menu'))."')") ?>

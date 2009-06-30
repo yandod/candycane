@@ -1,6 +1,6 @@
 <?php if ( !empty($issues)): ?>
 <!-- <% if issues && issues.any? %> -->
-<!-- <% form_tag({}) do %> -->
+<form method="post">
 	<table class="list issues">		
 		<thead><tr>
 		<th>#</th>
@@ -9,9 +9,10 @@
 		</tr></thead>
 		<tbody>	
 		<?php foreach($issues as $issue): ?>
-		<tr id="issue-<%= issue.id %>" class="hascontextmenu <%= cycle('odd', 'even') %> <%= css_issue_classes(issue) %>">
+		<tr id="issue-<?php echo $issue['Issue']['id'] ?>" class="hascontextmenu <?php echo $candy->cycle('odd','even')?> <%= css_issue_classes(issue) %>">
 			<td class="id">
 <!-- 			    <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>-->
+					<input type="checkbox" name="ids[]" value="<?php echo h($issue['Issue']['id']) ?>" style="display:none">
 <!-- 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %> -->
 				<?php echo $html->link($issue['Issue']['id'],aa('controller','issues','action','show','id',$issue['Issue']['id'])); ?>
 			</td>
@@ -24,7 +25,7 @@
 		<?php endforeach; ?>
 		</tbody>
 	</table>
-<!-- <% end %> -->
+</form>
 <?php else: ?>
 	<p class="nodata"><?php __('No data to display') ?></p>
 <?php endif; ?>

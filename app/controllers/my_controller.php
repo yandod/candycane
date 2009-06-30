@@ -69,7 +69,6 @@ class MyController extends AppController
         }
       } else {
         $this->Session->setFlash(__('Wrong password', true), 'default', array('class'=>'flash flash_error'));
-        #        flash[:error] = l(:notice_account_wrong_password)
       }
     }
   }
@@ -77,24 +76,22 @@ class MyController extends AppController
   # Create a new feeds key
   function reset_rss_key()
   {
-  #    if request.post? && User.current.rss_token
-  #      User.current.rss_token.destroy
-  #      flash[:notice] = l(:notice_feeds_access_key_reseted)
-  #    end
+    //TODO: POST check
     $this->User->RssToken->destroy($this->current_user['id'],'feeds');
     $this->Session->setFlash(__('Your RSS access key was reset.', true), 'default', array('class'=>'flash flash_notice'));
     $this->redirect('account');
   }
-  #
-  #  # User's page layout configuration
-  #  def page_layout
+
+  # User's page layout configuration
+  function page_layout()
+  {
   #    @user = User.current
   #    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
   #    session[:page_layout] = @blocks
   #    %w(top left right).each {|f| session[:page_layout][f] ||= [] }
   #    @block_options = []
   #    BLOCKS.each {|k, v| @block_options << [l(v), k]}
-  #  end
+  }
   #  
   #  # Add a block to user's page
   #  # The block is added on top of the page
