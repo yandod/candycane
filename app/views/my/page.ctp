@@ -1,5 +1,5 @@
 <div class="contextual">
-  <?php e($html->link(__('Personalize this page', true), '/my/page_layout')); ?>
+  <?php e($html->link(__('Personalize this page', true), '/my/page_layout',aa('onclick','alert("not yet");return false;'))); ?>
 </div>
 
 <h2><?php echo $candy->html_title(__('My page',true), true); ?></h2>

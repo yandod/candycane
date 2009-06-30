@@ -51,7 +51,7 @@
   <p><em><?php __("\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""); ?></em></p>
   </div>
 
-  <p><label><?php echo $form->checkbox('UserPreference.pref.no_self_notified',aa('value',1,'checked',$this->data['UserPreference']['pref']['no_self_notified'])) ?> <?php echo (__("\"I don't want to be notified of changes that I make myself\"",true))?></label></p>
+  <p><label><?php echo $form->checkbox('UserPreference.pref.no_self_notified',aa('value',1,'checked',(isset($this->data['UserPreference']['pref']['no_self_notified']) && $this->data['UserPreference']['pref']['no_self_notified']))) ?> <?php echo (__("\"I don't want to be notified of changes that I make myself\"",true))?></label></p>
 </div>
 
 <h3><?php __('Preferences') ?></h3>
