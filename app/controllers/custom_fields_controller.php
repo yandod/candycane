@@ -34,6 +34,7 @@ class CustomFieldsController extends AppController {
     
   function index() {
     $custom_fields_by_type = $this->CustomField->group_by($this->CustomField->find('all'), 'type');
+    $this->CustomField->count_project($custom_fields_by_type);
     $tab = $this->_get_param('tab');
     if (empty($tab)) {
       $tab = 'IssueCustomField';
@@ -69,8 +70,11 @@ class CustomFieldsController extends AppController {
 #    @trackers = Tracker.find(:all, :order => 'position')
 #  end
 #
-#  def edit
-#    @custom_field = CustomField.find(params[:id])
+  function edit($id) {
+    $this->CustomField->bindModel(array('hasMany'=>array('CustomFieldsTracker')), false);
+    $custom_field = $this->CustomField->read(null, $id);
+    if (!empty($this->data)) {
+//      e(pr($this->data));
 #    if request.post? and @custom_field.update_attributes(params[:custom_field])
 #      if @custom_field.is_a? IssueCustomField
 #        @custom_field.trackers = params[:tracker_ids] ? Tracker.find(params[:tracker_ids]) : []
@@ -78,23 +82,34 @@ class CustomFieldsController extends AppController {
 #      flash[:notice] = l(:notice_successful_update)
 #      redirect_to :action => 'list', :tab => @custom_field.class.name
 #    end
-#    @trackers = Tracker.find(:all, :order => 'position')
-#  end
-#
-#  def move
-#    @custom_field = CustomField.find(params[:id])
-#    case params[:position]
-#    when 'highest'
-#      @custom_field.move_to_top
-#    when 'higher'
-#      @custom_field.move_higher
-#    when 'lower'
-#      @custom_field.move_lower
-#    when 'lowest'
-#      @custom_field.move_to_bottom
-#    end if params[:position]
-#    redirect_to :action => 'list', :tab => @custom_field.class.name
-#  end
+    } else {
+      $this->data = $custom_field;
+    }
+    $Tracker = ClassRegistry::init('Tracker');
+    $this->set('trackers', $Tracker->find('list', array('order' => 'position')));
+    $this->set('custom_field', $custom_field);
+  }
+
+  function move($id) {
+    $this->CustomField->read(null, $id);
+    if(!empty($this->params['named']['position'])) {
+      switch($this->params['named']['position']) {
+      case 'highest' :
+        $this->CustomField->move_to_top();
+        break;
+      case 'higher' :
+        $this->CustomField->move_higher();
+        break;
+      case 'lower' :
+        $this->CustomField->move_lower();
+        break;
+      case 'lowest' :
+        $this->CustomField->move_to_bottom();
+        break;
+      }
+      $this->redirect(array('action'=>'index', '?'=>array('tab'=>$this->CustomField->data[$this->CustomField->alias]['type'])));
+    }
+  }
 #  
 #  def destroy
 #    @custom_field = CustomField.find(params[:id]).destroy
