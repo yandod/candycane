@@ -1,4 +1,4 @@
-<h2><?php __('Custom fields') ?></h2>
+<h2><?php __('Custom fields'); ?></h2>
 
 <div class="tabs">
 <ul>
@@ -33,7 +33,7 @@
   <td align="center"><?php echo $custom_field['CustomField']['is_required'] ? $html->image('true.png') : '&nbsp;'; ?></td>
   <?php if ($tab['name'] == 'IssueCustomField'): ?>
   <td align="center"><?php echo $custom_field['CustomField']['is_for_all'] ? $html->image('true.png') : '&nbsp;'; ?></td>
-  <td align="center"><?php echo ($custom_field['CustomField']['type'] == 'IssueCustomField' && !$custom_field['CustomField']['is_for_all']) ? /*count($custom_field.projects) + ' ' + lwr(:label_project, custom_field.projects.count)*/ 'count' : '&nbsp;'; ?></td>
+  <td align="center"><?php echo ($custom_field['CustomField']['type'] == 'IssueCustomField' && !$custom_field['CustomField']['is_for_all']) ? $custom_field['Project']['count_all'].' '.__n('Project', 'Projects', $custom_field['Project']['count_all'], true) : '&nbsp;'; ?></td>
   <?php endif; ?>
     <td align="center" style="width:15%;">
       <?php echo $html->link($html->image('2uparrow.png',  array('alt'=>__('Move to top',true))),   array('action'=>'move', 'id'=>$custom_field['CustomField']['id'], 'position'=>'highest'), array('title'=>__('Move to top', true)), null, false); ?>
@@ -57,4 +57,4 @@
 </div>
 <?php endforeach; ?>
 
-<% html_title(l(:label_custom_field_plural)) -%>
+<?php $candy->html_title(__('Custom fields',true)); ?>

@@ -22,6 +22,15 @@ class CustomField extends AppModel
     }
     return $results;
   }
+  function count_project(&$list) {
+    if (!empty($list['IssueCustomField'])) {
+      $this->bindModel(array('hasMany'=>array('CustomFieldsProject')), false);
+      foreach($list['IssueCustomField'] as $i=>$field) {
+        $conditions = array('custom_field_id'=>$field[$this->name]['id']);
+        $list['IssueCustomField'][$i]['Project']['count_all'] = $this->CustomFieldsProject->find('count', array('conditions'=>$conditions));
+      }
+    }
+  }
 }
 
 ## redMine - project management software

@@ -40,6 +40,15 @@ class CustomFieldHelper extends AppHelper
     );
     return $tabs;
   }
+  
+  function type_name($field) {
+    foreach ($this->custom_fields_tabs() as $tab) {
+      if ($tab['name'] == $field['CustomField']['type']) {
+        return $tab['label'];
+      }
+    }
+    return '';
+  }
 
   # Return custom field html tag corresponding to its format
   function custom_field_tag($formHelper, $name, $custom_value) {	
@@ -104,6 +113,13 @@ class CustomFieldHelper extends AppHelper
   function custom_field_tag_with_label($formHelper, $name, $custom_value) {
     return $this->custom_field_label_tag($formHelper, $name, $custom_value).$this->custom_field_tag($formHelper, $name, $custom_value);
   }
+  function default_value_tag($custom_field, $form) {
+    $type = 'text';
+    if($custom_field['CustomField']['field_format'] == 'bool') {
+      $type = 'checkbox';
+    }
+    return $form->input('default_value', array('type'=>$type, 'div'=>false, 'label'=>false));
+  }
 
 /*
   # Return a string used to display a custom value
@@ -118,12 +134,39 @@ class CustomFieldHelper extends AppHelper
       value
     end
   end
+*/
 
   # Return an array of custom field formats which can be used in select_tag
-  def custom_field_formats_for_select
-    CustomField::FIELD_FORMATS.sort {|a,b| a[1][:order]<=>b[1][:order]}.collect { |k| [ l(k[1][:name]), k[0] ] }
-  end
-*/
+  function custom_field_formats_for_select() {
+    $model = ClassRegistry::init('CustomField');
+    $formats = $model->FIELD_FORMATS;
+    uasort($formats, array($this, '__sort_custom_field_formats_for_select'));
+    $select = array();
+    foreach ($formats as $k=>$format) {
+      $select[$k] = __($format['name'],true);
+    }
+    return $select;
+  }
+  function __sort_custom_field_formats_for_select($a, $b) {
+    return $a['order'] - $b['order'];
+  }
+  
+  function custom_field_possible_values_for_select($field) {
+    App::Import('vendor', 'spyc');
+    $list = Spyc::YAMLLoad($field['CustomField']['possible_values']);
+    $options = array();
+    if(!empty($list)) {
+      foreach($list as $item) {
+        if(is_array($item)) {
+          $item = $item[0];
+        }
+        $options[$item] = $item;
+      }
+    }
+    $options[] = '';
+    return array_values($options);
+  }
+  
   function format_value($value, $field_format) {
     switch($field_format) {
     case "date" :
@@ -175,6 +218,13 @@ class CustomFieldHelper extends AppHelper
   function field_format($field_format, $name) {
     $model = ClassRegistry::init('CustomField');
     return $model->FIELD_FORMATS[$field_format][$name];
+  }
+  function custom_fields_tracker_selected($custom_field) {
+    $selected = array();
+    foreach ($custom_field['CustomFieldsTracker'] as $customFieldsTracker) {
+      $selected[] = $customFieldsTracker['tracker_id'];
+    }
+    return $selected;
   }
 }
 
