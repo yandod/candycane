@@ -72,7 +72,7 @@ class UsersController extends AppController
     $this->set('settings_tabs',$tabs);
 
     $this->set('user', $user);
-    $this->set('projects', $this->Project->find('all', array('order' => 'name', 'conditions' => array('status' => PROJECT_STATUS_ACTIVE))));
+    $this->set('projects', $this->Project->find('all', array('order' => 'name', 'conditions' => array('Project.status' => PROJECT_STATUS_ACTIVE))));
 #    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
 
 #    @auth_sources = AuthSource.find(:all)
