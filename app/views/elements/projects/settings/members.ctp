@@ -20,7 +20,7 @@ foreach ($roles_data as $roles_row) {
 	<tr class="<?php echo $candy->cycle() ?>">
 	<td><?php echo $candy->format_username($member_row['User']) ?></td>
     <td align="center">
-    <?php if ($candy->authorize_for(aa('contrller','members','action','edit'))): ?>
+    <?php if ($candy->authorize_for(aa('controller','members','action','edit'))): ?>
   <?php echo $ajax->form(
     array('options' =>array(
       'model' => 'Member',
