@@ -85,7 +85,6 @@ class MenuManagerComponent extends Object
   	} else {
       $meta_data = $this->application_menu;
     }
-
     $menu_data = array();
   	foreach ($meta_data as $val) {
   		if ( $val['controller'] == $this->controller->params['controller'] && $val['action'] == $this->controller->params['action'] && !$this->__selected ) {
@@ -138,6 +137,10 @@ class MenuManagerComponent extends Object
       if(!empty($this->controller->current_user) && $User->is_allowed_to($this->controller->current_user, $this->__url($this->__to_allowed_action($menu_item)), $this->controller->_project)) {
         $allows[$key] = $menu_item;
       }
+    }
+    // for wiki existing check
+    if ( is_null($this->controller->_project['Wiki']['start_page']) ) {
+      unset($allows['wiki']);
     }
     return $allows;
   }
