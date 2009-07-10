@@ -152,10 +152,8 @@ class AccountController extends AppController
 
         if ($user === false) {
           // Invalid credentials
-          $this->flash('Invalid credentials', '/account/login');
+          $this->Session->setFlash(__('Invalid user or password',true), 'default', array('class'=>'flash flash_error'));
           return;
-          # flash.now[:error] = l(:notice_account_invalid_creditentials)
-          $this->cakeError('error', array('message' => 'notice_account_invalid_creditentials'));
         } else if ((bool)$this->User->data) {
             // (bool)$this->User->data == new_record
             // Onthefly creation failed, display the registration form to fill/fix attributes
