@@ -2,6 +2,7 @@
 
 class CustomField extends AppModel
 {
+#  has_many :custom_values, :dependent => :delete_all
   var $name = 'CustomField';
   var $actsAs = array('List');
 
@@ -31,39 +32,45 @@ class CustomField extends AppModel
       }
     }
   }
+  var $__add_trackers = array();
+  var $__del_trackers = array();
+  function beforeSave($options = array()) {
+    if ($this->data[$this->name]['type'] == 'IssueCustomField') {
+      $assoc_trackers = Set::extract('{n}.CustomFieldsTracker.tracker_id', $this->CustomFieldsTracker->find('all', array('conditions'=>array('custom_field_id'=>$this->data['CustomField']['id']))));
+      $this->__add_trackers = array_diff($this->data[$this->name]['tracker_id'], $assoc_trackers);
+      $this->__del_trackers = array_diff($assoc_trackers, $this->data[$this->name]['tracker_id']);
+    }
+    unset($this->data[$this->name]['tracker_id']);
+
+    App::Import('vendor', 'spyc');
+    if (!empty($this->data[$this->name]['possible_values'])) {
+      if (empty($this->data[$this->name]['possible_values'][count($this->data[$this->name]['possible_values'])-1])) {
+        unset($this->data[$this->name]['possible_values'][count($this->data[$this->name]['possible_values'])-1]);
+      }
+      $this->data[$this->name]['possible_values'] = Spyc::YAMLDump($this->data[$this->name]['possible_values'], true);
+    } else {
+      $this->data[$this->name]['possible_values'] = '--- []';
+    }
+   
+    return true;
+  }
+  function afterSave($created) {
+    $id = $this->id;
+    if ($created) {
+      $id = $this->getLastInsertID();
+    }
+    $db =& ConnectionManager::getDataSource($this->useDbConfig);
+    foreach ($this->__del_trackers as $del) {
+      $this->CustomFieldsTracker->deleteAll(array('custom_field_id'=>$id, 'tracker_id'=>$del), false);
+    }
+    foreach ($this->__add_trackers as $add) {
+      $db->create($this->CustomFieldsTracker, array('custom_field_id', 'tracker_id'), array($id, $add));
+    }
+  }
+  
+  
 }
 
-## redMine - project management software
-## Copyright (C) 2006  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
-#class CustomField < ActiveRecord::Base
-#  has_many :custom_values, :dependent => :delete_all
-#  acts_as_list :scope => 'type = \'#{self.class}\''
-#  serialize :possible_values
-#  
-#  FIELD_FORMATS = { "string" => { :name => :label_string, :order => 1 },
-#                    "text" => { :name => :label_text, :order => 2 },
-#                    "int" => { :name => :label_integer, :order => 3 },
-#                    "float" => { :name => :label_float, :order => 4 },
-#                    "list" => { :name => :label_list, :order => 5 },
-#			        "date" => { :name => :label_date, :order => 6 },
-#			        "bool" => { :name => :label_boolean, :order => 7 }
-#  }.freeze
-#
 #  validates_presence_of :name, :field_format
 #  validates_uniqueness_of :name, :scope => :type
 #  validates_length_of :name, :maximum => 30

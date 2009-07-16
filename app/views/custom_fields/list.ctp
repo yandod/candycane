@@ -53,7 +53,7 @@
   </tbody>
 </table>
 
-<p><%= link_to l(:label_custom_field_new), {:action => 'new', :type => tab[:name]}, :class => 'icon icon-add' %></p>
+<p><?php echo $html->link(__('New custom field',true), array('action' => 'add', '?'=>array('type' => $tab['name'])), array('class' => 'icon icon-add')); ?></p>
 </div>
 <?php endforeach; ?>
 
