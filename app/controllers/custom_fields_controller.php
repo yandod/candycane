@@ -52,22 +52,20 @@ class CustomFieldsController extends AppController {
     if (!in_array($this->_get_param('type'), array('IssueCustomField', 'UserCustomField', 'ProjectCustomField', 'TimeEntryCustomField'))) {
       $this->redirect('index');
     }
+    $this->CustomField->bindModel(array('hasMany'=>array('CustomFieldsTracker')), false);
     $custom_field = array($this->CustomField->name => array(
       'type'=>$this->_get_param('type'),
     ));
     if (!empty($this->data)) {
-      $custom_field = array_merge_recursive($custom_field, $this->data);
-      $this->CustomField->set($custom_field);
+      $this->CustomField->set($this->data);
       if ($this->CustomField->save()) {
         $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
         $this->redirect(array('action'=>'index', '?'=>array('tab'=>$this->_get_param('type'))));
       }
     } else {
-// ‚¤‚Ü‚­“®‚©‚È‚¢
-//      $this->data = array_merge_recursive($custom_field, array($this->CustomField->name => array('field_format'=>'string')));
+      $this->data = $custom_field;
     }
     if (($this->_get_param('type') == "IssueCustomField") && $this->_get_param('tracker_ids')) {
-      $this->CustomField->bindModel(array('hasMany'=>array('CustomFieldsTracker')), false);
       $custom_field['Tracker'] = $this->CustomFieldsTracker->Tracker.find('list', array('conditions'=>array('id'=>$this->_get_param('tracker_ids'))));
     }
     $Tracker = ClassRegistry::init('Tracker');
