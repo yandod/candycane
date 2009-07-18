@@ -1,21 +1,4 @@
 <?php
-## redMine - project management software
-## Copyright (C) 2006  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
 class NewsController extends AppController {
 	var $name = 'News';
 	var $uses = array( 'News', 'User', 'Project', 'Comment' ) ;
@@ -23,15 +6,40 @@ class NewsController extends AppController {
 
   var $paginate = array( 'order' => array('News.created_on' => 'desc') ) ;
 #class NewsController < ApplicationController
+#  accept_key_auth :index
+#  
+
+  function beforeFilter()
+  {
 #  before_filter :find_news, :except => [:new, :index, :preview]
 #  before_filter :find_project, :only => [:new, :preview]
 #  before_filter :authorize, :except => [:index, :preview]
 #  before_filter :find_optional_project, :only => :index
-#  accept_key_auth :index
-#  
-
-	function index()
-	{
+    $filters = array(
+      '_find_news' => array('except' => array('add','index','preview')),
+      '_find_project' => array('only' =>  array('add','preview')),
+    );
+    
+    foreach ($filters as $name => $param) {
+      
+      if (array_key_exists('except',$param)) {
+        if (in_array($this->action,$param['except'])) {
+          continue;
+        }
+      }
+      if (array_key_exists('only',$param)) {
+        if (in_array($this->action,$param['only']) === false) {
+          continue;
+        }
+      }
+      $this->$name();
+    }
+    
+    return parent::beforeFilter();
+  }
+  
+  function index()
+  {
 #  def index
 #    @news_pages, @newss = paginate :news,
 #                                   :per_page => 10,
@@ -47,22 +55,17 @@ class NewsController extends AppController {
     if ( is_array($this->params) && array_key_exists('project_id', $this->params) ) {
       $options = array('Project.identifier'=>$this->params['project_id']) ;
     }
-    
-			// TODO: view format の切り替え
+     	// TODO: view format の切り替え
 		$this->set('newss', $this->paginate('News', $options));
 	}
 #  
-	function show($id = null)
+	function show()
 	{
 #  def show
 #    @comments = @news.comments
 #    @comments.reverse! if User.current.wants_comments_in_reverse_order?
 #  end
-		if (!$id) {
-			// TODO: error
-		}
-
-		$this->data = $this->News->read(null, $id);
+		$this->data = $this->News->read(null, $this->params['news_id']);
 		$this->set('news', $this->data);
 	}
 
@@ -179,7 +182,19 @@ class NewsController extends AppController {
 #    render_404
 #  end
 #  
-
+  function _find_news()
+  {
+    $this->_news = $this->News->find('first', array(
+      'conditions'=>array('News.id' => $this->params['news_id']),
+      'recursive'=>1
+    ));
+    if (empty($this->_news) or $this->_news === false) {
+      $this->cakeError('error404');
+    }
+    $this->set(array('news'=>$this->_news));
+    $this->params['project_id'] = $this->_news['Project']['identifier'];
+  }
+  
   function _find_project()
   {
 #  def find_project
@@ -198,25 +213,6 @@ class NewsController extends AppController {
     }
   }
   
-  function beforeFilter()
-  {
-    $except = array('show', 'edit', 'destroy', 'add_comment');
-    if (!in_array($this->action, $except)) {
-      $this->_find_project();
-    } else {
-      if ($this->_news = $this->News->find('first', array(
-        'conditions'=>array('News.id' => $this->params['news_id']),
-        'recursive'=>1
-      ))) {
-        $this->set(array('news'=>$this->_news));
-        $this->params['project_id'] = $this->_news['Project']['identifier'];
-      } else {
-        $this->cakeErorr('error404');
-      }
-    }
-    
-    return parent::beforeFilter();
-  }
 #  
 #  def find_optional_project
 #    return true unless params[:project_id]

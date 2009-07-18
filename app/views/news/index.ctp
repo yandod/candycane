@@ -1,5 +1,5 @@
 <div class="contextual">
-<?php echo $candy->link_to_if_authorized(aa('controller','news', 'action','new'), __('Add news', true), array('controller' => 'news', 'action' => 'add', 'project_id' => $main_project['Project']['identifier']), array('onclick' => 'Element.show("add-news"); return false;', 'class' => 'icon icon-add', 'accesskey' => 'accesskey(:edit)')); ?>
+<?php if (isset($main_project)) echo $candy->link_to_if_authorized(aa('controller','news', 'action','new'), __('Add news', true), array('controller' => 'news', 'action' => 'add', 'project_id' => $main_project['Project']['identifier']), array('onclick' => 'Element.show("add-news"); return false;', 'class' => 'icon icon-add', 'accesskey' => 'accesskey(:edit)')); ?>
 </div>
 
 <div id="add-news" style="display:none;">
@@ -29,7 +29,7 @@
 <?php foreach( $newss as $news ) : ?>
     <h3>
     <?php 
-      if ( $news['Project']['id'] != $main_project['Project']['id'] ) {
+      if ( isset($main_project) &&$news['Project']['id'] != $main_project['Project']['id'] ) {
         echo $html->link( h($news['Project']['name']), array( 'controller' => 'projects', 'action' => 'show', 'id' => $news['Project']['id'])) . ': '; 
       }
     ?>
@@ -53,7 +53,7 @@
 <p class="other-formats">
 <?php __("'Also available in:'") ; ?>
 <span>
-<?php echo $html->link('Atom', array('controller' => 'news', 'action' => 'index', 'project_id' => $main_project['Project']['identifier']/*, 'format' => 'atom', 'key' => '' User.current.rss_key*/), array('class' => 'feed')) ?>
+<?php if (isset($main_project)) echo $html->link('Atom', array('controller' => 'news', 'action' => 'index', 'project_id' => $main_project['Project']['identifier']/*, 'format' => 'atom', 'key' => '' User.current.rss_key*/), array('class' => 'feed')) ?>
 </span>
 </p>
 
