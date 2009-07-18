@@ -55,7 +55,7 @@ class News extends AppModel
 	{
 	    $param = array(
 	      'order' => 'News.created_on DESC',
-	      'conditions' => $this->Project->allowed_to_condition($user,':view_news'),
+	      'conditions' => $this->Project->allowed_to_condition($user,'view_news'),
 	      'limit' => $count
 	    );
 		return $this->find('all',$param);
