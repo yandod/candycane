@@ -115,7 +115,7 @@ class CustomFieldHelper extends AppHelper
   }
   function default_value_tag($custom_field, $form) {
     $type = 'text';
-    if($custom_field['CustomField']['field_format'] == 'bool') {
+    if(!empty($custom_field['CustomField']['field_format']) && $custom_field['CustomField']['field_format'] == 'bool') {
       $type = 'checkbox';
     }
     return $form->input('default_value', array('type'=>$type, 'div'=>false, 'label'=>false));
@@ -152,8 +152,11 @@ class CustomFieldHelper extends AppHelper
   }
   
   function custom_field_possible_values_for_select($field) {
+    if (!empty($this->data['CustomField']['possible_values']) && is_array($this->data['CustomField']['possible_values'])) {
+      return $this->data['CustomField']['possible_values'];
+    }
     App::Import('vendor', 'spyc');
-    $list = Spyc::YAMLLoad($field['CustomField']['possible_values']);
+    $list = !empty($field['CustomField']['possible_values']) ? Spyc::YAMLLoad($field['CustomField']['possible_values']) : array();
     $options = array();
     if(!empty($list)) {
       foreach($list as $item) {
@@ -221,8 +224,10 @@ class CustomFieldHelper extends AppHelper
   }
   function custom_fields_tracker_selected($custom_field) {
     $selected = array();
-    foreach ($custom_field['CustomFieldsTracker'] as $customFieldsTracker) {
-      $selected[] = $customFieldsTracker['tracker_id'];
+    if (!empty($custom_field['CustomFieldsTracker'])) {
+      foreach ($custom_field['CustomFieldsTracker'] as $customFieldsTracker) {
+        $selected[] = $customFieldsTracker['tracker_id'];
+      }
     }
     return $selected;
   }

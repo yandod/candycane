@@ -47,41 +47,42 @@ class CustomFieldsController extends AppController {
     }
     $this->render("list");
   }
-#  
-#  def new
-#    case params[:type]
-#      when "IssueCustomField" 
-#        @custom_field = IssueCustomField.new(params[:custom_field])
-#        @custom_field.trackers = Tracker.find(params[:tracker_ids]) if params[:tracker_ids]
-#      when "UserCustomField" 
-#        @custom_field = UserCustomField.new(params[:custom_field])
-#      when "ProjectCustomField" 
-#        @custom_field = ProjectCustomField.new(params[:custom_field])
-#      when "TimeEntryCustomField" 
-#        @custom_field = TimeEntryCustomField.new(params[:custom_field])
-#      else
-#        redirect_to :action => 'list'
-#        return
-#    end  
-#    if request.post? and @custom_field.save
-#      flash[:notice] = l(:notice_successful_create)
-#      redirect_to :action => 'list', :tab => @custom_field.class.name
-#    end
-#    @trackers = Tracker.find(:all, :order => 'position')
-#  end
-#
+
+  function add() {
+    if (!in_array($this->_get_param('type'), array('IssueCustomField', 'UserCustomField', 'ProjectCustomField', 'TimeEntryCustomField'))) {
+      $this->redirect('index');
+    }
+    $this->CustomField->bindModel(array('hasMany'=>array('CustomFieldsTracker')), false);
+    $custom_field = array($this->CustomField->name => array(
+      'type'=>$this->_get_param('type'),
+    ));
+    if (!empty($this->data)) {
+      $this->CustomField->set($this->data);
+      if ($this->CustomField->save()) {
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect(array('action'=>'index', '?'=>array('tab'=>$this->_get_param('type'))));
+      }
+    } else {
+      $this->data = $custom_field;
+    }
+    if (($this->_get_param('type') == "IssueCustomField") && $this->_get_param('tracker_ids')) {
+      $custom_field['Tracker'] = $this->CustomFieldsTracker->Tracker.find('list', array('conditions'=>array('id'=>$this->_get_param('tracker_ids'))));
+    }
+    $Tracker = ClassRegistry::init('Tracker');
+    $this->set('trackers', $Tracker->find('list', array('order' => 'position')));
+    $this->set('custom_field', $custom_field);
+    $this->render("new");
+  }
+
   function edit($id) {
     $this->CustomField->bindModel(array('hasMany'=>array('CustomFieldsTracker')), false);
     $custom_field = $this->CustomField->read(null, $id);
     if (!empty($this->data)) {
-//      e(pr($this->data));
-#    if request.post? and @custom_field.update_attributes(params[:custom_field])
-#      if @custom_field.is_a? IssueCustomField
-#        @custom_field.trackers = params[:tracker_ids] ? Tracker.find(params[:tracker_ids]) : []
-#      end
-#      flash[:notice] = l(:notice_successful_update)
-#      redirect_to :action => 'list', :tab => @custom_field.class.name
-#    end
+      $this->CustomField->set($this->data);
+      if ($this->CustomField->save()) {
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect(array('action'=>'index', '?'=>array('tab'=>$this->CustomField->data[$this->CustomField->alias]['type'])));
+      }
     } else {
       $this->data = $custom_field;
     }

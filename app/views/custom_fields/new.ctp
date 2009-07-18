@@ -1,7 +1,7 @@
-<h2><%=l(:label_custom_field_new)%> (<%=l(@custom_field.type_name)%>)</h2>
+<h2><?php __('New custom field'); ?> (<?php echo $customField->type_name($custom_field); ?>)</h2>
 
-<% labelled_tabular_form_for :custom_field, @custom_field, :url => { :action => "new" } do |f| %>
-<%= render :partial => 'form', :locals => { :f => f } %>
-<%= hidden_field_tag 'type', @custom_field.type %>
-<%= submit_tag l(:button_save) %>
-<% end %>
+<?php echo $form->create('CustomField', array('url' => array('action' => "add"), 'class'=>'tabular')); ?>
+<?php echo $this->renderElement('custom_fields/form'); ?>
+<?php echo $form->hidden('type'); ?>
+<?php echo $form->submit(__('Save',true)); ?>
+<?php echo $form->end(); ?>

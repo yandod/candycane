@@ -1968,6 +1968,9 @@ msgstr "%d点の変更"
 msgid "Possible values"
 msgstr "選択肢"
 
+msgid "Possible Values"
+msgstr "選択肢"
+
 # setting_login_required
 msgid "Authentication required"
 msgstr "認証が必要"

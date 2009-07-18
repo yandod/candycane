@@ -2,8 +2,52 @@
 
 class CustomField extends AppModel
 {
+#  has_many :custom_values, :dependent => :delete_all
   var $name = 'CustomField';
   var $actsAs = array('List');
+  var $validate = array(
+    'name' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_uniqueness_of'=>array('rule'=>array('isUnique')),
+      'validates_length_of'=>array('rule'=>array('maxLength', 30)),
+      'validates_format_of'=>array('rule'=>array('custom', '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}\s\.\'\-]*$/iu')),
+    ),
+    'field_format' => array(
+      'validates_inclusion_of'=>array('rule'=>array('validate_field_format')),
+    ),
+    'possible_values' => array(
+      'validates_not_empty'=>array('rule'=>array('validate_possible_values')),
+      
+    ),
+    'default_value' => array(
+      'validates_invalid_of'=>array('rule'=>array('validate_default_value')),
+    ),
+  );
+  function validate_field_format($data) {
+    return in_array($this->data[$this->name]['field_format'], array_keys($this->FIELD_FORMATS));
+  }
+  function validate_possible_values($data) {
+    if ($this->data[$this->name]['field_format'] == "list") {
+      if (empty($this->data[$this->name]['possible_values']) || !is_array($this->data[$this->name]['possible_values'])) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function validate_default_value($data) {
+    # validate default value
+    if (empty($this->data[$this->name]['default_value'])) {
+      return true;
+    }
+    $CustomValue = & ClassRegistry::init('CustomValue');
+    $CustomValue->set(array('CustomValue'=>array('value'=>$this->data[$this->name]['default_value']), $this->name=>$this->data[$this->name]));
+    
+    if ($CustomValue->validates()) {
+      return true;
+    }
+    return false;
+  }
+  
 
   var $FIELD_FORMATS = array(
             "string" => array( 'name' => 'Text', 'order' => 1 ),
@@ -31,69 +75,66 @@ class CustomField extends AppModel
       }
     }
   }
-}
+  var $__add_trackers = array();
+  var $__del_trackers = array();
+  function beforeSave($options = array()) {
+    if ($this->data[$this->name]['type'] == 'IssueCustomField' && !empty($this->data['CustomField']['id'])) {
+      $assoc_trackers = Set::extract('{n}.CustomFieldsTracker.tracker_id', $this->CustomFieldsTracker->find('all', array('conditions'=>array('custom_field_id'=>$this->data['CustomField']['id']))));
+      $this->__add_trackers = array_diff($this->data[$this->name]['tracker_id'], $assoc_trackers);
+      $this->__del_trackers = array_diff($assoc_trackers, $this->data[$this->name]['tracker_id']);
+    }
+    unset($this->data[$this->name]['tracker_id']);
 
-## redMine - project management software
-## Copyright (C) 2006  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
-#class CustomField < ActiveRecord::Base
-#  has_many :custom_values, :dependent => :delete_all
-#  acts_as_list :scope => 'type = \'#{self.class}\''
-#  serialize :possible_values
-#  
-#  FIELD_FORMATS = { "string" => { :name => :label_string, :order => 1 },
-#                    "text" => { :name => :label_text, :order => 2 },
-#                    "int" => { :name => :label_integer, :order => 3 },
-#                    "float" => { :name => :label_float, :order => 4 },
-#                    "list" => { :name => :label_list, :order => 5 },
-#			        "date" => { :name => :label_date, :order => 6 },
-#			        "bool" => { :name => :label_boolean, :order => 7 }
-#  }.freeze
-#
-#  validates_presence_of :name, :field_format
-#  validates_uniqueness_of :name, :scope => :type
-#  validates_length_of :name, :maximum => 30
-#  validates_format_of :name, :with => /^[\w\s\.\'\-]*$/i
-#  validates_inclusion_of :field_format, :in => FIELD_FORMATS.keys
-#
+    App::Import('vendor', 'spyc');
+    if (!empty($this->data[$this->name]['possible_values']) && $this->data[$this->name]['field_format'] == 'list') {
+      if (empty($this->data[$this->name]['possible_values'][count($this->data[$this->name]['possible_values'])-1])) {
+        unset($this->data[$this->name]['possible_values'][count($this->data[$this->name]['possible_values'])-1]);
+      }
+      $this->data[$this->name]['possible_values'] = Spyc::YAMLDump($this->data[$this->name]['possible_values'], true);
+    } else {
+      $this->data[$this->name]['possible_values'] = '--- []';
+    }
+   
+    return true;
+  }
+  function afterSave($created) {
+    $id = $this->id;
+    if ($created) {
+      $id = $this->getLastInsertID();
+    }
+    $db =& ConnectionManager::getDataSource($this->useDbConfig);
+    foreach ($this->__del_trackers as $del) {
+      $this->CustomFieldsTracker->deleteAll(array('custom_field_id'=>$id, 'tracker_id'=>$del), false);
+    }
+    foreach ($this->__add_trackers as $add) {
+      $db->create($this->CustomFieldsTracker, array('custom_field_id', 'tracker_id'), array($id, $add));
+    }
+  }
+  
+
 #  def initialize(attributes = nil)
 #    super
 #    self.possible_values ||= []
 #  end
 #  
-#  def before_validation
-#    # remove empty values
-#    self.possible_values = self.possible_values.collect{|v| v unless v.empty?}.compact
-#    # make sure these fields are not searchable
-#    self.searchable = false if %w(int float date bool).include?(field_format)
-#    true
-#  end
-#  
-#  def validate
-#    if self.field_format == "list"
-#      errors.add(:possible_values, :activerecord_error_blank) if self.possible_values.nil? || self.possible_values.empty?
-#      errors.add(:possible_values, :activerecord_error_invalid) unless self.possible_values.is_a? Array
-#    end
-#    
-#    # validate default value
-#    v = CustomValue.new(:custom_field => self.clone, :value => default_value, :customized => nil)
-#    v.custom_field.is_required = false
-#    errors.add(:default_value, :activerecord_error_invalid) unless v.valid?
-#  end
+  function beforeValidate($options = array()) {
+    # remove empty values
+    if (!empty($this->data[$this->name]['possible_values'])) {
+      $possible_values = array();
+      foreach ($this->data[$this->name]['possible_values'] as $v) {
+        if (!empty($v)) {
+          $possible_values[] = $v;
+        }
+      }
+      $this->data[$this->name]['possible_values'] = $possible_values;
+    }
+    # make sure these fields are not searchable
+    if (in_array($this->data[$this->name]['field_format'], array('int', 'float', 'date', 'bool'))) {
+      $this->data[$this->name]['searchable'] = false;
+    }
+    return true;
+  }
+  
 #
 #  def <=>(field)
 #    position <=> field.position
@@ -109,3 +150,5 @@ class CustomField extends AppModel
 #  end
 #end
 
+
+}
