@@ -144,8 +144,8 @@ class Issue extends AppModel
       if(empty($Setting->cross_project_issue_relations)) {
         $IssueRelation = & ClassRegistry::init('IssueRelation');
         if(!$IssueRelation->deleteAll(array('or'=>
-          array('relations_from_id'=>$issue['Issue']['id']),
-          array('relations_to_id'=>$issue['Issue']['id'])
+          array('issue_from_id'=>$issue['Issue']['id']),
+          array('issue_to_id'=>$issue['Issue']['id'])
         ))) {
           $db->rollback($this);
           return false;

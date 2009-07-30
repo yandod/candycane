@@ -6,7 +6,7 @@
   <?php endforeach; ?>
 </ul>
 
-<?php echo $form->create(array('url'=>array('action'=>'move'), 'id'=>'IssueMoveForm')); ?>
+<?php echo $form->create(array('url'=>array('action'=>'move','issue_id'=>$issue['Issue']['id']), 'id'=>'IssueMoveForm')); ?>
   <div class="box tabular">
   <?php foreach($issue_datas as $issue) : ?>
     <?php echo $form->hidden('ids', array('name'=>'data[Issue][ids][]', 'value'=>$issue['Issue']['id'])); ?>
@@ -16,7 +16,7 @@
       <?php echo $form->input('project_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$allowedProjects)); ?></p>
     </p>
     <?php echo $ajax->observeField('IssueProjectId', array(
-        'url'=>array('action'=>'move'),
+        'url'=>array('action'=>'move','issue_id'=>$issue['Issue']['id']),
         'update'=>'content',
         'allowCache'=>false,
         'with'=>'Form.serialize(\'IssueMoveForm\')'

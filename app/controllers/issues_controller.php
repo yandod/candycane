@@ -42,6 +42,7 @@ class IssuesController extends AppController
     case 'changes':
     case 'edit' :
     case 'reply' :
+    case 'move': 
       $this->_find_issue($this->params['issue_id']);
       $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
       break;
@@ -687,7 +688,7 @@ class IssuesController extends AppController
   {
     $this->Issue->recursive = 1;
     if($this->Issue->read(null, $id) === false) {
-      $this->cakeErorr('error404');
+      $this->cakeError('error404');
     }
     $this->set(array('issue'=>$this->Issue->data));
     return $this->Issue->data;
