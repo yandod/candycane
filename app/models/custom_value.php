@@ -57,7 +57,7 @@ class CustomValue extends AppModel
   function validate_value_regexp($data) {
     $custom_field = $this->CustomField->data[$this->CustomField->alias];
     if (!empty($custom_field['regexp'])) {
-      return preg_match($custom_field['regexp'], $this->data[$this->name]['value']);
+      return preg_match("/{$custom_field['regexp']}/u", $this->data[$this->name]['value']);
     }
     return true;
   }
@@ -82,7 +82,7 @@ class CustomValue extends AppModel
       $ret = preg_match('/^[+-]?\d+$/', $this->data[$this->name]['value']);
       break;
     case 'float' :
-      $ret = is_float($this->data[$this->name]['value']);
+      $ret = strval(floatval($this->data[$this->name]['value'])) === $this->data[$this->name]['value'];
       break;
     case 'date' :
       $ret = preg_match('/^\d{4}-\d{2}-\d{2}$/', $this->data[$this->name]['value']);
@@ -98,27 +98,6 @@ class CustomValue extends AppModel
 
 }
 
-## redMine - project management software
-## Copyright (C) 2006  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
-#class CustomValue < ActiveRecord::Base
-#  belongs_to :custom_field
-#  belongs_to :customized, :polymorphic => true
-#
 #  def after_initialize
 #    if custom_field && new_record? && (customized_type.blank? || (customized && customized.new_record?))
 #      self.value ||= custom_field.default_value

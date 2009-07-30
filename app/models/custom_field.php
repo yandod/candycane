@@ -80,8 +80,9 @@ class CustomField extends AppModel
   function beforeSave($options = array()) {
     if ($this->data[$this->name]['type'] == 'IssueCustomField' && !empty($this->data['CustomField']['id'])) {
       $assoc_trackers = Set::extract('{n}.CustomFieldsTracker.tracker_id', $this->CustomFieldsTracker->find('all', array('conditions'=>array('custom_field_id'=>$this->data['CustomField']['id']))));
-      $this->__add_trackers = array_diff($this->data[$this->name]['tracker_id'], $assoc_trackers);
-      $this->__del_trackers = array_diff($assoc_trackers, $this->data[$this->name]['tracker_id']);
+      $tracker_ids = empty($this->data[$this->name]['tracker_id']) ? array() : $this->data[$this->name]['tracker_id'];
+      $this->__add_trackers = array_diff($tracker_ids, $assoc_trackers);
+      $this->__del_trackers = array_diff($assoc_trackers, $tracker_ids);
     }
     unset($this->data[$this->name]['tracker_id']);
 
@@ -93,6 +94,13 @@ class CustomField extends AppModel
       $this->data[$this->name]['possible_values'] = Spyc::YAMLDump($this->data[$this->name]['possible_values'], true);
     } else {
       $this->data[$this->name]['possible_values'] = '--- []';
+    }
+    
+    if(empty($this->data[$this->name]['min_length'])) {
+      $this->data[$this->name]['min_length'] = 0;
+    }
+    if(empty($this->data[$this->name]['max_length'])) {
+      $this->data[$this->name]['max_length'] = 0;
     }
    
     return true;
@@ -111,12 +119,6 @@ class CustomField extends AppModel
     }
   }
   
-
-#  def initialize(attributes = nil)
-#    super
-#    self.possible_values ||= []
-#  end
-#  
   function beforeValidate($options = array()) {
     # remove empty values
     if (!empty($this->data[$this->name]['possible_values'])) {
@@ -135,11 +137,6 @@ class CustomField extends AppModel
     return true;
   }
   
-#
-#  def <=>(field)
-#    position <=> field.position
-#  end
-#  
 #  # to move in project_custom_field
 #  def self.for_all
 #    find(:all, :conditions => ["is_for_all=?", true], :order => 'position')
