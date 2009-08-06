@@ -227,10 +227,13 @@ class IssuesController extends AppController
       $save_data['Issue'] = $this->data['Issue'];
       $save_data['Issue']['project_id'] = $this->_project['Project']['id'];
       $save_data['Issue']['author_id'] = $this->current_user['id'];
-      $save_data['Issue']['custom_field_values'] = $this->Issue->filterCustomFieldValue($this->data['custom_field_values']);
+      if (array_key_exists('custom_field_values',$this->data)) {
+        $save_data['Issue']['custom_field_values'] = $this->Issue->filterCustomFieldValue($this->data['custom_field_values']);
+      }
       if(!$this->Issue->save($save_data) && empty($this->Issue->validationErrors)) {
         return $this->cakeError('error', array('message'=>"Can not save Issue."));
       }
+      
       if(empty($this->Issue->validationErrors)) {
         if (!empty($this->params['form'])) {
           $this->Issue->attach_files($this->params['form'], $this->current_user);

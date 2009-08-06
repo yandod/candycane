@@ -48,13 +48,15 @@
 <!--<%= pagination_links_full @issue_pages, @issue_count %>--></p>
 
 <p class="other-formats">
+<?php /*
 <%= l(:label_export_to) %>
 <span><%= link_to 'Atom', {:query_id => @query, :format => 'atom', :key => User.current.rss_key}, :class => 'feed' %></span>
 <span><%= link_to 'CSV', {:format => 'csv'}, :class => 'csv' %></span>
 <span><%= link_to 'PDF', {:format => 'pdf'}, :class => 'pdf' %></span>
+*/ ?>
 </p>
 <?php endif ?>
-<!--<% end %>-->
+<!-- <% end %> -->
 
 <?php $this->set('Sidebar', $this->renderElement('issues/sidebar')) ?>
 

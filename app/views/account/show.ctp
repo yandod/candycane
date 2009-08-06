@@ -1,10 +1,10 @@
 <div class="contextual">
 <?php if ($currentuser['admin'] == 1): ?>
-  <?php e($html->link(__('Edit', true), '/users/edit/'.$currentuser['id'], array('class' => 'icon icon-edit'))); ?>
+  <?php e($html->link(__('Edit', true), '/users/edit/'.$user['id'], array('class' => 'icon icon-edit'))); ?>
 <?php endif; ?>
 </div>
 
-<h2><?php echo $candy->avatar($user); ?> <?php e(h($currentuser['name'])); ?></h2>
+<h2><?php echo $candy->avatar($user); ?> <?php e(h($candy->format_username($user['User']))); ?></h2>
 
 <div class="splitcontentleft">
 <ul>
@@ -20,10 +20,10 @@
   <% end %>
 */
 ?>
-  <li><?php __('Registered on'); ?>: <?php e($candy->format_date($currentuser['created_on'])); ?></li>
+  <li><?php __('Registered on'); ?>: <?php e($candy->format_date($user['User']['created_on'])); ?></li>
 
-  <?php if (!empty($currentuser['last_login_on'])): ?>
-  <li><?php __('Last connection'); ?>: <?php e($candy->format_date($currentuser['last_login_on'])); ?></li>
+  <?php if (!empty($user['last_login_on'])): ?>
+  <li><?php __('Last connection'); ?>: <?php e($candy->format_date($user['User']['last_login_on'])); ?></li>
   <?php endif; ?>
 </ul>
 <?php if( !empty($user['Membership']) ): ?>
@@ -72,4 +72,4 @@
 <?php endif; ?>
 </div>
 
-<?php $candy->html_title($currentuser['name'], true); ?>
+<?php $candy->html_title($candy->format_username($user['User']), true); ?>
