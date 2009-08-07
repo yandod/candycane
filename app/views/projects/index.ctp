@@ -3,9 +3,9 @@
 <!--    <%= link_to l(:label_issue_view_all), { :controller => 'issues' } %> | -->
 <!--    <%= link_to l(:label_overall_activity), { :controller => 'projects', :action => 'activity' }%> -->
 
-<?php echo $html->link(__('New project',TRUE),array('controller' => 'projects', 'action' => 'add'),array('class' => 'icon icon-add')); ?> |
-	<?php echo $html->link(__('View all issues',TRUE), array('controller' => 'issues')); ?> | 
-	<?php echo $html->link(__('Overall activity', TRUE), array('controller' => 'projects', 'action' => 'activity')); ?>
+<?php if ($currentuser['admin']) echo $html->link(__('New project',TRUE),array('controller' => 'projects', 'action' => 'add'),array('class' => 'icon icon-add'))." |"; ?>
+<?php echo $html->link(__('View all issues',TRUE), array('controller' => 'issues')); ?> | 
+<?php echo $html->link(__('Overall activity', TRUE), array('controller' => 'projects', 'action' => 'activity')); ?>
 </div>
 
 <h2><?php __('Projects'); ?></h2>
