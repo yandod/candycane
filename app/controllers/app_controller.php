@@ -193,8 +193,8 @@ class AppController extends Controller {
         }
 
         if ($this->current_user['admin'] != 1) {
-            $this->redirect(null, 403);
-            return false;
+          $this->redirect('/', 403);
+          return false;
         }
 
         return true;
