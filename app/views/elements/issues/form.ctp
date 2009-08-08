@@ -14,7 +14,7 @@
     <div id="issue_descr_fields" <?php if($this->action=='show') echo 'style="display: none;"'; ?>>
       <p>
         <?php echo $form->label('subject', __('Subject', true).'<span class="required"> *</span>'); ?>
-        <?php echo $form->input('subject', array('div'=>false, 'label'=>false)); ?></p>
+        <?php echo $form->input('subject', array('div'=>false, 'label'=>false, 'size'=>80)); ?></p>
       </p>
       <p>
         <?php echo $form->label('description', __('Description', true)); ?>
