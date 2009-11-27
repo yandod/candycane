@@ -4,8 +4,12 @@
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
  */
-	Router::connect('/', array('controller' => 'welcome', 'action' => 'index'));
-
+    // for quick install
+	if (!file_exists(APP.'config'.DS.'database.php')) {
+		Router::connect('/', array('controller' => 'install', 'plugin' => 'install'));
+	} else {
+		Router::connect('/', array('controller' => 'welcome', 'action' => 'index'));
+    }
 	Router::connect('/login', array('controller' => 'account', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'account', 'action' => 'logout'));
 	Router::connect('/projects/:project_id/issues/:action/*', array('controller' => 'issues'));
