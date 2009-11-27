@@ -1,6 +1,6 @@
 <div class="contextual">
 <?php if ($currentuser['admin'] == 1): ?>
-  <?php e($html->link(__('Edit', true), '/users/edit/'.$user['id'], array('class' => 'icon icon-edit'))); ?>
+  <?php e($html->link(__('Edit', true), '/users/edit/'.$user['User']['id'], array('class' => 'icon icon-edit'))); ?>
 <?php endif; ?>
 </div>
 
