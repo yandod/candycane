@@ -22,8 +22,24 @@ class TrackersController extends AppController
 #    render :action => "list", :layout => false if request.xhr?
   }
 #
-#  def new
-#    @tracker = Tracker.new(params[:tracker])
+  function add() {
+    $param = array(
+      'order' => 'position'
+    );
+    $this->set('trackers',$this->Tracker->find('list',$param));
+
+    if(!empty($this->data)) {
+      $this->Tracker->create();
+      if($this->Tracker->save($this->data)) {
+        if (!empty($this->data['Tracker']['copy_workflow_from'])) {
+          $this->Tracker->workflow_copy($this->data['Tracker']['copy_workflow_from']);
+        }
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect('index');
+      } else {
+        $this->Session->setFlash(__('Please correct errors below.', true), 'default', array('class'=>'flash flash_error'));
+      }
+    }
 #    if request.post? and @tracker.save
 #      # workflow copy
 #      if !params[:copy_workflow_from].blank? && (copy_from = Tracker.find_by_id(params[:copy_workflow_from]))
@@ -32,8 +48,8 @@ class TrackersController extends AppController
 #      flash[:notice] = l(:notice_successful_create)
 #      redirect_to :action => 'list'
 #    end
-#    @trackers = Tracker.find :all, :order => 'position'
-#  end
+    $this->render('new');
+  }
 #
 #  def edit
 #    @tracker = Tracker.find(params[:id])
@@ -58,14 +74,13 @@ class TrackersController extends AppController
 #    redirect_to :action => 'list'
 #  end
 #  
-#  def destroy
-#    @tracker = Tracker.find(params[:id])
-#    unless @tracker.issues.empty?
-#      flash[:error] = "This tracker contains issues and can\'t be deleted."
-#    else
-#      @tracker.destroy
-#    end
-#    redirect_to :action => 'list'
-#  end  
-#end
+  function destroy($id){
+    $tracker = $this->Tracker->find('first',array('conditions'=>array('id'=>$id)));
+    if (count($tracker['Issue']) > 0) {
+      $this->Session->setFlash(__('This tracker contains issues and can\'t be deleted.', true), 'default', array('class'=>'flash flash_error'));
+    } else {
+       $this->Tracker->del($id);
+    }
+    $this->redirect('index');
+  }
 }
