@@ -7,7 +7,7 @@
 <p><?php echo h($version['description']) ?></p>
 
 <?php if ($fixed_issue_count > 0): ?>
-    <?php echo $candy->progress_bar_auto(array($version['closed_issues_count'], $version['open_issues_count']),array('width'=>'40em','legend'=>sprintf('%0.0f%%', floatval($version['closed_issues_count']) / $fixed_issue_count * 100))) ?>
+    <?php echo $candy->progress_bar(array($version['closed_pourcent'], $version['completed_pourcent']),array('width'=>'40em','legend'=>sprintf('%0.0f%%',$version['completed_pourcent']))) ?>
 <?php /*
     <%= progress_bar([version.closed_pourcent, version.completed_pourcent], :width => '40em', :legend => ('%0.0f%' % version.completed_pourcent)) %>
  */ ?>

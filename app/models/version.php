@@ -178,6 +178,48 @@ class Version extends AppModel
       ),
     ));
 
+   if (($result['open_issues_count'] + $result['closed_issues_count']) == 0) {
+     $result['completed_pourcent'] = 0;
+   } else if ($result['open_issues_count'] == 0) {
+     $result['completed_pourcent'] = 100;
+   } else {
+     $sum = $this->FixedIssue->find('first', array(
+      'fields' => array(
+       'sum(FixedIssue.done_ratio) as sum'
+     ),
+      'conditions'=>array(
+        'fixed_version_id'=>$result['id'],
+        'Status.is_closed'=>false,
+      ),
+      'recursive' => 0
+     ));
+     $result['completed_pourcent'] = $result['closed_issues_count'] * 100 + $sum[0]['sum'] / ($result['open_issues_count'] + $result['closed_issues_count']);
+   }
+#  def completed_pourcent
+#    if fixed_issues.count == 0
+#      0
+#    elsif open_issues_count == 0
+#      100
+#    else
+#      (closed_issues_count * 100 + Issue.sum('done_ratio', :include => 'status', :conditions => ["fixed_version_id = ? AND is_closed = ?", id, false]).to_f) / fixed_issues.count
+#    end
+#  end
+
+   if (($result['open_issues_count'] + $result['closed_issues_count']) == 0) {
+     $result['closed_pourcent'] = 0;
+   } else {
+     $result['closed_pourcent'] = $result['closed_issues_count'] * 100 / ($result['open_issues_count'] + $result['closed_issues_count']);
+   }
+   
+#  def closed_pourcent
+#    if fixed_issues.count == 0
+#      0
+#    else
+#      closed_issues_count * 100.0 / fixed_issues.count
+#    end
+#  end
+    
+    
     if (empty($result['effective_date'])) {
       $result['completed'] = false;
     } else if (strtotime($result['effective_date']) <= time()) {
