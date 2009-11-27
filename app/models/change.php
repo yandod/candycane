@@ -16,6 +16,7 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
+class Change extends AppModel {
 #class Change < ActiveRecord::Base
 #  belongs_to :changeset
 #  
@@ -25,3 +26,4 @@
 #    changeset.repository.relative_path(path)
 #  end
 #end
+}

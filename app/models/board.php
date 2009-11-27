@@ -15,7 +15,8 @@
 ## You should have received a copy of the GNU General Public License
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
+
+class Board extends AppModel {
 #class Board < ActiveRecord::Base
 #  belongs_to :project
 #  has_many :topics, :class_name => 'Message', :conditions => "#{Message.table_name}.parent_id IS NULL", :order => "#{Message.table_name}.created_on DESC"
@@ -28,3 +29,4 @@
 #  validates_length_of :name, :maximum => 30
 #  validates_length_of :description, :maximum => 255
 #end
+}

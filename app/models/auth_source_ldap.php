@@ -21,6 +21,7 @@
 #
 class AuthSourceLdap extends AuthSource
 {
+  var $useTable = false;
 #  validates_presence_of :host, :port, :attr_login
 #  validates_length_of :name, :host, :account_password, :maximum => 60, :allow_nil => true
 #  validates_length_of :account, :base_dn, :maximum => 255, :allow_nil => true
