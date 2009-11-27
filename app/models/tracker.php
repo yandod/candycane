@@ -2,6 +2,7 @@
 class Tracker extends AppModel
 {
   var $name = 'Tracker';
+  var $actsAs = array('List');
   var $hasMany = array(
     'Issue',
     'Workflow' => array(
