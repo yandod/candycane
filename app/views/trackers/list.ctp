@@ -1,35 +1,37 @@
 <div class="contextual">
-<%= link_to l(:label_tracker_new), {:action => 'new'}, :class => 'icon icon-add' %>
+<?php echo $html->link(__('New tracker', true), array('action' => 'add'), array('class' => 'icon icon-add')); ?>
 </div>
 
-<h2><%=l(:label_tracker_plural)%></h2>
+<h2><?php echo $candy->html_title(__('Trackers',true)) ?></h2>
 
 <table class="list">
   <thead><tr>
-  <th><%=l(:label_tracker)%></th>
+  <th><?php __('Tracker') ?></th>
   <th></th>
-  <th><%=l(:button_sort)%></th>
+  <th><?php __('Sort') ?></th>
   <th></th>
   </tr></thead>
   <tbody>
-<% for tracker in @trackers %>
-  <tr class="<%= cycle("odd", "even") %>">
-  <td><%= link_to tracker.name, :action => 'edit', :id => tracker %></td>
-  <td align="center"><% unless tracker.workflows.count > 0 %><span class="icon icon-warning"><%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), {:controller => 'workflows', :action => 'edit', :tracker_id => tracker} %>)</span><% end %></td>
+<?php foreach($trackers as $tracker): ?>
+  <tr class="<?php echo $candy->cycle(); ?>">
+  <td><?php echo $html->link($tracker['Tracker']['name'],array('action'=>'edit'),array('id'=>'tracker')) ?></td>
+  <td align="center"><?php if (count($tracker['Workflow']) == 0):?><span class="icon icon-warning"><%= l(:text_tracker_no_workflow) %> (<%= link_to l(:button_edit), {:controller => 'workflows', :action => 'edit', :tracker_id => tracker} %>)</span><?php endif; ?></td>
   <td align="center" style="width:15%;">
-    <%= link_to image_tag('2uparrow.png', :alt => l(:label_sort_highest)), {:action => 'move', :id => tracker, :position => 'highest'}, :method => :post, :title => l(:label_sort_highest) %>
-    <%= link_to image_tag('1uparrow.png', :alt => l(:label_sort_higher)), {:action => 'move', :id => tracker, :position => 'higher'}, :method => :post, :title => l(:label_sort_higher) %> -
-    <%= link_to image_tag('1downarrow.png', :alt => l(:label_sort_lower)), {:action => 'move', :id => tracker, :position => 'lower'}, :method => :post, :title => l(:label_sort_lower) %>
-    <%= link_to image_tag('2downarrow.png', :alt => l(:label_sort_lowest)), {:action => 'move', :id => tracker, :position => 'lowest'}, :method => :post, :title => l(:label_sort_lowest) %>
+    <?php echo $html->link($html->image('2uparrow.png',  array('alt'=>__('Move to top',true))),   array('action'=>'move', 'id'=>$tracker['Tracker']['id'], 'position'=>'highest'), array('title'=>__('Move to top', true)), null, false); ?>
+    <?php echo $html->link($html->image('1uparrow.png',  array('alt'=>__('Move up',true))),       array('action'=>'move', 'id'=>$tracker['Tracker']['id'], 'position'=>'higher'),  array('title'=>__('Move up', true))    , null, false); ?> -
+    <?php echo $html->link($html->image('1downarrow.png',array('alt'=>__('Move down',true))),     array('action'=>'move', 'id'=>$tracker['Tracker']['id'], 'position'=>'lower'),   array('title'=>__('Move down', true))  , null, false); ?>
+    <?php echo $html->link($html->image('2downarrow.png',array('alt'=>__('Move to bottom',true))),array('action'=>'move', 'id'=>$tracker['Tracker']['id'], 'position'=>'lowest'),  array('title'=>__('Move to bottom',true)),null,false); ?>
   </td>
   <td align="center" style="width:10%;">
-    <%= button_to l(:button_delete), { :action => 'destroy', :id => tracker }, :confirm => l(:text_are_you_sure), :class => "button-small" %>
+    <?php 
+      echo $form->create(null, array('url'=>array('action'=>'destroy', 'id'=>$tracker['Tracker']['id']), 'class'=>'button_to'));
+      echo $form->submit(__('Delete',true), array('onclick'=>'return confirm("'.__('Are you sure ?',true).'");', 'class'=>"button-small"));
+      echo $form->end();
+    ?>
   </td>
   </tr>
-<% end %>
+<?php endforeach; ?>
   </tbody>
 </table>
 
-<p class="pagination"><%= pagination_links_full @tracker_pages %></p>
-
-<% html_title(l(:label_tracker_plural)) -%>
+<?php //<p class="pagination"><%= pagination_links_full @tracker_pages %></p>?>
