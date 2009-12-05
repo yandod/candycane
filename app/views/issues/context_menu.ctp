@@ -1,90 +1,116 @@
 <ul>
-<% if !@issue.nil? -%>
-	<li><%= context_menu_link l(:button_edit), {:controller => 'issues', :action => 'edit', :id => @issue},
-	        :class => 'icon-edit', :disabled => !@can[:edit] %></li>
+<?php if ($issue): ?>
+	<li><?php echo $candy->context_menu_link( __('Edit', true), 
+		array('controller'=>'issues', 'action'=>'edit', 'id'=>$issue['Issue']['id']),
+		array('class'=>'icon-edit', 'disabled'=>!$can['edit'])); ?></li>
 	<li class="folder">			
-		<a href="#" class="submenu" onclick="return false;"><%= l(:field_status) %></a>
+		<a href="#" class="submenu" onclick="return false;"><?php __('Status') ?></a>
 		<ul>
-		<% @statuses.each do |s| -%>
-		    <li><%= context_menu_link s.name, {:controller => 'issues', :action => 'edit', :id => @issue, :issue => {:status_id => s}, :back_to => @back}, :method => :post,
-		                              :selected => (s == @issue.status), :disabled => !(@can[:update] && @allowed_statuses.include?(s)) %></li>
-		<% end -%>
+		<?php foreach($statuses as $s): ?>
+		    <li><?php echo $candy->context_menu_link( $s['Status']['name'], 
+				array('controller'=>'issues', 'action'=>'edit', 'id'=>$issue['Issue']['id'], 
+					'?'=>array('issue[status_id]' => $s['Status']['id'], 'back_to' => $back)),
+		        array('method' => 'post','selected' => ($s['Status']['id'] == $issue['Issue']['status_id']), 'disabled' => !($can['update'] && array_key_exists($s['Status']['id'], $allowed_statuses)))); ?></li>
+		<?php endforeach; ?>
 		</ul>
 	</li>
-<% else %>
-	<li><%= context_menu_link l(:button_edit), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id)},
-	        :class => 'icon-edit', :disabled => !@can[:edit] %></li>
-<% end %>
+<?php else: ?>
+	<li><?php echo $candy->context_menu_link( __('Edit', true), 
+		array('controller' => 'issues', 'action' => 'bulk_edit', 
+			'?'=>array('ids' => Set::extract("/Issue/id", $issue_list))),
+	    array('class' => 'icon-edit', 'disabled' => !$can['edit'])); ?></li>
+<?php endif; ?>
 
 	<li class="folder">			
-		<a href="#" class="submenu"><%= l(:field_priority) %></a>
+		<a href="#" class="submenu"><?php __('Priority'); ?></a>
 		<ul>
-		<% @priorities.each do |p| -%>
-		    <li><%= context_menu_link p.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'priority_id' => p, :back_to => @back}, :method => :post,
-		                              :selected => (@issue && p == @issue.priority), :disabled => !@can[:edit] %></li>
-		<% end -%>
+		<?php foreach($priorities as $p): ?>
+		    <li><?php echo $candy->context_menu_link( $p['Priority']['name'], 
+				array('controller' => 'issues', 'action' => 'bulk_edit', 
+					'?'=>array('ids'=>Set::extract("/Issue/id", $issue_list), 'priority_id'=>$p['Priority']['id'], 'back_to'=>$back)),
+		        array('method' => 'post', 'selected' => ($issue && $p['Priority']['id'] == $issue['Issue']['priority_id']), 'disabled' => !$can['edit'])); ?></li>
+		<?php endforeach; ?>
 		</ul>
 	</li>
-	<% unless @project.nil? || @project.versions.empty? -%>
+	<?php if (!empty($project) && !empty($project['Version'])): ?>
 	<li class="folder">			
-		<a href="#" class="submenu"><%= l(:field_fixed_version) %></a>
+		<a href="#" class="submenu"><?php __('Target version'); ?></a>
 		<ul>
-		<% @project.versions.sort.each do |v| -%>
-		    <li><%= context_menu_link v.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'fixed_version_id' => v, :back_to => @back}, :method => :post,
-		                              :selected => (@issue && v == @issue.fixed_version), :disabled => !@can[:update] %></li>
-		<% end -%>
-		    <li><%= context_menu_link l(:label_none), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'fixed_version_id' => 'none', :back_to => @back}, :method => :post,
-		                              :selected => (@issue && @issue.fixed_version.nil?), :disabled => !@can[:update] %></li>
+		<?php foreach($project['Version'] as $v): ?>
+		    <li><?php echo $candy->context_menu_link ($v['name'], 
+				array('controller' => 'issues', 'action' => 'bulk_edit', 
+					'?'=>array('ids'=>Set::extract("/Issue/id", $issue_list), 'fixed_version_id'=>$v['id'], 'back_to'=>$back)),
+		    array('method'=>'post', 'selected'=>($issue && $v['id'] == $issue['Issue']['fixed_version_id']), 'disabled'=>!$can['update']));?></li>
+		<?php endforeach; ?>
+		    <li><?php echo $candy->context_menu_link (__('none',true), 
+					array('controller' => 'issues', 'action' => 'bulk_edit', 
+						'?'=>array('ids' => Set::extract("/Issue/id", $issue_list), 'fixed_version_id' => 'none', 'back_to' => $back)),
+		      array('method'=>'post', 'selected'=>($issue && empty($issue['Issue']['fixed_version_id'])), 'disabled'=>!$can['update'])); ?></li>
 		</ul>
 	</li>
-	<% end %>
-	<% unless @assignables.nil? || @assignables.empty? -%>
+	<?php endif; ?>
+	<?php if (!empty($assignables)): ?>
 	<li class="folder">			
-		<a href="#" class="submenu"><%= l(:field_assigned_to) %></a>
+		<a href="#" class="submenu"><?php __('Assigned to'); ?></a>
 		<ul>
-		<% @assignables.each do |u| -%>
-		    <li><%= context_menu_link u.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'assigned_to_id' => u, :back_to => @back}, :method => :post,
-		                              :selected => (@issue && u == @issue.assigned_to), :disabled => !@can[:update] %></li>
-		<% end -%>
-		    <li><%= context_menu_link l(:label_nobody), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'assigned_to_id' => 'none', :back_to => @back}, :method => :post,
-		                              :selected => (@issue && @issue.assigned_to.nil?), :disabled => !@can[:update] %></li>
+		<?php foreach($assignables as $id=>$name): ?>
+		  <li><?php echo $candy->context_menu_link ($name, 
+				array('controller' => 'issues', 'action' => 'bulk_edit', 
+					'?'=>array('ids'=>Set::extract("/Issue/id", $issue_list), 'assigned_to_id'=>$id, 'back_to' => $back)),
+		    array('method'=>'post', 'selected' => ($issue && $id == $issue['Issue']['assigned_to_id']), 'disabled' => !$can['update'])); ?></li>
+		<?php endforeach; ?>
+		  <li><?php echo $candy->context_menu_link (__('nobody',true), 
+				array('controller' => 'issues', 'action' => 'bulk_edit', 
+					'?'=>array('ids'=>Set::extract("/Issue/id", $issue_list), 'assigned_to_id'=>'none', 'back_to'=>$back)),
+		    array('method'=>'post', 'selected' => ($issue && $issue['Issue']['assigned_to_id'] == null), 'disabled'=>!$can['update'])); ?></li>
 		</ul>
 	</li>
-	<% end %>
-	<% unless @project.nil? || @project.issue_categories.empty? -%>
+	<?php endif; ?>
+	<?php if (!empty($project) && !empty($project['IssueCategory'])): ?>
 	<li class="folder">			
-		<a href="#" class="submenu"><%= l(:field_category) %></a>
+		<a href="#" class="submenu"><?php __('Category'); ?></a>
 		<ul>
-		<% @project.issue_categories.each do |u| -%>
-		    <li><%= context_menu_link u.name, {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'category_id' => u, :back_to => @back}, :method => :post,
-		                              :selected => (@issue && u == @issue.category), :disabled => !@can[:update] %></li>
-		<% end -%>
-		    <li><%= context_menu_link l(:label_none), {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'category_id' => 'none', :back_to => @back}, :method => :post,
-		                              :selected => (@issue && @issue.category.nil?), :disabled => !@can[:update] %></li>
+		<?php foreach($project['IssueCategory'] as $u): ?>
+		  <li><?php echo $candy->context_menu_link ($u['name'], 
+				array('controller' => 'issues', 'action' => 'bulk_edit', 
+					'?'=>array('ids'=>Set::extract("/Issue/id", $issue_list), 'category_id' => $u['id'], 'back_to' => $back)),
+		    array('method'=>'post', 'selected' => ($issue && $u['id'] == $issue['Issue']['category_id']), 'disabled'=>!$can['update'])); ?></li>
+		<?php endforeach; ?>
+		   <li><?php echo $candy->context_menu_link (__('none',true), 
+				array('controller' => 'issues', 'action' => 'bulk_edit', 
+					'?'=>array('ids'=>Set::extract("/Issue/id", $issue_list), 'category_id' => 'none', 'back_to' => $back)),
+		    array('method'=>'post', 'selected' => ($issue && $issue['Issue']['category_id']==null), 'disabled' => !$can['update'])); ?></li>
 		</ul>
 	</li>
-	<% end -%>
+	<?php endif; ?>
 	<li class="folder">
-		<a href="#" class="submenu"><%= l(:field_done_ratio) %></a>
+		<a href="#" class="submenu"><?php __('%% Done'); ?></a>
 		<ul>
-		<% (0..10).map{|x|x*10}.each do |p| -%>
-		    <li><%= context_menu_link "#{p}%", {:controller => 'issues', :action => 'bulk_edit', :ids => @issues.collect(&:id), 'done_ratio' => p, :back_to => @back}, :method => :post,
-		                                  :selected => (@issue && p == @issue.done_ratio), :disabled => !@can[:edit] %></li>
-		<% end -%>
+		<?php for($i = 0; $i <= 10; $i++): $p = $i * 10; ?>
+		   <li><?php echo $candy->context_menu_link ("$p%", 
+				array('controller' => 'issues', 'action' => 'bulk_edit', 
+					'?'=>array('ids'=>Set::extract("/Issue/id", $issue_list), 'done_ratio' => $p, 'back_to' => $back)),
+		    array('method'=>'post', 'selected' => ($issue && $p == $issue['Issue']['done_ratio']), 'disabled' => !$can['edit'])); ?></li>
+		<?php endfor; ?>
 		</ul>
 	</li>
 	
-<% if !@issue.nil? %>
-	<li><%= context_menu_link l(:button_copy), {:controller => 'issues', :action => 'new', :project_id => @project, :copy_from => @issue},
-	        :class => 'icon-copy', :disabled => !@can[:copy] %></li>
-	<% if @can[:log_time] -%>
-	<li><%= context_menu_link l(:button_log_time), {:controller => 'timelog', :action => 'edit', :issue_id => @issue},
-	        :class => 'icon-time' %></li>
-	<% end %>
-<% end %>
+<?php if ($issue): ?>
+	<li><?php echo $candy->context_menu_link (__('Copy',true), 
+		array('controller' => 'issues', 'action' => 'add', 'project_id' => $project['Project']['identifier'], 
+			'?'=>array('copy_from' => $issue['Issue']['id'])),
+	  array('class' => 'icon-copy', 'disabled' => !$can['copy'])); ?></li>
+	<?php if ($can['log_time']): ?>
+	<li><?php echo $candy->context_menu_link (__('Log time',true), 
+		array('controller' => 'timelog', 'action' => 'edit', '?'=>array('issue_id' => $issue['Issue']['id'])),
+	  array('class' => 'icon-time')); ?></li>
+	<?php endif; ?>
+<?php endif; ?>
 
-  <li><%= context_menu_link l(:button_move), {:controller => 'issues', :action => 'move', :ids => @issues.collect(&:id)},
-	                        :class => 'icon-move', :disabled => !@can[:move]  %></li>
-  <li><%= context_menu_link l(:button_delete), {:controller => 'issues', :action => 'destroy', :ids => @issues.collect(&:id)},
-                            :method => :post, :confirm => l(:text_issues_destroy_confirmation), :class => 'icon-del', :disabled => !@can[:delete] %></li>
+  <li><?php echo $candy->context_menu_link (__('Move',true), 
+		array('controller' => 'issues', 'action' => 'move', '?'=>array('ids'=>Set::extract("/Issue/id", $issue_list))),
+	  array('class' => 'icon-move', 'disabled' => !$can['move']));  ?></li>
+  <li><?php echo $candy->context_menu_link (__('Delete',true), 
+		array('controller' => 'issues', 'action' => 'destroy', '?'=>array('ids'=>Set::extract("/Issue/id", $issue_list))), 
+		array('method' => 'post', 'confirm' => __("'Are you sure you want to delete the selected issue(s) ?'",true), 'class' => 'icon-del', 'disabled' => !$can['delete'])); ?></li>
 </ul>

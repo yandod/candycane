@@ -1,6 +1,6 @@
 <div class="contextual">
   <?php echo $candy->link_to_if_authorized(null, __('Update', true), array('controller' => 'issues', 'action' => 'edit', 'id' => $issue['Issue']['id']), array('onclick' => 'showAndScrollTo("update", "notes"); return false;', 'class' => 'icon icon-edit', 'accesskey' => 'accesskey(:edit)')); ?>
-  <?php echo $candy->link_to_if_authorized(null, __('Log time', true), array('controller' => 'timelog', 'action' => 'edit', 'issue_id' => $issue['Issue']['id']), array('class' => 'icon icon-time')) ?>
+  <?php echo $candy->link_to_if_authorized(null, __('Log time', true), array('controller' => 'timelog', 'action' => 'edit', '?'=>array('issue_id' => $issue['Issue']['id'])), array('class' => 'icon icon-time')) ?>
   <?php echo $watchers->watcher_link($issue, $currentuser); ?>
   <?php echo $candy->link_to_if_authorized(aa('controller','issues', 'action','new'), __('Copy', true), array('controller' => 'issues', 'action' => 'add', 'project_id' => $main_project['Project']['identifier'], '?'=>array('copy_from'=>$issue['Issue']['id'])), array('class' => 'icon icon-copy')) ?>
   <?php echo $candy->link_to_if_authorized(null, __('Move', true), array('controller' => 'issues', 'action' => 'move', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-move')); ?>

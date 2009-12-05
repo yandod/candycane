@@ -36,15 +36,23 @@ class IssuesController extends AppController
   function beforeFilter()
   {
     $this->MenuManager->menu_item('issues', array('only'=>array('show', 'edit', 'move', 'destroy')));
-    
+
+    $issue_id = false;
+    if(!empty($this->params['issue_id'])) {
+      $issue_id = $this->params['issue_id'];
+    } elseif(!empty($this->params['url']['ids'])) {
+      $issue_id = $this->params['url']['ids'][0];
+    }
     switch ($this->action) {
     case 'show':
     case 'changes':
     case 'edit' :
     case 'reply' :
     case 'move': 
-      $this->_find_issue($this->params['issue_id']);
-      $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
+      if($issue_id) {
+        $this->_find_issue($issue_id);
+        $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
+      }
       break;
     }
     return parent::beforeFilter();
@@ -633,6 +641,48 @@ class IssuesController extends AppController
   {
     $this->layout = 'ajax';
     Configure::write('debug', Configure::read('debug') > 1 ? 1 : 0);
+    
+    $params = $this->params['form'];
+    $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$params['ids']), 'recursive'=>-1));
+    $this->set('issue_list', $issues);
+    $allowed_statuses = array();
+    $issue = false;
+    if (count($issues) == 1) {
+      $issue = $this->Issue->data = $issues[0];
+      $allowed_statuses = $this->Issue->findStatusList($this->User->role_for_project($this->current_user, $this->_project));
+    }
+    $this->set('issue', $issue);
+    $this->set('allowed_statuses', $allowed_statuses);
+    
+    $project_ids = array_unique(Set::extract("/Issue/project_id", $issues));
+    $project = $this->Issue->Project->find('first', array('conditions'=>array('Project.id'=>$project_ids[0]),'recursive'=>1));
+    $this->set('project', $project);
+    $ProjectsTracker = ClassRegistry::init('ProjectsTracker');
+    $project_trackers = Set::extract("/ProjectsTracker/tracker_id", 
+      $ProjectsTracker->find('all', array('conditions'=>array('project_id'=>$project_ids[0])))
+    );
+    $this->set('can', array(
+      'edit' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'edit_issues', $project)),
+      'log_time' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'log_time', $project)),
+      'update' => (!empty($project) && ($this->User->is_allowed_to($this->current_user, 'edit_issues', $project) || ($this->User->is_allowed_to($this->current_user, 'change_status', $project) && !empty($allowed_statuses)))),
+      'move' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'move_issues', $project)),
+      'copy' => ($issue && in_array($issue['Issue']['tracker_id'], $project_trackers) && $this->User->is_allowed_to($this->current_user, 'add_issues', $project)),
+      'delete' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'delete_issues', $project))
+    ));
+    $assignables = array();
+    if (!empty($project)) {
+      $assignables = $this->Issue->Project->assignable_users($project['Project']['id']);
+      if ($issue && $issue['Issue']['assigned_to_id'] && !array_key_exists($issue['Issue']['assigned_to_id'], $assignables)) {
+        $user = $this->User->read(null, $issue['Issue']['assigned_to_id']);
+        $assignables[$user['User']['id']] = $user['User']['firstname'].' '.$user['User']['lastname'];
+      }
+    }
+    $this->set('assignables', $assignables);
+    
+    $this->set('priorities', $this->Issue->Priority->get_values('IPRI', 'DESC'));
+    $this->set('statuses', $this->Issue->Status->find('all', array('order' => 'position')));
+    $this->set('back', $this->referer());
+    
   }
 #  def context_menu
 #    @issues = Issue.find_all_by_id(params[:ids], :include => :project)
