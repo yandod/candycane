@@ -12,8 +12,8 @@
 <!-- <% enumerations.each do |enumeration| %> -->
 <?php foreach($enumerations as $enumeration): ?>
 <tr class="<?php echo $candy->cycle() ?>">
-    <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>
-    <td style="width:15%;"><%= image_tag('true.png') if enumeration.is_default? %></td>
+    <td><?php echo $html->link($enumeration['Enumeration']['name'],array('action'=>'edit','id'=>$enumeration['Enumeration']['id']),array('id'=>'enumeration')) ?></td>
+    <td style="width:15%;"><?php if ($enumeration['Enumeration']['is_default']) echo $html->image('true.png') ?></td>
     <td style="width:15%;">
     <?php echo $html->link($html->image('2uparrow.png',  array('alt'=>__('Move to top',true))),   array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'highest'), array('title'=>__('Move to top', true)), null, false); ?>
     <?php echo $html->link($html->image('1uparrow.png',  array('alt'=>__('Move up',true))),       array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'higher'),  array('title'=>__('Move up', true))    , null, false); ?> -
