@@ -4,27 +4,34 @@
 <?php foreach($Enumeration->OPTIONS as $option => $params  ): ?>
 <h3><?php __($params['label']) ?></h3>
 
-<% enumerations = Enumeration.get_values(option) %>
-<% if enumerations.any? %>
+<!-- <% enumerations = Enumeration.get_values(option) %> -->
+<?php $enumerations = $Enumeration->get_values($option) ?>
+<!-- <% if enumerations.any? %> -->
+<?php if(!empty($enumerations)): ?>
 <table class="list">
-<% enumerations.each do |enumeration| %>
-<tr class="<%= cycle('odd', 'even') %>">
+<!-- <% enumerations.each do |enumeration| %> -->
+<?php foreach($enumerations as $enumeration): ?>
+<tr class="<?php echo $candy->cycle() ?>">
     <td><%= link_to h(enumeration), :action => 'edit', :id => enumeration %></td>
     <td style="width:15%;"><%= image_tag('true.png') if enumeration.is_default? %></td>
     <td style="width:15%;">
-    <%= link_to image_tag('2uparrow.png', :alt => l(:label_sort_highest)), {:action => 'move', :id => enumeration, :position => 'highest'}, :method => :post, :title => l(:label_sort_highest) %>
-    <%= link_to image_tag('1uparrow.png', :alt => l(:label_sort_higher)), {:action => 'move', :id => enumeration, :position => 'higher'}, :method => :post, :title => l(:label_sort_higher) %> -
-    <%= link_to image_tag('1downarrow.png', :alt => l(:label_sort_lower)), {:action => 'move', :id => enumeration, :position => 'lower'}, :method => :post, :title => l(:label_sort_lower) %>
-    <%= link_to image_tag('2downarrow.png', :alt => l(:label_sort_lowest)), {:action => 'move', :id => enumeration, :position => 'lowest'}, :method => :post, :title => l(:label_sort_lowest) %>
+    <?php echo $html->link($html->image('2uparrow.png',  array('alt'=>__('Move to top',true))),   array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'highest'), array('title'=>__('Move to top', true)), null, false); ?>
+    <?php echo $html->link($html->image('1uparrow.png',  array('alt'=>__('Move up',true))),       array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'higher'),  array('title'=>__('Move up', true))    , null, false); ?> -
+    <?php echo $html->link($html->image('1downarrow.png',array('alt'=>__('Move down',true))),     array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'lower'),   array('title'=>__('Move down', true))  , null, false); ?>
+    <?php echo $html->link($html->image('2downarrow.png',array('alt'=>__('Move to bottom',true))),array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'lowest'),  array('title'=>__('Move to bottom',true)),null,false); ?>
     </td>
     <td align="center" style="width:10%;">
-    <%= link_to l(:button_delete), { :action => 'destroy', :id => enumeration }, :method => :post, :confirm => l(:text_are_you_sure), :class => "icon icon-del" %>
+    <?php 
+      echo $form->create(null, array('url'=>array('action'=>'destroy', 'id'=>$enumeration['Enumeration']['id']), 'class'=>'button_to'));
+      echo $form->submit(__('Delete',true), array('onclick'=>'return confirm("'.__('Are you sure ?',true).'");', 'class'=>"button-small"));
+      echo $form->end();
+    ?>
     </td>
 </tr>
-<% end %>
+<?php endforeach; ?>
 </table>
-<% reset_cycle %>
-<% end %>
+<?php $candy->reset_cycle() ?>
+<?php endif; ?>
 
 <p><%= link_to l(:label_enumeration_new), { :action => 'new', :opt => option } %></p>
 <?php endforeach; ?>
