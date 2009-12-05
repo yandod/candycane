@@ -1,7 +1,8 @@
-<h2><%=l(:label_enumerations)%></h2>
+<h2><?php echo $candy->html_title(__('Enumerations',true)) ?></h2>
 
-<% Enumeration::OPTIONS.each do |option, params| %>
-<h3><%= l(params[:label]) %></h3>
+<?php $Enumeration = ClassRegistry::getObject('Enumeration'); ?>
+<?php foreach($Enumeration->OPTIONS as $option => $params  ): ?>
+<h3><?php __($params['label']) ?></h3>
 
 <% enumerations = Enumeration.get_values(option) %>
 <% if enumerations.any? %>
@@ -26,6 +27,4 @@
 <% end %>
 
 <p><%= link_to l(:label_enumeration_new), { :action => 'new', :opt => option } %></p>
-<% end %>
-
-<% html_title(l(:label_enumerations)) -%>
+<?php endforeach; ?>

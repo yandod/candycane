@@ -11,12 +11,11 @@ class Enumeration extends AppModel
 #  validates_uniqueness_of :name, :scope => [:opt]
 #  validates_length_of :name, :maximum => 30
 #
-#  # Single table inheritance would be an option
-#  OPTIONS = {
-#    "IPRI" => {:label => :enumeration_issue_priorities, :model => Issue, :foreign_key => :priority_id},
-#    "DCAT" => {:label => :enumeration_doc_categories, :model => Document, :foreign_key => :category_id},
-#    "ACTI" => {:label => :enumeration_activities, :model => TimeEntry, :foreign_key => :activity_id}
-#  }.freeze
+  var  $OPTIONS = array(
+    "IPRI" => array('label' => 'Issue priorities', 'model' => 'Issue', 'foreign_key' => 'priority_id'),
+    "DCAT" => array('label' => 'Document categories', 'model' => 'Document', 'foreign_key' => 'category_id'),
+    "ACTI" => array('label' => 'Activities (time tracking)', 'model' => 'TimeEntry', 'foreign_key' => 'activity_id')
+  );
 #  
 #  def self.get_values(option)
 #    find(:all, :conditions => {:opt => option}, :order => 'position')
