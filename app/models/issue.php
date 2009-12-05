@@ -507,7 +507,7 @@ class Issue extends AppModel
 #    project.assignable_users
 #  end
 #  
-#  # Returns an array of status that user is able to apply
+# Returns an array of status that user is able to apply
 #  def new_statuses_allowed_to(user)
 #    statuses = status.find_new_statuses_allowed_to(user.role_for_project(project), tracker)
 #    statuses << status unless statuses.empty?

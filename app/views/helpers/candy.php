@@ -1125,23 +1125,25 @@ function breadcrumb($args)
     $out .= '<p class="pourcent">'.$legend.'</p>';
     return $out;
   }
-#
-#  def context_menu_link(name, url, options={})
-#    options[:class] ||= ''
-#    if options.delete(:selected)
-#      options[:class] << ' icon-checked disabled'
-#      options[:disabled] = true
-#    end
-#    if options.delete(:disabled)
-#      options.delete(:method)
-#      options.delete(:confirm)
-#      options.delete(:onclick)
-#      options[:class] << ' disabled'
-#      url = '#'
-#    end
-#    link_to name, url, options
-#  end
-#
+
+  function context_menu_link($name, $url, $options=array()) {
+    $options = array_merge(array('class'=>''), $options);
+    if (array_key_exists('selected', $options) && $options['selected']) {
+      unset($options['selected']);
+      $options['class'] .= ' icon-checked disabled';
+      $options['disabled'] = true;
+    }
+    if (array_key_exists('disabled', $options) && $options['disabled']) {
+      unset($options['disabled']);
+      unset($options['method']);
+      unset($options['confirm']);
+      unset($options['onclick']);
+      $options['class'] .= ' disabled';
+      $url = '#';
+    }
+    return $this->Html->link($name, $url, $options);
+  }
+
   function calendar_for($field_id) {
     $out = $this->include_calendar_headers_tags();
     $out .= $this->Html->image("calendar.png", array('id' => "{$field_id}_trigger", 'class' => "calendar-trigger"));
