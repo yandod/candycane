@@ -78,7 +78,8 @@ class InstallController extends InstallAppController {
                 $content = str_replace('{default_host}', $this->data['Install']['host'], $content);
                 $content = str_replace('{default_login}', $this->data['Install']['login'], $content);
                 $content = str_replace('{default_password}', $this->data['Install']['password'], $content);
-                $content = str_replace('{default_database}', $this->data['Install']['database'], $content);
+                $content = str_replace('{default_prefix}', $this->data['Install']['database'], $content);
+                
                 if($file->write($content) ) {
                     $this->redirect(array('action' => 'data'));
                 } else {
