@@ -1,0 +1,20 @@
+candycane is a issue tracking system.
+original implementation is RedMine.
+
+//--------------------
+// How to install.
+//--------------------
+1. extract all files and place to directory which is able to run php.
+2. access to url to show that directory by web  browser.
+3. step by step installer shows up.
+4. just use it!
+
+
+//--------------------
+// Notes.
+//--------------------
+
+Currently some features are missing as RedMine.
+- repository viewer
+- forum
+- documents
