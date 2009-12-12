@@ -33,5 +33,5 @@
 <?php $candy->reset_cycle() ?>
 <?php endif; ?>
 
-<p><%= link_to l(:label_enumeration_new), { :action => 'new', :opt => option } %></p>
+<p><?php echo $html->link(__('New value',true),array('action'=>'add','opt'=>$option)) ?></p>
 <?php endforeach; ?>
