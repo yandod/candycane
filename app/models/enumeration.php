@@ -2,6 +2,9 @@
 class Enumeration extends AppModel
 {
   var $name = 'Enumeration';
+  var $actsAs = array('List' => array(
+    'scope' => 'Enumeration.opt'
+  ));
   
 #  acts_as_list :scope => 'opt = \'#{opt}\''
 #

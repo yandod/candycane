@@ -44,21 +44,29 @@ class EnumerationsController extends AppController {
 #    end
 #  end
 #
-#  def move
-#    @enumeration = Enumeration.find(params[:id])
-#    case params[:position]
-#    when 'highest'
-#      @enumeration.move_to_top
-#    when 'higher'
-#      @enumeration.move_higher
-#    when 'lower'
-#      @enumeration.move_lower
-#    when 'lowest'
-#      @enumeration.move_to_bottom
-#    end if params[:position]
-#    redirect_to :action => 'index'
-#  end
-#  
+  function move($id) {
+    $this->Enumeration->read(null, $id);
+    if(!empty($this->params['named']['position'])) {
+      $listBehavior = ClassRegistry::getObject('ListBehavior');
+      $listBehavior->settings['Enumeration']['scope'] = "Enumeration.opt = '{$this->params['named']['opt']}'";
+      switch($this->params['named']['position']) {
+      case 'highest' :
+        $this->Enumeration->move_to_top();
+        break;
+      case 'higher' :
+        $this->Enumeration->move_higher();
+        break;
+      case 'lower' :
+        $this->Enumeration->move_lower();
+        break;
+      case 'lowest' :
+        $this->Enumeration->move_to_bottom();
+        break;
+      }
+    }  
+    $this->redirect('index');
+  }
+  
 #  def destroy
 #    @enumeration = Enumeration.find(params[:id])
 #    if !@enumeration.in_use?

@@ -15,10 +15,10 @@
     <td><?php echo $html->link($enumeration['Enumeration']['name'],array('action'=>'edit','id'=>$enumeration['Enumeration']['id']),array('id'=>'enumeration')) ?></td>
     <td style="width:15%;"><?php if ($enumeration['Enumeration']['is_default']) echo $html->image('true.png') ?></td>
     <td style="width:15%;">
-    <?php echo $html->link($html->image('2uparrow.png',  array('alt'=>__('Move to top',true))),   array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'highest'), array('title'=>__('Move to top', true)), null, false); ?>
-    <?php echo $html->link($html->image('1uparrow.png',  array('alt'=>__('Move up',true))),       array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'higher'),  array('title'=>__('Move up', true))    , null, false); ?> -
-    <?php echo $html->link($html->image('1downarrow.png',array('alt'=>__('Move down',true))),     array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'lower'),   array('title'=>__('Move down', true))  , null, false); ?>
-    <?php echo $html->link($html->image('2downarrow.png',array('alt'=>__('Move to bottom',true))),array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'lowest'),  array('title'=>__('Move to bottom',true)),null,false); ?>
+    <?php echo $html->link($html->image('2uparrow.png',  array('alt'=>__('Move to top',true))),   array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'highest','opt'=>$option), array('title'=>__('Move to top', true)), null, false); ?>
+    <?php echo $html->link($html->image('1uparrow.png',  array('alt'=>__('Move up',true))),       array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'higher','opt'=>$option),  array('title'=>__('Move up', true))    , null, false); ?> -
+    <?php echo $html->link($html->image('1downarrow.png',array('alt'=>__('Move down',true))),     array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'lower','opt'=>$option),   array('title'=>__('Move down', true))  , null, false); ?>
+    <?php echo $html->link($html->image('2downarrow.png',array('alt'=>__('Move to bottom',true))),array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'lowest','opt'=>$option),  array('title'=>__('Move to bottom',true)),null,false); ?>
     </td>
     <td align="center" style="width:10%;">
     <?php 
