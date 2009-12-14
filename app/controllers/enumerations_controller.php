@@ -20,7 +20,7 @@ class EnumerationsController extends AppController {
 #    @enumeration = Enumeration.new(:opt => params[:opt])
 #  end
 #
-#  def create
+   function add(){
 #    @enumeration = Enumeration.new(params[:enumeration])
 #    if @enumeration.save
 #      flash[:notice] = l(:notice_successful_create)
@@ -28,7 +28,8 @@ class EnumerationsController extends AppController {
 #    else
 #      render :action => 'new'
 #    end
-#  end
+     $this->render('new');
+   }
 #
 #  def edit
 #    @enumeration = Enumeration.find(params[:id])
