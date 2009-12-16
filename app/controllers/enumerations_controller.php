@@ -28,6 +28,8 @@ class EnumerationsController extends AppController {
 #    else
 #      render :action => 'new'
 #    end
+     $this->set('options',$this->Enumeration->OPTIONS);
+     $this->set('opt',$this->params['named']['opt']);
      $this->render('new');
    }
 #

@@ -1,12 +1,13 @@
-<%= error_messages_for 'enumeration' %>
+<?php echo $this->renderElement('error_explanation'); ?>
 <div class="box">
 <!--[form:optvalue]-->
-<%= hidden_field 'enumeration', 'opt'  %>
+<?php echo $form->hidden('opt',array('value'=>$opt)); ?>
+<p><?php echo $form->label('name', __('Name', true)); ?>
+<?php echo $form->input('name',array('type'=>'text', 'div'=>false,'size'=>30, 'label'=>false)) ?></p>
 
-<p><label for="enumeration_name"><%=l(:field_name)%></label>
-<%= text_field 'enumeration', 'name'  %></p>
+<p>
+<?php echo $form->label('is_default', __('Default value', true)); ?>
+<?php echo $form->input('is_default', array('type'=>'checkbox', 'div'=>false, 'label'=>false)); ?></p>
 
-<p><label for="enumeration_is_default"><%=l(:field_is_default)%></label>
-<%= check_box 'enumeration', 'is_default'  %></p>
 <!--[eoform:optvalue]-->
 </div>

@@ -1,6 +1,6 @@
-<h2><%= l(@enumeration.option_name) %>: <%=l(:label_enumeration_new)%></h2>
+<h2><?php __($options[$opt]['label']) ?>: <?php __('New value') ?></h2>
 
-<% form_tag({:action => 'create'}, :class => "tabular") do %>
+<?php echo $form->create('Enumeration',array('url' => array('action'=>'add','opt'=>$opt),'class'=>'tabular')); ?>
   <?php echo $this->element('enumerations/_form') ?>
-  <%= submit_tag l(:button_create) %>
-<% end %>
+  <?php echo $form->submit(__('Create',true)) ?>
+<?php echo $form->end(); ?>
