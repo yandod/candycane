@@ -1323,4 +1323,14 @@ function breadcrumb($args)
       return sprintf(__('%d days',true),round($distance_in_minutes / 1440));
     }
   }
+  function options_from_collection_for_select($list, $model, $value, $text, $none=false) {
+    $options = array();
+    if($none) {
+      $options['none'] = $none;
+    }
+    foreach($list as $item) {
+      $options[$item[$model][$value]] = $item[$model][$text];
+    }
+    return $options;
+  }
 }

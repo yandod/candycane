@@ -1,51 +1,91 @@
-<h2><%= l(:label_bulk_edit_selected_issues) %></h2>
+<h2><?php __('Bulk edit selected issues') ?></h2>
 
-<ul><%= @issues.collect {|i| content_tag('li', link_to(h("#{i.tracker} ##{i.id}"), { :action => 'show', :id => i }) + h(": #{i.subject}")) }.join("\n") %></ul>
+<ul><?php foreach($_issues as $i): ?>
+	<li><?php echo $html->link(h("{$i['Tracker']['name']} #{$i['Issue']['id']}"), array('action' => 'show', 'id' => $i['Issue']['id'] )).h(": {$i['Issue']['subject']}"); ?></li>
+<?php endforeach; ?>
+</ul>
 
-<% form_tag() do %>
-<%= @issues.collect {|i| hidden_field_tag('ids[]', i.id)}.join %>
+<?php echo $form->create('Issue', array('action'=>'bulk_edit'));?>
+<?php foreach($_issues as $i) { echo $form->hidden('ids', array('name'=>'data[Issue][ids][]', 'value'=>$i['Issue']['id'])); } ?>
 <div class="box">
 <fieldset>
-<legend><%= l(:label_change_properties) %></legend>
+<legend><?php __('Change properties') ?></legend>
 <p>
-<% if @available_statuses.any? %>
-<label><%= l(:field_status) %>: 
-<%= select_tag('status_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(@available_statuses, :id, :name)) %></label>
-<% end %>
-<label><%= l(:field_priority) %>: 
-<%= select_tag('priority_id', "<option value=\"\">#{l(:label_no_change_option)}</option>" + options_from_collection_for_select(Enumeration.get_values('IPRI'), :id, :name)) %></label>
-<label><%= l(:field_category) %>: 
-<%= select_tag('category_id', content_tag('option', l(:label_no_change_option), :value => '') +
-                                content_tag('option', l(:label_none), :value => 'none') +
-                                options_from_collection_for_select(@project.issue_categories, :id, :name)) %></label>
+<?php if (count($available_statuses) > 0): ?>
+<label><?php __('Status') ?>: 
+<?php echo $form->select(
+	'status_id', 
+	$candy->options_from_collection_for_select($available_statuses, 'Status', 'id', 'name'), 
+	null,
+	array(),
+	__('(No change)',true)); ?>
+</label>
+<?php endif; ?>
+<label><?php __('Priority') ?>: 
+<?php echo $form->select(
+	'priority_id', 
+	$candy->options_from_collection_for_select($priorities, 'Priority', 'id', 'name'), 
+	null,
+	array(),
+	__('(No change)',true)); ?>
+</label>
+<label><?php __('Category') ?>: 
+<?php echo $form->select(
+	'category_id', 
+	array_merge(array('none' => __('none',true)), $issueCategories), 
+	null,
+	array(),
+	__('(No change)',true)); ?>
+</label>
 </p>
 <p>
-<label><%= l(:field_assigned_to) %>: 
-<%= select_tag('assigned_to_id', content_tag('option', l(:label_no_change_option), :value => '') +
-                                 content_tag('option', l(:label_nobody), :value => 'none') +
-                                 options_from_collection_for_select(@project.assignable_users, :id, :name)) %></label>
-<label><%= l(:field_fixed_version) %>: 
-<%= select_tag('fixed_version_id', content_tag('option', l(:label_no_change_option), :value => '') +
-                                   content_tag('option', l(:label_none), :value => 'none') +
-                                   options_from_collection_for_select(@project.versions, :id, :name)) %></label>
+<label><?php __('Assigned to') ?>: 
+<?php echo $form->select(
+	'assigned_to_id', 
+	array_merge(array('none' => __('nobody',true)), $assignableUsers), 
+	null,
+	array(),
+	__('(No change)',true)); ?>
+</label>
+<label><?php __('Target version') ?>: 
+<?php echo $form->select(
+	'fixed_version_id', 
+	array_merge(array('none' => __('none',true)), $fixedVersions), 
+	null,
+	array(),
+	__('(No change)',true)); ?>
+</label>
 </p>
 
 <p>
-<label><%= l(:field_start_date) %>: 
-<%= text_field_tag 'start_date', '', :size => 10 %><%= calendar_for('start_date') %></label>
-<label><%= l(:field_due_date) %>: 
-<%= text_field_tag 'due_date', '', :size => 10 %><%= calendar_for('due_date') %></label>
-<label><%= l(:field_done_ratio) %>: 
-<%= select_tag 'done_ratio', options_for_select([[l(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %></label>
+<label><?php __('Start') ?>: 
+<?php echo $form->text('start_date', array('value'=>'', 'size' => 10)); echo $candy->calendar_for('IssueStartDate'); ?></label>
+<label><?php __('Due date') ?>: 
+<?php echo $form->text('due_date', array('value'=>'', 'size' => 10)); echo $candy->calendar_for('IssueDueDate');?></label>
+<label><?php __('%% Done') ?>: 
+<?php 
+$done_ratios = array();
+for($i = 0;$i<=10;$i++) {$done_ratios[$i] = sprintf('%d %%', $i*10);}
+echo $form->select(
+	'done_ratio', 
+	$done_ratios, 
+	null,
+	array(),
+	__('(No change)',true)); ?>
+</label>
 </p>
-<%= call_hook(:view_issues_bulk_edit_details_bottom, { :issues => @issues }) %>
+<?php /* call_hook(:view_issues_bulk_edit_details_bottom, { :issues => @issues }) */ ?>
 </fieldset>
 
-<fieldset><legend><%= l(:field_notes) %></legend>
-<%= text_area_tag 'notes', @notes, :cols => 60, :rows => 10, :class => 'wiki-edit' %>
-<%= wikitoolbar_for 'notes' %>
+<fieldset><legend><?php __('Notes') ?></legend>
+<?php echo $form->textarea('notes', array('cols' => 60, 'rows' => 10, 'class' => 'wiki-edit', 'id'=>'notes')); ?>
+    <script src="/js/jstoolbar/jstoolbar.js?1236399204" type="text/javascript"></script><script src="/js/jstoolbar/textile.js?1236399204" type="text/javascript"></script><script src="/js/jstoolbar/lang/jstoolbar-ja.js?1236399204" type="text/javascript"></script><script type="text/javascript">
+//<![CDATA[
+var toolbar = new jsToolBar($('notes')); toolbar.setHelpLink('<?php __("Text formatting");?>: <a href="/help/wiki_syntax.html?1236399200" onclick="window.open(&quot;/help/wiki_syntax.html?1236399200&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;"><?php __("Help"); ?></a>'); toolbar.draw();
+//]]>
+</script>
 </fieldset>
 </div>
 
-<p><%= submit_tag l(:button_submit) %>
-<% end %>
+<p><?php echo $form->submit(__('Submit',true)); ?>
+<?php echo $form->end(); ?>

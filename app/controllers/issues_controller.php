@@ -24,6 +24,7 @@ class IssuesController extends AppController
   var $_query;
   var $_project;
   var $authorize = array('except' => array('index', 'changes', 'gantt', 'calendar', 'preview', 'update_form', 'context_menu'));
+  var $_issues;
   
 #class IssuesController < ApplicationController
 #  menu_item :new_issue, :only => :new
@@ -38,22 +39,31 @@ class IssuesController extends AppController
     $this->MenuManager->menu_item('issues', array('only'=>array('show', 'edit', 'move', 'destroy')));
 
     $issue_id = false;
+    $issue_ids = array();
     if(!empty($this->params['issue_id'])) {
       $issue_id = $this->params['issue_id'];
+      $issue_ids[] = $issue_id;
     } elseif(!empty($this->params['url']['ids'])) {
       $issue_id = $this->params['url']['ids'][0];
+      $issue_ids = $this->params['url']['ids'];
+    } elseif(!empty($this->data['Issue']['ids'])) {
+      $issue_ids = $this->data['Issue']['ids'];
     }
     switch ($this->action) {
     case 'show':
     case 'changes':
     case 'edit' :
     case 'reply' :
-    case 'move': 
       if($issue_id) {
         $this->_find_issue($issue_id);
         $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
       }
       break;
+    case 'bulk_edit' :
+    case 'move': 
+    case 'destroy' :
+      $this->_issues = $this->_find_issues($issue_ids);
+      $this->params['project_id'] = $this->_issues[0]['Project']['identifier'];
     }
     return parent::beforeFilter();
   }
@@ -411,49 +421,105 @@ class IssuesController extends AppController
     $this->layout = 'ajax';
     $this->set(compact('user', 'text'));
   }
-#  
-#  # Bulk edit a set of issues
-#  def bulk_edit
-#    if request.post?
-#      status = params[:status_id].blank? ? nil : IssueStatus.find_by_id(params[:status_id])
-#      priority = params[:priority_id].blank? ? nil : Enumeration.find_by_id(params[:priority_id])
-#      assigned_to = (params[:assigned_to_id].blank? || params[:assigned_to_id] == 'none') ? nil : User.find_by_id(params[:assigned_to_id])
-#      category = (params[:category_id].blank? || params[:category_id] == 'none') ? nil : @project.issue_categories.find_by_id(params[:category_id])
-#      fixed_version = (params[:fixed_version_id].blank? || params[:fixed_version_id] == 'none') ? nil : @project.versions.find_by_id(params[:fixed_version_id])
-#      
-#      unsaved_issue_ids = []      
-#      @issues.each do |issue|
-#        journal = issue.init_journal(User.current, params[:notes])
-#        issue.priority = priority if priority
-#        issue.assigned_to = assigned_to if assigned_to || params[:assigned_to_id] == 'none'
-#        issue.category = category if category || params[:category_id] == 'none'
-#        issue.fixed_version = fixed_version if fixed_version || params[:fixed_version_id] == 'none'
-#        issue.start_date = params[:start_date] unless params[:start_date].blank?
-#        issue.due_date = params[:due_date] unless params[:due_date].blank?
-#        issue.done_ratio = params[:done_ratio] unless params[:done_ratio].blank?
+  
+  # Bulk edit a set of issues
+  function bulk_edit() {
+    $role_id = $this->User->role_for_project($this->current_user, $this->_project);
+    if(!$this->RequestHandler->isPost() && !empty($this->data)) {
+      $status_id = $this->_get_param('status_id');
+      $priotity_id = $this->_get_param('priority_id');
+      $assigned_to_id = $this->_get_param('assigned_to_id');
+      $category_id = $this->_get_param('category_id');
+      $fixed_version_id = $this->_get_param('fixed_version_id');
+      $status = empty($status_id) ? null : $this->Issue->Status->findById($status_id);
+      $priority = empty($priority_id) ? null : $this->Issue->Priority->findById($priority_id);
+      $assigned_to = (empty($assigned_to_id) || $assigned_to_id == 'none') ? null : $this->User->findById($assigned_to_id);
+      $category = (empty($category_id) || $category_id == 'none') ? null : $this->Issue->Category->findById($category_id);
+      $fixed_version = (empty($fixed_version_id) || $fixed_version_id == 'none') ? null : $this->Issue->FixedVersion->findById($fixed_version_id);
+      
+      $unsaved_issue_ids = array();
+      foreach($this->_issues as $issue) {
+        $journal = $this->Issue->init_journal($issue, $this->current_user, $this->_get_param('notes'));
+        if($priority) {
+          $issue['Issue']['priority_id'] = $priority_id;
+        }
+        if($assigned_to) {
+          $issue['Issue']['assigned_to_id'] = $assigned_to_id;
+        }
+        if($assigned_to_id == 'none') {
+          $issue['Issue']['assigned_to_id'] = null;
+        }
+        if($category) {
+          $issue['Issue']['category_id'] = $category_id;
+        }
+        if($category_id == 'none') {
+          $issue['Issue']['category_id'] = null;
+        }
+        if($fixed_version) {
+          $issue['Issue']['fixed_version_id'] = $fixed_version_id;
+        }
+        if($fixed_version_id == 'none') {
+          $issue['Issue']['fixed_version_id'] = null;
+        }
+        if($this->_get_param('start_date') != null) {
+          $issue['Issue']['start_date'] = $this->_get_param('start_date');
+        }
+        if($this->_get_param('due_date') != null) {
+          $issue['Issue']['due_date'] = $this->_get_param('due_date');
+        }
+        if($this->_get_param('done_ratio') != null) {
+          $issue['Issue']['done_ratio'] = $this->_get_param('done_ratio');
+        }
 #        call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
-#        # Don't save any change to the issue if the user is not authorized to apply the requested status
-#        if (status.nil? || (issue.status.new_status_allowed_to?(status, current_role, issue.tracker) && issue.status = status)) && issue.save
-#          # Send notification for each issue (if changed)
-#          Mailer.deliver_issue_edit(journal) if journal.details.any? && Setting.notified_events.include?('issue_updated')
-#        else
-#          # Keep unsaved issue ids to display them in flash error
-#          unsaved_issue_ids << issue.id
-#        end
-#      end
-#      if unsaved_issue_ids.empty?
-#        flash[:notice] = l(:notice_successful_update) unless @issues.empty?
-#      else
-#        flash[:error] = l(:notice_failed_to_save_issues, unsaved_issue_ids.size, @issues.size, '#' + unsaved_issue_ids.join(', #'))
-#      end
-#      redirect_to(params[:back_to] || {:controller => 'issues', :action => 'index', :project_id => @project})
-#      return
-#    end
-#    # Find potential statuses the user could be allowed to switch issues to
-#    @available_statuses = Workflow.find(:all, :include => :new_status,
-#                                              :conditions => {:role_id => current_role.id}).collect(&:new_status).compact.uniq.sort
-#  end
-#
+        # Don't save any change to the issue if the user is not authorized to apply the requested status
+        $result = true;
+        if ($status) {
+          if($this->Issue->Status->is_new_status_allowed_to($status_id, $role_id, $issue['Issue']['tracker_id'])) {
+            $issue['Issue']['status_id'] = $status_id;
+          } else {
+            $resiult = false;
+          }
+        }
+        if($result) {
+          $result = $this->Issue->save($issue);
+        }
+        # Send notification for each issue (if changed)
+        if($result) {
+          # TODO : Mail Send.
+          # Mailer.deliver_issue_edit(journal) if journal.details.any? && Setting.notified_events.include?('issue_updated')
+        } else {
+          # Keep unsaved issue ids to display them in flash error
+          $unsaved_issue_ids[] = $issue['Issue']['id'];
+        }
+      }
+      if (empty($unsaved_issue_ids)) {
+        if(!empty($issues)) {
+          $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+        }
+      } else {
+        $this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), count($unsaved_issue_ids), count($issues)).'#'.join(', #', $unsaved_issue_ids), 'default', array('class'=>'flash flash_error'));
+      }
+      if($this->_get_param('back_to') != null) {
+        $this->redirect($this->_get_param('back_to'));
+      } else {
+        $this->redirect(array('controller' => 'issues', 'action' => 'index', 'project_id' => $this->_project['Project']['identifier']));
+      }
+      return;
+    }
+    # Find potential statuses the user could be allowed to switch issues to
+    $workflow = & ClassRegistry::init('Workflow');
+    $workflow->bindModel(array('belongsTo'=>array('Status'=>array('className'=>'IssueStatus', 'foreignKey'=>'new_status_id', 'order'=>'position'))), false);
+    $available_statuses = $workflow->find('all', array('conditions' => array('role_id' => $role_id), 'fields'=>'Status.*'));
+    $this->set('available_statuses', $available_statuses);
+    $this->set('_issues', $this->_issues);
+    $this->set('priorities', $this->Issue->Priority->get_values('IPRI'));
+
+    $assignable_users = $this->Issue->Project->assignable_users($this->_project['Project']['id']);
+    $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
+    $fixed_versions = $this->Issue->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
+    $this->set(compact('assignable_users', 'issue_categories', 'fixed_versions'));
+  }
+
   function move() {
     $issue_ids = false;
     if(!empty($this->params['issue_id'])) {
@@ -777,21 +843,22 @@ class IssuesController extends AppController
 
   }
 
-#  
-#  # Filter for bulk operations
-#  def find_issues
-#    @issues = Issue.find_all_by_id(params[:id] || params[:ids])
-#    raise ActiveRecord::RecordNotFound if @issues.empty?
-#    projects = @issues.collect(&:project).compact.uniq
-#    if projects.size == 1
-#      @project = projects.first
-#    else
-#      # TODO: let users bulk edit/move/destroy issues from different projects
-#      render_error 'Can not bulk edit/move/destroy issues from different projects' and return false
-#    end
-#  rescue ActiveRecord::RecordNotFound
-#    render_404
-#  end
+  # Filter for bulk operations
+  function _find_issues($ids) {
+    $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$ids)));
+    if (empty($issues)) {
+      $this->cakeError('error404');
+    }
+    $project_ids = array_unique(Set::extract("/Issue/project_id", $issues));
+    $projects = $this->Issue->Project->find('all', array('conditions'=>array('Project.id'=>$project_ids)));
+    if (count($projects) == 1) {
+      $project = $projects[0];
+    } else {
+      # TODO: let users bulk edit/move/destroy issues from different projects
+      $this->cakeError('Can not bulk edit/move/destroy issues from different projects');
+    }
+    return $issues;
+  }
 #  
 #  def find_project
 #    @project = Project.find(params[:project_id])
