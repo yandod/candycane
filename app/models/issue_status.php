@@ -115,6 +115,15 @@ class IssueStatus extends AppModel
     }
     return $list;
   }
+  function is_new_status_allowed_to($status_id, $role_id, $tracker_id) {
+    $workflow = & ClassRegistry::init('Workflow');
+    $workflow->bindModel(array('belongsTo'=>array('Status'=>array('className'=>'IssueStatus', 'foreignKey'=>'new_status_id', 'order'=>'position'))), false);
+    
+    if($status_id && $role_id && $tracker_id) {
+      return $workflow->hasAny(array('new_status_id' => $status_id, 'role_id' => $role_id, 'tracker_id' => $tracker_id));
+    }
+    return false;
+  }
   function beforeDelete($cascade = true) {
     return $this->check_integrity();
   }

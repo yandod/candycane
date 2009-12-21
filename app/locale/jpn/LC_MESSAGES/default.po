@@ -1494,7 +1494,7 @@ msgstr "日"
 
 # field_done_ratio
 msgid "%% Done"
-msgstr "進捗 %%"
+msgstr "進捗 %"
 
 # field_done_ratio
 msgid "done_ratio"
