@@ -1,4 +1,4 @@
-<h2><%= l(@enumeration.option_name) %>: <%=h @enumeration %></h2>
+<h2><?php __($enumeration['Enumeration']['opt']) ?>: <?php echo h($enumeration['Enumeration']['name']) ?></h2>
 
 <% form_tag({}) do %>
 <div class="box">

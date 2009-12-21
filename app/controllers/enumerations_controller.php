@@ -79,7 +79,14 @@ class EnumerationsController extends AppController {
     $this->redirect('index');
   }
   
-#  def destroy
+  function destroy($id){
+    $param = array(
+      'conditions' => array(
+        'id' => $id
+      )
+    );
+    $enumeration = $this->Enumeration->find('first',$param);
+    $this->set('enumeration',$enumeration);
 #    @enumeration = Enumeration.find(params[:id])
 #    if !@enumeration.in_use?
 #      # No associated objects
@@ -95,6 +102,6 @@ class EnumerationsController extends AppController {
 #  #rescue
 #  #  flash[:error] = 'Unable to delete enumeration'
 #  #  redirect_to :action => 'index'
-#  end
+  }
 #end
 }
