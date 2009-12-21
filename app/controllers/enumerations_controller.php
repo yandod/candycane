@@ -28,6 +28,15 @@ class EnumerationsController extends AppController {
 #    else
 #      render :action => 'new'
 #    end
+     if ($this->data) {
+       $listBehavior = ClassRegistry::getObject('ListBehavior');
+       $listBehavior->settings['Enumeration']['scope'] = "Enumeration.opt = '{$this->params['named']['opt']}'";
+       
+       if ($this->Enumeration->save($this->data)) {
+           $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+           $this->redirect('index');
+         }
+     }
      $this->set('options',$this->Enumeration->OPTIONS);
      $this->set('opt',$this->params['named']['opt']);
      $this->render('new');
