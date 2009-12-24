@@ -86,6 +86,7 @@ class EnumerationsController extends AppController {
       )
     );
     $enumeration = $this->Enumeration->find('first',$param);
+    $this->set('options',$this->Enumeration->OPTIONS);
     $this->set('enumeration',$enumeration);
 #    @enumeration = Enumeration.find(params[:id])
 #    if !@enumeration.in_use?
