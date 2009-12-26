@@ -88,17 +88,19 @@ class EnumerationsController extends AppController {
     $enumeration = $this->Enumeration->find('first',$param);
     $this->set('options',$this->Enumeration->OPTIONS);
     $this->set('enumeration',$enumeration);
-#    @enumeration = Enumeration.find(params[:id])
-#    if !@enumeration.in_use?
-#      # No associated objects
-#      @enumeration.destroy
-#      redirect_to :action => 'index'
+    if (!$this->Enumeration->in_use($enumeration)) {
+      # No associated objects
+      if ($this->Enumeration->del($id)){
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect('index');
+      }
+    } else if (isset($this->data['Enumeration']['reassign_to_id'])) {
 #    elsif params[:reassign_to_id]
 #      if reassign_to = Enumeration.find_by_opt_and_id(@enumeration.opt, params[:reassign_to_id])
 #        @enumeration.destroy(reassign_to)
 #        redirect_to :action => 'index'
 #      end
-#    end
+    }
 #    @enumerations = Enumeration.get_values(@enumeration.opt) - [@enumeration]
 #  #rescue
 #  #  flash[:error] = 'Unable to delete enumeration'

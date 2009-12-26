@@ -41,13 +41,14 @@ class Enumeration extends AppModel
 #    end
 #  end
 #  
-#  def objects_count
-#    OPTIONS[self.opt][:model].count(:conditions => "#{OPTIONS[self.opt][:foreign_key]} = #{id}")
-#  end
-#  
-#  def in_use?
-#    self.objects_count != 0
-#  end
+  function objects_count($row){
+    $model = ClassRegistry::init($this->OPTIONS[$row['Enumeration']['opt']]['model']);
+    return $model->find('count',aa('conditions',aa($this->OPTIONS[$row['Enumeration']['opt']]['foreign_key'],$row['Enumeration']['id'])));
+  }
+#
+  function in_use($row){
+    return ($this->objects_count($row) != 0);
+  }
 #  
 #  alias :destroy_without_reassign :destroy
 #  
