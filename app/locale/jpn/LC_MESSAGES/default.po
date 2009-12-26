@@ -1200,7 +1200,7 @@ msgstr "情報"
 
 # text_enumeration_category_reassign_to
 msgid "'Reassign them to this value:'"
-msgstr "'次の値に割り当て直す:'"
+msgstr "次の値に割り当て直す:"
 
 # setting_attachment_max_size
 msgid "Attachment max. size"
@@ -1546,7 +1546,7 @@ msgstr "最近の接続"
 
 # text_enumeration_destroy_question
 msgid "'%d objects are assigned to this value.'"
-msgstr "'%d個のオブジェクトがこの値に割り当てられています。'"
+msgstr "%d個のオブジェクトがこの値に割り当てられています。"
 
 # label_file_added
 msgid "File added"

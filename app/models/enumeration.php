@@ -20,9 +20,6 @@ class Enumeration extends AppModel
     "ACTI" => array('label' => 'Activities (time tracking)', 'model' => 'TimeEntry', 'foreign_key' => 'activity_id')
   );
 #  
-#  def self.get_values(option)
-#    find(:all, :conditions => {:opt => option}, :order => 'position')
-#  end
   function get_values($option, $order = 'ASC') {
     return $this->find('all', array('conditions'=>array('opt'=>$option), 'order'=>"position $order"));
   }
@@ -49,17 +46,18 @@ class Enumeration extends AppModel
   function in_use($row){
     return ($this->objects_count($row) != 0);
   }
-#  
-#  alias :destroy_without_reassign :destroy
-#  
-#  # Destroy the enumeration
-#  # If a enumeration is specified, objects are reassigned
-#  def destroy(reassign_to = nil)
+
+  #  alias :destroy_without_reassign :destroy
+  
+ # Destroy the enumeration
+ # If a enumeration is specified, objects are reassigned
+  function destroy($row,$reassign_to = null) {
 #    if reassign_to && reassign_to.is_a?(Enumeration)
-#      OPTIONS[self.opt][:model].update_all("#{OPTIONS[self.opt][:foreign_key]} = #{reassign_to.id}", "#{OPTIONS[self.opt][:foreign_key]} = #{id}")
+    $model = ClassRegistry::init($this->OPTIONS[$row['Enumeration']['opt']]['model']);
+    $model->updateAll(aa($this->OPTIONS[$row['Enumeration']['opt']]['foreign_key'],$reassign_to),aa($this->OPTIONS[$row['Enumeration']['opt']]['foreign_key'],$row['Enumeration']['id']));
 #    end
-#    destroy_without_reassign
-#  end
+    $this->del($row['Enumeration']['id']);
+  }
 #  
 #  def <=>(enumeration)
 #    position <=> enumeration.position

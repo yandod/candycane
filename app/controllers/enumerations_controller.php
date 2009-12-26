@@ -15,19 +15,7 @@ class EnumerationsController extends AppController {
     
   }
   
-#
-#  def new
-#    @enumeration = Enumeration.new(:opt => params[:opt])
-#  end
-#
    function add(){
-#    @enumeration = Enumeration.new(params[:enumeration])
-#    if @enumeration.save
-#      flash[:notice] = l(:notice_successful_create)
-#      redirect_to :action => 'list', :opt => @enumeration.opt
-#    else
-#      render :action => 'new'
-#    end
      if ($this->data) {
        $listBehavior = ClassRegistry::getObject('ListBehavior');
        $listBehavior->settings['Enumeration']['scope'] = "Enumeration.opt = '{$this->params['named']['opt']}'";
@@ -88,20 +76,21 @@ class EnumerationsController extends AppController {
     $enumeration = $this->Enumeration->find('first',$param);
     $this->set('options',$this->Enumeration->OPTIONS);
     $this->set('enumeration',$enumeration);
-    if (!$this->Enumeration->in_use($enumeration)) {
+    $count = $this->Enumeration->objects_count($enumeration);
+    $this->set('objects_count',$count);
+    if ($count == 0) {
       # No associated objects
       if ($this->Enumeration->del($id)){
         $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
         $this->redirect('index');
       }
     } else if (isset($this->data['Enumeration']['reassign_to_id'])) {
-#    elsif params[:reassign_to_id]
 #      if reassign_to = Enumeration.find_by_opt_and_id(@enumeration.opt, params[:reassign_to_id])
-#        @enumeration.destroy(reassign_to)
-#        redirect_to :action => 'index'
+       $this->Enumeration->destroy($enumeration,$this->data['Enumeration']['reassign_to_id']);
+       $this->redirect('index');
 #      end
     }
-#    @enumerations = Enumeration.get_values(@enumeration.opt) - [@enumeration]
+      $this->set('enumerations',$this->Enumeration->get_values($enumeration['Enumeration']['opt']));
 #  #rescue
 #  #  flash[:error] = 'Unable to delete enumeration'
 #  #  redirect_to :action => 'index'
