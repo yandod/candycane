@@ -23,27 +23,29 @@ class EnumerationsController extends AppController {
        if ($this->Enumeration->save($this->data)) {
            $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
            $this->redirect('index');
-         }
+       }
      }
      $this->set('options',$this->Enumeration->OPTIONS);
      $this->set('opt',$this->params['named']['opt']);
      $this->render('new');
    }
-#
-#  def edit
-#    @enumeration = Enumeration.find(params[:id])
-#  end
-#
-#  def update
-#    @enumeration = Enumeration.find(params[:id])
-#    if @enumeration.update_attributes(params[:enumeration])
-#      flash[:notice] = l(:notice_successful_update)
+
+  function edit($id){  
+    $enumeration = $this->Enumeration->findById($id);
+    $this->set('enumeration',$enumeration);
+    if ($this->data) {
+      $this->data['Enumeration']['id'] = $id;
+      if($this->Enumeration->save($this->data)) {
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
 #      redirect_to :action => 'list', :opt => @enumeration.opt
-#    else
-#      render :action => 'edit'
-#    end
-#  end
-#
+        $this->redirect('index');
+      } else {
+        $this->render('edit');
+      }
+    }
+    $this->data = $enumeration;
+  }
+
   function move($id) {
     $this->Enumeration->read(null, $id);
     if(!empty($this->params['named']['position'])) {
