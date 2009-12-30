@@ -153,20 +153,20 @@ class NewsController extends AppController {
 #    redirect_to :action => 'show', :id => @news
 #  end
 #
-  function destroy( $id = null ) 
+  function destroy() 
   {
-		$project = $this->News->read(null, $id);
-		if ( !$project ) {
+    $project = $this->News->findById($this->params['news_id']);
+    if ( !$project ) {
       $this->cakeError('error404');
-	  }
+	}
 	  
-		if ($this->News->del($id)) {
-        // TODO: project_idを正しく設定する！
-			$this->Session->setFlash(__('Successful deletion.', true), 'default', array('class'=>'flash notice'));
-			$this->redirect(array('controller'=>'projects', 'action' => $project['Project'][0]['Project']['identifier'], 'news/index'));
+	if ($this->News->del($this->params['news_id'])) {
+      // TODO: project_idを正しく設定する！
+	  $this->Session->setFlash(__('Successful deletion.', true), 'default', array('class'=>'flash notice'));
+	  $this->redirect(array('controller'=>'projects', 'action' => $project['Project']['identifier'], 'news/index'));
     } else {
       $this->cakeError('error404');
-	  }
+	}
   }
 #  
 #  def preview

@@ -15,6 +15,7 @@
 	Router::connect('/projects/:project_id/issues/:action/*', array('controller' => 'issues'));
 	Router::connect('/projects/:action/:project_id', array('controller' => 'projects'));
 	Router::connect('/projects/:project_id/news/:action/', array('controller' => 'news'));
+	Router::connect('/projects/:project_id/news/:action/:id', array('controller' => 'news'));
 	Router::connect('/projects/:project_id/documents/:action/', array('controller' => 'documents'));
 	Router::connect('/projects/:project_id/boards/:action/:id/', array('controller' => 'boards'));
 	Router::connect('/projects/:project_id/timelog/:action/*', array('controller' => 'timelog'), array('project_id' => '.+'));
