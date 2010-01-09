@@ -251,6 +251,7 @@ class ProjectsController extends AppController
     $this->set('members_by_role', $members_by_role);
 
     $news = $this->News->find('all', array(
+      'conditions' => aa('project_id',$this->id),
       'order' => 'News.created_on DESC',
       'limit'=>5,
     ));
