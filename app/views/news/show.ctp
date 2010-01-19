@@ -49,7 +49,7 @@
                                                        array( 'confirm' => __('Are you sure ?',true), 'method' => 'post', 'title' => __('Delete',true)), false) ; ?>
 
     </div>
-    <h4><?php echo $candy->authoring($comment['created_on'], NULL) ; ?></h4>
+    <h4><?php echo $candy->authoring($comment['created_on'], $comment['Author']) ; ?></h4>
     <?php echo $candy->textilizable($comment['comments']) ; ?>
 <?php endforeach; ?>
 </div>

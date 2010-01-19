@@ -65,8 +65,9 @@ class NewsController extends AppController {
 #    @comments = @news.comments
 #    @comments.reverse! if User.current.wants_comments_in_reverse_order?
 #  end
-		$this->data = $this->News->read(null, $this->params['news_id']);
-		$this->set('news', $this->data);
+		//$this->data = $this->News->read(null, $this->params['news_id']);
+      $this->data = $this->News->find('first', aa('conditions',aa('News.id',$this->params['news_id']),'recursive',3));
+	  $this->set('news', $this->data);
 	}
 
   function add()
@@ -118,7 +119,7 @@ class NewsController extends AppController {
 		}
   }
 
-  function add_comment($id = null)
+  function add_comment()
   {
 #  def add_comment
 #    @comment = Comment.new(params[:comment])
@@ -130,22 +131,22 @@ class NewsController extends AppController {
 #      render :action => 'show'
 #    end
 #  end
-		if (!empty($this->data)) {
-			$this->Comment->create();
-        // TODO: author_idを正しく設定する！
+    if (!empty($this->data)) {
+      $this->Comment->create();
+      // TODO: author_idを正しく設定する！
       $this->Comment->set( 'commented_type', 'News' ) ;
-      $this->Comment->set( 'commented_id', $id ) ;
+      $this->Comment->set( 'commented_id', $this->params['news_id'] ) ;
       $this->Comment->set( 'author_id', $this->current_user['id'] ) ;
         // $this->data['News'] って気持ち悪いけどどうしたら良い？
       $this->Comment->set( 'comments', $this->data['News']['comments'] ) ;
       $this->Comment->set( 'created_on', date('Y-m-d H:i:s',time()) ) ;
       $this->Comment->set( 'updated_on', date('Y-m-d H:i:s',time()) ) ;
 
-			if ($this->Comment->save($this->data)) {
-				$this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash notice'));
-				$this->redirect(array('action'=>'show', 'id' => $id));
-			}
-		}
+    if ($this->Comment->save($this->data)) {
+      $this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash notice'));
+      $this->redirect(array('action'=>'show', 'id' => $this->params['news_id']));
+    }
+  }
   }
 #
 #  def destroy_comment
