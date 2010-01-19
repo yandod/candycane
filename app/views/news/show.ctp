@@ -54,7 +54,7 @@
 <?php endforeach; ?>
 </div>
 
-<% if authorize_for 'news', 'add_comment' %>
+<?php if($candy->authorize_for(array('controller'=>'news', 'action'=>'add_comment'))): ?>
 <!-- <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
 <% form_tag({:action => 'add_comment', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
 <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %> -->
@@ -64,7 +64,7 @@
 <?php echo $form->submit( __('Add',true), aa('div', false) ) ; ?>
 <?php echo $form->end(); ?>
 <%= wikitoolbar_for 'comment_comments' %>
-<% end %>
+<?php endif; ?>
 <% end %>
 
 <?php $candy->html_title( $news['News']['title'] ) ; ?>
