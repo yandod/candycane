@@ -797,8 +797,23 @@ class Query extends AppModel
     $filters = array();
     $rb_filters = Spyc::YAMLLoad($query['filters']);
     foreach($rb_filters as $field=>$filter) {
-      $operator = $filter[0]['operator'];
-      $values = $filter[1];
+      if($filter[0] == 'values:') {
+        // For Ruby serialize format:
+        $values = array();
+        foreach($filter as $value) {
+          if($value == 'values:') {
+            continue;
+          } elseif(is_array($value) && !empty($value['operator'])) {
+            $operator = $value['operator'];
+          } else {
+            $values[] = $value;
+          }
+        }
+      } else {
+        // For PHP yaml dump format:
+        $operator = $filter[0]['operator'];
+        $values = $filter[1];
+      }
       $filters[$field] = compact('operator', 'values');
     }
     return $filters;
