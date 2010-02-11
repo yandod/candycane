@@ -24,6 +24,4 @@
 <!--<% end %>-->
 </fieldset>
 
-<% content_for :header_tags do %>
-<%= javascript_include_tag 'select_list_move' %>
-<% end %>
+<?php $javascript->link('select_list_move', false);?>

@@ -79,7 +79,7 @@ function toggle_multi_select(field) {
     case 'list_status':
     case 'list_subprojects':
     ?>
-      <?php echo $form->select('Filter.values_' . $field, $filter['values'], null, am(count($filter['values']) > 1 ? array('multiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), false) ?>
+      <?php echo $form->select('Filter.values_' . $field, $filter['values'], '1', am(count($filter['values']) > 1 ? array('multiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), false) ?>
         <?php echo $html->link($html->image('bullet_toggle_plus.png'), '#', array('onclick' => "toggle_multi_select('" . $javascript->escapeString($field) . "')", 'style' => 'vertical-align: bottom'), null, false) ?>
     <?php
       break;

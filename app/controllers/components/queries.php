@@ -14,7 +14,7 @@ class QueriesComponent extends Object
   function retrieve_query($forse_set_filter = null)
   {
     $self = $this->controller;
-    $Query =& ClassRegistry::getObject('Query');
+    $Query = $self->Query;
     $self->set('force_show_filters', $force_show_filters = $Query->show_filters());
     $show_filters = isset($self->params['url']['set_filter']) || $forse_set_filter ? a() : $force_show_filters;
     $available_filters = $Query->available_filters($self->_project, $self->current_user);
