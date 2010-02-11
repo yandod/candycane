@@ -26,37 +26,38 @@ class QueriesComponent extends Object
     }
     if (isset($self->params['query_id'])) {
     } else {
-      if ($self->_project) $this->query_filter_cond[] = array('Issue.project_id' => $self->_project['Project']['id']);
+      if ($self->_project) $this->query_filter_cond = array('Issue.project_id' => $self->_project['Project']['id']);
       if (isset($self->params['url']['set_filter'], $self->params['form']['fields']) || $forse_set_filter) {
         foreach ($self->params['form']['fields'] as $field) {
           $operator = $self->params['form']['operators'][$field];
-          $value = isset($self->params['form']['values'][$field]) ? $self->params['form']['values'][$field] : null;
+          $values = isset($self->params['form']['values'][$field]) ? $self->params['form']['values'][$field] : null;
           if (isset($available_filters[$field])) {
             $show_filters[$field] = $available_filters[$field];
             $self->data['Filter']['fields_' . $field] = $field;
             $self->data['Filter']['operators_' . $field] = $operator;
-            $self->data['Filter']['values_' . $field] = $value;
+            $self->data['Filter']['values_' . $field] = $values;
           }
         }
       }
     }
     foreach ($show_filters as $field => $options) {
       $operator = $self->data['Filter']['operators_' . $field];
-      $value = $self->data['Filter']['values_' . $field];
+      $values = $self->data['Filter']['values_' . $field];
       switch ($field) {
       case 'author_id':
       case 'assigned_to_id':
-        if ($value == 'me') {
-          if ($self->current_user) {
-            $value = $self->current_user['id'];
-          } else {
-            continue;
+        foreach($values as $index=>$value) {
+          if ($value == 'me') {
+            if ($self->current_user) {
+              $values[$index] = $self->current_user['id'];
+            }
           }
         }
         break;
       }
-      if ($add_filter_cond = $Query->get_filter_cond('Issue', $field, $operator, $value)) {
+      if ($add_filter_cond = $Query->get_filter_cond('Issue', $field, $operator, $values)) {
         $query['Query']['filter_cond'][] = $add_filter_cond;
+        $this->query_filter_cond = am($this->query_filter_cond, $add_filter_cond);
       }
     }
     $self->set('available_filters', $available_filters);

@@ -429,7 +429,7 @@ class Query extends AppModel
 #        Time.now.at_beginning_of_week
 #      sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(from), connection.quoted_date(from + 7.days)]
     case '~':
-      $operator = 'like';
+      $operator = ' like';
       $values = '%' . str_replace('%', '%%', $values) . '%';
       break;
     case '!~':
