@@ -24,7 +24,30 @@ class QueriesComponent extends Object
       $self->data['Filter']['operators_' . $field] = $options['operator'];
       $self->data['Filter']['values_' . $field] = $options['values'];
     }
-    if (isset($self->params['query_id'])) {
+    if ($self->_get_param('query_id') != null) {
+      /* 
+      $conditions = array("Query.project_id" => null);
+      if(!empty($self->_project)) {
+        $conditions['OR'] = array('project_id' => $self->_project['Project']['id']);
+      }
+      */
+      $Query->read(null, $self->_get_param('query_id'));
+      $show_filters = $Query->getFilters();
+      foreach ($show_filters as $field => $options) {
+        $self->data['Filter']['fields_' . $field] = $field;
+        $self->data['Filter']['operators_' . $field] = $options['operator'];        
+        switch ($available_filters[$field]['type']) {
+        case 'list':
+        case 'list_optional':
+        case 'list_status':
+        case 'list_subprojects':
+          $self->data['Filter']['values_' . $field] = $options['values'];
+          break;
+        default :
+          $self->data['Filter']['values_' . $field] = $options['values'][0];
+          break;
+        }
+      }
     } else {
       if ($self->_project) $this->query_filter_cond = array('Issue.project_id' => $self->_project['Project']['id']);
       if (isset($self->params['url']['set_filter'], $self->params['form']['fields']) || $forse_set_filter) {

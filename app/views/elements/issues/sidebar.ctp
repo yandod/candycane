@@ -26,10 +26,6 @@
 <% unless sidebar_queries.empty? -%>
 -->
 <h3><?php __('Custom queries') ?></h3>
-<!--
-<% sidebar_queries.each do |query| -%>
-<%= link_to(h(query.name), :controller => 'issues', :action => 'index', :project_id => @project, :query_id => query) %><br />
-<% end -%>
-<%= call_hook(:view_issues_sidebar_queries_bottom) %>
-<% end -%>
--->
+<?php foreach($sidebar_queries as $query): ?>
+<?php echo $html->link(h($query['Query']['name']), array('controller' => 'issues', 'action' => 'index', 'project_id' => $main_project['Project']['identifier'], '?'=>array('query_id' => $query['Query']['id']))) ?><br />
+<?php endforeach; ?>

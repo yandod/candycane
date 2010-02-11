@@ -59,7 +59,6 @@ class Query extends AppModel
   var $actsAs = array(
     'Candy',
   );
-#  serialize :filters
   var $validate = array(
     'name' => array(
       'validates_presence_of'=>array('rule'=>array('notEmpty')),
@@ -75,7 +74,7 @@ class Query extends AppModel
   var $operators_by_filter_type;
   var $default_show_filters;
   var $available_filters;
-  var $filetes = array();
+  var $filters = array();
   
   function __construct()
   {
@@ -791,20 +790,18 @@ class Query extends AppModel
     return true;
   }
   
-  function afterFind($results, $primary = false)
-  {
-    if (isset($results['id'])) {
-      $rb_filters = Spyc::YAMLLoad($results['filters']);
-      foreach($rb_filters as $field=>$filter) {
-        $operator = trim($filter[':operator'], '"');
-        $values = array();
-        foreach($filter[':values'] as $value) {
-          $values[] = trim($value, '"');
-        }
-        $this->filters[$field] = compact('operator', 'values');
-      }
+  function getFilters($query = false) {
+    if(!$query) {
+      $query = $this->data[$this->name];
     }
-    return $results;  
+    $filters = array();
+    $rb_filters = Spyc::YAMLLoad($query['filters']);
+    foreach($rb_filters as $field=>$filter) {
+      $operator = $filter[0]['operator'];
+      $values = $filter[1];
+      $filters[$field] = compact('operator', 'values');
+    }
+    return $filters;
   }
 
 }
