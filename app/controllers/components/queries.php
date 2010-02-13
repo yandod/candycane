@@ -16,7 +16,7 @@ class QueriesComponent extends Object
     $self = $this->controller;
     $Query = $self->Query;
     $self->set('force_show_filters', $force_show_filters = $Query->show_filters());
-    $show_filters = isset($self->params['url']['set_filter']) || $forse_set_filter ? a() : $force_show_filters;
+    $show_filters = $forse_set_filter ? a() : $force_show_filters;
     $available_filters = $Query->available_filters($self->_project, $self->current_user);
     if (!isset($self->data['Filter'])) $self->data['Filter'] = a();
     foreach ($show_filters as $field => $options) {
@@ -44,7 +44,7 @@ class QueriesComponent extends Object
           $self->data['Filter']['values_' . $field] = $options['values'];
           break;
         default :
-          $self->data['Filter']['values_' . $field] = $options['values'][0];
+          $self->data['Filter']['values_' . $field] = $this->get_option_value($options['values']);
           break;
         }
       }
@@ -84,7 +84,15 @@ class QueriesComponent extends Object
       }
     }
     $self->set('available_filters', $available_filters);
-    $self->set('show_filters', $this->show_filters = $show_filters);
+    $self->set('show_filters', $show_filters);
+    $this->show_filters = $show_filters;
+  }
+  
+  function get_option_value($value) {
+    if(is_array($value)) {
+      return $this->get_option_value($value[0]);
+    }
+    return $value;
   }
 #  # Retrieve query from session or build a new query
 #  def retrieve_query

@@ -102,7 +102,11 @@ class IssuesController extends AppController
       'limit' => $limit,
     ));
     $this->sidebar_queries();
-    $this->set('query', array('Query' => $this->Query->defaults()));
+    if(empty($this->Query->data)) {
+      $this->set('query', array('Query' => $this->Query->defaults()));
+    } else {
+      $this->set('query', $this->Query->data);
+    }
     $this->set('issue_list', $this->paginate('Issue'));
     $this->set('params', $this->params);
     if ($this->RequestHandler->isAjax()) $this->layout = 'ajax';

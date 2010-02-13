@@ -68,7 +68,9 @@ function toggle_multi_select(field) {
         <label for="cb_<?php echo h($field) ?>"><?php __($field) ?></label>
     </td>
     <td style="width:150px;">
-        <?php echo $form->select('Filter.operators_' . $field, $filter['operators'], null, array('name' => 'operators[' . $field . ']', 'id' => 'operators_' . $field, 'onchange' => "toggle_operator('" . $javascript->escapeString($field) . "');", 'class' => 'select-small', 'style' => 'vertical-align: top;'), false) ?>
+    	<?php 
+				echo $form->select('Filter.operators_' . $field, $filter['operators'], null, array('name' => 'operators[' . $field . ']', 'id' => 'operators_' . $field, 'onchange' => "toggle_operator('" . $javascript->escapeString($field) . "');", 'class' => 'select-small', 'style' => 'vertical-align: top;'), false);
+			?>
     </td>
     <td>    
     <div id="div_values_<?php echo h($field) ?>" style="display:none;">
