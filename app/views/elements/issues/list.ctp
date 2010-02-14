@@ -6,18 +6,27 @@
         <!--<%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.up(this, "form")); return false;',
                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
         --></th>
-        <?php echo $html->tag('th', $paginator->sort('#', 'Issue.id')) ?>
-        <?php foreach ($queries->columns($query) as $column): ?>
-          <?php
+        <?php
+ 					// var_dump($paginator->sortKey());
+					$sort_mark = '';
+					if ($paginator->sortKey() == 'id' || $paginator->sortKey() == 'Issue.id') {
+						$sort_mark = '&nbsp;'.$html->image('sort_'.$paginator->sortDir().'.png', array('alt' => "Sort_desc"));
+					}
+					echo $html->tag('th', $paginator->sort('#', 'Issue.id').$sort_mark);
+					foreach ($queries->columns($query) as $column):
+						$sort_mark = '';
+						if ($paginator->sortKey() == $queryColumn->sortable($column)) {
+							$sort_mark = '&nbsp;'.$html->image('sort_'.$paginator->sortDir().'.png', array('alt' => "Sort_desc"));
+						}
             echo $html->tag('th', strlen($queryColumn->sortable($column)) ?
               $paginator->sort(__($column, true), $queryColumn->sortable($column), array(
                 'direction' => $queryColumn->default_order($column),
                 'update' => 'content',
                 'url' => $paginator->params['url_param']
-              )) : h(__($column, true))
-            )
-            ?>
-        <?php endforeach ?>
+              )).$sort_mark : h(__($column, true))
+            );
+        	endforeach;
+				?>
         <!--
 		<%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
         <% query.columns.each do |column| %>

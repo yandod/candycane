@@ -96,10 +96,13 @@ class IssuesController extends AppController
   {
     $this->Queries->retrieve_query();
     $limit = $this->_per_page_option();
+    if (empty($this->params['named']['sort'])) {
+      $this->params['sort'] = 'Issue.id';
+      $this->params['direction'] = 'desc';
+    }
     $this->paginate = array('Issue' => array(
-      'conditions' => $this->Queries->query_filter_cond,
-      'order' => 'Issue.id DESC',
-      'limit' => $limit,
+            'conditions' => $this->Queries->query_filter_cond,
+            'limit' => $limit,
     ));
     $this->sidebar_queries();
     if(empty($this->Query->data)) {

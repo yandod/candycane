@@ -57,7 +57,7 @@ class QueriesHelper extends AppHelper
     case 'assigned_to':
       return strlen($issue['Issue']['assigned_to_id']) ? $this->Candy->format_username($issue['AssignedTo']) : '';
     case 'updated_on':
-      return $this->Candy->format_date($issue['Issue']['updated_on']);
+      return $this->Candy->format_time($issue['Issue']['updated_on']);
     case 'category':
       return $issue['Category']['name'];
     case 'fixed_version':
