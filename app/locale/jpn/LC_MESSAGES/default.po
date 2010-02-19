@@ -469,6 +469,8 @@ msgid "%m/%d/%Y"
 msgstr "%Y年%m月%d日"
 msgid "%Y-%m-%d"
 msgstr "%Y年%m月%d日"
+msgid "%H:%M:%S"
+msgstr "%H:%M %p"
 
 # default_issue_status_rejected
 msgid "Rejected"

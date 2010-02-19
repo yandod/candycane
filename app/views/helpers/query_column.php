@@ -7,10 +7,10 @@ class QueryColumnHelper extends AppHelper
       'sortable' => 'Tracker.position',
     ),
     'status' => array(
-      'sortable' => 'IssueStatus.position',
+      'sortable' => 'Status.position',
     ),
     'priority' => array(
-      'sortable' => 'Enumeration.position',
+      'sortable' => 'Priority.position',
       'default_order' => 'desc',
     ),
     'subject' => array(
@@ -19,17 +19,17 @@ class QueryColumnHelper extends AppHelper
     'author' => array(
     ),
     'assigned_to' => array(
-      'sortable' => 'User.lastname',
+      'sortable' => 'AssignedTo.lastname',
     ),
     'updated_on' => array(
-      'sortable' => 'Issue.position',
+      'sortable' => 'Issue.updated_on',
       'default_order' => 'desc',
     ),
     'category' => array(
-      'sortable' => 'IssueCategory.name',
+      'sortable' => 'Category.name',
     ),
     'fixed_version' => array(
-      'sortable' => 'Version.effective_date',
+      'sortable' => 'FixedVersion.effective_date',
       'default_order' => 'desc',
     ),
     'start_date' => array(

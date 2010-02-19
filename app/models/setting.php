@@ -195,7 +195,8 @@ class Setting extends AppModel
       	  $this->{$v['Setting']['name']} = explode(',',$v['Setting']['value']);
       	  break;
       	case 'issue_list_default_columns':
-      	  $this->{$v['Setting']['name']} = array_slice(array_map('trim',explode('- ',$v['Setting']['value'])),1);
+      	  $this->{$v['Setting']['name']} = Spyc::YAMLLoad($v['Setting']['value']);
+      	  // array_slice(array_map('trim',explode('- ',$v['Setting']['value'])),1);
       	  break;
       	default:
           $this->{$v['Setting']['name']} = $v['Setting']['value'];

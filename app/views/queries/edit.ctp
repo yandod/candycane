@@ -1,6 +1,7 @@
-<h2><%= l(:label_query) %></h2>
+<h2><?php __('Custom query') ?></h2>
 
-<% form_tag({:action => 'edit', :id => @query}, :onsubmit => 'selectAllOptions("selected_columns");') do %>
-  <%= render :partial => 'form', :locals => {:query => @query} %>
-  <%= submit_tag l(:button_save) %>
-<% end %>
+<?php echo $form->create('Query', array('url' => array('action'=>'edit', 'id' => $this->params['query_id']), 'onsubmit' => 'selectAllOptions("selected_columns");')); ?>
+	<?php echo $this->renderElement('error_explanation'); ?>
+	<?php echo $this->renderElement('queries/form', array('query' => $this->data)) ?>
+	<?php echo $form->submit(__('Save', true)) ?>
+<?php echo $form->end(); ?>

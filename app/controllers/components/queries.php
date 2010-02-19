@@ -14,9 +14,9 @@ class QueriesComponent extends Object
   function retrieve_query($forse_set_filter = null)
   {
     $self = $this->controller;
-    $Query =& ClassRegistry::getObject('Query');
+    $Query = $self->Query;
     $self->set('force_show_filters', $force_show_filters = $Query->show_filters());
-    $show_filters = isset($self->params['url']['set_filter']) || $forse_set_filter ? a() : $force_show_filters;
+    $show_filters = $forse_set_filter ? a() : $force_show_filters;
     $available_filters = $Query->available_filters($self->_project, $self->current_user);
     if (!isset($self->data['Filter'])) $self->data['Filter'] = a();
     foreach ($show_filters as $field => $options) {
@@ -24,43 +24,75 @@ class QueriesComponent extends Object
       $self->data['Filter']['operators_' . $field] = $options['operator'];
       $self->data['Filter']['values_' . $field] = $options['values'];
     }
-    if (isset($self->params['query_id'])) {
+    if ($self->_get_param('query_id') != null) {
+      /* 
+      $conditions = array("Query.project_id" => null);
+      if(!empty($self->_project)) {
+        $conditions['OR'] = array('project_id' => $self->_project['Project']['id']);
+      }
+      */
+      $Query->read(null, $self->_get_param('query_id'));
+      $show_filters = $Query->getFilters();
+      foreach ($show_filters as $field => $options) {
+        $self->data['Filter']['fields_' . $field] = $field;
+        $self->data['Filter']['operators_' . $field] = $options['operator'];        
+        switch ($available_filters[$field]['type']) {
+        case 'list':
+        case 'list_optional':
+        case 'list_status':
+        case 'list_subprojects':
+          $self->data['Filter']['values_' . $field] = $options['values'];
+          break;
+        default :
+          $self->data['Filter']['values_' . $field] = $this->get_option_value($options['values']);
+          break;
+        }
+      }
     } else {
-      if ($self->_project) $this->query_filter_cond[] = array('Issue.project_id' => $self->_project['Project']['id']);
+      if ($self->_project) $this->query_filter_cond = array('Issue.project_id' => $self->_project['Project']['id']);
       if (isset($self->params['url']['set_filter'], $self->params['form']['fields']) || $forse_set_filter) {
         foreach ($self->params['form']['fields'] as $field) {
           $operator = $self->params['form']['operators'][$field];
-          $value = isset($self->params['form']['values'][$field]) ? $self->params['form']['values'][$field] : null;
+          $values = isset($self->params['form']['values'][$field]) ? $self->params['form']['values'][$field] : null;
           if (isset($available_filters[$field])) {
             $show_filters[$field] = $available_filters[$field];
             $self->data['Filter']['fields_' . $field] = $field;
             $self->data['Filter']['operators_' . $field] = $operator;
-            $self->data['Filter']['values_' . $field] = $value;
+            $self->data['Filter']['values_' . $field] = $values;
           }
         }
       }
     }
     foreach ($show_filters as $field => $options) {
       $operator = $self->data['Filter']['operators_' . $field];
-      $value = $self->data['Filter']['values_' . $field];
+      $values = $self->data['Filter']['values_' . $field];
       switch ($field) {
       case 'author_id':
       case 'assigned_to_id':
-        if ($value == 'me') {
-          if ($self->current_user) {
-            $value = $self->current_user['id'];
-          } else {
-            continue;
+        foreach($values as $index=>$value) {
+          if ($value == 'me') {
+            if ($self->current_user) {
+              $values[$index] = $self->current_user['id'];
+            }
           }
         }
         break;
       }
-      if ($add_filter_cond = $Query->get_filter_cond('Issue', $field, $operator, $value)) {
+      if ($add_filter_cond = $Query->get_filter_cond('Issue', $field, $operator, $values)) {
         $query['Query']['filter_cond'][] = $add_filter_cond;
+        $this->query_filter_cond = am($this->query_filter_cond, $add_filter_cond);
       }
     }
     $self->set('available_filters', $available_filters);
-    $self->set('show_filters', $this->show_filters = $show_filters);
+    $self->set('show_filters', $show_filters);
+    $this->show_filters = $show_filters;
+  }
+  
+  function get_option_value($value) {
+    if(is_array($value)) {
+      return $this->get_option_value($value[0]);
+    }
+    return $value;
   }
 #  # Retrieve query from session or build a new query
 #  def retrieve_query

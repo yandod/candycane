@@ -68,7 +68,9 @@ function toggle_multi_select(field) {
         <label for="cb_<?php echo h($field) ?>"><?php __($field) ?></label>
     </td>
     <td style="width:150px;">
-        <?php echo $form->select('Filter.operators_' . $field, $filter['operators'], null, array('name' => 'operators[' . $field . ']', 'id' => 'operators_' . $field, 'onchange' => "toggle_operator('" . $javascript->escapeString($field) . "');", 'class' => 'select-small', 'style' => 'vertical-align: top;'), false) ?>
+    	<?php 
+				echo $form->select('Filter.operators_' . $field, $filter['operators'], null, array('name' => 'operators[' . $field . ']', 'id' => 'operators_' . $field, 'onchange' => "toggle_operator('" . $javascript->escapeString($field) . "');", 'class' => 'select-small', 'style' => 'vertical-align: top;'), false);
+			?>
     </td>
     <td>    
     <div id="div_values_<?php echo h($field) ?>" style="display:none;">
@@ -79,7 +81,13 @@ function toggle_multi_select(field) {
     case 'list_status':
     case 'list_subprojects':
     ?>
-      <?php echo $form->select('Filter.values_' . $field, $filter['values'], null, am(count($filter['values']) > 1 ? array('multiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), false) ?>
+      <?php 
+				$default_values = "1";
+				if(!empty($this->data['Filter']['values_' . $field])) {
+					$default_values = $this->data['Filter']['values_' . $field];
+				}
+				echo $form->select('Filter.values_' . $field, $filter['values'], $default_values, am(count($filter['values']) > 1 ? array('multiple' => 'true'): a(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), false); 
+			?>
         <?php echo $html->link($html->image('bullet_toggle_plus.png'), '#', array('onclick' => "toggle_multi_select('" . $javascript->escapeString($field) . "')", 'style' => 'vertical-align: bottom'), null, false) ?>
     <?php
       break;

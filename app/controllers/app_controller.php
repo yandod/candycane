@@ -347,6 +347,8 @@ class AppController extends Controller {
       $value = $this->params['url'][$name];
     } elseif(is_array($this->data) && array_key_exists($this->{$this->modelClass}->name, $this->data) && array_key_exists($name, $this->data[$this->{$this->modelClass}->name])) {
       $value = $this->data[$this->{$this->modelClass}->name][$name];
+    } elseif(array_key_exists('form', $this->params) && array_key_exists($name, $this->params['form'])) {
+      $value = $this->params['form'][$name];
     } else {
       $value = null;
     }
@@ -411,8 +413,9 @@ class AppController extends Controller {
   
   function _findProject()
   {
-    if ( isset($this->params['project_id']) ) {
-      if ($this->_project = $this->Project->findMainProject($this->params['project_id'])) {
+    $project_id = $this->_get_param('project_id');
+    if ( !empty($project_id) ) {
+      if ($this->_project = $this->Project->findMainProject($project_id)) {
 	      $this->set(array('main_project'=> $this->_project));
 	      $this->set('main_project', $this->_project);
 	    } else {

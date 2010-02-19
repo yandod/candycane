@@ -1,5 +1,4 @@
-<?php if (true): ?>
-<!--<% if @query.new_record? %>-->
+<?php if(empty($query['Query']['id'])): ?>
     <h2><?php __('Issues') ?></h2>
     <?php  $candy->html_title(__('Issues', true)) ?>
     
@@ -8,8 +7,8 @@
     <fieldset id="filters"><legend><?php __('Filters') ?></legend>
     <?php echo $this->renderElement('queries/filters', array('show_filters' => $show_filters, 'available_filters' => $available_filters)) ?>
     <p class="buttons">
-      <?php echo $ajax->link(__('Apply', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => $main_project['Project']['identifier_or_id'], '?set_filter=1'), array('update' => 'content', 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
-      <?php echo $ajax->link(__('Clear', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => $main_project['Project']['identifier_or_id'], '?set_filter=1'), array('update' => 'content', 'class' => 'icon icon-reload')) ?>
+      <?php echo $ajax->link(__('Apply', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), array('update' => 'content', 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
+      <?php echo $ajax->link(__('Clear', true), array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), array('update' => 'content', 'class' => 'icon icon-reload')) ?>
     <!--
     <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
     -->
@@ -26,7 +25,7 @@
     <?php if ($queries->editable($query, $currentuser)): ?>
     <!--<% if @query.editable_by?(User.current) %>-->
     <?php echo $html->link(__('Edit', true), array('controller' => 'queries', 'action' => 'edit', 'id' => $query['Query']['id']), array('class' => 'icon icon-edit')) ?>
-    <?php echo $html->link(__('Delete', true), array('controller' => 'queries', 'action' => 'destroy', 'id' => $query['Query']['id'], 'confirm' => __('Are you sure ?', true)), array('class' => 'icon icon-del')) ?>
+    <?php echo $html->link(__('Delete', true), array('controller' => 'queries', 'action' => 'destroy', 'id' => $query['Query']['id']), array('class' => 'icon icon-del'), __('Are you sure ?', true)) ?>
     <!--
     <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'icon icon-edit' %>
     <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>

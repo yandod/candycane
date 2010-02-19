@@ -4,7 +4,7 @@
 ##
 ## This program is free software; you can redistribute it and/or
 ## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
+## as published by the Free Software Foundation; either version 2008
 ## of the License, or (at your option) any later version.
 ## 
 ## This program is distributed in the hope that it will be useful,
@@ -59,12 +59,23 @@ class Query extends AppModel
   var $actsAs = array(
     'Candy',
   );
-#  serialize :filters
+  var $validate = array(
+    'name' => array(
+      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_length_of'=>array('rule'=>array('maxLength', 255)),
+    ),
+    'filters' => array(
+      'validates_presence_of'=>array('rule'=>array('validate_filters'))
+    )
+  );
+
   var $column_names;
   var $operators;
   var $operators_by_filter_type;
   var $default_show_filters;
   var $available_filters;
+  var $filters = array();
+  
   function __construct()
   {
     if (!$this->operators) {
@@ -115,6 +126,9 @@ class Query extends AppModel
   
   function available_filters($project = array(), $currentuser = array())
   {
+    if(!empty($this->available_filters)) {
+      return $this->available_filters;
+    }    
     $Status = & ClassRegistry::init('Status');
     $IssueStatus = & ClassRegistry::init('IssueStatus');
     $Enumeration = & ClassRegistry::init('Enumeration');
@@ -205,6 +219,7 @@ class Query extends AppModel
         $available_filters[$k]['operators'][$operator] = $this->operators[$operator];
       }
     }
+    $this->available_filters = $available_filters;
     return $available_filters;
   }
   function show_filters($options = array())
@@ -282,15 +297,19 @@ class Query extends AppModel
 #    @is_for_all = project.nil?
 #  end
 #  
-#  def validate
-#    filters.each_key do |field|
-#      errors.add label_for(field), :activerecord_error_blank unless 
-#          # filter requires one or more values
-#          (values_for(field) and !values_for(field).first.blank?) or 
-#          # filter doesn't require any value
-#          ["o", "c", "!*", "*", "t", "w"].include? operator_for(field)
-#    end if filters
-#  end
+  function validate_filters() {
+    foreach($this->filters as $field => $values) {
+      # filter requires one or more values
+      # filter doesn't require any value
+      $value = $this->values_for($field);
+      if(!(!is_null($value) && !empty($value[0]) || 
+         in_array($this->operator_for($field), array("o", "c", "!*", "*", "t", "w"))
+      )) {
+        $this->invalidate($this->label_for($field), 'Please be sure to input.');
+      }
+    }
+    return true;
+  }
 #  
 #  def editable_by?(user)
 #    return false unless user
@@ -409,7 +428,7 @@ class Query extends AppModel
 #        Time.now.at_beginning_of_week
 #      sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(from), connection.quoted_date(from + 7.days)]
     case '~':
-      $operator = 'like';
+      $operator = ' like';
       $values = '%' . str_replace('%', '%%', $values) . '%';
       break;
     case '!~':
@@ -475,44 +494,57 @@ class Query extends AppModel
 #  end
 
   }
-#  def add_filter(field, operator, values)
-#    # values must be an array
-#    return unless values and values.is_a? Array # and !values.first.empty?
-#    # check if field is defined as an available filter
-#    if available_filters.has_key? field
-#      filter_options = available_filters[field]
-#      # check if operator is allowed for that filter
-#      #if @@operators_by_filter_type[filter_options[:type]].include? operator
-#      #  allowed_values = values & ([""] + (filter_options[:values] || []).collect {|val| val[1]})
-#      #  filters[field] = {:operator => operator, :values => allowed_values } if (allowed_values.first and !allowed_values.first.empty?) or ["o", "c", "!*", "*", "t"].include? operator
-#      #end
-#      filters[field] = {:operator => operator, :values => values }
-#    end
-#  end
-#  
-#  def add_short_filter(field, expression)
-#    return unless expression
-#    parms = expression.scan(/^(o|c|\!|\*)?(.*)$/).first
-#    add_filter field, (parms[0] || "="), [parms[1] || ""]
-#  end
-#  
-#  def has_filter?(field)
-#    filters and filters[field]
-#  end
-#  
-#  def operator_for(field)
-#    has_filter?(field) ? filters[field][:operator] : nil
-#  end
-#  
-#  def values_for(field)
-#    has_filter?(field) ? filters[field][:values] : nil
-#  end
-#  
-#  def label_for(field)
-#    label = available_filters[field][:name] if available_filters.has_key?(field)
-#    label ||= field.gsub(/\_id$/, "")
-#  end
-#
+  function add_filter($field, $operator, $values) {
+    if(empty($values)) {
+      return;
+    }
+    # values must be an array
+    if(!is_array($values)) {
+      $values = array($values);
+    }
+    # check if field is defined as an available filter
+    if (array_key_exists($field, $this->available_filters)) {
+      $this->filter_options = $this->available_filters[$field];
+      # check if operator is allowed for that filter
+      #if @@operators_by_filter_type[filter_options[:type]].include? operator
+      #  allowed_values = values & ([""] + (filter_options[:values] || []).collect {|val| val[1]})
+      #  filters[field] = {:operator => operator, :values => allowed_values } if (allowed_values.first and !allowed_values.first.empty?) or ["o", "c", "!*", "*", "t"].include? operator
+      #end
+      $this->filters[$field] = compact('operator', 'values');
+    }
+  }
+  
+  function add_short_filter($field, $expression) {
+    if (empry($expression)) return;
+    preg_match('/^(o|c|\!|\*)?(.*)$/', $expression, $matches);
+    $parms = $matches[0];
+    $operator = empty($parms[0]) ? "=" : $parms[0];
+    $values = empty($parms[1]) ? "" : $parms[1];
+    $this->add_filter($field, $operator, $values);
+  }
+  
+  function has_filter($field) {
+    return !empty($this->filters[$field]);
+  }
+  
+  function operator_for($field) {
+    return $this->has_filter($field) ? $this->filters[$field]['operator'] : null;
+  }
+  
+  function values_for($field) {
+    return $this->has_filter($field) ? $this->filters[$field]['values'] : null;
+  }
+  
+  function label_for($field) {
+    if (array_key_exists($field, $this->available_filters)) {
+      $label = $this->available_filters[$field]['name'];
+    }
+    if(empty($label)) {
+      $label = preg_replace('/\_id$/', "", $field);
+    }
+    return $label;    
+  }
+
   function available_columns()
   {
 #    return @available_columns if @available_columns
@@ -739,4 +771,52 @@ class Query extends AppModel
 #    s.join(' AND ')
 #  end
 #end
+  function beforeSave()
+  {
+    if (isset($this->filters)) {
+      $rb_filters = array();
+      // Convert for ruby serialize format
+      foreach($this->filters as $field=>$filter) {
+        $rb_operator = '"'.$filter['operator'].'"';
+        $rb_values = array();
+        foreach($filter['values'] as $value) {
+          $rb_values[] = is_numeric($value) ? '"'.$value.'"' : $value;
+        }
+        $rb_filters[$field] = array(':operator'=>$rb_operator, ':values'=>$rb_values);
+      }
+      // To YAML format
+      $this->data[$this->name]['filters'] = Spyc::YAMLDump($rb_filters);
+    }
+    return true;
+  }
+  
+  function getFilters($query = false) {
+    if(!$query) {
+      $query = $this->data[$this->name];
+    }
+    $filters = array();
+    $rb_filters = Spyc::YAMLLoad($query['filters']);
+    foreach($rb_filters as $field=>$filter) {
+      if($filter[0] == 'values:') {
+        // For Ruby serialize format:
+        $values = array();
+        foreach($filter as $value) {
+          if($value == 'values:') {
+            continue;
+          } elseif(is_array($value) && !empty($value['operator'])) {
+            $operator = $value['operator'];
+          } else {
+            $values[] = $value;
+          }
+        }
+      } else {
+        // For PHP yaml dump format:
+        $operator = $filter[0]['operator'];
+        $values = $filter[1];
+      }
+      $filters[$field] = compact('operator', 'values');
+    }
+    return $filters;
+  }
+
 }

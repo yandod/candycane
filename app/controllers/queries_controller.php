@@ -43,7 +43,7 @@ class QueriesController extends AppController
 #  menu_item :issues
   function beforeFilter()
   {
-    $this->params['project_id'] = $this->params['form']['project_id'];
+    $this->MenuManager->menu_item('issues');
     return parent::beforeFilter();
   }
   
@@ -59,35 +59,60 @@ class QueriesController extends AppController
     $query['user'] = $this->current_user;
     $query['is_public'] = $query['project'] && $this->User->is_allowed_to($this->current_user, ':manage_public_queries', $this->_project) || $this->current_user['admin'] ? true : false;
     $query['default_columns'] = true;
+
+    if(!empty($this->data) && $this->RequestHandler->isPost() && $this->_get_param('confirm') && !$this->RequestHandler->isAjax()) {
+      $this->data['Query']['project_id'] = $this->_project['Project']['id'];
+      $this->data['Query']['user_id'] = $this->current_user['id'];
+      
+      foreach($this->params['form']['fields'] as $field) {
+        $this->Query->add_filter($field, $this->params['form']['operators'][$field], $this->params['form']['values'][$field]);
+      }
+      $this->Query->save($this->data);
+      if(empty($this->Query->validationErrors)) {
+        $this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect(array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->_project['Project']['identifier']));
+      }
+    }
+
     if (isset($this->data['Query'])) $query = am($query, $this->data['Query']);
     $this->data = am($this->data, array(
       'Query' => $query,
-    ));
-    $this->set('params', $this->params);
+    ));    
     if ($this->RequestHandler->isAjax()) $this->layout = 'ajax';
   }
 
-#  def new
-#    @query = Query.new(params[:query])
-#    @query.project = params[:query_is_for_all] ? nil : @project
-#    @query.user = User.current
-#    @query.is_public = false unless (@query.project && current_role.allowed_to?(:manage_public_queries)) || User.current.admin?
-#    @query.column_names = nil if params[:default_columns]
-#    
-#    params[:fields].each do |field|
-#      @query.add_filter(field, params[:operators][field], params[:values][field])
-#    end if params[:fields]
-#    
-#    if request.post? && params[:confirm] && @query.save
-#      flash[:notice] = l(:notice_successful_create)
-#      redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :query_id => @query
-#      return
-#    end
-#    render :layout => false if request.xhr?
-#  end
-#  
-  function edit()
-  {
+  function edit($id=false) {
+    if(!empty($this->data)) {
+      $this->params['query_id'] = $id;
+      $this->Queries->retrieve_query(true);
+      $query = $this->data['Query'];
+      $query['project'] = empty($this->Query->data['Project']) ? a() : array('Project' => $this->Query->data['Project']);
+      $query['project_id'] = $this->Query->data['Project']['id'];
+      $query['user_id'] = $this->Query->data['User']['id'];
+      $query['filters'] = array();
+
+      foreach($this->params['form']['fields'] as $field) {
+        $this->Query->add_filter($field, $this->params['form']['operators'][$field], $this->params['form']['values'][$field]);
+      }
+      # @query.attributes = params[:query]
+      if(!empty($query['query_is_for_all'])) $query['project_id'] = null;
+      $query['is_public'] = $query['project'] && $this->User->is_allowed_to($this->current_user, ':manage_public_queries', $query['project']) || $this->current_user['admin'] ? true : false;
+      # @query.column_names = nil if params[:default_columns]
+      $this->Query->save($query);
+      if(empty($this->Query->validationErrors)) {
+        $this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect(array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->Query->data['Project']['identifier']));
+      }
+      return;
+    } elseif ($id) {
+      $this->params['query_id'] = $id;
+      $this->Queries->retrieve_query(true);
+      $this->data['Query'] = $this->Query->data['Query'];
+      $this->data['Query']['default_columns'] = true;
+      if(empty($this->Query->data['Query']['project_id'])) $this->data['Query']['query_is_for_all'] = "1";
+      return;
+    }
+    $this->cakeError('error404');
   }
 
 #  def edit
@@ -108,10 +133,16 @@ class QueriesController extends AppController
 #    end
 #  end
 #
-#  def destroy
-#    @query.destroy if request.post?
-#    redirect_to :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1
-#  end
+  function destroy($id=false) {
+    if ($id) {
+      if ($this->Query->read(null, $id)) {
+        $project = $this->Query->data['Project'];
+        $this->Query->del();
+        $this->redirect(array('controller'=>'issues', 'action'=>'index', 'project_id'=>$project['identifier'], '?'=>array('set_filter' => 1)));
+      }
+    }
+    $this->cakeError('error404');
+  }
 #  
 #private
 #  def find_query

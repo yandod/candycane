@@ -302,13 +302,13 @@ class CandyHelper extends AppHelper
     if (empty($this->Settings->date_format) || (strlen($this->Settings->date_format) < 2)) {
       $date_format = __('%m/%d/%Y', true);
     } else {
-      $date_format = $this->Settings->date_format;
+      $date_format = __($this->Settings->date_format, true);
     }
 
     if (empty($this->Settings->time_format)) {
       $time_format = __('%I:%M %p', true);
     } else {
-      $time_format = $this->Settings->time_format;
+      $time_format = __($this->Settings->time_format, true);
     }
 
     if ($include_date) {

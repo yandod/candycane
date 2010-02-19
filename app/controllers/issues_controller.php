@@ -96,12 +96,20 @@ class IssuesController extends AppController
   {
     $this->Queries->retrieve_query();
     $limit = $this->_per_page_option();
+    if (empty($this->params['named']['sort'])) {
+      $this->params['sort'] = 'Issue.id';
+      $this->params['direction'] = 'desc';
+    }
     $this->paginate = array('Issue' => array(
-      'conditions' => $this->Queries->query_filter_cond,
-      'order' => 'Issue.id DESC',
-      'limit' => $limit,
+            'conditions' => $this->Queries->query_filter_cond,
+            'limit' => $limit,
     ));
-    $this->set('query', array('Query' => $this->Query->defaults()));
+    $this->sidebar_queries();
+    if(empty($this->Query->data)) {
+      $this->set('query', array('Query' => $this->Query->defaults()));
+    } else {
+      $this->set('query', $this->Query->data);
+    }
     $this->set('issue_list', $this->paginate('Issue'));
     $this->set('params', $this->params);
     if ($this->RequestHandler->isAjax()) $this->layout = 'ajax';
@@ -904,5 +912,27 @@ class IssuesController extends AppController
 #      end
 #    end
 #  end
-#end
+  /**
+   * Move from IssuesHelper
+   */ 
+  function sidebar_queries() {
+    # User can see public queries and his own queries
+    $user_id = 0;
+    if (!$this->current_user || !$this->current_user['logged']) {
+      $user_id = $this->current_user['id'];
+    }
+    $visible = array();
+    $visible[] = array("Query.is_public = ? OR Query.user_id = ?" => array(true, $user_id));
+    # Project specific queries and global queries
+    if(empty($this->_project)) {
+      $visible[] = array("Query.project_id" => null);
+    } else {
+      $visible[] = array("OR"=>array("Query.project_id" => null, "Query.project_id" => $this->_project['Project']['id']));
+    }
+    $sidebar_queries = $this->Query->find('all', array( 
+                              'order' => "Query.name ASC",
+                              'conditions' => $visible
+                        ));
+    $this->set('sidebar_queries', $sidebar_queries);
+  }
 }
