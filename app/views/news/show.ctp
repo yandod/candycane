@@ -6,8 +6,8 @@
                           :onclick => 'Element.show("edit-news"); return false;' %> -->
 <!-- <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %> -->
 <!-- TODO: link_to_if_authorized を作る -->
-<?php echo $html->link( __('Edit',true), '#', aa('class', 'icon icon-edit', 'onclick', 'Element.show("edit-news"); return false;')) ?>
-<?php echo $html->link( __('Delete',true), array( 'controller' => 'news', 'action' => 'destroy', 'id' => $news['News']['id']), aa('class', 'icon icon-del', 'onclick', "return (confirm('" . __('Are you sure ?',true) . "'));")); ?>
+<?php echo $candy->link_to_if_authorized(aa('controller','news','action','edit'), __('Edit',true), '#', aa('class', 'icon icon-edit', 'onclick', 'Element.show("edit-news"); return false;')) ?>
+<?php echo $candy->link_to_if_authorized(aa('controller','news','action','destroy'),  __('Delete',true), array( 'controller' => 'news', 'action' => 'destroy', 'id' => $news['News']['id']), aa('class', 'icon icon-del', 'onclick', "return (confirm('" . __('Are you sure ?',true) . "'));")); ?>
 </div>
 
 <h2><?php echo $news['News']['title'] ?></h2>
