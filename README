@@ -14,13 +14,26 @@ original implementation is RedMine.
 //--------------------
 // Notes.
 //--------------------
-
 Currently some features are missing as RedMine.
 - repository viewer
 - forum
 - documents
 
+Using CakePHP1.2, so candycane can still run on PHP4 
+
 //--------------------
 // Contributors
 //--------------------
-- SpenserJ
+ @yando
+ halt 
+ nazo
+ akiyan 
+ k-kishida 
+ kaz29 
+ Suzuki 
+ hnw
+ SpenserJ
+
+We will appreciate any pull request.
+I try to merge as much as possible, please fork me if you found some point to be fix.
+
