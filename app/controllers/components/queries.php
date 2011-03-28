@@ -56,7 +56,6 @@ class QueriesComponent extends Object
         }
       }
     } else {
-      if ($self->_project) $this->query_filter_cond = array('Issue.project_id' => $self->_project['Project']['id']);
       if (isset($self->params['url']['set_filter'], $self->params['form']['fields']) || $forse_set_filter) {
         foreach ($self->params['form']['fields'] as $field) {
           $operator = $self->params['form']['operators'][$field];
@@ -70,6 +69,7 @@ class QueriesComponent extends Object
         }
       }
     }
+      if ($self->_project) $this->query_filter_cond = array('Issue.project_id' => $self->_project['Project']['id']);
     foreach ($show_filters as $field => $options) {
       $operator = $self->data['Filter']['operators_' . $field];
       $values = $self->data['Filter']['values_' . $field];

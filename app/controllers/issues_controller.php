@@ -94,6 +94,7 @@ class IssuesController extends AppController
 #  
   function index()
   {
+    if (!isset($this->params['url']['query_id'])) $this->params['url']['query_id'] = 0;
     $this->Queries->retrieve_query($this->params['url']['query_id']);
     $limit = $this->_per_page_option();
     if (empty($this->params['named']['sort'])) {
