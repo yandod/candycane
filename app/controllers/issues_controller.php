@@ -94,7 +94,7 @@ class IssuesController extends AppController
 #  
   function index()
   {
-    $this->Queries->retrieve_query();
+    $this->Queries->retrieve_query($this->params['url']['query_id']);
     $limit = $this->_per_page_option();
     if (empty($this->params['named']['sort'])) {
       $this->params['sort'] = 'Issue.id';
@@ -112,7 +112,9 @@ class IssuesController extends AppController
     }
     $this->set('issue_list', $this->paginate('Issue'));
     $this->set('params', $this->params);
-    if ($this->RequestHandler->isAjax()) $this->layout = 'ajax';
+    if ($this->RequestHandler->isAjax()) {
+       $this->layout = 'ajax';
+    }
   }
 #  def index
 #    retrieve_query

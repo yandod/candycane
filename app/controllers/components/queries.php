@@ -11,27 +11,34 @@ class QueriesComponent extends Object
     $this->controller =& $controller;
   }
   
-  function retrieve_query($forse_set_filter = null)
+  function retrieve_query($query_id = 0, $forse_set_filter = null)
   {
+    $query_id = (int)$query_id;
+
     $self = $this->controller;
     $Query = $self->Query;
-    $self->set('force_show_filters', $force_show_filters = $Query->show_filters());
+    $force_show_filters = $Query->show_filters();
+    $self->set('force_show_filters', $force_show_filters);
     $show_filters = $forse_set_filter ? a() : $force_show_filters;
     $available_filters = $Query->available_filters($self->_project, $self->current_user);
-    if (!isset($self->data['Filter'])) $self->data['Filter'] = a();
+    if (!isset($self->data['Filter'])) {
+        $self->data['Filter'] = a();
+    }
+
     foreach ($show_filters as $field => $options) {
       $self->data['Filter']['fields_' . $field] = $field;
       $self->data['Filter']['operators_' . $field] = $options['operator'];
       $self->data['Filter']['values_' . $field] = $options['values'];
     }
-    if ($self->_get_param('query_id') != null) {
+
+    if ($query_id > 0) {
       /* 
       $conditions = array("Query.project_id" => null);
       if(!empty($self->_project)) {
         $conditions['OR'] = array('project_id' => $self->_project['Project']['id']);
       }
       */
-      $Query->read(null, $self->_get_param('query_id'));
+      $Query->read(null, $query_id);
       $show_filters = $Query->getFilters();
       foreach ($show_filters as $field => $options) {
         $self->data['Filter']['fields_' . $field] = $field;

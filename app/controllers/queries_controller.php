@@ -51,7 +51,7 @@ class QueriesController extends AppController
 #  before_filter :find_optional_project, :only => :new
 #  
   function add() {
-    $this->Queries->retrieve_query(true);
+    $this->Queries->retrieve_query($this->params['url']['query_id'], true);
     $this->set('query_new_record', true);
     
     $query = $this->Query->defaults();
@@ -84,7 +84,7 @@ class QueriesController extends AppController
   function edit($id=false) {
     if(!empty($this->data)) {
       $this->params['query_id'] = $id;
-      $this->Queries->retrieve_query(true);
+      $this->Queries->retrieve_query($this->params['url']['query_id'], true);
       $query = $this->data['Query'];
       $query['project'] = empty($this->Query->data['Project']) ? a() : array('Project' => $this->Query->data['Project']);
       $query['project_id'] = $this->Query->data['Project']['id'];
@@ -106,7 +106,7 @@ class QueriesController extends AppController
       return;
     } elseif ($id) {
       $this->params['query_id'] = $id;
-      $this->Queries->retrieve_query(true);
+      $this->Queries->retrieve_query($this->params['url']['query_id'], true);
       $this->data['Query'] = $this->Query->data['Query'];
       $this->data['Query']['default_columns'] = true;
       if(empty($this->Query->data['Query']['project_id'])) $this->data['Query']['query_is_for_all'] = "1";
