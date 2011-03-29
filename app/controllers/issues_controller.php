@@ -347,12 +347,19 @@ class IssuesController extends AppController
     }
     if(($this->RequestHandler->isPost() || $this->RequestHandler->isPut()) && !empty($this->data)) {
       $this->Issue->TimeEntry->create();
-      $this->Issue->TimeEntry->set(array_merge(array(
+      $time_entry = array(
         'project_id'=>$this->_project['Project']['id'],
         'issue_id'  =>$issue['Issue']['id'],
         'user_id'   =>$this->current_user['id'],
         'spent_on'  =>date('Y-m-d')
-      ), $this->data['TimeEntry']));
+      );
+
+      if (isset($this->data['TimeEntry'])) {
+        $time_entry = array_merge($time_entry, $this->data['TimeEntry']);
+      }
+
+      $this->Issue->TimeEntry->set($time_entry);
+
       if(!empty($this->data['custom_field_values'])) {
         $this->Issue->TimeEntry->data['TimeEntry']['custom_field_values'] = $this->Issue->TimeEntry->filterCustomFieldValue($this->data['custom_field_values']);
       }
