@@ -6,12 +6,12 @@
 <!--[form:user]-->
 <div class="box">
   <?php echo $form->input('id', array('type' => 'hidden', 'value' => $user['User']['id'])); ?>
-  <p><?php echo $form->input('login', array('value' => $user['User']['login'], 'size' => '25%')); ?></p>
-  <p><?php e($form->input('firstname', array('value' => $user['User']['firstname']))); ?></p>
-  <p><?php e($form->input('lastname', array('value' => $user['User']['lastname']))); ?></p>
-  <p><?php e($form->input('mail', array('value' => $user['User']['mail']))); ?></p>
+  <p><?php echo $form->input('login', array('value' => $user['User']['login'], 'size' => '25%', 'div' => false)); ?></p>
+  <p><?php e($form->input('firstname', array('value' => $user['User']['firstname'], 'div' => false))); ?></p>
+  <p><?php e($form->input('lastname', array('value' => $user['User']['lastname'], 'div' => false))); ?></p>
+  <p><?php e($form->input('mail', array('value' => $user['User']['mail'], 'div' => false))); ?></p>
   <p>
-    <?php echo $form->input('language', array('type' => 'select', 'options' => $candy->lang_options_for_select())); ?>
+    <?php echo $form->input('language', array('type' => 'select', 'options' => $candy->lang_options_for_select(), 'div' => false)); ?>
   </p>
 
 <% @user.custom_field_values.each do |value| %>
@@ -20,9 +20,9 @@
 
   <p>
   <?php if ("@user == User.current"): // @todo implement me ?>
-  <?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1), 'disabled' => 'disabled')); ?>
+  <?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1), 'disabled' => 'disabled', 'div' => false)); ?>
   <?php else: ?>
-  <?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1))); ?>
+  <?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1), 'div' => false)); ?>
   <?php endif; ?>
   </p>
 </div>
