@@ -78,12 +78,9 @@ class SettingsController extends AppController
   }
   function _prepareThemes()
   {
-  	//TODO; scan real status on tehemes
-  	$themes = aa(
-  	  'Alternate','Alternate',
-  	  'Classic','Classic'
-  	);
-  	$this->set('themes',$themes);
+    $theme_list = array_map('basename', glob(APP . DS . 'webroot/themed' . DS . '*'));
+    $themes = array_combine($theme_list, $theme_list);
+    $this->set('themes',$themes);
   }
   function _prepareWikiformatting()
   {
