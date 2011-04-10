@@ -63,12 +63,14 @@
 <?php echo $form->textarea( 'comments', aa('id', 'comment_comments', 'cols', 80, 'rows', 15, 'class', 'wiki-edit' )) ; ?>
 <?php echo $form->submit( __('Add',true), aa('div', false) ) ; ?>
 <?php echo $form->end(); ?>
-<%= wikitoolbar_for 'comment_comments' %>
+<!--<%= wikitoolbar_for 'comment_comments' %>-->
 <?php endif; ?>
-<% end %>
+<!--<% end %>-->
 
 <?php $candy->html_title( $news['News']['title'] ) ; ?>
 
+<!--
 <% content_for :header_tags do %>
   <%= stylesheet_link_tag 'scm' %>
 <% end %>
+-->

@@ -51,7 +51,7 @@
 </p>
 
 <p class="other-formats">
-<?php __("'Also available in:'") ; ?>
+<?php __("Also available in:") ; ?>
 <span>
 <?php if (isset($main_project)) echo $html->link('Atom', array('controller' => 'news', 'action' => 'index', 'project_id' => $main_project['Project']['identifier']/*, 'format' => 'atom', 'key' => '' User.current.rss_key*/), array('class' => 'feed')) ?>
 </span>
