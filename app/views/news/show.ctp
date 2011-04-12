@@ -1,21 +1,24 @@
 <div class="contextual">
-<!-- <%= link_to_if_authorized l(:button_edit), 
-                          {:controller => 'news', :action => 'edit', :id => @news},
-                          :class => 'icon icon-edit',
-                          :accesskey => accesskey(:edit),
-                          :onclick => 'Element.show("edit-news"); return false;' %> -->
-<!-- <%= link_to_if_authorized l(:button_delete), {:controller => 'news', :action => 'destroy', :id => @news}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %> -->
-<!-- TODO: link_to_if_authorized を作る -->
 <?php echo $candy->link_to_if_authorized(aa('controller','news','action','edit'), __('Edit',true), '#', aa('class', 'icon icon-edit', 'onclick', 'Element.show("edit-news"); return false;')) ?>
-<?php echo $candy->link_to_if_authorized(aa('controller','news','action','destroy'),  __('Delete',true), array( 'controller' => 'news', 'action' => 'destroy', 'id' => $news['News']['id']), aa('class', 'icon icon-del', 'onclick', "return (confirm('" . __('Are you sure ?',true) . "'));")); ?>
+<?php echo $candy->link_to_if_authorized(aa('controller','news','action','destroy'),  __('Delete',true), array( 
+	'controller' => 'news', 
+	'action' => 'destroy',
+	'project_id' => $news['Project']['identifier'], 
+	'id' => $news['News']['id']), aa('class', 'icon icon-del', 'onclick', "return (confirm('" . __('Are you sure ?',true) . "'));")); ?>
 </div>
 
 <h2><?php echo $news['News']['title'] ?></h2>
 
 <div id="edit-news" style="display:none;">
-<!-- <% labelled_tabular_form_for :news, @news, :url => { :action => "edit", :id => @news },
-                                           :html => { :id => 'news-form' } do |f| %> -->
-<?php echo $form->create('News', aa('controller', 'news', 'action', 'edit', 'id', $news['News']['id'])) ; ?>
+<?php echo $form->create('News', array(
+	'url' =>aa(
+		'controller', 'news', 
+		'action', 'edit', 
+		//'news_id', $news['News']['id'], 
+		'project_id', $this->params['project_id']
+		)
+	)
+);?>
 <?php echo $this->renderElement('news/_form', array('news' => $news)) ; ?>
 <?php echo $form->submit( __('Save',true), aa('div', false) ) ; ?>
 <!-- <%= link_to_remote l(:label_preview), 
@@ -59,7 +62,11 @@
 <% form_tag({:action => 'add_comment', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
 <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %> -->
 <p><?php echo $html->link( __('Add a comment',true), '#', aa('onclick', "Element.toggle('add_comment_form'); Form.Element.focus('comment_comments'); return false;")) ?></p>
-<?php echo $form->create('News', aa('action', 'add_comment', 'id', 'add_comment_form', 'style', 'display:none;')) ; ?>
+<?php echo $form->create('News', aa('url', array(
+	 'action' => 'add_comment',
+	 'project_id' => $news['Project']['identifier']
+
+), 'id', 'add_comment_form', 'style', 'display:none;')) ; ?>
 <?php echo $form->textarea( 'comments', aa('id', 'comment_comments', 'cols', 80, 'rows', 15, 'class', 'wiki-edit' )) ; ?>
 <?php echo $form->submit( __('Add',true), aa('div', false) ) ; ?>
 <?php echo $form->end(); ?>

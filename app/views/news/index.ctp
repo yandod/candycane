@@ -33,7 +33,7 @@
         echo $html->link( h($news['Project']['name']), array( 'controller' => 'projects', 'action' => 'show', 'id' => $news['Project']['id'])) . ': '; 
       }
     ?>
-    <?php echo $html->link( h($news['News']['title']), array( 'controller' => 'news', 'action' => 'show', 'id' => $news['News']['id'] ) ) ; ?>
+    <?php echo $html->link( h($news['News']['title']), array( 'controller' => 'news', 'action' => 'show', 'id' => $news['News']['id'], 'project_id' => $news['Project']['id']) ) ; ?>
     <?php 
       if ( $news['News']['comments_count'] > 0 ) {
          echo "(".$news['News']['comments_count'] . ' ' . __('Comments',true) . ')' ; 

@@ -67,7 +67,7 @@ class NewsController extends AppController {
 #    @comments.reverse! if User.current.wants_comments_in_reverse_order?
 #  end
 		//$this->data = $this->News->read(null, $this->params['news_id']);
-      $this->data = $this->News->find('first', aa('conditions',aa('News.id',$this->params['news_id']),'recursive',3));
+      $this->data = $this->News->find('first', aa('conditions',aa('News.id',$this->params['id']),'recursive',3));
 	  $this->set('news', $this->data);
 	}
 
@@ -110,12 +110,12 @@ class NewsController extends AppController {
 #    end
 #  end
 		if (!empty($this->data)) {
-      $this->News->set( 'id', $id ) ;
+      $this->News->set( 'id', $this->params['id'] ) ;
       $this->News->set( 'created_on', date('Y-m-d H:i:s',time()) ) ;
 		    // TODO: パーミッションのチェック,request methodのチェック
 			if ($this->News->save($this->data)) {
 				$this->Session->setFlash(__('Successful update.',true), 'default', array('class'=>'flash notice'));
-				$this->redirect(array('action'=>'show', 'id' => $id));
+				$this->redirect(array('action'=>'show', 'id' => $this->params['id'], 'project_id' =>  $this->_project['Project']['id']));
 			}
 		}
   }
@@ -136,7 +136,7 @@ class NewsController extends AppController {
       $this->Comment->create();
       // TODO: author_idを正しく設定する！
       $this->Comment->set( 'commented_type', 'News' ) ;
-      $this->Comment->set( 'commented_id', $this->params['news_id'] ) ;
+      $this->Comment->set( 'commented_id', $this->params['id'] ) ;
       $this->Comment->set( 'author_id', $this->current_user['id'] ) ;
         // $this->data['News'] って気持ち悪いけどどうしたら良い？
       $this->Comment->set( 'comments', $this->data['News']['comments'] ) ;
@@ -145,7 +145,7 @@ class NewsController extends AppController {
 
     if ($this->Comment->save($this->data)) {
       $this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash notice'));
-      $this->redirect(array('action'=>'show', 'id' => $this->params['news_id']));
+      $this->redirect(array('action'=>'show', 'id' => $this->params['id'], 'project_id' => $this->params['project_id']));
     }
   }
   }
@@ -155,17 +155,21 @@ class NewsController extends AppController {
 #    redirect_to :action => 'show', :id => @news
 #  end
 #
-  function destroy() 
+  function destroy($id) 
   {
-    $project = $this->News->findById($this->params['news_id']);
+    $project = $this->News->findById($this->params['id']);
     if ( !$project ) {
       $this->cakeError('error404');
 	}
 	  
-	if ($this->News->del($this->params['news_id'])) {
+	if ($this->News->del($this->params['id'])) {
       // TODO: project_idを正しく設定する！
 	  $this->Session->setFlash(__('Successful deletion.', true), 'default', array('class'=>'flash notice'));
-	  $this->redirect(array('controller'=>'projects', 'action' => $project['Project']['identifier'], 'news/index'));
+	  $this->redirect(array(
+	      'controller'=>'news',
+	      'project_id' => $project['Project']['identifier'],
+	      'action' => 'index'
+	      ));
     } else {
       $this->cakeError('error404');
 	}
@@ -187,7 +191,7 @@ class NewsController extends AppController {
   function _find_news()
   {
     $this->_news = $this->News->find('first', array(
-      'conditions'=>array('News.id' => $this->params['news_id']),
+      'conditions'=>array('News.id' => $this->params['id']),
       'recursive'=>1
     ));
     if (empty($this->_news) or $this->_news === false) {
