@@ -32,7 +32,7 @@
 <label><?php __('Category') ?>: 
 <?php echo $form->select(
 	'category_id', 
-	array_merge(array('none' => __('none',true)), $issueCategories), 
+	array('none' => __('none',true)) + $issueCategories, 
 	null,
 	array(),
 	__('(No change)',true)); ?>
@@ -42,7 +42,7 @@
 <label><?php __('Assigned to') ?>: 
 <?php echo $form->select(
 	'assigned_to_id', 
-	array_merge(array('none' => __('nobody',true)), $assignableUsers), 
+	array('none' => __('nobody',true)) + $assignableUsers, 
 	null,
 	array(),
 	__('(No change)',true)); ?>
@@ -50,7 +50,7 @@
 <label><?php __('Target version') ?>: 
 <?php echo $form->select(
 	'fixed_version_id', 
-	array_merge(array('none' => __('none',true)), $fixedVersions), 
+	array('none' => __('none',true)) + $fixedVersions, 
 	null,
 	array(),
 	__('(No change)',true)); ?>
