@@ -443,7 +443,7 @@ class IssuesController extends AppController
   # Bulk edit a set of issues
   function bulk_edit() {
     $role_id = $this->User->role_for_project($this->current_user, $this->_project);
-    if(!$this->RequestHandler->isPost() && !empty($this->data)) {
+    if($this->RequestHandler->isPost() && !empty($this->data)) {
       $status_id = $this->_get_param('status_id');
       $priotity_id = $this->_get_param('priority_id');
       $assigned_to_id = $this->_get_param('assigned_to_id');
