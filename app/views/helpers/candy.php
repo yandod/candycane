@@ -1185,10 +1185,10 @@ function breadcrumb($args)
         $user = $user['User'];
       }
 
-      if (empty($user['email'])) {
+      if (empty($user['mail'])) {
         $email = null;
       } else {
-        $email = $user['email'];
+        $email = $user['mail'];
       }
 
 #      if user.respond_to?(:mail)
@@ -1214,7 +1214,7 @@ function breadcrumb($args)
         $options['default'] = htmlspecialchars($options['default'], ENT_QUOTES);
       }
 
-      $url = "http://www.gravatar.com/avatar.php?gravatar_id=#{email_hash}";
+      $url = "http://www.gravatar.com/avatar.php?gravatar_id=${email_hash}";
 
       foreach (array('rating', 'size', 'default') as $opt) {
         if (!empty($opt)) {
