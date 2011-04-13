@@ -4,7 +4,7 @@
 <?php endif; ?>
 </div>
 
-<h2><?php echo $candy->avatar($user); ?> <?php e(h($candy->format_username($user['User']))); ?></h2>
+<h2><?php echo $candy->avatar($user,array('size' => 72)); ?> <?php e(h($candy->format_username($user['User']))); ?></h2>
 
 <div class="splitcontentleft">
 <ul>
