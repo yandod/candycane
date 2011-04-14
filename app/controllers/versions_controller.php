@@ -94,11 +94,10 @@ class VersionsController extends AppController
 #      redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
 #    end
     $this->Version->id = $id;
-
     if(!empty($this->data)) {
       if($this->Version->save($this->data, true, array('name', 'description', 'wiki_page_title', 'effective_date'))) {
         $this->Session->setFlash(__('Successful update.'));
-        $this->redirect(array('controller'=>'versions', 'action'=>'show', 'id'=>$this->Version->id));
+        $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'id'=>$this->version['Project']['identifier'], '?' => 'tab=versions'));
       }
     }
 
@@ -131,10 +130,15 @@ class VersionsController extends AppController
   }
 
   // private
-  function find_project($id)
+  function _findProject()
   {
-    $this->version = $this->Version->find_By_Id($id);
-    $this->project = $this->version['Project'];
+    $this->version = $this->Version->find('first', array(
+        'conditions' => array(
+          'Version.id' => $this->params['pass'][0],
+        ),
+      ));
+    $this->params['project_id'] = $this->version['Project']['identifier'];
+    return parent::_findProject();
 #    @version = Version.find(params[:id])
 #    @project = @version.project
 #  rescue ActiveRecord::RecordNotFound
