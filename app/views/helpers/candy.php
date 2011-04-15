@@ -187,7 +187,8 @@ class CandyHelper extends AppHelper
       $options['class'] = '';
     }
     $options['class'] .= ' issue';
-    if (isset($issue['closed'])) {
+    
+    if (isset($issue['Status']['is_closed']) && $issue['Status']['is_closed']) {
       $options['class'] .= ' closed';
     }
 
