@@ -193,7 +193,7 @@ class Version extends AppModel
       ),
       'recursive' => 0
      ));
-     $result['completed_pourcent'] = $result['closed_issues_count'] * 100 + $sum[0]['sum'] / ($result['open_issues_count'] + $result['closed_issues_count']);
+     $result['completed_pourcent'] = ($result['closed_issues_count'] * 100 + $sum[0]['sum']) / ($result['open_issues_count'] + $result['closed_issues_count']);
    }
 #  def completed_pourcent
 #    if fixed_issues.count == 0
