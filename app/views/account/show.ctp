@@ -65,8 +65,8 @@
 </div>
 
 <p class="other-formats">
-  <?php __("'Also available in:'"); ?>
-  <?php echo $html->link('Atom', array('controller'=>'projects','action','activity','user_id'=>$user['User']['id'], '?'=>array_merge($this->params['url'], array('key'=>$user['RssToken']['value'], 'format'=>'atom', 'from'=>null, 'url'=>null))), array('class' => 'feed')); ?>
+  <?php __("Also available in:"); ?>
+  <?php echo $html->link('Atom', array('controller'=>'projects','action','activity','user_id'=>$user['User']['id'], '?'=>array_merge($this->params['url'], array('key'=>$currentuser['RssToken']['value'], 'format'=>'atom', 'from'=>null, 'url'=>null))), array('class' => 'feed')); ?>
 </p>
 
 <?php endif; ?>

@@ -222,7 +222,7 @@ class AccountController extends AppController
         #      membership.project.is_public? || (User.current.member_of?(membership.project))
         #    end
         
-        $this->Fetcher->fetch($user['User']);
+        $this->Fetcher->fetch($user['User'],array('author' => $user['User']['id']));
         $events = $this->Fetcher->events(null, null, array('limit'=>10));
         $events_by_day_data = $this->Event->group_by($events, 'event_date');
         
