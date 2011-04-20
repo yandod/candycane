@@ -17,7 +17,7 @@ class Permission extends AppModel
     $this->set('edit_project', array('projects' => array('settings', 'edit')), array('require' => 'member'));
     $this->set('select_project_modules', array('projects' => 'modules'), array('require' => 'member'));
     $this->set('manage_members', array('projects' => 'settings', 'members' => array('new', 'edit', 'destroy')), array('require' => 'member'));
-    $this->set('manage_versions', array('projects' => array('settings', 'add_version'), array('versions' => array('edit', 'destroy'))), array('require' => 'member'));
+    $this->set('manage_versions', array('projects' => array('settings', 'add_version'),'versions' => array('edit', 'destroy')), array('require' => 'member'));
 
   // map.project_module 'issue'_tracking do |map|);
     # Issue categories);

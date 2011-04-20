@@ -1,5 +1,5 @@
 <div class="contextual">
-<?php echo $html->link(__('Edit', true), array('controller'=>'versions', 'action'=>'edit', 'id'=>$this->data['Version']['id']), array('class'=>'icon icon-edit')) ?>
+<?php echo $candy->link_to_if_authorized(aa('controller','versions','action','edit'), __('Edit',true), 'edit/'.$this->data['Version']['id'], aa('class', 'icon icon-edit', 'onclick', 'Element.show("edit-news"); return false;')) ?>
 <?php /*
 <%= link_to_if_authorized l(:button_edit), {:controller => 'versions', :action => 'edit', :id => @version}, :class => 'icon icon-edit' %>
  */ ?>
