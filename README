@@ -21,6 +21,7 @@ Currently some features are missing as RedMine.
 - repository viewer
 - forum
 - documents
+- global search
 
 Using CakePHP1.2, so candycane can still run on PHP4 
 
