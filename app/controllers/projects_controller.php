@@ -651,7 +651,7 @@ class ProjectsController extends AppController
 
     $with_subprojects = ($this->_get_param('with_subprojects')!=null) ? $this->Setting->display_subprojects_issues : ($this->_get_param('with_subprojects') == '1');
     $this->Fetcher->fetch($this->current_user, array(
-      'projects' => $this->data,
+      'project' => $this->_project,
       'with_subprojects' => $with_subprojects,
       'author' => $author['User'],
     ));
