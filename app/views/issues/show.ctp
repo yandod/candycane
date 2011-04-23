@@ -27,7 +27,7 @@
     <td class="due-date"><b><?php __('Due date') ?>:</b></td><td class="due-date"><?php echo h($candy->format_date($issue['Issue']['due_date'])) ?></td>
 </tr>
 <tr>
-    <td class="assigned-to"><b><?php __('Assigned to') ?>:</b></td><td><?php echo $candy->avatar(array('User' => $issue['Author']), array('size' => 14)) ?><?php echo strlen($issue['Issue']['assigned_to_id']) ? $candy->link_to_user($issue['AssignedTo']) : "-" ?></td>
+    <td class="assigned-to"><b><?php __('Assigned to') ?>:</b></td><td><?php echo $candy->avatar(array('User' => $issue['AssignedTo']), array('size' => 14)) ?><?php echo strlen($issue['Issue']['assigned_to_id']) ? $candy->link_to_user($issue['AssignedTo']) : "-" ?></td>
     <td class="progress"><b><?php __('done_ratio') ?> %:</b></td><td class="progress"><?php echo $candy->progress_bar($issue['Issue']['done_ratio'], array('width'=>'80px', 'legend'=>$issue['Issue']['done_ratio'].'%')); ?></td>
 </tr>
 <tr>
