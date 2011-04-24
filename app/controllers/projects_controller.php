@@ -207,15 +207,16 @@ class ProjectsController extends AppController
     $cond = $this->Project->project_condition($this->Setting->display_subprojects_issues, $this->data['Project']);
 
     foreach($this->data['Tracker'] as $key=>$tracker) {
-      $cond_open = $cond;
+      $cond_open = $cond_all = $cond;
       $cond_open['Status.is_closed'] = false;
       $cond_open['Issue.tracker_id'] = $tracker['id'];
       $open_issues_by_tracker = $this->Issue->find('count', array(
         'conditions' => $cond_open,
         'group' => 'tracker_id',
       ));
+      $cond_all['Issue.tracker_id'] = $tracker['id'];
       $total_issues_by_tracker = $this->Issue->find('count', array(
-        'conditions' => $cond,
+        'conditions' => $cond_all,
         'group' => 'tracker_id',
       ));
 
