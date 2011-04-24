@@ -133,15 +133,16 @@ class ProjectsController extends AppController
     $this->set('enabled_module_names', $enabled_module_names);
 
     if(!empty($this->data)) {
-      if($this->Project->save($this->data, true, array('name', 'description', 'parent_id', 'identifier', 'homepage', 'is_public'))) {
-        //foreach($this->data['Project']['tracker_ids'] as $tracker_id) {
-        //}
-        $this->data['Tracker']['Tracker'] = array_filter($this->data['Project']['Tracker']);
-        foreach($this->data['Project']['issue_custom_field_ids'] as $custom_field_id) {
-          $this->CustomFieldsProject->save(array('custom_field_id'=>$custom_field_id, 'project_id'=>$this->data->id));
+      $this->data['Tracker']['Tracker'] = array_filter($this->data['Project']['Tracker']);
+      if($this->Project->save($this->data, true, array('name', 'description', 'parent_id', 'identifier', 'homepage', 'is_public'))) {        
+        if (isset($this->data['Project']['issue_custom_field_ids'])){
+          foreach($this->data['Project']['issue_custom_field_ids'] as $custom_field_id) {
+            $this->CustomFieldsProject->save(array('custom_field_id'=>$custom_field_id, 'project_id'=>$this->data->id));
+          }
         }
-        foreach($this->data['Project']['enabledModules'] as $enabledModule) {
-          $this->EnabledModule->save(array('name'=>$enabledModule, 'project_id'=>$this->data->id));
+        foreach(array_filter($this->data['Project']['EnabledModule']) as $enabledModule) {
+          $this->EnabledModule->create();
+          $this->EnabledModule->save(array('name'=>$enabledModule, 'project_id'=>$this->Project->id));
         }
         $this->Session->setFlash(__('Successful create.'));
         $this->redirect(array('controller'=>'admin', 'action'=>'projects'));

@@ -12,7 +12,7 @@
 <fieldset class="box"><legend><?php __('Modules') ?></legend>
 <?php foreach($enabled_module_names as $key=>$module): ?>
     <label class="floating">
-<?php echo $form->checkbox("[enabled_module][]", array('type'=>'checkbox', 'value'=>$module, 'label'=>false,'div'=>false)) ?>
+<?php echo $form->checkbox("EnabledModule][", array('type'=>'checkbox', 'value'=>$module, 'label'=>false,'div'=>false)) ?>
 <?php /*
     <%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) %>
     <%= (l_has_string?("project_module_#{m}".to_sym) ? l("project_module_#{m}".to_sym) : m.to_s.humanize) %>
