@@ -346,17 +346,17 @@ class ProjectsController extends AppController
     }
     $this->redirect(aa('action','settings','id',$this->params['project_id'],'?','tab=modules'));
   }
-#
-#  def archive
-#    @project.archive if request.post? && @project.active?
-#    redirect_to :controller => 'admin', :action => 'projects'
-#  end
-#  
-#  def unarchive
-#    @project.unarchive if request.post? && !@project.active?
-#    redirect_to :controller => 'admin', :action => 'projects'
-#  end
-#  
+
+  function archive() {
+      $this->Project->archive($this->_project['Project']['id']);
+      $this->redirect(array('controller' => 'admin', 'action' => 'projects'));
+  }  
+
+  function unarchive() {
+      $this->Project->unarchive($this->_project['Project']['id']);
+      $this->redirect(array('controller' => 'admin', 'action' => 'projects'));      
+  }
+
   function destroy()
   {
     if($this->RequestHandler->isPost()) {

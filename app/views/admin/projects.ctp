@@ -87,12 +87,17 @@
 	 <td align="center"><?php echo $project['Project']['created_on']; ?></td>
 	 <td align="center" style="width:10%">
 	 <small>
-	 <?php echo $html->link(__('Archive', TRUE), array('controller' => 'projects', 'action' => 'archive', 'id' => $project['Project']['identifier']),aa('class','icon icon-lock')); ?>
-	 <?php if ($project['Project']['status'] !== "1") echo $html->link(__('Unarchive', TRUE), array('controller' => 'projects', 'action' => 'unarchive', 'id' => $project['Project']['identifier']),aa('class','icon-unlock')); ?>
-<!--
-    <%= link_to(l(:button_archive), { :controller => 'projects', :action => 'archive', :id => project }, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-lock') if project.active? %>
-    <%= link_to(l(:button_unarchive), { :controller => 'projects', :action => 'unarchive', :id => project }, :method => :post, :class => 'icon icon-unlock') if !project.active? && (project.parent.nil? || project.parent.active?) %>
--->	 
+	 <?php
+	 if ($project['Project']['status'] == 1 /* (project.parent.nil? || project.parent.active?) */) { 
+	   echo $html->link(__('Archive', TRUE),
+	     array('controller' => 'projects', 'action' => 'archive', 
+	     'id' => $project['Project']['identifier']),aa('class','icon icon-lock'));
+     } else {
+	   echo $html->link(__('Unarchive', TRUE), 
+	     array('controller' => 'projects', 'action' => 'unarchive', 
+	     'id' => $project['Project']['identifier']),aa('class','icon icon-unlock'));
+     }
+	 ?>
     </small>
 	 </td>
 	 <td align="center" style="width:10%">

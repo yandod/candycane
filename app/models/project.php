@@ -362,20 +362,19 @@ class Project extends AppModel
   function is_active($project) {
     return $project['Project']['status'] == PROJECT_STATUS_ACTIVE;
   }
+  
+  function archive($id){
+    $this->id = $id;
+    foreach ($this->active_children($id) as $row) {
+      $this->archive($row['id']);
+    }
+    $this->saveField('status',PROJECT_ARCHIVED);
+  }
 
-#  
-#  def archive
-#    # Archive subprojects if any
-#    children.each do |subproject|
-#      subproject.archive
-#    end
-#    update_attribute :status, STATUS_ARCHIVED
-#  end
-#  
-#  def unarchive
-#    return false if parent && !parent.active?
-#    update_attribute :status, STATUS_ACTIVE
-#  end
+  function unarchive($id){
+    $this->id = $id;
+    $this->saveField('status',PROJECT_STATUS_ACTIVE);      
+  }
 #  
 #  def active_children
 #    children.select {|child| child.active?}
