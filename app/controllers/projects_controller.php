@@ -144,7 +144,7 @@ class ProjectsController extends AppController
           $this->EnabledModule->create();
           $this->EnabledModule->save(array('name'=>$enabledModule, 'project_id'=>$this->Project->id));
         }
-        $this->Session->setFlash(__('Successful create.',true), 'default', array('class'=>'flash notice'));
+        $this->Session->setFlash(__('Successful creation.',true), 'default', array('class'=>'flash notice'));
         $this->redirect(array('controller'=>'admin', 'action'=>'projects'));
       }
     }
