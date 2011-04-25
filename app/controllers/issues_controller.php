@@ -94,6 +94,12 @@ class IssuesController extends AppController
 #  
   function index()
   {
+    //url param translation for bug #72
+    if (isset($this->params['url']['tracker_id'])) {
+        $this->params['form']['fields']['tracker_id'] = 'tracker_id';
+        $this->params['form']['operators']['tracker_id'] = '=';
+        $this->params['form']['values']['tracker_id'] = array($this->params['url']['tracker_id']);
+    }
     if (!isset($this->params['url']['query_id'])) $this->params['url']['query_id'] = 0;
     $this->Queries->retrieve_query($this->params['url']['query_id']);
     $limit = $this->_per_page_option();
