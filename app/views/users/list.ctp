@@ -94,7 +94,7 @@ echo $ajax->link(__('login', true),
 </table>
 
 <p class="pagination">
-  <%= pagination_links_full @user_pages, @user_count %>
+  <!--<%= pagination_links_full @user_pages, @user_count %>-->
 </p>
 
-<?php $candy->html_title(__('label_user_plural', true)); ?>
+<?php $candy->html_title(__('Users', true)); ?>
