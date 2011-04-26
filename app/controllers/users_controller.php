@@ -194,6 +194,14 @@ class UsersController extends AppController
         $this->redirect('/users/index');
       }
     }
+    $user = $this->User->create(array(
+        'id' => '',
+        'login' => '',
+        'firstname' => '',
+        'lastname' => '',
+        'mail' => '',
+    ));
+    $this->set('user',$user);
     #    @auth_sources = AuthSource.find(:all)
   }
   function allowed_to() {

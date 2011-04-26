@@ -13,16 +13,16 @@
   <p>
     <?php echo $form->input('language', array('type' => 'select', 'options' => $candy->lang_options_for_select(), 'div' => false)); ?>
   </p>
-
+<!-- 
 <% @user.custom_field_values.each do |value| %>
   <p><%= custom_field_tag_with_label :user, value %></p>
 <% end %>
-
+-->
   <p>
-  <?php if ("@user == User.current"): // @todo implement me ?>
-  <?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1), 'disabled' => 'disabled', 'div' => false)); ?>
+  <?php if ($currentuser['admin']):?>
+	  <?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1), 'div' => false)); ?>
   <?php else: ?>
-  <?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1), 'div' => false)); ?>
+      <?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1), 'disabled' => 'disabled', 'div' => false)); ?>
   <?php endif; ?>
   </p>
 </div>
