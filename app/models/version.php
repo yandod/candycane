@@ -249,6 +249,10 @@ class Version extends AppModel
 #  end
     return $result;
   }
-
+ 
+  function sort($a,$b){
+      
+      return (strtotime($a['effective_date']) > strtotime($b['effective_date'])) ? -1:1;
+  }
 }
 

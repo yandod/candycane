@@ -602,6 +602,7 @@ class ProjectsController extends AppController
 #  end
   function roadmap()
   {
+    usort($this->data['Version'],array($this->Version,'sort'));
     $trackers = $this->Tracker->find('all', array(
       'conditions' => array('is_in_roadmap' => true)
     ));
