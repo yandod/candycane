@@ -5,6 +5,13 @@
 <?php else: ?>
 <div id="roadmap">
 <?php foreach($this->data['Version'] as $version): ?>
+	<?php 
+	if( !isset($this->params['url']['completed']) || !$this->params['url']['completed']) {
+		if ($version['completed']) {
+			continue;
+		}
+	}
+	?>
     <?php echo $html->tag('a', null, array('name' => $version['name'])) ?>
     <h3 class="icon22 icon22-package"><?php echo $html->link($version['name'], '/versions/show/'.$version['id']) ?></h3>
     <?php echo $this->element('versions/overview', array('version' => $version, 'fixed_issue_count' => count($version['Issue']))) ?>

@@ -1,4 +1,8 @@
-<?php echo $form->create('Project', array('action'=>'roadmap', 'method'=>'get')) ?>
+<?php echo $form->create('Project', array('url'=>array(
+	'controller' => 'projects',
+	'action' => 'roadmap',
+	'id' => $main_project['Project']['identifier'],
+), 'type'=>'get')) ?>
 <h3><?php __('Roadmap') ?></h3>
 <?php foreach($trackers as $tracker): ?>
 <label><?php echo $form->input("tracker_ids[]", array('type'=>'checkbox', 'value'=>$tracker['Tracker']['id'], /* (@selected_tracker_ids.include? tracker.id.to_s), :id => nil, */ 'label'=>$tracker['Tracker']['name'])) ?>

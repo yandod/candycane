@@ -219,10 +219,10 @@ class Version extends AppModel
 #    end
 #  end
     
-    
+    //effective_date && (effective_date <= Date.today) && (open_issues_count == 0)
     if (empty($result['effective_date'])) {
       $result['completed'] = false;
-    } else if (strtotime($result['effective_date']) <= time()) {
+    } else if (strtotime($result['effective_date']) >= time()) {
       $result['completed'] = false;
     } else {
       $result['completed'] = ($result['open_issues_count'] == 0);
