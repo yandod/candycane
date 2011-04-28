@@ -934,7 +934,7 @@ class IssuesController extends AppController
   function sidebar_queries() {
     # User can see public queries and his own queries
     $user_id = 0;
-    if (!$this->current_user || !$this->current_user['logged']) {
+    if ($this->current_user && $this->current_user['logged']) {
       $user_id = $this->current_user['id'];
     }
     $visible = array();

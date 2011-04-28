@@ -69,7 +69,7 @@ class QueriesComponent extends Object
         }
       }
     }
-      if ($self->_project) $this->query_filter_cond = array('Issue.project_id' => $self->_project['Project']['id']);
+    if ($self->_project) $this->query_filter_cond = array('Issue.project_id' => $self->_project['Project']['id']);
     foreach ($show_filters as $field => $options) {
       $operator = $self->data['Filter']['operators_' . $field];
       $values = $self->data['Filter']['values_' . $field];

@@ -107,6 +107,7 @@ Router::connect('attachments/destroy/:id', array('controller' => 'attachments', 
 #  # Install the default route as the lowest priority.
 #  map.connect ':controller/:action/:id'
 #end
+Router::connect('queries/:action/:query_id',array('controller' => 'queries'));
 /**
  * Then we connect url '/test' to our test controller. This is helpful in
  * developement.

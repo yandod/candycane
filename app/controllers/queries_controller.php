@@ -5,6 +5,7 @@ class QueriesController extends AppController
   var $uses = array(
     'User',
     'Query',
+    'Project',
   );
   var $helpers = array(
     'Queries',
@@ -21,29 +22,18 @@ class QueriesController extends AppController
   var $_query;
   var $_show_filters;
   var $_project;
-  
-## redMine - project management software
-## Copyright (C) 2006-2007  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
-#class QueriesController < ApplicationController
+
 #  menu_item :issues
   function beforeFilter()
   {
     $this->MenuManager->menu_item('issues');
+    if (isset($this->params['query_id'])) {
+        
+        $query = $this->Query->find('first',
+            array('conditions' => array('Query.id' => $this->params['query_id']))
+        );
+        $this->params['project_id'] = $query['Project']['project_id'];
+    }
     return parent::beforeFilter();
   }
   
@@ -51,7 +41,7 @@ class QueriesController extends AppController
 #  before_filter :find_optional_project, :only => :new
 #  
   function add() {
-    $this->Queries->retrieve_query($this->params['url']['query_id'], true);
+    $this->Queries->retrieve_query(0, true);
     $this->set('query_new_record', true);
     
     $query = $this->Query->defaults();
@@ -81,10 +71,10 @@ class QueriesController extends AppController
     if ($this->RequestHandler->isAjax()) $this->layout = 'ajax';
   }
 
-  function edit($id=false) {
+  function edit() {
+      
     if(!empty($this->data)) {
-      $this->params['query_id'] = $id;
-      $this->Queries->retrieve_query($this->params['url']['query_id'], true);
+      $this->Queries->retrieve_query($this->params['query_id'], true);
       $query = $this->data['Query'];
       $query['project'] = empty($this->Query->data['Project']) ? a() : array('Project' => $this->Query->data['Project']);
       $query['project_id'] = $this->Query->data['Project']['id'];
@@ -101,12 +91,11 @@ class QueriesController extends AppController
       $this->Query->save($query);
       if(empty($this->Query->validationErrors)) {
         $this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash flash_notice'));
-        $this->redirect(array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->Query->data['Project']['identifier']));
+        $this->redirect(array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->params['project_id']));
       }
       return;
-    } elseif ($id) {
-      $this->params['query_id'] = $id;
-      $this->Queries->retrieve_query($this->params['url']['query_id'], true);
+    } elseif (isset($this->params['query_id'])) {
+      $this->Queries->retrieve_query($this->params['query_id'], true);
       $this->data['Query'] = $this->Query->data['Query'];
       $this->data['Query']['default_columns'] = true;
       if(empty($this->Query->data['Query']['project_id'])) $this->data['Query']['query_is_for_all'] = "1";
@@ -133,13 +122,10 @@ class QueriesController extends AppController
 #    end
 #  end
 #
-  function destroy($id=false) {
-    if ($id) {
-      if ($this->Query->read(null, $id)) {
-        $project = $this->Query->data['Project'];
-        $this->Query->del();
-        $this->redirect(array('controller'=>'issues', 'action'=>'index', 'project_id'=>$project['identifier'], '?'=>array('set_filter' => 1)));
-      }
+  function destroy() {
+    if ($this->params['query_id']) {
+        $this->Query->delete($this->params['query_id']);
+        $this->redirect(array('controller'=>'issues', 'action'=>'index', 'project_id'=>$this->params['project_id'], '?'=>array('set_filter' => 1)));
     }
     $this->cakeError('error404');
   }
