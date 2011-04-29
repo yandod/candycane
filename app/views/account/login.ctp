@@ -1,7 +1,7 @@
 <div id="login-form">
 <?php e($form->create('User', array('url' => '/account/login'))); ?>
 <!--  <%= back_url_hidden_field_tag %> -->
-<?php echo $form->hidden('back_url',array('name' => 'back_url')); ?>
+<?php echo $form->hidden('back_url',array('name' => 'back_url','value' => $back_url)); ?>
 
 <table>
 <tr>

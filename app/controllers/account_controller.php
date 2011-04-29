@@ -138,9 +138,10 @@ class AccountController extends AppController
         $this->set('setting', $this->Setting);
 
         if (!$this->data) {
+          $this->set('back_url',$this->referer());
           return;
         }
-
+        $this->set('back_url',$this->params['form']['back_url']);
         // validate
         $this->User->set($this->data);
         if (!$this->User->validates()) {
@@ -170,8 +171,10 @@ class AccountController extends AppController
 #          cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
 #        end
 #        redirect_back_or_default :controller => 'my', :action => 'page'
-
-          $this->redirect('/');        
+          if (!$this->params['form']['back_url'][0] == '/') {
+              $this->params['form']['back_url'] = '/';
+          }
+          $this->redirect($this->params['form']['back_url']);        
         }
     }
 
@@ -189,7 +192,6 @@ class AccountController extends AppController
         #Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin']) if User.current.logged?
         #self.logged_user = nil
         $this->redirect('/');
-        exit;
     }
 
     /**
