@@ -7,7 +7,7 @@
             echo '<p class="success">' . __('Your tmp directory is writable.', true) . '('.TMP.')</p>';
         } else {
             $check = false;
-            echo '<p class="error">' . __('Your tmp directory is NOT writable.', true) .'('.TMP.')</p>';
+            echo '<p class="error">' . __('Your tmp directory is NOT writable.', true) .'(chmod -R 777 '.TMP.')</p>';
         }
 
         // config is writable
@@ -15,7 +15,7 @@
             echo '<p class="success">' . __('Your config directory is writable.', true) . '('.APP.'config'.')</p>';
         } else {
             $check = false;
-            echo '<p class="error">' . __('Your config directory is NOT writable.', true) . '('.APP.'config'.')</p>';
+            echo '<p class="error">' . __('Your config directory is NOT writable.', true) . '(chmod -R 777 '.APP.'config'.')</p>';
         }
 
         // php version
