@@ -18,7 +18,7 @@ class Project extends AppModel
 //    ),
 //  );
   var $hasMany = array(
-    'Version',
+    'Version' => array('order' => 'Version.effective_date desc'),
     'TimeEntry',
     'IssueCategory'=>array('dependent' => true, 'order' => "IssueCategory.name"),
     'EnabledModule',
