@@ -78,7 +78,7 @@
 <div id="ajax-indicator" style="display:none;"><span><?php __('Loading...') ?></span></div>
 	
 <div id="footer">
-    Powered by <?php echo $html->link('candycane','https://www.ohloh.net/p/candycane') ?> &copy; 2009 candycane team
+    Powered by <?php echo $html->link('candycane','https://www.ohloh.net/p/candycane') ?> &copy; 2009 - <?php echo date('Y')?> candycane team
 			<br/><?php echo $html->link(
 					$html->image('cake.power.gif', array('alt'=> __("CakePHP: the rapid development php framework", true), 'border'=>"0")),
 					'http://www.cakephp.org/',
