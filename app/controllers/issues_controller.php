@@ -938,12 +938,18 @@ class IssuesController extends AppController
       $user_id = $this->current_user['id'];
     }
     $visible = array();
-    $visible[] = array("Query.is_public = ? OR Query.user_id = ?" => array(true, $user_id));
+    $visible[] = array('OR' => array(
+        'Query.is_public' => true,
+        'Query.user_id' => $user_id
+    ));
     # Project specific queries and global queries
     if(empty($this->_project)) {
       $visible[] = array("Query.project_id" => null);
     } else {
-      $visible[] = array("OR"=>array("Query.project_id" => null, "Query.project_id" => $this->_project['Project']['id']));
+      $visible[] = array( 'OR' => array(
+          'Query.project_id' => null,
+          'Query.project_id' => $this->_project['Project']['id']
+      ));
     }
     $sidebar_queries = $this->Query->find('all', array( 
                               'order' => "Query.name ASC",
