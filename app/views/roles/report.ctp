@@ -47,7 +47,7 @@ echo $html->tag($tag,h($role['Role']['name']));
     <td align="center">
       <?php if (in_array(':' . $permission['name'], $role['Role']['setable_permissions'])): ?>
       <?php
-        $checked = (in_array(':' .$permission['name'], $role['Role']['permissions'])) ? 'checked="checked"' : '';
+        $checked = (in_array($permission['name'], $role['Role']['permissions'])) ? 'checked="checked"' : '';
             echo sprintf('<input type="checkbox" class="role-%s" name="data[permissions][%s][]" value="%s" %s/>',
                          h($role['Role']['id']),
                          h($role['Role']['id']),

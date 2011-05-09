@@ -21,7 +21,7 @@
   <fieldset><legend><?php ($mod == '') ? __('Project') : __($project_module_name[$mod]);?></legend>
   <?php foreach($permissions[$mod] as $permission): ?>
   <label class="floating">
-    <?php $checked = (in_array(':' .$permission['name'],$permissions_array)) ? 'checked' : '';?>
+    <?php $checked = (in_array($permission['name'],$permissions_array)) ? 'checked' : '';?>
     <input type="checkbox" name="data[Role][permissions][]" value="<?php echo h($permission['name']); ?>" <?php echo $checked; ?> />
     <?php __($permission_name[ $permission['name'] ]); ?>
   </label>

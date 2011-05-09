@@ -86,7 +86,7 @@ class RolesController extends AppController {
 
     $permission_name = $this->_permission_name();
     $this->set('permission_name', $permission_name);
-
+    
     if (empty($this->data)) {
       $this->render('new');
     } else {
@@ -102,7 +102,8 @@ class RolesController extends AppController {
 
       $this->Role->create();
       if ($this->Role->save($data)) {
-        $this->flash(__('Successful creation.', true),'index');
+        $this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect('index');
       } else {
         $this->render('new');
       }
@@ -130,8 +131,9 @@ class RolesController extends AppController {
     $permission_name = $this->_permission_name();
     $this->set('permission_name', $permission_name);
 
-    if (! empty($this->data)) {
-      $this->data = $this->Role->convert_permissions($this->data);
+    if (! empty($this->data)) {        
+      $permissions = $this->Role->convert_permissions($this->data['Role']['permissions']);
+      $this->data['Role']['permissions'] = $permissions;
 
       $data = array('id' => $id,
                     'name' => $this->data['Role']['name'],
@@ -141,7 +143,8 @@ class RolesController extends AppController {
 
       $this->Role->create();
       if ($this->Role->save($data, false, array('id','name','assignable','permissions'))) {
-        $this->flash(__('Successful update.', true), 'index');
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+        $this->redirect('index');
       }
       return;
     }
@@ -156,7 +159,7 @@ class RolesController extends AppController {
     if ($this->Role->del($id)) {
       $this->Session->setFlash(__('Successful deletion.', true), 'default', array('class'=>'flash flash_notice'));
     } else {
-      $this->Session->setFlash(__('This role is in use and can not be deleted.', true));
+      $this->Session->setFlash(__('This role is in use and can not be deleted.', true), 'default', array('class'=>'flash flash_error'));
     }
     $this->redirect('index');
   }
@@ -203,15 +206,14 @@ class RolesController extends AppController {
     $this->set('permission_name',$permission_name);
 
     if (!empty($this->data)) {
-
-      pr($this->data);
       foreach ($this->data['permissions'] as $id => $perms) {
         $data = array('id' => $id,
                       'permissions' => $this->Role->convert_permissions($perms));
         $this->Role->create();
         $this->Role->save($data, false, array('id','permissions'));
       }
-      $this->flash(__('Successful update.', true), 'index');
+      $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+      $this->redirect('index');
     }
   }
 
