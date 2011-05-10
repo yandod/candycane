@@ -653,11 +653,15 @@ class ProjectsController extends AppController
     $this->set('author', $author);
 
     $with_subprojects = ($this->_get_param('with_subprojects')!=null) ? $this->Setting->display_subprojects_issues : ($this->_get_param('with_subprojects') == '1');
-    $this->Fetcher->fetch($this->current_user, array(
-      'project' => $this->_project,
+    $condition = array(
+      //'project' => $this->_project,
       'with_subprojects' => $with_subprojects,
       'author' => $author['User'],
-    ));
+    );
+    if (isset($this->_project)) {
+        $condition['project'] = $this->_project;
+    }
+    $this->Fetcher->fetch($this->current_user,$condition);
     $scope = $this->Fetcher->scope_select('_callback_activity_scope_select');
     if (empty($scope)) {
       $this->Fetcher->set_scope(empty($author) ? 'default' : 'all');
@@ -673,7 +677,9 @@ class ProjectsController extends AppController
 
     $this->set('activity_event_types', $this->Fetcher->event_types());
     $this->set('activity_scope', $this->Fetcher->scope);
-    $this->set('active_children', $this->Project->active_children($this->_project['Project']['id']));
+    if (isset($this->_project)) {
+      $this->set('active_children', $this->Project->active_children($this->_project['Project']['id']));
+    }
     $this->set('with_subprojects', $with_subprojects);
     $this->set('param_user_id', $this->_get_param('user_id'));
     $this->set('rss_token', $this->Project->User->rss_key($this->current_user['id']));

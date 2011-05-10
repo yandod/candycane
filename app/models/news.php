@@ -47,7 +47,7 @@ class News extends AppModel
     'Event' => array('url' => array('Proc' => '_event_url')),
   );
   function _event_url($data) {
-    return  array('controller'=>'news', 'action'=>'show', 'id'=>$data['News']['id']);
+    return  array('controller'=>'news', 'action'=>'show', 'id'=>$data['News']['id'], 'project_id' => $data['Project']['id']);
   }
 
 //  # returns latest news for projects visible by user
