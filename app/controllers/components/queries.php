@@ -56,7 +56,24 @@ class QueriesComponent extends Object
         }
       }
     } else {
-      if (isset($self->params['url']['set_filter'], $self->params['form']['fields']) || $forse_set_filter) {
+      if (isset($self->params['url']['set_filter']) || $forse_set_filter) {
+          if ( !is_array($self->params['form'])) {
+              $self->params['form'] = array(
+                  'fields' => array(),
+                  'operators' => array(),
+                  'values' => array(),
+              );
+          }
+          if (isset($self->params['url']) && is_array($self->params['url']) ) {
+              foreach ($self->params['url'] as $criteria_name => $criteria_val) {
+                  $self->params['form']['fields'][$criteria_name] = $criteria_name;
+                  $self->params['form']['operators'][$criteria_name] = '=';
+                  $self->params['form']['values'][$criteria_name] = array($criteria_val);
+                  if ($criteria_name == 'status_id') {
+                      $self->params['form']['operators'][$criteria_name] = $criteria_val;
+                  }                  
+              }
+          }
         foreach ($self->params['form']['fields'] as $field) {
           $operator = $self->params['form']['operators'][$field];
           $values = isset($self->params['form']['values'][$field]) ? $self->params['form']['values'][$field] : null;

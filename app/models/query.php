@@ -134,6 +134,7 @@ class Query extends AppModel
     $Enumeration = & ClassRegistry::init('Enumeration');
     $user_values = a();
     $tracker_values = a();
+    $version_values = array();
     if ($currentuser) $user_values['me'] = __('me', true);
     if (isset($project['User'])) {
       foreach ($project['User'] as $user) {
@@ -144,6 +145,19 @@ class Query extends AppModel
     if (isset($project['Tracker'])) {
       foreach ($project['Tracker'] as $tracker) $tracker_values[$tracker['id']] = $tracker['name'];
     }
+    if (isset($project['Project']['id'])) {
+      $Version = & ClassRegistry::init('Version');
+      $version_values = $Version->find('list', array(
+        'fields' => array(
+          'Version.id',
+          'Version.name',
+        ),
+        'conditions' => array(
+            'Version.project_id' => $project['Project']['id']
+        )
+      ));
+    }
+    
     $available_filters = array(
       'status_id' => array(
         'type'   => 'list_status',
@@ -154,6 +168,11 @@ class Query extends AppModel
           ),
         )),
         'order' => 1,
+      ),
+      'fixed_version_id' => array(
+        'type' => 'list',
+        'values' => $version_values,
+        'order' => 10
       ),
       'start_date' => array(
         'type'  => 'date',
