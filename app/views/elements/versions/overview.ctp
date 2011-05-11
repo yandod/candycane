@@ -8,21 +8,36 @@
 
 <?php if ($fixed_issue_count > 0): ?>
     <?php echo $candy->progress_bar(array($version['closed_pourcent'], $version['completed_pourcent']),array('width'=>'40em','legend'=>sprintf('%0.0f%%',$version['completed_pourcent']))) ?>
-<?php /*
-    <%= progress_bar([version.closed_pourcent, version.completed_pourcent], :width => '40em', :legend => ('%0.0f%' % version.completed_pourcent)) %>
- */ ?>
     <p class="progress-info">
-        <?php echo $html->link($version['closed_issues_count'], array('controller'=>'issues', 'action'=>'index', 'project_id'=>$version['project_id'], 'status_id'=>'c', 'fixed_version_id'=>$version['id'], 'set_filter'=>1)) ?>
-<?php /*
-        :controller => 'issues', :action => 'index', :project_id => version.project, :status_id => 'c', :fixed_version_id => version, :set_filter => 1) ?>
- */?>
+        <?php echo $html->link(
+			$version['closed_issues_count'], 
+			array(
+				'controller'=>'issues', 
+				'action'=>'index', 
+				'project_id'=>$main_project['Project']['identifier'], 
+				'?' => array(
+					'status_id'=>'c', 
+					'fixed_version_id'=>$version['id'], 
+					'set_filter'=>1
+				)
+			)
+		) ?>
         <?php echo $candy->lwr('closed', $version['closed_issues_count']) ?>
         (<?php echo sprintf('%0.0f', floatval($version['closed_issues_count']) / $fixed_issue_count * 100) ?>%)
         &#160;
-<?php /*
-        <%= link_to(version.open_issues_count, :controller => 'issues', :action => 'index', :project_id => version.project, :status_id => 'o', :fixed_version_id => version, :set_filter => 1) %>
- */ ?>
-        <?php echo $html->link($version['open_issues_count'], array('controller'=>'issues', 'action'=>'index', 'project_id'=>$version['project_id'], 'status_id'=>'o', 'fixed_version_id'=>$version['id'], 'set_filter'=>1)) ?>
+        <?php echo $html->link(
+			$version['open_issues_count'], 
+			array(
+				'controller'=>'issues', 
+				'action'=>'index', 
+				'project_id'=>$main_project['Project']['identifier'], 
+				'?' => array(
+					'status_id'=>'o', 
+					'fixed_version_id'=>$version['id'], 
+					'set_filter'=>1
+				)
+			)
+		) ?>
         <?php echo $candy->lwr('open', $version['open_issues_count']) ?>
         (<?php echo sprintf('%0.0f', floatval($version['open_issues_count']) / $fixed_issue_count * 100) ?>%)
     </p>
