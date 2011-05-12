@@ -432,7 +432,7 @@ class ListBehavior extends ModelBehavior {
         $Model->data[$Model->alias][$position_column] = $result[$Model->alias][$position_column] + 1;
       }
     }
-    return $result;
+    return true;
   }
  
   function beforeDelete(&$Model) {
