@@ -7,7 +7,7 @@ class IssueStatusTestCase extends CakeTestCase {
       'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
       'app.enabled_module', 'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
       'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher',
-      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect',
+      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow'
   );
 
   function startTest() {
