@@ -58,10 +58,10 @@ class FetcherComponentTestCase extends CakeTestCase {
     $this->assertEqual('issue', $events[0]['type']);
     $this->assertEqual(1, $events[0]['id']);
     $this->assertEqual('issue', $events[2]['type']);
-    $this->assertEqual(7, $events[2]['id']);
+    $this->assertEqual(5, $events[2]['id']);
     # subproject issue
     $this->assertEqual('issue', $events[1]['type']);
-    $this->assertEqual(5, $events[1]['id']);
+    $this->assertEqual(7, $events[1]['id']);
 
     $this->assertEqual('issue-note', $events[3]['type']);
     $this->assertEqual(1, $events[3]['id']);
@@ -79,10 +79,10 @@ class FetcherComponentTestCase extends CakeTestCase {
     $this->assertEqual('issue', $events[0]['type']);
     $this->assertEqual(1, $events[0]['id']);
     $this->assertEqual('issue', $events[2]['type']);
-    $this->assertEqual(7, $events[2]['id']);
+    $this->assertEqual(5, $events[2]['id']);
     # subproject issue
     $this->assertEqual('issue', $events[1]['type']);
-    $this->assertEqual(5, $events[1]['id']);
+    $this->assertEqual(7, $events[1]['id']);
 
     $this->assertEqual('issue-note', $events[3]['type']);
     $this->assertEqual(1, $events[3]['id']);
@@ -106,14 +106,14 @@ class FetcherComponentTestCase extends CakeTestCase {
     $this->assertEqual(1, $events[0]['id']);
     $this->assertEqual('issue', $events[1]['type']);
     # Issue of a private project the user belongs to
-    $this->assertEqual(4, $events[1]['id']);
+    $this->assertEqual(7, $events[1]['id']);
     $this->assertEqual('issue', $events[2]['type']);
-    $this->assertEqual(5, $events[2]['id']);
+    $this->assertEqual(4, $events[2]['id']);
     $this->assertEqual('issue', $events[3]['type']);
     # Issue of a private project the user belongs to
-    $this->assertEqual(6, $events[3]['id']);
+    $this->assertEqual(5, $events[3]['id']);
     $this->assertEqual('issue', $events[4]['type']);
-    $this->assertEqual(7, $events[4]['id']);
+    $this->assertEqual(6, $events[4]['id']);
 
     $this->assertEqual('issue-note', $events[5]['type']);
     $this->assertEqual(1, $events[5]['id']);
@@ -140,16 +140,16 @@ class FetcherComponentTestCase extends CakeTestCase {
     $this->Component->fetch($user);
     $events = $this->Component->events(date('Y-m-d', strtotime('2006-07-19 0:0:0')), date('Y-m-d', strtotime('2006-07-20 0:0:0')));
     $this->assertNotNull($events);
-    $this->assertEqual(3, count($events));
-    $this->assertEqual('news', $events[0]['type']);
-    $this->assertEqual(1, $events[0]['id']);
-    $this->assertEqual(array('controller'=>'news', 'action'=>'show', 'id'=>1), $events[0]['url']);
-    $this->assertEqual('news', $events[1]['type']);
-    $this->assertEqual(2, $events[1]['id']);
-    $this->assertEqual(array('controller'=>'news', 'action'=>'show', 'id'=>2), $events[1]['url']);
-    $this->assertEqual('attachment', $events[2]['type']);
-    $this->assertEqual(9, $events[2]['id']);
-    $this->assertEqual(array('controller'=>'attachments', 'action'=>'download', 'id'=>9, '?'=>array('filename'=>'version_file.zip')), $events[2]['url']);
+    $this->assertEqual(5, count($events));
+    $this->assertEqual('issue', $events[0]['type']);
+    $this->assertEqual(2, $events[0]['id']);
+    $this->assertEqual(array('controller'=>'issues', 'action'=>'show', 'id'=>2), $events[0]['url']);
+    $this->assertEqual('issue', $events[1]['type']);
+    $this->assertEqual(3, $events[1]['id']);
+    $this->assertEqual(array('controller'=>'issues', 'action'=>'show', 'id'=>3), $events[1]['url']);
+    $this->assertEqual('news', $events[2]['type']);
+    $this->assertEqual(1, $events[2]['id']);
+    $this->assertEqual(array('controller'=>'news', 'action'=>'show', 'id'=>1, 'project_id'=>1), $events[2]['url']);
   }
 
   function test_documents_activity() {

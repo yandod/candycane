@@ -1,9 +1,11 @@
 <?php 
 class RoleTestCase extends CakeTestCase {
   var $Role = null;
+  var $autoFixtures = false;
   var $fixtures = array('app.role');
 
   function startTest() {
+    $this->loadFixtures('Role');
     $this->Role =& ClassRegistry::init('Role');
   }
   function testIsMember() {
@@ -31,14 +33,16 @@ class RoleTestCase extends CakeTestCase {
 //    $this->assertTrue($this->Role->anonymous_allowed_to(array('action'=>"browse", 'controller'=>"repositories")));
   }
   function testRoleExistsSubquery() {
+    $tableName = $this->Role->table;
     $results = $this->Role->find('all', array('conditions'=>array(
-      "EXISTS (SELECT ROLE.id FROM test_suite_roles ROLE WHERE ROLE.name='Manager' AND ROLE.position=1)" => true
+      "EXISTS (SELECT ROLE.id FROM {$tableName} ROLE WHERE ROLE.name='Manager' AND ROLE.position=1)" => true
     )));
     $this->assertEqual(5, count($results));
   }
   function testRoleNotExistsSubquery() {
+    $tableName = $this->Role->table;
     $results = $this->Role->find('all', array('conditions'=>array(
-      "EXISTS (SELECT ROLE.id FROM test_suite_roles ROLE WHERE ROLE.name='Manager' AND ROLE.position=0)" => true
+      "EXISTS (SELECT ROLE.id FROM {$tableName} ROLE WHERE ROLE.name='Manager' AND ROLE.position=0)" => true
     )));
     $this->assertEqual(0, count($results));
   }
