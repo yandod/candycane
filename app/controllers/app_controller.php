@@ -86,6 +86,7 @@ class AppController extends Controller {
      * @todo rss key authentication
      */
     function _find_current_user() {
+
       if ($this->Session->read('user_id')) {
         // existing session
         return $this->User->find_by_id_logged($this->Session->read('user_id'));
@@ -94,18 +95,16 @@ class AppController extends Controller {
 #    elsif cookies[:autologin] && Setting.autologin?
 #      # auto-login feature
 #      User.find_by_autologin_key(cookies[:autologin])
-#    elsif params[:key] && accept_key_auth_actions.include?(params[:action])
-#      # RSS key authentication
-#      User.find_by_rss_key(params[:key])
-      } elseif (!empty($this->params['named']['key'])) {
+      } elseif (!empty($this->params['url']['key'])) {
         // from rss reader
-        $user = $this->User->find_by_rss_key($this->params['named']['key']);
+        $user = $this->User->find_by_rss_key($this->params['url']['key']);
         if(!empty($user)) {
           $user = $this->User->find_by_id_logged($user['id']);
         }
         if(empty($user)) {
           $this->cakeError('error404');
         }
+        return $user;
       } else {
         $user = $this->User->anonymous();
         $user['User']['logged'] = false;
