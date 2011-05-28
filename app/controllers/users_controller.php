@@ -148,21 +148,19 @@ class UsersController extends AppController
     $status_counts = $this->User->find('all',
       array(
         'group' => array('status'),
-        'fields' => array('COUNT(*) as cnt'),
+        'fields' => array('User.status', 'COUNT(*) as cnt'),
       )
     );
-
-    foreach (array(1, 2, 3) as $key) {
-      if (!isset($status_counts[$key][0]['cnt'])) {
-        $status_counts[$key][0]['cnt'] = 0;
-      }
+    $counts = array(0,0,0,0);
+    foreach ($status_counts as $row) {
+      $counts[$row['User']['status']]=$row[0]['cnt'];
     }
 
     $status_option = array(
       '' => __('all', true),
-      1  => __('active', true) . ' (' . (int)$status_counts[1][0]['cnt'] . ')',
-      2  => __('registered', true) . ' (' . (int)$status_counts[2][0]['cnt'] . ')',
-      3  => __('locked', true) . ' (' . (int)$status_counts[3][0]['cnt'] . ')',
+      1  => __('active', true) . ' (' . (int)$counts[1] . ')',
+      2  => __('registered', true) . ' (' . (int)$counts[2] . ')',
+      3  => __('locked', true) . ' (' . (int)$counts[3] . ')',
     );
 
     $this->set('status_option', $status_option);

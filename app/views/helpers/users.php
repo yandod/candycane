@@ -13,7 +13,7 @@
  */
 class UsersHelper extends AppHelper
 {
-  var $helpers = array('Html');
+  var $helpers = array('Html','Ajax');
 
   /**
    * change_status_link
@@ -35,13 +35,33 @@ class UsersHelper extends AppHelper
 
     // user status locked
     if ($user['status'] == 3) {
-      return $this->Html->link(__('Unlock', true), '/users/edit/' . $user['id'], array('class' => 'icon icon-unlock'));
-      // return $this->Html->link(__('button_unlock', true), '/users/edit/' . $user['id'], array('class' => 'icon icon-unlock'));
+      return $this->Ajax->link(
+          __('Unlock', true),
+          '/users/edit/' . $user['id'],
+          array(
+              'class' => 'icon icon-unlock',
+              'with' => "{'data[User][status]':1,'data[User][id]':{$user['id']}}",
+              'update' => 'wrapper'
+              ));
     // user registered
     } else if ($user['status'] == 2) {
-      return $this->Html->link(__('Activate', true), '/users/edit/' . $user['id'], array('class' => 'icon icon-unlock'));
+      return $this->Ajax->link(
+          __('Activate', true),
+          '/users/edit/' . $user['id'],
+          array(
+              'class' => 'icon icon-unlock',
+              'with' => "{'data[User][status]':1,'data[User][id]':{$user['id']}}",
+              'update' => 'wrapper'
+              ));
     } else {
-      return $this->Html->link(__('Lock', true), '/users/edit/' . $user['id'], array('class' => 'icon icon-lock'));
+      return $this->Ajax->link(
+          __('Lock', true),
+          '/users/edit/' . $user['id'],
+          array(
+              'class' => 'icon icon-lock',
+              'with' => "{'data[User][status]':3,'data[User][id]':{$user['id']}}",
+              'update' => 'wrapper'
+              ));
     }
 
     # if user.locked?
