@@ -46,9 +46,7 @@ class UsersController extends AppController
   {
     if ($this->data) {
       if ($this->User->save($this->data)) {
-#        flash[:notice] = l(:notice_successful_update)
-#        # Give a string to redirect_to otherwise it would use status param as the response code
-#        redirect_to(url_for(:action => 'list', :status => params[:status], :page => params[:page]))
+        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
         $this->redirect('list');
         return;
       }
@@ -187,8 +185,7 @@ class UsersController extends AppController
       $this->data['User']['created_on'] = date('Y-m-d H:i:s'); // @todo model de yarubeki
       if ($this->User->save($this->data)) {
         #        Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
-        #        flash[:notice] = l(:notice_successful_create)
-        #        redirect_to :action => 'list'
+        $this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash flash_notice'));
         $this->redirect('/users/index');
       }
     }
