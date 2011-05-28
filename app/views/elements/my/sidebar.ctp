@@ -5,4 +5,6 @@
 <?php if ( !empty($currentuser['RssToken']) ): ?>
 <p><?php $candy->lwr_e('RSS access key created %s ago',$candy->distance_of_time_in_words(time(),$currentuser['RssToken']['created_on'])) ?>
 (<?php echo $html->link(__('Reset',true),aa('action','reset_rss_key')) ?>)</p>
+<?php else: ?>
+<p><?php echo $html->link(__('Create RSS access key',true),aa('action','reset_rss_key')) ?></p>
 <?php endif; ?>
