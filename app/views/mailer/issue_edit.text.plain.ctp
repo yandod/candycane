@@ -1,9 +1,8 @@
-<%= l(:text_issue_updated, "##{@issue.id}", @journal.user) %>
+<?php echo $candy->lwr('Issue %s has been updated by %s.', $journal['Issue']['id'],$candy->format_username($journal['User']))?> 
+<?php foreach ($journal['JournalDetail'] as $detail) {
+	echo $issues->show_detail($detail,true);
+}?> 
+<?php echo $journal['Journal']['notes'];?>
 
-<% for detail in @journal.details -%>
-<%= show_detail(detail, true) %>
-<% end -%>
-
-<%= @journal.notes if @journal.notes? %>
 ----------------------------------------
-<%= render :partial => "issue_text_plain", :locals => { :issue => @issue, :issue_url => @issue_url } %>
+<?php echo $this->renderElement('mailer/issue_text_plain',array('issue' => $issue, 'issue_url' => $issueurl)) ?>　

@@ -1,4 +1,4 @@
-<%= l(:text_issue_added, "##{@issue.id}", @issue.author) %>
+<?php echo $candy->lwr('Issue %s has been reported by %s.', $issue['Issue']['id'],$candy->format_username($issue['Author']))?> 
 
 ----------------------------------------
-<%= render :partial => "issue_text_plain", :locals => { :issue => @issue, :issue_url => @issue_url } %>
+<?php echo $this->renderElement('mailer/issue_text_plain',array('issue' => $issue, 'issue_url' => $issueurl)) ?>　

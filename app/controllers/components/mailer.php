@@ -1,6 +1,74 @@
 <?php
-class Mailer extends AppModel {
-  var $useTable = false;
+App::import('Vendor', 'action_mailer');
+class MailerComponent extends ActionMailer {
+    var $name = 'Mailer';
+    var $layout = null;
+    var $sender = '';
+    var $subject = '';
+    
+    function startup($controller){
+        $this->controller = $controller;
+        $this->sender = 'candycane';
+        $this->setHeader('Content-type', 'text/plain');
+    }
+    
+    function issue_add($Issue) {
+    #    redmine_headers 'Project' => issue.project.identifier,
+    #                    'Issue-Id' => issue.id,
+    #                    'Issue-Author' => issue.author.login
+    #    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+    #    recipients issue.recipients
+    $this->setRecipients($Issue->recipients());
+    #    cc(issue.watcher_recipients - @recipients)
+    $issue_data = $Issue->findById($Issue->id);
+    $s = "{$issue_data['Project']['name']} - {$issue_data['Tracker']['name']} #{$issue_data['Issue']['id']} ";
+    $s .= "{$issue_data['Status']['name']} ";
+    $s .= "{$issue_data['Issue']['subject']}";
+    $this->subject = $s;
+    #    body :issue => issue,
+    #         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
+    $this->set('issue',$issue_data);
+    $this->set('issueurl',Router::url(array(
+        'controller' => 'issues',
+        'action' => 'show',
+        'issue_id' => $Issue->id
+        ),
+        true
+    ));
+    }
+    
+    function issue_edit($Journal,$Issue) {
+    #    issue = journal.journalized
+    #    redmine_headers 'Project' => issue.project.identifier,
+    #                    'Issue-Id' => issue.id,
+    #                    'Issue-Author' => issue.author.login
+    #    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+    #    @author = journal.user
+    #    recipients issue.recipients
+    $this->setRecipients($Issue->recipients());
+    #    # Watchers in cc
+    #    cc(issue.watcher_recipients - @recipients)
+    #    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
+    $issue_data = $Issue->findById($Issue->id);
+    $s = "{$issue_data['Project']['name']} - {$issue_data['Tracker']['name']} #{$issue_data['Issue']['id']} ";
+    $s .= "{$issue_data['Status']['name']} ";
+    $s .= "{$issue_data['Issue']['subject']}";
+    $this->subject = $s;
+    #    body :issue => issue,
+    #         :journal => journal,
+    #         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
+    #  end
+    $journal_data = $Journal->findById($Journal->getLastInsertID());
+    $this->set('issue',$issue_data);
+    $this->set('journal',$journal_data);
+    $this->set('issueurl',Router::url(array(
+        'controller' => 'issues',
+        'action' => 'show',
+        'issue_id' => $Issue->id
+        ),
+        true
+    ));
+    }
 }
 #class Mailer < ActionMailer::Base
 #  helper :application
@@ -9,36 +77,7 @@ class Mailer extends AppModel {
 #
 #  include ActionController::UrlWriter
 #
-#  def issue_add(issue)
-#    redmine_headers 'Project' => issue.project.identifier,
-#                    'Issue-Id' => issue.id,
-#                    'Issue-Author' => issue.author.login
-#    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
-#    recipients issue.recipients
-#    cc(issue.watcher_recipients - @recipients)
-#    subject "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] (#{issue.status.name}) #{issue.subject}"
-#    body :issue => issue,
-#         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
-#  end
 #
-#  def issue_edit(journal)
-#    issue = journal.journalized
-#    redmine_headers 'Project' => issue.project.identifier,
-#                    'Issue-Id' => issue.id,
-#                    'Issue-Author' => issue.author.login
-#    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
-#    @author = journal.user
-#    recipients issue.recipients
-#    # Watchers in cc
-#    cc(issue.watcher_recipients - @recipients)
-#    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
-#    s << "(#{issue.status.name}) " if journal.new_value_for('status_id')
-#    s << issue.subject
-#    subject s
-#    body :issue => issue,
-#         :journal => journal,
-#         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
-#  end
 #
 #  def reminder(user, issues, days)
 #    set_language_if_valid user.language

@@ -513,16 +513,17 @@ class Issue extends AppModel
 #    statuses << status unless statuses.empty?
 #    statuses.uniq.sort
 #  end
-#  
-#  # Returns the mail adresses of users that should be notified for the issue
-#  def recipients
-#    recipients = project.recipients
-#    # Author and assignee are always notified unless they have been locked
-#    recipients << author.mail if author && author.active?
-#    recipients << assigned_to.mail if assigned_to && assigned_to.active?
-#    recipients.compact.uniq
-#  end
-#  
+# 
+  // Returns the mail adresses of users that should be notified for the issue
+  function recipients() {
+    $recipients = $this->Project->recipients();
+    # Author and assignee are always notified unless they have been locked
+    $data = $this->findById($this->id);
+    $recipients[] = $data['Author']['mail'];
+    $recipients[] = $data['AssignedTo']['mail'];
+    return array_filter(array_unique($recipients)); 
+  }
+  
   function spent_hours() {
     // Move to IssuesHelper
   }

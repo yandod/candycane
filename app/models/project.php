@@ -455,9 +455,21 @@ class Project extends AppModel
 
 #  
 #  # Returns the mail adresses of users that should be always notified on project events
-#  def recipients
-#    members.select {|m| m.mail_notification? || m.user.mail_notification?}.collect {|m| m.user.mail}
-#  end
+  function recipients(){
+     return $this->Member->find(
+         'list',
+         array(
+            'fields' => array('User.mail'),
+            'conditions' => array(
+                'OR' => array(
+                    'User.mail_notification' => 1,
+                    'Member.mail_notification' => 1
+                )
+            ),
+            'recursive' => 2
+         )
+     );
+  }
 #  
 #  # Returns an array of all custom fields enabled for project issues
 #  # (explictly associated custom fields and custom fields enabled for all projects)
