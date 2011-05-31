@@ -461,9 +461,12 @@ class Project extends AppModel
          array(
             'fields' => array('User.mail'),
             'conditions' => array(
+                'AND' => array(
+                'Member.project_id' => $this->id, 
                 'OR' => array(
                     'User.mail_notification' => 1,
                     'Member.mail_notification' => 1
+                )
                 )
             ),
             'recursive' => 2

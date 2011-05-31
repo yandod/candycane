@@ -516,6 +516,8 @@ class Issue extends AppModel
 # 
   // Returns the mail adresses of users that should be notified for the issue
   function recipients() {
+    $data = $this->read('project_id',$this->id);
+    $this->Project->id = $data['Issue']['project_id'];
     $recipients = $this->Project->recipients();
     # Author and assignee are always notified unless they have been locked
     $data = $this->findById($this->id);
