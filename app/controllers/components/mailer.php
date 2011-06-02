@@ -69,6 +69,26 @@ class MailerComponent extends ActionMailer {
         true
     ));
     }
+
+    function lost_password($token, $user)
+    {
+        # set_language_if_valid(token.user.language)
+
+        $this->addRecipient($user['User']['mail']);
+        $this->setSubject(__('mail_subject_lost_password', true));
+
+        $this->set('token', $token);
+        $this->set('user', $user);
+        $this->set('url', Router::url(
+            array(
+                'controller' => 'account',
+                'action' => 'lost_password',
+                'token' => $token['Token']['value']
+            ),
+            true
+        ));
+    }
+
 }
 #class Mailer < ActionMailer::Base
 #  helper :application
@@ -151,14 +171,6 @@ class MailerComponent extends ActionMailer {
 #    subject l(:mail_subject_account_activation_request, Setting.app_title)
 #    body :user => user,
 #         :url => url_for(:controller => 'users', :action => 'index', :status => User::STATUS_REGISTERED, :sort_key => 'created_on', :sort_order => 'desc')
-#  end
-#
-#  def lost_password(token)
-#    set_language_if_valid(token.user.language)
-#    recipients token.user.mail
-#    subject l(:mail_subject_lost_password, Setting.app_title)
-#    body :token => token,
-#         :url => url_for(:controller => 'account', :action => 'lost_password', :token => token.value)
 #  end
 #
 #  def register(token)

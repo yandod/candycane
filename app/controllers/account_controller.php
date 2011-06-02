@@ -11,10 +11,9 @@
  */
 class AccountController extends AppController
 {
-
-  var $uses = array('User', 'Project', 'Setting','Event','Issue');
+  var $uses = array('User', 'Project', 'Setting', 'Event', 'Issue', 'Token');
   var $helpers = array('Text');
-  var $components = array('Fetcher');
+  var $components = array('Fetcher', 'RequestHandler', 'Mailer');
   
   //  helper :custom_fields
   //  include CustomFieldsHelper   
@@ -247,37 +246,61 @@ class AccountController extends AppController
         $this->redirect('/');
       }
 
-      if ($this->data['token']) {
-#      @token = Token.find_by_action_and_value("recovery", params[:token])
-#      redirect_to(home_url) && return unless @token and !@token.expired?
-#      @user = @token.user
-#      if request.post?
-#        @user.password, @user.password_confirmation = params[:new_password], params[:new_password_confirmation]
-#        if @user.save
-#          @token.destroy
-#          flash[:notice] = l(:notice_account_password_updated)
-#          redirect_to :action => 'login'
-#          return
-#        end 
-#      end
-#      render :template => "account/password_recovery"
-#      return
-#    else
-#      if request.post?
-#        user = User.find_by_mail(params[:mail])
-#        # user not found in db
-#        flash.now[:error] = l(:notice_account_unknown_email) and return unless user
-#        # user uses an external authentification
-#        flash.now[:error] = l(:notice_can_t_change_password) and return if user.auth_source_id
-#        # create a new token for password recovery
-#        token = Token.new(:user => user, :action => "recovery")
-#        if token.save
-#          Mailer.deliver_lost_password(token)
-#          flash[:notice] = l(:notice_account_lost_email_sent)
-#          redirect_to :action => 'login'
-#          return
-#        end
-#      end
+      if (isset($this->params['named']['token'])) {
+          $token = $this->Token->find('first',
+              array('conditions' => array('Token.action' => 'recovery', 'Token.value' => $this->params['named']['token']))
+          );
+
+          if ($this->Token->isExpired($token)) {
+              // @TODO add error message
+              $this->redirect('/');
+          }
+
+          if ($this->RequestHandler->isPost()) {
+              if ($this->data['User']['new_password'] != $this->data['User']['new_password_confirmation']) {
+                  // @TODO add error message
+                  $this->render('password_recovery');
+                  return;
+              }
+                  
+              $user = $this->User->findById($token['Token']['user_id']);
+              $user['User']['password'] = $this->data['User']['new_password'];
+              $user['User']['password_confirmation'] = $this->data['User']['new_password_confirmation'];
+
+              if ($this->User->save($user)) {
+                  $this->Token->destroy($user['User']['id'], 'recovery');
+                  # flash[:notice] = l(:notice_account_password_updated)
+                  $this->redirect('/login');
+                  return;
+              }
+          }
+
+          $this->set('token', $token);
+          $this->render('password_recovery');
+          return;
+      }
+
+      if ($this->RequestHandler->isPost()) {
+          $user = $this->User->findByMail($this->data['User']['mail']);
+
+          # user not found in db
+          if ($user === false) {
+              // @TODO add error message
+              return;
+          }
+
+          # create a new token for password recovery
+          $data = array(
+              'user_id' => $user['User']['id'],
+              'action' => 'recovery',
+              'value' => $this->Token->_generate_token_value(), // @TODO more smart
+          );
+
+          if ($token = $this->Token->save($data)) {
+              $this->Mailer->deliver_lost_password($token, $user);
+              # flash[:notice] = l(:notice_account_lost_email_sent)
+              $this->redirect('/login');
+          }
       }
     }
 
