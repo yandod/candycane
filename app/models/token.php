@@ -11,17 +11,13 @@
  */
 class Token extends AppModel
 {
-  var $belongsTo = array('User');
   var $validity_time = 0;
 
   function __construct($id = false, $table = null, $ds = null) {
     parent::__construct($id, $table, $ds);
-    $validity_time = 60 * 60 * 24; // 1.day
+    $this->validity_time = 60 * 60 * 24; // 1.day
   }
-  /**
-   * beforeCreate
-   *
-   */
+
   function beforeCreate()
   {
     $this->data['User']['value'] = $this->_generate_token_value();
@@ -29,13 +25,13 @@ class Token extends AppModel
   }
 
   /**
-   * isExpired
+   * public static funtion isExpired
    *
    * Return true if token has expired  
    */
-  function isExpired()
+  function isExpired($token)
   {
-    if (time() > (strtotime($this->data['User']['created_on']) + $this->validity_time)) {
+    if (time() > (strtotime($token['Token']['created_on']) + $this->validity_time)) {
       return true;
     } else {
       return false;
@@ -65,11 +61,11 @@ class Token extends AppModel
    */
   function _generate_token_value()
   {
-    return sha1(microtime());
 #    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
 #    token_value = ''
 #    40.times { |i| token_value << chars[rand(chars.size-1)] }
 #    token_value
+    return sha1(microtime());
   }
   
   function destroy($user_id,$action)
@@ -80,6 +76,7 @@ class Token extends AppModel
         'user_id =' => $user_id,
       )
     );
+    /*
     $this->save(
       array(
         $this->alias => array(
@@ -89,6 +86,7 @@ class Token extends AppModel
         )
       )
     );
+     */
   }
 }
 

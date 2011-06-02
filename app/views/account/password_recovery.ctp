@@ -1,15 +1,23 @@
-<h2><%=l(:label_password_lost)%></h2>
+<h2><?php __('label_password_lost') ?></h2>
 
-<%= error_messages_for 'user' %>
+<?php // error_messages_for 'user' ?>
 
-<% form_tag({:token => @token.value}) do %>
-<div class="box tabular">
-<p><label for="new_password"><%=l(:field_new_password)%> <span class="required">*</span></label>
-<%= password_field_tag 'new_password', nil, :size => 25 %><br />
-<em><%= l(:text_caracters_minimum, 4) %></em></p>
+<?php echo $form->create(null, array('class' => 'tabular', 'url' => "/account/lost_password/token:{$token['Token']['value']}")); ?>
+<div class="box">
+  <p>
+    <?php __('new_password') ?>
+    <?php echo $form->password('new_password' , array('label' => false, 'div' => false, 'size' => '25')); ?>
+    &nbsp;<span class="required">*</span>
+    <em><?php __('text_caracters_minimum', 4) ?></em>
+  </p>
 
-<p><label for="new_password_confirmation"><%=l(:field_password_confirmation)%> <span class="required">*</span></label>
-<%= password_field_tag 'new_password_confirmation', nil, :size => 25 %></p>
+  <p>
+    <?php __('field_password_confirmation') ?>
+    <?php echo $form->password('new_password_confirmation' , array('label' => false, 'div' => false, 'size' => '25')); ?>
+    <span class="required">*</span>
+  </p>
+  <p>
+    <?php echo $form->submit(__('button_save', true), array('div' => false)); ?>
+  </p>
 </div>
-<p><%= submit_tag l(:button_save) %></p>
-<% end %>  
+<?php echo $form->end(); ?>

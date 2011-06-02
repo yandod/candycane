@@ -1,4 +1,7 @@
-<%= l(:mail_body_lost_password) %>
-<%= @url %>
+<?php __('mail_body_lost_password') ?>
 
-<%= l(:field_login) %>: <%= @token.user.login %>
+
+<?php echo $url ?>
+
+
+<?php __('field_login') ?>: <?php echo $user['User']['login'] ?>
