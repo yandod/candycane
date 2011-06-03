@@ -269,7 +269,7 @@ class AccountController extends AppController
 
               if ($this->User->save($user)) {
                   $this->Token->destroy($user['User']['id'], 'recovery');
-                  # flash[:notice] = l(:notice_account_password_updated)
+                  $this->Session->setFlash(__('Password was successfully updated.',true), 'default', array('class'=>'flash flash_notice'));
                   $this->redirect('/login');
                   return;
               }
@@ -298,7 +298,7 @@ class AccountController extends AppController
 
           if ($token = $this->Token->save($data)) {
               $this->Mailer->deliver_lost_password($token, $user);
-              # flash[:notice] = l(:notice_account_lost_email_sent)
+              $this->Session->setFlash(__('An email with instructions to choose a new password has been sent to you.',true), 'default', array('class'=>'flash flash_notice'));
               $this->redirect('/login');
           }
       }

@@ -1,7 +1,7 @@
-<?php __('mail_body_lost_password') ?>
+<?php __('To change your password, click on the following link:') ?>
 
 
 <?php echo $url ?>
 
 
-<?php __('field_login') ?>: <?php echo $user['User']['login'] ?>
+<?php __('Login') ?>: <?php echo $user['User']['login'] ?>

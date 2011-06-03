@@ -75,7 +75,7 @@ class MailerComponent extends ActionMailer {
         # set_language_if_valid(token.user.language)
 
         $this->addRecipient($user['User']['mail']);
-        $this->setSubject(__('mail_subject_lost_password', true));
+        $this->setSubject(__('Your password', true));
 
         $this->set('token', $token);
         $this->set('user', $user);
