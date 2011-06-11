@@ -377,7 +377,7 @@ CREATE TABLE IF NOT EXISTS `issues` (
 --
 
 INSERT INTO `issues` (`id`, `tracker_id`, `project_id`, `subject`, `description`, `due_date`, `category_id`, `status_id`, `assigned_to_id`, `priority_id`, `fixed_version_id`, `author_id`, `lock_version`, `created_on`, `updated_on`, `start_date`, `done_ratio`, `estimated_hours`) VALUES
-(1, 1, 1, 'チケットきってみた', 'あいうえお', NULL, NULL, 1, NULL, 4, NULL, 3, 0, '2009-03-14 10:32:00', '2009-03-14 10:32:00', '2009-03-14', 0, NULL);
+(1, 1, 1, 'Sample Ticket', 'Hello candycane users.', NULL, NULL, 1, NULL, 4, NULL, 3, 0, '2009-03-14 10:32:00', '2009-03-14 10:32:00', '2009-03-14', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -564,7 +564,7 @@ CREATE TABLE IF NOT EXISTS `news` (
 --
 
 INSERT INTO `news` (`id`, `project_id`, `title`, `summary`, `description`, `author_id`, `created_on`, `comments_count`) VALUES
-(1, 1, 'redmine動いた', 'ローカルでの動作について', '動きました\r\n*バリバリ動きました*', 3, '2009-03-20 23:25:45', 0);
+(1, 1, 'Sample News', 'Working fine.', 'Worked\r\n*YEAH!!*', 3, '2009-03-20 23:25:45', 0);
 
 -- --------------------------------------------------------
 
@@ -608,7 +608,7 @@ CREATE TABLE IF NOT EXISTS `projects` (
 --
 
 INSERT INTO `projects` (`id`, `name`, `description`, `homepage`, `is_public`, `parent_id`, `projects_count`, `created_on`, `updated_on`, `identifier`, `status`) VALUES
-(1, 'まごころプロレス', '格闘技さいこー', '', 1, NULL, 0, '2009-03-04 23:09:49', '2009-03-04 23:09:49', 'magokorro', 1);
+(1, 'Sample Project', 'Candycane rocks!', '', 1, NULL, 0, '2009-03-04 23:09:49', '2009-03-04 23:09:49', 'sampleproject', 1);
 
 -- --------------------------------------------------------
 
@@ -950,7 +950,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `login`, `hashed_password`, `firstname`, `lastname`, `mail`, `mail_notification`, `admin`, `status`, `last_login_on`, `language`, `auth_source_id`, `created_on`, `updated_on`, `type`) VALUES
 (1, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'Redmine', 'Admin', 'admin@example.net', 1, 1, 1, '2009-03-04 23:06:50', 'en', NULL, '2009-03-04 23:00:57', '2009-03-04 23:06:50', 'User'),
 (2, '', '', '', 'Anonymous', '', 0, 0, 0, NULL, '', NULL, '2009-03-04 23:02:30', '2009-03-04 23:02:30', 'AnonymousUser'),
-(3, 'yando', '0ad9bc6ecffe1d236f6653705d5313dbf1328415', 'yusuke', 'ando', 'ando@rikezemi.com', 0, 1, 1, '2009-03-20 23:24:42', 'ja', NULL, '2009-03-04 23:06:32', '2009-03-20 23:24:42', NULL);
+(3, 'testuser', '0ad9bc6ecffe1d236f6653705d5313dbf1328415', 'yusuke', 'ando', 'test@example.com', 0, 1, 1, '2009-03-20 23:24:42', 'ja', NULL, '2009-03-04 23:06:32', '2009-03-20 23:24:42', NULL);
 
 -- --------------------------------------------------------
 

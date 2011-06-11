@@ -40,7 +40,9 @@ class InstallController extends InstallAppController {
  */
     function beforeFilter() {
         parent::beforeFilter();
-
+      	$this->L10n = new L10n();
+      	$lang = $this->L10n->get();
+      	Configure::write('Config.language', $lang);
         $this->layout = 'install';
         App::import('Component', 'Session');
         $this->Session = new SessionComponent;

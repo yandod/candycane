@@ -989,8 +989,8 @@ msgid "is the wrong length"
 msgstr "の長さが間違っています"
 
 # mail_body_lost_password
-msgid "'To change your password, click on the following link:'"
-msgstr "'パスワードを変更するには、以下のリンクをたどってください:'"
+msgid "To change your password, click on the following link:"
+msgstr "パスワードを変更するには、以下のリンクをたどってください:"
 
 # label_attachment_delete
 msgid "Delete file"
@@ -2678,4 +2678,59 @@ msgstr "チケット"
 # label_days
 msgid "days"
 msgstr "日間"
+
+msgid "Install candycane"
+msgstr "candycane インストール"
+
+msgid "Your tmp directory is writable."
+msgstr "tmpディレクトリは書込み可能です。"
+
+msgid "Your tmp directory is NOT writable."
+msgstr "tmpディレクトリが書込み不可能です。"
+
+msgid "Your config directory is writable."
+msgstr "configディレクトリが書込み可能です。"
+
+msgid "Your config directory is NOT writable."
+msgstr "configディレクトリが不可能書込みです。"
+
+msgid "Installation cannot continue as minimum requirements are not met."
+msgstr "条件を満たすまでインストールは続行できません。"
+
+msgid "Click here to begin installation"
+msgstr "クリックでインストールを開始します"
+
+msgid "Step 1: Database"
+msgstr "ステップ1: データベース"
+
+msgid "Creating database conection setting. please type valid configuration for your database server."
+msgstr "データベース設定を作成します。あなたのデータベースに接続する正しい設定を入力してください。"
+
+msgid "Exsisting database name"
+msgstr "存在するデータベースの名前"
+
+msgid "Prefix for table name.(if you need)"
+msgstr "テーブル名の接頭語(必要な場合のみ)"
+
+msgid "Build database"
+msgstr "データベースを設定"
+
+msgid "Step 2: Run SQL"
+msgstr "ステップ2: SQLの実行"
+
+msgid "Loading initial data to database which you configured."
+msgstr "あなたが設定したデータベースに初期データをロードします。"
+
+msgid "Click here to build your database"
+msgstr "クリックでデータベースを構築します"
+
+msgid "Delete the installation directory <strong>/app/plugins/install</strong>."
+msgstr "インストール用のディレクトリを削除してください。 <strong>/app/plugins/install</strong>"
+
+msgid "Click here to delete installation files"
+msgstr "クリックでインストール用のファイルを削除します"
+
+msgid "Installation completed successfully"
+msgstr "インストールが完了しました"
+
 

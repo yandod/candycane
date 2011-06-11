@@ -1,0 +1,5 @@
+msgid "Your tmp directory is writable."
+msgstr "aaa"
+
+msgid "Your tmp directory is NOT writable."
+msgstr "aaa"
