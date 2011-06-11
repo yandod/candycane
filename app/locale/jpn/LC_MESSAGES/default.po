@@ -522,7 +522,7 @@ msgstr "Delete own messages"
 
 # label_new
 msgid "New"
-msgstr "新しく作成"
+msgstr "新規"
 
 # field_regexp
 msgid "Regular expression"

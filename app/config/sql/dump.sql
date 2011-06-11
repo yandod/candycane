@@ -333,15 +333,15 @@ CREATE TABLE IF NOT EXISTS `enumerations` (
 --
 
 INSERT INTO `enumerations` (`id`, `opt`, `name`, `position`, `is_default`) VALUES
-(1, 'DCAT', 'ユーザ文書', 1, 0),
-(2, 'DCAT', '技術文書', 2, 0),
-(3, 'IPRI', '低め', 1, 0),
-(4, 'IPRI', '通常', 2, 1),
-(5, 'IPRI', '高め', 3, 0),
-(6, 'IPRI', '急いで', 4, 0),
-(7, 'IPRI', '今すぐ', 5, 0),
-(8, 'ACTI', '設計作業', 1, 0),
-(9, 'ACTI', '開発作業', 2, 0);
+(1, 'DCAT', 'User documentation', 1, 0),
+(2, 'DCAT', 'Technical documentation', 2, 0),
+(3, 'IPRI', 'Low', 1, 0),
+(4, 'IPRI', 'Normal', 2, 1),
+(5, 'IPRI', 'High', 3, 0),
+(6, 'IPRI', 'Urgent', 4, 0),
+(7, 'IPRI', 'Immediate', 5, 0),
+(8, 'ACTI', 'Design', 1, 0),
+(9, 'ACTI', 'Development', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -439,12 +439,12 @@ CREATE TABLE IF NOT EXISTS `issue_statuses` (
 --
 
 INSERT INTO `issue_statuses` (`id`, `name`, `is_closed`, `is_default`, `position`) VALUES
-(1, '新規', 0, 1, 1),
-(2, '担当', 0, 0, 2),
-(3, '解決', 0, 0, 3),
-(4, 'フィードバック', 0, 0, 4),
-(5, '終了', 1, 0, 5),
-(6, '却下', 1, 0, 6);
+(1, 'New', 0, 1, 1),
+(2, 'Assigned', 0, 0, 2),
+(3, 'Resolved', 0, 0, 3),
+(4, 'Feedback', 0, 0, 4),
+(5, 'Closed', 1, 0, 5),
+(6, 'Rejected', 1, 0, 6);
 
 -- --------------------------------------------------------
 
@@ -698,9 +698,9 @@ CREATE TABLE IF NOT EXISTS `roles` (
 INSERT INTO `roles` (`id`, `name`, `position`, `assignable`, `builtin`, `permissions`) VALUES
 (1, 'Non member', 1, 1, 1, '--- \n- :add_issues\n- :add_issue_notes\n- :save_queries\n- :view_gantt\n- :view_calendar\n- :view_time_entries\n- :comment_news\n- :view_documents\n- :view_wiki_pages\n- :view_wiki_edits\n- :add_messages\n- :view_files\n- :browse_repository\n- :view_changesets\n'),
 (2, 'Anonymous', 2, 1, 2, '--- \n- :view_gantt\n- :view_calendar\n- :view_time_entries\n- :view_documents\n- :view_wiki_pages\n- :view_wiki_edits\n- :view_files\n- :browse_repository\n- :view_changesets\n'),
-(3, '管理者', 3, 1, 0, '--- \n- :edit_project\n- :select_project_modules\n- :manage_members\n- :manage_versions\n- :manage_categories\n- :add_issues\n- :edit_issues\n- :manage_issue_relations\n- :add_issue_notes\n- :edit_issue_notes\n- :edit_own_issue_notes\n- :move_issues\n- :delete_issues\n- :manage_public_queries\n- :save_queries\n- :view_gantt\n- :view_calendar\n- :view_issue_watchers\n- :add_issue_watchers\n- :log_time\n- :view_time_entries\n- :edit_time_entries\n- :edit_own_time_entries\n- :manage_news\n- :comment_news\n- :manage_documents\n- :view_documents\n- :manage_files\n- :view_files\n- :manage_wiki\n- :rename_wiki_pages\n- :delete_wiki_pages\n- :view_wiki_pages\n- :view_wiki_edits\n- :edit_wiki_pages\n- :delete_wiki_pages_attachments\n- :protect_wiki_pages\n- :manage_repository\n- :browse_repository\n- :view_changesets\n- :commit_access\n- :manage_boards\n- :add_messages\n- :edit_messages\n- :edit_own_messages\n- :delete_messages\n- :delete_own_messages\n'),
-(4, '開発者', 4, 1, 0, '--- \n- :manage_versions\n- :manage_categories\n- :add_issues\n- :edit_issues\n- :manage_issue_relations\n- :add_issue_notes\n- :save_queries\n- :view_gantt\n- :view_calendar\n- :log_time\n- :view_time_entries\n- :comment_news\n- :view_documents\n- :view_wiki_pages\n- :view_wiki_edits\n- :edit_wiki_pages\n- :delete_wiki_pages\n- :add_messages\n- :edit_own_messages\n- :view_files\n- :manage_files\n- :browse_repository\n- :view_changesets\n- :commit_access\n'),
-(5, '報告者', 5, 1, 0, '--- \n- :add_issues\n- :add_issue_notes\n- :save_queries\n- :view_gantt\n- :view_calendar\n- :log_time\n- :view_time_entries\n- :comment_news\n- :view_documents\n- :view_wiki_pages\n- :view_wiki_edits\n- :add_messages\n- :edit_own_messages\n- :view_files\n- :browse_repository\n- :view_changesets\n');
+(3, 'Manager', 3, 1, 0, '--- \n- :edit_project\n- :select_project_modules\n- :manage_members\n- :manage_versions\n- :manage_categories\n- :add_issues\n- :edit_issues\n- :manage_issue_relations\n- :add_issue_notes\n- :edit_issue_notes\n- :edit_own_issue_notes\n- :move_issues\n- :delete_issues\n- :manage_public_queries\n- :save_queries\n- :view_gantt\n- :view_calendar\n- :view_issue_watchers\n- :add_issue_watchers\n- :log_time\n- :view_time_entries\n- :edit_time_entries\n- :edit_own_time_entries\n- :manage_news\n- :comment_news\n- :manage_documents\n- :view_documents\n- :manage_files\n- :view_files\n- :manage_wiki\n- :rename_wiki_pages\n- :delete_wiki_pages\n- :view_wiki_pages\n- :view_wiki_edits\n- :edit_wiki_pages\n- :delete_wiki_pages_attachments\n- :protect_wiki_pages\n- :manage_repository\n- :browse_repository\n- :view_changesets\n- :commit_access\n- :manage_boards\n- :add_messages\n- :edit_messages\n- :edit_own_messages\n- :delete_messages\n- :delete_own_messages\n'),
+(4, 'Developer', 4, 1, 0, '--- \n- :manage_versions\n- :manage_categories\n- :add_issues\n- :edit_issues\n- :manage_issue_relations\n- :add_issue_notes\n- :save_queries\n- :view_gantt\n- :view_calendar\n- :log_time\n- :view_time_entries\n- :comment_news\n- :view_documents\n- :view_wiki_pages\n- :view_wiki_edits\n- :edit_wiki_pages\n- :delete_wiki_pages\n- :add_messages\n- :edit_own_messages\n- :view_files\n- :manage_files\n- :browse_repository\n- :view_changesets\n- :commit_access\n'),
+(5, 'Reporter', 5, 1, 0, '--- \n- :add_issues\n- :add_issue_notes\n- :save_queries\n- :view_gantt\n- :view_calendar\n- :log_time\n- :view_time_entries\n- :comment_news\n- :view_documents\n- :view_wiki_pages\n- :view_wiki_edits\n- :add_messages\n- :edit_own_messages\n- :view_files\n- :browse_repository\n- :view_changesets\n');
 
 -- --------------------------------------------------------
 
@@ -914,9 +914,9 @@ CREATE TABLE IF NOT EXISTS `trackers` (
 --
 
 INSERT INTO `trackers` (`id`, `name`, `is_in_chlog`, `position`, `is_in_roadmap`) VALUES
-(1, 'バグ', 1, 1, 0),
-(2, '機能', 1, 2, 1),
-(3, 'サポート', 0, 3, 0);
+(1, 'Bug', 1, 1, 0),
+(2, 'Feature', 1, 2, 1),
+(3, 'Support', 0, 3, 0);
 
 -- --------------------------------------------------------
 

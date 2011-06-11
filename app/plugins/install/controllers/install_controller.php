@@ -115,8 +115,7 @@ class InstallController extends InstallAppController {
                 $this->Session->setFlash(__('Could not connect to database.', true));
             } else {
                 $this->__executeSQLScript($db, CONFIGS.'sql'.DS.'dump.sql');
-                //$this->__executeSQLScript($db, CONFIGS.'sql'.DS.'croogo_data.sql');
-
+                $this->__updateData(); //translate names
                 $this->redirect(array('action' => 'finish'));
                 exit();
             }
@@ -131,7 +130,6 @@ class InstallController extends InstallAppController {
  */
     function finish() {
         $this->pageTitle = __('Installation completed successfully', true);
-
         if (isset($this->params['named']['delete'])) {
             App::import('Core', 'Folder');
             $this->folder = new Folder;
@@ -163,5 +161,47 @@ class InstallController extends InstallAppController {
         }
     }
 
+    function __updateData(){
+        $data = array(
+            'Enumeration' => array(
+                1 => __('User documentation',true),
+                2 => __('Technical documentation',true),
+                3 => __('Low',true),
+                4 => __('Normal',true),
+                5 => __('High',true),
+                6 => __('Urgent',true),
+                7 => __('Immediate',true),
+                8 => __('Design',true),
+                9 => __('Development',true)                
+            ),
+            'IssueStatus' => array(
+                1 => __('New',true),
+                2 => __('Assigned',true),
+                3 => __('Resolved',true),
+                4 => __('Feedback',true),
+                5 => __('Closed',true),
+                6 => __('Rejected',true)                
+            ),
+            'Role' => array(
+                3 => __('Manager',true),
+                4 => __('Developer',true),
+                5 => __('Reporter',true)                
+            ),
+            'Tracker' => array(
+                1 => __('Bug',true),
+                2 => __('Feature',true),
+                3 => __('Support',true)                
+            )
+        );
+        foreach ($data as $model_name => $map) {
+            app::import('model',$model_name);
+            $obj =& ClassRegistry::init($model_name);
+            foreach ($map as $id => $name) {
+                $obj->id = $id;
+                $obj->saveField('name',$name);
+            }            
+        }
+        
+    }
 }
 ?>
