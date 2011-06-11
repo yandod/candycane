@@ -79,14 +79,12 @@
     echo $this->renderElement('attachments/links', array('attachments'=>$attachments, 'options'=>$attach_options), array('Number'));
   }
 ?>
-<?php if($candy->authorize_for(':issue_relations') || !empty($issue['Relations'])) : /* TODO relation */ ?>
 <hr />
 <div id="relations">
   <?php echo $this->renderElement('issues/relations', compact('issue', 'issueRelations')); ?>
 </div>
-<?php endif; ?>
 
-<?php if($candy->authorize_for(':add_issue_watchers') || !empty($issue['Watcher']) && $candy->authorize_for(':view_issue_watchers')): ?>
+<?php if($candy->authorize_for('add_issue_watchers') || !empty($issue['Watcher']) && $candy->authorize_for('view_issue_watchers')): ?>
 <hr />
 <div id="watchers">
   <?php echo $this->renderElement('watchers/watchers', array(

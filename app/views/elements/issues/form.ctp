@@ -88,7 +88,7 @@
         <?php echo $this->renderElement('attachments/form'); ?>
       </p>
     <?php endif; ?>
-    <?php if(empty($this->data['Issue']['id']) && $candy->authorize_for(':add_issue_watchers') && isset($members)): ?>
+    <?php if(empty($this->data['Issue']['id']) && $candy->authorize_for('add_issue_watchers') && isset($members)): ?>
       <p>
         <label><?php __('Watchers'); ?></label>
         <?php
