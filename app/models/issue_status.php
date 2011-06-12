@@ -101,8 +101,7 @@ class IssueStatus extends AppModel
     $conditions = array();
     if(!empty($role_id) && !empty($tracker_id)) {
       $conditions["old_status_id"] = $default_status_id;
-      // @TODO これをコメントアウトしないと、is_defaultのstatusしかとれない。roleかworkflowがおかしい。あとでrole_id指定しても動くようにする
-      //$conditions["role_id"] = $role_id;
+      $conditions["role_id"] = $role_id;
       $conditions["tracker_id"] = $tracker_id;
     }
     $group = array('new_status_id', 'Status.id', 'Status.name');

@@ -78,7 +78,7 @@ class CustomField extends AppModel
   var $__add_trackers = array();
   var $__del_trackers = array();
   function beforeSave($options = array()) {
-    if ($this->data[$this->name]['type'] == 'IssueCustomField' && !empty($this->data['CustomField']['id'])) {
+    if (isset($this->data[$this->name]['type']) && $this->data[$this->name]['type'] == 'IssueCustomField' && !empty($this->data['CustomField']['id'])) {
       $assoc_trackers = Set::extract('{n}.CustomFieldsTracker.tracker_id', $this->CustomFieldsTracker->find('all', array('conditions'=>array('custom_field_id'=>$this->data['CustomField']['id']))));
       $tracker_ids = empty($this->data[$this->name]['tracker_id']) ? array() : $this->data[$this->name]['tracker_id'];
       $this->__add_trackers = array_diff($tracker_ids, $assoc_trackers);
@@ -123,9 +123,11 @@ class CustomField extends AppModel
     # remove empty values
     if (!empty($this->data[$this->name]['possible_values'])) {
       $possible_values = array();
-      foreach ($this->data[$this->name]['possible_values'] as $v) {
-        if (!empty($v)) {
-          $possible_values[] = $v;
+      if (is_array($this->data[$this->name]['possible_values'])) {
+        foreach ($this->data[$this->name]['possible_values'] as $v) {
+          if (!empty($v)) {
+            $possible_values[] = $v;
+          }
         }
       }
       $this->data[$this->name]['possible_values'] = $possible_values;

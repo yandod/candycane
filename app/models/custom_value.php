@@ -88,7 +88,7 @@ class CustomValue extends AppModel
       $ret = preg_match('/^\d{4}-\d{2}-\d{2}$/', $this->data[$this->name]['value']);
       break;
     case 'list' :
-      if (!empty($custom_field['possible_values'])) {
+      if (!empty($custom_field['possible_values']) && is_array($custom_field['possible_values'])) {
         $ret = in_array($this->data[$this->name]['value'], $custom_field['possible_values']);
       }
       break;

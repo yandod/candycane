@@ -6,7 +6,7 @@ class IssueTestCase extends CakeTestCase {
       'app.issue', 'app.project', 'app.tracker', 'app.issue_status', 'app.user', 'app.version',
       'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
       'app.enabled_module', 'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
-      'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher', 'app.issue_relation',
+      'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.custom_fields_project', 'app.watcher', 'app.issue_relation',
       'app.journal', 'app.journal_detail', 'app.workflow',
       'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow'
       );
@@ -48,11 +48,14 @@ class IssueTestCase extends CakeTestCase {
   }
 
   function test_create_with_required_custom_field() {
-    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue');
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'CustomFieldsProject');
     $IssueCustomField = & ClassRegistry::init('CustomField');
     $field = $IssueCustomField->findByName('Database');
-    $field['CustomField']['is_required'] = true;
-    $IssueCustomField->save($field);
+
+    //change field setting temporary
+    $this->assertEqual($field['CustomField']['name'],'Database');
+    $IssueCustomField->id = $field['CustomField']['id'];
+    $this->assertTrue($IssueCustomField->saveField('is_required',true));
 
     $this->Issue->create();
     $data = array(
@@ -66,6 +69,8 @@ class IssueTestCase extends CakeTestCase {
     
     $fields = $this->Issue->available_custom_fields();
     $this->assertTrue(in_array($field['CustomField']['id'], Set::extract('{n}.CustomField.id', $fields)));
+    $this->assertEqual($fields[1]['CustomField']['name'],'Database');
+    $this->assertEqual($fields[2]['CustomField']['name'],'Searchable field');
     # No value for the custom field
     $this->assertFalse($this->Issue->save());
     $this->assertTrue(array_key_exists('Database', $this->Issue->validationErrors));
