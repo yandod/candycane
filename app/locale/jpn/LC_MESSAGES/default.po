@@ -1,3 +1,19 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# No version information was available in the source files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: candycane 0.72\n"
+"POT-Creation-Date: 2011-06-14 06:31+0900\n"
+"PO-Revision-Date: 2011-06-14 07:00+0900\n"
+"Last-Translator: Yusuke Ando <yandod@gmail.com>\n"
+"Language-Team: candycane <nothing@example.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
 # label_time_tracking
 msgid "Time tracking"
 msgstr "時間トラッキング"
@@ -329,6 +345,7 @@ msgstr "下へ"
 # label_export_to
 msgid "'Also available in:'"
 msgstr "他の形式に出力"
+
 msgid "Also available in:"
 msgstr "他の形式に出力"
 
@@ -467,8 +484,10 @@ msgstr "を承諾してください"
 # general_fmt_date
 msgid "%m/%d/%Y"
 msgstr "%Y年%m月%d日"
+
 msgid "%Y-%m-%d"
 msgstr "%Y年%m月%d日"
+
 msgid "%H:%M:%S"
 msgstr "%H:%M %p"
 
@@ -553,7 +572,7 @@ msgid "Issue updated"
 msgstr "チケットが更新されました"
 
 #actionview_instancetag_blank_option
-msgid  "Please Select"
+msgid "Please Select"
 msgstr "選んでください"
 
 # notice_account_wrong_password
@@ -637,6 +656,7 @@ msgid "Days displayed on project activity"
 msgstr "プロジェクトの活動ページに表示される日数"
 
 # project_module_issue_tracking
+# label_issue_tracking
 msgid "Issue tracking"
 msgstr "チケットトラッキング"
 
@@ -739,10 +759,6 @@ msgstr "パスワードが更新されました。"
 # label_issue
 msgid "Issue"
 msgstr "チケット"
-
-# label_issue_tracking
-msgid "Issue tracking"
-msgstr "チケットトラッキング"
 
 # button_delete
 msgid "Delete"
@@ -889,8 +905,12 @@ msgid "Default"
 msgstr "既定"
 
 # text_email_delivery_not_configured
-msgid "\"Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them.\""
-msgstr "\"メールを送信するために必要な設定が行われていないため、メール通知は利用できません。\nconfig/email.ymlでSMTPサーバの設定を行い、アプリケーションを再起動してください。\""
+msgid ""
+"\"Email delivery is not configured, and notifications are disabled.\n"
+"Configure your SMTP server in config/email.yml and restart the application to enable them.\""
+msgstr ""
+"\"メールを送信するために必要な設定が行われていないため、メール通知は利用できません。\n"
+"config/email.ymlでSMTPサーバの設定を行い、アプリケーションを再起動してください。\""
 
 # label_min_max_length
 msgid "Min - Max length"
@@ -1383,8 +1403,10 @@ msgstr "最大サイズ"
 # field_fixed_version
 msgid "Target version"
 msgstr "Target version"
+
 msgid "Fixed Version"
 msgstr "Target version"
+
 msgid "fixed_version"
 msgstr "Target version"
 
@@ -1447,6 +1469,7 @@ msgstr "管理者"
 # field_category
 msgid "Category"
 msgstr "カテゴリ"
+
 msgid "category"
 msgstr "カテゴリ"
 
@@ -1491,6 +1514,7 @@ msgid "duplicated by"
 msgstr "duplicated by"
 
 # label_day_plural
+# label_days
 msgid "days"
 msgstr "日"
 
@@ -2277,8 +2301,12 @@ msgid "Latest projects"
 msgstr "最近のプロジェクト"
 
 # text_no_configuration_data
-msgid "\"Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded.\""
-msgstr "\"ロール、トラッカー、チケットのステータス、ワークフローがまだ設定されていません。\nデフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。\""
+msgid ""
+"\"Roles, trackers, issue statuses and workflow have not been configured yet.\n"
+"It is highly recommended to load the default configuration. You will be able to modify it once loaded.\""
+msgstr ""
+"\"ロール、トラッカー、チケットのステータス、ワークフローがまだ設定されていません。\n"
+"デフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。\""
 
 # label_copied
 msgid "copied"
@@ -2423,39 +2451,45 @@ msgstr "%s前に更新されました"
 #actionview_datehelper_time_in_words_day:
 msgid "1 day"
 msgstr "1日"
+
 msgid "%d day"
 msgstr "%d日"
-#actionview_datehelper_time_in_words_day_plural: 
+
+#actionview_datehelper_time_in_words_day_plural:
 msgid "%d days"
 msgstr "%d日"
-#actionview_datehelper_time_in_words_hour_about: 
+
+#actionview_datehelper_time_in_words_hour_about:
+#actionview_datehelper_time_in_words_hour_about_single:
 msgid "about an hour"
 msgstr "約1時間"
-#actionview_datehelper_time_in_words_hour_about_plural: 
+
+#actionview_datehelper_time_in_words_hour_about_plural:
 msgid "about %d hours"
 msgstr "約%d時間"
-#actionview_datehelper_time_in_words_hour_about_single: 
-msgid "about an hour"
-msgstr "約1時間"
-#actionview_datehelper_time_in_words_minute: 
+
+#actionview_datehelper_time_in_words_minute:
+#actionview_datehelper_time_in_words_minute_single:
 msgid "1 minute"
 msgstr "1分"
-#actionview_datehelper_time_in_words_minute_half: 
+
+#actionview_datehelper_time_in_words_minute_half:
 msgid "half a minute"
 msgstr "約30秒"
-#actionview_datehelper_time_in_words_minute_less_than: 
+
+#actionview_datehelper_time_in_words_minute_less_than:
 msgid "less than a minute"
 msgstr "1分以内"
-#actionview_datehelper_time_in_words_minute_plural: 
+
+#actionview_datehelper_time_in_words_minute_plural:
 msgid "%d minutes"
 msgstr "%d分"
-#actionview_datehelper_time_in_words_minute_single: 
-msgid "1 minute"
-msgstr "1分"
-#actionview_datehelper_time_in_words_second_less_than: 
+
+#actionview_datehelper_time_in_words_second_less_than:
 msgid "less than a second"
 msgstr "1秒以内"
-#actionview_datehelper_time_in_words_second_less_than_plural: 
+
+#actionview_datehelper_time_in_words_second_less_than_plural:
 msgid "less than %d seconds"
 msgstr "%d秒以内"
 
@@ -2500,8 +2534,12 @@ msgid "Administration"
 msgstr "管理"
 
 # text_repository_usernames_mapping
-msgid "\"Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped.\""
-msgstr "\"Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped.\""
+msgid ""
+"\"Select or update the Redmine user mapped to each username found in the repository log.\n"
+"Users with the same Redmine and repository username or email are automatically mapped.\""
+msgstr ""
+"\"Select ou update the Redmine user mapped to each username found in the repository log.\n"
+"Users with the same Redmine and repository username or email are automatically mapped.\""
 
 # text_subprojects_destroy_warning
 msgid "'Its subproject(s)"
@@ -2675,10 +2713,6 @@ msgstr "%s別のチケット"
 msgid "Ticket"
 msgstr "チケット"
 
-# label_days
-msgid "days"
-msgstr "日間"
-
 msgid "Install candycane"
 msgstr "candycane インストール"
 
@@ -2732,5 +2766,4 @@ msgstr "クリックでインストール用のファイルを削除します"
 
 msgid "Installation completed successfully"
 msgstr "インストールが完了しました"
-
 
