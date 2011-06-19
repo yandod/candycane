@@ -18,7 +18,6 @@ test() {
 
 report() {
  php $php_option $simpletest_coverage_dir/bin/php-coverage-report.php
- cp -Rp coverage-report $root_dir/
 }
 
 case "$1" in
