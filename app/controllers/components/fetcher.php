@@ -152,8 +152,8 @@ class FetcherComponent extends Object
         }
       }
     }
+    usort($e, array($this, 'cmp_event_datetime'));    
     if ($options['limit']) {
-      usort($e, array($this, 'cmp_event_datetime'));
       $e = array_slice($e, 0, $options['limit']);
     }
     return $e;
