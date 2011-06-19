@@ -1,5 +1,5 @@
 #!/bin/sh
-root_dir= `pwd`
+root_dir=`pwd`
 simpletest_coverage_dir="$root_dir/vendors/simpletest/extensions/coverage"
 
 php_option="-d include_path=.:/usr/share/pear:$simpletest_coverage_dir -d auto_prepend_file=$simpletest_coverage_dir/autocoverage.php"
