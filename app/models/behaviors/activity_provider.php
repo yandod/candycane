@@ -134,7 +134,7 @@ class ActivityProviderBehavior extends ModelBehavior {
       $cond->add($project->allowed_to_condition($user, $provider_options['permission'], $options));
     }
     $scope_options['conditions'] = $cond->conditions;
-    $scope_options['order'] = $Model->alias.".id ASC";
+    $scope_options['order'] = $Model->alias.".id DESC";
     if(isset($options['limit']) && $options['limit'] > 1) {
       # id and creation time should be in same order in most cases
       $scope_options['limit'] = $options['limit'];

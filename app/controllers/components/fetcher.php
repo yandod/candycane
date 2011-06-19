@@ -134,7 +134,7 @@ class FetcherComponent extends Object
 
   /**
    * Returns an array of events for the given date range
-   * Sorting order *might be* date ASCENDING
+   * Sorting order is date DESCDING
    */
   function events($from = null, $to = null, $options=array()) {
     $e = array();
@@ -165,7 +165,7 @@ class FetcherComponent extends Object
     if ($a == $b) {
       return 0;
     }
-    return ($a < $b) ? -1 : 1;
+    return ($a > $b) ? -1 : 1;
   }
   
   # private
