@@ -134,12 +134,12 @@ class FetcherComponent extends Object
 
   /**
    * Returns an array of events for the given date range
+   * Sorting order *might be* date ASCENDING
    */
   function events($from = null, $to = null, $options=array()) {
     $e = array();
     $options = array_merge(array('limit'=>0), $options);
     $this->_options['limit'] = $options['limit'];
-
     foreach ($this->scope as $event_type) {
       foreach ($this->_constantized_providers($event_type) as $provider) {
         $results = $provider->find_events($event_type, $this->user, $from, $to, $this->_options);
@@ -160,7 +160,12 @@ class FetcherComponent extends Object
   }
 
   function cmp_event_datetime($l, $r) {
-    return strtotime($l['datetime']) - strtotime($r['datetime']);
+    $a = strtotime($l['datetime']);
+    $b = strtotime($r['datetime']);
+    if ($a == $b) {
+      return 0;
+    }
+    return ($a < $b) ? -1 : 1;
   }
   
   # private

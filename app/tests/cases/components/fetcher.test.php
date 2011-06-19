@@ -46,6 +46,17 @@ class FetcherComponentTestCase extends CakeTestCase {
     $this->assertEqual(1, $events[2]['id']);
     $this->assertEqual('issue-note', $events[3]['type']);
     $this->assertEqual(2, $events[3]['id']);
+    foreach(range(0,2) as $i){
+      $this->assertTrue(strtotime($events[$i]['datetime']) <= strtotime($events[$i+1]['datetime']),"Compare dates {$events[$i]['datetime']} > {$events[$i+1]['datetime']}" );
+      $this->assertFalse(
+          (strtotime($events[$i]['datetime']) == strtotime($events[$i+1]['datetime']) &&
+          $events[$i]['type'] == $events[$i+1]['type'] &&  
+          $events[$i]['id'] > $events[$i+1]['id']  
+        ),"Compare id {$events[$i]['id']} > {$events[$i+1]['id']}" );
+      
+    }
+    
+    
   }
 
   function test_activity_with_subprojects() {
@@ -109,12 +120,12 @@ class FetcherComponentTestCase extends CakeTestCase {
     $this->assertEqual('issue', $events[0]['type']);
     $this->assertEqual(7, $events[0]['id']);
     $this->assertEqual('issue', $events[1]['type']);
-    $this->assertEqual('Bug #4: Issue on project 2', $events[1]['title']);
+    $this->assertEqual('Bug #5: Subproject issue', $events[1]['title']);
     # Issue of a private project the user belongs to
-    $this->assertEqual(4, $events[1]['id']);
+    $this->assertEqual(5, $events[1]['id']);
     $this->assertEqual('issue', $events[1]['type']);
-    $this->assertEqual('Bug #4: Issue on project 2', $events[1]['title']);
-    $this->assertEqual(5, $events[2]['id']);
+    $this->assertEqual('Bug #5: Subproject issue', $events[1]['title']);
+    $this->assertEqual(4, $events[2]['id']);
     $this->assertEqual('issue', $events[3]['type']);
     $this->assertEqual('Bug #1: Can\'t print recipes', $events[3]['title']);
     # Issue of a private project the user belongs to
