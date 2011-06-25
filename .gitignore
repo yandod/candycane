@@ -1,8 +1,12 @@
 app/tmp/cache/models/cake_model_default_*
-app/tmp/cache/persistent/cake_core_*
+app/tmp/cache/persistent/cake_*
+app/tmp/cache/cake*
 app/tmp/logs/debug.log
 app/tmp/logs/error.log
+app/tmp/tests/*
 .cache/
 .project
 .settings/
 app/config/database.php
+vendors/simpletest/*
+
