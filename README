@@ -4,6 +4,9 @@ original implementation is RedMine.
 livedemo and bugtracking in here:
 http://my.candycane.jp/
 
+Continuous Integration is running on here.
+http://ci.candycane.jp:8080/ 
+
 //--------------------
 // How to install.
 //--------------------
