@@ -2726,7 +2726,13 @@ msgid "Your config directory is writable."
 msgstr "configディレクトリが書込み可能です。"
 
 msgid "Your config directory is NOT writable."
-msgstr "configディレクトリが不可能書込みです。"
+msgstr "configディレクトリが書込み不可能です。"
+
+msgid "Your files directory is writable."
+msgstr "filesディレクトリが書込み可能です。"
+
+msgid "Your files directory is NOT writable."
+msgstr "filesディレクトリが書込み不可能です。"
 
 msgid "Installation cannot continue as minimum requirements are not met."
 msgstr "条件を満たすまでインストールは続行できません。"

@@ -18,6 +18,13 @@
             echo '<p class="error">' . __('Your config directory is NOT writable.', true) . '(chmod -R 777 '.APP.'config'.')</p>';
         }
 
+        // files is writable
+        if (is_writable(APP.'files')) {
+            echo '<p class="success">' . __('Your files directory is writable.', true) . '('.APP.'files'.')</p>';
+        } else {
+            $check = false;
+            echo '<p class="error">' . __('Your files directory is NOT writable.', true) . '(chmod -R 777 '.APP.'files'.')</p>';
+        }
         // php version
         // if (phpversion() > 5) {
         //     echo '<p class="success">' . sprintf(__('PHP version %s > 5', true), phpversion()) . '</p>';
