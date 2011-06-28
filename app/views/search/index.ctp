@@ -1,4 +1,4 @@
-<h2><%= l(:label_search) %></h2>
+<h2><?php echo __('Search') ?></h2>
 
 <div class="box">
 <% form_tag({}, :method => :get) do %>
@@ -47,5 +47,4 @@
                    }, :href => url_for(params.merge(:previous => nil, :offset => @pagination_next_date.strftime("%Y%m%d%H%M%S"))) %>
 <% end %>
 </center></p>
-
-<% html_title(l(:label_search)) -%>
+<?php $candy->html_title(__('Search'));?>
