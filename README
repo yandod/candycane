@@ -11,7 +11,7 @@ http://ci.candycane.jp:8080/
 // How to install.
 //--------------------
 1. extract all files and place to directory which is able to run php.
-2. chmod all files to 777 (or in the very least, /app/config/ and /app/tmp/cache/)
+2. chmod all files to 777 (or in the very least, /app/config/ , /app/tmp/cache/ and /app/tmp/files/)
 3. access to url to show that directory by web  browser.
 4. step by step installer shows up.
 5. just use it!
