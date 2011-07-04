@@ -1075,6 +1075,7 @@ function breadcrumb($args)
     foreach (glob(APP . 'locale/*') as $dir) {
       $path = explode('/', $dir);
       $lang = end($path);
+      if ($lang == 'default.pot') continue;
       $list[$lang] = $lang;
     }
 
