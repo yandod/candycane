@@ -15,6 +15,12 @@ class Issue extends AppModel
     'Attachable',
     'Event' => array('title' => array('Proc' => '_event_title'),
                       'url'   => array('Proc' => '_event_url')),
+    'Searchable'
+  );
+  var $filterArgs = array(
+    array('name' => 'subject', 'type' => 'like'),
+    array('name' => 'description', 'type' => 'like'),
+    //array('name' => 'Journal.notes', 'type' => 'like'),
   );
 #  acts_as_attachable :after_remove => :attachment_removed
 #  acts_as_customizable

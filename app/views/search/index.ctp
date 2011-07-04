@@ -29,11 +29,16 @@
 </p>
 <p>
 <?php foreach($object_types as $t): ?>
-<label for="<?php echo $t ?>"><?php echo $form->checkbox($t,array(
-  'name' => $t,
-  'value' => 1,
-  'checked' => isset($this->params['url'][$t]) && $this->params['url'][$t] 
-))?> <?php echo $search->type_label($t)?></label>
+<label for="<?php echo $t ?>"><?php
+// TODO:waiting cake1.3
+//  echo $html->tag('checkbox',array(
+//    'name' => $t,
+//    'value' => 1,
+//    'checked' => in_array($t,$scope_types) 
+//  ));
+  $checked = in_array($t,$scope_types) ? 'checked' : '';
+  echo "<input type='checkbox' name='{$t}' value='1' id='{$t}' {$checked}>";
+?> <?php echo $search->type_label($t)?></label>
 <?php endforeach; ?>
 </p>
 <p><?php echo $form->submit(__('Submit',true),array('name' => 'submit'))?></p>
@@ -45,13 +50,20 @@
     <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
     </div>
     
-    <h3><?php echo __('Results') ?> (<%= @results_by_type.values.sum %>)</h3>
+    <h3><?php echo __('Results') ?> (<?php echo array_sum(array_map('count',$results_by_type))?>)</h3>
     <dl id="search-results">
-      <% @results.each do |e| %>
-        <dt class="<%= e.event_type %>"><%= content_tag('span', h(e.project), :class => 'project') unless @project == e.project %> <%= link_to highlight_tokens(truncate(e.event_title, 255), @tokens), e.event_url %></dt>
-        <dd><span class="description"><%= highlight_tokens(e.event_description, @tokens) %></span>
-        <span class="author"><%= format_time(e.event_datetime) %></span></dd>
-      <% end %>
+      <?php foreach ($results as $e): ?>
+        <dt class="<?php echo $e['type']?>"><?php if(empty($main_project) || (!empty($main_project) && $main_project['Project']['id'] != $e['project']['id'])) {
+		  echo $html->tag('span', h($e['project']['name']), array('class' => 'project'));
+		} ?> <?php
+ //<%= link_to highlight_tokens(truncate(e.event_title, 255), @tokens), e.event_url  
+ echo $text->highlight($html->link($candy->format_activity_title($e['title']), $e['url']),$question);
+ ?></dt>
+        <dd><span class="description"><?php
+  //<%= highlight_tokens(e.event_description, @tokens)
+  echo $text->highlight($e['description'],$question); ?></span>
+        <span class="author"><?php echo $candy->format_date($e['datetime'], false) ?> <?php echo $candy->format_time($e['datetime'], false) ?></span></dd>
+      <?php endforeach; ?>
     </dl>
 <?php endif; ?>
 

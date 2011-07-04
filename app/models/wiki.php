@@ -2,6 +2,7 @@
 class Wiki extends AppModel
 {
   var $name = 'Wiki';
+  var $belongsTo = array('Project');
   var $hasMany = array(
                        'WikiPage' => array(
                                            'className' => 'WikiPage',

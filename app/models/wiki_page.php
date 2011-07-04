@@ -2,13 +2,15 @@
 class WikiPage extends AppModel
 {
   var $name = 'WikiPage';
+  var $belongsTo = array('Wiki');
   var $hasOne = array(
                       'WikiContent' => array(
                                              'className' => 'WikiContent',
                                              'foreignKey' => 'page_id',
                                              'dependent' => true
                                              //:dependent => :destroy
-                                             ));
+                                             )
+                                             );
   var $validate = array('title' =>
                         array('validates_presence_of' =>
                               array('rule' => 'notEmpty'),
@@ -18,24 +20,30 @@ class WikiPage extends AppModel
                               'validates_uniqueness_of' =>
                               array('rule' => '_isUniqueTitle')
                               ));
+  var $actsAs = array(
+    'Searchable' => array(),
+    'Event' => array(
+      'title'  => array('Proc' => '_event_title'), 
+      'description' => array('Proc' => '_event_description'),
+      'datetime' => 'created_on',
+      'url' => array('Proc' => '_event_url')
+    )
+  );
 
-## redMine - project management software
-## Copyright (C) 2006-2007  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
+  var $filterArgs = array(
+    array('name' => 'title', 'type' => 'like'),
+    array('name' => 'WikiContent.text', 'type' => 'like'),
+  );
+
+  function _event_title($data){
+    return __('Wiki',true).': '.$data['WikiPage']['title'];
+  }
+  function _event_url($data) {
+    return  array('controller'=>'wiki','wikipage'=>$data['WikiPage']['title'], 'project_id' => $data['Project']['identifier']);
+  }
+  function _event_description($data){
+    return $data['WikiContent']['text'];
+  }
 #require 'diff'
 #require 'enumerator'
 #

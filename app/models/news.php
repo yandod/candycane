@@ -45,6 +45,11 @@ class News extends AppModel
       'find_options'=> array('include'=>array('Project', 'Author')),
       'author_key'=>'author_id'),
     'Event' => array('url' => array('Proc' => '_event_url')),
+    'Searchable' => array()
+  );
+  var $filterArgs = array(
+    array('name' => 'description', 'type' => 'like'),
+    array('name' => 'title', 'type' => 'like'),
   );
   function _event_url($data) {
     return  array('controller'=>'news', 'action'=>'show', 'id'=>$data['News']['id'], 'project_id' => $data['Project']['id']);

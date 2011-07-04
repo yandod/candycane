@@ -8,9 +8,15 @@ class Project extends AppModel
   var $actsAs = array(
       'ActivityProvider',
       'Event' => array('title' => array('Proc' => '_event_title'),
-                      'url'   => array('Proc' => '_event_url')),
+                      'url'   => array('Proc' => '_event_url'),
+                      'author' => null
+                      ),
+      'Searchable'
   );
-
+  var $filterArgs = array(
+    array('name' => 'name', 'type' => 'like'),
+    array('name' => 'description', 'type' => 'like'),
+  );
 //  var $belongsTo = array(
 //    'Parent' => array(
 //      'className'=>'Project',
