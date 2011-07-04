@@ -4,7 +4,7 @@ class SearchController extends AppController
   var $uses = array('Issue');
 #  before_filter :find_optional_project
 #
-  var $helpers = array('Search');
+  var $helpers = array('Search','Text');
 #  helper :messages
 #  include MessagesHelper
 #
@@ -60,6 +60,10 @@ class SearchController extends AppController
 #      
 #    @scope = @object_types.select {|t| params[t]}
 #    @scope = @object_types if @scope.empty?
+    $scope_types = array_intersect($object_types,array_keys($this->params['url']));
+    if (empty($scope_types)) {
+      $scope_types = $object_types;
+    }
 #    
 #    # extract tokens from the question
 #    # eg. hello "bye bye" => ["hello", "bye bye"]
@@ -68,16 +72,41 @@ class SearchController extends AppController
 #    @tokens = @tokens.uniq.select {|w| w.length > 2 }
 #    
 #    if !@tokens.empty?
+    if (!empty($question)) {
 #      # no more than 5 tokens to search for
 #      @tokens.slice! 5..-1 if @tokens.size > 5
 #      # strings used in sql like statement
 #      like_tokens = @tokens.collect {|w| "%#{w.downcase}%"}      
-#      
-#      @results = []
-#      @results_by_type = Hash.new {|h,k| h[k] = 0}
-#      
-#      limit = 10
-#      @scope.each do |s|
+
+      $results = array();
+      $results_by_type = array();
+      $limit = 10;
+
+      foreach ($scope_types as $s) {
+        $model = ClassRegistry::init(Inflector::classify($s));
+        $fields = Set::classicExtract($model->filterArgs,'{n}.name');
+        $conditions = array();
+        if ($s !== 'wiki_pages') { //TODO: wiki_pages relation
+          $conditions = $this->Project->get_visible_by_condition($this->current_user);
+        }
+        if ($titles_only) {
+            $fields = array_intersect(array('title','subject','name'),$fields);
+        }
+        $or_conditions = $model->parseCriteria(array_fill_keys($fields,$question));
+        $conditions['OR'] = $or_conditions;
+        $r = $model->find('all',array(
+            'conditions' => $conditions,
+            'recursive' => 2
+        ));
+        foreach ($r as $k => $v) {
+            //wiki_page doesn't relay to Project directory.
+            if (isset($v['Wiki']['Project'])) {
+                $v['Project'] = $v['Wiki']['Project'];
+            }
+            $r[$k] = $v + $model->create_event_data($v);
+        }
+        $results += $r;
+        $results_by_type[$s] = $r;
 #        r, c = s.singularize.camelcase.constantize.search(like_tokens, projects_to_search,
 #          :all_words => @all_words,
 #          :titles_only => @titles_only,
@@ -86,7 +115,7 @@ class SearchController extends AppController
 #          :before => params[:previous].nil?)
 #        @results += r
 #        @results_by_type[s] += c
-#      end
+      }
 #      @results = @results.sort {|a,b| b.event_datetime <=> a.event_datetime}
 #      if params[:previous].nil?
 #        @pagination_previous_date = @results[0].event_datetime if offset && @results[0]
@@ -103,11 +132,14 @@ class SearchController extends AppController
 #      end
 #    else
 #      @question = ""
-#    end
+    }
 #    render :layout => false if request.xhr?
     $this->set('question',$question);
     $this->set('scope',$scope);
     $this->set('object_types',$object_types);
+    $this->set('scope_types',$scope_types);
+    $this->set('results',$results);
+    $this->set('results_by_type',$results_by_type);
   }
 #
 #private  
