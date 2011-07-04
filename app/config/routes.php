@@ -107,6 +107,7 @@ Router::connect('attachments/destroy/:id', array('controller' => 'attachments', 
 #  # Install the default route as the lowest priority.
 #  map.connect ':controller/:action/:id'
 #end
+Router::connect('search/:action/:project_id',array('controller' => 'search'));
 Router::connect('search/:action',array('controller' => 'search'));
 Router::connect('queries/:action/:query_id',array('controller' => 'queries'));
 /**

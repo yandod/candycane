@@ -1,18 +1,21 @@
 <?php
 class SearchController extends AppController
 {
-  var $uses = array();
+  var $uses = array('Issue');
 #  before_filter :find_optional_project
 #
+  var $helpers = array('Search');
 #  helper :messages
 #  include MessagesHelper
 #
   function index(){
-#    @question = params[:q] || ""
-#    @question.strip!
-#    @all_words = params[:all_words] || (params[:submit] ? false : true)
-#    @titles_only = !params[:titles_only].nil?
-#    
+    $question = isset($this->params['url']['q']) ? trim($this->params['url']['q']) : '';
+    #    @all_words = params[:all_words] || (params[:submit] ? false : true)
+    $all_words = isset($this->params['url']['all_words']) && $this->params['url']['all_words'];
+    $titles_only = isset($this->params['url']['titles_only']) && $this->params['url']['titles_only'];
+
+    $scope = isset($this->params['url']['scope']) ? trim($this->params['url']['scope']) : '';
+    $projects_to_search = null;
 #    projects_to_search =
 #      case params[:scope]
 #      when 'all'
@@ -24,17 +27,30 @@ class SearchController extends AppController
 #      else
 #        @project
 #      end
-#          
+#
+    $offset = null;          
 #    offset = nil
 #    begin; offset = params[:offset].to_time if params[:offset]; rescue; end
 #    
 #    # quick jump to an issue
-#    if @question.match(/^#?(\d+)$/) && Issue.find_by_id($1, :include => :project, :conditions => Project.visible_by(User.current))
-#      redirect_to :controller => "issues", :action => "show", :id => $1
-#      return
-#    end
+    if (preg_match('/^#?(\d+)$/', $question, $match)) {
+        $conditions = $this->Project->get_visible_by_condition($this->current_user);
+        $conditions['Issue.id'] = $question;
+        $ret = $this->Issue->find('first',array(
+            'fields' => array('Issue.id'),
+            'conditions' => $conditions
+        ));
+        if (!empty($ret)) {
+            $this->redirect(array(
+              'controller' => 'issues',
+              'action' => 'show',
+              'id' => $question
+            ));
+        }
+    }
 #    
 #    @object_types = %w(issues news documents changesets wiki_pages messages projects)
+    $object_types = array('issues','news','wiki_pages','projects');
 #    if projects_to_search.is_a? Project
 #      # don't search projects
 #      @object_types.delete('projects')
@@ -89,6 +105,9 @@ class SearchController extends AppController
 #      @question = ""
 #    end
 #    render :layout => false if request.xhr?
+    $this->set('question',$question);
+    $this->set('scope',$scope);
+    $this->set('object_types',$object_types);
   }
 #
 #private  

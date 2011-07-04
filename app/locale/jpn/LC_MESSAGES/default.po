@@ -1916,7 +1916,7 @@ msgstr "サポート"
 
 # label_wiki_page
 msgid "Wiki page"
-msgstr "Wiki page"
+msgstr "Wikiページ"
 
 # setting_gravatar_enabled
 msgid "Use Gravatar user icons"
