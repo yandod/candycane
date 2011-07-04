@@ -37,15 +37,45 @@ class SearchHelper extends AppHelper {
     return $this->Form->select('scope',$options,null,array('name'=>'scope'),false);
   }
 #  
-#  def render_results_by_type(results_by_type)
-#    links = []
-#    # Sorts types by results count
+  function render_results_by_type($results_by_type,$params){
+    $links = array();
+    # Sorts types by results count
+    foreach ($results_by_type as $k => $v) {
+      if (count($v)) {
+        $results_by_type[$k][0]['scope_type'] = $k;
+      }
+    }
+    usort($results_by_type,array($this,'sort_callback'));
 #    results_by_type.keys.sort {|a, b| results_by_type[b] <=> results_by_type[a]}.each do |t|
-#      c = results_by_type[t]
-#      next if c == 0
+    foreach ($results_by_type as $t) {
+      $c = count($t);
+      if ($c == 0) {
+        continue;
+      }
 #      text = "#{type_label(t)} (#{c})"
+      $text = $this->type_label($t[0]['scope_type'])." ({$c})";
+      $links[] = $this->Html->link(
+        $text,
+        array('?' => array(
+          'q' => $params['url']['q'],
+          'titles_only' => $params['url']['all_words'],
+          'all_words' => $params['url']['q'],
+          'scope' => $params['url']['scope'],
+          $t[0]['scope_type'] => 1,
+        ))
+      );
 #      links << link_to(text, :q => params[:q], :titles_only => params[:title_only], :all_words => params[:all_words], :scope => params[:scope], t => 1)
-#    end
+    }
 #    ('<ul>' + links.map {|link| content_tag('li', link)}.join(' ') + '</ul>') unless links.empty?
-#  end
+    if (empty($links)) {
+      return;
+    }
+    return '<ul><li>'.implode('</li> <li>',$links).'</li></ul>';
+  }
+  function sort_callback($a,$b){
+    if (count($a) == count($b)) {
+      return 0;
+    }
+    return (count($a) > count($b)) ? -1 : 1;
+  }
 }

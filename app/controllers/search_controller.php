@@ -105,7 +105,9 @@ class SearchController extends AppController
             }
             $r[$k] = $v + $model->create_event_data($v);
         }
-        $results += $r;
+        if (count($r)) {
+          $results = array_merge($results,$r);
+        }
         $results_by_type[$s] = $r;
 #        r, c = s.singularize.camelcase.constantize.search(like_tokens, projects_to_search,
 #          :all_words => @all_words,

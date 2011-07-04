@@ -47,7 +47,9 @@
 
 <?php if (isset($results) && is_array($results) && count($results)): ?>
     <div id="search-results-counts">
-    <%= render_results_by_type(@results_by_type) unless @scope.size == 1 %>
+	<?php if(count($scope_types) > 1) {
+		echo $search->render_results_by_type($results_by_type,$this->params);
+	}?>
     </div>
     
     <h3><?php echo __('Results') ?> (<?php echo array_sum(array_map('count',$results_by_type))?>)</h3>
