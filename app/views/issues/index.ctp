@@ -1,4 +1,4 @@
-<?php if(empty($query['Query']['id'])): ?>
+<?php $paginator->options($options); ?><?php if(empty($query['Query']['id'])): ?>
     <h2><?php __('Issues') ?></h2>
     <?php  $candy->html_title(__('Issues', true)) ?>
     
