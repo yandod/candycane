@@ -420,7 +420,20 @@ class AppController extends Controller {
 	    } else {
 	      $this->cakeError('error404');
 	    }
+	  if (!$this->_isVisible($this->_project['Project']['id'])) {
+	      $this->cakeError('error404');	      
+	  }
     }
+
+  }
+  function _isVisible($project_id){
+      $cond = $this->Project->get_visible_by_condition($this->current_user);
+      $cond['Project.id'] = $project_id;
+      $visible = $this->Project->find('first',array('conditions' => $cond));
+      if ($visible == false) {
+          return false;        
+      };
+      return true;
   }
   
 
