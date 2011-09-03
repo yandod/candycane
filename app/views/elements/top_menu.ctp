@@ -6,4 +6,4 @@
 <?php if (isset($currentuser['admin']) && $currentuser['admin']): ?>
 <li><?php echo $html->link(__('Administration',true), '/admin', aa('class','administration')) ?></li>
 <?php endif; ?>
-<li><a href="http://candy.cakephp.jp/help" class="help"><?php __('Help') ?></a></li></ul>
+<li><a href="https://groups.google.com/group/candycane-users" class="help"><?php __('Help') ?></a></li></ul>
