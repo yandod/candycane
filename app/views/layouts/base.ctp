@@ -78,7 +78,14 @@
 <div id="ajax-indicator" style="display:none;"><span><?php __('Loading...') ?></span></div>
 	
 <div id="footer">
-    Powered by <?php echo $html->link('candycane','http://my.candycane.jp/') ?> &copy; 2009 - <?php echo date('Y')?> candycane team
+  Powered by 
+  <?php echo $html->link('CandyCane','https://github.com/yandod/candycane') ?>
+  &copy; 2009 - <?php echo date('Y')?><br/>
+  <?php echo $html->link(__('Report Bug',true),'http://my.candycane.jp/') ?>
+  -
+  <?php echo $html->link(__('Contributors',true),'https://github.com/yandod/candycane/network/members') ?>
+  -
+  <?php echo $html->link(__('Discussion',true),'https://groups.google.com/group/candycane-users') ?>
 			<br/><?php echo $html->link(
 					$html->image('cake.power.gif', array('alt'=> __("CakePHP: the rapid development php framework", true), 'border'=>"0")),
 					'http://www.cakephp.org/',
