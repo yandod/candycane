@@ -111,12 +111,14 @@ class SearchController extends AppController {
 			$limit = 10;
 
 			foreach ($scope_types as $s) {
+				
 				$model = ClassRegistry::init(Inflector::classify($s));
 				$fields = Set::classicExtract($model->filterArgs, '{n}.name');
 				$conditions = array();
-				if ($s !== 'wiki_pages') { //TODO: wiki_pages relation
+				// if ($s !== 'wiki_pages') { //TODO: wiki_pages relation
 					$conditions = $this->Project->get_visible_by_condition($this->current_user);
-				}
+					// var_dump($conditions);
+				// }
 				if ($titles_only) {
 					$fields = array_intersect(array('title', 'subject', 'name'), $fields);
 				}
