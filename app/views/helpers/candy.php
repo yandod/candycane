@@ -377,57 +377,78 @@ class CandyHelper extends AppHelper {
 		return mb_convert_encoding($date, "UTF-8", "SJIS");
 	}
 
-  /**
-   * format_time
-   *
-   * @todo time_zone
-   */
-  function format_time($time, $include_date = true)
-  {
-    if (empty($time)) {
-      return null;
-    }
+/**
+ * Format Time
+ *
+ * @param mixed $time Time
+ * @param boolean $include_date Include date
+ * @return string Formatted time
+ * @todo TimeZone
+ */
+	public function format_time($time, $include_date = true) {
+		if (empty($time)) {
+			return null;
+		}
 
-    if (is_string($time) && !is_numeric($time)) {
-      $time = strtotime($time);
-    }
+		if (is_string($time) && !is_numeric($time)) {
+			$time = strtotime($time);
+		}
 
-#    zone = User.current.time_zone
-#    local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
+		# zone = User.current.time_zone
+		# local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
 
-    if (empty($this->Settings->date_format) || (strlen($this->Settings->date_format) < 2)) {
-      $date_format = __('%m/%d/%Y', true);
-    } else {
-      $date_format = __($this->Settings->date_format, true);
-    }
+		if (empty($this->Settings->date_format) || (strlen($this->Settings->date_format) < 2)) {
+			$date_format = __('%m/%d/%Y', true);
+		} else {
+			$date_format = __($this->Settings->date_format, true);
+		}
 
-    if (empty($this->Settings->time_format)) {
-      $time_format = __('%I:%M %p', true);
-    } else {
-      $time_format = __($this->Settings->time_format, true);
-    }
+		if (empty($this->Settings->time_format)) {
+			$time_format = __('%I:%M %p', true);
+		} else {
+			$time_format = __($this->Settings->time_format, true);
+		}
 
-    if ($include_date) {
-      return strftime("{$date_format} {$time_format}", $time);
-      // return strftime("{$date_format} {$time_format}", $local);
-    } else {
-      return strftime("{$time_format}", $time);
-      // return strftime("{$time_format}", $local);
-    }
-  }
-  
-  function format_activity_title($text) {
-    return h($this->truncate_single_line($text, 100));
-  }
-  
-  function format_activity_day($date) {
-    return date('Y-m-d',strtotime($date)) == date('Y-m-d') ? ucwords(__('today',true)) : $this->format_date($date);
-  }
-  
-  function format_activity_description($text) {
-    $out = $this->truncate($text, 250);
-    return h(preg_replace('/<(pre|code)>.*$/', '...', $out));
-  }
+		if ($include_date) {
+			return strftime("{$date_format} {$time_format}", $time);
+			// return strftime("{$date_format} {$time_format}", $local);
+		} else {
+			return strftime("{$time_format}", $time);
+			// return strftime("{$time_format}", $local);
+		}
+	}
+
+/**
+ * Format Activity Title
+ *
+ * @param string $text Title
+ * @return string Formatted title
+ */
+	public function format_activity_title($text) {
+		return h($this->truncate_single_line($text, 100));
+	}
+
+/**
+ * Format Activity Date
+ *
+ * @param string $date Date
+ * @return string Formatted date
+ */
+	public function format_activity_day($date) {
+		return date('Y-m-d',strtotime($date)) == date('Y-m-d') ? ucwords(__('today',true)) : $this->format_date($date);
+	}
+
+/**
+ * Format Activity Description
+ *
+ * @param string $text Description
+ * @return string Formatted description
+ */
+	public function format_activity_description($text) {
+		$out = $this->truncate($text, 250);
+		return h(preg_replace('/<(pre|code)>.*$/', '...', $out));
+	}
+
 #
 #  def distance_of_date_in_words(from_date, to_date = 0)
 #    from_date = from_date.to_date if from_date.respond_to?(:to_date)
@@ -435,36 +456,51 @@ class CandyHelper extends AppHelper {
 #    distance_in_days = (to_date - from_date).abs
 #    lwr(:actionview_datehelper_time_in_words_day, distance_in_days)
 #  end
-  function distance_of_date_in_words($from_date, $to_date = 0)
-  {
-    $from_date = strtotime($from_date);
-    $to_date = strtotime($to_date);
-    $distance_in_days = abs($to_date - $from_date) / (60*60*24);
 
-    return $this->lwr_r('', $distance_in_days);
-  }
+/**
+ * Distance of date in words
+ *
+ * @param string $from_date From date
+ * @param string $to_date To date
+ * @return string Date distance in words
+ */
+	public function distance_of_date_in_words($from_date, $to_date = 0) {
+		$from_date = strtotime($from_date);
+		$to_date = strtotime($to_date);
+		$distance_in_days = abs($to_date - $from_date) / (60*60*24);
+
+		return $this->lwr_r('', $distance_in_days);
+	}
+
 #
 #  def due_date_distance_in_words(date)
 #    if date
 #      l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
 #    end
 #  end
-  function due_date_distance_in_words($date)
-  {
-    $ret = null;
 
-    if ($date) {
-      $time = strtotime($date);
-      $now = time();
-      if ($date < $now) {
-        $ret = '%s late';
-      } else {
-        $ret = 'Due in %s';
-      }
-    }
+/**
+ * Due date distance in words
+ *
+ * @param string $date Due date
+ * @return string Due date distance in words
+ */
+	public function due_date_distance_in_words($date) {
+		$ret = null;
 
-    return null;
-  }
+		if ($date) {
+			$time = strtotime($date);
+			$now = time();
+			if ($date < $now) {
+				$ret = '%s late';
+			} else {
+				$ret = 'Due in %s';
+			}
+		}
+
+		return null;
+	}
+
 #
 #  def render_page_hierarchy(pages, node=nil)
 #    content = ''
