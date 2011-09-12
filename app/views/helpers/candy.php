@@ -283,19 +283,31 @@ class CandyHelper extends AppHelper {
 #  # Options:
 #  # * :text - Link text (default to attachment filename)
 #  # * :download - Force download (default: false)
-  function link_to_attachment($attachment, $options = array())
-  {
-    $text = $attachment['Attachment']['filename'];
-    if (isset($options['text'])) {
-      $text = $options['text'];
-    }
-    $action = 'show';
-    if (isset($options['download'])) {
-      $action = 'download';
-    }
 
-    return $this->Html->link($text, array('controller'=>'attachments', 'action'=>$action, 'id'=>$attachment['Attachment']['id'], 'filename'=>$attachment['Attachment']['filename']), $options);
-  }
+/**
+ * Link to Attachment
+ *
+ * @param array $attachment Attachment data (result of model find)
+ * @param array $options Options
+ * @return string Link to attachment
+ */
+	public function link_to_attachment($attachment, $options = array()) {
+		$text = $attachment['Attachment']['filename'];
+		if (isset($options['text'])) {
+			$text = $options['text'];
+		}
+		$action = 'show';
+		if (isset($options['download'])) {
+			$action = 'download';
+		}
+		return $this->Html->link($text, array(
+			'controller' => 'attachments',
+			'action' => $action,
+			'id' => $attachment['Attachment']['id'],
+			'filename' => $attachment['Attachment']['filename']
+			), $options);
+	}
+
 #  def link_to_attachment(attachment, options={})
 #    text = options.delete(:text) || attachment.filename
 #    action = options.delete(:download) ? 'download' : 'show'
@@ -303,9 +315,17 @@ class CandyHelper extends AppHelper {
 #    link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
 #  end
 #
-  function link_to_version($version, $options = array()) {
-    return $this->Html->link(h($version['name']), array('controller'=>'versions', 'action'=>'show', 'id'=>$version['id']), $options);
-  }
+
+/**
+ * Link to Version
+ *
+ * @param array $version Version data (result of model find)
+ * @param array $options 
+ * @return string Link to version
+ */
+	public function link_to_version($version, $options = array()) {
+		return $this->Html->link(h($version['name']), array('controller' => 'versions', 'action' => 'show', 'id' => $version['id']), $options);
+	}
 
   function toggle_link($name, $id, $options=array()) {
     $onclick = "Element.toggle('$id'); ";
@@ -313,6 +333,7 @@ class CandyHelper extends AppHelper {
     $onclick .= "return false;";
     return $this->Html->link($name, "#", compact('onclick'));
   }
+
 #
 #  def image_to_function(name, function, html_options = {})
 #    html_options.symbolize_keys!
@@ -327,34 +348,35 @@ class CandyHelper extends AppHelper {
 #    link_to name, {}, html_options
 #  end
 #
-  /**
-   * format_date
-   *
-   * @todo implement Setting
-   */
-  function format_date($date) 
-  {
-    if (!$date) {
-      return null;
-    }
-    
-    $view =& ClassRegistry::getObject('view');
-    $Settings = $view->viewVars['Settings'];
 
-    // "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
-    $date_format = (empty($Settings->date_format) || strlen($Settings->date_format) < 2) ? '%m/%d/%Y' : $Settings->date_format;
-    if(is_string($date)) {
-      $date = strtotime($date);
-    }
-    $date_format = __($date_format,true);
-    // for hack windows.
-    $date_format = mb_convert_encoding($date_format, "SJIS", "UTF-8");
-    $date = strftime("{$date_format}",$date);
-    $date = mb_convert_encoding($date, "UTF-8", "SJIS");
-    return $date;
-  }
-#
-  
+/**
+ * Format Date
+ *
+ * @param string $date 
+ * @return void
+ * @todo Implement setting
+ */
+	public function format_date($date) {
+		if (!$date) {
+			return null;
+		}
+
+		$view =& ClassRegistry::getObject('view');
+		$Settings = $view->viewVars['Settings'];
+
+		// "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
+		$date_format = (empty($Settings->date_format) || strlen($Settings->date_format) < 2) ? '%m/%d/%Y' : $Settings->date_format;
+		if (is_string($date)) {
+			$date = strtotime($date);
+		}
+		$date_format = __($date_format, true);
+
+		// Hack for Windows
+		$date_format = mb_convert_encoding($date_format, "SJIS", "UTF-8");
+		$date = strftime("{$date_format}", $date);
+		return mb_convert_encoding($date, "UTF-8", "SJIS");
+	}
+
   /**
    * format_time
    *
