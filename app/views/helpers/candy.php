@@ -1065,22 +1065,26 @@ function breadcrumb($args)
 #    end
 #  end
 #
-  /**
-   * lang_options_for_select
-   *
-   */
-  function lang_options_for_select($blank = true)
-  {
-    $list = array();
-    foreach (glob(APP . 'locale/*') as $dir) {
-      $path = explode('/', $dir);
-      $lang = end($path);
-      if ($lang == 'default.pot') continue;
-      $list[$lang] = $lang;
-    }
 
-    return $list;
-  }
+/**
+ * Language options for select box
+ *
+ * @param string $blank 
+ * @param string $default 
+ * @return array Options for Html select
+ */
+	function lang_options_for_select($blank = true) {
+		$list = array();
+		foreach (glob(APP . 'locale/*') as $dir) {
+			$path = explode('/', $dir);
+			$lang = end($path);
+			if ($lang == 'default.pot') {
+				continue;
+			}
+			$list[$lang] = $lang;
+		}
+		return $list;
+	}
 #
 #  def label_tag_for(name, option_tags = nil, options = {})
 #    label_text = l(("field_"+field.to_s.gsub(/\_id$/, "")).to_sym) + (options.delete(:required) ? @template.content_tag("span", " *", :class => "required"): "")
