@@ -114,16 +114,29 @@ class SearchController extends AppController {
 				
 				$model = ClassRegistry::init(Inflector::classify($s));
 				$fields = Set::classicExtract($model->filterArgs, '{n}.name');
-				$conditions = array();
-				// if ($s !== 'wiki_pages') { //TODO: wiki_pages relation
-					$conditions = $this->Project->get_visible_by_condition($this->current_user);
-					// var_dump($conditions);
-				// }
+				$conditions = $this->Project->get_visible_by_condition($this->current_user);
 				if ($titles_only) {
 					$fields = array_intersect(array('title', 'subject', 'name'), $fields);
 				}
 				$or_conditions = $model->parseCriteria(array_fill_keys($fields, $question));
-				$conditions['OR'] = $or_conditions;
+
+				if ($s === 'wiki_pages') {
+					$projectConditions = $conditions;
+					$Wiki = ClassRegistry::init('Wiki');
+					$wiki_ids = $Wiki->find('all', array(
+						'conditions' => $projectConditions,
+						'fields' => array($Wiki->primaryKey),
+						'recursive' => 0,
+					));
+					$wiki_ids = Set::extract('/Wiki/id', $wiki_ids);
+					$conditions = array(
+						'Wiki.id' => $wiki_ids,
+						'OR' => $or_conditions
+					);
+				} else {
+					$conditions['OR'] = $or_conditions;
+				}
+
 				$r = $model->find('all', array(
 					'conditions' => $conditions,
 					'recursive' => 2
