@@ -2,92 +2,133 @@
 /**
  * CandyHelper
  *
+ * Candy Helper is a CandyCane specific helper that provides site-wide view functionality
+ *
+ * @package candycane
+ * @subpackage candycane.views.helpers
  */
-class CandyHelper extends AppHelper
-{
-  var $helpers = array('Html','Users', 'Paginator', 'AppAjax');
-  var $row = 0;
+class CandyHelper extends AppHelper {
 
-	function link($user)
-	{
+/**
+ * Helpers
+ *
+ * @var array
+ */
+	public $helpers = array('Html','Users', 'Paginator', 'AppAjax');
+
+/**
+ * Row
+ *
+ * @var int
+ */
+	public $row = 0;
+
+/**
+ * Link
+ *
+ * @param array $user User data (results of model find)
+ * @return string Html string to display
+ */
+	public function link($user) {
 		return $this->Html->link($user['name'],'/account/show/'.$user['id']);
 	}
-	function accesskey($key)
-	{
+
+/**
+ * Access Key
+ *
+ * @param string $key 
+ * @return mixed
+ */
+	public function accesskey($key) {
 		$map = array(
 			'quick_search' => 'f',
 			'search' => 4,
 		);
 		return $map[$key];
 	}
-  function lwr_e()
-  {
-    $argv = func_get_args();
-    $ret = call_user_func_array(array($this, 'lwr_r'), $argv);
-    echo $ret;
-  }
-  function lwr_r()
-  {
-    $argc = func_num_args();
-    $argv = func_get_args();
-    $return = false;
-    if ($argc == 0) {
-      return null;
-    } else {
-      $singular = $argv[0];
-      if ($argc > 1) {
-        array_shift($argv);
-        $singular = vsprintf(__($singular, true), $argv);
-      }
-    }
 
-    return $singular;
-  }
-  function lwr()
-  {
-    $argv = func_get_args();
-    call_user_func_array(array($this, 'lwr_e'), $argv);
-  }
+/**
+ * undocumented function
+ *
+ * @return string
+ */
+	function lwr_e() {
+		$argv = func_get_args();
+		$ret = call_user_func_array(array($this, 'lwr_r'), $argv);
+		echo $ret;
+	}
 
-  /**
-   * html_title
-   *
-   */
-  function html_title($str=false)
-  {
-    #  def html_title(*args)
-    #    if args.empty?
-    #      title = []
-    #      title << @project.name if @project
-    #      title += @html_title if @html_title
-    #      title << Setting.app_title
-    #      title.compact.join(' - ')
-    #    else
-    #      @html_title ||= []
-    #      @html_title += args
-    #    end
-    #  end
-    $view =& ClassRegistry::getObject('view');
-    $project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
-    if (empty($str)) {
-      $title = array();
-      if (! empty($project)) {
-        $title[0] = $project['Project']['name'];
-      } else {
-        $Settings =& ClassRegistry::getObject('Setting');
-        $title[0] = $Settings->app_title;
-      }
-      if(!empty($view->pageTitle)) {
-        $title[0] .= $view->pageTitle;
-      }
-      $title = join(' - ', $title);
-      $str = $view->pageTitle = $title;
-    } elseif(is_array($str)) {
-      $str = join(' - ', $str);
-    }
-    $view->pageTitle = $str;
-    return $view->pageTitle;
-  }
+/**
+ * undocumented function
+ *
+ * @return string
+ */
+	function lwr_r() {
+		$argc = func_num_args();
+		$argv = func_get_args();
+		$return = false;
+		if ($argc == 0) {
+			return null;
+		} else {
+			$singular = $argv[0];
+			if ($argc > 1) {
+				array_shift($argv);
+				$singular = vsprintf(__($singular, true), $argv);
+			}
+		}
+		return $singular;
+	}
+
+/**
+ * undocumented function
+ *
+ * @return void
+ */
+	function lwr() {
+		$argv = func_get_args();
+		call_user_func_array(array($this, 'lwr_e'), $argv);
+	}
+
+/**
+ * Html Title
+ *
+ * @param array $str Strings to display
+ * @return string
+ */
+	function html_title($str = false) {
+		#  def html_title(*args)
+		#    if args.empty?
+		#      title = []
+		#      title << @project.name if @project
+		#      title += @html_title if @html_title
+		#      title << Setting.app_title
+		#      title.compact.join(' - ')
+		#    else
+		#      @html_title ||= []
+		#      @html_title += args
+		#    end
+		#  end
+		$view =& ClassRegistry::getObject('view');
+		$project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
+		if (empty($str)) {
+			$title = array();
+			if (! empty($project)) {
+				$title[0] = $project['Project']['name'];
+			} else {
+				$Settings =& ClassRegistry::getObject('Setting');
+				$title[0] = $Settings->app_title;
+			}
+			if (!empty($view->pageTitle)) {
+				$title[0] .= $view->pageTitle;
+			}
+			$title = join(' - ', $title);
+			$str = $view->pageTitle = $title;
+		} elseif(is_array($str)) {
+			$str = join(' - ', $str);
+		}
+		$view->pageTitle = $str;
+		return $view->pageTitle;
+	}
 
 #require 'coderay'
 #require 'coderay/helpers/file_type'
@@ -105,19 +146,21 @@ class CandyHelper extends AppHelper
 #    @current_role ||= User.current.role_for_project(@project)
 #  end
 #
-  /**
-   * Return true if user is authorized for controller/action, otherwise false
-   * @param $aco : Array. array('controller'=> controller, 'action'=> action)
-   *              : String. ':update_form'
-   * @param $project : Target Project. if false, get from main_project of viewVars.
-   */
-  function authorize_for($aco, $project=false) {
-    if(empty($project)) {
-      $view =& ClassRegistry::getObject('view');
-      $project = $view->viewVars['main_project'];
-    }
-    return $this->requestAction(array('controller'=>'users', 'action'=>'allowed_to'), compact('aco', 'project'));
-  }
+
+/**
+ * Return true if user is authorized for controller/action, otherwise false
+ * @param $aco : Array. array('controller'=> controller, 'action'=> action)
+ *              : String. ':update_form'
+ * @param $project : Target Project. if false, get from main_project of viewVars.
+ */
+	function authorize_for($aco, $project = false) {
+		if(empty($project)) {
+			$view =& ClassRegistry::getObject('view');
+			$project = $view->viewVars['main_project'];
+		}
+		return $this->requestAction(array('controller' => 'users', 'action' => 'allowed_to'), compact('aco', 'project'));
+	}
+
   /** 
    * Display a link if user is authorized
    * 
