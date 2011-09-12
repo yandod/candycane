@@ -575,7 +575,7 @@ INSERT INTO `news` (`id`, `project_id`, `title`, `summary`, `description`, `auth
 CREATE TABLE IF NOT EXISTS `plugin_schema_info` (
   `plugin_name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `version` int(11) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- テーブルのデータをダンプしています `plugin_schema_info`
