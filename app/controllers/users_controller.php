@@ -29,7 +29,7 @@ class UsersController extends AppController {
  *
  * # before_filter :require_admin
  */
-	function beforeFilter() {
+	public function beforeFilter() {
 		parent::beforeFilter();
 		if (empty($this->params['requested'])) {
 			$this->require_admin();
@@ -41,7 +41,7 @@ class UsersController extends AppController {
  *
  * @return void
  */
-	function index() {
+	public function index() {
 		return $this->list_(); // unless request.xhr?
 	}
 
@@ -49,7 +49,7 @@ class UsersController extends AppController {
  * edit
  *
  */
-	function edit($id = null) {
+	public function edit($id = null) {
 		if ($this->data) {
 			if ($this->User->save($this->data)) {
 				$this->Session->setFlash(__('Successful update.', true), 'default', array('class' => 'flash flash_notice'));
@@ -107,7 +107,7 @@ class UsersController extends AppController {
  *
  * @return void
  */
-	function list_() {
+	public function list_() {
 		$this->Sort->sort_init('login', 'asc');
 		$this->Sort->sort_update(
 			array('login', 'firstname', 'lastname', 'mail', 'admin', 'created_on', 'last_login_on')
@@ -182,7 +182,7 @@ class UsersController extends AppController {
  *
  * @return void
  */
-	function add() {
+	public function add() {
 		if (!$this->data) {
 			# @user = User.new(:language => Setting.default_language)
 		} else {
@@ -213,7 +213,7 @@ class UsersController extends AppController {
  *
  * @return boolean
  */
-	function allowed_to() {
+	public function allowed_to() {
 		if (empty($this->params['requested'])) {
 			$this->cakeError('error404');
 		}
