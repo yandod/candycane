@@ -120,6 +120,7 @@ class SearchController extends AppController {
 				}
 				$or_conditions = $model->parseCriteria(array_fill_keys($fields, $question));
 
+				// @todo Refactor this Wiki specific code into the model.
 				if ($s === 'wiki_pages') {
 					$projectConditions = $conditions;
 					$Wiki = ClassRegistry::init('Wiki');
