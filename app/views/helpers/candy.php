@@ -52,7 +52,7 @@ class CandyHelper extends AppHelper {
  *
  * @return string
  */
-	function lwr_e() {
+	public function lwr_e() {
 		$argv = func_get_args();
 		$ret = call_user_func_array(array($this, 'lwr_r'), $argv);
 		echo $ret;
@@ -63,7 +63,7 @@ class CandyHelper extends AppHelper {
  *
  * @return string
  */
-	function lwr_r() {
+	public function lwr_r() {
 		$argc = func_num_args();
 		$argv = func_get_args();
 		$return = false;
@@ -84,7 +84,7 @@ class CandyHelper extends AppHelper {
  *
  * @return void
  */
-	function lwr() {
+	public function lwr() {
 		$argv = func_get_args();
 		call_user_func_array(array($this, 'lwr_e'), $argv);
 	}
@@ -95,7 +95,7 @@ class CandyHelper extends AppHelper {
  * @param array $str Strings to display
  * @return string
  */
-	function html_title($str = false) {
+	public function html_title($str = false) {
 		#  def html_title(*args)
 		#    if args.empty?
 		#      title = []
@@ -153,7 +153,7 @@ class CandyHelper extends AppHelper {
  *              : String. ':update_form'
  * @param $project : Target Project. if false, get from main_project of viewVars.
  */
-	function authorize_for($aco, $project = false) {
+	public function authorize_for($aco, $project = false) {
 		if(empty($project)) {
 			$view =& ClassRegistry::getObject('view');
 			$project = $view->viewVars['main_project'];
@@ -161,20 +161,27 @@ class CandyHelper extends AppHelper {
 		return $this->requestAction(array('controller' => 'users', 'action' => 'allowed_to'), compact('aco', 'project'));
 	}
 
-  /** 
-   * Display a link if user is authorized
-   * 
-   */
-  function link_to_if_authorized($aco, $name, $url, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true) {
-    $out = '';
-    if($aco == null) {
-      $aco = $url;
-    }
-    if($this->authorize_for($aco)) {
-      $out = $this->Html->link($name, $url, $htmlAttributes, $confirmMessage = false, $escapeTitle);
-    }
-    return $out;
-  }
+/**
+ * Display a link if user is authorized
+ *
+ * @param mixed $aco 
+ * @param string $name 
+ * @param mixed $url 
+ * @param array $htmlAttributes 
+ * @param string $confirmMessage 
+ * @param boolean $escapeTitle
+ * @return void
+ */
+	public function link_to_if_authorized($aco, $name, $url, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true) {
+		$out = '';
+		if ($aco == null) {
+			$aco = $url;
+		}
+		if ($this->authorize_for($aco)) {
+			$out = $this->Html->link($name, $url, $htmlAttributes, $confirmMessage = false, $escapeTitle);
+		}
+		return $out;
+	}
 
 #  def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
 #    link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
@@ -190,36 +197,51 @@ class CandyHelper extends AppHelper {
 #  def link_to_user(user, options={})
 #    (user && !user.anonymous?) ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
 #  end
-  function format_username($user, $format=null)
-  {
-  	if (empty($format)) {
-  	  $format = $this->Settings->user_format;	
-  	}
 
-    $USER_FORMATS = array(
-      ':firstname_lastname' => "{$user['firstname']} {$user['lastname']}",
-      ':firstname' => "{$user['firstname']}",
-      ':lastname_firstname' => "{$user['lastname']} {$user['firstname']}",
-      ':lastname_coma_firstname' => "{$user['lastname']}, {$user['firstname']}",
-      ':username' => "{$user['login']}"
-    );
-    if (!isset($USER_FORMATS[$format])) $format = ':firstname_lastname'; 
-    return $USER_FORMATS[$format];
-  }
+/**
+ * Format Username
+ *
+ * @param string $user Username
+ * @param string $format Format
+ * @return string Formatted username
+ */
+	public function format_username($user, $format = null) {
+		if (empty($format)) {
+			$format = $this->Settings->user_format;	
+		}
 
-  function link_to_user($user, $options = array())
-  {
-    $format = '';
-    if (isset($options['format'])) {
-      $format = $options['format'];
-      unset($options['format']);
-    }
-    if ($user) /* && !user.anonymous? */ {
-      return $this->Html->link($this->format_username($user, $format), array('controller'=>'account', 'action'=>'show', 'id'=>$user['id']), $options);
-    } else {
-      return 'Anonymous';
-    }
-  }
+		$USER_FORMATS = array(
+			':firstname_lastname' => "{$user['firstname']} {$user['lastname']}",
+			':firstname' => "{$user['firstname']}",
+			':lastname_firstname' => "{$user['lastname']} {$user['firstname']}",
+			':lastname_coma_firstname' => "{$user['lastname']}, {$user['firstname']}",
+			':username' => "{$user['login']}"
+		);
+		if (!isset($USER_FORMATS[$format])) {
+			$format = ':firstname_lastname'; 
+		}
+		return $USER_FORMATS[$format];
+	}
+
+/**
+ * Link to user
+ *
+ * @param array $user User Data (from model find)
+ * @param array $options Html link options
+ * @return string Link to user
+ */
+	public function link_to_user($user, $options = array()) {
+		$format = '';
+		if (isset($options['format'])) {
+			$format = $options['format'];
+			unset($options['format']);
+		}
+		if ($user) /* && !user.anonymous? */ {
+			return $this->Html->link($this->format_username($user, $format), array('controller' => 'account', 'action' => 'show', 'id' => $user['id']), $options);
+		}
+		return 'Anonymous';
+	}
+
 #  def link_to_user(user, options={})
 #    (user && !user.anonymous?) ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
 #  end
