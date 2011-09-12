@@ -50,14 +50,13 @@ class UsersController extends AppController {
  *
  */
 	public function edit($id = null) {
-		if ($this->data) {
+		if (!empty($this->data)) {
 			if ($this->User->save($this->data)) {
 				$this->Session->setFlash(__('Successful update.', true), 'default', array('class' => 'flash flash_notice'));
-				$this->redirect('list');
-				return;
+				return $this->redirect('list');
 			}
 		}
-
+		
 		$user = $this->User->find('first', array('conditions' => array('User.id' => (int)$id)));
 
 		$tabs = array(
