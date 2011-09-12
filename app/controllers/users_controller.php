@@ -45,6 +45,10 @@ class UsersController extends AppController
   function edit($id = null)
   {
     if ($this->data) {
+      if (empty($this->data[$this->User->alias]['password'])) {	
+        unset($this->data[$this->User->alias]['password']);
+        unset($this->data[$this->User->alias]['password_confirmation']);
+      }
       if ($this->User->save($this->data)) {
         $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
         $this->redirect('list');
