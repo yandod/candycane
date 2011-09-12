@@ -62,8 +62,7 @@ class UsersController extends AppController {
 			}
 		}
 		
-		$user = $this->User->find('first', array('conditions' => array('User.id' => (int)$id)));
-
+		$user = $this->User->read(null, $id);
 		$tabs = array(
 			array(
 				'name' => 'general',
