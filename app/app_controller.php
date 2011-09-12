@@ -6,48 +6,49 @@ App::import('Core', 'l10n');
 
 class AppController extends Controller {
 
-    var $layout = 'base';
-    var $helpers = array('Html', 'Form', 'Javascript', 'Candy');
-    var $components = array('Cookie','MenuManager');
-    var $uses = array('User','Setting','Project');
-    var $current_user; // alternate User.current
-    var $per_page;
-    var $view = 'Theme';
-    var $theme = '';
-    var $pure_params = array();
-    var $authorize = false;
-    /**
-     * beforeFilter
-     *
-     * @todo set_localzation
-     */
-    function beforeFilter()
-    {
-        $this->_setUrlParam();
-        $this->user_setup();
-        $this->setSettings();
-        $this->set_localization();
-        $this->check_if_login_required();
-        $this->_findProject();
-        $this->_authorize();
-    }
-    function _setUrlParam()
-    {
-      $url_param = $this->params;
-      foreach (array(
-        'data',
-        'url',
-        'form',
-        'isAjax',
-        'plugin',
-        'models',
-        'pass',
-        'named',
-      ) as $key) {
-        unset($url_param[$key]);
-      }
-      $this->params['url_param'] = $url_param;
-    }
+	public $layout = 'base';
+	public $helpers = array('Html', 'Form', 'Javascript', 'Candy');
+	public $components = array('Cookie', 'MenuManager', 'DebugKit.Toolbar');
+	public $uses = array('User', 'Setting', 'Project');
+	public $current_user; // alternate User.current
+	public $per_page;
+	public $view = 'Theme';
+	public $theme = '';
+	public $pure_params = array();
+	public $authorize = false;
+
+/**
+ * beforeFilter
+ *
+ * @todo set_localzation
+ */
+	function beforeFilter() {
+		$this->_setUrlParam();
+		$this->user_setup();
+		$this->setSettings();
+		$this->set_localization();
+		$this->check_if_login_required();
+		$this->_findProject();
+		$this->_authorize();
+	}
+
+	function _setUrlParam() {
+		$url_param = $this->params;
+		foreach (array(
+			'data',
+			'url',
+			'form',
+			'isAjax',
+			'plugin',
+			'models',
+			'pass',
+			'named',
+		) as $key) {
+			unset($url_param[$key]);
+		}
+		$this->params['url_param'] = $url_param;
+	}
+
 #  filter_parameter_logging :password
 #  
 #  include Redmine::MenuManager::MenuController
