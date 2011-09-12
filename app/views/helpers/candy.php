@@ -498,7 +498,7 @@ class CandyHelper extends AppHelper {
 			}
 		}
 
-		return null;
+		return $ret;
 	}
 
 #
