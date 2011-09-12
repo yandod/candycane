@@ -31,15 +31,19 @@ Using CakePHP1.2, so candycane can still run on PHP4
 //--------------------
 // Contributors
 //--------------------
- @yando
- halt 
- nazo
- akiyan 
- k-kishida 
- kaz29 
- Suzuki 
- hnw
- SpenserJ
+yandod
+halt
+k-kishida
+akiyan
+Takuya Sato
+Yoshio HANAWA
+kaz29
+Norio Suzuki
+shin1x1
+Steve Grosbois
+Spenser Jones
+tomo
+hiromi2424
 
 We will appreciate any pull request.
 I try to merge as much as possible, please fork me if you found some point to be fix.
