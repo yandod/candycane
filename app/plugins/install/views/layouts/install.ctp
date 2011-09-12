@@ -5,9 +5,6 @@
     <title><?php echo $title_for_layout; ?> - <?php __('candycane'); ?></title>
     <?php
         echo $html->css(array(
-            'reset',
-            '960',
-            'admin',
             '/install/css/install',
         ));
         echo $scripts_for_layout;
