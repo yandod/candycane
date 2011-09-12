@@ -527,41 +527,68 @@ class CandyHelper extends AppHelper {
 #    s
 #  end
 #
-  # Truncates and returns the string as a single line
-  function truncate_single_line($string, $length, $ending = '...', $exact = true) {
-    $string = $this->truncate($string, $length, $ending, $exact);
-    return preg_replace('/[\r\n]+/', ' ', $string);
-  }
+
+/**
+ * Truncates and returns the string as a single line
+ *
+ * @param string $string String to truncate
+ * @param int $length Length
+ * @param string $ending Ending string
+ * @param boolean $exact Do exact length
+ * @return string Truncated string
+ */
+	public function truncate_single_line($string, $length, $ending = '...', $exact = true) {
+		$string = $this->truncate($string, $length, $ending, $exact);
+		return preg_replace('/[\r\n]+/', ' ', $string);
+	}
+
 #
 #  def html_hours(text)
 #    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
 #  end
-  function html_hours($text)
-  {
-    return preg_replace('/(\d+)\.(\d+)/', '<span class="hours hours-int">$1</span><span class="hours hours-dec">.$2</span>', $text);
-  }
 #
-	function authoring($created, $author, $options = array())
-	{
+
+/**
+ * Html hours
+ *
+ * @param string $text Text
+ * @return string Inserts hours into Html for output
+ */
+	public function html_hours($text) {
+		return preg_replace('/(\d+)\.(\d+)/', '<span class="hours hours-int">$1</span><span class="hours hours-dec">.$2</span>', $text);
+	}
+
+/**
+ * Authoring
+ *
+ * @param string $created 
+ * @param string $author 
+ * @param array $options 
+ * @return string Authored string
+ */
+	public function authoring($created, $author, $options = array()) {
 		//TODO:port
-    $view =& ClassRegistry::getObject('view');
-    $project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
-    if(empty($project)) {
-  	  $time_tag = $this->Html->tag('acronym',$this->distance_of_time_in_words(time(),$created),aa('title',$this->format_time($created)));
-    } else {
-      $time_tag = $this->Html->link($this->distance_of_time_in_words(time(),$created), 
-          array('controller'=>'projects', 'action'=>'activity', 'id'=>$project['Project']['id'], 'from'=>$created),
-          aa('title',$this->format_time($created)));
-    }
-#    time_tag = @project.nil? ? content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created)) :
-#                               link_to(distance_of_time_in_words(Time.now, created), 
-#                                       {:controller => 'projects', :action => 'activity', :id => @project, :from => created.to_date},
-#                                       :title => format_time(created))
-	  $author_tag = $this->Html->link($this->format_username($author),aa('controller','account','action','show','id',$author['id']));
-#    author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
-#    l(options[:label] || :label_added_time_by, author_tag, time_tag)
+		$view =& ClassRegistry::getObject('view');
+		$project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
+		if (empty($project)) {
+			$time_tag = $this->Html->tag('acronym', $this->distance_of_time_in_words(time(), $created), array('title' => $this->format_time($created)));
+		} else {
+			$time_tag = $this->Html->link(
+				$this->distance_of_time_in_words(time(), $created),
+				array('controller' => 'projects', 'action' => 'activity', 'id' => $project['Project']['id'], 'from' => $created),
+				array('title' => $this->format_time($created)));
+		}
+		#    time_tag = @project.nil? ? content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created)) :
+		#                               link_to(distance_of_time_in_words(Time.now, created), 
+		#                                       {:controller => 'projects', :action => 'activity', :id => @project, :from => created.to_date},
+		#                                       :title => format_time(created))
+
+		$author_tag = $this->Html->link($this->format_username($author), array('controller' => 'account', 'action' => 'show', 'id' => $author['id']));
+		#    author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
+		#    l(options[:label] || :label_added_time_by, author_tag, time_tag)
 		return $this->lwr('Added by %s %s ago',$author_tag, $time_tag);
 	}
+
 #
 #  def l_or_humanize(s, options={})
 #    k = "#{options[:prefix]}#{s}".to_sym
