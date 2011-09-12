@@ -33,15 +33,19 @@ CandyCane is using CakePHP v1.2. This enables CandyCane to run on PHP 4.
 
 ## Contributors
 
-- @yando
-- halt 
-- nazo
-- akiyan 
-- k-kishida 
-- kaz29 
-- Suzuki 
-- hnw
-- SpenserJ
+- yandod
+- halt
+- k-kishida
+- akiyan
+- Takuya Sato
+- Yoshio HANAWA
+- kaz29
+- Norio Suzuki
+- shin1x1
+- Steve Grosbois
+- Spenser Jones
+- tomo
+- hiromi2424
 
 We will appreciate any pull requests.
 
