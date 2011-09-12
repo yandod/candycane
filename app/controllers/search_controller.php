@@ -21,7 +21,7 @@ class SearchController extends AppController {
  *
  * @var array
  */
- 	public $helpers = array('Search','Text');
+ 	public $helpers = array('Search', 'Text');
 
 #  helper :messages
 #  include MessagesHelper
@@ -57,6 +57,7 @@ class SearchController extends AppController {
 		#    
 		#    # quick jump to an issue
 
+		// Quick jump to an issue by matching #1234 style issue id
 		if (preg_match('/^#?(\d+)$/', $question, $match)) {
 			$conditions = $this->Project->get_visible_by_condition($this->current_user);
 			$conditions['Issue.id'] = $question;
@@ -75,7 +76,7 @@ class SearchController extends AppController {
 
 		#    
 		#    @object_types = %w(issues news documents changesets wiki_pages messages projects)
-		$object_types = array('issues','news','wiki_pages','projects');
+		$object_types = array('issues', 'news', 'wiki_pages', 'projects');
 
 		#    if projects_to_search.is_a? Project
 		#      # don't search projects
@@ -86,7 +87,7 @@ class SearchController extends AppController {
 		#      
 		#    @scope = @object_types.select {|t| params[t]}
 		#    @scope = @object_types if @scope.empty?
-		$scope_types = array_intersect($object_types,array_keys($this->params['url']));
+		$scope_types = array_intersect($object_types, array_keys($this->params['url']));
 		if (empty($scope_types)) {
 			$scope_types = $object_types;
 		}
@@ -111,17 +112,17 @@ class SearchController extends AppController {
 
 			foreach ($scope_types as $s) {
 				$model = ClassRegistry::init(Inflector::classify($s));
-				$fields = Set::classicExtract($model->filterArgs,'{n}.name');
+				$fields = Set::classicExtract($model->filterArgs, '{n}.name');
 				$conditions = array();
 				if ($s !== 'wiki_pages') { //TODO: wiki_pages relation
 					$conditions = $this->Project->get_visible_by_condition($this->current_user);
 				}
 				if ($titles_only) {
-					$fields = array_intersect(array('title','subject','name'),$fields);
+					$fields = array_intersect(array('title', 'subject', 'name'), $fields);
 				}
-				$or_conditions = $model->parseCriteria(array_fill_keys($fields,$question));
+				$or_conditions = $model->parseCriteria(array_fill_keys($fields, $question));
 				$conditions['OR'] = $or_conditions;
-				$r = $model->find('all',array(
+				$r = $model->find('all', array(
 					'conditions' => $conditions,
 					'recursive' => 2
 				));
@@ -133,7 +134,7 @@ class SearchController extends AppController {
 					$r[$k] = $v + $model->create_event_data($v);
 				}
 				if (count($r)) {
-					$results = array_merge($results,$r);
+					$results = array_merge($results, $r);
 				}
 				$results_by_type[$s] = $r;
 				#        r, c = s.singularize.camelcase.constantize.search(like_tokens, projects_to_search,
