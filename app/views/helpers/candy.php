@@ -246,24 +246,32 @@ class CandyHelper extends AppHelper {
 #    (user && !user.anonymous?) ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
 #  end
 #
-  function link_to_issue($issue, $options = array())
-  {
-    if (!isset($options['class'])) {
-      $options['class'] = '';
-    }
-    $options['class'] .= ' issue';
-    
-    if (isset($issue['Status']['is_closed']) && $issue['Status']['is_closed']) {
-      $options['class'] .= ' closed';
-    }
 
-    return $this->Html->link("{$issue['Tracker']['name']} #{$issue['Issue']['id']}", array('controller'=>'issues', 'action'=>'show', 'id'=>$issue['Issue']['id']), $options);
-#    options[:class] ||= ''
-#    options[:class] << ' issue'
-#    options[:class] << ' closed' if issue.closed?
-#    link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
+/**
+ * Link to Issue
+ *
+ * @param Array $issue Issue data (result of model find)
+ * @param array $options 
+ * @return string Link to Issue
+ */
+	public function link_to_issue($issue, $options = array()) {
+		if (!isset($options['class'])) {
+			$options['class'] = '';
+		}
+		$options['class'] .= ' issue';
 
+		if (isset($issue['Status']['is_closed']) && $issue['Status']['is_closed']) {
+			$options['class'] .= ' closed';
+		}
+
+		return $this->Html->link("{$issue['Tracker']['name']} #{$issue['Issue']['id']}", array('controller'=>'issues', 'action'=>'show', 'id'=>$issue['Issue']['id']), $options);
+
+		#    options[:class] ||= ''
+		#    options[:class] << ' issue'
+		#    options[:class] << ' closed' if issue.closed?
+		#    link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
   }
+
 #  def link_to_issue(issue, options={})
 #    options[:class] ||= ''
 #    options[:class] << ' issue'
