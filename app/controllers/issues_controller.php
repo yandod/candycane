@@ -497,11 +497,12 @@ class IssuesController extends AppController
           if($this->Issue->Status->is_new_status_allowed_to($status_id, $role_id, $issue['Issue']['tracker_id'])) {
             $issue['Issue']['status_id'] = $status_id;
           } else {
-            $resiult = false;
+            $result = false;
           }
         }
         if($result) {
           $result = $this->Issue->save($issue);
+          $this->Issue->Journal = null; //unset Journal for next loop
         }
         # Send notification for each issue (if changed)
         if($result) {
