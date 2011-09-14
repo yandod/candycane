@@ -834,7 +834,12 @@ class IssuesController extends AppController
   }
 
   function _set_edit_form_values() {
-    $priorities = $this->Issue->findPriorities($this->data['Issue']['priority_id']);
+    if (empty($this->Issue->data)) {
+      $priorities = $this->Issue->findPriorities($this->data['Issue']['priority_id']);
+    } else {
+      $a = 0;
+      $priorities = $this->Issue->findPriorities($a); //reference hack. to be refactor.
+    }
 
     $assignable_users = $this->Issue->Project->assignable_users($this->_project['Project']['id']);
     $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
@@ -842,7 +847,6 @@ class IssuesController extends AppController
     $custom_field_values = $this->Issue->available_custom_fields($this->_project['Project']['id'], $this->data['Issue']['tracker_id']);
 
     $this->set(compact('priorities', 'assignable_users', 'issue_categories', 'fixed_versions', 'custom_field_values'));
-
     if($this->action == 'add') {
       $members = $this->Issue->Project->members($this->_project['Project']['id']);
       $this->set(compact('members'));
