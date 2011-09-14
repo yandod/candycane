@@ -671,7 +671,7 @@ class ProjectsController extends AppController
     krsort($events_by_day);
     foreach($events_by_day as $day=>$events_by) {
       usort($events_by, array($this->Fetcher, 'cmp_event_datetime'));
-      $events_by_day[$day] = array_reverse($events_by);
+      $events_by_day[$day] = $events_by;
     }
     $this->set('events_by_day', $events_by_day);
 
