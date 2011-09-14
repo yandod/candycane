@@ -371,24 +371,27 @@ class IssuesController extends AppController {
 		}
 	}
   
-  /**
-   * Attributes that can be updated on workflow transition (without :edit permission)
-   * TODO: make it configurable (at least per role)
-   *  
-   *
-   * /projects/test/issues/edit/25?backto=url&issue[status_id]=3
-   * Array
-   * (
-   *     [url] => projects/test/issues/edit/25
-   *     [backto] => url
-   *     [issue] => Array
-   *        (
-   *           [status_id] => 3
-   *       )
-   * )
-   */
-  function edit() {
-    static $UPDATABLE_ATTRS_ON_TRANSITION = array('status_id', 'assigned_to_id', 'fixed_version_id', 'done_ratio');
+/**
+ * Edit action
+ *
+ * Attributes that can be updated on workflow transition (without :edit permission)
+ *
+ * /projects/test/issues/edit/25?backto=url&issue[status_id]=3
+ * Array
+ * (
+ *     [url] => projects/test/issues/edit/25
+ *     [backto] => url
+ *     [issue] => Array
+ *        (
+ *           [status_id] => 3
+ *       )
+ * )
+ *
+ * @return void
+ * @todo Make it configurable (at least per role)
+ */
+	public function edit() {
+		static $UPDATABLE_ATTRS_ON_TRANSITION = array('status_id', 'assigned_to_id', 'fixed_version_id', 'done_ratio');
     if(empty($this->params['issue_id'])) {
       return $this->cakeError('error', array('message'=>"Not exists issue."));
     }
@@ -503,198 +506,219 @@ class IssuesController extends AppController {
 
   }
   
-#
-  function reply() {
-    if(!$this->RequestHandler->isAjax()) {
-      $this->cakeError('error404');
-    }
-    Configure::write('debug', 0);
-    $issue = $this->_find_issue($this->params['issue_id']);
-    $Journal = & ClassRegistry::init('Journal');
-//    $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
-    $journal = false;
-    if($this->_get_param('journal_id')) {
-      $journal = $Journal->read(null, $this->_get_param('journal_id'));
-    }
-    if(!empty($journal)) {
-      $user = $journal['User'];
-      $text = $journal['Journal']['notes'];
-    } else {
-      $user = $this->Issue->data['Author'];
-      $text = $this->Issue->data['Issue']['description'];
-    }
-    $this->layout = 'ajax';
-    $this->set(compact('user', 'text'));
-  }
-  
-  # Bulk edit a set of issues
-  function bulk_edit() {
-    $role_id = $this->User->role_for_project($this->current_user, $this->_project);
-    if($this->RequestHandler->isPost() && !empty($this->data)) {
-      $status_id = $this->_get_param('status_id');
-      $priotity_id = $this->_get_param('priority_id');
-      $assigned_to_id = $this->_get_param('assigned_to_id');
-      $category_id = $this->_get_param('category_id');
-      $fixed_version_id = $this->_get_param('fixed_version_id');
-      $status = empty($status_id) ? null : $this->Issue->Status->findById($status_id);
-      $priority = empty($priority_id) ? null : $this->Issue->Priority->findById($priority_id);
-      $assigned_to = (empty($assigned_to_id) || $assigned_to_id == 'none') ? null : $this->User->findById($assigned_to_id);
-      $category = (empty($category_id) || $category_id == 'none') ? null : $this->Issue->Category->findById($category_id);
-      $fixed_version = (empty($fixed_version_id) || $fixed_version_id == 'none') ? null : $this->Issue->FixedVersion->findById($fixed_version_id);
+/**
+ * Reply action
+ *
+ * @return void
+ */
+	public function reply() {
+		if (!$this->RequestHandler->isAjax()) {
+			$this->cakeError('error404');
+		}
+		Configure::write('debug', 0);
+		$issue = $this->_find_issue($this->params['issue_id']);
+		$Journal = & ClassRegistry::init('Journal');
+		// $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
+		$journal = false;
+		if ($this->_get_param('journal_id')) {
+			$journal = $Journal->read(null, $this->_get_param('journal_id'));
+		}
+		if (!empty($journal)) {
+			$user = $journal['User'];
+			$text = $journal['Journal']['notes'];
+		} else {
+			$user = $this->Issue->data['Author'];
+			$text = $this->Issue->data['Issue']['description'];
+		}
+		$this->layout = 'ajax';
+		$this->set(compact('user', 'text'));
+	}
+
+/**
+ * Bulk edit a set of issues
+ *
+ * @return void
+ */
+	function bulk_edit() {
+		$role_id = $this->User->role_for_project($this->current_user, $this->_project);
+		if ($this->RequestHandler->isPost() && !empty($this->data)) {
+			$status_id = $this->_get_param('status_id');
+			$priotity_id = $this->_get_param('priority_id');
+			$assigned_to_id = $this->_get_param('assigned_to_id');
+			$category_id = $this->_get_param('category_id');
+			$fixed_version_id = $this->_get_param('fixed_version_id');
+			$status = empty($status_id) ? null : $this->Issue->Status->findById($status_id);
+			$priority = empty($priority_id) ? null : $this->Issue->Priority->findById($priority_id);
+			$assigned_to = (empty($assigned_to_id) || $assigned_to_id == 'none') ? null : $this->User->findById($assigned_to_id);
+			$category = (empty($category_id) || $category_id == 'none') ? null : $this->Issue->Category->findById($category_id);
+			$fixed_version = (empty($fixed_version_id) || $fixed_version_id == 'none') ? null : $this->Issue->FixedVersion->findById($fixed_version_id);
       
-      $unsaved_issue_ids = array();
-      foreach($this->_issues as $issue) {
-        $journal = $this->Issue->init_journal($issue, $this->current_user, $this->_get_param('notes'));
-        if($priority) {
-          $issue['Issue']['priority_id'] = $priority_id;
-        }
-        if($assigned_to) {
-          $issue['Issue']['assigned_to_id'] = $assigned_to_id;
-        }
-        if($assigned_to_id == 'none') {
-          $issue['Issue']['assigned_to_id'] = null;
-        }
-        if($category) {
-          $issue['Issue']['category_id'] = $category_id;
-        }
-        if($category_id == 'none') {
-          $issue['Issue']['category_id'] = null;
-        }
-        if($fixed_version) {
-          $issue['Issue']['fixed_version_id'] = $fixed_version_id;
-        }
-        if($fixed_version_id == 'none') {
-          $issue['Issue']['fixed_version_id'] = null;
-        }
-        if($this->_get_param('start_date') != null) {
-          $issue['Issue']['start_date'] = $this->_get_param('start_date');
-        }
-        if($this->_get_param('due_date') != null) {
-          $issue['Issue']['due_date'] = $this->_get_param('due_date');
-        }
-        if($this->_get_param('done_ratio') != null) {
-          $issue['Issue']['done_ratio'] = $this->_get_param('done_ratio');
-        }
-#        call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
-        # Don't save any change to the issue if the user is not authorized to apply the requested status
-        $result = true;
-        if ($status) {
-          if($this->Issue->Status->is_new_status_allowed_to($status_id, $role_id, $issue['Issue']['tracker_id'])) {
-            $issue['Issue']['status_id'] = $status_id;
-          } else {
-            $result = false;
-          }
-        }
-        if($result) {
-          $result = $this->Issue->save($issue);
-          $this->Issue->Journal = null; //unset Journal for next loop
-        }
-        # Send notification for each issue (if changed)
-        if($result) {
-          $this->Mailer->deliver_issue_edit($journal,$this->Issue);
-        } else {
-          # Keep unsaved issue ids to display them in flash error
-          $unsaved_issue_ids[] = $issue['Issue']['id'];
-        }
-      }
-      if (empty($unsaved_issue_ids)) {
-        if(!empty($issues)) {
-          $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
-        }
-      } else {
-        $this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), count($unsaved_issue_ids), count($issues)).'#'.join(', #', $unsaved_issue_ids), 'default', array('class'=>'flash flash_error'));
-      }
-      if($this->_get_param('back_to') != null) {
-        $this->redirect($this->_get_param('back_to'));
-      } else {
-        $this->redirect(array('controller' => 'issues', 'action' => 'index', 'project_id' => $this->_project['Project']['identifier']));
-      }
-      return;
-    }
-    # Find potential statuses the user could be allowed to switch issues to
-    $workflow = & ClassRegistry::init('Workflow');
-    $workflow->bindModel(array('belongsTo'=>array('Status'=>array('className'=>'IssueStatus', 'foreignKey'=>'new_status_id', 'order'=>'position'))), false);
-    $available_statuses = $workflow->find('all', array('conditions' => array('role_id' => $role_id), 'fields'=>'Status.*'));
-    $this->set('available_statuses', $available_statuses);
-    $this->set('_issues', $this->_issues);
-    $this->set('priorities', $this->Issue->Priority->get_values('IPRI'));
+			$unsaved_issue_ids = array();
+			foreach ($this->_issues as $issue) {
+				$journal = $this->Issue->init_journal($issue, $this->current_user, $this->_get_param('notes'));
+				if ($priority) {
+					$issue['Issue']['priority_id'] = $priority_id;
+				}
+				if ($assigned_to) {
+					$issue['Issue']['assigned_to_id'] = $assigned_to_id;
+				}
+				if ($assigned_to_id == 'none') {
+					$issue['Issue']['assigned_to_id'] = null;
+				}
+				if ($category) {
+					$issue['Issue']['category_id'] = $category_id;
+				}
+				if ($category_id == 'none') {
+					$issue['Issue']['category_id'] = null;
+				}
+				if ($fixed_version) {
+					$issue['Issue']['fixed_version_id'] = $fixed_version_id;
+				}
+				if ($fixed_version_id == 'none') {
+					$issue['Issue']['fixed_version_id'] = null;
+				}
+				if ($this->_get_param('start_date') != null) {
+					$issue['Issue']['start_date'] = $this->_get_param('start_date');
+				}
+				if ($this->_get_param('due_date') != null) {
+					$issue['Issue']['due_date'] = $this->_get_param('due_date');
+				}
+				if ($this->_get_param('done_ratio') != null) {
+					$issue['Issue']['done_ratio'] = $this->_get_param('done_ratio');
+				}
 
-    $assignable_users = $this->Issue->Project->assignable_users($this->_project['Project']['id']);
-    $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
-    $fixed_versions = $this->Issue->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
-    $this->set(compact('assignable_users', 'issue_categories', 'fixed_versions'));
-  }
+				# call_hook(:controller_issues_bulk_edit_before_save, { :params => params, :issue => issue })
+				// Don't save any change to the issue if the user is not authorized to apply the requested status
+				$result = true;
+				if ($status) {
+					if($this->Issue->Status->is_new_status_allowed_to($status_id, $role_id, $issue['Issue']['tracker_id'])) {
+						$issue['Issue']['status_id'] = $status_id;
+					} else {
+						$result = false;
+					}
+				}
+				if ($result) {
+					$result = $this->Issue->save($issue);
+					$this->Issue->Journal = null; //unset Journal for next loop
+				}
+					# Send notification for each issue (if changed)
+					if ($result) {
+						$this->Mailer->deliver_issue_edit($journal, $this->Issue);
+					} else {
+						// Keep unsaved issue ids to display them in flash error
+						$unsaved_issue_ids[] = $issue['Issue']['id'];
+					}
+				}
+				if (empty($unsaved_issue_ids)) {
+					if (!empty($issues)) {
+						$this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+					}
+				} else {
+					$this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), count($unsaved_issue_ids), count($issues)).'#'.join(', #', $unsaved_issue_ids), 'default', array('class'=>'flash flash_error'));
+				}
+				if ($this->_get_param('back_to') != null) {
+					$this->redirect($this->_get_param('back_to'));
+				} else {
+					$this->redirect(array('controller' => 'issues', 'action' => 'index', 'project_id' => $this->_project['Project']['identifier']));
+				}
+				return;
+			}
 
-  function move() {
-    $issue_ids = false;
-    if(!empty($this->params['issue_id'])) {
-      $issue_ids = $this->params['issue_id'];
-    } elseif(!empty($this->params['url']['ids'])) {
-      $issue_ids = $this->params['url']['ids'];
-    } elseif(!empty($this->data['Issue']['ids'])) {
-      $issue_ids = $this->data['Issue']['ids'];
-    } else {
-      return $this->cakeError('error', array('message'=>"Not exists issue."));
-    }
+ 			// Find potential statuses the user could be allowed to switch issues to
+		$workflow = & ClassRegistry::init('Workflow');
+		$workflow->bindModel(array('belongsTo'=>array('Status'=>array('className'=>'IssueStatus', 'foreignKey'=>'new_status_id', 'order'=>'position'))), false);
+		$available_statuses = $workflow->find('all', array('conditions' => array('role_id' => $role_id), 'fields'=>'Status.*'));
+		$this->set('available_statuses', $available_statuses);
+		$this->set('_issues', $this->_issues);
+		$this->set('priorities', $this->Issue->Priority->get_values('IPRI'));
 
-    if(!is_array($issue_ids)) {
-      $issue_ids = array($issue_ids);
-    }
-    $allowed_projects = array();
-    $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$issue_ids)));
-    if(empty($issues)) {
-      return $this->cakeError('error', array('message'=>"Not exists issue."));
-    }
-    # find projects to which the user is allowed to move the issue
-    if($this->current_user['admin']) {
-      # admin is allowed to move issues to any active (visible) project
-      $allowed_projects = $this->Issue->Project->find('list', array('conditions'=>$this->Issue->Project->visible_by($this->current_user), 'order'=>'name'));
-    } else  {
-      $Role = & ClassRegistry::init('Role');
-      foreach($this->current_user['memberships'] as $member) {
-        if($Role->is_allowed_to($member, ':move_issues')) {
-          $allowed_projects[] = array($member['Project']['id']=>$member['Project']['name']);
-        }
-      }
-    }
-    if(!array_key_exists($issues[0]['Issue']['project_id'], $allowed_projects)) {
-      return $this->cakeError('error', array('message'=>"Permission deny."));
-    }
-    if($this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
-      $move_count = 0;
-      foreach($issues as $issue) {
-        $this->Issue->init_journal($issue, $this->current_user);
-        if($this->Issue->move_to($this->Setting, $issue, $this->data['Issue']['project_id'], $this->data['Issue']['tracker_id'])) {
-          $move_count++;
-        }
-      }
-      if($move_count == count($issues)) {
-        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
-      } else {
-        $this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), $move_count, count($issues)), 'default', array('class'=>'flash flash_error'));
-      }
-      if($this->RequestHandler->isAjax()) {
-        $this->layout = 'ajax';
-        return;
-      }
-      $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues');
-    } elseif($this->RequestHandler->isAjax() && !empty($this->data['Issue']['project_id'])) {
-      if(!array_key_exists($this->data['Issue']['project_id'], $allowed_projects)) {
-        $this->data['Issue']['project_id'] = $issues[0]['Issue']['project_id'];
-      }
-    } else {
-      $this->data['Issue']['project_id'] = $issues[0]['Issue']['project_id'];
-    }
-    $this->params['project_id'] = $issues[0]['Project']['identifier'];
-    $trackers = $this->Issue->findProjectsTrackerList($this->data['Issue']['project_id']);
-    $this->set(compact('allowed_projects', 'trackers'));
-    $this->set('issue_datas', $issues);
-    if($this->RequestHandler->isAjax()) {
-      $this->layout = 'ajax';
-    }
-  }
+		$assignable_users = $this->Issue->Project->assignable_users($this->_project['Project']['id']);
+		$issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
+		$fixed_versions = $this->Issue->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
+		$this->set(compact('assignable_users', 'issue_categories', 'fixed_versions'));
+	}
 
-  function destroy() {
+/**
+ * Move action
+ *
+ * @return void
+ */
+	function move() {
+		$issue_ids = false;
+	    if (!empty($this->params['issue_id'])) {
+			$issue_ids = $this->params['issue_id'];
+		} elseif (!empty($this->params['url']['ids'])) {
+			$issue_ids = $this->params['url']['ids'];
+		} elseif (!empty($this->data['Issue']['ids'])) {
+			$issue_ids = $this->data['Issue']['ids'];
+		} else {
+			return $this->cakeError('error', array('message'=>"Not exists issue."));
+		}
+
+		if (!is_array($issue_ids)) {
+			$issue_ids = array($issue_ids);
+		}
+		$allowed_projects = array();
+		$issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$issue_ids)));
+		if (empty($issues)) {
+			return $this->cakeError('error', array('message'=>"Not exists issue."));
+		}
+
+		// find projects to which the user is allowed to move the issue
+		if ($this->current_user['admin']) {
+			// admin is allowed to move issues to any active (visible) project
+			$allowed_projects = $this->Issue->Project->find('list', array('conditions'=>$this->Issue->Project->visible_by($this->current_user), 'order'=>'name'));
+		} else  {
+			$Role = & ClassRegistry::init('Role');
+			foreach ($this->current_user['memberships'] as $member) {
+				if ($Role->is_allowed_to($member, ':move_issues')) {
+					$allowed_projects[] = array($member['Project']['id']=>$member['Project']['name']);
+				}
+			}
+		}
+		if (!array_key_exists($issues[0]['Issue']['project_id'], $allowed_projects)) {
+			return $this->cakeError('error', array('message'=>"Permission deny."));
+		}
+		if ($this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
+			$move_count = 0;
+			foreach ($issues as $issue) {
+				$this->Issue->init_journal($issue, $this->current_user);
+				if ($this->Issue->move_to($this->Setting, $issue, $this->data['Issue']['project_id'], $this->data['Issue']['tracker_id'])) {
+					$move_count++;
+				}
+			}
+			if ($move_count == count($issues)) {
+				$this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+			} else {
+				$this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), $move_count, count($issues)), 'default', array('class'=>'flash flash_error'));
+			}
+			if ($this->RequestHandler->isAjax()) {
+				$this->layout = 'ajax';
+				return;
+			}
+			$this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues');
+		} elseif ($this->RequestHandler->isAjax() && !empty($this->data['Issue']['project_id'])) {
+			if (!array_key_exists($this->data['Issue']['project_id'], $allowed_projects)) {
+				$this->data['Issue']['project_id'] = $issues[0]['Issue']['project_id'];
+			}
+		} else {
+			$this->data['Issue']['project_id'] = $issues[0]['Issue']['project_id'];
+		}
+		$this->params['project_id'] = $issues[0]['Project']['identifier'];
+		$trackers = $this->Issue->findProjectsTrackerList($this->data['Issue']['project_id']);
+		$this->set(compact('allowed_projects', 'trackers'));
+		$this->set('issue_datas', $issues);
+		if ($this->RequestHandler->isAjax()) {
+			$this->layout = 'ajax';
+		}
+	}
+
+/**
+ * Destroy action
+ *
+ * @return void
+ */
+	public function destroy() {
     $issue_ids = false;
     if(!empty($this->params['issue_id'])) {
       $issue_ids = $this->params['issue_id'];
