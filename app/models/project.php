@@ -139,17 +139,20 @@ class Project extends AppModel
 #    end 
 #  end
 #
-#  # returns latest created projects
-#  # non public projects will be returned only if user is a member of those
-	function latest($user = array(), $count = 5)
-	{
-#  def self.latest(user=nil, count=5)
-	return $this->find('all',aa('limit',$count));
-#    find(:all, :limit => count, :conditions => visible_by(user), :order => "created_on DESC")	
-#  end
-	}	
-
-#
+  /**
+   * returns latest created projects
+   * non public projects will be returned only if user is a member of those
+   * @param array $user
+   * @param integer $count
+   * @return array
+   */
+  function latest($user = array(), $count = 5) {
+    return $this->find('all',array(
+      'conditions' => $this->visible_by($user),
+      'order' => 'Project.created_on DESC',
+      'limit' => $count
+    ));
+  }
 
   function visible_by($user = false) {
     if(empty($user)) {
