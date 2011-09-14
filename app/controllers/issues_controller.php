@@ -506,8 +506,7 @@ class IssuesController extends AppController
         }
         # Send notification for each issue (if changed)
         if($result) {
-          # TODO : Mail Send.
-          # Mailer.deliver_issue_edit(journal) if journal.details.any? && Setting.notified_events.include?('issue_updated')
+          $this->Mailer->deliver_issue_edit($journal,$this->Issue);
         } else {
           # Keep unsaved issue ids to display them in flash error
           $unsaved_issue_ids[] = $issue['Issue']['id'];
