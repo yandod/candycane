@@ -1,32 +1,68 @@
 <?php
-class IssuesController extends AppController
-{
-  var $name = 'Issues';
-  var $uses = array(
-    'Issue',
-    'User',
-    'Query',
-  );
-  var $helpers = array(
-    'Issues',
-    'Queries',
-    'QueryColumn',
-    'Paginator',
-    'CustomField',
-    'Number',
-    'Watchers',
-    'Journals'
-  );
-  var $components = array(
-    'RequestHandler',
-    'Queries',
-    'Mailer'
-  );
-  var $_query;
-  var $_project;
-  var $authorize = array('except' => array('index', 'changes', 'gantt', 'calendar', 'preview', 'update_form', 'context_menu'));
-  var $_issues;
-  
+/**
+ * Issues Controller
+ *
+ * @package candycane
+ * @subpackage candycane.controllers
+ */
+class IssuesController extends AppController {
+
+/**
+ * Controller name
+ *
+ * @var string
+ */
+ 	public $name = 'Issues';
+
+/**
+ * Models to use
+ *
+ * @var array
+ */
+	public $uses = array(
+		'Issue',
+		'User',
+		'Query',
+	);
+
+/**
+ * Helpers
+ *
+ * @var array
+ */
+	public $helpers = array(
+		'Issues',
+		'Queries',
+		'QueryColumn',
+		'Paginator',
+		'CustomField',
+		'Number',
+		'Watchers',
+		'Journals'
+	);
+
+/**
+ * Components
+ *
+ * @var array
+ */
+	public $components = array(
+		'RequestHandler',
+		'Queries',
+		'Mailer'
+	);
+
+ 	var $_query;
+	var $_project;
+	var $_issues;
+
+/**
+ * AUthorize
+ *
+ * @var array
+ */
+ 	public $authorize = array('except' => array('index', 'changes', 'gantt', 'calendar', 'preview', 'update_form', 'context_menu'));
+
 #class IssuesController < ApplicationController
 #  menu_item :new_issue, :only => :new
 #  
@@ -35,44 +71,56 @@ class IssuesController extends AppController
 #  before_filter :find_project, :only => [:new, :update_form, :preview]
 #  before_filter :authorize, :except => [:index, :changes, :gantt, :calendar, :preview, :update_form, :context_menu]
 #  before_filter :find_optional_project, :only => [:index, :changes, :gantt, :calendar]
-  function beforeFilter()
-  {
-    $this->MenuManager->menu_item('issues', array('only'=>array('show', 'edit', 'move', 'destroy')));
 
-    $issue_id = false;
-    $issue_ids = array();
-    if(!empty($this->params['issue_id'])) {
-      $issue_id = $this->params['issue_id'];
-      $issue_ids[] = $issue_id;
-    } elseif(!empty($this->params['url']['ids'])) {
-      $issue_id = $this->params['url']['ids'][0];
-      $issue_ids = $this->params['url']['ids'];
-    } elseif(!empty($this->data['Issue']['ids'])) {
-      $issue_ids = $this->data['Issue']['ids'];
-    }
-    switch ($this->action) {
-    case 'show':
-    case 'changes':
-    case 'edit' :
-    case 'reply' :
-      if($issue_id) {
-        $this->_find_issue($issue_id);
-        $this->params['project_id'] = $this->Issue->data['Project']['identifier'];
-      }
-      break;
-    case 'bulk_edit' :
-    case 'move': 
-    case 'destroy' :
-      $this->_issues = $this->_find_issues($issue_ids);
-      $this->params['project_id'] = $this->_issues[0]['Project']['identifier'];
-    }
-    return parent::beforeFilter();
-  }
-  function beforeRender()
-  {
-    $this->set('url_param', $this->params['url_param']);
-    parent::beforeRender();
-  }
+/**
+ * beforeFilter callback
+ *
+ * @return boolean
+ */
+	public function beforeFilter() {
+		$this->MenuManager->menu_item('issues', array('only' => array('show', 'edit', 'move', 'destroy')));
+
+		$issue_id = false;
+		$issue_ids = array();
+		if (!empty($this->params['issue_id'])) {
+			$issue_id = $this->params['issue_id'];
+			$issue_ids[] = $issue_id;
+		} elseif(!empty($this->params['url']['ids'])) {
+			$issue_id = $this->params['url']['ids'][0];
+			$issue_ids = $this->params['url']['ids'];
+		} elseif(!empty($this->data['Issue']['ids'])) {
+			$issue_ids = $this->data['Issue']['ids'];
+		}
+
+		switch ($this->action) {
+			case 'show':
+			case 'changes':
+			case 'edit':
+			case 'reply':
+				if ($issue_id) {
+					$this->_find_issue($issue_id);
+					$this->params['project_id'] = $this->Issue->data['Project']['identifier'];
+				}
+				break;
+			case 'bulk_edit':
+			case 'move': 
+			case 'destroy':
+				$this->_issues = $this->_find_issues($issue_ids);
+				$this->params['project_id'] = $this->_issues[0]['Project']['identifier'];
+		}
+		return parent::beforeFilter();
+	}
+
+/**
+ * beforeRender callback
+ *
+ * @return void
+ */
+	public function beforeRender() {
+		$this->set('url_param', $this->params['url_param']);
+		parent::beforeRender();
+	}
+
 #  accept_key_auth :index, :changes
 #
 #  helper :journals
@@ -93,31 +141,39 @@ class IssuesController extends AppController
 #  helper :timelog
 #  include Redmine::Export::PDF
 #  
-  function index()
-  {
-    if (!isset($this->params['url']['query_id'])) $this->params['url']['query_id'] = 0;
-    $this->Queries->retrieve_query($this->params['url']['query_id']);
-    $limit = $this->_per_page_option();
-    if (empty($this->params['named']['sort'])) {
-      $this->params['sort'] = 'Issue.id';
-      $this->params['direction'] = 'desc';
-    }
-    $this->paginate = array('Issue' => array(
-            'conditions' => $this->Queries->query_filter_cond,
-            'limit' => $limit,
-    ));
-    $this->sidebar_queries();
-    if(empty($this->Query->data)) {
-      $this->set('query', array('Query' => $this->Query->defaults()));
-    } else {
-      $this->set('query', $this->Query->data);
-    }
-    $this->set('issue_list', $this->paginate('Issue'));
-    $this->set('params', $this->params);
-    if ($this->RequestHandler->isAjax()) {
-       $this->layout = 'ajax';
-    }
-  }
+
+/**
+ * Index action
+ *
+ * @return void
+ */
+	public function index() {
+		if (!isset($this->params['url']['query_id'])) {
+			$this->params['url']['query_id'] = 0;
+		}
+		$this->Queries->retrieve_query($this->params['url']['query_id']);
+		$limit = $this->_per_page_option();
+		if (empty($this->params['named']['sort'])) {
+			$this->params['sort'] = 'Issue.id';
+			$this->params['direction'] = 'desc';
+		}
+		$this->paginate = array('Issue' => array(
+			'conditions' => $this->Queries->query_filter_cond,
+			'limit' => $limit,
+		));
+		$this->sidebar_queries();
+		if(empty($this->Query->data)) {
+			$this->set('query', array('Query' => $this->Query->defaults()));
+		} else {
+			$this->set('query', $this->Query->data);
+		}
+		$this->set('issue_list', $this->paginate('Issue'));
+		$this->set('params', $this->params);
+		if ($this->RequestHandler->isAjax()) {
+			$this->layout = 'ajax';
+		}
+	}
+
 #  def index
 #    retrieve_query
 #    sort_init 'id', 'desc'
@@ -152,139 +208,168 @@ class IssuesController extends AppController
 #    render_404
 #  end
 #  
-  /**
-   * Single Issue RSS/Atom feed.
-   * The method can access without login.
-   * Call from only issue/show.
-   */
-  function changes() {
-    Configure::write('debug', 0);
-    $journals = $this->Issue->findRssJournal();
-    $atom_title = $this->_project['Project']['name'];
-    $rss_token = $this->User->rss_key($this->current_user['id']);
-    $this->set(compact('journals', 'atom_title', 'rss_token'));
-    $this->layout = 'rss/atom';
-    $this->helpers = array('Candy', 'Issues', 'Xml', 'Time');
-    $this->render('changes');
-  }
 
-  function show()
-  {
-    if($this->_get_param('format') == 'atom') {
-      return $this->changes();
-    }
+/**
+ * Changes action
+ *
+ * Single Issue RSS/Atom feed.
+ * The method can access without login.
+ * Call from only issue/show.
+ *
+ * @return void
+ */
+	public function changes() {
+		Configure::write('debug', 0);
+		$journals = $this->Issue->findRssJournal();
+		$atom_title = $this->_project['Project']['name'];
+		$rss_token = $this->User->rss_key($this->current_user['id']);
+		$this->set(compact('journals', 'atom_title', 'rss_token'));
+		$this->layout = 'rss/atom';
+		$this->helpers = array('Candy', 'Issues', 'Xml', 'Time');
+		$this->render('changes');
+	}
 
-    $this->set(array('journal_list' => $this->Issue->findAllJournal($this->current_user)));
+/**
+ * Show action
+ *
+ * @return void
+ */
+	public function show() {
+		if ($this->_get_param('format') == 'atom') {
+			return $this->changes();
+		}
 
-    // For Edit values
-    $this->data = $this->Issue->data;
+		$this->set(array('journal_list' => $this->Issue->findAllJournal($this->current_user)));
 
-    $statuses = $this->Issue->findStatusList($this->User->role_for_project($this->current_user, $this->_project));
-    if(empty($statuses)) {
-      $this->Session->setFlash(__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true), 'default', array('class'=>'flash flash_error'));
-      $this->redirect('index');
-    }
-    $this->set(compact('statuses'));
-    $this->_set_edit_form_values();
-    
-    if(!empty($this->Issue->data['CustomValue'])) {
-      foreach($this->Issue->data['CustomValue'] as $value) {
-        $this->data['custom_field_values'][$value['CustomField']['id']] = $value['value'];
-      }
-    }
-    switch($this->_get_param('format')) {
-    case 'pdf' :
-      $this->layout = 'pdf';
-      $this->helpers = array('Candy', 'CustomField', 'Issues', 'Number', 'Tcpdf'=>array());
-      $this->render('issue_to_pdf');
-      break;
-    case 'atom' :
-      break;
-    }
-  }
+		// For Edit values
+		$this->data = $this->Issue->data;
 
-  /**
-   * JournalDetail values of history.
-   * This called from IssuesHelper#show_detail on history.ctp
-   */
-  function detail_values() {
-    if(empty($this->params['requested'])) {
-      $this->cakeError('error404');
-    }
-    $result = $this->Issue->findValuesByJournalDetail($this->params['detail']);
-    return $result;
-  }
-  function watched_by() {
-    if(empty($this->params['requested'])) {
-      $this->cakeError('error404');
-    }
-    return $this->Issue->watched_by(array('User'=>$this->current_user), $this->params['object']);
-  }
+		$statuses = $this->Issue->findStatusList($this->User->role_for_project($this->current_user, $this->_project));
+		if (empty($statuses)) {
+			$this->Session->setFlash(
+				__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true),
+				'default',
+				array('class'=>'flash flash_error'));
+			$this->redirect('index');
+		}
+		$this->set(compact('statuses'));
+		$this->_set_edit_form_values();
 
-  /**
-   * Add a new issue
-   * The new issue will be created from an existing one if copy_from parameter is given
-   * Enter URLs :
-   *    /projects/test/issues/add/copy_from:30
-   *    /projects/test/issues/add/tracker_id:30
-   */
-  function add() {
-    if($this->_get_param('copy_from')) {
-      $issue = $this->Issue->copy_from($this->_get_param('copy_from'));
-      $this->data = $issue;
-    }
-    # Tracker must be set before custom field values
-    $trackers = $this->Issue->findProjectsTrackerList($this->_project['Project']['id']);
-    if(empty($trackers)){
-      $this->Session->setFlash(__("No tracker is associated to this project. Please check the Project settings.", true), 'default', array('class'=>'flash flash_error'));
-      $this->redirect('index');
-    }
-    if($this->_get_param('tracker_id')) {
-      $this->data['Issue']['tracker_id'] = $this->_get_param('tracker_id');
-    } elseif(empty($this->data['Issue']['tracker_id'])) {
-      $this->data['Issue']['tracker_id'] = key($trackers);
-    }
-    $statuses = $this->Issue->findStatusList($this->User->role_for_project($this->current_user, $this->_project), $this->data['Issue']['tracker_id']);
-    if(empty($statuses)) {
-      $this->Session->setFlash(__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").',true), 'default', array('class'=>'flash flash_error'));
-      $this->redirect('index');
-    }
-    $this->set(compact('trackers', 'statuses')); 
-    $this->_set_edit_form_values();
+		if (!empty($this->Issue->data['CustomValue'])) {
+			foreach($this->Issue->data['CustomValue'] as $value) {
+				$this->data['custom_field_values'][$value['CustomField']['id']] = $value['value'];
+			}
+		}
 
-    if(!empty($this->data) && $this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
-      $save_data = array();
-      $save_data['Issue'] = $this->data['Issue'];
-      $save_data['Issue']['project_id'] = $this->_project['Project']['id'];
-      $save_data['Issue']['author_id'] = $this->current_user['id'];
-      if (array_key_exists('custom_field_values',$this->data)) {
-        $save_data['Issue']['custom_field_values'] = $this->Issue->filterCustomFieldValue($this->data['custom_field_values']);
-      }
-      if(!$this->Issue->save($save_data) && empty($this->Issue->validationErrors)) {
-        return $this->cakeError('error', array('message'=>"Can not save Issue."));
-      }
-      
-      if(empty($this->Issue->validationErrors)) {
-        if (!empty($this->params['form'])) {
-          $this->Issue->attach_files($this->params['form'], $this->current_user);
-        }
-        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
-        $this->Mailer->deliver_issue_add($this->Issue);
-        # Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
-        if(!empty($this->params['form']['continue'])) {
-          $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues/add/tracker_id:'.$this->data['Issue']['tracker_id']);
-        }
-        $this->redirect(array('action'=>'show', 'issue_id'=>$this->Issue->getLastInsertID()));
-      }
-    } elseif(!$this->RequestHandler->isAjax() && empty($this->data['Issue']['start_date'])) {
-      $this->data['Issue']['start_date'] = date('Y-m-d');
-    }
+		switch ($this->_get_param('format')) {
+			case 'pdf':
+				$this->layout = 'pdf';
+				$this->helpers = array('Candy', 'CustomField', 'Issues', 'Number', 'Tcpdf' => array());
+				$this->render('issue_to_pdf');
+				break;
+			case 'atom':
+				break;
+		}
+	}
 
-    $this->render('new');
-    if($this->RequestHandler->isAjax()) {
-      $this->layout = 'ajax';
-    }
-  }
+/**
+ * Detail Values action
+ *
+ * JournalDetail values of history.
+ * This called from IssuesHelper#show_detail on history.ctp
+ *
+ * @return void
+ */
+	public function detail_values() {
+		if (empty($this->params['requested'])) {
+			$this->cakeError('error404');
+		}
+		return $this->Issue->findValuesByJournalDetail($this->params['detail']);
+	}
+
+/**
+ * Watched By action
+ *
+ * @return void
+ */
+	public function watched_by() {
+		if (empty($this->params['requested'])) {
+			$this->cakeError('error404');
+		}
+		return $this->Issue->watched_by(array('User'=>$this->current_user), $this->params['object']);
+	}
+
+/**
+ * Add a new issue
+ *
+ * The new issue will be created from an existing one if copy_from parameter is given
+ * Enter URLs :
+ *    /projects/test/issues/add/copy_from:30
+ *    /projects/test/issues/add/tracker_id:30
+ *
+ * @return void
+ */
+	public function add() {
+		if ($this->_get_param('copy_from')) {
+			$issue = $this->Issue->copy_from($this->_get_param('copy_from'));
+			$this->data = $issue;
+		}
+
+		// Tracker must be set before custom field values
+		$trackers = $this->Issue->findProjectsTrackerList($this->_project['Project']['id']);
+		if (empty($trackers)) {
+			$this->Session->setFlash(__("No tracker is associated to this project. Please check the Project settings.", true), 'default', array('class'=>'flash flash_error'));
+			$this->redirect('index');
+		}
+		if ($this->_get_param('tracker_id')) {
+			$this->data['Issue']['tracker_id'] = $this->_get_param('tracker_id');
+		} elseif (empty($this->data['Issue']['tracker_id'])) {
+			$this->data['Issue']['tracker_id'] = key($trackers);
+		}
+		$statuses = $this->Issue->findStatusList($this->User->role_for_project($this->current_user, $this->_project), $this->data['Issue']['tracker_id']);
+		if (empty($statuses)) {
+			$this->Session->setFlash(
+				__('No default issue status is defined. Please check your configuration (Go to "Administration -> Issue statuses").', true),
+				'default',
+				array('class' => 'flash flash_error'));
+			return $this->redirect('index');
+		}
+		$this->set(compact('trackers', 'statuses')); 
+		$this->_set_edit_form_values();
+
+		if (!empty($this->data) && $this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
+			$save_data = array();
+			$save_data['Issue'] = $this->data['Issue'];
+			$save_data['Issue']['project_id'] = $this->_project['Project']['id'];
+			$save_data['Issue']['author_id'] = $this->current_user['id'];
+			if (array_key_exists('custom_field_values',$this->data)) {
+				$save_data['Issue']['custom_field_values'] = $this->Issue->filterCustomFieldValue($this->data['custom_field_values']);
+			}
+			if (!$this->Issue->save($save_data) && empty($this->Issue->validationErrors)) {
+				return $this->cakeError('error', array('message' => 'Can not save Issue.'));
+			}
+
+			if (empty($this->Issue->validationErrors)) {
+				if (!empty($this->params['form'])) {
+					$this->Issue->attach_files($this->params['form'], $this->current_user);
+				}
+				$this->Session->setFlash(__('Successful update.', true), 'default', array('class' => 'flash flash_notice'));
+				$this->Mailer->deliver_issue_add($this->Issue);
+				# Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
+				if (!empty($this->params['form']['continue'])) {
+					$this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues/add/tracker_id:'.$this->data['Issue']['tracker_id']);
+				}
+				$this->redirect(array('action' => 'show', 'issue_id' => $this->Issue->getLastInsertID()));
+			}
+		} elseif(!$this->RequestHandler->isAjax() && empty($this->data['Issue']['start_date'])) {
+			$this->data['Issue']['start_date'] = date('Y-m-d');
+		}
+
+		$this->render('new');
+		if ($this->RequestHandler->isAjax()) {
+			$this->layout = 'ajax';
+		}
+	}
   
   /**
    * Attributes that can be updated on workflow transition (without :edit permission)
