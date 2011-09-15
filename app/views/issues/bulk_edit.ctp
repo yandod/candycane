@@ -16,7 +16,7 @@
 <?php echo $form->select(
 	'status_id', 
 	$candy->options_from_collection_for_select($available_statuses, 'Status', 'id', 'name'), 
-	null,
+	isset($this->params['url']['status_id']) ? $this->params['url']['status_id'] : null,
 	array(),
 	__('(No change)',true)); ?>
 </label>
@@ -25,7 +25,7 @@
 <?php echo $form->select(
 	'priority_id', 
 	$candy->options_from_collection_for_select($priorities, 'Priority', 'id', 'name'), 
-	null,
+	isset($this->params['url']['priority_id']) ? $this->params['url']['priority_id'] : null,
 	array(),
 	__('(No change)',true)); ?>
 </label>
@@ -33,7 +33,7 @@
 <?php echo $form->select(
 	'category_id', 
 	array('none' => __('none',true)) + $issueCategories, 
-	null,
+	isset($this->params['url']['category_id']) ? $this->params['url']['category_id'] : null,
 	array(),
 	__('(No change)',true)); ?>
 </label>
@@ -43,7 +43,7 @@
 <?php echo $form->select(
 	'assigned_to_id', 
 	array('none' => __('nobody',true)) + $assignableUsers, 
-	null,
+	isset($this->params['url']['assigned_to_id']) ? $this->params['url']['assigned_to_id'] : null,
 	array(),
 	__('(No change)',true)); ?>
 </label>
@@ -51,7 +51,7 @@
 <?php echo $form->select(
 	'fixed_version_id', 
 	array('none' => __('none',true)) + $fixedVersions, 
-	null,
+	isset($this->params['url']['fixed_version_id']) ? $this->params['url']['fixed_version_id'] : null,
 	array(),
 	__('(No change)',true)); ?>
 </label>
@@ -69,7 +69,7 @@ for($i = 0;$i<=10;$i++) {$done_ratios[$i] = sprintf('%d %%', $i*10);}
 echo $form->select(
 	'done_ratio', 
 	$done_ratios, 
-	null,
+	isset($this->params['url']['done_ratio']) ? $this->params['url']['done_ratio'] : null,
 	array(),
 	__('(No change)',true)); ?>
 </label>
