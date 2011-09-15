@@ -2,16 +2,19 @@
 App::import('Vendor', 'action_mailer');
 class MailerComponent extends ActionMailer {
     var $name = 'Mailer';
-    var $layout = null;
-    var $sender = '';
+    var $layout = 'mail';
     var $subject = '';
     
     function startup($controller){
         $this->controller = $controller;
-        $this->sender = 'candycane';
         $this->setHeader('Content-type', 'text/plain');
     }
-    
+
+    function  beforeRender() {
+      parent::beforeRender();
+      $this->setHeader('From', $this->controller->Setting->mail_from);
+      $this->set('footer',$this->controller->Setting->emails_footer);
+    }
     function issue_add($Issue) {
     #    redmine_headers 'Project' => issue.project.identifier,
     #                    'Issue-Id' => issue.id,
