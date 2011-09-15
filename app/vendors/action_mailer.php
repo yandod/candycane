@@ -307,10 +307,8 @@ class ActionMailer extends Object
 	    $to = join(', ', $this->recipients);
 	    $from = $this->sender;
 	    $subject = $this->subject;
-	    if (!isset($this->headers['Content-type']))
-	       //$this->setHeader('Content-type', 'text/html; charset=utf-8');
-        if (!empty($from))
-            $this->setHeader('From', $from);
+
+
         $headers = $this->__generateHeader();
 	    return mb_send_mail($to, $subject, $mail_body, $headers);
 	}
