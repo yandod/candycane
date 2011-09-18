@@ -47,8 +47,9 @@
 		)); ?>
 		<!-- <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %> -->
 		<?php echo $form->end(); ?>
-		<?php if( !empty($currentuser['memberships']) ): ?>
-		<?php echo $this->renderElement('project_selector', array('currentuser' => $currentuser)); ?>
+
+		<?php if (!empty($currentuser['memberships'])): ?>
+			<?php echo $this->renderElement('project_selector', array('currentuser' => $currentuser)); ?>
 		<?php endif; ?>
 	</div>
 
