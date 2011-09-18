@@ -52,7 +52,7 @@ class UsersController extends AppController {
    */
   function edit($id = null)
   {
-    if (!empty($this->data) {
+    if (!empty($this->data)) {
       if (empty($this->data[$this->User->alias]['password'])) {	
         unset($this->data[$this->User->alias]['password']);
         unset($this->data[$this->User->alias]['password_confirmation']);
