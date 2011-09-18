@@ -180,7 +180,7 @@ class AppController extends Controller {
 		}
 		$this->L10n = new L10n();
 		$this->L10n->get($lang);
-		Configure::write('Config.language',$lang);
+		Configure::write('Config.language', $lang);
 	}
 
 /**
@@ -462,7 +462,7 @@ class AppController extends Controller {
  */
 	public function setSettings() {
 		$this->theme = strtolower($this->Setting->ui_theme);
-		$this->set('Settings',$this->Setting);
+		$this->set('Settings', $this->Setting);
 	}
 
 /**
@@ -474,7 +474,7 @@ class AppController extends Controller {
 		$project_id = $this->_get_param('project_id');
 		if (!empty($project_id)) {
 			if ($this->_project = $this->Project->findMainProject($project_id)) {
-				$this->set(array('main_project'=> $this->_project));
+				$this->set(array('main_project' => $this->_project));
 				$this->set('main_project', $this->_project);
 			} else {
 				$this->cakeError('error404');
