@@ -52,7 +52,7 @@ class UsersController extends AppController {
    */
   function edit($id = null)
   {
-    if ($this->data) {
+    if (!empty($this->data) {
       if (empty($this->data[$this->User->alias]['password'])) {	
         unset($this->data[$this->User->alias]['password']);
         unset($this->data[$this->User->alias]['password_confirmation']);
@@ -60,11 +60,10 @@ class UsersController extends AppController {
       if ($this->User->save($this->data)) {
         $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
         $this->redirect('list');
-        return;
       }
     }
 
-    $user = $this->User->find('first', array('conditions' => array('User.id' => (int)$id)));
+    $user = $user = $this->User->read(null, $id);
 
     $tabs = array(
       array(
