@@ -1,5 +1,20 @@
 <?php
+/**
+ * Application Model
+ *
+ * @package candycane
+ */
 class AppModel extends Model {
+
+/**
+ * Components
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'Timestamp',
+	);
+
   /**
    * validation messages
    */
