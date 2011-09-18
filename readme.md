@@ -26,9 +26,8 @@ Currently some features which are present in Redmine are not supported by CandyC
 - Repository viewer
 - Forum
 - Documents
-- Global search
 
-CandyCane is using CakePHP v1.2. This enables CandyCane to run on PHP 4.
+CandyCane is using CakePHP v1.2. But using some PHP5 syntax in codes.
 
 
 ## Contributors
@@ -37,6 +36,7 @@ CandyCane is using CakePHP v1.2. This enables CandyCane to run on PHP 4.
 - halt
 - k-kishida
 - akiyan
+- predominant
 - Takuya Sato
 - Yoshio HANAWA
 - kaz29
