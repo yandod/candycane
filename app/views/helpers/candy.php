@@ -2,92 +2,133 @@
 /**
  * CandyHelper
  *
+ * Candy Helper is a CandyCane specific helper that provides site-wide view functionality
+ *
+ * @package candycane
+ * @subpackage candycane.views.helpers
  */
-class CandyHelper extends AppHelper
-{
-  var $helpers = array('Html','Users', 'Paginator', 'AppAjax');
-  var $row = 0;
+class CandyHelper extends AppHelper {
 
-	function link($user)
-	{
+/**
+ * Helpers
+ *
+ * @var array
+ */
+	public $helpers = array('Html','Users', 'Paginator', 'AppAjax');
+
+/**
+ * Row
+ *
+ * @var int
+ */
+	public $row = 0;
+
+/**
+ * Link
+ *
+ * @param array $user User data (results of model find)
+ * @return string Html string to display
+ */
+	public function link($user) {
 		return $this->Html->link($user['name'],'/account/show/'.$user['id']);
 	}
-	function accesskey($key)
-	{
+
+/**
+ * Access Key
+ *
+ * @param string $key 
+ * @return mixed
+ */
+	public function accesskey($key) {
 		$map = array(
 			'quick_search' => 'f',
 			'search' => 4,
 		);
 		return $map[$key];
 	}
-  function lwr_e()
-  {
-    $argv = func_get_args();
-    $ret = call_user_func_array(array($this, 'lwr_r'), $argv);
-    echo $ret;
-  }
-  function lwr_r()
-  {
-    $argc = func_num_args();
-    $argv = func_get_args();
-    $return = false;
-    if ($argc == 0) {
-      return null;
-    } else {
-      $singular = $argv[0];
-      if ($argc > 1) {
-        array_shift($argv);
-        $singular = vsprintf(__($singular, true), $argv);
-      }
-    }
 
-    return $singular;
-  }
-  function lwr()
-  {
-    $argv = func_get_args();
-    call_user_func_array(array($this, 'lwr_e'), $argv);
-  }
+/**
+ * undocumented function
+ *
+ * @return string
+ */
+	public function lwr_e() {
+		$argv = func_get_args();
+		$ret = call_user_func_array(array($this, 'lwr_r'), $argv);
+		echo $ret;
+	}
 
-  /**
-   * html_title
-   *
-   */
-  function html_title($str=false)
-  {
-    #  def html_title(*args)
-    #    if args.empty?
-    #      title = []
-    #      title << @project.name if @project
-    #      title += @html_title if @html_title
-    #      title << Setting.app_title
-    #      title.compact.join(' - ')
-    #    else
-    #      @html_title ||= []
-    #      @html_title += args
-    #    end
-    #  end
-    $view =& ClassRegistry::getObject('view');
-    $project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
-    if (empty($str)) {
-      $title = array();
-      if (! empty($project)) {
-        $title[0] = $project['Project']['name'];
-      } else {
-        $Settings =& ClassRegistry::getObject('Setting');
-        $title[0] = $Settings->app_title;
-      }
-      if(!empty($view->pageTitle)) {
-        $title[0] .= $view->pageTitle;
-      }
-      $title = join(' - ', $title);
-      $str = $view->pageTitle = $title;
-    } elseif(is_array($str)) {
-      $str = join(' - ', $str);
-    }
-    $view->pageTitle = $str;
-    return $view->pageTitle;
-  }
+/**
+ * undocumented function
+ *
+ * @return string
+ */
+	public function lwr_r() {
+		$argc = func_num_args();
+		$argv = func_get_args();
+		$return = false;
+		if ($argc == 0) {
+			return null;
+		} else {
+			$singular = $argv[0];
+			if ($argc > 1) {
+				array_shift($argv);
+				$singular = vsprintf(__($singular, true), $argv);
+			}
+		}
+		return $singular;
+	}
+
+/**
+ * undocumented function
+ *
+ * @return void
+ */
+	public function lwr() {
+		$argv = func_get_args();
+		call_user_func_array(array($this, 'lwr_e'), $argv);
+	}
+
+/**
+ * Html Title
+ *
+ * @param array $str Strings to display
+ * @return string
+ */
+	public function html_title($str = false) {
+		#  def html_title(*args)
+		#    if args.empty?
+		#      title = []
+		#      title << @project.name if @project
+		#      title += @html_title if @html_title
+		#      title << Setting.app_title
+		#      title.compact.join(' - ')
+		#    else
+		#      @html_title ||= []
+		#      @html_title += args
+		#    end
+		#  end
+		$view =& ClassRegistry::getObject('view');
+		$project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
+		if (empty($str)) {
+			$title = array();
+			if (! empty($project)) {
+				$title[0] = $project['Project']['name'];
+			} else {
+				$Settings =& ClassRegistry::getObject('Setting');
+				$title[0] = $Settings->app_title;
+			}
+			if (!empty($view->pageTitle)) {
+				$title[0] .= $view->pageTitle;
+			}
+			$title = join(' - ', $title);
+			$str = $view->pageTitle = $title;
+		} elseif(is_array($str)) {
+			$str = join(' - ', $str);
+		}
+		$view->pageTitle = $str;
+		return $view->pageTitle;
+	}
 
 #require 'coderay'
 #require 'coderay/helpers/file_type'
@@ -105,33 +146,42 @@ class CandyHelper extends AppHelper
 #    @current_role ||= User.current.role_for_project(@project)
 #  end
 #
-  /**
-   * Return true if user is authorized for controller/action, otherwise false
-   * @param $aco : Array. array('controller'=> controller, 'action'=> action)
-   *              : String. ':update_form'
-   * @param $project : Target Project. if false, get from main_project of viewVars.
-   */
-  function authorize_for($aco, $project=false) {
-    if(empty($project)) {
-      $view =& ClassRegistry::getObject('view');
-      $project = $view->viewVars['main_project'];
-    }
-    return $this->requestAction(array('controller'=>'users', 'action'=>'allowed_to'), compact('aco', 'project'));
-  }
-  /** 
-   * Display a link if user is authorized
-   * 
-   */
-  function link_to_if_authorized($aco, $name, $url, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true) {
-    $out = '';
-    if($aco == null) {
-      $aco = $url;
-    }
-    if($this->authorize_for($aco)) {
-      $out = $this->Html->link($name, $url, $htmlAttributes, $confirmMessage = false, $escapeTitle);
-    }
-    return $out;
-  }
+
+/**
+ * Return true if user is authorized for controller/action, otherwise false
+ * @param $aco : Array. array('controller'=> controller, 'action'=> action)
+ *              : String. ':update_form'
+ * @param $project : Target Project. if false, get from main_project of viewVars.
+ */
+	public function authorize_for($aco, $project = false) {
+		if(empty($project)) {
+			$view =& ClassRegistry::getObject('view');
+			$project = $view->viewVars['main_project'];
+		}
+		return $this->requestAction(array('controller' => 'users', 'action' => 'allowed_to'), compact('aco', 'project'));
+	}
+
+/**
+ * Display a link if user is authorized
+ *
+ * @param mixed $aco 
+ * @param string $name 
+ * @param mixed $url 
+ * @param array $htmlAttributes 
+ * @param string $confirmMessage 
+ * @param boolean $escapeTitle
+ * @return void
+ */
+	public function link_to_if_authorized($aco, $name, $url, $htmlAttributes = array(), $confirmMessage = false, $escapeTitle = true) {
+		$out = '';
+		if ($aco == null) {
+			$aco = $url;
+		}
+		if ($this->authorize_for($aco)) {
+			$out = $this->Html->link($name, $url, $htmlAttributes, $confirmMessage = false, $escapeTitle);
+		}
+		return $out;
+	}
 
 #  def link_to_if_authorized(name, options = {}, html_options = nil, *parameters_for_method_reference)
 #    link_to(name, options, html_options, *parameters_for_method_reference) if authorize_for(options[:controller] || params[:controller], options[:action])
@@ -147,58 +197,81 @@ class CandyHelper extends AppHelper
 #  def link_to_user(user, options={})
 #    (user && !user.anonymous?) ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
 #  end
-  function format_username($user, $format=null)
-  {
-  	if (empty($format)) {
-  	  $format = $this->Settings->user_format;	
-  	}
 
-    $USER_FORMATS = array(
-      ':firstname_lastname' => "{$user['firstname']} {$user['lastname']}",
-      ':firstname' => "{$user['firstname']}",
-      ':lastname_firstname' => "{$user['lastname']} {$user['firstname']}",
-      ':lastname_coma_firstname' => "{$user['lastname']}, {$user['firstname']}",
-      ':username' => "{$user['login']}"
-    );
-    if (!isset($USER_FORMATS[$format])) $format = ':firstname_lastname'; 
-    return $USER_FORMATS[$format];
-  }
+/**
+ * Format Username
+ *
+ * @param string $user Username
+ * @param string $format Format
+ * @return string Formatted username
+ */
+	public function format_username($user, $format = null) {
+		if (empty($format)) {
+			$format = $this->Settings->user_format;	
+		}
 
-  function link_to_user($user, $options = array())
-  {
-    $format = '';
-    if (isset($options['format'])) {
-      $format = $options['format'];
-      unset($options['format']);
-    }
-    if ($user) /* && !user.anonymous? */ {
-      return $this->Html->link($this->format_username($user, $format), array('controller'=>'account', 'action'=>'show', 'id'=>$user['id']), $options);
-    } else {
-      return 'Anonymous';
-    }
-  }
+		$USER_FORMATS = array(
+			':firstname_lastname' => "{$user['firstname']} {$user['lastname']}",
+			':firstname' => "{$user['firstname']}",
+			':lastname_firstname' => "{$user['lastname']} {$user['firstname']}",
+			':lastname_coma_firstname' => "{$user['lastname']}, {$user['firstname']}",
+			':username' => "{$user['login']}"
+		);
+		if (!isset($USER_FORMATS[$format])) {
+			$format = ':firstname_lastname'; 
+		}
+		return $USER_FORMATS[$format];
+	}
+
+/**
+ * Link to user
+ *
+ * @param array $user User Data (from model find)
+ * @param array $options Html link options
+ * @return string Link to user
+ */
+	public function link_to_user($user, $options = array()) {
+		$format = '';
+		if (isset($options['format'])) {
+			$format = $options['format'];
+			unset($options['format']);
+		}
+		if ($user) /* && !user.anonymous? */ {
+			return $this->Html->link($this->format_username($user, $format), array('controller' => 'account', 'action' => 'show', 'id' => $user['id']), $options);
+		}
+		return 'Anonymous';
+	}
+
 #  def link_to_user(user, options={})
 #    (user && !user.anonymous?) ? link_to(user.name(options[:format]), :controller => 'account', :action => 'show', :id => user) : 'Anonymous'
 #  end
 #
-  function link_to_issue($issue, $options = array())
-  {
-    if (!isset($options['class'])) {
-      $options['class'] = '';
-    }
-    $options['class'] .= ' issue';
-    
-    if (isset($issue['Status']['is_closed']) && $issue['Status']['is_closed']) {
-      $options['class'] .= ' closed';
-    }
 
-    return $this->Html->link("{$issue['Tracker']['name']} #{$issue['Issue']['id']}", array('controller'=>'issues', 'action'=>'show', 'id'=>$issue['Issue']['id']), $options);
-#    options[:class] ||= ''
-#    options[:class] << ' issue'
-#    options[:class] << ' closed' if issue.closed?
-#    link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
+/**
+ * Link to Issue
+ *
+ * @param Array $issue Issue data (result of model find)
+ * @param array $options 
+ * @return string Link to Issue
+ */
+	public function link_to_issue($issue, $options = array()) {
+		if (!isset($options['class'])) {
+			$options['class'] = '';
+		}
+		$options['class'] .= ' issue';
 
+		if (isset($issue['Status']['is_closed']) && $issue['Status']['is_closed']) {
+			$options['class'] .= ' closed';
+		}
+
+		return $this->Html->link("{$issue['Tracker']['name']} #{$issue['Issue']['id']}", array('controller'=>'issues', 'action'=>'show', 'id'=>$issue['Issue']['id']), $options);
+
+		#    options[:class] ||= ''
+		#    options[:class] << ' issue'
+		#    options[:class] << ' closed' if issue.closed?
+		#    link_to "#{issue.tracker.name} ##{issue.id}", {:controller => "issues", :action => "show", :id => issue}, options
   }
+
 #  def link_to_issue(issue, options={})
 #    options[:class] ||= ''
 #    options[:class] << ' issue'
@@ -210,19 +283,31 @@ class CandyHelper extends AppHelper
 #  # Options:
 #  # * :text - Link text (default to attachment filename)
 #  # * :download - Force download (default: false)
-  function link_to_attachment($attachment, $options = array())
-  {
-    $text = $attachment['Attachment']['filename'];
-    if (isset($options['text'])) {
-      $text = $options['text'];
-    }
-    $action = 'show';
-    if (isset($options['download'])) {
-      $action = 'download';
-    }
 
-    return $this->Html->link($text, array('controller'=>'attachments', 'action'=>$action, 'id'=>$attachment['Attachment']['id'], 'filename'=>$attachment['Attachment']['filename']), $options);
-  }
+/**
+ * Link to Attachment
+ *
+ * @param array $attachment Attachment data (result of model find)
+ * @param array $options Options
+ * @return string Link to attachment
+ */
+	public function link_to_attachment($attachment, $options = array()) {
+		$text = $attachment['Attachment']['filename'];
+		if (isset($options['text'])) {
+			$text = $options['text'];
+		}
+		$action = 'show';
+		if (isset($options['download'])) {
+			$action = 'download';
+		}
+		return $this->Html->link($text, array(
+			'controller' => 'attachments',
+			'action' => $action,
+			'id' => $attachment['Attachment']['id'],
+			'filename' => $attachment['Attachment']['filename']
+			), $options);
+	}
+
 #  def link_to_attachment(attachment, options={})
 #    text = options.delete(:text) || attachment.filename
 #    action = options.delete(:download) ? 'download' : 'show'
@@ -230,9 +315,17 @@ class CandyHelper extends AppHelper
 #    link_to(h(text), {:controller => 'attachments', :action => action, :id => attachment, :filename => attachment.filename }, options)
 #  end
 #
-  function link_to_version($version, $options = array()) {
-    return $this->Html->link(h($version['name']), array('controller'=>'versions', 'action'=>'show', 'id'=>$version['id']), $options);
-  }
+
+/**
+ * Link to Version
+ *
+ * @param array $version Version data (result of model find)
+ * @param array $options 
+ * @return string Link to version
+ */
+	public function link_to_version($version, $options = array()) {
+		return $this->Html->link(h($version['name']), array('controller' => 'versions', 'action' => 'show', 'id' => $version['id']), $options);
+	}
 
   function toggle_link($name, $id, $options=array()) {
     $onclick = "Element.toggle('$id'); ";
@@ -240,6 +333,7 @@ class CandyHelper extends AppHelper
     $onclick .= "return false;";
     return $this->Html->link($name, "#", compact('onclick'));
   }
+
 #
 #  def image_to_function(name, function, html_options = {})
 #    html_options.symbolize_keys!
@@ -254,85 +348,107 @@ class CandyHelper extends AppHelper
 #    link_to name, {}, html_options
 #  end
 #
-  /**
-   * format_date
-   *
-   * @todo implement Setting
-   */
-  function format_date($date) 
-  {
-    if (!$date) {
-      return null;
-    }
-    
-    $view =& ClassRegistry::getObject('view');
-    $Settings = $view->viewVars['Settings'];
 
-    // "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
-    $date_format = (empty($Settings->date_format) || strlen($Settings->date_format) < 2) ? '%m/%d/%Y' : $Settings->date_format;
-    if(is_string($date)) {
-      $date = strtotime($date);
-    }
-    $date_format = __($date_format,true);
-    // for hack windows.
-    $date_format = mb_convert_encoding($date_format, "SJIS", "UTF-8");
-    $date = strftime("{$date_format}",$date);
-    $date = mb_convert_encoding($date, "UTF-8", "SJIS");
-    return $date;
-  }
-#
-  
-  /**
-   * format_time
-   *
-   * @todo time_zone
-   */
-  function format_time($time, $include_date = true)
-  {
-    if (empty($time)) {
-      return null;
-    }
+/**
+ * Format Date
+ *
+ * @param string $date 
+ * @return void
+ * @todo Implement setting
+ */
+	public function format_date($date) {
+		if (!$date) {
+			return null;
+		}
 
-    if (is_string($time) && !is_numeric($time)) {
-      $time = strtotime($time);
-    }
+		$view =& ClassRegistry::getObject('view');
+		$Settings = $view->viewVars['Settings'];
 
-#    zone = User.current.time_zone
-#    local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
+		// "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
+		$date_format = (empty($Settings->date_format) || strlen($Settings->date_format) < 2) ? '%m/%d/%Y' : $Settings->date_format;
+		if (is_string($date)) {
+			$date = strtotime($date);
+		}
+		$date_format = __($date_format, true);
 
-    if (empty($this->Settings->date_format) || (strlen($this->Settings->date_format) < 2)) {
-      $date_format = __('%m/%d/%Y', true);
-    } else {
-      $date_format = __($this->Settings->date_format, true);
-    }
+		// Hack for Windows
+		$date_format = mb_convert_encoding($date_format, "SJIS", "UTF-8");
+		$date = strftime("{$date_format}", $date);
+		return mb_convert_encoding($date, "UTF-8", "SJIS");
+	}
 
-    if (empty($this->Settings->time_format)) {
-      $time_format = __('%I:%M %p', true);
-    } else {
-      $time_format = __($this->Settings->time_format, true);
-    }
+/**
+ * Format Time
+ *
+ * @param mixed $time Time
+ * @param boolean $include_date Include date
+ * @return string Formatted time
+ * @todo TimeZone
+ */
+	public function format_time($time, $include_date = true) {
+		if (empty($time)) {
+			return null;
+		}
 
-    if ($include_date) {
-      return strftime("{$date_format} {$time_format}", $time);
-      // return strftime("{$date_format} {$time_format}", $local);
-    } else {
-      return strftime("{$time_format}", $time);
-      // return strftime("{$time_format}", $local);
-    }
-  }
-  
-  function format_activity_title($text) {
-    return h($this->truncate_single_line($text, 100));
-  }
-  
-  function format_activity_day($date) {
-    return date('Y-m-d',strtotime($date)) == date('Y-m-d') ? ucwords(__('today',true)) : $this->format_date($date);
-  }
-  
-  function format_activity_description($text) {
-    $out = $this->truncate($text, 250);
-    return h(preg_replace('/<(pre|code)>.*$/', '...', $out));
-  }
+		if (is_string($time) && !is_numeric($time)) {
+			$time = strtotime($time);
+		}
+
+		# zone = User.current.time_zone
+		# local = zone ? time.in_time_zone(zone) : (time.utc? ? time.localtime : time)
+
+		if (empty($this->Settings->date_format) || (strlen($this->Settings->date_format) < 2)) {
+			$date_format = __('%m/%d/%Y', true);
+		} else {
+			$date_format = __($this->Settings->date_format, true);
+		}
+
+		if (empty($this->Settings->time_format)) {
+			$time_format = __('%I:%M %p', true);
+		} else {
+			$time_format = __($this->Settings->time_format, true);
+		}
+
+		if ($include_date) {
+			return strftime("{$date_format} {$time_format}", $time);
+			// return strftime("{$date_format} {$time_format}", $local);
+		} else {
+			return strftime("{$time_format}", $time);
+			// return strftime("{$time_format}", $local);
+		}
+	}
+
+/**
+ * Format Activity Title
+ *
+ * @param string $text Title
+ * @return string Formatted title
+ */
+	public function format_activity_title($text) {
+		return h($this->truncate_single_line($text, 100));
+	}
+
+/**
+ * Format Activity Date
+ *
+ * @param string $date Date
+ * @return string Formatted date
+ */
+	public function format_activity_day($date) {
+		return date('Y-m-d',strtotime($date)) == date('Y-m-d') ? ucwords(__('today',true)) : $this->format_date($date);
+	}
+
+/**
+ * Format Activity Description
+ *
+ * @param string $text Description
+ * @return string Formatted description
+ */
+	public function format_activity_description($text) {
+		$out = $this->truncate($text, 250);
+		return h(preg_replace('/<(pre|code)>.*$/', '...', $out));
+	}
+
 #
 #  def distance_of_date_in_words(from_date, to_date = 0)
 #    from_date = from_date.to_date if from_date.respond_to?(:to_date)
@@ -340,36 +456,51 @@ class CandyHelper extends AppHelper
 #    distance_in_days = (to_date - from_date).abs
 #    lwr(:actionview_datehelper_time_in_words_day, distance_in_days)
 #  end
-  function distance_of_date_in_words($from_date, $to_date = 0)
-  {
-    $from_date = strtotime($from_date);
-    $to_date = strtotime($to_date);
-    $distance_in_days = abs($to_date - $from_date) / (60*60*24);
 
-    return $this->lwr_r('', $distance_in_days);
-  }
+/**
+ * Distance of date in words
+ *
+ * @param string $from_date From date
+ * @param string $to_date To date
+ * @return string Date distance in words
+ */
+	public function distance_of_date_in_words($from_date, $to_date = 0) {
+		$from_date = strtotime($from_date);
+		$to_date = strtotime($to_date);
+		$distance_in_days = abs($to_date - $from_date) / (60*60*24);
+
+		return $this->lwr_r('', $distance_in_days);
+	}
+
 #
 #  def due_date_distance_in_words(date)
 #    if date
 #      l((date < Date.today ? :label_roadmap_overdue : :label_roadmap_due_in), distance_of_date_in_words(Date.today, date))
 #    end
 #  end
-  function due_date_distance_in_words($date)
-  {
-    $ret = null;
 
-    if ($date) {
-      $time = strtotime($date);
-      $now = time();
-      if ($date < $now) {
-        $ret = '%s late';
-      } else {
-        $ret = 'Due in %s';
-      }
-    }
+/**
+ * Due date distance in words
+ *
+ * @param string $date Due date
+ * @return string Due date distance in words
+ */
+	public function due_date_distance_in_words($date) {
+		$ret = null;
 
-    return null;
-  }
+		if ($date) {
+			$time = strtotime($date);
+			$now = time();
+			if ($date < $now) {
+				$ret = '%s late';
+			} else {
+				$ret = 'Due in %s';
+			}
+		}
+
+		return $ret;
+	}
+
 #
 #  def render_page_hierarchy(pages, node=nil)
 #    content = ''
@@ -396,41 +527,68 @@ class CandyHelper extends AppHelper
 #    s
 #  end
 #
-  # Truncates and returns the string as a single line
-  function truncate_single_line($string, $length, $ending = '...', $exact = true) {
-    $string = $this->truncate($string, $length, $ending, $exact);
-    return preg_replace('/[\r\n]+/', ' ', $string);
-  }
+
+/**
+ * Truncates and returns the string as a single line
+ *
+ * @param string $string String to truncate
+ * @param int $length Length
+ * @param string $ending Ending string
+ * @param boolean $exact Do exact length
+ * @return string Truncated string
+ */
+	public function truncate_single_line($string, $length, $ending = '...', $exact = true) {
+		$string = $this->truncate($string, $length, $ending, $exact);
+		return preg_replace('/[\r\n]+/', ' ', $string);
+	}
+
 #
 #  def html_hours(text)
 #    text.gsub(%r{(\d+)\.(\d+)}, '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
 #  end
-  function html_hours($text)
-  {
-    return preg_replace('/(\d+)\.(\d+)/', '<span class="hours hours-int">$1</span><span class="hours hours-dec">.$2</span>', $text);
-  }
 #
-	function authoring($created, $author, $options = array())
-	{
+
+/**
+ * Html hours
+ *
+ * @param string $text Text
+ * @return string Inserts hours into Html for output
+ */
+	public function html_hours($text) {
+		return preg_replace('/(\d+)\.(\d+)/', '<span class="hours hours-int">$1</span><span class="hours hours-dec">.$2</span>', $text);
+	}
+
+/**
+ * Authoring
+ *
+ * @param string $created 
+ * @param string $author 
+ * @param array $options 
+ * @return string Authored string
+ */
+	public function authoring($created, $author, $options = array()) {
 		//TODO:port
-    $view =& ClassRegistry::getObject('view');
-    $project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
-    if(empty($project)) {
-  	  $time_tag = $this->Html->tag('acronym',$this->distance_of_time_in_words(time(),$created),aa('title',$this->format_time($created)));
-    } else {
-      $time_tag = $this->Html->link($this->distance_of_time_in_words(time(),$created), 
-          array('controller'=>'projects', 'action'=>'activity', 'id'=>$project['Project']['id'], 'from'=>$created),
-          aa('title',$this->format_time($created)));
-    }
-#    time_tag = @project.nil? ? content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created)) :
-#                               link_to(distance_of_time_in_words(Time.now, created), 
-#                                       {:controller => 'projects', :action => 'activity', :id => @project, :from => created.to_date},
-#                                       :title => format_time(created))
-	  $author_tag = $this->Html->link($this->format_username($author),aa('controller','account','action','show','id',$author['id']));
-#    author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
-#    l(options[:label] || :label_added_time_by, author_tag, time_tag)
+		$view =& ClassRegistry::getObject('view');
+		$project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
+		if (empty($project)) {
+			$time_tag = $this->Html->tag('acronym', $this->distance_of_time_in_words(time(), $created), array('title' => $this->format_time($created)));
+		} else {
+			$time_tag = $this->Html->link(
+				$this->distance_of_time_in_words(time(), $created),
+				array('controller' => 'projects', 'action' => 'activity', 'id' => $project['Project']['id'], 'from' => $created),
+				array('title' => $this->format_time($created)));
+		}
+		#    time_tag = @project.nil? ? content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created)) :
+		#                               link_to(distance_of_time_in_words(Time.now, created), 
+		#                                       {:controller => 'projects', :action => 'activity', :id => @project, :from => created.to_date},
+		#                                       :title => format_time(created))
+
+		$author_tag = $this->Html->link($this->format_username($author), array('controller' => 'account', 'action' => 'show', 'id' => $author['id']));
+		#    author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
+		#    l(options[:label] || :label_added_time_by, author_tag, time_tag)
 		return $this->lwr('Added by %s %s ago',$author_tag, $time_tag);
 	}
+
 #
 #  def l_or_humanize(s, options={})
 #    k = "#{options[:prefix]}#{s}".to_sym

@@ -100,14 +100,16 @@ class SearchController extends AppController {
 		#    @tokens = @tokens.uniq.select {|w| w.length > 2 }
 		#    
 		#    if !@tokens.empty?
+
+		$results = array();
+		$results_by_type = array();
+
 		if (!empty($question)) {
 			#      # no more than 5 tokens to search for
 			#      @tokens.slice! 5..-1 if @tokens.size > 5
 			#      # strings used in sql like statement
 			#      like_tokens = @tokens.collect {|w| "%#{w.downcase}%"}      
 
-			$results = array();
-			$results_by_type = array();
 			$limit = 10;
 
 			foreach ($scope_types as $s) {

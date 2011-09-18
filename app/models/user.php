@@ -1,9 +1,4 @@
 <?php
-/**
- * user.php
- *
- */
-
 // Account statuses
 define('USER_STATUS_ANONYMOUS', 0);
 define('USER_STATUS_ACTIVE',    1);
@@ -11,38 +6,54 @@ define('USER_STATUS_REGISTERED',2);
 define('USER_STATUS_LOCKED',    3);
 
 /**
- * User
+ * User Model
  *
+ * @package candycane
+ * @subpackage candycane.models
  */
-class User extends AppModel
-{
+class User extends AppModel {
 
-#  USER_FORMATS = {
-#    :firstname_lastname => '#{firstname} #{lastname}',
-#    :firstname => '#{firstname}',
-#    :lastname_firstname => '#{lastname} #{firstname}',
-#    :lastname_coma_firstname => '#{lastname}, #{firstname}',
-#    :username => '#{login}'
-#  }
-#
-#  has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name"
-  var $hasMany = array(
-    'Membership' => array(
-      'className' => 'Member',
-      //'conditions' => array('Project.status' => 1)
-    )
-  );
-  
-#  has_many :members, :dependent => :delete_all
-#  has_many :projects, :through => :memberships
-#  has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
-#  has_many :changesets, :dependent => :nullify
-#  has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
-  var $hasOne = array(
-    'UserPreference',
-    'RssToken'=>array('className'=>'Token', 'dependent'=>true, 'conditions'=>"action='feeds'", 'external'=>true),
-  );
-#  has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
+	#  USER_FORMATS = {
+	#    :firstname_lastname => '#{firstname} #{lastname}',
+	#    :firstname => '#{firstname}',
+	#    :lastname_firstname => '#{lastname} #{firstname}',
+	#    :lastname_coma_firstname => '#{lastname}, #{firstname}',
+	#    :username => '#{login}'
+	#  }
+
+	#  has_many :memberships, :class_name => 'Member', :include => [ :project, :role ], :conditions => "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}", :order => "#{Project.table_name}.name"
+	#  has_many :members, :dependent => :delete_all
+	#  has_many :projects, :through => :memberships
+	#  has_many :issue_categories, :foreign_key => 'assigned_to_id', :dependent => :nullify
+	#  has_many :changesets, :dependent => :nullify
+/**
+ * "Has Many" Associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'Membership' => array(
+			'className' => 'Member',
+			//'conditions' => array('Project.status' => 1)
+		)
+	);
+
+	#  has_one :preference, :dependent => :destroy, :class_name => 'UserPreference'
+	#  has_one :rss_token, :dependent => :destroy, :class_name => 'Token', :conditions => "action='feeds'"
+/**
+ * "Has One" Associations
+ *
+ * @var array
+ */
+	public $hasOne = array(
+		'UserPreference',
+		'RssToken' => array(
+			'className' => 'Token',
+			'dependent' => true,
+			'conditions' => "action='feeds'",
+			'external' => true),
+	);
+
 #  belongs_to :auth_source
 #  
 #  # Active non-anonymous users scope
@@ -212,21 +223,30 @@ class User extends AppModel
     $token = $this->RssToken->find('first', array('conditions'=>array('value'=>$key)));
     return (!empty($token) && ($token['User']['status'] == USER_STATUS_ACTIVE)) ? $token['User'] : null;
   }
-  function find_by_id_logged($id) {
 
-    $cond = aa('User.id',$id);
-    $user = $this->find('first',aa('recursive', 2,'conditions',$cond));
-    if(empty($user)) {
-      return false;
-    }
-    $user['User']['logged'] = true; // @todo fixme
-    $user['User']['name'] = $user['User']['login']; // @todo fixme
-    $user['User']['memberships'] = $user['Membership'];
-    $user['User']['RssToken'] = $user['RssToken'];
-    $user['User']['UserPreference'] = $user['UserPreference'];
-    return $user['User'];
-  }
-#  
+/**
+ * Find User by ID Logged
+ *
+ * @param string $id User ID
+ * @return mixed User data, or false if not found
+ */
+	public function find_by_id_logged($id) {
+		$cond = array('User.id' => $id);
+		$user = $this->find('first', array(
+			'recursive' => 2,
+			'conditions' => $cond));
+		if (empty($user)) {
+			return false;
+		}
+
+		$user['User']['logged'] = true; // @todo fixme
+		$user['User']['name'] = $user['User']['login']; // @todo fixme
+		$user['User']['memberships'] = $user['Membership'];
+		$user['User']['RssToken'] = $user['RssToken'];
+		$user['User']['UserPreference'] = $user['UserPreference'];
+		return $user['User'];
+	}
+
 #  def self.find_by_autologin_key(key)
 #    token = Token.find_by_action_and_value('autologin', key)
 #    token && (token.created_on > Setting.autologin.to_i.day.ago) && token.user.active? ? token.user : nil
@@ -501,26 +521,26 @@ class User extends AppModel
 }
 
 /**
- * AnonymousUser
+ * Anonymous User
  *
+ * @package candycane
+ * @subpackage candycane.models
  */
-class AnonymousUser extends User
-{
-#  def validate_on_create
-#    # There should be only one AnonymousUser in the database
-#    errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
-#  end
-#  
-#  def available_custom_fields
-#    []
-#  end
-#  
-#  # Overrides a few properties
-#  def logged?; false end
-#  def admin; false end
-#  def name; 'Anonymous' end
-#  def mail; nil end
-#  def time_zone; nil end
-#  def rss_key; nil end
+class AnonymousUser extends User {
+	#  def validate_on_create
+	#    # There should be only one AnonymousUser in the database
+	#    errors.add_to_base 'An anonymous user already exists.' if AnonymousUser.find(:first)
+	#  end
+	#  
+	#  def available_custom_fields
+	#    []
+	#  end
+	#  
+	#  # Overrides a few properties
+	#  def logged?; false end
+	#  def admin; false end
+	#  def name; 'Anonymous' end
+	#  def mail; nil end
+	#  def time_zone; nil end
+	#  def rss_key; nil end
 }
-

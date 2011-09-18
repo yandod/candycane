@@ -1,49 +1,117 @@
 <?php
-class WikiPage extends AppModel
-{
-  var $name = 'WikiPage';
-  var $belongsTo = array('Wiki');
-  var $hasOne = array(
-                      'WikiContent' => array(
-                                             'className' => 'WikiContent',
-                                             'foreignKey' => 'page_id',
-                                             'dependent' => true
-                                             //:dependent => :destroy
-                                             )
-                                             );
-  var $validate = array('title' =>
-                        array('validates_presence_of' =>
-                              array('rule' => 'notEmpty'),
-                              'validates_format_of' =>
-                              array('rule' =>
-                                    array('custom', '/^[^,\.\/\?\;\|\:]*$/')),
-                              'validates_uniqueness_of' =>
-                              array('rule' => '_isUniqueTitle')
-                              ));
-  var $actsAs = array(
-    'Searchable' => array(),
-    'Event' => array(
-      'title'  => array('Proc' => '_event_title'), 
-      'description' => array('Proc' => '_event_description'),
-      'datetime' => 'created_on',
-      'url' => array('Proc' => '_event_url')
-    )
-  );
+/**
+ * Wiki Page
+ *
+ * @package candycane
+ * @subpackage candycane.models
+ */
+class WikiPage extends AppModel {
 
-  var $filterArgs = array(
-    array('name' => 'title', 'type' => 'like'),
-    array('name' => 'WikiContent.text', 'type' => 'like'),
-  );
+/**
+ * Model name
+ *
+ * @var string
+ */
+ 	public $name = 'WikiPage';
 
-  function _event_title($data){
-    return __('Wiki',true).': '.$data['WikiPage']['title'];
-  }
-  function _event_url($data) {
-    return  array('controller'=>'wiki','wikipage'=>$data['WikiPage']['title'], 'project_id' => $data['Project']['identifier']);
-  }
-  function _event_description($data){
-    return $data['WikiContent']['text'];
-  }
+/**
+ * "Belongs To" Associations
+ *
+ * @var array
+ */
+ 	public $belongsTo = array('Wiki');
+
+/**
+ * "Has One" Associations
+ *
+ * @var array
+ */
+ 	public $hasOne = array(
+		'WikiContent' => array(
+			'className' => 'WikiContent',
+			'foreignKey' => 'page_id',
+			'dependent' => true
+			//:dependent => :destroy
+		)
+	);
+
+/**
+ * Validation rules
+ *
+ * @var array
+ */
+ 	public $validate = array(
+		'title' => array(
+			'validates_presence_of' => array(
+				'rule' => 'notEmpty'
+			),
+			'validates_format_of' => array(
+				'rule' => array('custom', '/^[^,\.\/\?\;\|\:]*$/')
+			),
+			'validates_uniqueness_of' => array(
+				'rule' => '_isUniqueTitle'
+			),
+		),
+	);
+
+/**
+ * Behaviors
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'Searchable' => array(),
+		'Event' => array(
+			'title'  => array('Proc' => '_event_title'), 
+			'description' => array('Proc' => '_event_description'),
+			'datetime' => 'created_on',
+			'url' => array('Proc' => '_event_url')
+		)
+	);
+
+/**
+ * Filter Args
+ *
+ * @var array
+ */
+ 	public $filterArgs = array(
+		array('name' => 'title', 'type' => 'like'),
+		array('name' => 'WikiContent.text', 'type' => 'like'),
+	);
+
+/**
+ * Event Title
+ *
+ * @param array $data WikiPage data
+ * @return string Event title
+ * @access protected
+ */
+	function _event_title($data){
+		return __('Wiki',true).': '.$data['WikiPage']['title'];
+	}
+
+/**
+ * Event URL
+ *
+ * @param array $data WikiPage data
+ * @return array Array based URL for Event
+ * @access protected
+ */
+	function _event_url($data) {
+		return  array('controller'=>'wiki','wikipage'=>$data['WikiPage']['title'], 'project_id' => $data['Project']['identifier']);
+	}
+
+/**
+ * Event Description
+ *
+ * @param array $data WikiPage data
+ * @return string Event description
+ * @access protected
+ */
+	function _event_description($data){
+		return $data['WikiContent']['text'];
+	}
+
 #require 'diff'
 #require 'enumerator'
 #
@@ -102,28 +170,36 @@ class WikiPage extends AppModel
 #  end
 #  
 
-  // return wiki_content and author for specified version
-  function content_for_version($version = null)
-  {
-    $result = null;
-    $conditions = aa('page_id', $this->field('id'));
-    if ($version) {
-      $conditions['version'] = $version;
-      // temporary implementation
-      $result = $this->WikiContent->WikiContentVersion
-        ->find('first', aa('conditions', $conditions, 'recursive', 0));
-      $result['WikiContent'] = $result['WikiContentVersion'];
-      $result['WikiContent']['text'] = $result['WikiContent']['data'];
-      unset($result['WikiContent']['data']);
-      unset($result['WikiContent']['compression']);
-    }
-    if (empty($result)) {
-      $result = $this->WikiContent->find('first',
-                                         aa('conditions', $conditions,
-                                            'recursive', 0));
-    }
-    return $result;
-  }
+/**
+ * Return wiki_content and author for specified version
+ *
+ * @param string $version Version
+ * @return array WikiContent data
+ */
+	public function content_for_version($version = null) {
+		$result = null;
+		$conditions = array('page_id' => $this->field('id'));
+		if ($version) {
+			$conditions['version'] = $version;
+			// temporary implementation
+			$result = $this->WikiContent->WikiContentVersion->find('first', array(
+				'conditions' => $conditions,
+				'recursive' => 0
+			));
+			$result['WikiContent'] = $result['WikiContentVersion'];
+			$result['WikiContent']['text'] = $result['WikiContent']['data'];
+			unset($result['WikiContent']['data']);
+			unset($result['WikiContent']['compression']);
+		}
+		if (empty($result)) {
+			$result = $this->WikiContent->find('first', array(
+				'conditions' => $conditions,
+				'recursive' => 0
+			));
+		}
+		return $result;
+	}
+
 #  def content_for_version(version=nil)
 #    result = content.versions.find_by_version(version.to_i) if version
 #    result ||= content
@@ -238,18 +314,27 @@ class WikiPage extends AppModel
 #    @lines.each { |line| line[0] ||= current.version }
 #  end
 #end
-  function _isUniqueTitle($check)
-  {
-    $conditions = a();
-    if (!empty($this->id) && $this->field('wiki_id')) {
-      $conditions[] = aa("WikiPage.id <>", $this->id);
-      $conditions[] = aa("WikiPage.wiki_id", $this->field('wiki_id'));
-    } elseif (isset($this->data['WikiPage']['wiki_id'])) {
-      $conditions[] = aa("WikiPage.wiki_id", $this->data['WikiPage']['wiki_id']);
-    }
-    $conditions[] = aa("LOWER(WikiPage.title)", strtolower($check["title"]));
-    $count = $this->find('count',
-                         aa('conditions', $conditions, 'recursive', -1));
-    return ($count === 0);
-  }
+
+/**
+ * Check if the title is unique
+ *
+ * @param string $check Title to check
+ * @return boolean True if the title is unique
+ * @access protected
+ */
+	function _isUniqueTitle($check) {
+		$conditions = a();
+		if (!empty($this->id) && $this->field('wiki_id')) {
+			$conditions[] = array('WikiPage.id <>' => $this->id);
+			$conditions[] = array('WikiPage.wiki_id' => $this->field('wiki_id'));
+		} elseif (isset($this->data['WikiPage']['wiki_id'])) {
+			$conditions[] = array('WikiPage.wiki_id' => $this->data['WikiPage']['wiki_id']);
+		}
+		$conditions[] = array('LOWER(WikiPage.title)' => strtolower($check["title"]));
+		$count = $this->find('count', array(
+			'conditions' => $conditions,
+			'recursive' => -1
+		));
+		return ($count === 0);
+	}
 }
