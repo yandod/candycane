@@ -21,6 +21,7 @@ class Wiki extends AppModel {
  */
  	public $belongsTo = array('Project');
 
+
 /**
  * "Has Many" Associations
  *

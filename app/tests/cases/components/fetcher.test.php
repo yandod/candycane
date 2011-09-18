@@ -159,6 +159,7 @@ class FetcherComponentTestCase extends CakeTestCase {
     $events = $this->Component->events(date('Y-m-d', strtotime('2006-07-19 0:0:0')), date('Y-m-d', strtotime('2006-07-20 0:0:0')));
     $this->assertNotNull($events);
     $this->assertEqual(5, count($events));
+    var_dump($events);
     $this->assertEqual('news', $events[0]['type']);
     $this->assertEqual(2, $events[0]['id']);
     $this->assertEqual(array('controller'=>'news', 'action'=>'show', 'id'=>2, 'project_id' => 1), $events[0]['url']);

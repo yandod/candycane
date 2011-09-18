@@ -1,4 +1,10 @@
 <?php
+/**
+ * WikiContent Model
+ *
+ * @package candycane
+ * @subpackage candycane.models
+ */
 class WikiContent extends AppModel
 {
   var $name = 'WikiContent';
@@ -16,6 +22,26 @@ class WikiContent extends AppModel
                                            ),
                          );
   var $validate = array('text' => 'notEmpty');
+  function beforeSave(){
+    if ($this->id) {
+      $this->oldData = $this->find('first',array(
+          'conditions' => array('WikiContent.id' => $this->id)
+              ));
+      $this->data['WikiContent']['version'] += 1;
+    }
+    return true;
+  }
+
+  function afterSave(){
+    if (!empty($this->oldData)) {
+      $data['WikiContentVersion'] = $this->oldData['WikiContent'];
+      $data['WikiContentVersion']['wiki_content_id'] = $data['WikiContentVersion']['id'];
+      $data['WikiContentVersion']['id'] = null;
+      $data['WikiContentVersion']['data'] = $data['WikiContentVersion']['text'];
+      $this->WikiContentVersion->save($data);
+    }
+    return true;
+  }
 }
 ## redMine - project management software
 ## Copyright (C) 2006-2007  Jean-Philippe Lang
