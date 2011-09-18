@@ -6,7 +6,7 @@
 <meta name="description" content="<?php echo Configure::read('app_title'); ?>" />
 <meta name="keywords" content="issue,bug,tracker" />
 <?php echo $html->css('application')  ?>
-<?php echo $javascript->link(a('prototype','effects','dragdrop','controls','application')) ?>
+<?php echo $javascript->link(a('prototype','effects','dragdrop','controls','application')); ?>
 <!-- <%= heads_for_wiki_formatter %> -->
 <?php echo $html->css('jstoolbar')  ?>
 <!--[if IE]>
@@ -26,22 +26,29 @@
 <div id="top-menu">
 	<div id="account">
 		<!-- <%= render_menu :account_menu -%> -->
-		<?php echo $this->renderElement('account_menu',aa('currentuser',$currentuser)) ?>
+		<?php echo $this->renderElement('account_menu', array('currentuser' => $currentuser)); ?>
 	</div>
 	<?php if ($currentuser['logged']) echo $html->tag('div',__('Logged in as',true).' '.$candy->link($currentuser),array('id'=>'loggedas')); ?>
-	<?php echo $this->renderElement('top_menu') ?>
+	<?php echo $this->renderElement('top_menu'); ?>
 </div>
 
 <div id="header">
 	<div id="quick-search">
-		<?php echo $form->create(null,aa('url','/search/index','type','get')) ?>
+		<?php echo $form->create(null, array('url' => '/search/index', 'type' => 'get')); ?>
 		<!-- <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %> -->
-		<?php echo $html->link(__('Search',true).':','/search/index',$candy->accesskey('search')) ?>
-		<?php echo $form->input('q',aa('type','text','size',20,'class','small','accesskey',$candy->accesskey('quick_search'),'div',false,'label',false)) ?>
+		<?php echo $html->link(__('Search',true).':','/search/index',$candy->accesskey('search')); ?>
+		<?php echo $form->input('q', array(
+			'type' => 'text',
+			'size' => 20,
+			'class' => 'small',
+			'accesskey' => $candy->accesskey('quick_search'),
+			'div' => false,
+			'label' => false
+		)); ?>
 		<!-- <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %> -->
-		<?php echo $form->end() ?>
+		<?php echo $form->end(); ?>
 		<?php if( !empty($currentuser['memberships']) ): ?>
-		<?php echo $this->renderElement('project_selector',aa('currentuser',$currentuser)) ?>
+		<?php echo $this->renderElement('project_selector', array('currentuser' => $currentuser)); ?>
 		<?php endif; ?>
 	</div>
 
@@ -55,7 +62,7 @@
 				$url = $item;
 				unset($url['class']);
 				unset($url['caption']);
-				$option = aa('class',$item['class']); 
+				$option = array('class' => $item['class']); 
 				?>
 				<li><?php echo $html->link(__($item['caption'],true),$url,$option); ?></li>
 			<?php endforeach; ?>
@@ -65,7 +72,7 @@
 </div>
 
 <!-- <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %> -->
-<?php echo $html->tag('div',null,aa('id','main','class',isset($Sidebar) ? '' : 'nosidebar')) ?>
+<?php echo $html->tag('div', null, array('id' => 'main', 'class' => isset($Sidebar) ? '' : 'nosidebar')); ?>
 	<div id="sidebar">        
 		<?php if (isset($Sidebar)) echo $Sidebar; ?>
 	</div>
@@ -76,7 +83,7 @@
 	</div>
 </div>
 
-<div id="ajax-indicator" style="display:none;"><span><?php __('Loading...') ?></span></div>
+<div id="ajax-indicator" style="display:none;"><span><?php __('Loading...'); ?></span></div>
 
 <div id="footer">
 	<?php echo sprintf(
