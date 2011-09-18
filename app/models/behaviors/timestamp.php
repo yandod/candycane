@@ -109,7 +109,7 @@ class TimestampBehavior extends ModelBehavior {
 			$Model->data[$Model->alias][$settings['modified']] = $this->_formatForColumn($Model, $settings['modified']);
 		}
 
-		return true;
+		return parent::beforeSave($Model);
 	}
 
 /**
