@@ -36,7 +36,7 @@ CandyCane is using CakePHP v1.2. But using some PHP5 syntax in codes.
 - halt
 - k-kishida
 - akiyan
-- predominant
+- [Graham Weldon](http://grahamweldon.com) (predominant)
 - Takuya Sato
 - Yoshio HANAWA
 - kaz29
