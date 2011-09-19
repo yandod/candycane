@@ -4,6 +4,11 @@
 
 App::import('Core', 'l10n');
 
+/**
+ * Application Controller
+ *
+ * @package candycane
+ */
 class AppController extends Controller {
 
 	public $layout = 'base';
