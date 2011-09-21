@@ -29,6 +29,15 @@ class NewsController extends AppController {
 	public $helpers = array('Html', 'Form', 'Candy', 'Ajax');
 
 /**
+ * Components
+ *
+ * @var array
+ */
+	public $components = array(
+		'RequestHandler'
+	);
+
+/**
  * Pagination options
  *
  * @var array
@@ -239,6 +248,25 @@ class NewsController extends AppController {
 #    @text = (params[:news] ? params[:news][:description] : nil)
 #    render :partial => 'common/preview'
 #  end
+/**
+ * Preview
+ *
+ * @return void
+ */
+	public function preview() {
+		if ($this->RequestHandler->isAjax()) {
+			Configure::write('debug', 0);
+			$this->layout = 'ajax';
+		}
+		
+		if (array_key_exists('description', $this->data['News'])) {
+			$text = $this->data['News']['description'];
+		} else {
+			$text = '';
+		}
+		$this->set(compact('text'));
+		$this->render('/common/_preview');
+	}
 
 #private
 #  def find_news
