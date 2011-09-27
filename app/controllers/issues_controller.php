@@ -1001,7 +1001,7 @@ class IssuesController extends AppController {
 
 			$this->set(compact(
 				'time_entry_custom_fields', 'time_entry_activities', 'rss_token',
-				'attachments', 'attachments_deletable', 'issue_relations',
+				'attachments', 'attachments_deletable', 'issue_relations'
 			));
 		}
 	}
