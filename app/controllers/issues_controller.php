@@ -981,8 +981,18 @@ class IssuesController extends AppController {
 		}
 
 		$assignable_users = $this->Issue->Project->assignable_users($this->_project['Project']['id']);
-		$issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
-		$fixed_versions = $this->Issue->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
+
+		// Issue categories
+		$issue_categories = $this->Issue->Category->find('list', array(
+			'conditions' => array('project_id' => $this->_project['Project']['id'])
+		));
+		
+		// Issue Versions
+		$fixed_versions = $this->Issue->Project->Version->find('list', array(
+			'conditions' => array('project_id' => $this->_project['Project']['id']),
+			'order' => array('effective_date', 'name')
+		));
+
 		$custom_field_values = $this->Issue->available_custom_fields($this->_project['Project']['id'], $this->data['Issue']['tracker_id']);
 
 		$this->set(compact('priorities', 'assignable_users', 'issue_categories', 'fixed_versions', 'custom_field_values'));
