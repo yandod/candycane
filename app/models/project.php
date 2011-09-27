@@ -94,11 +94,46 @@ class Project extends AppModel {
 #    errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
 #    errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
 #  end
+
+/**
+ * Validation rules
+ *
+ * These are actually set in _setupValidation to allow translation of error messages.
+ *
+ * @var array
+ */
 	public $validate = array(
-		'identifier' => array(
-			'rule' => 'notEmpty',
-		)
 	);
+
+/**
+ * Constructor
+ *
+ * Overloaded constructor to provide a mechanism to build validation rules.
+ *
+ * @param string $id 
+ * @param string $table 
+ * @param string $ds 
+ */
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+		$this->_setupValidation();
+	}
+
+/**
+ * Setup validation rules
+ *
+ * @return void
+ */
+	protected function _setupValidation() {
+		$this->validate = array(
+			'identifier' => array(
+				'length' => array(
+					'rule' => '/[a-z0-9\-]{2,20}/',
+					'message' => __('Identifier must be between 2 and 20 characters, containing only letters, numbers and dashes.', true),
+				),
+			)
+		);
+	}
 
 /**
  * Find a Project for the specified ID
