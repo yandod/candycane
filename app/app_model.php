@@ -46,6 +46,29 @@ class AppModel extends Model {
 	);
 
 /**
+ * Constructor
+ *
+ * Overloaded constructor to provide a mechanism to build validation rules.
+ *
+ * @param string $id 
+ * @param string $table 
+ * @param string $ds 
+ */
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+		$this->_setupValidation();
+	}
+
+/**
+ * Default validation setup method, so subclasses don't have to provide empty ones
+ * Override this in subclasses to provide validation rules.
+ *
+ * @return void
+ */
+	protected function _setupValidation() {
+	}
+
+/**
  * Invalid Fields
  *
  * @param array $options Options

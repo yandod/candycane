@@ -96,30 +96,6 @@ class Project extends AppModel {
 #  end
 
 /**
- * Validation rules
- *
- * These are actually set in _setupValidation to allow translation of error messages.
- *
- * @var array
- */
-	public $validate = array(
-	);
-
-/**
- * Constructor
- *
- * Overloaded constructor to provide a mechanism to build validation rules.
- *
- * @param string $id 
- * @param string $table 
- * @param string $ds 
- */
-	public function __construct($id = false, $table = null, $ds = null) {
-		parent::__construct($id, $table, $ds);
-		$this->_setupValidation();
-	}
-
-/**
  * Setup validation rules
  *
  * @return void
