@@ -88,6 +88,14 @@ class Project extends AppModel {
 		),
 	);
 
+#protected
+#  def validate
+#    errors.add(parent_id, " must be a root project") if parent and parent.parent
+#    errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
+#    errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
+#  end
+
+
 /**
  * Find a Project for the specified ID
  *
@@ -671,13 +679,6 @@ class Project extends AppModel {
 #    p.nil? ? nil : p.identifier.to_s.succ
 #  end
 #
-#protected
-#  def validate
-#    errors.add(parent_id, " must be a root project") if parent and parent.parent
-#    errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
-#    errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
-#  end
-#  
 #private
 #  acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
 #                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
