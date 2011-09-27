@@ -491,10 +491,11 @@ class CandyHelper extends AppHelper {
 		if ($date) {
 			$time = strtotime($date);
 			$now = time();
-			if ($date < $now) {
-				$ret = '%s late';
+                        $days = (integer) (abs($time - $now) / (60 * 60 * 24)) .__('days',true);
+			if ($time < $now) {
+				$ret = sprintf(__('%s late',true),$days);
 			} else {
-				$ret = 'Due in %s';
+				$ret = sprintf(__('Due in %s',true),$days);
 			}
 		}
 
