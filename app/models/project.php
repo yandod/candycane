@@ -94,7 +94,11 @@ class Project extends AppModel {
 #    errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
 #    errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
 #  end
-
+	public $validate = array(
+		'identifier' => array(
+			'rule' => 'notEmpty',
+		)
+	);
 
 /**
  * Find a Project for the specified ID
