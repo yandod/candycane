@@ -719,60 +719,65 @@ class IssuesController extends AppController {
  * @return void
  */
 	public function destroy() {
-    $issue_ids = false;
-    if(!empty($this->params['issue_id'])) {
-      $issue_ids = $this->params['issue_id'];
-    } elseif(!empty($this->params['url']['ids'])) {
-      $issue_ids = $this->params['url']['ids'];
-    } elseif(!empty($this->data['Issue']['ids'])) {
-      $issue_ids = $this->data['Issue']['ids'];
-    } else {
-      return $this->cakeError('error', array('message'=>"Not exists issue."));
-    }
-    if(!is_array($issue_ids)) {
-      $issue_ids = array($issue_ids);
-    }
-    $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$issue_ids)));
-    if(empty($issues)) {
-      return $this->cakeError('error', array('message'=>"Not exists issue."));
-    }
-    $this->params['project_id'] = $issues[0]['Project']['identifier'];
-    $this->set('issue_datas', $issues);
-    $TimeEntry = & ClassRegistry::init('TimeEntry');
-    $hours = $TimeEntry->sum('hours', array('issue_id'=>$issue_ids));
-    $this->set(compact('hours'));
-    if($hours > 0) {
-      if(empty($this->data['Issue']['todo'])) {
-        # display the destroy form
-        $this->data['Issue']['todo'] = 'destroy';
-        return;
-      }
-      switch($this->data['Issue']['todo']) {
-      case 'destroy' :
-        # nothing to do
-        break;
-      case 'nullify' :
-        $TimeEntry->updateAll(array('issue_id'=>null), array('issue_id'=>$issue_ids));
-        break;
-      case 'reassign' :
-        if(!$this->Issue->hasAny(array('Issue.id'=>$this->data['Issue']['reassign_to_id']))) {
-          $this->Session->setFlash(__("'The issue was not found or does not belong to this project'", true), 'default', array('class'=>'flash flash_error'));
-          return;
-        }
-        $TimeEntry->updateAll(array("issue_id"=>$this->data['Issue']['reassign_to_id']), array('issue_id'=>$issue_ids));
-        break;
-      default :
-        # display the destroy form
-        return;
-      }
-    }
-    if($this->Issue->deleteAll(array('Issue.id'=>$issue_ids))) {
-      $this->Session->setFlash(__('Successful deletion.', true), 'default', array('class'=>'flash flash_notice'));
-    } else {
-      $this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), 1, 1), 'default', array('class'=>'flash flash_error'));
-    }
-    $this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues');
-  }
+		$issue_ids = false;
+		if (!empty($this->params['issue_id'])) {
+			$issue_ids = $this->params['issue_id'];
+		} elseif (!empty($this->params['url']['ids'])) {
+			$issue_ids = $this->params['url']['ids'];
+		} elseif (!empty($this->data['Issue']['ids'])) {
+			$issue_ids = $this->data['Issue']['ids'];
+		} else {
+			return $this->cakeError('error', array('message'=>"Not exists issue."));
+		}
+
+		if (!is_array($issue_ids)) {
+			$issue_ids = array($issue_ids);
+		}
+		$issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$issue_ids)));
+		if (empty($issues)) {
+			return $this->cakeError('error', array('message'=>"Not exists issue."));
+		}
+
+		$this->params['project_id'] = $issues[0]['Project']['identifier'];
+		$this->set('issue_datas', $issues);
+		$TimeEntry = & ClassRegistry::init('TimeEntry');
+		$hours = $TimeEntry->sum('hours', array('issue_id'=>$issue_ids));
+		$this->set(compact('hours'));
+		if ($hours > 0) {
+			if (empty($this->data['Issue']['todo'])) {
+				// display the destroy form
+				$this->data['Issue']['todo'] = 'destroy';
+				return;
+			}
+
+			switch($this->data['Issue']['todo']) {
+				case 'destroy':
+ 					// Nothing to do
+					break;
+				case 'nullify':
+					$TimeEntry->updateAll(array('issue_id'=>null), array('issue_id'=>$issue_ids));
+					break;
+				case 'reassign':
+					if (!$this->Issue->hasAny(array('Issue.id' => $this->data['Issue']['reassign_to_id']))) {
+						$this->Session->setFlash(__("'The issue was not found or does not belong to this project'", true), 'default', array('class'=>'flash flash_error'));
+						return;
+					}
+					$TimeEntry->updateAll(array("issue_id"=>$this->data['Issue']['reassign_to_id']), array('issue_id'=>$issue_ids));
+					break;
+				default:
+					// Display the destroy form
+					return;
+			}
+		}
+
+		if ($this->Issue->deleteAll(array('Issue.id' => $issue_ids))) {
+			$this->Session->setFlash(__('Successful deletion.', true), 'default', array('class' => 'flash flash_notice'));
+		} else {
+			$this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected", true), 1, 1), 'default', array('class'=>'flash flash_error'));
+		}
+		$this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues');
+	}
+
 #  
 #  def gantt
 #    @gantt = Redmine::Helpers::Gantt.new(params)
@@ -832,53 +837,58 @@ class IssuesController extends AppController {
 #    render :layout => false if request.xhr?
 #  end
 #  
-  function context_menu()
-  {
-    $this->layout = 'ajax';
-    Configure::write('debug', Configure::read('debug') > 1 ? 1 : 0);
-    
-    $params = $this->params['form'];
-    $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$params['ids']), 'recursive'=>-1));
-    $this->set('issue_list', $issues);
-    $allowed_statuses = array();
-    $issue = false;
-    if (count($issues) == 1) {
-      $issue = $this->Issue->data = $issues[0];
-      $allowed_statuses = $this->Issue->findStatusList($this->User->role_for_project($this->current_user, $this->_project));
-    }
-    $this->set('issue', $issue);
-    $this->set('allowed_statuses', $allowed_statuses);
-    
-    $project_ids = array_unique(Set::extract("/Issue/project_id", $issues));
-    $project = $this->Issue->Project->find('first', array('conditions'=>array('Project.id'=>$project_ids[0]),'recursive'=>1));
-    $this->set('project', $project);
-    $ProjectsTracker = ClassRegistry::init('ProjectsTracker');
-    $project_trackers = Set::extract("/ProjectsTracker/tracker_id", 
-      $ProjectsTracker->find('all', array('conditions'=>array('project_id'=>$project_ids[0])))
-    );
-    $this->set('can', array(
-      'edit' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'edit_issues', $project)),
-      'log_time' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'log_time', $project)),
-      'update' => (!empty($project) && ($this->User->is_allowed_to($this->current_user, 'edit_issues', $project) || ($this->User->is_allowed_to($this->current_user, 'change_status', $project) && !empty($allowed_statuses)))),
-      'move' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'move_issues', $project)),
-      'copy' => ($issue && in_array($issue['Issue']['tracker_id'], $project_trackers) && $this->User->is_allowed_to($this->current_user, 'add_issues', $project)),
-      'delete' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'delete_issues', $project))
-    ));
-    $assignables = array();
-    if (!empty($project)) {
-      $assignables = $this->Issue->Project->assignable_users($project['Project']['id']);
-      if ($issue && $issue['Issue']['assigned_to_id'] && !array_key_exists($issue['Issue']['assigned_to_id'], $assignables)) {
-        $user = $this->User->read(null, $issue['Issue']['assigned_to_id']);
-        $assignables[$user['User']['id']] = $user['User']['firstname'].' '.$user['User']['lastname'];
-      }
-    }
-    $this->set('assignables', $assignables);
-    
-    $this->set('priorities', $this->Issue->Priority->get_values('IPRI', 'DESC'));
-    $this->set('statuses', $this->Issue->Status->find('all', array('order' => 'position')));
-    $this->set('back', $this->referer());
-    
-  }
+
+/**
+ * Context menu
+ *
+ * @return void
+ */
+	function context_menu() {
+		$this->layout = 'ajax';
+		Configure::write('debug', Configure::read('debug') > 1 ? 1 : 0);
+
+		$params = $this->params['form'];
+		$issues = $this->Issue->find('all', array('conditions' => array('Issue.id' => $params['ids']), 'recursive' => -1));
+		$this->set('issue_list', $issues);
+		$allowed_statuses = array();
+		$issue = false;
+		if (count($issues) == 1) {
+			$issue = $this->Issue->data = $issues[0];
+			$allowed_statuses = $this->Issue->findStatusList($this->User->role_for_project($this->current_user, $this->_project));
+		}
+		$this->set('issue', $issue);
+		$this->set('allowed_statuses', $allowed_statuses);
+
+		$project_ids = array_unique(Set::extract("/Issue/project_id", $issues));
+		$project = $this->Issue->Project->find('first', array('conditions' => array('Project.id' => $project_ids[0]),'recursive' => 1));
+		$this->set('project', $project);
+		$ProjectsTracker = ClassRegistry::init('ProjectsTracker');
+		$project_trackers = Set::extract("/ProjectsTracker/tracker_id", 
+			$ProjectsTracker->find('all', array('conditions' => array('project_id' => $project_ids[0])))
+		);
+		$this->set('can', array(
+			'edit' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'edit_issues', $project)),
+			'log_time' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'log_time', $project)),
+			'update' => (!empty($project) && ($this->User->is_allowed_to($this->current_user, 'edit_issues', $project) || ($this->User->is_allowed_to($this->current_user, 'change_status', $project) && !empty($allowed_statuses)))),
+			'move' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'move_issues', $project)),
+			'copy' => ($issue && in_array($issue['Issue']['tracker_id'], $project_trackers) && $this->User->is_allowed_to($this->current_user, 'add_issues', $project)),
+			'delete' => (!empty($project) && $this->User->is_allowed_to($this->current_user, 'delete_issues', $project))
+		));
+		$assignables = array();
+		if (!empty($project)) {
+			$assignables = $this->Issue->Project->assignable_users($project['Project']['id']);
+			if ($issue && $issue['Issue']['assigned_to_id'] && !array_key_exists($issue['Issue']['assigned_to_id'], $assignables)) {
+				$user = $this->User->read(null, $issue['Issue']['assigned_to_id']);
+				$assignables[$user['User']['id']] = $user['User']['firstname'].' '.$user['User']['lastname'];
+			}
+		}
+		$this->set('assignables', $assignables);
+
+		$this->set('priorities', $this->Issue->Priority->get_values('IPRI', 'DESC'));
+		$this->set('statuses', $this->Issue->Status->find('all', array('order' => 'position')));
+		$this->set('back', $this->referer());
+	}
+
 #  def context_menu
 #    @issues = Issue.find_all_by_id(params[:ids], :include => :project)
 #    if (@issues.size == 1)
@@ -912,86 +922,126 @@ class IssuesController extends AppController {
 #    render :action => :new, :layout => false
 #  end
 #  
-  function preview() {
-    if($this->RequestHandler->isAjax()) {
-      Configure::write('debug', 0);
-      $this->layout = 'ajax';
-    }
-    // TODO attachement
-    // @issue = @project.issues.find_by_id(params[:id]) unless params[:id].blank?
-    // $attachements = $issue.attachments if @issue
-    if(array_key_exists('notes', $this->data['Issue'])) {
-      $text = $this->data['Issue']['notes'];
-    } elseif(array_key_exists('description', $this->data['Issue'])) {
-      $text = $this->data['Issue']['description'];
-    } else {
-      $text = '';
-    }
-    $this->set(compact('text'));
-    $this->render('/common/_preview');
-  }
-  
-#private
-  function _find_issue($id)
-  {
-    $this->Issue->recursive = 1;
-    if($this->Issue->read(null, $id) === false) {
-      $this->cakeError('error404');
-    }
-    $this->set(array('issue'=>$this->Issue->data));
-    return $this->Issue->data;
-  }
 
-  function _set_edit_form_values() {
-    if (empty($this->Issue->data)) {
-      $priorities = $this->Issue->findPriorities($this->data['Issue']['priority_id']);
-    } else {
-      $a = 0;
-      $priorities = $this->Issue->findPriorities($a); //reference hack. to be refactor.
-    }
+/**
+ * Preview
+ *
+ * @return void
+ * @todo Attachments
+ */
+	function preview() {
+		if ($this->RequestHandler->isAjax()) {
+			Configure::write('debug', 0);
+			$this->layout = 'ajax';
+		}
 
-    $assignable_users = $this->Issue->Project->assignable_users($this->_project['Project']['id']);
-    $issue_categories = $this->Issue->Category->find('list', array('conditions'=>array('project_id'=>$this->_project['Project']['id'])));
-    $fixed_versions = $this->Issue->Project->Version->find('list', array('order'=>array('effective_date', 'name')));
-    $custom_field_values = $this->Issue->available_custom_fields($this->_project['Project']['id'], $this->data['Issue']['tracker_id']);
+		// TODO attachement
+		// @issue = @project.issues.find_by_id(params[:id]) unless params[:id].blank?
+		// $attachements = $issue.attachments if @issue
+		if (array_key_exists('notes', $this->data['Issue'])) {
+			$text = $this->data['Issue']['notes'];
+		} elseif (array_key_exists('description', $this->data['Issue'])) {
+			$text = $this->data['Issue']['description'];
+		} else {
+			$text = '';
+		}
+		$this->set(compact('text'));
+		$this->render('/common/_preview');
+	}
 
-    $this->set(compact('priorities', 'assignable_users', 'issue_categories', 'fixed_versions', 'custom_field_values'));
-    if($this->action == 'add') {
-      $members = $this->Issue->Project->members($this->_project['Project']['id']);
-      $this->set(compact('members'));
-    } else {
-      $time_entry_custom_fields = $this->Issue->TimeEntry->available_custom_fields();
-      $time_entry_activities = $this->Issue->findTimeEntryActivities();
-      $rss_token = $this->User->rss_key($this->current_user['id']);
-      $attachments = $this->Issue->findAttachments($this->Issue->data['Issue']['id']);
-      $attachments_deletable = $this->Issue->is_attachments_deletable($this->current_user, $this->_project);
+/**
+ * Find an issue
+ *
+ * @param string $id Issue ID
+ * @return array Issue data
+ * @access private
+ */
+	function _find_issue($id) {
+		$this->Issue->recursive = 1;
+		if ($this->Issue->read(null, $id) === false) {
+			$this->cakeError('error404');
+		}
+		$this->set(array('issue'=>$this->Issue->data));
+   		return $this->Issue->data;
+	}
 
-      $IssueRelation = & ClassRegistry::init('IssueRelation');
-      $issue_relations = $IssueRelation->findRelations($this->Issue->data);
+/**
+ * Set edit form values
+ *
+ * @return void
+ * @access protected
+ */
+	function _set_edit_form_values() {
+		if (empty($this->Issue->data)) {
+			$priorities = $this->Issue->findPriorities($this->data['Issue']['priority_id']);
+		} else {
+			$a = 0;
+			//reference hack. To be refactored.
+			$priorities = $this->Issue->findPriorities($a);
+		}
 
-      $this->set(compact(
-        'time_entry_custom_fields', 'time_entry_activities', 'rss_token', 'attachments', 'attachments_deletable', 'issue_relations'
-      ));
-    }
+		$assignable_users = $this->Issue->Project->assignable_users($this->_project['Project']['id']);
 
-  }
+		// Issue categories
+		$issue_categories = $this->Issue->Category->find('list', array(
+			'conditions' => array('project_id' => $this->_project['Project']['id'])
+		));
+		
+		// Issue Versions
+		$fixed_versions = $this->Issue->Project->Version->find('list', array(
+			'conditions' => array('project_id' => $this->_project['Project']['id']),
+			'order' => array('effective_date', 'name')
+		));
 
-  # Filter for bulk operations
-  function _find_issues($ids) {
-    $issues = $this->Issue->find('all', array('conditions'=>array('Issue.id'=>$ids)));
-    if (empty($issues)) {
-      $this->cakeError('error404');
-    }
-    $project_ids = array_unique(Set::extract("/Issue/project_id", $issues));
-    $projects = $this->Issue->Project->find('all', array('conditions'=>array('Project.id'=>$project_ids)));
-    if (count($projects) == 1) {
-      $project = $projects[0];
-    } else {
-      # TODO: let users bulk edit/move/destroy issues from different projects
-      $this->cakeError('Can not bulk edit/move/destroy issues from different projects');
-    }
-    return $issues;
-  }
+		$custom_field_values = $this->Issue->available_custom_fields($this->_project['Project']['id'], $this->data['Issue']['tracker_id']);
+
+		$this->set(compact('priorities', 'assignable_users', 'issue_categories', 'fixed_versions', 'custom_field_values'));
+		if ($this->action == 'add') {
+			$members = $this->Issue->Project->members($this->_project['Project']['id']);
+			$this->set(compact('members'));
+		} else {
+			$time_entry_custom_fields = $this->Issue->TimeEntry->available_custom_fields();
+			$time_entry_activities = $this->Issue->findTimeEntryActivities();
+			$rss_token = $this->User->rss_key($this->current_user['id']);
+			$attachments = $this->Issue->findAttachments($this->Issue->data['Issue']['id']);
+			$attachments_deletable = $this->Issue->is_attachments_deletable($this->current_user, $this->_project);
+
+			$IssueRelation = & ClassRegistry::init('IssueRelation');
+			$issue_relations = $IssueRelation->findRelations($this->Issue->data);
+
+			$this->set(compact(
+				'time_entry_custom_fields', 'time_entry_activities', 'rss_token',
+				'attachments', 'attachments_deletable', 'issue_relations'
+			));
+		}
+	}
+
+/**
+ * Filter for bulk operations
+ *
+ * @param array $ids Array of issue IDs
+ * @return array Issues
+ * @access protected
+ * @todo Let users bulk edit/move/destroy issues from different projects
+ */
+	function _find_issues($ids) {
+		$issues = $this->Issue->find('all', array(
+			'conditions' => array('Issue.id' => $ids)
+		));
+		if (empty($issues)) {
+			$this->cakeError('error404');
+		}
+		$project_ids = array_unique(Set::extract("/Issue/project_id", $issues));
+		$projects = $this->Issue->Project->find('all', array('conditions'=>array('Project.id'=>$project_ids)));
+		if (count($projects) == 1) {
+			$project = $projects[0];
+		} else {
+			// @TODO: let users bulk edit/move/destroy issues from different projects
+			$this->cakeError('Can not bulk edit/move/destroy issues from different projects');
+		}
+		return $issues;
+	}
+
 #  
 #  def find_project
 #    @project = Project.find(params[:project_id])
@@ -1037,33 +1087,41 @@ class IssuesController extends AppController {
 #      end
 #    end
 #  end
-  /**
-   * Move from IssuesHelper
-   */ 
-  function sidebar_queries() {
-    # User can see public queries and his own queries
-    $user_id = 0;
-    if ($this->current_user && $this->current_user['logged']) {
-      $user_id = $this->current_user['id'];
-    }
-    $visible = array();
-    $visible[] = array('OR' => array(
-        'Query.is_public' => true,
-        'Query.user_id' => $user_id
-    ));
-    # Project specific queries and global queries
-    if(empty($this->_project)) {
-      $visible[] = array("Query.project_id" => null);
-    } else {
-      $visible[] = array( 'OR' => array(
-          'Query.project_id' => null,
-          'Query.project_id' => $this->_project['Project']['id']
-      ));
-    }
-    $sidebar_queries = $this->Query->find('all', array( 
-                              'order' => "Query.name ASC",
-                              'conditions' => $visible
-                        ));
-    $this->set('sidebar_queries', $sidebar_queries);
-  }
+
+/**
+ * Move from IssuesHelper
+ *
+ * @return void
+ */
+	public function sidebar_queries() {
+		// User can see public queries and his own queries
+		$user_id = 0;
+		if ($this->current_user && $this->current_user['logged']) {
+			$user_id = $this->current_user['id'];
+		}
+		$visible = array();
+		$visible[] = array(
+			'OR' => array(
+				'Query.is_public' => true,
+				'Query.user_id' => $user_id
+   			)
+		);
+
+		// Project specific queries and global queries
+		if (empty($this->_project)) {
+			$visible[] = array("Query.project_id" => null);
+		} else {
+			$visible[] = array(
+				'OR' => array(
+					'Query.project_id' => null,
+					'Query.project_id' => $this->_project['Project']['id']
+				)
+			);
+		}
+		$sidebar_queries = $this->Query->find('all', array( 
+			'order' => "Query.name ASC",
+			'conditions' => $visible
+		));
+		$this->set('sidebar_queries', $sidebar_queries);
+	}
 }

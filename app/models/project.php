@@ -2,72 +2,161 @@
 define('PROJECT_STATUS_ACTIVE', 1);
 define('PROJECT_ARCHIVED', 9);
 
-class Project extends AppModel
-{
-  var $name = 'Project';
-  var $actsAs = array(
-      'ActivityProvider',
-      'Event' => array('title' => array('Proc' => '_event_title'),
-                      'url'   => array('Proc' => '_event_url'),
-                      'author' => null
-                      ),
-      'Searchable'
-  );
-  var $filterArgs = array(
-    array('name' => 'name', 'type' => 'like'),
-    array('name' => 'description', 'type' => 'like'),
-  );
-//  var $belongsTo = array(
-//    'Parent' => array(
-//      'className'=>'Project',
-//      'foreignKey'=>'parent_id',
-//    ),
-//  );
-  var $hasMany = array(
-    'Version' => array('order' => 'Version.effective_date desc'),
-    'TimeEntry',
-    'IssueCategory'=>array('dependent' => true, 'order' => "IssueCategory.name"),
-    'EnabledModule',
-  );
-  var $hasOne = array(
-    'Wiki'
-  );
-  var $hasAndBelongsToMany = array(
-    'Tracker' => array(
-      'with' => 'ProjectsTracker',
-    ),
-    'User' => array(
-      'with' => 'Member',
-    ),
-  );
-  function findById($id)
-  {
-    return $this->find('first', array('conditions'=>array($this->name.'.id'=>$id)));
-  }
+/**
+ * Project Model
+ *
+ * @package candycane
+ * @subpackage candycane.models
+ */
+class Project extends AppModel {
 
-  function findByIdentifier($identifier)
-  {
-    return $this->find('first', array('conditions'=>array($this->name.'.identifier'=>$identifier)));
-  }
+/**
+ * Model name
+ *
+ * @var string
+ */
+ 	public $name = 'Project';
 
-  function findSubprojects($id)
-  {
-    return $this->find('all', array('conditions'=>array($this->name.'.parent_id'=>$id)));
-  }
+/**
+ * Model behaviors
+ *
+ * @var array
+ */
+	public $actsAs = array(
+		'ActivityProvider',
+		'Event' => array(
+			'title' => array('Proc' => '_event_title'),
+			'url' => array('Proc' => '_event_url'),
+			'author' => null),
+		'Searchable',
+	);
 
-  /**
-   * include EnabledModule because check access control.
-   */
-  function findMainProject($identifier) {
-    $this->bindModel(array('hasMany' => array('EnabledModule')));
-    $this->filterBindings(array('Version', 'TimeEntry', 'IssueCategory'));
-    $ret = $this->find('first', array(
-      'conditions' => array('Project.identifier' => $identifier,),
-      'recursive'  => 1,
-    ));
-    
-    return $ret;
-  }
+/**
+ * Filter arguments
+ *
+ * @var array
+ */
+	public $filterArgs = array(
+		array('name' => 'name', 'type' => 'like'),
+		array('name' => 'description', 'type' => 'like'),
+	);
+
+/**
+ * Belongs To associations
+ *
+ * @var array
+ */
+	// public $belongsTo = array(
+	// 	'Parent' => array(
+	// 		'className' => 'Project',
+	// 		'foreignKey' => 'parent_id',
+	// 	),
+	// );
+
+/**
+ * Has Many associations
+ *
+ * @var array
+ */
+ 	public $hasMany = array(
+		'EnabledModule',
+		'IssueCategory' => array('dependent' => true, 'order' => "IssueCategory.name"),
+		'TimeEntry',
+		'Version' => array('order' => 'Version.effective_date desc'),
+  );
+
+/**
+ * Has One Associations
+ *
+ * @var array
+ */
+ 	public $hasOne = array(
+		'Wiki'
+	);
+
+/**
+ * Has and belongs to many associations
+ *
+ * @var array
+ */
+	public $hasAndBelongsToMany = array(
+		'Tracker' => array(
+			'with' => 'ProjectsTracker',
+		),
+		'User' => array(
+			'with' => 'Member',
+		),
+	);
+
+#protected
+#  def validate
+#    errors.add(parent_id, " must be a root project") if parent and parent.parent
+#    errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
+#    errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
+#  end
+
+/**
+ * Setup validation rules
+ *
+ * @return void
+ */
+	protected function _setupValidation() {
+		$this->validate = array(
+			'identifier' => array(
+				'length' => array(
+					'rule' => '/[a-z0-9\-]{2,20}/',
+					'message' => __('Identifier must be between 2 and 20 characters, containing only letters, numbers and dashes.', true),
+				),
+			)
+		);
+	}
+
+/**
+ * Find a Project for the specified ID
+ *
+ * @param string $id Project ID
+ * @return array Project data
+ */
+	public function findById($id) {
+		die('finding by id');
+		return $this->find('first', array('conditions' => array($this->name.'.id' => $id)));
+	}
+
+/**
+ * Find project by identifier
+ *
+ * @param string $identifier Project identifier
+ * @return array project data
+ */
+	public function findByIdentifier($identifier) {
+		return $this->find('first', array('conditions' => array($this->name.'.identifier' => $identifier)));
+	}
+
+/**
+ * Find SubProjects for a given project ID
+ *
+ * @param string $id Project ID
+ * @return array Subprojects data
+ */
+	public function findSubprojects($id) {
+		return $this->find('all', array('conditions'=>array($this->name.'.parent_id'=>$id)));
+	}
+
+/**
+ * Include EnabledModule because check access control.
+ *
+ * @param string $identifier 
+ * @return void
+ */
+	public function findMainProject($identifier) {
+		$this->bindModel(array('hasMany' => array('EnabledModule')));
+		$this->filterBindings(array('Version', 'TimeEntry', 'IssueCategory'));
+		return $this->find('first', array(
+			'conditions' => array('Project.identifier' => $identifier),
+			'recursive' => 1,
+		));
+	}
+
 #  # Project statuses
 #  STATUS_ACTIVE     = 1
 #  STATUS_ARCHIVED   = 9
@@ -139,67 +228,79 @@ class Project extends AppModel
 #    end 
 #  end
 #
-  /**
-   * returns latest created projects
-   * non public projects will be returned only if user is a member of those
-   * @param array $user
-   * @param integer $count
-   * @return array
-   */
-  function latest($user = array(), $count = 5) {
-    return $this->find('all',array(
-      'conditions' => $this->visible_by($user),
-      'order' => 'Project.created_on DESC',
-      'limit' => $count
-    ));
-  }
 
-  function visible_by($user = false) {
-    if(empty($user)) {
-      return $this->cakeError('error', "Argument Exception.");
-    }
-    if($user['admin']) {
-      return array('Project.status'=>PROJECT_STATUS_ACTIVE);
-    } elseif(!empty($user['memberships'])) {
-      $allowed_project_ids = array();
-      foreach($user['memberships'] as $member) {
-        $allowed_project_ids[] = $member['Project']['id'];
-      }
-      return array('Project.status'=>PROJECT_STATUS_ACTIVE, array('or'=>array('Project.is_public'=>true), array('Project.id'=>$allowed_project_ids))); 
-    } else {
-      return array('Project.status'=>PROJECT_STATUS_ACTIVE, 'Project.is_public'=>true);
-    }
-  }  
+/**
+ * returns latest created projects
+ * non public projects will be returned only if user is a member of those
+ *
+ * @param array $user
+ * @param integer $count
+ * @return array
+ */
+	public function latest($user = array(), $count = 5) {
+		return $this->find('all', array(
+			'conditions' => $this->visible_by($user),
+			'order' => 'Project.created_on DESC',
+			'limit' => $count
+		));
+	}
 
-  function get_visible_by_condition($user = null)
-  {
-    if ($user == null) {
-      return array('Project.status'=>PROJECT_STATUS_ACTIVE, 'Project.is_public'=>true); // @TODO current取れる？
-    }
+/**
+ * Return conditions for find() calls base don user permissions
+ *
+ * @param string $user User Data
+ * @return array Find conditions
+ */
+	public function visible_by($user = false) {
+		if (empty($user)) {
+			return $this->cakeError('error', "Argument Exception.");
+		}
+		if ($user['admin']) {
+			return array('Project.status' => PROJECT_STATUS_ACTIVE);
+		} elseif (!empty($user['memberships'])) {
+			$allowed_project_ids = array();
+			foreach ($user['memberships'] as $member) {
+				$allowed_project_ids[] = $member['Project']['id'];
+			}
+			return array('Project.status' => PROJECT_STATUS_ACTIVE, array('or' => array('Project.is_public' => true), array('Project.id' => $allowed_project_ids))); 
+		} else {
+			return array('Project.status' => PROJECT_STATUS_ACTIVE, 'Project.is_public' => true);
+		}
+	}
 
-    if ($user['admin']) {
-      return array('Project.status'=>PROJECT_STATUS_ACTIVE);
-    } else {
-      if (isset($user['memberships']) && (count($user['memberships']) > 0)) {
-        $ids = array();
-        foreach($user['memberships'] as $membership) {
-          $ids[] = $membership['project_id'];
-        }
-        return array('Project.status'=>PROJECT_STATUS_ACTIVE, 'or'=>array('Project.is_public'=>true, 'Project.id'=>$ids));
-      } else {
-        return array('Project.status'=>PROJECT_STATUS_ACTIVE, 'Project.is_public'=>true);
-      }
-    }
-#    user ||= User.current
-#    if user && user.admin?
-#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
-#    elsif user && user.memberships.any?
-#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')}))"
-#    else
-#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
-#    end
+/**
+ * Get visible by condition
+ *
+ * @param array $user User Data
+ * @return array Find conditions
+ */
+	public function get_visible_by_condition($user = null) {
+		if ($user == null) {
+			return array('Project.status' => PROJECT_STATUS_ACTIVE, 'Project.is_public' => true); // @TODO current取れる？
+		}
 
-  }
+		if ($user['admin']) {
+			return array('Project.status' => PROJECT_STATUS_ACTIVE);
+		} else {
+			if (isset($user['memberships']) && (count($user['memberships']) > 0)) {
+				$ids = array();
+				foreach ($user['memberships'] as $membership) {
+					$ids[] = $membership['project_id'];
+				}
+				return array('Project.status' => PROJECT_STATUS_ACTIVE, 'or' => array('Project.is_public' => true, 'Project.id' => $ids));
+			} else {
+				return array('Project.status' => PROJECT_STATUS_ACTIVE, 'Project.is_public' => true);
+			}
+		}
+		#    user ||= User.current
+		#    if user && user.admin?
+		#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE}"
+		#    elsif user && user.memberships.any?
+		#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND (#{Project.table_name}.is_public = #{connection.quoted_true} or #{Project.table_name}.id IN (#{user.memberships.collect{|m| m.project_id}.join(',')}))"
+		#    else
+		#      return "#{Project.table_name}.status=#{Project::STATUS_ACTIVE} AND #{Project.table_name}.is_public = #{connection.quoted_true}"
+		#    end
+	}
 
   /**
    * @param user : AppController->current_user
@@ -593,13 +694,6 @@ class Project extends AppModel
 #    p.nil? ? nil : p.identifier.to_s.succ
 #  end
 #
-#protected
-#  def validate
-#    errors.add(parent_id, " must be a root project") if parent and parent.parent
-#    errors.add_to_base("A project with subprojects can't be a subproject") if parent and children.size > 0
-#    errors.add(:identifier, :activerecord_error_invalid) if !identifier.blank? && identifier.match(/^\d*$/)
-#  end
-#  
 #private
 #  acts_as_event :title => Proc.new {|o| "#{l(:label_project)}: #{o.name}"},
 #                :url => Proc.new {|o| {:controller => 'projects', :action => 'show', :id => o.id}},
