@@ -118,7 +118,6 @@ class Project extends AppModel {
  * @return array Project data
  */
 	public function findById($id) {
-		die('finding by id');
 		return $this->find('first', array('conditions' => array($this->name.'.id' => $id)));
 	}
 
