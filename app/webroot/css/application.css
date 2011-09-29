@@ -261,6 +261,11 @@ width: 175px; /*width of labels. Should be smaller than left column to create so
 margin*/
 }
 
+.tabular .error-message {
+margin-left: 185px;
+color: #900;
+}
+
 .tabular label.floating{
 font-weight: normal;
 margin-left: 0px;
