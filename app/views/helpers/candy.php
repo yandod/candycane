@@ -1250,38 +1250,38 @@ function breadcrumb($args)
  * @return string translated label
  */
 	function get_lang_label($key){
-	  $list = array(
-		//bg 'Bulgarian'
-		//ca 'Català'
-		//cs 'Čeština'
-		//da 'Dansk'
-		'deu' => 'Deutsch',
-		'eng' => 'English',
-		'esp' => 'Español',
-		//fi 'Finnish (Suomi)'
-		'fre' => 'Français',
-		//he 'Hebrew (עברית)'
-		//hu 'Magyar'
-		//it 'Italiano'
-		'jpn' => 'Japanese (日本語)',
-		'kor' => 'Korean (한국어)',
-		//lt 'Lithuanian (lietuvių)'
-		//nl 'Nederlands'
-		//no 'Norwegian (Norsk bokmål)'
-		//pl 'Polski'
-		'bra' => 'Português(Brasil)',
-		//pt 'Português'
-		'rum' => 'Română',
-		'rus' => 'Russian (Русский)',
-		//sk 'Slovensky'
-		//sr 'Srpski'
-		//sv 'Svenska'
-		'tha' => 'Thai (ไทย)',
-		//tr 'Türkçe'
-		//uk 'Ukrainian (Українська)'
-		//vn 'Tiếng Việt'
-		//zh-tw 'Traditional Chinese (繁體中文)'
-		'chi' => 'Simplified Chinese (简体中文)'
+		$list = array(
+			//bg 'Bulgarian'
+			//ca 'Català'
+			//cs 'Čeština'
+			//da 'Dansk'
+			'deu' => 'Deutsch',
+			'eng' => 'English',
+			'esp' => 'Español',
+			//fi 'Finnish (Suomi)'
+			'fre' => 'Français',
+			//he 'Hebrew (עברית)'
+			//hu 'Magyar'
+			//it 'Italiano'
+			'jpn' => 'Japanese (日本語)',
+			'kor' => 'Korean (한국어)',
+			//lt 'Lithuanian (lietuvių)'
+			//nl 'Nederlands'
+			//no 'Norwegian (Norsk bokmål)'
+			//pl 'Polski'
+			'bra' => 'Português(Brasil)',
+			//pt 'Português'
+			'rum' => 'Română',
+			'rus' => 'Russian (Русский)',
+			//sk 'Slovensky'
+			//sr 'Srpski'
+			//sv 'Svenska'
+			'tha' => 'Thai (ไทย)',
+			//tr 'Türkçe'
+			//uk 'Ukrainian (Українська)'
+			//vn 'Tiếng Việt'
+			//zh-tw 'Traditional Chinese (繁體中文)'
+			'chi' => 'Simplified Chinese (简体中文)'
 	  );
 	  return isset($list[$key]) ? $list[$key] : $key;
 	}
