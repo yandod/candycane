@@ -56,8 +56,6 @@ class InstallController extends InstallAppController {
  */
     function index() {
         $this->pageTitle = __('Installation: Welcome', true);
-        chmod(TMP,'755');
-        chmod(APP.'config','755');
     }
 /**
  * Step 1: database
