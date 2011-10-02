@@ -58,7 +58,6 @@ class AttachmentsController extends AppController {
 				$this->_read_authorize();
 				break;
 		}
-		return true;
 	}
 
 /**
