@@ -1240,9 +1240,50 @@ function breadcrumb($args)
 			if ($lang == 'default.pot') {
 				continue;
 			}
-			$list[$lang] = $lang;
+			$list[$lang] = $this->get_lang_label($lang);
 		}
 		return $list;
+	}
+/**
+ * Translate language ket to human friendly label.
+ * @param string $key
+ * @return string translated label
+ */
+	function get_lang_label($key){
+		$list = array(
+			//bg 'Bulgarian'
+			//ca 'Català'
+			//cs 'Čeština'
+			//da 'Dansk'
+			'deu' => 'Deutsch',
+			'eng' => 'English',
+			'esp' => 'Español',
+			//fi 'Finnish (Suomi)'
+			'fre' => 'Français',
+			//he 'Hebrew (עברית)'
+			//hu 'Magyar'
+			//it 'Italiano'
+			'jpn' => 'Japanese (日本語)',
+			'kor' => 'Korean (한국어)',
+			//lt 'Lithuanian (lietuvių)'
+			//nl 'Nederlands'
+			//no 'Norwegian (Norsk bokmål)'
+			//pl 'Polski'
+			'bra' => 'Português(Brasil)',
+			//pt 'Português'
+			'rum' => 'Română',
+			'rus' => 'Russian (Русский)',
+			//sk 'Slovensky'
+			//sr 'Srpski'
+			//sv 'Svenska'
+			'tha' => 'Thai (ไทย)',
+			//tr 'Türkçe'
+			//uk 'Ukrainian (Українська)'
+			//vn 'Tiếng Việt'
+			//zh-tw 'Traditional Chinese (繁體中文)'
+			'chi' => 'Simplified Chinese (简体中文)'
+	  );
+	  return isset($list[$key]) ? $list[$key] : $key;
 	}
 #
 #  def label_tag_for(name, option_tags = nil, options = {})
