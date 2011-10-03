@@ -47,8 +47,8 @@ class AttachmentsController extends AppController {
  * @return void
  */
 	public function beforeFilter() {
-		$this->_find_project();
 		parent::beforeFilter();
+		$this->_find_project();
 
 		switch ($this->action) {
 			case 'destroy':
@@ -125,12 +125,12 @@ class AttachmentsController extends AppController {
  * @access private
  */
 	function _find_project() {
-		$this->Attachment->read(null, $this->params['id']);
-		$this->set('attachment', $this->Attachment->data[$this->Attachment->alias]);
-		$this->set('author', $this->Attachment->data['Author']);
+		$attachment = $this->Attachment->read(null, $this->params['id']);
+		$this->set('attachment', $attachment[$this->Attachment->alias]);
+		$this->set('author', $attachment[$this->Attachment->Author->alias]);
 
 		// Show 404 if the filename in the url is wrong
-		if (!empty($this->params['filename']) && $this->params['filename'] != $this->Attachment->data[$this->Attachment->name]['filename']) {
+		if (!empty($this->params['filename']) && $this->params['filename'] != $attachment[$this->Attachment->alias]['filename']) {
 			$this->cakeError('error404');
 		}
 		$project = $this->Attachment->project();
