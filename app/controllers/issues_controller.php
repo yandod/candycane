@@ -269,7 +269,9 @@ class IssuesController extends AppController {
 				break;
 			case 'atom':
 				break;
+
 		}
+		$this->sidebar_queries();
 	}
 
 /**

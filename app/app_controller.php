@@ -37,6 +37,11 @@ class AppController extends Controller {
 		$this->_authorize();
 	}
 
+/**
+ * Set URL Parameters
+ *
+ * @return void
+ */
 	function _setUrlParam() {
 		$url_param = $this->params;
 		foreach (array(
