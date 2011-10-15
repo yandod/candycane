@@ -50,7 +50,7 @@ class MenuContainer extends Object {
 				'class' => 'help',
 				'caption' => 'Help',
 				'logged' => false,
-				'admin' => true
+				'admin' => false
 			),
 		);
 	}
