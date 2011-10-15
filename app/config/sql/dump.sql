@@ -950,7 +950,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 INSERT INTO `users` (`id`, `login`, `hashed_password`, `firstname`, `lastname`, `mail`, `mail_notification`, `admin`, `status`, `last_login_on`, `language`, `auth_source_id`, `created_on`, `updated_on`, `type`) VALUES
 (1, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'Redmine', 'Admin', 'admin@example.net', 1, 1, 1, '2009-03-04 23:06:50', 'en', NULL, '2009-03-04 23:00:57', '2009-03-04 23:06:50', 'User'),
 (2, '', '', '', 'Anonymous', '', 0, 0, 0, NULL, '', NULL, '2009-03-04 23:02:30', '2009-03-04 23:02:30', 'AnonymousUser'),
-(3, 'testuser', '0ad9bc6ecffe1d236f6653705d5313dbf1328415', 'yusuke', 'ando', 'test@example.com', 0, 1, 1, '2009-03-20 23:24:42', 'ja', NULL, '2009-03-04 23:06:32', '2009-03-20 23:24:42', NULL);
+(3, 'testuser', 'AWESOME', 'yusuke', 'ando', 'test@example.com', 0, 1, 1, '2009-03-20 23:24:42', 'ja', NULL, '2009-03-04 23:06:32', '2009-03-20 23:24:42', NULL);
 
 -- --------------------------------------------------------
 
