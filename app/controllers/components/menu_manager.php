@@ -106,18 +106,64 @@ class MenuManagerComponent extends Object
   	}
     $this->menu_items = $menu_data;
   }
-  
-  function _getProjectMenu()
-  {
-  	return array(
-      'overview' => aa('controller','projects','action','show','class','','caption','Overview','params','project_id'),
-      'activity' => aa('controller','projects','action','activity','class','','caption','Activity','params','project_id'),
-      'roadmap'  => aa('controller','projects','action','roadmap','class','','caption','Roadmap','params','project_id'),
-      'issues'   => aa('controller','issues','action','index','class','','caption','Issues','params','project_id'),
-      'new_issue'=> aa('controller','issues','action','add','class','','caption','New issue','params','project_id'),
-      'news'     => aa('controller','news','action','index','class','','caption','News','params','project_id'),
-      'wiki'     => aa('controller','wiki','action','index','class','','caption','Wiki','params','project_id'),
-      'settings' => aa('controller','projects','action','settings','class','','caption','Preferences','params','project_id'),  		
+	function _getProjectMenu(){
+		return array(
+			'overview' => array(
+				'controller' => 'projects',
+				'action' => 'show',
+				'class' => '',
+				'caption' => 'Overview',
+				'params' => 'project_id'
+			),
+			'activity' => array(
+				'controller' => 'projects',
+				'action' => 'activity',
+				'class' => '',
+				'caption' => 'Activity',
+				'params' => 'project_id'
+			),
+			'roadmap'  => array(
+				'controller' => 'projects',
+				'action' => 'roadmap',
+				'class' => '',
+				'caption' => 'Roadmap',
+				'params' => 'project_id'
+			),
+			'issues'   => array(
+				'controller' => 'issues',
+				'action' => 'index',
+				'class' => '',
+				'caption' => 'Issues',
+				'params' => 'project_id'
+			),
+			'new_issue'=> array(
+				'controller' => 'issues',
+				'action' => 'add',
+				'class' => '',
+				'caption' => 'New issue',
+				'params' => 'project_id'
+			),
+			'news'     => array(
+				'controller' => 'news',
+				'action' => 'index',
+				'class' => '',
+				'caption' => 'News',
+				'params' => 'project_id'
+			),
+			'wiki'     => array(
+				'controller' => 'wiki',
+				'action' => 'index',
+				'class' => '',
+				'caption' => 'Wiki',
+				'params' => 'project_id'
+			),
+			'settings' => array(
+				'controller' => 'projects',
+				'action' => 'settings',
+				'class' => '',
+				'caption' => 'Preferences',
+				'params' => 'project_id'
+			),
   	);
   }
   function _getApplicationMenu()
