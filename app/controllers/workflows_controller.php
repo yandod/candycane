@@ -61,7 +61,7 @@ class WorkflowsController extends Appcontroller {
 
     $this->Workflow->bindModel(array('belongsTo' => array('IssueStatus' => array('className' => 'IssueStatus',
                                                                                   'foreignKey' => 'new_status_id'))));
-
+	$allowed_to = array();
     if ($role_id && $tracker_id) {
       $allowed_to = $this->Workflow->find('all', array('conditions' => array('role_id' => $role_id,
                                                                              'tracker_id' => $tracker_id),

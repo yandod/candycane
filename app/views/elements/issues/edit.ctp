@@ -1,7 +1,7 @@
 <?php echo $form->create('Issue', array('url'=>array('action'=>'edit', 'id'=>$issue['Issue']['id']), 'enctype'=>"multipart/form-data", 'id'=>'issue-form')); ?>
   <?php echo $this->renderElement('error_explanation'); ?>
   <div class="box">
-  <?php if($candy->authorize_for(':edit_issues') || !empty($allowedStatuses)): ?>
+  <?php if($candy->authorize_for('edit_issues') && !empty($allowed_statuses)): ?>
   <fieldset class="tabular">
     <legend><?php __('Change properties'); ?>
       <?php if(!empty($issue['Issue']['id']) && empty($this->validationErrors['Issue']) && $candy->authorize_for(':edit_issues')): ?>
@@ -9,7 +9,7 @@
       <?php endif; ?>
     </legend>
     <?php 
-    if($candy->authorize_for(':edit_issues')) {
+    if($candy->authorize_for('edit_issues')) {
       echo $this->renderElement('issues/form', compact(
         'statuses', 'priorities', 'assignableUsers', 'issueCategories', 
         'fixedVersions', 'customFieldValues'));

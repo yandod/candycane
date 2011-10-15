@@ -254,6 +254,10 @@ class IssuesController extends AppController {
 		}
 		$this->set(compact('statuses'));
 		$this->_set_edit_form_values();
+		$allowed_statuses = $this->Issue->findStatusList(
+		    $this->User->role_for_project($this->current_user, $this->_project)
+		);
+		$this->set('allowed_statuses', $allowed_statuses);
 
 		if (!empty($this->Issue->data['CustomValue'])) {
 			foreach($this->Issue->data['CustomValue'] as $value) {
