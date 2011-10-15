@@ -51,10 +51,19 @@ class MenuContainer extends Object {
 	public function getTopMenu($currentuser){
 		$temp = array();
 		foreach ($this->top_menu as $val) {
-			if (array_key_exists('logged', $val) && $val['logged'] && !$currentuser['logged']) {
+			if (
+				array_key_exists('logged', $val) &&
+				$val['logged'] &&
+				!$currentuser['logged']
+			) {
 				continue;
 			}
-				if (array_key_exists('admin', $val) && $val['admin'] && !$currentuser['admin']) {
+			if (
+				array_key_exists('admin', $val) &&
+				$val['admin'] &&
+				array_key_exists('admin', $currentuser) &&
+				!$currentuser['admin']
+			) {
 				continue;
 			}
 			$temp[] = $val;
