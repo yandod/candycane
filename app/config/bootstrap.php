@@ -44,6 +44,14 @@
 Configure::write('app_title', 'Candycane');
 setlocale(LC_CTYPE,'C');
 
+App::import('Vendor','MenuContainer');
+$menu_container = new MenuContainer();
+App::import('Core','ClassRegistry');
+ClassRegistry::addObject('MenuContainer',$menu_container);
+foreach( glob('../plugins/cc_*/init.php') as $val){
+	require_once(realpath($val));
+}
+
 // by PHP_Compat 1.6.0a2
 function php_compat_http_build_query($formdata, $numeric_prefix = null)
 {
