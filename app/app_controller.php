@@ -13,7 +13,8 @@ class AppController extends Controller {
 
 	public $layout = 'base';
 	public $helpers = array('Html', 'Form', 'Javascript', 'Candy');
-	public $components = array('Cookie', 'MenuManager', 'DebugKit.Toolbar');
+	//public $components = array('Cookie', 'MenuManager', 'DebugKit.Toolbar');
+	public $components = array('Cookie', 'MenuManager');
 	public $uses = array('User', 'Setting', 'Project');
 	public $current_user; // alternate User.current
 	public $per_page;
