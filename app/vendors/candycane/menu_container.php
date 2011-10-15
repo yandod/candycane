@@ -6,9 +6,15 @@
 class MenuContainer extends Object {
 	protected $top_menu = array();
 	protected $project_menu = array();
+	/**
+	 * constructor
+	 */
 	public function __construct(){
 		$this->initTopMenu();
 	}
+	/**
+	 * initialize top menu.
+	 */
 	protected function initTopMenu(){
 		$this->top_menu = array(
 			'home' => array(
@@ -48,6 +54,11 @@ class MenuContainer extends Object {
 			),
 		);
 	}
+	/**
+	 * get top menu items.
+	 * @param array $currentuser
+	 * @return array
+	 */
 	public function getTopMenu($currentuser){
 		$temp = array();
 		foreach ($this->top_menu as $val) {
@@ -70,6 +81,11 @@ class MenuContainer extends Object {
 		}
 		return $temp;
 	}
+	/**
+	 * add item to topmenu.
+	 * @param array $item
+	 * @param boolean $first
+	 */
 	public function addTopMenu($item,$first = false){
 		$this->top_menu[] = $item;
 	}
