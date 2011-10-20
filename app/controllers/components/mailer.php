@@ -8,6 +8,11 @@ class MailerComponent extends ActionMailer {
     function startup($controller){
         $this->controller = $controller;
         $this->setHeader('Content-type', 'text/plain');
+
+        if(extension_loaded('mbstring') && strcmp(Configure::read('Config.language'), 'jpn') === 0){
+            mb_language('ja');
+            mb_internal_encoding("UTF-8");
+        }
     }
 
     function  beforeRender() {
