@@ -116,4 +116,3 @@ Router::connect('queries/:action/:query_id',array('controller' => 'queries'));
  */
 	Router::connect('/tests', array('controller' => 'tests', 'action' => 'index'));
 
-?>

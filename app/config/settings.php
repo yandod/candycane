@@ -112,4 +112,3 @@ $vars = array(
   ROOT . DS . APP_DIR . DS.'files',
 );
 return $vars;
-?>
