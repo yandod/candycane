@@ -24,4 +24,3 @@ class EnumerationFixture extends CakeTestFixture {
     array('name'=>'QA', 'id'=>11, 'opt'=>'ACTI','is_default'=>false)
   );
 }
-?> 

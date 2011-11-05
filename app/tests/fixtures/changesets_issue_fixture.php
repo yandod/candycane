@@ -10,4 +10,3 @@ class ChangesetsIssueFixture extends CakeTestFixture {
   var $records = array(
   );
 }
-?>

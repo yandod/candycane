@@ -72,4 +72,3 @@ array('text'=>'|-
   'comments'=>null),
 );
 }
-?>

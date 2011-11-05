@@ -7,4 +7,3 @@ class TokenFixture extends CakeTestFixture {
     array('created_on'=>'2007-01-21 00:39:52 +01:00', 'action'=>'recovery', 'id'=>2, 'value'=>'sahYSIaoYrsZUef86sTHrLISdznW6ApF36h5WSnm', 'user_id'=>2),
   );
 }
-?>

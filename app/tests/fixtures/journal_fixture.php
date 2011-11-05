@@ -31,4 +31,3 @@ class JournalFixture extends CakeTestFixture {
     return parent::init();
   }
 }
-?>

@@ -23,4 +23,3 @@ class ProjectsTrackerFixture extends CakeTestFixture {
     array('project_id'=>1, 'tracker_id'=>3),
   );
 }
-?>

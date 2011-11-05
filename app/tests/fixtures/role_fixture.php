@@ -157,4 +157,3 @@ class RoleFixture extends CakeTestFixture {
 - :view_changesets")
   );
 }
-?>

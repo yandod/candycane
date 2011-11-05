@@ -274,4 +274,3 @@ class WorkflowFixture extends CakeTestFixture {
     array('new_status_id'=>4, 'role_id'=>1, 'old_status_id'=>2, 'id'=>188, 'tracker_id'=>3),
   );
 }
-?>

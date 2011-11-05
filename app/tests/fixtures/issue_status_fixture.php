@@ -18,4 +18,3 @@ class IssueStatusFixture extends CakeTestFixture {
     array('name'=>"Closed",   'is_default'=>false, 'is_closed'=>true, 'id'=>5, 'position'=>6),
   );
 }
-?>

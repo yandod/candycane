@@ -10,4 +10,3 @@ Visit http://ecookbook.somenet.foo/',  'summary'=>'First version was released...
 
   );
 }
-?>

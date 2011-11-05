@@ -5,4 +5,3 @@ class CustomFieldsProjectFixture extends CakeTestFixture {
   var $records = array(
   );
 }
-?>

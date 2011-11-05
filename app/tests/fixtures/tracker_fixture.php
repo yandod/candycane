@@ -15,4 +15,3 @@ class TrackerFixture extends CakeTestFixture {
     array('name'=>"Support request", 'id'=>3, 'is_in_chlog'=>false, 'position'=>3),
   );
 }
-?>

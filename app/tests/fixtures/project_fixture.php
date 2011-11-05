@@ -33,4 +33,3 @@ class ProjectFixture extends CakeTestFixture {
           'homepage'=>"", 'is_public'=>false, 'identifier'=>"private_child", 'parent_id'=>1)
   );
 }
-?> 

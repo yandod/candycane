@@ -7,4 +7,3 @@ class WikiFixture extends CakeTestFixture {
     array('status'=>'1','start_page'=>'Start page','project_id'=>'2','id'=>'2'),
   );
 }
-?>

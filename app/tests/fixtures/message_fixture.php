@@ -47,4 +47,3 @@ class MessageFixture extends CakeTestFixture {
           'content'=>"Another reply to the second post", 'author_id'=>3, 'parent_id'=>4, 'board_id'=>1)
   );
 }
-?>

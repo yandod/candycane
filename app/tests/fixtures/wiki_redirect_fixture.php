@@ -5,4 +5,3 @@ class WikiRedirectFixture extends CakeTestFixture {
   var $records = array(
   );
 }
-?>

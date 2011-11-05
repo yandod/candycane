@@ -5,4 +5,3 @@ class WikiContentVersionFixture extends CakeTestFixture {
   var $records = array(
   );
 }
-?>

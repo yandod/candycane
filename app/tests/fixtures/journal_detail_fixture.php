@@ -15,4 +15,3 @@ class JournalDetailFixture extends CakeTestFixture {
     array('old_value'=>"40",'property'=>"attr",'id'=>2,'value'=>"30",'prop_key'=>"done_ratio",'journal_id'=>1),
   );
 }
-?>

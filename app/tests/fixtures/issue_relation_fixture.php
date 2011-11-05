@@ -5,4 +5,3 @@ class IssueRelationFixture extends CakeTestFixture {
   var $records = array(
   );
 }
-?>

@@ -14,4 +14,3 @@ class AttachmentFixture extends CakeTestFixture {
     array('created_on'=>'2006-07-19 21:07:27 +02:00', 'container_type'=>'Version', 'container_id'=>'1', 'downloads'=>'0', 'disk_filename'=>'060719210727_version_file.zip', 'digest'=>'b91e08d0cf966d5c6ff411bd8c4cc3a2', 'id'=>'9', 'filesize'=>'452', 'filename'=>'version_file.zip', 'author_id'=>'2', 'content_type'=>'application/octet-stream', 'description'=>''),
   );
 }
-?>

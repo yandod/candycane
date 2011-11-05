@@ -7,4 +7,3 @@ class CommentFixture extends CakeTestFixture {
     array('commented_type'=>'News', 'commented_id'=>'1', 'id'=>'2', 'author_id'=>'2', 'comments'=>'This is an other comment', 'created_on'=>'2006-12-10 18:12:10 +01:00', 'updated_on'=>'2006-12-10 18:12:10 +01:00'),
   );
 }
-?>

@@ -134,4 +134,3 @@ class IssueFixture extends CakeTestFixture {
     return parent::init();
   }
 }
-?>

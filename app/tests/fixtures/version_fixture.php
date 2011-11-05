@@ -23,4 +23,3 @@ class VersionFixture extends CakeTestFixture {
           'updated_on'=>"2006-07-19 21:00:33 +02:00", 'id'=>3, 'description'=>"Future version", 'effective_date'=>null)
   );
 }
- ?>

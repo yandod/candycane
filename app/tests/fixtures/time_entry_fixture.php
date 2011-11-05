@@ -9,4 +9,3 @@ class TimeEntryFixture extends CakeTestFixture {
     array('created_on'=>'2007-04-22 12:20:48 +02:00', 'tweek'=>16, 'tmonth'=>4, 'project_id'=>3, 'comments'=>'Time spent on a subproject', 'updated_on'=>'2007-04-22 12:20:48 +02:00', 'activity_id'=>10, 'spent_on'=>'2007-04-22', 'issue_id'=>null, 'id'=>4, 'hours'=>7.65, 'user_id'=>1, 'tyear'=>2007),
   );
 }
-?>

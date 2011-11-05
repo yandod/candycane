@@ -46,4 +46,3 @@ class UserFixture extends CakeTestFixture {
           'auth_source_id'=>null, 'mail_notification'=>false, 'login'=>'', 'type'=>"AnonymousUser")
   );
 }
-?>

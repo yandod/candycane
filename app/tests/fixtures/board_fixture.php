@@ -17,4 +17,3 @@ class BoardFixture extends CakeTestFixture {
     array('name'=>'Discussion','project_id'=>1,'topics_count'=>0,'id'=>2,'description'=>'Discussion board','position'=>2,'last_message_id'=>null,'messages_count'=>0)
   );
 }
-?>

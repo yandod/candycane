@@ -14,4 +14,3 @@ class CustomValueFixture extends CakeTestFixture {
     array('customized_type'=>'Issue', 'custom_field_id'=>'2', 'customized_id'=>'3', 'id'=>'12', 'value'=>"this is a stringforcustomfield search"),
   );
 }
-?>

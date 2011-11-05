@@ -29,4 +29,3 @@ class CustomFieldFixture extends CakeTestFixture {
     array('name'=>'Problem', 'min_length'=>'0', 'regexp'=>"", 'is_for_all'=>false, 'is_filter'=>false, 'type'=>'TimeEntryCustomField', 'max_length'=>'0', 'possible_values'=>"", 'id'=>'8', 'is_required'=>false, 'field_format'=>'bool', 'searchable'=>false, 'default_value'=>"", 'position'=>8),
   );
 }
-?>

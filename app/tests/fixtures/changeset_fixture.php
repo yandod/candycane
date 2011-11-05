@@ -9,4 +9,3 @@ class ChangesetFixture extends CakeTestFixture {
     array('commit_date'=>'2007-04-12', 'committed_on'=>'2007-04-12 15:14:44 +02:00', 'revision'=>'4', 'id'=>'103', 'comments'=>"|-', '  A commit with an issue id of an other project', '  IssueID 4 2", 'repository_id'=>'10', 'committer'=>'dlopper', 'user_id'=>3),
   );
 }
-?>

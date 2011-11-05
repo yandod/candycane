@@ -10,4 +10,3 @@ class IssueCategoryFixture extends CakeTestFixture {
     array('name'=>' Printing', 'project_id'=>2, 'assigned_to_id'=>null, 'id'=>4),
   );
 }
-?>

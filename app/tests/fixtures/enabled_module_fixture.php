@@ -24,4 +24,3 @@ class EnabledModuleFixture extends CakeTestFixture {
     array('name'=>'issue_tracking', 'project_id'=>5,'id'=>14)
   );
 }
-?>  
