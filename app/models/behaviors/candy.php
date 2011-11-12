@@ -1,4 +1,7 @@
 <?php
+/**
+ * Common Behabior
+ */
 class CandyBehavior extends ModelBehavior
 {
 
