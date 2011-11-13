@@ -5,15 +5,16 @@
  */
 class WelcomeController extends AppController
 {
-    var $uses = array('User', 'News', 'Project');
 
-    /**
-     * index
-     *
-     */
-    function index()
-    {
-        $this->set('news',$this->News->latest($this->current_user));
-        $this->set('projects',$this->Project->latest($this->current_user));
-    }
+	public $uses = array('User', 'News', 'Project');
+
+/**
+ * index
+ *
+ */
+	public function index() {
+		$this->set('news',$this->News->latest($this->current_user));
+		$this->set('projects',$this->Project->latest($this->current_user));
+	}
+
 }
