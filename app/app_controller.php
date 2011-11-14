@@ -12,15 +12,23 @@ App::import('Core', 'l10n');
 class AppController extends Controller {
 
 	public $layout = 'base';
+
 	public $helpers = array('Html', 'Form', 'Javascript', 'Candy');
-	//public $components = array('Cookie', 'MenuManager', 'DebugKit.Toolbar');
+
 	public $components = array('Cookie', 'MenuManager');
+
 	public $uses = array('User', 'Setting', 'Project');
+
 	public $current_user; // alternate User.current
+
 	public $per_page;
+
 	public $view = 'Theme';
+
 	public $theme = '';
+
 	public $pure_params = array();
+
 	public $authorize = false;
 
 /**
@@ -61,14 +69,14 @@ class AppController extends Controller {
 	}
 
 #  filter_parameter_logging :password
-#  
+#
 #  include Redmine::MenuManager::MenuController
 #  helper Redmine::MenuManager::MenuHelper
-#  
+#
 #  REDMINE_SUPPORTED_SCM.each do |scm|
 #    require_dependency "repository/#{scm.underscore}"
 #  end
-#  
+#
 #  def current_role
 #    @current_role ||= User.current.role_for_project(@project)
 #  end
@@ -99,7 +107,7 @@ class AppController extends Controller {
  * @todo auto_login
  * @todo rss key authentication
  */
-	function _find_current_user() {
+	protected function _find_current_user() {
 		if ($this->Session->read('user_id')) {
 			// existing session
 			return $this->User->find_by_id_logged($this->Session->read('user_id'));
@@ -244,7 +252,7 @@ class AppController extends Controller {
  * @param string $action Action
  * @return boolean Allowed access
  */
-	function _authorize($ctrl = false, $action = false) {
+	protected function _authorize($ctrl = false, $action = false) {
 		if (!empty($this->params['requested'])) {
 			return true;
 		}
@@ -328,40 +336,40 @@ class AppController extends Controller {
 		$this->layout = 'rss/atom';
 		$this->render("/common/feed.atom");
 	}
-  
+
 #  def render_403
 #    @project = nil
 #    render :template => "common/403", :layout => !request.xhr?, :status => 403
 #    return false
 #  end
-#    
+#
 #  def render_404
 #    render :template => "common/404", :layout => !request.xhr?, :status => 404
 #    return false
 #  end
-#  
+#
 #  def render_error(msg)
 #    flash.now[:error] = msg
 #    render :nothing => true, :layout => !request.xhr?, :status => 500
 #  end
-#  
-#  def render_feed(items, options={})    
+#
+#  def render_feed(items, options={})
 #    @items = items || []
 #    @items.sort! {|x,y| y.event_datetime <=> x.event_datetime }
 #    @items = @items.slice(0, Setting.feeds_limit.to_i)
 #    @title = options[:title] || Setting.app_title
 #    render :template => "common/feed.atom.rxml", :layout => false, :content_type => 'application/atom+xml'
 #  end
-#  
+#
 #  def self.accept_key_auth(*actions)
 #    actions = actions.flatten.map(&:to_s)
 #    write_inheritable_attribute('accept_key_auth_actions', actions)
 #  end
-#  
+#
 #  def accept_key_auth_actions
 #    self.class.read_inheritable_attribute('accept_key_auth_actions') || []
 #  end
-#  
+#
 #  # TODO: move to model
 #  def attach_files(obj, attachments)
 #    attached = []
@@ -370,7 +378,7 @@ class AppController extends Controller {
 #      attachments.each_value do |attachment|
 #        file = attachment['file']
 #        next unless file && file.size > 0
-#        a = Attachment.create(:container => obj, 
+#        a = Attachment.create(:container => obj,
 #                              :file => file,
 #                              :description => attachment['description'].to_s.strip,
 #                              :author => User.current)
@@ -394,7 +402,7 @@ class AppController extends Controller {
  * @param string $name 
  * @return null if $name is not found. 
  */
-	function _get_param($name) {
+	protected function _get_param($name) {
 		if (array_key_exists($name, $this->params)) {
 			$value = $this->params[$name];
 		} elseif (array_key_exists('named', $this->params) && array_key_exists($name, $this->params['named'])) {
@@ -417,7 +425,7 @@ class AppController extends Controller {
  *
  * @return int Number of objects to be displayed
  */
-	function _per_page_option() {
+	protected function _per_page_option() {
 		if (isset($this->params['url']['per_page']) && in_array($this->params['url']['per_page'], $this->Setting->per_page_options)) {
 			$this->per_page = (int)$this->params['url']['per_page'];
 			$this->Session->write('per_page', $this->per_page);
@@ -428,43 +436,6 @@ class AppController extends Controller {
 		}
 		return $this->per_page;
 	}
-
-#  def per_page_option
-#    per_page = nil
-#    if params[:per_page] && Setting.per_page_options_array.include?(params[:per_page].to_s.to_i)
-#      per_page = params[:per_page].to_s.to_i
-#      session[:per_page] = per_page
-#    elsif session[:per_page]
-#      per_page = session[:per_page]
-#    else
-#      per_page = Setting.per_page_options_array.first || 25
-#    end
-#    per_page
-#  end
-#
-#  # qvalues http header parser
-#  # code taken from webrick
-#  def parse_qvalues(value)
-#    tmp = []
-#    if value
-#      parts = value.split(/,\s*/)
-#      parts.each {|part|
-#        if m = %r{^([^\s,]+?)(?:;\s*q=(\d+(?:\.\d+)?))?$}.match(part)
-#          val = m[1]
-#          q = (m[2] or 1).to_f
-#          tmp.push([val, q])
-#        end
-#      }
-#      tmp = tmp.sort_by{|val, q| -q}
-#      tmp.collect!{|val, q| val}
-#    end
-#    return tmp
-#  end
-#  
-#  # Returns a string that can be used as filename value in Content-Disposition header
-#  def filename_for_content_disposition(name)
-#    request.env['HTTP_USER_AGENT'] =~ %r{MSIE} ? ERB::Util.url_encode(name) : name
-#  end
 
 /**
  * Set Settings
@@ -481,7 +452,7 @@ class AppController extends Controller {
  *
  * @return void
  */
-	function _findProject() {
+	protected function _findProject() {
 		$project_id = $this->_get_param('project_id');
 		if (!empty($project_id)) {
 			if ($this->_project = $this->Project->findMainProject($project_id)) {
@@ -491,7 +462,7 @@ class AppController extends Controller {
 				$this->cakeError('error404');
 			}
 			if (!$this->_isVisible($this->_project['Project']['id'])) {
-				$this->cakeError('error404');	      
+				$this->cakeError('error404');
 			}
 		}
 	}
@@ -502,13 +473,14 @@ class AppController extends Controller {
  * @param string $project_id Project ID
  * @return boolean Visible
  */
-	function _isVisible($project_id) {
+	protected function _isVisible($project_id) {
 		$cond = $this->Project->get_visible_by_condition($this->current_user);
 		$cond['Project.id'] = $project_id;
 		$visible = $this->Project->find('first', array('conditions' => $cond));
 		if ($visible == false) {
-			return false;        
+			return false;
 		}
 		return true;
 	}
+
 }
