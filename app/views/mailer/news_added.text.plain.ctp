@@ -1,5 +1,5 @@
-<%= @news.title %>
-<%= @news_url %>
-<%= @news.author.name %>
+<?php echo $news->data['News']['title']?>
+<?php echo $news_url ?>
+<?php echo $news->Author->data['name']?>
 
-<%= @news.description %>
+<?php echo $news->data['News']['description']?>

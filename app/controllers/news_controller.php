@@ -34,7 +34,8 @@ class NewsController extends AppController {
  * @var array
  */
 	public $components = array(
-		'RequestHandler'
+		'RequestHandler',
+		'Mailer'
 	);
 
 /**
@@ -146,6 +147,8 @@ class NewsController extends AppController {
 
 			if ($this->News->save($this->data)) {
 				$this->Session->setFlash(__('Successful creation.', true), 'default', array('class' => 'flash notice'));
+				$this->News->Project->id = $this->_project['Project']['id'];
+				$this->Mailer->news_added($this->News);
 				$this->redirect(array('controller' => 'projects', 'action' => $this->_project['Project']['identifier'], 'news/index'));
 			} else {
 				$this->Session->setFlash($this->validateErrors($this->News), 'default', array('class' => 'flash flash_error'));

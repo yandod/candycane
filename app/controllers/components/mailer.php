@@ -97,6 +97,26 @@ class MailerComponent extends ActionMailer {
         ));
     }
 
+	public function news_added($news) {
+		#    redmine_headers 'Project' => news.project.identifier
+		$this->setRecipients($news->Project->recipients());
+		$news->Project->read();
+		$this->setSubject(sprintf("[%s] %s: %s",
+			$news->Project->data['Project']['name'],
+			__('News',true),
+			$news->data['News']['title']
+		));
+		$this->set('news', $news);
+		$this->set('news_url', Router::url(
+            array(
+                'controller' => 'news',
+                'action' => 'show',
+                'id' => $news->id
+            ),
+            true
+        ));
+	}
+
 }
 #class Mailer < ActionMailer::Base
 #  helper :application
