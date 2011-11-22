@@ -60,11 +60,10 @@ class NewsController extends AppController {
 		#  before_filter :find_optional_project, :only => :index
 
 		$filters = array(
-			'_authorize' => array('except' => array('index','preview')),
 			'_find_news' => array('except' => array('add','index','preview')),
 			'_find_project' => array('only' => array('add','preview')),
 		);
-
+		$this->authorize = array('except' => array('index','preview'));
 		foreach ($filters as $name => $param) {
 			if (array_key_exists('except', $param)) {
 				if (in_array($this->action, $param['except'])) {
