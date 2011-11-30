@@ -127,7 +127,7 @@ class Role extends AppModel {
     $list = $this->_allowed_permissions($role);
     if(!empty($list)) {
       foreach($list as $item) {
-        if(($item == $action) || ($item == ':'.$action)) {
+        if(($item == $action) || (':' . $item == $action)) {
           return true;
         }
       }
