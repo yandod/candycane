@@ -1252,7 +1252,7 @@ function breadcrumb($args)
 	function get_lang_label($key){
 		$list = array(
 			//bg 'Bulgarian'
-			//ca 'Català'
+			'cat' => 'Català',
 			//cs 'Čeština'
 			//da 'Dansk'
 			'deu' => 'Deutsch',
