@@ -310,7 +310,11 @@ class ActionMailer extends Object
 
 
         $headers = $this->__generateHeader();
-	    return mb_send_mail($to, $subject, $mail_body, $headers);
+		if (function_exists("mb_send_mail")) {
+			return mb_send_mail($to, $subject, $mail_body, $headers);
+		} else {
+			return mail($to, $subject, $mail_body, $headers);
+		}
 	}
 	
 	/**
