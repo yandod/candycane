@@ -683,7 +683,7 @@ class IssuesController extends AppController {
 			}
 		}
 		if (!array_key_exists($issues[0]['Issue']['project_id'], $allowed_projects)) {
-			return $this->cakeError('error', array('message'=>"Permission deny."));
+			return $this->cakeError('error', array('message' => "Permission deny."));
 		}
 		if ($this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
 			$move_count = 0;
