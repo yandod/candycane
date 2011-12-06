@@ -118,6 +118,15 @@ class MailerComponent extends ActionMailer {
         ));
 	}
 
+	public function test($user) {
+		#    set_language_if_valid(user.language)
+		$this->setRecipient($user['mail']);
+		$this->setSubject('CandyCane test');
+		$this->set('url',Router::url(
+            array('controller' => 'welcome'),
+            true
+        ));
+	}
 }
 #class Mailer < ActionMailer::Base
 #  helper :application
@@ -210,12 +219,6 @@ class MailerComponent extends ActionMailer {
 #         :url => url_for(:controller => 'account', :action => 'activate', :token => token.value)
 #  end
 #
-#  def test(user)
-#    set_language_if_valid(user.language)
-#    recipients user.mail
-#    subject 'Redmine test'
-#    body :url => url_for(:controller => 'welcome')
-#  end
 #
 #  # Overrides default deliver! method to prevent from sending an email
 #  # with no recipient, cc or bcc

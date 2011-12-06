@@ -31,19 +31,6 @@
 #    redirect_to :action => 'index'
 #  end
 #  
-#  def test_email
-#    raise_delivery_errors = ActionMailer::Base.raise_delivery_errors
-#    # Force ActionMailer to raise delivery errors so we can catch it
-#    ActionMailer::Base.raise_delivery_errors = true
-#    begin
-#      @test = Mailer.deliver_test(User.current)
-#      flash[:notice] = l(:notice_email_sent, User.current.mail)
-#    rescue Exception => e
-#      flash[:error] = l(:notice_email_error, e.message)
-#    end
-#    ActionMailer::Base.raise_delivery_errors = raise_delivery_errors
-#    redirect_to :controller => 'settings', :action => 'edit', :tab => 'notifications'
-#  end
 #  
 #  def info
 #    @db_adapter_name = ActiveRecord::Base.connection.adapter_name
@@ -60,18 +47,17 @@ class AdminController extends AppController {
   var $name = 'Admin';
   var $uses = array('Project');
   var $helpers = array('Candy');
-  var $components = array('Sort');
+  var $components = array('Sort','Mailer');
 
-  /**
-   * beforeFilter
-   *
-   * # before_filter :require_admin
-   */
-  function beforeFilter()
-  {
-    parent::beforeFilter();
-    $this->require_admin();
-  }
+/**
+ * beforeFilter
+ *
+ * # before_filter :require_admin
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$this->require_admin();
+	}
 
   function index()
   {
@@ -142,27 +128,32 @@ class AdminController extends AppController {
 
    }
 
-  function plugins()
-  {
-  }
+	public function plugins() {
+	}
 
-  function default_configration()
-  {
-  }
+	public function default_configration() {
+	}
 
-  function test_email()
-  {
-  }
+	public function test_email() {
+		if ($this->Mailer->deliver_test($this->current_user)) {
+			$this->Session->setFlash(sprintf(__('An email was sent to %s', true),$this->current_user['mail']), 'default', array('class'=>'flash flash_notice'));
+		} else {
+			$this->Session->setFlash(sprintf(__('An error occurred while sending mail (%s)', true),$this->current_user['mail']), 'default', array('class'=>'flash flash_error'));
+		}
+		$this->redirect(array(
+			'controller' => 'settings',
+			'action' => 'edit',
+			'tab' => 'notifications'
+		));
+	}
 
-  /**
-   * info
-   *
-   */
-  function info()
-  {
-    $db =& ConnectionManager::getDataSource($this->Project->useDbConfig);
-    $this->set('db_driver', $db->config['driver']);
-  }
-
+/**
+ * info
+ *
+ */
+	public function info() {
+		$db =& ConnectionManager::getDataSource($this->Project->useDbConfig);
+		$this->set('db_driver', $db->config['driver']);
+	}
 
 }
