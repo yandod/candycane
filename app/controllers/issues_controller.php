@@ -678,11 +678,11 @@ class IssuesController extends AppController {
 			$Role = & ClassRegistry::init('Role');
 			foreach ($this->current_user['memberships'] as $member) {
 				if ($Role->is_allowed_to($member, ':move_issues')) {
-					$allowed_projects[] = array($member['Project']['id']=>$member['Project']['name']);
+					$allowed_projects[$member['Project']['id']] = $member['Project']['name'];
 				}
 			}
 		}
-		if (!array_key_exists($issues[0]['Issue']['project_id'], array_pop($allowed_projects))) {
+		if (!array_key_exists($issues[0]['Issue']['project_id'], $allowed_projects)) {
 			return $this->cakeError('error', array('message'=>"Permission deny."));
 		}
 		if ($this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
