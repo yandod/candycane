@@ -678,7 +678,7 @@ class IssuesController extends AppController {
 			$Role = & ClassRegistry::init('Role');
 			foreach ($this->current_user['memberships'] as $member) {
 				if ($Role->is_allowed_to($member, ':move_issues')) {
-					$allowed_projects[] = array($member['Project']['id']=>$member['Project']['name']);
+					$allowed_projects[$member['Project']['id']] = $member['Project']['name'];
 				}
 			}
 		}
