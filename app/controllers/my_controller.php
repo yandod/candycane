@@ -49,50 +49,45 @@ class MyController extends AppController
   #         :session => :page_layout,
   #         :only => [:add_block, :remove_block, :order_blocks]
   #
-  #  # Manage user's password
-  function password()
-  {
-    // cann't change password ,user has auth_source_id
-    if ($this->current_user['auth_source_id']) {
-      $this->Session->setFlash(__('This account uses an external authentication source. Impossible to change the password.', true), 'default', array('class'=>'flash flash_notice'));
-      $this->redirect('account');
-    }
-    if( !empty($this->data)) {
-      if ($this->User->check_password($this->data['User']['password'],$this->current_user)) {
-        $data = $this->data;
-        $data['User']['id'] = $this->current_user['id'];
-        $data['User']['password'] = $this->data['User']['new_password'];
-        $data['User']['password_confirmation'] = $this->data['User']['new_password_confirmation'];
-        if ($this->User->save($data)) {
-          $this->Session->setFlash(__('Password was successfully updated.', true), 'default', array('class'=>'flash flash_notice'));
-          $this->redirect('account');
-        }
-      } else {
-        $this->Session->setFlash(__('Wrong password', true), 'default', array('class'=>'flash flash_error'));
-      }
-    }
-  }
 
-  # Create a new feeds key
-  function reset_rss_key()
-  {
-    //TODO: POST check
-    $this->User->RssToken->destroy($this->current_user['id'],'feeds');
-    $this->Session->setFlash(__('Your RSS access key was reset.', true), 'default', array('class'=>'flash flash_notice'));
-    $this->redirect('account');
-  }
+	public function password() {
+		// cann't change password ,user has auth_source_id
+		if ($this->current_user['auth_source_id']) {
+			$this->Session->setFlash(__('This account uses an external authentication source. Impossible to change the password.', true), 'default', array('class' => 'flash flash_notice'));
+			$this->redirect('account');
+		}
+		if (!empty($this->data)) {
+			if ($this->User->check_password($this->data['User']['password'],$this->current_user)) {
+				$data = $this->data;
+				$data['User']['id'] = $this->current_user['id'];
+				$data['User']['password'] = $this->data['User']['new_password'];
+				$data['User']['password_confirmation'] = $this->data['User']['new_password_confirmation'];
+				if ($this->User->save($data)) {
+					$this->Session->setFlash(__('Password was successfully updated.', true), 'default', array('class' => 'flash flash_notice'));
+					$this->redirect('account');
+				}
+			} else {
+				$this->Session->setFlash(__('Wrong password', true), 'default', array('class' => 'flash flash_error'));
+			}
+		}
+	}
 
-  # User's page layout configuration
-  function page_layout()
-  {
-  #    @user = User.current
-  #    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
-  #    session[:page_layout] = @blocks
-  #    %w(top left right).each {|f| session[:page_layout][f] ||= [] }
-  #    @block_options = []
-  #    BLOCKS.each {|k, v| @block_options << [l(v), k]}
-  }
-  #  
+	public function reset_rss_key() {
+		//TODO: POST check
+		$this->User->RssToken->destroy($this->current_user['id'],'feeds');
+		$this->Session->setFlash(__('Your RSS access key was reset.', true), 'default', array('class' => 'flash flash_notice'));
+		$this->redirect('account');
+	}
+
+	public function page_layout() {
+		#    @user = User.current
+		#    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup
+		#    session[:page_layout] = @blocks
+		#    %w(top left right).each {|f| session[:page_layout][f] ||= [] }
+		#    @block_options = []
+		#    BLOCKS.each {|k, v| @block_options << [l(v), k]}
+	}
+
   #  # Add a block to user's page
   #  # The block is added on top of the page
   #  # params[:block] : id of the block to add
@@ -106,7 +101,7 @@ class MyController extends AppController
   #    session[:page_layout]['top'].unshift block
   #    render :partial => "block", :locals => {:user => @user, :block_name => block}
   #  end
-  #  
+  #
   #  # Remove a block to user's page
   #  # params[:block] : id of the block to remove
   #  def remove_block
@@ -127,12 +122,12 @@ class MyController extends AppController
   #      %w(top left right).each {|f|
   #        session[:page_layout][f] = (session[:page_layout][f] || []) - group_items
   #      }
-  #      session[:page_layout][group] = group_items    
+  #      session[:page_layout][group] = group_items
   #    end
   #    render :nothing => true
   #  end
-  #  
-  #  # Save user's page layout  
+  #
+  #  # Save user's page layout
   #  def page_layout_save
   #    @user = User.current
   #    @user.pref[:my_page_layout] = session[:page_layout] if session[:page_layout]
@@ -142,74 +137,73 @@ class MyController extends AppController
   #  end
   #end
 
-  /**
-   * index
-   *
-   */
-  function index()
-  {
-    $this->page();
-    return 'page';
-  }
-
-  /**
-   * page
-   *
-   * Show user's page
-   */
-  function page()
-  {
-    $this->set('user', $this->current_user);
-    $this->set('blocks',$this->DEFAULT_LAYOUT);
-    #    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
-  }
+/**
+ * index
+ *
+ */
+	public function index() {
+		$this->page();
+		return 'page';
+	}
 
 /**
-* account
-*
-* Edit user's account
-*/
+ * page
+ *
+ * Show user's page
+ */
+	public function page() {
+		$this->set('user', $this->current_user);
+		$this->set('blocks',$this->DEFAULT_LAYOUT);
+		#    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
+	}
+
+/**
+ * account
+ *
+ * Edit user's account
+ */
 	public function account() {
 		#    @user = User.current
 		#    @pref = @user.pref
 
 		if ($this->data) {
-		  #      @user.attributes = params[:user]
-		  #      @user.mail_notification = (params[:notification_option] == 'all')
-		  #      @user.pref.attributes = params[:pref]
-		  $this->data['UserPreference']['pref']['no_self_notified'] = ($this->data['UserPreference']['pref']['no_self_notified'] == '1');
-		  $this->data['User']['id'] = $this->current_user['id'];
-		  if($this->User->save($this->data)) {
-			$this->data['UserPreference']['user_id'] = $this->User->id;
-			if (isset($this->current_user['UserPreference']['id'])) $this->data['UserPreference']['id'] = $this->current_user['UserPreference']['id'];
-			$this->User->UserPreference->save($this->data);
-			$notified_project_ids = array();
-			if ($this->data['User']['notification_option'] === 'selected') {
-			  $notified_project_ids = array_filter($this->data['User']['notified_project_ids']);
+			#      @user.attributes = params[:user]
+			#      @user.mail_notification = (params[:notification_option] == 'all')
+			#      @user.pref.attributes = params[:pref]
+			$this->data['UserPreference']['pref']['no_self_notified'] = ($this->data['UserPreference']['pref']['no_self_notified'] == '1');
+			$this->data['User']['id'] = $this->current_user['id'];
+			if ($this->User->save($this->data)) {
+				$this->data['UserPreference']['user_id'] = $this->User->id;
+				if (isset($this->current_user['UserPreference']['id'])) {
+					$this->data['UserPreference']['id'] = $this->current_user['UserPreference']['id'];
+				}
+				$this->User->UserPreference->save($this->data);
+				$notified_project_ids = array();
+				if ($this->data['User']['notification_option'] === 'selected') {
+					$notified_project_ids = array_filter($this->data['User']['notified_project_ids']);
+				}
+				$this->User->set_notified_project_ids($notified_project_ids,$this->current_user['id']);
+				#        set_language_if_valid @user.language
+				$this->Session->setFlash(__('Successful update.', true), 'default', array('class' => 'flash flash_notice'));
+				$this->redirect('account');
+				#        return
 			}
-			$this->User->set_notified_project_ids($notified_project_ids,$this->current_user['id']);
-			#        set_language_if_valid @user.language
-			$this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
-			$this->redirect('account');
-			#        return
-		  }
 		} else {
-		  $this->data = $this->User->find('first',aa('conditions',aa('User.id',$this->current_user['id'])));
+			$this->data = $this->User->find('first',aa('conditions',aa('User.id',$this->current_user['id'])));
 		}
-		  $notification_options = array();
-		  $notification_options['all']= __("\"For any event on all my projects\"",true);
+		$notification_options = array();
+		$notification_options['all'] = __("\"For any event on all my projects\"",true);
 
+		if ( !empty($this->current_user['memberships'])) {
+			$notification_options['selected'] = __("\"For any event on the selected projects only...\"",true);
+		}
+		$notification_options['none'] = __("\"Only for things I watch or I'm involved in\"",true);
 
-		  if ( !empty($this->current_user['memberships'])) {
-			$notification_options['selected']= __("\"For any event on the selected projects only...\"",true);
-		  }
-		  $notification_options['none']= __("\"Only for things I watch or I'm involved in\"",true);
-
-		  $project_ids = $this->User->notified_projects_ids($this->current_user['id']);
-		  $this->data['User']['notified_project_ids'] = $project_ids;
-		  $notification_option = empty($project_ids) ? 'none' : 'selected';
-		  $this->set('notification_options',$notification_options);
-		  $this->set('notification_option',$notification_option);
+		$project_ids = $this->User->notified_projects_ids($this->current_user['id']);
+		$this->data['User']['notified_project_ids'] = $project_ids;
+		$notification_option = empty($project_ids) ? 'none' : 'selected';
+		$this->set('notification_options',$notification_options);
+		$this->set('notification_option',$notification_option);
 	}
 
 }
