@@ -164,52 +164,52 @@ class MyController extends AppController
     #    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT
   }
 
-  /**
-   * account
-   *
-   * Edit user's account
-   */
-  function account()
-  {
-    #    @user = User.current
-    #    @pref = @user.pref
+/**
+* account
+*
+* Edit user's account
+*/
+	public function account() {
+		#    @user = User.current
+		#    @pref = @user.pref
 
-    if ($this->data) {
-      #      @user.attributes = params[:user]
-      #      @user.mail_notification = (params[:notification_option] == 'all')
-      #      @user.pref.attributes = params[:pref]
-      $this->data['UserPreference']['pref']['no_self_notified'] = ($this->data['UserPreference']['pref']['no_self_notified'] == '1');
-      $this->data['User']['id'] = $this->current_user['id'];
-      if($this->User->save($this->data)) {
-        $this->data['UserPreference']['user_id'] = $this->User->id;
-        if (isset($this->current_user['UserPreference']['id'])) $this->data['UserPreference']['id'] = $this->current_user['UserPreference']['id'];
-        $this->User->UserPreference->save($this->data);
-        $notified_project_ids = array();
-        if ($this->data['User']['notification_option'] === 'selected') {
-          $notified_project_ids = array_filter($this->data['User']['notified_project_ids']);
-        }
-        $this->User->set_notified_project_ids($notified_project_ids,$this->current_user['id']);
-        #        set_language_if_valid @user.language
-        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
-        $this->redirect('account');
-        #        return
-      }
-    } else {
-      $this->data = $this->User->find('first',aa('conditions',aa('User.id',$this->current_user['id'])));
-    }
-      $notification_options = array();
-      $notification_options['all']= __("\"For any event on all my projects\"",true);
-       
-      
-      if ( !empty($this->current_user['memberships'])) {
-        $notification_options['selected']= __("\"For any event on the selected projects only...\"",true);
-      }
-      $notification_options['none']= __("\"Only for things I watch or I'm involved in\"",true);
-      
-      $project_ids = $this->User->notified_projects_ids($this->current_user['id']);
-      $this->data['User']['notified_project_ids'] = $project_ids;
-      $notification_option = empty($project_ids) ? 'none' : 'selected';
-      $this->set('notification_options',$notification_options);
-      $this->set('notification_option',$notification_option);      
-  }
+		if ($this->data) {
+		  #      @user.attributes = params[:user]
+		  #      @user.mail_notification = (params[:notification_option] == 'all')
+		  #      @user.pref.attributes = params[:pref]
+		  $this->data['UserPreference']['pref']['no_self_notified'] = ($this->data['UserPreference']['pref']['no_self_notified'] == '1');
+		  $this->data['User']['id'] = $this->current_user['id'];
+		  if($this->User->save($this->data)) {
+			$this->data['UserPreference']['user_id'] = $this->User->id;
+			if (isset($this->current_user['UserPreference']['id'])) $this->data['UserPreference']['id'] = $this->current_user['UserPreference']['id'];
+			$this->User->UserPreference->save($this->data);
+			$notified_project_ids = array();
+			if ($this->data['User']['notification_option'] === 'selected') {
+			  $notified_project_ids = array_filter($this->data['User']['notified_project_ids']);
+			}
+			$this->User->set_notified_project_ids($notified_project_ids,$this->current_user['id']);
+			#        set_language_if_valid @user.language
+			$this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+			$this->redirect('account');
+			#        return
+		  }
+		} else {
+		  $this->data = $this->User->find('first',aa('conditions',aa('User.id',$this->current_user['id'])));
+		}
+		  $notification_options = array();
+		  $notification_options['all']= __("\"For any event on all my projects\"",true);
+
+
+		  if ( !empty($this->current_user['memberships'])) {
+			$notification_options['selected']= __("\"For any event on the selected projects only...\"",true);
+		  }
+		  $notification_options['none']= __("\"Only for things I watch or I'm involved in\"",true);
+
+		  $project_ids = $this->User->notified_projects_ids($this->current_user['id']);
+		  $this->data['User']['notified_project_ids'] = $project_ids;
+		  $notification_option = empty($project_ids) ? 'none' : 'selected';
+		  $this->set('notification_options',$notification_options);
+		  $this->set('notification_option',$notification_option);
+	}
+
 }
