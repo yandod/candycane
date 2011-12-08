@@ -1,4 +1,4 @@
-<?php if (isset($memberships) && is_array($memberships)): ?>
+<?php if (isset($user['Membership']) && is_array($user['Membership'])): ?>
 <table class="list memberships">
 
   <thead>
@@ -8,8 +8,7 @@
   </thead>
 
   <tbody>
-    <% @memberships.each do |membership| %>
-      <% next if membership.new_record? %>
+	<?php foreach ($user['Membership'] as $membership): ?>
       <tr class="<?php echo $candy->cycle(); ?>">
       <td><%=h membership.project %></td>
       <td align="center">
@@ -23,7 +22,7 @@
     </td>
 	</tr>
 	</tbody>
-<% end; reset_cycle %>
+<?php endforeach; ?>
 </table>
 <?php else: ?>
 <p class="nodata">
@@ -34,9 +33,13 @@
 <?php if (isset($projects) && is_array($projects)): ?>
 <p>
 <label><?php __('New project'); ?></label><br/>
-<?php echo $form->create('User', array('url' => '/user/edit_membership')); ?>
+<?php echo $form->create('User', array('url' => '/users/edit_membership/'.$user['User']['id'])); ?>
 <%= select_tag 'membership[project_id]', projects_options_for_select(@projects) %>
 <?php __('Roles'); ?>:
+<?php
+$roles_list = Set::combine($roles,'{n}.Role.id','{n}.Role.name');
+?>
+<?php echo $form->select('Member.role_id',$roles_list,null,aa('class','small'),false) ?>
 <%= select_tag 'membership[role_id]', options_from_collection_for_select(@roles, "id", "name") %>
 <?php echo $form->submit(__('Add', true)); ?>
 <?php echo $form->end(); ?>

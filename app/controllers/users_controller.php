@@ -21,6 +21,7 @@ class UsersController extends AppController {
  */
 	public $components = array('Sort', 'Users');
 
+	public $uses = array('User','Member','Role');
 #  helper :custom_fields
 #  include CustomFieldsHelper   
 
@@ -83,26 +84,29 @@ class UsersController extends AppController {
     $this->set('user', $user);
     $this->set('projects', $this->Project->find('all', array('order' => 'name', 'conditions' => array('Project.status' => PROJECT_STATUS_ACTIVE))));
 #    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
-
+		$this->set('roles',$this->Role->find_all_givable());
 #    @auth_sources = AuthSource.find(:all)
-#    @roles = Role.find_all_givable
 #    @membership ||= Member.new
-#    @memberships = @user.memberships
   }
   
-#  def edit_membership
+	public function edit_membership($id) {
 #    @user = User.find(params[:id])
 #    @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:user => @user)
 #    @membership.attributes = params[:membership]
 #    @membership.save if request.post?
-#    redirect_to :action => 'edit', :id => @user, :tab => 'memberships'
-#  end
-#  
-#  def destroy_membership
+		$this->redirect(array(
+			'controller' => 'users',
+			'action' => 'edit',
+			'id' => $id,
+			'tab' => 'memberships'
+		));
+	}
+
+	public function destroy_membership() {
 #    @user = User.find(params[:id])
 #    Member.find(params[:membership_id]).destroy if request.post?
 #    redirect_to :action => 'edit', :id => @user, :tab => 'memberships'
-#  end
+	}
 
 /**
  * List_

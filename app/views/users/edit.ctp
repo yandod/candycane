@@ -4,12 +4,8 @@
 
 <h2><?php __('User'); ?>: <?php echo h($user['User']['login']); ?></h2>
 
-<?php $selected_tab = 'general'; ?>
-
+<?php $selected_tab = isset($this->params['named']['tab']) ? $this->params['named']['tab'] : 'general'; ?>
 <div class="tabs">
-	<?php
-	// pr($settings_tabs);
-	?>
 	<ul>
 		<?php foreach ($settings_tabs as $tab): ?>
 			<?php $selected = ($selected_tab == $tab['name']) ? "selected" : ""; ?>
@@ -35,11 +31,19 @@
 
 <?php foreach($settings_tabs as $tab): ?>
 	<?php $disp = ($selected_tab != $tab['name']) ? 'display:none' : ''; ?>
-	<?php echo $html->tag('div', $this->renderElement($tab['partial']),
+	<?php echo $html->tag('div',
+			$this->renderElement(
+					$tab['partial'],
+					array(
+						'user' => $user,
+						'projects' => $projects,
+						'roles' => $roles,
+					)
+			),
 		array(
 			'id' => 'tab-content-' . $tab['name'],
 			'style' => $disp,
-			'class' => 'tab-content',
+			'class' => 'tab-content'
 		)
 	); ?>
 <?php endforeach; ?>
