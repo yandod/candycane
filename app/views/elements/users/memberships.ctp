@@ -1,4 +1,15 @@
-<?php if (isset($memberships) && is_array($memberships)): ?>
+<?php
+$roles_list = Set::combine($roles,'{n}.Role.id','{n}.Role.name');
+$projects_list = Set::combine($projects,'{n}.Project.id','{n}.Project.name');
+$membership_list = Set::combine($user['Membership'],'{n}.project_id','{n}.id');
+$projects_options = array();
+	foreach ($projects_list as $k => $v) {
+		if ( !isset($membership_list[$k]) ) {
+			$projects_options[$k] = $v;
+		}
+	}
+?>
+<?php if (isset($user['Membership']) && is_array($user['Membership'])): ?>
 <table class="list memberships">
 
   <thead>
@@ -8,22 +19,33 @@
   </thead>
 
   <tbody>
-    <% @memberships.each do |membership| %>
-      <% next if membership.new_record? %>
+	<?php foreach ($user['Membership'] as $membership): ?>
       <tr class="<?php echo $candy->cycle(); ?>">
-      <td><%=h membership.project %></td>
+      <td><?php echo h($projects_list[$membership['project_id']])?></td>
       <td align="center">
-    <% form_tag({ :action => 'edit_membership', :id => @user, :membership_id => membership }) do %>
-        <%= select_tag 'membership[role_id]', options_from_collection_for_select(@roles, "id", "name", membership.role_id) %>
-        <%= submit_tag l(:button_change), :class => "small" %>
-    <% end %>
+		<?php echo $form->create('User', array( 'url' => array(
+			'controller' => 'users',
+			'action' => 'edit_membership',
+			'id' => $user['User']['id'],
+			'membership_id' => $membership['id']
+		))); ?>
+		<?php echo $form->select('Member.role_id',$roles_list,$membership['role_id'],aa('class','small'),false) ?>
+		<?php echo $form->submit(__('Change', true),array('class' => 'small', 'div' => false)); ?>
+		<?php echo $form->end(); ?>
     </td>
     <td align="center">
-      <%= link_to l(:button_delete), {:action => 'destroy_membership', :id => @user, :membership_id => membership }, :method => :post, :class => 'icon icon-del' %>
+		<?php echo $html->link(
+				__('Delete',true),
+				array(
+					'action' => 'destroy_membership',
+					'id' => $user['User']['id'],
+					'membership_id' => $membership['id']
+				),
+				array('class' => 'icon icon-del')) ?>
     </td>
 	</tr>
 	</tbody>
-<% end; reset_cycle %>
+<?php endforeach; ?>
 </table>
 <?php else: ?>
 <p class="nodata">
@@ -34,11 +56,11 @@
 <?php if (isset($projects) && is_array($projects)): ?>
 <p>
 <label><?php __('New project'); ?></label><br/>
-<?php echo $form->create('User', array('url' => '/user/edit_membership')); ?>
-<%= select_tag 'membership[project_id]', projects_options_for_select(@projects) %>
+<?php echo $form->create('User', array('url' => '/users/edit_membership/'.$user['User']['id'])); ?>
+<?php echo $form->select('Member.project_id',$projects_options,null,aa('class','small'),false); ?>
 <?php __('Roles'); ?>:
-<%= select_tag 'membership[role_id]', options_from_collection_for_select(@roles, "id", "name") %>
-<?php echo $form->submit(__('Add', true)); ?>
+<?php echo $form->select('Member.role_id',$roles_list,null,aa('class','small'),false) ?>
+<?php echo $form->submit(__('Add', true),array('div' => false)); ?>
 <?php echo $form->end(); ?>
 </p>
 <?php endif; ?>

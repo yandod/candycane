@@ -21,6 +21,7 @@ class UsersController extends AppController {
  */
 	public $components = array('Sort', 'Users');
 
+	public $uses = array('User','Member','Role');
 #  helper :custom_fields
 #  include CustomFieldsHelper   
 
@@ -46,63 +47,74 @@ class UsersController extends AppController {
     return $this->list_(); // unless request.xhr?
   }
 
-  /**
-   * edit
-   *
-   */
-  function edit($id = null)
-  {
-    if (!empty($this->data)) {
-      if (empty($this->data[$this->User->alias]['password'])) {	
-        unset($this->data[$this->User->alias]['password']);
-        unset($this->data[$this->User->alias]['password_confirmation']);
-      }
-      if ($this->User->save($this->data)) {
-        $this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
-        $this->redirect('list');
-      }
-    }
+/**
+ * edit
+ *
+ */
+	public function edit($id = null) {
+		if (!empty($this->data)) {
+			if (empty($this->data[$this->User->alias]['password'])) {
+				unset($this->data[$this->User->alias]['password']);
+				unset($this->data[$this->User->alias]['password_confirmation']);
+			}
+			if ($this->User->save($this->data)) {
+				$this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+				$this->redirect('list');
+			}
+		}
 
-    $user = $user = $this->User->read(null, $id);
+		$user = $user = $this->User->read(null, $id);
 
-    $tabs = array(
-      array(
-        'name' => 'general',
-        'partial' => 'users/general',
-        'label' => __('General', true)
-      ),
-      array(
-        'name' => 'memberships',
-        'partial' => 'users/memberships',
-        'label' => __('Projects', true)
-      ),
-    );
+		$tabs = array(
+		  array(
+			'name' => 'general',
+			'partial' => 'users/general',
+			'label' => __('General', true)
+		  ),
+		  array(
+			'name' => 'memberships',
+			'partial' => 'users/memberships',
+			'label' => __('Projects', true)
+		  ),
+		);
 
-    $this->set('settings_tabs',$tabs);
-
-    $this->set('user', $user);
-    $this->set('projects', $this->Project->find('all', array('order' => 'name', 'conditions' => array('Project.status' => PROJECT_STATUS_ACTIVE))));
-#    @projects = Project.find(:all, :order => 'name', :conditions => "status=#{Project::STATUS_ACTIVE}") - @user.projects
-
-#    @auth_sources = AuthSource.find(:all)
-#    @roles = Role.find_all_givable
-#    @membership ||= Member.new
-#    @memberships = @user.memberships
-  }
+		$this->set('settings_tabs',$tabs);
+		$this->set('user', $user);
+		$this->set('projects', $this->Project->find('all', array('order' => 'name', 'conditions' => array('Project.status' => PROJECT_STATUS_ACTIVE))));
+		$this->set('roles',$this->Role->find_all_givable());
+	}
   
-#  def edit_membership
-#    @user = User.find(params[:id])
-#    @membership = params[:membership_id] ? Member.find(params[:membership_id]) : Member.new(:user => @user)
-#    @membership.attributes = params[:membership]
-#    @membership.save if request.post?
-#    redirect_to :action => 'edit', :id => @user, :tab => 'memberships'
-#  end
-#  
-#  def destroy_membership
-#    @user = User.find(params[:id])
-#    Member.find(params[:membership_id]).destroy if request.post?
-#    redirect_to :action => 'edit', :id => @user, :tab => 'memberships'
-#  end
+	public function edit_membership($id) {
+		$data = array(
+				'id' => $this->_get_param('membership_id'),
+				'user_id' => $id,
+				'role_id' => $this->data['Member']['role_id'],
+		);
+		if ($this->data['Member']['project_id']) {
+			$data['project_id'] = $this->data['Member']['project_id'];
+		}
+		if ($data['id'] || $this->data['Member']['project_id']) {
+			$this->Member->save(array(
+				'Member' => $data
+			));
+		}
+		$this->redirect(array(
+			'controller' => 'users',
+			'action' => 'edit',
+			'id' => $id,
+			'tab' => 'memberships'
+		));
+	}
+
+	public function destroy_membership($id) {
+		$this->Member->delete($this->_get_param('membership_id'));
+		$this->redirect(array(
+			'controller' => 'users',
+			'action' => 'edit',
+			'id' => $id,
+			'tab' => 'memberships'
+		));
+	}
 
 /**
  * List_
