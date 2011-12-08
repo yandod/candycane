@@ -41,7 +41,7 @@
   <p>
     <?php foreach($currentuser['memberships'] as $row ): ?>
     <?php
-      $opt = aa('value',$row['project_id'],'label',false,'hidden',false);
+      $opt = array('value' => $row['project_id']);
       if (in_array($row['project_id'],$this->data['User']['notified_project_ids'])) $opt['checked'] = 'checked';
     ?>
     <label><?php echo $form->checkbox('notified_project_ids][',$opt) ?> <?php echo h($row['Project']['name']) ?></label><br />

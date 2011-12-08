@@ -168,7 +168,7 @@ class MyController extends AppController
 
 		if ($this->data) {
 			#      @user.attributes = params[:user]
-			#      @user.mail_notification = (params[:notification_option] == 'all')
+			$this->data['User']['mail_notification'] = $this->data['User']['notification_option'] == 'all' ? 1 : 0;
 			#      @user.pref.attributes = params[:pref]
 			$this->data['UserPreference']['pref']['no_self_notified'] = ($this->data['UserPreference']['pref']['no_self_notified'] == '1');
 			$this->data['User']['id'] = $this->current_user['id'];
@@ -202,6 +202,9 @@ class MyController extends AppController
 		$project_ids = $this->User->notified_projects_ids($this->current_user['id']);
 		$this->data['User']['notified_project_ids'] = $project_ids;
 		$notification_option = empty($project_ids) ? 'none' : 'selected';
+		if ($this->current_user['mail_notification']) {
+			$notification_option = 'all';
+		}
 		$this->set('notification_options',$notification_options);
 		$this->set('notification_option',$notification_option);
 	}
