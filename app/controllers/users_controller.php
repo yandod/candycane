@@ -22,30 +22,29 @@ class UsersController extends AppController {
 	public $components = array('Sort', 'Users');
 
 	public $uses = array('User','Member','Role');
-#  helper :custom_fields
-#  include CustomFieldsHelper   
 
-  /**
-   * beforeFilter
-   *
-   * # before_filter :require_admin
-   */
-  function beforeFilter()
-  {
-    parent::beforeFilter();
-    if(empty($this->params['requested'])) {
-      $this->require_admin();
-    }
-  }
+	#  helper :custom_fields
+	#  include CustomFieldsHelper
 
-  /**
-   * index
-   *
-   */
-  function index()
-  {
-    return $this->list_(); // unless request.xhr?
-  }
+/**
+ * beforeFilter
+ *
+ * # before_filter :require_admin
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		if (empty($this->params['requested'])) {
+			$this->require_admin();
+		}
+	}
+
+/**
+ * index
+ *
+ */
+	public function index() {
+		return $this->list_(); // unless request.xhr?
+	}
 
 /**
  * edit
@@ -58,7 +57,7 @@ class UsersController extends AppController {
 				unset($this->data[$this->User->alias]['password_confirmation']);
 			}
 			if ($this->User->save($this->data)) {
-				$this->Session->setFlash(__('Successful update.', true), 'default', array('class'=>'flash flash_notice'));
+				$this->Session->setFlash(__('Successful update.', true), 'default', array('class' => 'flash flash_notice'));
 				$this->redirect('list');
 			}
 		}
@@ -83,7 +82,7 @@ class UsersController extends AppController {
 		$this->set('projects', $this->Project->find('all', array('order' => 'name', 'conditions' => array('Project.status' => PROJECT_STATUS_ACTIVE))));
 		$this->set('roles',$this->Role->find_all_givable());
 	}
-  
+
 	public function edit_membership($id) {
 		$data = array(
 				'id' => $this->_get_param('membership_id'),
@@ -138,7 +137,7 @@ class UsersController extends AppController {
 		# @user_count = User.count(:conditions => c.conditions)
 		# @user_pages = Paginator.new self, @user_count,
 		#								per_page_option,
-		#								params['page']								
+		#								params['page']
 
 		# @users =  User.find :all,:order => sort_clause,
 		#                        :conditions => c.conditions,
@@ -206,7 +205,7 @@ class UsersController extends AppController {
 			$this->data['User']['created_on'] = date('Y-m-d H:i:s'); // @todo model de yarubeki
 			if ($this->User->save($this->data)) {
 				# Mailer.deliver_account_information(@user, params[:password]) if params[:send_information]
-				$this->Session->setFlash(__('Successful creation.', true), 'default', array('class'=>'flash flash_notice'));
+				$this->Session->setFlash(__('Successful creation.', true), 'default', array('class' => 'flash flash_notice'));
 				$this->redirect('/users/index');
 			}
 		}
@@ -233,4 +232,5 @@ class UsersController extends AppController {
 		}
 		return $this->User->is_allowed_to($this->current_user, $this->params['aco'], $this->params['project']);
 	}
+
 }
