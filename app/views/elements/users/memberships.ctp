@@ -1,3 +1,7 @@
+<?php
+$roles_list = Set::combine($roles,'{n}.Role.id','{n}.Role.name');
+$projects_list = Set::combine($projects,'{n}.Project.id','{n}.Project');
+?>
 <?php if (isset($user['Membership']) && is_array($user['Membership'])): ?>
 <table class="list memberships">
 
@@ -10,15 +14,22 @@
   <tbody>
 	<?php foreach ($user['Membership'] as $membership): ?>
       <tr class="<?php echo $candy->cycle(); ?>">
-      <td><%=h membership.project %></td>
+      <td><?php echo h($projects_list[$membership['project_id']]['name'])?></td>
       <td align="center">
-    <% form_tag({ :action => 'edit_membership', :id => @user, :membership_id => membership }) do %>
-        <%= select_tag 'membership[role_id]', options_from_collection_for_select(@roles, "id", "name", membership.role_id) %>
-        <%= submit_tag l(:button_change), :class => "small" %>
-    <% end %>
+		<?php echo $form->create('User', array('url' => '/users/edit_membership/'.$user['User']['id'])); ?>
+		<?php echo $form->select('Member.role_id',$roles_list,null,aa('class','small'),false) ?>
+		<?php echo $form->submit(__('Change', true),array('class' => 'small', 'div' => false)); ?>
+		<?php echo $form->end(); ?>
     </td>
     <td align="center">
-      <%= link_to l(:button_delete), {:action => 'destroy_membership', :id => @user, :membership_id => membership }, :method => :post, :class => 'icon icon-del' %>
+		<?php echo $html->link(
+				__('Delete',true),
+				array(
+					'action' => 'destroy_membership',
+					'id' => $user['User']['id'],
+					'membership_id' => $membership['id']
+				),
+				array('class' => 'icon icon-del')) ?>
     </td>
 	</tr>
 	</tbody>
@@ -36,12 +47,8 @@
 <?php echo $form->create('User', array('url' => '/users/edit_membership/'.$user['User']['id'])); ?>
 <%= select_tag 'membership[project_id]', projects_options_for_select(@projects) %>
 <?php __('Roles'); ?>:
-<?php
-$roles_list = Set::combine($roles,'{n}.Role.id','{n}.Role.name');
-?>
 <?php echo $form->select('Member.role_id',$roles_list,null,aa('class','small'),false) ?>
-<%= select_tag 'membership[role_id]', options_from_collection_for_select(@roles, "id", "name") %>
-<?php echo $form->submit(__('Add', true)); ?>
+<?php echo $form->submit(__('Add', true),array('div' => false)); ?>
 <?php echo $form->end(); ?>
 </p>
 <?php endif; ?>
