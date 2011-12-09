@@ -107,64 +107,8 @@ class MenuManagerComponent extends Object
     $this->menu_items = $menu_data;
   }
 	function _getProjectMenu(){
-		return array(
-			'overview' => array(
-				'controller' => 'projects',
-				'action' => 'show',
-				'class' => '',
-				'caption' => 'Overview',
-				'params' => 'project_id'
-			),
-			'activity' => array(
-				'controller' => 'projects',
-				'action' => 'activity',
-				'class' => '',
-				'caption' => 'Activity',
-				'params' => 'project_id'
-			),
-			'roadmap'  => array(
-				'controller' => 'projects',
-				'action' => 'roadmap',
-				'class' => '',
-				'caption' => 'Roadmap',
-				'params' => 'project_id'
-			),
-			'issues'   => array(
-				'controller' => 'issues',
-				'action' => 'index',
-				'class' => '',
-				'caption' => 'Issues',
-				'params' => 'project_id'
-			),
-			'new_issue'=> array(
-				'controller' => 'issues',
-				'action' => 'add',
-				'class' => '',
-				'caption' => 'New issue',
-				'params' => 'project_id'
-			),
-			'news'     => array(
-				'controller' => 'news',
-				'action' => 'index',
-				'class' => '',
-				'caption' => 'News',
-				'params' => 'project_id'
-			),
-			'wiki'     => array(
-				'controller' => 'wiki',
-				'action' => 'index',
-				'class' => '',
-				'caption' => 'Wiki',
-				'params' => 'project_id'
-			),
-			'settings' => array(
-				'controller' => 'projects',
-				'action' => 'settings',
-				'class' => '',
-				'caption' => 'Preferences',
-				'params' => 'project_id'
-			),
-  	);
+		$menuContainer = ClassRegistry::getObject('MenuContainer');
+		return $menuContainer->getProjectMenu();
   }
   function _getApplicationMenu()
   {
@@ -176,20 +120,30 @@ class MenuManagerComponent extends Object
     $this->__selected = true;
   }
   
-  function _allowed_items($menu_items) {
-    $allows = array();
-    $User = & ClassRegistry::init('User');
-    foreach ($menu_items as $key => $menu_item) {
-      if(!empty($this->controller->current_user) && $User->is_allowed_to($this->controller->current_user, $this->__url($this->__to_allowed_action($menu_item)), $this->controller->_project)) {
-        $allows[$key] = $menu_item;
-      }
-    }
-    // for wiki existing check
-    if ( is_null($this->controller->_project['Wiki']['start_page']) ) {
-      unset($allows['wiki']);
-    }
-    return $allows;
-  }
+	protected function _allowed_items($menu_items) {
+		$allows = array();
+		$User = & ClassRegistry::init('User');
+		foreach ($menu_items as $key => $menu_item) {
+
+			$allow = false;
+			if (!empty($this->controller->current_user) && $User->is_allowed_to($this->controller->current_user, $this->__url($this->__to_allowed_action($menu_item)), $this->controller->_project)) {
+				$allow = true;
+			}
+			if (isset($menu_item['_allowed']) && $menu_item['_allowed']) {
+				unset($menu_item['_allowed']);
+				$allow = true;
+			}
+
+			if($allow) {
+				$allows[$key] = $menu_item;
+			}
+		}
+		// for wiki existing check
+		if ( is_null($this->controller->_project['Wiki']['start_page']) ) {
+			unset($allows['wiki']);
+		}
+		return $allows;
+	}
 
   function __url($menu_item) {
     return array_intersect_key($menu_item, array('controller'=>true,'action'=>true));

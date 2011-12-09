@@ -14,6 +14,7 @@ class MenuContainer extends Object {
  */
 	public function __construct() {
 		$this->_initTopMenu();
+		$this->_initProjectMenu();
 	}
 
 /**
@@ -59,6 +60,74 @@ class MenuContainer extends Object {
 		);
 	}
 
+	protected function _initProjectMenu() {
+		$this->project_menu = array(
+			'overview' => array(
+				'plugin' => '',
+				'controller' => 'projects',
+				'action' => 'show',
+				'class' => '',
+				'caption' => 'Overview',
+				'params' => 'project_id'
+			),
+			'activity' => array(
+				'plugin' => '',
+				'controller' => 'projects',
+				'action' => 'activity',
+				'class' => '',
+				'caption' => 'Activity',
+				'params' => 'project_id'
+			),
+			'roadmap'  => array(
+				'plugin' => '',
+				'controller' => 'projects',
+				'action' => 'roadmap',
+				'class' => '',
+				'caption' => 'Roadmap',
+				'params' => 'project_id'
+			),
+			'issues'   => array(
+				'plugin' => '',
+				'controller' => 'issues',
+				'action' => 'index',
+				'class' => '',
+				'caption' => 'Issues',
+				'params' => 'project_id'
+			),
+			'new_issue'=> array(
+				'plugin' => '',
+				'controller' => 'issues',
+				'action' => 'add',
+				'class' => '',
+				'caption' => 'New issue',
+				'params' => 'project_id'
+			),
+			'news'     => array(
+				'plugin' => '',
+				'controller' => 'news',
+				'action' => 'index',
+				'class' => '',
+				'caption' => 'News',
+				'params' => 'project_id'
+			),
+			'wiki'     => array(
+				'plugin' => '',
+				'controller' => 'wiki',
+				'action' => 'index',
+				'class' => '',
+				'caption' => 'Wiki',
+				'params' => 'project_id'
+			),
+			'settings' => array(
+				'plugin' => '',
+				'controller' => 'projects',
+				'action' => 'settings',
+				'class' => '',
+				'caption' => 'Preferences',
+				'params' => 'project_id'
+			),
+		);
+	}
 /**
  * get top menu items.
  * @param array $currentuser
@@ -87,6 +156,10 @@ class MenuContainer extends Object {
 		return $temp;
 	}
 
+	public function getProjectMenu() {
+		return $this->project_menu;
+	}
+
 /**
  * add item to topmenu.
  * @param array $item
@@ -94,6 +167,15 @@ class MenuContainer extends Object {
  */
 	public function addTopMenu($item, $first = false) {
 		$this->top_menu[] = $item;
+	}
+
+/**
+ * add item to projectmenu.
+ * @param array $item
+ * @param boolean $first
+ */
+	public function addProjectMenu($key,$item, $first = false) {
+		$this->project_menu[$key] = $item;
 	}
 
 }
