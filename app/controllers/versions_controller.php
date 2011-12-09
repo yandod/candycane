@@ -40,7 +40,7 @@ class VersionsController extends AppController
     $this->Version->id = $id;
     if(!empty($this->data)) {
       if($this->Version->save($this->data, true, array('name', 'description', 'wiki_page_title', 'effective_date'))) {
-        $this->Session->setFlash(__('Successful update.',true));
+        $this->Session->setFlash(__('Successful update.',true),'default',aa('class','flash notice'));
         $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'id'=>$this->version['Project']['identifier'], '?' => 'tab=versions'));
       }
     }
