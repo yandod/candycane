@@ -20,6 +20,7 @@
 	Router::connect('/projects/:project_id/boards/:action/:id/', array('controller' => 'boards'));
 	Router::connect('/projects/:project_id/timelog/:action/*', array('controller' => 'timelog'), array('project_id' => '.+'));
 	Router::connect('/projects/:project_id/timelog/:action/:page/:sort/:direction/*', array('controller' => 'timelog'), array('project_id' => '.+'));
+	Router::connect('/projects/:project_id/reports/:action/', array('controller' => 'reports'), array('project_id' => '.+'));
 
     Router::connect('/issue_categories/:action/:id/:project_id', array('controller' => 'issue_categories'));
 		
@@ -27,14 +28,7 @@
 	Router::connect('/users/list', array('controller' => 'users', 'action' => 'list_'));
     Router::connect('/members/:action/:project_id/', array('controller' => 'members'));
     Router::connect('/members/:action/:project_id/:id', array('controller' => 'members'));
-	
-#  map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
-#  map.connect 'projects/:project_id/news/:action', :controller => 'news'
-#  map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
-#  map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
-#  map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
-#
-	
+		
 #ActionController::Routing::Routes.draw do |map|
 #  # Add your own custom routes here.
 #  # The priority is based upon order of creation: first created -> highest priority.

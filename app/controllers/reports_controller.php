@@ -248,14 +248,9 @@ class ReportsController extends AppController
    * @action
    * @param  string $identifier
    */
-  function issue_report($identifier = null)
+  function issue_report()
   {
-    if (!is_null($identifier)) {
-      $project = $this->_find_project($identifier);
-    }
-    if (empty($project)) {
-      return $this->cakeError('error404');
-    }
+    $project = $this->_find_project($this->_get_param('project_id'));
 
     $projectId = $project['Project']['id'];
     $this->set('project', $project['Project']);

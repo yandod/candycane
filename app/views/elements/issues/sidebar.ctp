@@ -2,7 +2,7 @@
 <?php echo $html->link(__('View all issues', true), am(isset($main_project) && $main_project ? array('project_id' => $main_project['Project']['identifier']) : a(), array('controller' => 'issues', 'action' => 'index', '?'=>array('set_filter'=>1)))) ?><br />
 <!--<%= link_to l(:label_issue_view_all), { :controller => 'issues', :action => 'index', :project_id => @project, :set_filter => 1 } %><br />-->
 <?php if (isset($main_project) && $main_project): ?>
-<?php echo $html->link(__('Summary', true), am(isset($main_project) && $main_project ? array('id' => $main_project['Project']['identifier']) : a(), array('controller' => 'reports', 'action' => 'issue_report'))) ?><br />
+<?php echo $html->link(__('Summary', true), am(isset($main_project) && $main_project ? array('project_id' => $main_project['Project']['identifier']) : a(), array('controller' => 'reports', 'action' => 'issue_report'))) ?><br />
 <?php echo $html->link(__('Change log', true), am(isset($main_project) && $main_project ? array('id' => $main_project['Project']['identifier']) : a(), array('controller' => 'projects', 'action' => 'changelog'))) ?><br />
 <!--
 <%= link_to l(:field_summary), :controller => 'reports', :action => 'issue_report', :id => @project %><br />
