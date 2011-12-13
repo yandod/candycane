@@ -45,8 +45,11 @@ Configure::write('app_title', 'Candycane');
 setlocale(LC_CTYPE,'C');
 
 App::import('Vendor','MenuContainer');
+App::import('Vendor','HookContainer');
 $menu_container = new MenuContainer();
+$hookContainer = new HookContainer();
 App::import('Core','ClassRegistry');
+ClassRegistry::addObject('HookContainer',$hookContainer);
 ClassRegistry::addObject('MenuContainer',$menu_container);
 foreach( glob('../plugins/cc_*/init.php') as $val){
 	require_once(realpath($val));

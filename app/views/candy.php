@@ -1,6 +1,5 @@
 <?php
 App::import('View','Theme');
-//App::import('Vendor','HookContainer');
 class CandyView extends ThemeView {
 
 	public function __construct (&$controller) {
@@ -50,14 +49,22 @@ class CandyView extends ThemeView {
 			}
 		}
 
-		//$hookContainer = ClassRegistry::getObject('HookContainer');
+		$hookContainer = ClassRegistry::getObject('HookContainer');
 		if (is_file($file)) {
 			$params = array_merge_recursive($params, $this->loaded);
+			$before = "";
+			if ($hookContainer->getElementHook($name,true)) {
+				$before = $this->$element($hookContainer->getElementHook($name,true), array(), $loadHelpers);
+			}
 			$element = $this->_render($file, array_merge($this->viewVars, $params), $loadHelpers);
+			$after = "";
+			if ($hookContainer->getElementHook($name)) {
+				$after = $this->element($hookContainer->getElementHook($name), array(), $loadHelpers);
+			}
 			if (isset($params['cache']) && isset($cacheFile) && isset($expires)) {
 				cache('views' . DS . $cacheFile, $element, $expires);
 			}
-			return $element;
+			return $before.$element.$after;
 		}
 		$file = $paths[0] . 'elements' . DS . $name . $this->ext;
 

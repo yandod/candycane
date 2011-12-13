@@ -3,6 +3,7 @@
 #require 'cgi'
 
 App::import('Core', 'l10n');
+App::import('View', 'CandyView');
 
 /**
  * Application Controller
@@ -23,7 +24,7 @@ class AppController extends Controller {
 
 	public $per_page;
 
-	public $view = 'Theme';
+	public $view = 'Candy';
 
 	public $theme = '';
 
