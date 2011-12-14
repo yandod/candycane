@@ -94,7 +94,7 @@
 	); ?><br/>
 	
 	<?php echo $html->link(__('Report Bug', true),'http://my.candycane.jp/'); ?> -
-	<?php echo $html->link(__('Contributors', true),'https://github.com/yandod/candycane/network/members'); ?> -
+	<?php echo $html->link(__('Contributors', true),'https://github.com/yandod/candycane/contributors'); ?> -
 	<?php echo $html->link(__('Discussion', true),'https://groups.google.com/group/candycane-users'); ?><br/>
 	
 	<?php echo $html->link(
