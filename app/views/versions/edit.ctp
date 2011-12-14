@@ -11,7 +11,11 @@
 <p><?php echo $form->input('name') ?></p>
 <p><?php echo $form->input('description') ?></p>
 <p><?php echo $form->input('wiki_page_title', array('label'=>__('Wiki page', true))) ?></p>
-<p><?php echo $form->input('effective_date', array('label'=>__('Date', true))) ?></p>
+<p>
+  <?php echo $form->label('effective_date', __('Date', true)); ?>
+  <?php echo $form->input('effective_date', array('div'=>false, 'label'=>false, 'size'=>10, 'type'=>'text')); ?>
+  <?php echo $candy->calendar_for('VersionEffectiveDate'); ?>
+</p>
 </div>
 
 <?php echo $form->submit(__('Save', true)) ?>

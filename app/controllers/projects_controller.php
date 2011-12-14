@@ -535,6 +535,9 @@ class ProjectsController extends AppController {
   {
     if($this->RequestHandler->isPost()) {
       $this->data['Version']['project_id'] = $this->_project['Project']['id'];
+	  if (empty($this->data['Version']['effective_date'])) {
+		  $this->data['Version']['effective_date'] = null;
+	  }
       if($this->Version->save($this->data, true, array('project_id', 'name', 'description', 'wiki_page_title', 'effective_date'))) {
         $this->Session->setFlash(__('Successful creation.',true),'default',aa('class','flash notice'));
         $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->data['Project']['project_id'],'?'=>'tab=versions'));
