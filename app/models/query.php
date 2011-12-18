@@ -388,8 +388,14 @@ class Query extends AppModel
   {
     switch ($operator) {
     case '=':
-      if (is_array($values)) $operator = '';
+      $operator = '';
       break;
+	case '<=':
+	case '>=':
+	  return array(
+		$model . '.' . $field . $operator . $values,
+	  );
+	  break;
     case '!':
       $operator = '!=';
       break;
