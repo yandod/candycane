@@ -49,7 +49,8 @@ class CandyView extends ThemeView {
 			}
 		}
 
-		$hookContainer = ClassRegistry::getObject('HookContainer');
+		App::import('Vendor', 'HookContainer', array('file' => 'candycane' . DS . 'hook_container.php'));
+		$hookContainer = new HookContainer();
 		if (is_file($file)) {
 			$params = array_merge_recursive($params, $this->loaded);
 			$before = "";
