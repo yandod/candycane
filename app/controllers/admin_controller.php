@@ -134,7 +134,10 @@ class AdminController extends AppController {
 	}
 
 	public function installPlugin($id){
-		$this->Session->setFlash(sprintf(__('Installed plugin: %s', true),$id), 'default', array('class'=>'flash flash_notice'));
+		$pluginContainer = ClassRegistry::getObject('PluginContainer');
+		if ($pluginContainer->install($id)) {
+			$this->Session->setFlash(sprintf(__('Installed plugin: %s', true),$id), 'default', array('class'=>'flash flash_notice'));
+		}
 		$this->redirect('plugins');
 	}
 
