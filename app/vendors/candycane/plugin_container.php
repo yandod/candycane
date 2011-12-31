@@ -17,7 +17,7 @@ class PluginContainer extends Object{
 			'id' => 'cc_nyancat',
 			'name' => 'Nyan Down Chart',
 			'description' => 'This plugin make you nyan\'d!!',
-			'url' => 'https://github.com/yandod/cc_nyancat/zipball/master',
+			'url' => 'http://github.com/yandod/cc_nyancat/zipball/master',
 			'author' => 'yandod',
 			'author_url' => 'https://github.com/yandod',
 			'version' => '0.1',
@@ -52,7 +52,18 @@ class PluginContainer extends Object{
 	}
 
 	public function install($id) {
-		
+		if ($entry = $this->getEntry($id)) {
+			App::import('Core', 'File');
+			copy($entry['url'],TMP.DS.$id);
+			App::import('Vendor', 'PclZip', array('file' => 'pclzip-2-8-2/pclzip.lib.php'));
+			$zip = new PclZip(TMP.DS.$id);
+			$list = $zip->listContent();
+			$zip->extract(TMP);
+			unlink(TMP.DS.$id);
+			rename(TMP.DS.$list[0]['filename'], APP.'plugins'.DS.$id);
+			return true;
+		}
+		return false;
 	}
 
 	public function installed($id, $version) {
@@ -67,8 +78,8 @@ class PluginContainer extends Object{
 	public function uninstall($id) {
 		if ($this->getEntry($id)) {
 			App::import('Core', 'Folder');
-			$this->folder = new Folder;
-			return $this->folder->delete(APP.'plugins'.DS.$id);
+			$folder = new Folder;
+			return $folder->delete(APP.'plugins'.DS.$id);
 		}
 		return false;
 	}
