@@ -56,7 +56,20 @@ class InstallController extends InstallAppController {
  */
     function index() {
         $this->pageTitle = __('Installation: Welcome', true);
+		$url = Router::url(array(
+			'controller' => 'install',
+			'action' => 'route'
+			),
+			true
+		);
+		$file = json_decode(file_get_contents($url),true);
+		$this->set('file',$file);
     }
+
+	function route() {
+		$this->layout = null;
+		Configure::write('debug', 0);
+	}
 /**
  * Step 1: database
  *
