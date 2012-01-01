@@ -27,6 +27,10 @@ class IssueStatusTestCase extends CakeTestCase {
     $this->assertEqual(1, count($this->IssueStatus->validationErrors));
 
     $this->IssueStatus->create();
+    $this->IssueStatus->set(array('name' => "新規"));
+    $this->assertTrue($this->IssueStatus->save());
+
+    $this->IssueStatus->create();
     $this->IssueStatus->set(array('name' => "Test Status"));
     $this->assertTrue($this->IssueStatus->save());
     $this->IssueStatus->read(null, $this->IssueStatus->getLastInsertID());
