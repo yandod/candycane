@@ -54,7 +54,7 @@ class CandyView extends ThemeView {
 			$params = array_merge_recursive($params, $this->loaded);
 			$before = "";
 			if ($hookContainer->getElementHook($name,true)) {
-				$before = $this->$element($hookContainer->getElementHook($name,true), array(), $loadHelpers);
+				$before = $this->element($hookContainer->getElementHook($name,true), array(), $loadHelpers);
 			}
 			$element = $this->_render($file, array_merge($this->viewVars, $params), $loadHelpers);
 			$after = "";
