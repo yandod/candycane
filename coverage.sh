@@ -5,7 +5,7 @@ simpletest_coverage_dir="$root_dir/vendors/simpletest/extensions/coverage"
 php_option="-d include_path=.:/usr/share/pear:$simpletest_coverage_dir -d auto_prepend_file=$simpletest_coverage_dir/autocoverage.php"
 
 start() {
- php $php_option $simpletest_coverage_dir/bin/php-coverage-open.php --include=$root_dir/app/controllers/.*\.php$ --include=$root_dir/app/models/.*\.php$ --exclude='$root_dir/.*/tests/.*' --maxdepth=1
+ php $php_option $simpletest_coverage_dir/bin/php-coverage-open.php --include=$root_dir/app/controllers/.*\.php$ --include=$root_dir/app/models/.*\.php$ --include=$root_dir/app/vendors/candycane/.*\.php$ v--exclude='$root_dir/.*/tests/.*' --maxdepth=1
 }
 
 close() {
