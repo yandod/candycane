@@ -15,7 +15,7 @@
 <?php foreach($trackers as $tracker): ?>
   <tr class="<?php echo $candy->cycle(); ?>">
   <td><?php echo $html->link($tracker['Tracker']['name'],array('action'=>'edit','id'=>$tracker['Tracker']['id']),array('id'=>'tracker')) ?></td>
-  <td align="center"><?php if (count($tracker['Workflow']) == 0):?><span class="icon icon-warning"><? __('No workflow defined for this tracker') ?> (<?php echo $html->link(__('Edit',true),array('controller'=>'workflows','action'=>'edit','tracker_id'=>$tracker['Tracker']['id'])) ?>)</span><?php endif; ?></td>
+  <td align="center"><?php if (count($tracker['Workflow']) == 0):?><span class="icon icon-warning"><?php __('No workflow defined for this tracker') ?> (<?php echo $html->link(__('Edit',true),array('controller'=>'workflows','action'=>'edit','tracker_id'=>$tracker['Tracker']['id'])) ?>)</span><?php endif; ?></td>
   <td align="center" style="width:15%;">
     <?php echo $html->link($html->image('2uparrow.png',  array('alt'=>__('Move to top',true))),   array('action'=>'move', 'id'=>$tracker['Tracker']['id'], 'position'=>'highest'), array('title'=>__('Move to top', true)), null, false); ?>
     <?php echo $html->link($html->image('1uparrow.png',  array('alt'=>__('Move up',true))),       array('action'=>'move', 'id'=>$tracker['Tracker']['id'], 'position'=>'higher'),  array('title'=>__('Move up', true))    , null, false); ?> -
