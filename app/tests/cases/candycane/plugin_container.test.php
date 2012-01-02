@@ -103,6 +103,11 @@ class PluginContainerTestCase extends CakeTestCase {
 		$this->assertTrue($result);
 		$entry = $this->pluginContainer->getEntry('cc_epicsax');
 		$this->assertEqual($entry['installed'], '10.8.7');
+
+		$result = $this->pluginContainer->installed('macos', '10.8.7');
+		$this->assertTrue($result);
+		$entry = $this->pluginContainer->getEntry('macos');
+		$this->assertEqual($entry['installed'], '10.8.7');
 	}
 
 	public function test_uninstall() {
