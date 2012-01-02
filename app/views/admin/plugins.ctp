@@ -16,6 +16,12 @@
 			<?php
 			if ( empty($plugin['url'])) {
 				echo __('Local Plugin');
+				echo '&nbsp;&nbsp;';
+				echo $html->link('test page of '.$plugin['id'],array(
+					'controller' => 'home',
+					'action' => 'index',
+					'plugin' => $plugin['id']
+				));
 			} else {
 				echo $html->tag('span',$html->link($plugin['url']),array('class'=>'url'));
 			}

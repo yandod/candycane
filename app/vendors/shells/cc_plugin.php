@@ -119,6 +119,21 @@ class CcPluginShell extends Shell {
 			$out .= "\n\n";
 			$this->createFile($this->path . $pluginPath . DS . 'init.php', $out);
 
+			$out = "<?php\n";
+			$out .= "\tclass HomeController extends {$plugin}AppController {\n";
+			$out .= "\tpublic \$uses = array('Issue');\n";
+			$out .= "\tpublic function index() {\n";
+			$out .= "\t\t\$this->set('count',\$this->Issue->find('count'));\n";
+			$out .= "\t}\n";
+			$out .= "}\n";
+			$out .= "\n";
+			$this->createFile($this->path . $pluginPath . DS . 'controllers/home_controller.php', $out);
+
+			$out = "";
+			$out .= "Hello CandyCane {$plugin} Plugin.<br/>";
+			$out .= "You have <?php echo \$count ?> of issues.";
+			$out .= "\n\n";
+			$this->createFile($this->path . $pluginPath . DS . 'views/home/index.ctp', $out);
 
 			$this->hr();
 			$this->out(sprintf(__("Created: %s in %s", true), $plugin, $this->path . $pluginPath));

@@ -106,6 +106,7 @@ class PluginContainer extends Object {
 		} else {
 			$entry = array(
 				'id' => $id,
+				'name' => $id,
 				'installed' => $version
 			);
 			return $this->addEntry($entry);
