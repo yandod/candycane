@@ -1,5 +1,10 @@
 <?php
-class PluginContainer extends Object{
+/**
+ * PluginContainer
+ * manage cakephp plugin based on entry list.
+ * shoud not change any plugin this container doesn't know.
+ */
+class PluginContainer extends Object {
 
 	protected $__entries = array();
 
@@ -13,11 +18,21 @@ class PluginContainer extends Object{
 	}
 
 	protected function __loadEntry() {
-		$this->__entries[] = array(
+		$this->__entries['cc_nyancat'] = array(
 			'id' => 'cc_nyancat',
 			'name' => 'Nyan Down Chart',
 			'description' => 'This plugin make you nyan\'d!!',
 			'url' => 'http://github.com/yandod/cc_nyancat/zipball/master',
+			'author' => 'yandod',
+			'author_url' => 'https://github.com/yandod',
+			'version' => '0.1',
+			'installed' => false
+		);
+		$this->__entries['cc_epicsax'] = array(
+			'id' => 'cc_epicsax',
+			'name' => 'Epic Sax Guy plugin.',
+			'description' => 'You never forget this sax roll.',
+			'url' => 'https://github.com/downloads/yandod/cc_epicsax/yandod-cc_epicsax-v0.1-0-gad8a5da.zip',
 			'author' => 'yandod',
 			'author_url' => 'https://github.com/yandod',
 			'version' => '0.1',
@@ -29,8 +44,23 @@ class PluginContainer extends Object{
 		return $this->__entries;
 	}
 
-	public function addEntry() {
-		
+	public function addEntry($entry) {
+		$default = array(
+			'id' => null,
+			'name' => null,
+			'description' => null,
+			'url' => null,
+			'author' => null,
+			'author_url' => null,
+			'version' => null,
+			'installed' => false
+		);
+		$entry = array_merge($default,$entry);
+		if (is_null($entry['id'])) {
+			return false;
+		}
+		$this->__entries[$entry['id']] = $entry;
+		return true;
 	}
 
 	public function getEntry($id) {
@@ -46,13 +76,15 @@ class PluginContainer extends Object{
 		foreach ($this->__entries as $k => $val) {
 			if ($val['id'] === $id) {
 				$this->__entries[$k] = $entry;
+				return true;
 			}
 		}
 		return false;
 	}
 
 	public function install($id) {
-		if ($entry = $this->getEntry($id)) {
+		$entry = $this->getEntry($id);
+		if ($entry && !empty($entry['url'])) {
 			App::import('Core', 'File');
 			copy($entry['url'],TMP.DS.$id);
 			App::import('Vendor', 'PclZip', array('file' => 'pclzip-2-8-2/pclzip.lib.php'));
@@ -67,16 +99,24 @@ class PluginContainer extends Object{
 	}
 
 	public function installed($id, $version) {
-		if ($entry = $this->getEntry($id)) {
+		$entry = $this->getEntry($id);
+		if ($entry) {
 			$entry['installed'] = $version;
-			$this->updateEntry($id, $entry);
-			return true;
+			return $this->updateEntry($id, $entry);
+		} else {
+			$entry = array(
+				'id' => $id,
+				'name' => $id,
+				'installed' => $version
+			);
+			return $this->addEntry($entry);
 		}
 		return false;
 	}
 
 	public function uninstall($id) {
-		if ($this->getEntry($id)) {
+		$entry = $this->getEntry($id);
+		if ($entry && !empty($entry['url'])) {
 			App::import('Core', 'Folder');
 			$folder = new Folder;
 			return $folder->delete(APP.'plugins'.DS.$id);
@@ -84,9 +124,5 @@ class PluginContainer extends Object{
 		return false;
 	}
 
-	public function upgrade($id){
-		$this->uninstall($id);
-		$this->install($id);
-	}
 }
 
