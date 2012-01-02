@@ -16,10 +16,10 @@ class PluginContainerTestCase extends CakeTestCase {
 				'id' => 'cc_nyancat',
 				'name' => 'Nyan Down Chart',
 				'description' => 'This plugin make you nyan\'d!!',
-				'url' => 'http://github.com/yandod/cc_nyancat/zipball/master',
+				'url' => 'https://github.com/downloads/yandod/cc_nyancat/cc_nyancat-v0.2.zip',
 				'author' => 'yandod',
 				'author_url' => 'https://github.com/yandod',
-				'version' => '0.1',
+				'version' => '0.2',
 				'installed' => false
 			),
 			'cc_epicsax' => array(

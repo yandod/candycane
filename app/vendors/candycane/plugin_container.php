@@ -8,6 +8,8 @@ class PluginContainer extends Object {
 
 	protected $__entries = array();
 
+	protected $__entries_url = 'https://raw.github.com/gist/1550522/entries.json';
+
 	public function  __construct() {
 		$this->__init();
 		parent::__construct();
@@ -22,10 +24,10 @@ class PluginContainer extends Object {
 			'id' => 'cc_nyancat',
 			'name' => 'Nyan Down Chart',
 			'description' => 'This plugin make you nyan\'d!!',
-			'url' => 'http://github.com/yandod/cc_nyancat/zipball/master',
+			'url' => 'https://github.com/downloads/yandod/cc_nyancat/cc_nyancat-v0.2.zip',
 			'author' => 'yandod',
 			'author_url' => 'https://github.com/yandod',
-			'version' => '0.1',
+			'version' => '0.2',
 			'installed' => false
 		);
 		$this->__entries['cc_epicsax'] = array(
@@ -44,6 +46,12 @@ class PluginContainer extends Object {
 		return $this->__entries;
 	}
 
+	public function fetchEntry(){
+		$json = file_get_contents($this->__entries_url);
+		$remote = json_decode($json,true);
+		$this->__entries = array_merge($this->__entries,$remote);
+		return true;
+	}
 	public function addEntry($entry) {
 		$default = array(
 			'id' => null,
