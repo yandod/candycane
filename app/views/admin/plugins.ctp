@@ -13,21 +13,36 @@
         <tr class="<?php echo $candy->cycle('odd', 'even') ?>">
         <td><span class="name"><?php echo h($plugin['name']) ?></span>
 			<?php echo $html->tag('span',$plugin['description'],array('class'=>'description'))?>
-			<?php echo $html->tag('span',$html->link($plugin['url']),array('class'=>'url'))?>
+			<?php
+			if ( empty($plugin['url'])) {
+				echo __('Local Plugin');
+			} else {
+				echo $html->tag('span',$html->link($plugin['url']),array('class'=>'url'));
+			}
+			?>
 		</td>
-        <td class="author"><?php echo $html->link($plugin['author'],$plugin['author_url']);?></td>
+        <td class="author"><?php
+			if (empty($plugin['author'])) {
+				echo __('Unknown');
+			} else {
+				echo $html->link($plugin['author'],$plugin['author_url']);
+			}
+		?></td>
         <td class="version"><?php echo h($plugin['version'])?></td>
 		<td class="installed"><?php echo h($plugin['installed'])?></td>
         <td class="configure"><?php
 			if ($plugin['installed']) {
 				if ($plugin['version'] > $plugin['installed']) {
 					echo __('Upgrade',true);
-				}
-				echo $html->link(__('Uninstall',true),array(
-					'controller' => 'admin',
-					'action' => 'uninstallPlugin',
-					'id' => $plugin['id']
+				} elseif (empty($plugin['url'])) {
+					echo __('Local Plugin');
+				} else {
+					echo $html->link(__('Uninstall',true),array(
+						'controller' => 'admin',
+						'action' => 'uninstallPlugin',
+						'id' => $plugin['id']
 					));
+				}
 			} else {
 				echo $html->link(__('Install',true),array(
 					'controller' => 'admin',
