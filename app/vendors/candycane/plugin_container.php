@@ -49,7 +49,13 @@ class PluginContainer extends Object {
 	public function fetchEntry(){
 		$json = file_get_contents($this->__entries_url);
 		$remote = json_decode($json,true);
-		$this->__entries = array_merge($this->__entries,$remote);
+		$local = $this->__entries;
+		foreach ($remote as $id => $entry) {
+			if (isset($local[$id])) {
+				$entry['installed'] = $local[$id]['installed'];
+				$this->updateEntry($id, $entry);
+			}
+		}
 		return true;
 	}
 	public function addEntry($entry) {
