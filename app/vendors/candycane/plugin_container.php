@@ -54,6 +54,9 @@ class PluginContainer extends Object {
 			if (isset($local[$id])) {
 				$entry['installed'] = $local[$id]['installed'];
 				$this->updateEntry($id, $entry);
+			} else {
+				$entry['installed'] = false;
+				$this->addEntry($entry);
 			}
 		}
 		return true;
