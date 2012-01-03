@@ -3,7 +3,7 @@
 </div>
 
 <div id="add-news" style="display:none;">
-<h2><?php __('Add news') ; ?></h2>
+<h2><?php echo __('Add news',true) ; ?></h2>
 <?php
 echo $form->create('News', array('url' => "/projects/{$main_project['Project']['identifier']}/news/add", 'id' => 'NewsAddForm'));
 	echo $this->renderElement('news/_form');
