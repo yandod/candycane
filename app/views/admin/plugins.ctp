@@ -63,3 +63,7 @@
 <?php else: ?>
 <p class="nodata"><?php __('No data to display'); ?></p>
 <?php endif; ?>
+<p class="nodata">
+	<?php echo __('Do you want to create your own plugin? Run command bellow to create your plugin.',true); ?><br/>
+	<strong>php cake/console/cake.php cc_plugin</strong>
+</p>
