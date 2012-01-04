@@ -26,7 +26,7 @@
         } else {
             $check = false;
             echo '<p class="error">' . __('Your files directory is NOT writable.', true).'</p>';
-			$cmd .= 'chmod -R 777 '.APP.'files';
+			$cmd .= 'chmod -R 777 '.APP.'files'."\n";
         }
 
         // plugins is writable
