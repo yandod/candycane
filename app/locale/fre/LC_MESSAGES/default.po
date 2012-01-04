@@ -658,7 +658,7 @@ msgstr "Gérer le wiki"
 
 # label_query_plural
 msgid "Custom queries"
-msgstr "Custom queries"
+msgstr "Filtres personalisés"
 
 # label_enumeration_new
 msgid "New value"
@@ -1254,7 +1254,7 @@ msgstr "Veulliez vous identifier"
 
 # label_issue_watchers
 msgid "Watchers"
-msgstr "Watchers"
+msgstr "Observateurs"
 
 # label_jump_to_a_project
 msgid "Jump to a project..."
@@ -1266,7 +1266,7 @@ msgstr "Nouveau forum"
 
 # label_contains
 msgid "contains"
-msgstr "contiens"
+msgstr "contient"
 
 # label_sort_by
 msgid "Sort by %s"
@@ -1310,7 +1310,7 @@ msgstr "Sous-projet"
 
 # notice_can_t_change_password
 msgid "This account uses an external authentication source. Impossible to change the password."
-msgstr "This account uses an external authentication source. Impossible to change the password."
+msgstr "Ce compte utilise une source externe pour l'authentification. Impossible de modifier le mot de passe."
 
 # activerecord_error_greater_than_start_date
 msgid "must be greater than start date"
@@ -1346,7 +1346,7 @@ msgstr "n'est pas un nombre"
 
 # setting_wiki_compression
 msgid "Wiki history compression"
-msgstr "Wiki-Historie komprimieren"
+msgstr "Compression de l'historique du wiki"
 
 # text_are_you_sure
 msgid "Are you sure ?"
@@ -1354,7 +1354,7 @@ msgstr "Êtes-vous sûr ?"
 
 # text_min_max_length_info
 msgid "0 means no restriction"
-msgstr "0 heißt keine Beschränkung"
+msgstr "0 si aucune limite"
 
 # label_version_new
 msgid "New version"
@@ -1406,7 +1406,7 @@ msgstr "Page principale"
 
 # notice_failed_to_save_issues
 msgid "\"Failed to save %d issue(s) on %d selected"
-msgstr "\"Failed to save %d issue(s) on %d selected"
+msgstr "\"Echec dans l'enregistrement de %d demande(s) sur %d selectionnées"
 
 # label_registration_automatic_activation
 msgid "automatic account activation"
@@ -1422,7 +1422,7 @@ msgstr "Hostname et répertoire"
 
 # mail_body_reminder
 msgid "\"%d issue(s) that are assigned to you are due in the next %d days:\""
-msgstr "\"%d issue(s) that are assigned to you are due in the next %d days:\""
+msgstr "\"%d demandes(s) qui vous sont assignée(s) sont dues pour dans %d jours:\""
 
 # label_open_issues_plural
 msgid "open"
@@ -1446,7 +1446,7 @@ msgstr "jours"
 
 # field_done_ratio
 msgid "%% Done"
-msgstr "%% terminé"
+msgstr "%% Terminé"
 
 # general_lang_name
 msgid "'English'"
@@ -1566,7 +1566,7 @@ msgstr "Les nouveaux projets sont publiques par défaut"
 
 # setting_commit_fix_keywords
 msgid "Fixing keywords"
-msgstr "Fixing keywords"
+msgstr "Correction des mots clés"
 
 # notice_locking_conflict
 msgid "Data has been updated by another user."
@@ -1578,7 +1578,7 @@ msgstr "Archiver"
 
 # label_modification
 msgid "%d change"
-msgstr "%d change"
+msgstr "%d changement"
 
 # setting_autologin
 msgid "Autologin"
@@ -1610,7 +1610,7 @@ msgstr "Valeur par défaut"
 
 # button_log_time
 msgid "Log time"
-msgstr "Log time"
+msgstr "Temps passé"
 
 # label_message_posted
 msgid "Message added"
@@ -1646,11 +1646,11 @@ msgstr "Design"
 
 # label_registration_manual_activation
 msgid "manual account activation"
-msgstr "Manuelle Kontoaktivierung"
+msgstr "Activation manuelle"
 
 # label_wiki_edit_plural
 msgid "Wiki edits"
-msgstr "Wiki-Bearbeitungen"
+msgstr "Editions Wiki"
 
 # label_all_words
 msgid "All words"
@@ -1670,7 +1670,7 @@ msgstr "Activité"
 
 # text_user_mail_option
 msgid "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
-msgstr "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
+msgstr "\"Pour les projets non cochés, vous recevrez uniquement les notifications concernant ce que vous suivez ou qui vous concerne (ex. demandes dont vous êtes l'auteur ou qui vous sont assignées).\""
 
 # button_create_and_continue
 msgid "Create and continue"
@@ -1710,11 +1710,11 @@ msgstr "Année"
 
 # label_end_to_end
 msgid "end to end"
-msgstr "end to end"
+msgstr "fin à fin"
 
 # label_precedes
 msgid "precedes"
-msgstr "precedes"
+msgstr "précédés"
 
 # label_equals
 msgid "is"
@@ -1730,11 +1730,11 @@ msgstr "Délai"
 
 # button_unwatch
 msgid "Unwatch"
-msgstr "Ne plus obeserver"
+msgstr "Ne plus observer"
 
 # label_roadmap_due_in
 msgid "Due in %s"
-msgstr "Due in %s"
+msgstr "Due dans %s"
 
 # label_last_month
 msgid "last month"
@@ -1754,7 +1754,7 @@ msgstr "Supprimer les rapports horaires"
 
 # label_relates_to
 msgid "related to"
-msgstr "related to"
+msgstr "relatif à"
 
 # field_login
 msgid "Login"
@@ -1890,7 +1890,7 @@ msgstr "'%s écrit:'"
 
 # text_plugin_assets_writable
 msgid "Plugin assets directory writable"
-msgstr "Plugin assets directory writable"
+msgstr "Droits en écriture sur le dossier Plugin"
 
 # text_select_project_modules
 msgid "'Select modules to enable for this project:'"
@@ -1898,15 +1898,15 @@ msgstr "'Sélectionner les modules à activer pour ce projet:'"
 
 # text_journal_set_to
 msgid "set to %s"
-msgstr "set to %s"
+msgstr "Mettre à %s"
 
 # label_copy_workflow_from
 msgid "Copy workflow from"
-msgstr "Copy workflow from"
+msgstr "Processus de copie depuis"
 
 # label_modification_plural
 msgid "%d changes"
-msgstr "%d changes"
+msgstr "%d changés"
 
 # field_possible_values
 msgid "Possible values"
@@ -1942,7 +1942,7 @@ msgstr "Limite d'export des demandes"
 
 # text_select_mail_notifications
 msgid "Select actions for which email notifications should be sent."
-msgstr "Sélectionnez les actions pour lesquelles vous une notification sera envoyé."
+msgstr "Sélectionnez les actions pour lesquelles une notification vous sera envoyée."
 
 # label_and_its_subprojects
 msgid "%s and its subprojects"
@@ -1958,11 +1958,11 @@ msgstr "Cacher mon adresse email"
 
 # text_reassign_time_entries
 msgid "'Reassign reported hours to this issue:'"
-msgstr "'Reassign reported hours to this issue:'"
+msgstr "'Réassigner les heures reportées sur cette demande :'"
 
 # text_issue_category_reassign_to
 msgid "Reassign issues to this category"
-msgstr "Reassign issues to this category"
+msgstr "Réassigner les demande à cette catégorie"
 
 # notice_email_error
 msgid "An error occurred while sending mail (%s)"
@@ -1974,7 +1974,7 @@ msgstr "Nouveau membre"
 
 # default_priority_immediate
 msgid "Immediate"
-msgstr "Immediat"
+msgstr "Immédiat"
 
 # label_reverse_chronological_order
 msgid "In reverse chronological order"
@@ -1986,7 +1986,7 @@ msgstr "jours"
 
 # permission_view_issue_watchers
 msgid "View watchers list"
-msgstr "Voir la liste des surveillants"
+msgstr "Voir la liste des obsevateurs"
 
 # permission_manage_repository
 msgid "Manage repository"
@@ -2038,7 +2038,7 @@ msgstr "Commentaire ajouté"
 
 # mail_subject_reminder
 msgid "\"%d issue(s) due in the next days\""
-msgstr "\"%d issue(s) due in the next days\""
+msgstr "\"%d demande(s) due dans les prochains jours\""
 
 # label_issue_category
 msgid "Issue category"
@@ -2046,11 +2046,11 @@ msgstr "Catégorie de la demande"
 
 # permission_commit_access
 msgid "Commit access"
-msgstr "Commit access"
+msgstr "Accéder aux commits"
 
 # label_workflow
 msgid "Workflow"
-msgstr "Workflow"
+msgstr "Processus"
 
 # label_report_plural
 msgid "Reports"
@@ -2062,7 +2062,7 @@ msgstr "Demandes qui me sont assignées"
 
 # label_query_new
 msgid "New query"
-msgstr "New query"
+msgstr "Nouvelle requête"
 
 # field_max_length
 msgid "Maximum length"
@@ -2074,7 +2074,7 @@ msgstr "Clé API"
 
 # text_issue_category_destroy_assignments
 msgid "Remove category assignments"
-msgstr "Remove category assignments"
+msgstr "Retirer les affectation à la catégorie"
 
 # button_test
 msgid "Test"
@@ -2082,15 +2082,15 @@ msgstr "Test"
 
 # label_user_mail_option_selected
 msgid "\"For any event on the selected projects only...\""
-msgstr "\"Für alle Ereignisse in den ausgewählten Projekten...\""
+msgstr "\"A chaque évènement sur les projets sélectionnés uniquement\""
 
 # label_start_to_start
 msgid "start to start"
-msgstr "start to start"
+msgstr "Début à début"
 
 # label_watched_issues
 msgid "Watched issues"
-msgstr "Watched issues"
+msgstr "Demandes vues"
 
 # label_spent_time
 msgid "Spent time"
@@ -2106,7 +2106,7 @@ msgstr "aucun"
 
 # error_scm_annotate
 msgid "\"The entry does not exist or can not be annotated.\""
-msgstr "\"Der Eintrag existiert nicht oder kann nicht annotiert werden.\""
+msgstr "\"L'entrée n'existe pas ou ne peut être annotée\""
 
 # setting_text_formatting
 msgid "Text formatting"
@@ -2122,7 +2122,7 @@ msgstr "Fonctionnalité"
 
 # label_search_titles_only
 msgid "Search titles only"
-msgstr "Search titles only"
+msgstr "Titres de recherche seulement"
 
 # label_message_plural
 msgid "Messages"
@@ -2162,7 +2162,7 @@ msgstr "Déconnexion"
 
 # notice_email_sent
 msgid "An email was sent to %s"
-msgstr "Eine E-Mail wurde an %s gesendet."
+msgstr "Un E-Mail a été envoyé à %s"
 
 # permission_view_documents
 msgid "View documents"
@@ -2178,7 +2178,7 @@ msgstr "Annoter"
 
 # label_change_properties
 msgid "Change properties"
-msgstr "Eigenschaften ändern"
+msgstr "Changer les propriétés"
 
 # label_next
 msgid "Next"
@@ -2198,7 +2198,7 @@ msgstr "Ajouter des notes"
 
 # permission_save_queries
 msgid "Save queries"
-msgstr "Filter speichern"
+msgstr "Sauver les filtres"
 
 # label_project_latest
 msgid "Latest projects"
@@ -2206,7 +2206,7 @@ msgstr "Derniers projets"
 
 # text_no_configuration_data
 msgid "\"Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded.\""
-msgstr "\"Rollen, Tracker, Ticket-Status und Workflows wurden noch nicht konfiguriert.\nEs ist sehr zu empfehlen, die Standard-Konfiguration zu laden. Sobald sie geladen ist, können Sie sie abändern.\""
+msgstr "\"Rôles, trackers, statuts des demandes et processus n'ont pas encore été configurés.\n Il est fortement recommandé de charger la configuration par défaut. Vous pourrez la modifier une fois chargée.\""
 
 # label_copied
 msgid "copied"
@@ -2218,11 +2218,11 @@ msgstr "Type"
 
 # label_change_status
 msgid "Change status"
-msgstr "Statuswechsel"
+msgstr "Changement de statut"
 
 # text_wiki_destroy_confirmation
 msgid "Are you sure you want to delete this wiki and all its content ?"
-msgstr "Sind Sie sicher, dass Sie dieses Wiki mit sämtlichem Inhalt löschen möchten?"
+msgstr "Etes vous sûr de vouloir supprimer ce wiki et tout ses contenus ?"
 
 # label_preferences
 msgid "Preferences"
@@ -2230,7 +2230,7 @@ msgstr "Préférences"
 
 # label_send_test_email
 msgid "Send a test email"
-msgstr "Test-E-Mail senden"
+msgstr "Envoyer un E-Mail test"
 
 # field_identifier
 msgid "Identifier"
@@ -2286,11 +2286,11 @@ msgstr "%%d.%%m.%%y, %%H:%%M"
 
 # label_custom_field
 msgid "Custom field"
-msgstr "Benutzerdefiniertes Feld"
+msgstr "Champs personalisés"
 
 # label_news_view_all
 msgid "View all news"
-msgstr "Alle News anzeigen"
+msgstr "Voir toutes les nouveautés"
 
 # label_home
 msgid "Home"
@@ -2306,7 +2306,7 @@ msgstr "Mot de passe"
 
 # label_reported_issues
 msgid "Reported issues"
-msgstr "Reported issues"
+msgstr "Demandes rapportées"
 
 # button_download
 msgid "Download"
@@ -2330,11 +2330,11 @@ msgstr "Demandes"
 
 # label_query
 msgid "Custom query"
-msgstr "Benutzerdefinierte Abfrage"
+msgstr "Filtre personalisé"
 
 # label_issue_status
 msgid "Issue status"
-msgstr "Ticket-Status"
+msgstr "Statut de la demande"
 
 # permission_view_wiki_pages
 msgid "View wiki"
@@ -2354,7 +2354,7 @@ msgstr "modifié"
 
 # label_overall_activity
 msgid "Overall activity"
-msgstr "Overall activity"
+msgstr "Activité globale"
 
 # setting_commit_ref_keywords
 msgid "Referencing keywords"
@@ -2474,7 +2474,7 @@ msgstr "Obligatoire"
 
 # error_can_t_load_default_data
 msgid "\"Default configuration could not be loaded"
-msgstr "\"Die Standard-Konfiguration konnte nicht geladen werden"
+msgstr "\"La configuration par défaut n'a pu être sauvée"
 
 # button_reset
 msgid "Reset"
@@ -2482,23 +2482,23 @@ msgstr "Reset"
 
 # setting_diff_max_lines_displayed
 msgid "Max number of diff lines displayed"
-msgstr "Maximale Anzahl anzuzeigender Diff-Zeilen"
+msgstr "Nombre maximum de lignes de diff affichées"
 
 # field_estimated_hours
 msgid "Estimated time"
-msgstr "Geschätzter Aufwand"
+msgstr "Temps estimé"
 
 # text_rmagick_available
 msgid "RMagick available (optional)"
-msgstr "RMagick verfügbar (optional)"
+msgstr "RMagick disponible (optional)"
 
 # button_activate
 msgid "Activate"
-msgstr "Aktivieren"
+msgstr "Activer"
 
 # label_user_mail_option_all
 msgid "\"For any event on all my projects\""
-msgstr "\"Für alle Ereignisse in all meinen Projekten\""
+msgstr "\"Pour chaque évènement sur l'ensemble de mes projets\""
 
 # field_column_names
 msgid "Columns"
@@ -2514,7 +2514,7 @@ msgstr "Documentation utilisateur"
 
 # label_user_mail_option_none
 msgid "\"Only for things I watch or I'm involved in\""
-msgstr "\"Only for things I watch or I'm involved in\""
+msgstr "\"Seulement pour ce que je suis ou qui m'est assigné\""
 
 # label_topic_plural
 msgid "Topics"
@@ -2530,15 +2530,15 @@ msgstr "Rôles et permissions"
 
 # text_status_changed_by_changeset
 msgid "Applied in changeset %s."
-msgstr "Applied in changeset %s."
+msgstr "Appliqué à la liste des modifications %s."
 
 # label_diff_side_by_side
 msgid "side by side"
-msgstr "side by side"
+msgstr "cote à cote"
 
 # permission_edit_time_entries
 msgid "Edit time logs"
-msgstr "Edit time logs"
+msgstr "Editer les times logs"
 
 # permission_edit_own_issue_notes
 msgid "Edit own notes"
