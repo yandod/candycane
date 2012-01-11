@@ -168,7 +168,11 @@ class AccountController extends AppController {
 			#  cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
 			#end
 			#redirect_back_or_default :controller => 'my', :action => 'page'
-			if (!$this->params['form']['back_url'][0] == '/') {
+			App::import('Helper', 'Html');
+			$html = new HtmlHelper();
+			if (!$this->params['form']['back_url'][0] == '/' ||
+				$this->params['form']['back_url'] == $html->url($this->action)
+			) {
 				$this->params['form']['back_url'] = '/';
 			}
 			$this->redirect($this->params['form']['back_url']);
