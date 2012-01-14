@@ -387,77 +387,83 @@ class Query extends AppModel
   function get_filter_cond($model, $field, $operator, $values)
   {
     switch ($operator) {
-    case '=':
-      if (is_array($values)) $operator = '';
-      break;
-    case '!':
-      $operator = '!=';
-      break;
-    case '*':
-      return null;
-      break;
-    case '!*':
-      return array('or' => array(
-        $field . ' !=' => null,
-        $field => '',
-      ));
-      break;
-    case 'o':
-      if ($field != 'status_id') return;
-      $model = 'Status';
-      $field = 'is_closed';
-      $operator = '';
-      $values = false;
-      break;
-    case 'c':
-      if ($field != 'status_id') return;
-      $model = 'Status';
-      $field = 'is_closed';
-      $operator = '';
-      $values = true;
-      break;
-    case '>t-':
-      return $this->date_range_clause($model, $field, - $values, 0);
-    case '<t-':
-      return $this->date_range_clause($model, $field, null, - $values);
-    case 't-':
-      return $this->date_range_clause($model, $field, $values, - $values);
-    case '>t+':
-      return $this->date_range_clause($model, $field, $values, null);
-    case '<t+':
-      return $this->date_range_clause($model, $field, 0, $values);
-    case 't+':
-      return $this->date_range_clause($model, $field, $values, $values);
-    case 't':
-      return $this->date_range_clause($model, $field, 0, 0);
-    case 'w':
-      $from = __("'7'", true) == '7' ?
-        (date('N') == 7 ? date('Y-m-d 00:00:00') : date('Y-m-d 00:00:00', time() - date('w') * 86400 - 86400)) :
-          date('Y-m-d 00:00:00', time() - date('w') * 86400);
-      return array(
-        $model . '.' . $field . ' BETWEEN ? AND ?' => array(
-          $from,
-          date('Y-m-d H:i:s', strtotime($from) + 7 * 86400),
-        ),
-      );
-#      from = l(:general_first_day_of_week) == '7' ?
-#      # week starts on sunday
-#      ((Date.today.cwday == 7) ? Time.now.at_beginning_of_day : Time.now.at_beginning_of_week - 1.day) :
-#        # week starts on monday (Rails default)
-#        Time.now.at_beginning_of_week
-#      sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(from), connection.quoted_date(from + 7.days)]
-    case '~':
-      $operator = ' like';
-      $values = '%' . str_replace('%', '%%', $values) . '%';
-      break;
-    case '!~':
-      $operator = 'like';
-      $values = '%' . str_replace('%', '%%', $values) . '%';
-      return array('not' => array(
-        $model . '.' . $field . ' ' . $operator => $values,
-      ));
-      break;
-    }
+		case '=':
+			$operator = '';
+		break;
+		case '<=':
+		case '>=':
+			return array(
+			  $model . '.' . $field . $operator . $values,
+			);
+		break;
+		case '!':
+			$operator = '!=';
+		break;
+		case '*':
+			return null;
+		break;
+		case '!*':
+			return array('or' => array(
+				$field . ' !=' => null,
+				$field => '',
+			));
+		break;
+		case 'o':
+			if ($field != 'status_id') return;
+			$model = 'Status';
+			$field = 'is_closed';
+			$operator = '';
+			$values = false;
+		break;
+		case 'c':
+			if ($field != 'status_id') return;
+			$model = 'Status';
+			$field = 'is_closed';
+			$operator = '';
+			$values = true;
+		break;
+		case '>t-':
+			return $this->date_range_clause($model, $field, - $values, 0);
+		case '<t-':
+			return $this->date_range_clause($model, $field, null, - $values);
+		case 't-':
+			return $this->date_range_clause($model, $field, $values, - $values);
+		case '>t+':
+			return $this->date_range_clause($model, $field, $values, null);
+		case '<t+':
+			return $this->date_range_clause($model, $field, 0, $values);
+		case 't+':
+			return $this->date_range_clause($model, $field, $values, $values);
+		case 't':
+			return $this->date_range_clause($model, $field, 0, 0);
+		case 'w':
+			$from = __("'7'", true) == '7' ?
+				(date('N') == 7 ? date('Y-m-d 00:00:00') : date('Y-m-d 00:00:00', time() - date('w') * 86400 - 86400)) :
+					date('Y-m-d 00:00:00', time() - date('w') * 86400);
+			return array(
+				$model . '.' . $field . ' BETWEEN ? AND ?' => array(
+					$from,
+					date('Y-m-d H:i:s', strtotime($from) + 7 * 86400),
+				)
+			);
+			#      from = l(:general_first_day_of_week) == '7' ?
+			#      # week starts on sunday
+			#      ((Date.today.cwday == 7) ? Time.now.at_beginning_of_day : Time.now.at_beginning_of_week - 1.day) :
+			#        # week starts on monday (Rails default)
+			#        Time.now.at_beginning_of_week
+			#      sql = "#{db_table}.#{db_field} BETWEEN '%s' AND '%s'" % [connection.quoted_date(from), connection.quoted_date(from + 7.days)]
+		case '~':
+			$operator = ' like';
+			$values = '%' . str_replace('%', '%%', $values) . '%';
+		break;
+		case '!~':
+			$operator = 'like';
+			$values = '%' . str_replace('%', '%%', $values) . '%';
+			return array('not' => array(
+				$model . '.' . $field . ' ' . $operator => $values,
+			));
+		break;
+		}
     return array(
       $model . '.' . $field . (strlen($operator) ? $operator : '') => $values,
     );
