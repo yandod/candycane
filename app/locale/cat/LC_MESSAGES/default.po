@@ -155,7 +155,7 @@ msgstr "Notificacions per correu electrònic"
 
 # general_text_no
 msgid "'no'"
-msgstr "'no'"
+msgstr "no"
 
 # field_attr_mail
 msgid "Email attribute"
@@ -207,7 +207,7 @@ msgstr "No hi ha assumptes per a aquesta versió"
 
 # general_text_yes
 msgid "'yes'"
-msgstr "'si'"
+msgstr "si"
 
 # text_tip_task_begin_end_day
 msgid "task beginning and ending this day"
@@ -327,7 +327,7 @@ msgstr "Mou cap avall"
 
 # label_export_to
 msgid "'Also available in:'"
-msgstr "'També disponible a:'"
+msgstr "També disponible a:"
 
 # notice_successful_delete
 msgid "Successful deletion."
@@ -339,7 +339,7 @@ msgstr "La pàgina a la que intenteu accedir no existeix o s'ha suprimit."
 
 # general_text_No
 msgid "'No'"
-msgstr "'No'"
+msgstr "No"
 
 # default_issue_status_feedback
 msgid "Feedback"
@@ -399,7 +399,7 @@ msgstr "Document"
 
 # project_module_boards
 msgid "Boards"
-msgstr "Taulers"
+msgstr "Fòrums"
 
 # setting_emails_footer
 msgid "Emails footer"
@@ -443,7 +443,7 @@ msgstr "Activa-ho tot"
 
 # label_display_per_page
 msgid "'Per page"
-msgstr "'Per pàgina"
+msgstr "Per pàgina"
 
 # label_renamed
 msgid "renamed"
@@ -878,7 +878,9 @@ msgid "January,February,March,April,May,June,July,August,September,October,Novem
 msgstr "Gener,Febrer,Març,Abril,Maig,Juny,Juliol,Agost,Setembre,Octubre,Novembre,Desembre"
 
 # text_email_delivery_not_configured
-msgid "\"Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them.\""
+msgid ""
+"\"Email delivery is not configured, and notifications are disabled.\n"
+"Configure your SMTP server in config/email.yml and restart the application to enable them.\""
 msgstr ""
 "El lliurament per correu electrònic no està configurat i les notificacions estan inhabilitades.\n"
 "Configureu el servidor SMTP a config/email.yml i reinicieu l'aplicació per habilitar-lo."
@@ -1477,7 +1479,7 @@ msgstr "'Català'"
 
 # general_text_Yes
 msgid "'Yes'"
-msgstr "'Si'"
+msgstr "Si"
 
 # label_last_updates
 msgid "Last updated"
@@ -1517,7 +1519,7 @@ msgstr "Última connexió"
 
 # text_enumeration_destroy_question
 msgid "'%d objects are assigned to this value.'"
-msgstr "'%d objectes estan assignats a aquest valor.'"
+msgstr "%d objectes estan assignats a aquest valor."
 
 # label_file_added
 msgid "File added"
@@ -1909,7 +1911,7 @@ msgstr "Utilitzat per"
 
 # text_diff_truncated
 msgid "'... This diff was truncated because it exceeds the maximum size that can be displayed.'"
-msgstr "'... Aquesta diferència ha estat tallada perquè excedeix la mida màxima que es pot mostrar.'"
+msgstr "... Aquesta diferència ha estat tallada perquè excedeix la mida màxima que es pot mostrar."
 
 # label_commits_per_author
 msgid "Commits per author"
@@ -1933,7 +1935,7 @@ msgstr "Comentari"
 
 # text_user_wrote
 msgid "'%s wrote:'"
-msgstr "'%s va escriure:'"
+msgstr "%s va escriure:"
 
 # text_plugin_assets_writable
 msgid "Plugin assets directory writable"
@@ -2057,7 +2059,7 @@ msgstr "L'assumpte %s ha sigut informat per %s."
 
 # label_on
 msgid "'on'"
-msgstr "'de'"
+msgstr "de"
 
 # label_scm
 msgid "SCM"
@@ -2256,8 +2258,12 @@ msgid "Latest projects"
 msgstr "Els últims projectes"
 
 # text_no_configuration_data
-msgid "\"Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded.\""
-msgstr "Encara no s'han configurat els rols, seguidors, estats de l'assumpte i flux de treball.\nÉs altament recomanable que carregueu la configuració predeterminada. Podreu modificar-la un cop carregada.\""
+msgid ""
+"\"Roles, trackers, issue statuses and workflow have not been configured yet.\n"
+"It is highly recommended to load the default configuration. You will be able to modify it once loaded.\""
+msgstr ""
+"Encara no s'han configurat els rols, seguidors, estats de l'assumpte i flux de treball.\n"
+"És altament recomanable que carregueu la configuració predeterminada. Podreu modificar-la un cop carregada.\""
 
 # label_copied
 msgid "copied"
@@ -2440,8 +2446,12 @@ msgid "Administration"
 msgstr "Administració"
 
 # text_repository_usernames_mapping
-msgid "\"Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped.\""
-msgstr "\"Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped.\""
+msgid ""
+"\"Select or update the Redmine user mapped to each username found in the repository log.\n"
+"Users with the same Redmine and repository username or email are automatically mapped.\""
+msgstr ""
+"\"Select ou update the Redmine user mapped to each username found in the repository log.\n"
+"Users with the same Redmine and repository username or email are automatically mapped.\""
 
 # text_subprojects_destroy_warning
 msgid "'Its subproject(s)"
