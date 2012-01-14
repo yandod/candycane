@@ -216,6 +216,7 @@ class UsersController extends AppController {
 			'firstname' => '',
 			'lastname' => '',
 			'mail' => '',
+			'language' => '',
 			));
 		$this->set('user', $user);
 		# @auth_sources = AuthSource.find(:all)

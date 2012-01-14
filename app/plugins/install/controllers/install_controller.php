@@ -56,7 +56,20 @@ class InstallController extends InstallAppController {
  */
     function index() {
         $this->pageTitle = __('Installation: Welcome', true);
+		$url = Router::url(array(
+			'controller' => 'install',
+			'action' => 'route'
+			),
+			true
+		);
+		$file = json_decode(file_get_contents($url),true);
+		$this->set('file',$file);
     }
+
+	function route() {
+		$this->layout = null;
+		Configure::write('debug', 0);
+	}
 /**
  * Step 1: database
  *
@@ -76,8 +89,17 @@ class InstallController extends InstallAppController {
                 $file = new File(APP.'config'.DS.'database.php', true);
                 $content = $file->read();
 
+                // split host information
+                $hostinfo =  explode(':', $this->data['Install']['host'], 2);
+                $host = $hostinfo[0];
+                $port = '';
+                if (count($hostinfo) >= 2) {
+                    $port = $hostinfo[1];
+                }
+
                 // write database.php file
-                $content = str_replace('{default_host}', $this->data['Install']['host'], $content);
+                $content = str_replace('{default_host}', $host, $content);
+                $content = str_replace('{default_port}', $port, $content);
                 $content = str_replace('{default_login}', $this->data['Install']['login'], $content);
                 $content = str_replace('{default_password}', $this->data['Install']['password'], $content);
                 $content = str_replace('{default_database}', $this->data['Install']['database'], $content);

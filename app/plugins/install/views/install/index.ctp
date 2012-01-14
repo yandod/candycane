@@ -26,8 +26,29 @@
         } else {
             $check = false;
             echo '<p class="error">' . __('Your files directory is NOT writable.', true).'</p>';
-			$cmd .= 'chmod -R 777 '.APP.'files';
+			$cmd .= 'chmod -R 777 '.APP.'files'."\n";
         }
+
+        // plugins is writable
+        if (is_writable(APP.'plugins')) {
+            echo '<p class="success">' . __('Your plugins directory is writable.', true) . '('.APP.'plugins'.')</p>';
+        } else {
+            $check = false;
+            echo '<p class="error">' . __('Your plugins directory is NOT writable.', true).'</p>';
+			$cmd .= 'chmod -R 777 '.APP.'plugins';
+        }
+
+		// routing
+		if (isset($file['status']) && $file['status'] === 'OK') {
+            echo '<p class="success">' . __('Your routing  is working well.', true).'</p>';
+        } else {
+            $check = false;
+            echo '<p class="error">' . __('Your routing is NOT working well.', true).'</p>';
+			echo '<p class="error">' . __('Please activate mod_rewrite and .htaccess.', true).'</p>';
+			echo '<p class="error">' . __('Or uncomment "//Configure::write(\'App.baseUrl\', env(\'SCRIPT_NAME\'));" in app/config/core.php and remove all .htaccess.', true).'</p>';
+        }
+
+
         // php version
         // if (phpversion() > 5) {
         //     echo '<p class="success">' . sprintf(__('PHP version %s > 5', true), phpversion()) . '</p>';

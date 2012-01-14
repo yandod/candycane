@@ -59,7 +59,7 @@
  <?php endforeach; ?>
 <?php endif; ?>
 </tr>
-<!-- TODO : call_hook(:view_issues_show_details_bottom, :issue => @issue) -->
+<?php echo $this->renderElement('issues/show_details_bottom',array('issue' => $issue));?>
 </table>
 <hr />
 

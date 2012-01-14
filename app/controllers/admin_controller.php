@@ -129,6 +129,26 @@ class AdminController extends AppController {
    }
 
 	public function plugins() {
+		$pluginContainer = ClassRegistry::getObject('PluginContainer');
+		$pluginContainer->fetchEntry();
+		$this->set('plugins',$pluginContainer->getEntries());
+	}
+
+	public function installPlugin($id){
+		$pluginContainer = ClassRegistry::getObject('PluginContainer');
+		$pluginContainer->fetchEntry();
+		if ($pluginContainer->install($id)) {
+			$this->Session->setFlash(sprintf(__('Installed plugin: %s', true),$id), 'default', array('class'=>'flash flash_notice'));
+		}
+		$this->redirect('plugins');
+	}
+
+	public function uninstallPlugin($id){
+		$pluginContainer = ClassRegistry::getObject('PluginContainer');
+		if ($pluginContainer->uninstall($id)) {
+			$this->Session->setFlash(sprintf(__('Uninstalled plugin: %s', true),$id), 'default', array('class'=>'flash flash_notice'));
+		}
+		$this->redirect('plugins');
 	}
 
 	public function default_configration() {
