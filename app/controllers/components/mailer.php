@@ -10,7 +10,7 @@ class MailerComponent extends ActionMailer {
         $this->setHeader('Content-type', 'text/plain');
 
         if(extension_loaded('mbstring')){
-			switch (Configure::read('Config.language')) {
+          switch (Configure::read('Config.language')) {
 				case 'jpn':
 					$lang = "ja";
 					break;
@@ -30,62 +30,68 @@ class MailerComponent extends ActionMailer {
       $this->setHeader('From', $this->controller->Setting->mail_from);
       $this->set('footer',$this->controller->Setting->emails_footer);
     }
+
     function issue_add($Issue) {
-    #    redmine_headers 'Project' => issue.project.identifier,
-    #                    'Issue-Id' => issue.id,
-    #                    'Issue-Author' => issue.author.login
-    #    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
-    #    recipients issue.recipients
-    $this->setRecipients($Issue->recipients());
-    #    cc(issue.watcher_recipients - @recipients)
-    $issue_data = $Issue->findById($Issue->id);
-    $s = "{$issue_data['Project']['name']} - {$issue_data['Tracker']['name']} #{$issue_data['Issue']['id']} ";
-    $s .= "{$issue_data['Status']['name']} ";
-    $s .= "{$issue_data['Issue']['subject']}";
-    $this->subject = $s;
-    #    body :issue => issue,
-    #         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
-    $this->set('issue',$issue_data);
-    $this->set('issueurl',Router::url(array(
+      #    redmine_headers 'Project' => issue.project.identifier,
+      #                    'Issue-Id' => issue.id,
+      #                    'Issue-Author' => issue.author.login
+      #    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+      #    recipients issue.recipients
+      $issue_data = $Issue->findById($Issue->id);
+      if (!empty($issue_data['Author']['id']) && !$Issue->no_self_notified($issue_data['Author']['id'])) {
+        $this->setRecipients($Issue->recipients());
+        #    cc(issue.watcher_recipients - @recipients)
+        $s = "{$issue_data['Project']['name']} - {$issue_data['Tracker']['name']} #{$issue_data['Issue']['id']} ";
+        $s .= "{$issue_data['Status']['name']} ";
+        $s .= "{$issue_data['Issue']['subject']}";
+        $this->subject = $s;
+      }
+      #    body :issue => issue,
+      #         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
+      $this->set('issue',$issue_data);
+      $this->set('issueurl',Router::url(array(
         'controller' => 'issues',
         'action' => 'show',
         'issue_id' => $Issue->id
         ),
         true
-    ));
+      ));
     }
-    
+
     function issue_edit($Journal,$Issue) {
-    #    issue = journal.journalized
-    #    redmine_headers 'Project' => issue.project.identifier,
-    #                    'Issue-Id' => issue.id,
-    #                    'Issue-Author' => issue.author.login
-    #    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
-    #    @author = journal.user
-    #    recipients issue.recipients
-    $this->setRecipients($Issue->recipients());
-    #    # Watchers in cc
-    #    cc(issue.watcher_recipients - @recipients)
-    #    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
-    $issue_data = $Issue->findById($Issue->id);
-    $s = "{$issue_data['Project']['name']} - {$issue_data['Tracker']['name']} #{$issue_data['Issue']['id']} ";
-    $s .= "{$issue_data['Status']['name']} ";
-    $s .= "{$issue_data['Issue']['subject']}";
-    $this->subject = $s;
-    #    body :issue => issue,
-    #         :journal => journal,
-    #         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
-    #  end
-    $journal_data = $Journal->findById($Journal->getLastInsertID());
-    $this->set('issue',$issue_data);
-    $this->set('journal',$journal_data);
-    $this->set('issueurl',Router::url(array(
+      $journal_data = $Journal->findById($Journal->getLastInsertID());
+      if (!empty($journal_data['User']['id']) && !$Issue->no_self_notified($journal_data['User']['id'])) {
+        #    issue = journal.journalized
+        #    redmine_headers 'Project' => issue.project.identifier,
+        #                    'Issue-Id' => issue.id,
+        #                    'Issue-Author' => issue.author.login
+        #    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+        #    @author = journal.user
+        #    recipients issue.recipients
+
+        $this->setRecipients($Issue->recipients());
+        #    # Watchers in cc
+        #    cc(issue.watcher_recipients - @recipients)
+        #    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
+        $issue_data = $Issue->findById($Issue->id);
+        $s = "{$issue_data['Project']['name']} - {$issue_data['Tracker']['name']} #{$issue_data['Issue']['id']} ";
+        $s .= "{$issue_data['Status']['name']} ";
+        $s .= "{$issue_data['Issue']['subject']}";
+        $this->subject = $s;
+        #    body :issue => issue,
+        #         :journal => journal,
+        #         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
+        #  end
+      }
+      $this->set('issue',$issue_data);
+      $this->set('journal',$journal_data);
+      $this->set('issueurl',Router::url(array(
         'controller' => 'issues',
         'action' => 'show',
         'issue_id' => $Issue->id
         ),
         true
-    ));
+      ));
     }
 
     function lost_password($token, $user)
