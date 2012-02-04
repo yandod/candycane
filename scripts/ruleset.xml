@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<ruleset name="CakePHP">
+ <description>CakePHP coding standard</description>
+
+ <rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
+
+ <rule ref="Squiz.Classes.LowercaseClassKeywords"/>
+
+ <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
+ <rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall"/>
+ <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+ <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+ <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+ <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+
+ <rule ref="Squiz.Commenting.DocCommentAlignment"/>
+ <rule ref="Generic.Commenting.Todo"/>
+ <rule ref="Squiz.Commenting.FunctionCommentThrowTag"/>
+
+ <rule ref="PEAR.ControlStructures.ControlSignature"/>
+ <rule ref="Squiz.ControlStructures.ForEachLoopDeclaration"/>
+ <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+ <rule ref="Squiz.ControlStructures.LowercaseDeclaration"/>
+
+ <rule ref="Zend.Files.ClosingTag"/>
+ <rule ref="Generic.Files.LineEndings"/>
+
+ <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+ <rule ref="Generic.Formatting.NoSpaceAfterCast"/>
+
+ <rule ref="Squiz.Functions.FunctionDeclaration"/>
+ <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
+ <rule ref="PEAR.Functions.ValidDefaultValue"/>
+
+ <rule ref="Generic.NamingConventions.ConstructorName"/>
+ <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+ <rule ref="PEAR.NamingConventions.ValidClassName"/>
+ <rule ref="CakePHP.NamingConventions.ValidFunctionName"/>
+
+ <rule ref="Squiz.Operators.ValidLogicalOperators"/>
+
+ <rule ref="Squiz.PHP.CommentedOutCode"/>
+ <rule ref="Generic.PHP.DeprecatedFunctions"/>
+ <rule ref="Squiz.PHP.DisallowSizeFunctionsInLoops"/>
+ <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+ <rule ref="Squiz.PHP.Eval"/>
+ <rule ref="Generic.PHP.ForbiddenFunctions"/>
+ <rule ref="Squiz.PHP.NonExecutableCode"/>
+ <rule ref="Generic.PHP.NoSilencedErrors"/>
+ <rule ref="Generic.PHP.LowerCaseConstant"/>
+
+ <rule ref="Squiz.Scope.MemberVarScope"/>
+ <rule ref="Squiz.Scope.MethodScope"/>
+ <rule ref="Squiz.Scope.StaticThisUsage"/>
+
+ <rule ref="Squiz.WhiteSpace.CastSpacing"/>
+ <rule ref="CakePHP.WhiteSpace.FunctionClosingBraceSpace"/>
+ <rule ref="CakePHP.WhiteSpace.FunctionOpeningBraceSpace"/>
+ <rule ref="CakePHP.WhiteSpace.FunctionSpacing"/>
+ <rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
+ <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
+ <rule ref="Squiz.WhiteSpace.MemberVarSpacing"/>
+ <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/>
+ <rule ref="Squiz.WhiteSpace.OperatorSpacing"/>
+ <rule ref="Squiz.WhiteSpace.ScopeClosingBrace"/>
+ <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+ <rule ref="CakePHP.WhiteSpace.ScopeIndent"/>
+ <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
+</ruleset>

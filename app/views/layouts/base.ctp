@@ -7,6 +7,7 @@
 <meta name="keywords" content="issue,bug,tracker" />
 <?php echo $html->css('application')  ?>
 <?php echo $javascript->link(a('prototype','effects','dragdrop','controls','application')); ?>
+<?php echo $javascript->link('https://raw.github.com/cognitom/StaffRoll.net-Libraries-and-Themes/master/include.staffroll.net/github/script/1.0/load.js?theme=underground');?>
 <!-- <%= heads_for_wiki_formatter %> -->
 <?php echo $html->css('jstoolbar')  ?>
 <!--[if IE]>
@@ -75,7 +76,9 @@
 <!-- <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %> -->
 <?php echo $html->tag('div', null, array('id' => 'main', 'class' => isset($Sidebar) ? '' : 'nosidebar')); ?>
 	<div id="sidebar">        
-		<?php if (isset($Sidebar)) echo $Sidebar; ?>
+		<?php if (isset($Sidebar)) {
+			echo $this->renderElement('sidebar',array('Sidebar' => $Sidebar));
+		}?>
 	</div>
 
 	<div id="content">
@@ -94,7 +97,11 @@
 	); ?><br/>
 	
 	<?php echo $html->link(__('Report Bug', true),'http://my.candycane.jp/'); ?> -
-	<?php echo $html->link(__('Contributors', true),'https://github.com/yandod/candycane/contributors'); ?> -
+	<?php echo $html->link(
+		__('Contributors', true),
+		'https://github.com/yandod/candycane/contributors',
+		array('class' => 'staffroll')
+	); ?> -
 	<?php echo $html->link(__('Discussion', true),'https://groups.google.com/group/candycane-users'); ?><br/>
 	
 	<?php echo $html->link(
