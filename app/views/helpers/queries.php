@@ -65,7 +65,7 @@ class QueriesHelper extends AppHelper
     case 'start_date':
       return $this->Candy->format_date($issue['Issue']['start_date']);
     case 'due_date':
-      return $this->Candy->format_date($issue['Issue']['start_date']);
+      return $this->Candy->format_date($issue['Issue']['due_date']);
     case 'estimated_hours':
       return sprintf(__('%.2f hour', true), $issue['Issue']['estimated_hours']);
     case 'done_ratio':
