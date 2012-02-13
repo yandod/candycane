@@ -49,8 +49,7 @@ class CandyView extends ThemeView {
 			}
 		}
 
-		ClassRegistry::getObject('HookContainer');
-		$hookContainer = new HookContainer();
+		$hookContainer = ClassRegistry::getObject('HookContainer');
 		if (is_file($file)) {
 			$params = array_merge_recursive($params, $this->loaded);
 			$before = "";
