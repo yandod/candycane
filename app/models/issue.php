@@ -595,7 +595,12 @@ class Issue extends AppModel
     }
     return "{$data['Tracker']['name']} #{$data['Issue']['id']}: {$data['Issue']['subject']}";
   }
-  
+
+  function no_self_notified($user_id) {
+      $userPref = new UserPreference();
+      $pref = $userPref->findByUserId($user_id);
+      return (isset($pref['UserPreference']['pref']['no_self_notified']) && $pref['UserPreference']['pref']['no_self_notified'] == 1) ? true : false;
+  }
 #  private
 
   function _event_title($data) {
