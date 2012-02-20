@@ -2542,8 +2542,8 @@ msgstr ""
 "Users with the same Redmine and repository username or email are automatically mapped.\""
 
 # text_subprojects_destroy_warning
-msgid "'Its subproject(s)"
-msgstr "'サブプロジェクト %s も削除されます。'"
+msgid "Its subproject(%s)"
+msgstr "サブプロジェクト %s も削除されます。"
 
 # button_back
 msgid "Back"

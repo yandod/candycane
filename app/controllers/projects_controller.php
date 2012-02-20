@@ -442,9 +442,14 @@ class ProjectsController extends AppController {
  * @return void
  */
 	public function destroy() {
+		$subprojects = $this->Project->findSubprojects($this->_project['Project']['id']);
+		$this->set('subprojects',$subprojects);
 		if ($this->RequestHandler->isPost()) {
 			if ($this->data['Project']['confirm'] == 1) {
 				$this->Project->del($this->data['Project']['id']);
+				foreach ($subprojects as $row) {
+					$this->Project->del($row['Project']['id']);
+				}
 				$this->redirect(array('controller'=>'admin', 'action'=>'projects'));
 			} else {
 				// Nothing
