@@ -111,7 +111,7 @@ class User extends AppModel {
       )
     ),
     'username' => array(
-      'rule' => 'alphaNumeric',
+      'rule' => '/^[a-z0-9_\-@\.]*$/i',
       'allowEmpty' => false
     ),
     'password' => array(
