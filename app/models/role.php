@@ -42,7 +42,7 @@ class Role extends AppModel {
 #  validates_length_of :name, :maximum => 30
 #  validates_format_of :name, :with => /^[\w\s\'\-]*$/i
   var $validate = array('name' => array('validates_uniqueness_of' => array('rule' => array('isUnique')),
-                                        'validates_length_of' => array('rule' => array('maxLength', 10)),
+                                        'validates_length_of' => array('rule' => array('maxLength', 30)),
                                         'validates_format_of' => array('rule' => array('custom', '/^[\w\s\'\-]*$/i')),
                                         ));
 
