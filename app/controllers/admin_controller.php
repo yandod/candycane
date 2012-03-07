@@ -145,6 +145,7 @@ class AdminController extends AppController {
 
 	public function uninstallPlugin($id){
 		$pluginContainer = ClassRegistry::getObject('PluginContainer');
+		$pluginContainer->fetchEntry();
 		if ($pluginContainer->uninstall($id)) {
 			$this->Session->setFlash(sprintf(__('Uninstalled plugin: %s', true),$id), 'default', array('class'=>'flash flash_notice'));
 		}
