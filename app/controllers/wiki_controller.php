@@ -367,6 +367,11 @@ class WikiController extends AppController {
 #
 #private
 
+   function preview() {
+	$this->layout = 'ajax';
+	$this->set('content', $this->data);
+   	$this->render('/elements/wiki/content');	
+   }
 
   // private
 
