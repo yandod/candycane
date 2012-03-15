@@ -34,7 +34,7 @@
                           'wikipage' => $page['WikiPage']['title']),
                     array('method' => 'post',
                           'update' => 'preview',
-                          'with' => "Form.serialize('wiki_form')",
+                          'with' => "Form.serialize('WikiContentEditForm')",
                           'complete' => "Element.scrollTo('preview')")));
 /*}, :accesskey => accesskey(:preview)*/ ?></p>
 <?php /*wikitoolbar_for 'content_text'*/ ?>
