@@ -18,7 +18,7 @@
 	-->
 	<p>
 		<?php if ($currentuser['admin']):?>
-			<?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1), 'div' => false)); ?>
+			<?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1), 'div' => false, 'checked' => $user['User']['admin'] ? 'checked' : false)); ?>
 		<?php else: ?>
 			<?php echo $form->input('admin', array('type' => 'checkbox', 'options' => array(1), 'disabled' => 'disabled', 'div' => false)); ?>
 		<?php endif; ?>
