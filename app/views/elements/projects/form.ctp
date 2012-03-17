@@ -70,12 +70,24 @@
 <?php endif ?>
 
 <?php if (count($issue_custom_fields) > 0): ?>
+<?php
+  $checked_cfields = array();
+  if (isset($main_project)) {
+    $checked_cfields = Set::extract('/CustomField/id',a($main_project));
+  }
+?>
 <fieldset class="box"><legend><?php __('Custom fields') ?></legend>
 <?php foreach($issue_custom_fields as $custom_field): ?>
     <label class="floating">
-<?php echo $form->input('[issue_custom_field_ids][]',
+<?php 
+    $checked = "";
+    if ( in_array($custom_field['IssueCustomField']['id'],$checked_cfields) ) {
+      $checked = 'checked';
+    }
+    echo $form->input('issue_custom_field_ids][',
                   array('type'=>'checkbox',
                         'value'=>$custom_field['IssueCustomField']['id'],
+			'checked' => $checked,
                         'label'=>false,
                         'div' => false
                       )) ?>
