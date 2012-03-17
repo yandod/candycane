@@ -842,10 +842,10 @@ class ProjectsController extends AppController {
       $this->cakeError('error404');
       return;
     }
-    if (!$this->_isVisible($this->id)) {
-      $this->cakeError('error404');
-      return;
-    }
+    //if (!$this->_isVisible($this->id)) {
+    //  $this->cakeError('error404');
+    //  return;
+    //}
     if (!empty($data)) {
       foreach($data as $key=>$value) {
         if (is_array($value)) {
