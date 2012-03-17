@@ -279,7 +279,10 @@ class Project extends AppModel {
 		}
 
 		if ($user['admin']) {
-			return array('Project.status' => PROJECT_STATUS_ACTIVE);
+			return array('Project.status' => array(
+				PROJECT_STATUS_ACTIVE,
+				PROJECT_ARCHIVED	
+			));
 		} else {
 			if (isset($user['memberships']) && (count($user['memberships']) > 0)) {
 				$ids = array();
