@@ -462,9 +462,9 @@ class AppController extends Controller {
 			} else {
 				$this->cakeError('error404');
 			}
-			if (!$this->_isVisible($this->_project['Project']['id'])) {
-				$this->cakeError('error404');
-			}
+			//if (!$this->_isVisible($this->_project['Project']['id'])) {
+			//	$this->cakeError('error404');
+			//}
 		}
 	}
 
