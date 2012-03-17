@@ -86,6 +86,9 @@ class Project extends AppModel {
 		'User' => array(
 			'with' => 'Member',
 		),
+		'CustomField' => array(
+			'with' => 'CustomFieldsProject'
+		)
 	);
 
 #protected
