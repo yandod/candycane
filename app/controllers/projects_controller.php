@@ -890,7 +890,9 @@ class ProjectsController extends AppController {
     $root_project_inputs = $this->Project->find('all', array('conditions'=>array($this->Project->name.'.parent_id'=>NULL, $this->Project->name.'.status'=>PROJECT_STATUS_ACTIVE), 'order'=>$this->Project->name.'.name'));
     $root_projects = array(null=>'');
     foreach($root_project_inputs as $project) {
-      $root_projects[$project['Project']['id']] = $project['Project']['name'];
+      // Check it's not the project itself
+      if($project['Project']['id'] != $this->_project['Project']['id'])
+      	$root_projects[$project['Project']['id']] = $project['Project']['name'];
     }
     $this->set('root_projects', $root_projects);
 
