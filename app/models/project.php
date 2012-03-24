@@ -10,6 +10,8 @@ define('PROJECT_ARCHIVED', 9);
  */
 class Project extends AppModel {
 
+	const STATUS_ARCHIVED = 9;
+
 /**
  * Model name
  *

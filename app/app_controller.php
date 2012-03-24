@@ -477,6 +477,10 @@ class AppController extends Controller {
 	protected function _isVisible($project_id) {
 		$cond = $this->Project->get_visible_by_condition($this->current_user);
 		$cond['Project.id'] = $project_id;
+		if ( in_array($this->action,array('unarchive','destroy')) && $this->name == 'Projects') {
+			$cond['Project.status'] = Project::STATUS_ARCHIVED;
+		}
+
 		$visible = $this->Project->find('first', array('conditions' => $cond));
 		if ($visible == false) {
 			return false;
