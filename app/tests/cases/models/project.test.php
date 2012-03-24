@@ -8,7 +8,8 @@ class ProjectTestCase extends CakeTestCase {
       'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
       'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher', 'app.issue_relation',
       'app.journal', 'app.journal_detail', 'app.workflow', 'app.enabled_module',
-      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow'
+      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow',
+	  'app.custom_fields_project'
       );
 
   function startTest() {
@@ -16,7 +17,7 @@ class ProjectTestCase extends CakeTestCase {
   }
 
   function test_findMainProject() {
-    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'EnabledModule');
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'EnabledModule','CustomFieldsProject');
     $project = $this->Project->findMainProject('ecookbook');
     
     $this->assertEqual('eCookbook', $project['Project']['name']);
