@@ -30,6 +30,23 @@ class MailerComponent extends ActionMailer {
       $this->setHeader('From', $this->controller->Setting->mail_from);
       $this->set('footer',$this->controller->Setting->emails_footer);
     }
+	
+	public function setRecipients($emails) {
+		if (
+			isset($this->controller->current_user['UserPreference']['pref']['no_self_notified']) &&
+			$this->controller->current_user['UserPreference']['pref']['no_self_notified']
+		) {
+			$new_emails = array();
+			foreach( $emails as $k => $v ) {
+				if ($this->controller->current_user['mail'] == $v) {
+					continue;
+				}
+				$new_emails[$k] = $v;
+			}
+			$emails = $new_emails;
+		}
+		parent::setRecipients($emails);
+	}
     function issue_add($Issue) {
     #    redmine_headers 'Project' => issue.project.identifier,
     #                    'Issue-Id' => issue.id,

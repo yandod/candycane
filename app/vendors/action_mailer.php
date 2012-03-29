@@ -310,6 +310,16 @@ class ActionMailer extends Object
 
 
         $headers = $this->__generateHeader();
+		if (Configure::read('debug')) {
+			$debug = array(
+				'subject' => $subject,
+				'mail_body' => $mail_body,
+				'headers' => $headers
+			);
+			CakeLog::write(LOG_DEBUG,'Recipients:' . $to);
+			CakeLog::write(LOG_DEBUG,var_export($debug,true));
+			return true;
+		}
 		if (function_exists("mb_send_mail")) {
 			return mb_send_mail($to, $subject, $mail_body, $headers);
 		} else {
