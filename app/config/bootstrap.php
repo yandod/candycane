@@ -1,4 +1,5 @@
 <?php
+define('CANDYCANE_VERSION', '0.8.6');
 Configure::write('app_title', 'Candycane');
 setlocale(LC_CTYPE,'C');
 
