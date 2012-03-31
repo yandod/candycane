@@ -727,7 +727,7 @@ msgid "Emission email address"
 msgstr ""
 
 # mail_body_register
-msgid "'To activate your account, click on the following link:'"
+msgid "To activate your account, click on the following link:"
 msgstr ""
 
 # field_min_length
@@ -783,7 +783,7 @@ msgid "%s account activation request"
 msgstr ""
 
 # mail_body_account_activation_request
-msgid "'A new user (%s) has registered. The account is pending your approval:'"
+msgid "A new user (%s) has registered. The account is pending your approval:"
 msgstr ""
 
 # label_user_new
@@ -1601,7 +1601,7 @@ msgid "tracker_id"
 msgstr ""
 
 # notice_account_pending
-msgid "\"Your account was created and is now pending administrator approval.\""
+msgid "Your account was created and is now pending administrator approval."
 msgstr ""
 
 # default_doc_category_tech

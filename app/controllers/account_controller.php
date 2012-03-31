@@ -38,30 +38,55 @@ class AccountController extends AppController {
 		}
 	}
 
-	#  # Token based account activation
-	#  def activate
-	#    redirect_to(home_url) && return unless Setting.self_registration? && params[:token]
-	#    token = Token.find_by_action_and_value('register', params[:token])
-	#    redirect_to(home_url) && return unless token and !token.expired?
-	#    user = token.user
-	#    redirect_to(home_url) && return unless user.status == User::STATUS_REGISTERED
-	#    user.status = User::STATUS_ACTIVE
-	#    if user.save
-	#      token.destroy
-	#      flash[:notice] = l(:notice_account_activated)
-	#    end
-	#    redirect_to :action => 'login'
-	#  end
-	#end
+/**
+ * activate
+ * 
+ * Token based account activation 
+ */
+	public function activate() {
+
+		if (
+			!isset($this->params['url']['token']) ||
+			$this->Setting->self_registration !== '1'
+		) {
+			$this->redirect('/');
+		}
+		$token = $this->Token->find('first',array(
+			'conditions' => array(
+				'Token.action' => 'register',
+				'Token.value' => $this->params['url']['token']
+			)
+		));
+		
+		if (
+			$token == false ||
+			// todo: expired
+			$token['User']['status'] !== '2'
+		) {
+			$this->redirect('/');
+		}
+		
+		$data = array(
+			'id' => $token['User']['id'],
+			'status' => 1 //active
+		);
+		
+		if ($this->User->save($data)) {
+			$this->Token->destroy($data['id'], 'register');
+			$this->Session->setFlash(
+				__('Your account has been activated. You can now log in.',true),
+				'default',
+				array('class' => 'flash flash_notice')
+			);
+		}
+		$this->redirect('/account/login');
+	}
 
 /**
  * register
  *
  * User self-registration
  *
- * @todo Email Activation
- * @todo flash
- * @todo Mailer
  */
 	public function register() {
 		if (!$this->Setting->self_registration || $this->Session->read('auth_source_registration')) {
@@ -96,19 +121,30 @@ class AccountController extends AppController {
 			switch ($this->Setting->self_registration) {
 				case '1':
 					// Email activation
-					#token = Token.new(:user => @user, :action => "register")
-					#if @user.save and token.save
-					#  Mailer.deliver_register(token)
-					#  flash[:notice] = l(:notice_account_register_done)
-					#  redirect_to :action => 'login'
-					#end
+					if ($this->User->save($this->data)) {
+						$user = $this->User->findByLogin($this->data['User']['login']);
+						$data = array(
+							'user_id' => $user['User']['id'],
+							'action' => 'register',
+							'value' => $this->Token->_generate_token_value(),
+						);
+						if ($this->Token->save($data)) {
+							$this->Mailer->deliver_register($data,$user);
+							$this->Session->setFlash(__('Account was successfully created. To activate your account, click on the link that was emailed to you.',true), 'default', array('class' => 'flash flash_notice'));
+							$this->redirect('/account/login');
+						}
+					}
 					break;
 				case '3':
 					// Automatic activation
 					$this->data['User']['status'] = 1;
 					if ($this->User->save($this->data)) {
 						$this->logged_user($this->User->findByLogin($this->data['User']['login']));
-						# flash[:notice] = l(:notice_account_activated)
+						$this->Session->setFlash(
+							__('Your account has been activated. You can now log in.',true),
+							'default',
+							array('class' => 'flash flash_notice')
+						);
 						$this->redirect('/my/account');
 					}
 					break;
@@ -116,8 +152,15 @@ class AccountController extends AppController {
 					// Manual activation by the administrator
 					if ($this->User->save($this->data)) {
 						// Sends an email to the administrators
-						# Mailer.deliver_account_activation_request(@user)
-						# flash[:notice] = l(:notice_account_pending)
+						$this->Mailer->deliver_account_activation_request(
+							$this->User->findByLogin($this->data['User']['login']),
+							$this->User
+						);
+						$this->Session->setFlash(
+							__('Your account was created and is now pending administrator approval.',true),
+							'default',
+							array('class' => 'flash flash_notice')
+						);
 						$this->redirect('/account/login');
 					}
 			}

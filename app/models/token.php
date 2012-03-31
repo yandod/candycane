@@ -11,6 +11,8 @@
  */
 class Token extends AppModel
 {
+	public $belongsTo = array('User');
+
   var $validity_time = 0;
 
   function __construct($id = false, $table = null, $ds = null) {

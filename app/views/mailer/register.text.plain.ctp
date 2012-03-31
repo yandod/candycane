@@ -1,2 +1,2 @@
-<%= l(:mail_body_register) %>
-<%= @url %>
+<?php echo __('To activate your account, click on the following link:',true) ?>
+<?php echo $url ?>
