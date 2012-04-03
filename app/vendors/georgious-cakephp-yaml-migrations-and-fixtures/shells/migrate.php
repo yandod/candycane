@@ -114,7 +114,7 @@ class MigrateShell extends Shell {
     /**
     * Migrates up to the next version
     */
-    function up(){
+    function strtoupper(){
         $this->iTo_version = ($this->iCurrent_version == $this->iMigration_count) ? $this->iCurrent_version : $this->iCurrent_version + 1;
         $this->_run();
         $this->out('Migrations completed.');

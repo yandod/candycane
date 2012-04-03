@@ -6,13 +6,13 @@ setlocale(LC_CTYPE,'C');
 App::import('Vendor','MenuContainer');
 App::import('Vendor','HookContainer');
 App::import('Vendor','PluginContainer');
-$menu_container = new MenuContainer();
-$hookContainer = new HookContainer();
-$pluginContainer = new PluginContainer();
+//$menu_container = new MenuContainer();
+//$hookContainer = new HookContainer();
+//$pluginContainer = new PluginContainer();
 App::import('Core','ClassRegistry');
-ClassRegistry::addObject('HookContainer',$hookContainer);
-ClassRegistry::addObject('MenuContainer',$menu_container);
-ClassRegistry::addObject('PluginContainer',$pluginContainer);
+//ClassRegistry::addObject('HookContainer',$hookContainer);
+//ClassRegistry::addObject('MenuContainer',$menu_container);
+//ClassRegistry::addObject('PluginContainer',$pluginContainer);
 foreach( glob(APP.'plugins/cc_*/init.php') as $val){
 	require_once(realpath($val));
 }

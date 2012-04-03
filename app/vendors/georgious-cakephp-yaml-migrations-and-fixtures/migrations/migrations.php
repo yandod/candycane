@@ -70,7 +70,7 @@ class Migrations{
     *
     * @return mixed True on success and an array of errors on failure
     */
-    function up(){
+    function strtoupper(){
         return $this->_run('UP');
     }
     
