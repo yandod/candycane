@@ -1,22 +1,4 @@
 <?php
-# Redmine - project management software
-# Copyright (C) 2006-2008  Jean-Philippe Lang
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-
-# Class used to retrieve activity events
 class FetcherComponent extends Component
 {
   var $user;
@@ -27,13 +9,13 @@ class FetcherComponent extends Component
   # Needs to be unloaded in development mode
   var $__constantized_providers = array();
 
-  function initialize(&$controller) {
-    $this->controller =& $controller;
-    App::import('model', 'Activity');
+  function initialize($controller) {
+    $this->controller = $controller;
+    App::import('Vendor', 'candycane/Activity');
     foreach(Activity::getInstance()->providers as $k=>$t) {
       $this->__constantized_providers[$k] = array();
       foreach($t as $model) {
-        $this->__constantized_providers[$k][] = & ClassRegistry::init($model);
+        $this->__constantized_providers[$k][] = ClassRegistry::init($model);
       }
     }
   }
@@ -68,7 +50,7 @@ class FetcherComponent extends Component
 
     $this->_event_types = Activity::getInstance()->available_event_types;
     if (!empty($this->project)) {
-      $User = & ClassRegistry::init('User');
+      $User =  ClassRegistry::init('User');
       foreach($this->_event_types as $k=>$o) {
         if (!$User->is_allowed_to($this->user, "view_{$o}", $this->project)) {
           unset($this->_event_types[$k]);

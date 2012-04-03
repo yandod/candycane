@@ -184,7 +184,7 @@ class Setting extends AppModel
   {
     parent::__construct();
     $var = include APP . 'Config' . DS.DS.'settings.php';
-
+	App::import('Vendor', 'georgious-cakephp-yaml-migrations-and-fixtures/spyc/spyc');
     foreach ($var as $k => $v) {
     	$this->{$k} = $v;
     }

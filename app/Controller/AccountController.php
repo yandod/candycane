@@ -34,7 +34,7 @@ class AccountController extends AppController {
 		} else {
 			$this->setSettings(); // todo: kimoi
 			$this->set_localization();
-			$this->set('currentuser',aa('logged',false));
+			$this->set('currentuser',array('logged' => false));
 		}
 	}
 

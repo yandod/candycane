@@ -1,5 +1,5 @@
 <?php
-App::import('Vendor', 'action_mailer');
+App::import('Vendor','candycane/ActionMailer');
 class MailerComponent extends ActionMailer {
     var $name = 'Mailer';
     var $layout = 'mail';
