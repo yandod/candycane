@@ -77,7 +77,7 @@ vim: filetype=php
 <?php endif ?>
 </div>
 
-<?php $this->set('Sidebar', $this->renderElement('projects/sidebar/show')) ?>
-<?php $this->set('header_tags', $this->renderElement('projects/rss')) ?>
+<?php $this->set('Sidebar', $this->element('projects/sidebar/show')) ?>
+<?php $this->set('header_tags', $this->element('projects/rss')) ?>
 
 <?php $this->Candy->html_title(__('Overview')) ?>

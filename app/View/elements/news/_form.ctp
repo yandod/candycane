@@ -1,4 +1,4 @@
-<?php echo $this->renderElement('error_explanation'); ?>
+<?php echo $this->element('error_explanation'); ?>
 <div class="box tabular">
 	<p><?php echo $this->Form->input('title', array('div' => false, 'size' => 60)); ?></p>
 	<p><?php echo $this->Form->input('summary', array('div' => false, 'cols' => 60, 'rows' => 2)); ?></p>

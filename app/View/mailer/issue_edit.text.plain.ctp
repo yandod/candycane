@@ -5,4 +5,4 @@
 <?php echo $journal['Journal']['notes'];?>
 
 ----------------------------------------
-<?php echo $this->renderElement('mailer/issue_text_plain',array('issue' => $issue, 'issue_url' => $issueurl)) ?>　
+<?php echo $this->element('mailer/issue_text_plain',array('issue' => $issue, 'issue_url' => $issueurl)) ?>　

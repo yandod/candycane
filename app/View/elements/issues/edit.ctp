@@ -1,5 +1,5 @@
 <?php echo $this->Form->create('Issue', array('url'=>array('action'=>'edit', 'id'=>$issue['Issue']['id']), 'enctype'=>"multipart/form-data", 'id'=>'issue-form')); ?>
-  <?php echo $this->renderElement('error_explanation'); ?>
+  <?php echo $this->element('error_explanation'); ?>
   <div class="box">
   <?php if($this->Candy->authorize_for('edit_issues') && !empty($allowed_statuses)): ?>
   <fieldset class="tabular">
@@ -10,7 +10,7 @@
     </legend>
     <?php 
     if($this->Candy->authorize_for('edit_issues')) {
-      echo $this->renderElement('issues/form', compact(
+      echo $this->element('issues/form', compact(
         'statuses', 'priorities', 'assignableUsers', 'issueCategories', 
         'fixedVersions', 'customFieldValues'));
     } else {
@@ -53,7 +53,7 @@ var toolbar = new jsToolBar($('notes')); toolbar.setHelpLink('<?php echo __("Tex
 
     <p>
       <label><?php echo __('File'); ?></label><br />
-      <?php echo $this->renderElement('attachments/form'); ?>
+      <?php echo $this->element('attachments/form'); ?>
     </p>
   </fieldset>
   </div>

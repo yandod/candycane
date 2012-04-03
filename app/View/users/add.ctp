@@ -1,6 +1,6 @@
 <h2><?php echo __('New user'); ?></h2>
 <?php echo $this->Form->create('User', array('class'=>'tabular')); ?>
-<?php echo $this->renderElement('users/form'); ?>
+<?php echo $this->element('users/form'); ?>
 <?php echo $this->Form->submit(__('Create')); ?>
 <br />
 <div class="box">

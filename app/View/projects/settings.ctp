@@ -16,7 +16,7 @@
 
 <?php foreach($tabs as $tab): ?>
 <?php $disp = ($selected_tab !== $tab['name']) ? 'display:none' : ''; ?>
-<?php echo $this->Html->tag('div',$this->renderElement($tab['partial']),
+<?php echo $this->Html->tag('div',$this->element($tab['partial']),
 						aa('id','tab-content-'.$tab['name'],
 						   'style', $disp,
 						   'class', 'tab-content'

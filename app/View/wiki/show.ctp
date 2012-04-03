@@ -132,7 +132,7 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
     <hr />
 <?php endif; ?>
 
-<?php echo $this->renderElement('wiki/content', aa('content', $content)); ?>
+<?php echo $this->element('wiki/content', aa('content', $content)); ?>
 
 <?php /* $attachment->link_to_attachments($page) // attachment helper */ ?>
 
@@ -155,7 +155,7 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
 /* form_tag({ :controller => 'wiki', :action => 'add_attachment', :page => @page.title }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do */
 ?>
   <div class="box">
-  <p><?php echo $this->renderElement('attachments/form'); ?></p>
+  <p><?php echo $this->element('attachments/form'); ?></p>
   </div>
 <?php echo $this->Form->submit(__('Add'), aa('div', false)); ?>
 <?php echo $this->Html->link(__('Cancel' ), '', aa('onclick', "Element.hide('add_attachment_form'); Element.show('attach_files_link'); return false;")); ?>
@@ -185,6 +185,6 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
 
 <?php $this->set('header_tags', $this->Html->css('scm')) ?>
 
-<?php $this->set('Sidebar', $this->renderElement('wiki/sidebar')) ?>
+<?php $this->set('Sidebar', $this->element('wiki/sidebar')) ?>
 
 <?php $this->Candy->html_title(h($this->Wiki->pretty_title($page['WikiPage']['title']))) ?>

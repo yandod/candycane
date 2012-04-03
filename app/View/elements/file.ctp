@@ -11,6 +11,6 @@
 ?>
 </pre></td></tr></table>
 <?php echo $javascript->codeBlock("prettyPrint()"); ?>
-<?php $javascript->link("prettify/prettify", false); ?>
+<?php $this->Html->script("prettify/prettify", false); ?>
 <?php $this->Html->css("prettify/prettify", null, array(), false); ?>
 </div>

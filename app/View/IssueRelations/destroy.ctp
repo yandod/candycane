@@ -1,1 +1,1 @@
-<?php echo $this->renderElement('issues/relations', compact('issue', 'issueRelations')); ?>
+<?php echo $this->element('issues/relations', compact('issue', 'issueRelations')); ?>

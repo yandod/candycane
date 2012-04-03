@@ -5,7 +5,7 @@
 
 <!-- <%= render :partial => 'form', :locals => { :f => f } %> -->
 
-<?php echo $this->renderElement('roles/form'); ?>
+<?php echo $this->element('roles/form'); ?>
 
 <?php echo $this->Form->submit(__('Save', TRUE)); ?>
 <?php echo $this->Form->end(); ?>

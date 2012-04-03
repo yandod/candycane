@@ -26,7 +26,7 @@ echo $this->Form->create('TimeEntry', array(
   if(!empty($this->request->params['project_id'])) {
     echo $this->Form->hidden('project_id', array('value'=>$this->request->params['project_id']));
   }
-  echo $this->renderElement('timelog/date_range', array('main_project'=>$main_project));
+  echo $this->element('timelog/date_range', array('main_project'=>$main_project));
 ?>
   <p><?php echo __('Details') ?>: <?php echo $this->Form->input('columns', array('type'=>'select', 'div'=>false, 'label'=>false,
                                                         'options' => array('year' =>__('Year'),
@@ -68,7 +68,7 @@ echo $this->Form->create('TimeEntry', array(
 </tr>
 </thead>
 <tbody>
-<?php echo $this->renderElement('timelog/report_criteria', array(
+<?php echo $this->element('timelog/report_criteria', array(
     'criterias' => $criterias, 
     'hours'=>$hours, 
     'level'=>0, 

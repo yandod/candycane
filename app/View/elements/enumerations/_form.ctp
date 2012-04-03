@@ -1,4 +1,4 @@
-<?php echo $this->renderElement('error_explanation'); ?>
+<?php echo $this->element('error_explanation'); ?>
 <div class="box">
 <!--[form:optvalue]-->
 <?php echo $this->Form->hidden('opt',array('value'=>$opt)); ?>

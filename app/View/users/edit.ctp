@@ -32,7 +32,7 @@
 <?php foreach($settings_tabs as $tab): ?>
 	<?php $disp = ($selected_tab != $tab['name']) ? 'display:none' : ''; ?>
 	<?php echo $this->Html->tag('div',
-			$this->renderElement(
+			$this->element(
 					$tab['partial'],
 					array(
 						'user' => $user,

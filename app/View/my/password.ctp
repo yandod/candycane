@@ -1,6 +1,6 @@
 <h2><?php echo __('Change password') ?></h2>
 
-<?php echo $this->renderElement('error_explanation'); ?>
+<?php echo $this->element('error_explanation'); ?>
 
 <?php echo $this->Form->create('User',aa('url',aa('controller','my','action','password'),'class','tabular')); ?>
 <div class="box">
@@ -16,4 +16,4 @@
 <?php echo $this->Form->submit(__('Apply')) ?>
 <?php echo $this->Form->end() ?>
 
-<?php $this->set('Sidebar',$this->renderElement('my/sidebar')) ?>
+<?php $this->set('Sidebar',$this->element('my/sidebar')) ?>

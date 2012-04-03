@@ -4,7 +4,7 @@
                    :lang => current_language do |f| %>
 
 <%= error_messages_for 'wiki' %> -->
-<?php echo $this->renderElement('error_explanation'); ?>
+<?php echo $this->element('error_explanation'); ?>
   <?php echo $ajax->form(
     array('options' =>array(
       'model' => 'Wiki',

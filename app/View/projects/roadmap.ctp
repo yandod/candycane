@@ -31,6 +31,6 @@
 </div>
 <?php endif ?>
 
-<?php $this->set('Sidebar', $this->renderElement('projects/sidebar/roadmap')) ?>
+<?php $this->set('Sidebar', $this->element('projects/sidebar/roadmap')) ?>
 
 <?php $this->Candy->html_title(__('Roadmap')) ?>

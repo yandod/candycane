@@ -8,7 +8,7 @@
 
 </div>
 &nbsp;
-<?php echo $this->renderElement('diff', array('diff'=>$diff, 'diff_type'=>$diff_type)); ?>
+<?php echo $this->element('diff', array('diff'=>$diff, 'diff_type'=>$diff_type)); ?>
 
 <?php $this->Candy->html_title(); ?>
 <?php $this->Html->css("scm", null, array(), false); ?>

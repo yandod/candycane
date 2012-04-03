@@ -1,5 +1,5 @@
 <h2><?php echo __('Register'); ?></h2>
-<?php echo $this->renderElement('error_explanation'); ?>
+<?php echo $this->element('error_explanation'); ?>
 <?php
 echo $this->Form->create('User', array('url' => '/account/register', 'class' => 'tabular'));
 ?>

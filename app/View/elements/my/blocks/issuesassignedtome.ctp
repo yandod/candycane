@@ -16,7 +16,7 @@ $assigned_issues = $Issue->find('all',
 //                                :include => [ :status, :project, :tracker, :priority ], 
 //                                :order => "#{Enumeration.table_name}.position DESC, #{Issue.table_name}.updated_on DESC") %>
 ?>
-<?php echo $this->renderElement('issues/list_simple',array('issues'=>$assigned_issues)) ?>
+<?php echo $this->element('issues/list_simple',array('issues'=>$assigned_issues)) ?>
 <?php //<%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %> ?>
 <?php if (count($assigned_issues) > 0): ?>
 <?php //<p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => 'me' %></p> ?>

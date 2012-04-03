@@ -22,5 +22,5 @@ vim: filetype=php
 <?php endif ?>
 <?php endforeach ?>
 
-<?php $this->set('Sidebar', $this->renderElement('projects/sidebar/changelog')) ?>
+<?php $this->set('Sidebar', $this->element('projects/sidebar/changelog')) ?>
 

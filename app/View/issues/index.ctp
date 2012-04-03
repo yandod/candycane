@@ -5,7 +5,7 @@
     <form action="<?php echo h($this->Html->url(array('controller' => 'queries', 'action' => 'add'))) ?>" method="post" id="query_form">
     <?php if (isset($main_project)): ?><input type="hidden" name="project_id" value="<?php echo h($main_project['Project']['identifier']) ?>" /><?php endif ?>
     <fieldset id="filters"><legend><?php echo __('Filters') ?></legend>
-    <?php echo $this->renderElement('queries/filters', array('show_filters' => $show_filters, 'available_filters' => $available_filters)) ?>
+    <?php echo $this->element('queries/filters', array('show_filters' => $show_filters, 'available_filters' => $available_filters)) ?>
     <p class="buttons">
       <?php echo $ajax->link(__('Apply'), array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), array('update' => 'content', 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
       <?php echo $ajax->link(__('Clear'), array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), array('update' => 'content', 'class' => 'icon icon-reload')) ?>
@@ -42,7 +42,7 @@
 <?php if (!$issues): ?>
 <p class="nodata"><?php echo h(__('No data to display')) ?></p>
 <?php else: ?>
-<?php echo $this->renderElement('issues/list', array('issue_list' => $issue_list, 'query' => $query)) ?>
+<?php echo $this->element('issues/list', array('issue_list' => $issue_list, 'query' => $query)) ?>
 <p class="pagination"><?php echo $this->Candy->pagination_links_full() ?>
 <!--<%= pagination_links_full @issue_pages, @issue_count %>--></p>
 
@@ -57,7 +57,7 @@
 <?php endif ?>
 <!-- <% end %> -->
 
-<?php $this->set('Sidebar', $this->renderElement('issues/sidebar')) ?>
+<?php $this->set('Sidebar', $this->element('issues/sidebar')) ?>
 
 <!--
 <% content_for :header_tags do %>
@@ -66,7 +66,7 @@
 -->
 
 <?php
-  $for_header_tags = $javascript->link('context_menu') . $this->Html->css('context_menu');
+  $for_header_tags = $this->Html->script('context_menu') . $this->Html->css('context_menu');
   $this->viewVars['header_tags'] = isset($this->viewVars['header_tags']) ? $this->viewVars['header_tags'] . $for_header_tags : $for_header_tags;
 ?>
 <div id="context-menu" style="display: none;"></div>

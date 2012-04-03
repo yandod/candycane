@@ -24,4 +24,4 @@
 <!--<% end %>-->
 </fieldset>
 
-<?php $javascript->link('select_list_move', false);?>
+<?php $this->Html->script('select_list_move', false);?>

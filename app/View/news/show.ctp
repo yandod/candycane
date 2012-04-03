@@ -19,7 +19,7 @@
 		)
 	)
 );?>
-<?php echo $this->renderElement('news/_form', array('news' => $news)) ; ?>
+<?php echo $this->element('news/_form', array('news' => $news)) ; ?>
 <?php echo $this->Form->submit( __('Save'), aa('div', false) ) ; ?>
 <!-- <%= link_to_remote l(:label_preview), 
                    { :url => { :controller => 'news', :action => 'preview', :project_id => @project },

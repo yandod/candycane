@@ -16,7 +16,7 @@ foreach($values as $value):
   <td class="hours"><?php if($total > 0) { echo $this->Candy->html_hours(sprintf(__("%.2f"), $total)); } ?></td>
 </tr>
 <?php if(count($criterias) > $level+1): ?>
-  <?php echo $this->renderElement('timelog/report_criteria', array(
+  <?php echo $this->element('timelog/report_criteria', array(
       'criterias' => $criterias, 
       'hours'=>$hours_for_value, 
       'level'=>($level+1), 

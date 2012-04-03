@@ -33,9 +33,9 @@
 	'enctype' => "multipart/form-data",
 	'id' => 'IssueAddForm')); ?>
 
-	<?php echo $this->renderElement('error_explanation'); ?>
+	<?php echo $this->element('error_explanation'); ?>
 	<div class="box">
-		<?php echo $this->renderElement('issues/form', compact(
+		<?php echo $this->element('issues/form', compact(
 			'trackers', 'statuses', 'priorities', 'assignableUsers', 'issueCategories', 
 				'fixedVersions', 'customFieldValues', 'members')); ?>
 	</div>

@@ -46,7 +46,7 @@
 
 <div id="roadmap">
 <?php echo $this->element('versions/overview', array('version'=>$this->request->data['Version'])) ?>
-<?php echo $this->renderElement('wiki/content', aa('content', $wiki_content)); ?>
+<?php echo $this->element('wiki/content', aa('content', $wiki_content)); ?>
 <?php /*
 <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
  */ ?>

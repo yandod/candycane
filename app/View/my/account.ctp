@@ -3,7 +3,7 @@
 </div>
 
 <h2><?php echo $this->Candy->html_title(__('My account')) ?></h2>
-<?php echo $this->renderElement('error_explanation'); ?>
+<?php echo $this->element('error_explanation'); ?>
 
 
 <?php echo $this->Form->create('User',array('url'=>aa('controller','my','action','account'))); ?>
@@ -62,5 +62,5 @@
 </div>
 <?php echo "</div>" ?>
 <?php echo $this->Form->end() ?>
-<?php $this->set('Sidebar',$this->renderElement('my/sidebar')) ?>
+<?php $this->set('Sidebar',$this->element('my/sidebar')) ?>
 

@@ -1,4 +1,4 @@
-<?php echo $this->renderElement('error_explanation'); ?>
+<?php echo $this->element('error_explanation'); ?>
 
 <script type="text/javascript">
 //<![CDATA[

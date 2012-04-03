@@ -37,7 +37,7 @@
 		<?php echo $this->Form->end(); ?>
 
 		<?php if (!empty($currentuser['memberships'])): ?>
-			<?php echo $this->renderElement('project_selector', array('currentuser' => $currentuser)); ?>
+			<?php echo $this->element('project_selector', array('currentuser' => $currentuser)); ?>
 		<?php endif; ?>
 	</div>
 

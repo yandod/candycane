@@ -25,10 +25,10 @@
 </div>
 
 <fieldset><legend><?php echo __('Filters') ?></legend>
-<?php echo $this->renderElement('queries/filters', array('query' => array('Query' => $this->request->data['Query']))) ?>
+<?php echo $this->element('queries/filters', array('query' => array('Query' => $this->request->data['Query']))) ?>
 <!--<%= render :partial => 'queries/filters', :locals => {:query => query}%>-->
 </fieldset>
 
-<?php echo $this->renderElement('queries/columns', array('query' => array('Query' => $this->request->data['Query']))) ?>
+<?php echo $this->element('queries/columns', array('query' => array('Query' => $this->request->data['Query']))) ?>
 <!--<%= render :partial => 'queries/columns', :locals => {:query => query}%>-->
 </div>

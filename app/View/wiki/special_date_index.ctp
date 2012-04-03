@@ -15,7 +15,7 @@
 <?php endforeach ?>
 <?php endif ?>
 
-<?php $this->set('Sidebar', $this->renderElement('wiki/sidebar')) ?>
+<?php $this->set('Sidebar', $this->element('wiki/sidebar')) ?>
 
 <?php if (sizeof($pages) !== 0) : ?>
 <p class="other-formats">

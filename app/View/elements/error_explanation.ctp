@@ -2,8 +2,8 @@
  /**
   * Display validation errors division.
   * If you do not use $form when output tag of input, set argument $formHelper at renderElement.  
-  * ex1: echo $this->renderElement('error_explanation');
-  * ex2: echo $this->renderElement('error_explanation', array('formHelper'=>$ajax->Form));
+  * ex1: echo $this->element('error_explanation');
+  * ex2: echo $this->element('error_explanation', array('formHelper'=>$ajax->Form));
   */
 ?>
 <?php

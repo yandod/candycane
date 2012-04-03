@@ -20,7 +20,7 @@ $reported_issues = $Issue->find('all',
   )
 );
 ?>
-<?php echo $this->renderElement('issues/list_simple',array('issues'=>$reported_issues)) ?>
+<?php echo $this->element('issues/list_simple',array('issues'=>$reported_issues)) ?>
 <?php if (count($reported_issues) > 0): ?>
 <p class="small"><?php echo $this->Html->link(__('View all issues'), aa('controller','issues','action','index','set_filter',1,'author_id','me' )) ?></p>
 <?php endif; ?>

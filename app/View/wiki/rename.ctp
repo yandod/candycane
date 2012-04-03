@@ -1,6 +1,6 @@
 <h2><?php echo __('Rename'); ?>: <?php echo $original_title; ?></h2>
 
-<?php echo $this->renderElement('error_explanation'); ?>
+<?php echo $this->element('error_explanation'); ?>
 
 <?php /* labelled_tabular_form_for :wiki_page, @page, :url => { :action => 'rename' } do |f| */ ?>
 <?php e($this->Form->create('WikiPage',

@@ -8,7 +8,7 @@
 
 </div>
 &nbsp;
-<?php echo $this->renderElement('file', array('content'=>$content)); ?>
+<?php echo $this->element('file', array('content'=>$content)); ?>
 
 <?php $this->Candy->html_title() ?>
 <?php $this->Html->css("scm", null, array(), false); ?>

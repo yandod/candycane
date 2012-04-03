@@ -59,7 +59,7 @@
  <?php endforeach; ?>
 <?php endif; ?>
 </tr>
-<?php echo $this->renderElement('issues/show_details_bottom',array('issue' => $issue));?>
+<?php echo $this->element('issues/show_details_bottom',array('issue' => $issue));?>
 </table>
 <hr />
 
@@ -76,18 +76,18 @@
   // Copy from AttachmentHelper, because can not call element from Helper.
   if(array_key_exists('Author', $issue)) {
     $attach_options = array_merge(array('deletable'=>$attachmentsDeletable), $issue);
-    echo $this->renderElement('attachments/links', array('attachments'=>$attachments, 'options'=>$attach_options), array('Number'));
+    echo $this->element('attachments/links', array('attachments'=>$attachments, 'options'=>$attach_options), array('Number'));
   }
 ?>
 <hr />
 <div id="relations">
-  <?php echo $this->renderElement('issues/relations', compact('issue', 'issueRelations')); ?>
+  <?php echo $this->element('issues/relations', compact('issue', 'issueRelations')); ?>
 </div>
 
 <?php if($this->Candy->authorize_for('add_issue_watchers') || !empty($issue['Watcher']) && $this->Candy->authorize_for('view_issue_watchers')): ?>
 <hr />
 <div id="watchers">
-  <?php echo $this->renderElement('watchers/watchers', array(
+  <?php echo $this->element('watchers/watchers', array(
     'list'=>!empty($issue['Watcher'])?$issue['Watcher']:array(), 
     'object_type'=>'issue', 
     'watched'=>$issue['Issue']['id'], 
@@ -108,7 +108,7 @@
 <?php if(!empty($journalList)): ?>
 <div id="history">
 <h3><?php echo __('History') ?></h3>
-  <?php echo $this->renderElement('issues/history', array(
+  <?php echo $this->element('issues/history', array(
     'journalList'=>$journalList, 
     'issue'=>$issue
     )); ?>
@@ -119,7 +119,7 @@
 <?php if($this->Candy->authorize_for(array('controller'=>'issues', 'action'=>'edit'))): ?>
   <div id="update" style="display:none;">
   <h3><?php echo __('Update');?></h3>
-    <?php echo $this->renderElement('issues/edit', compact(
+    <?php echo $this->element('issues/edit', compact(
       'statuses', 'priorities', 'assignableUsers', 'issueCategories', 
       'fixedVersions', 'customFieldValues')); ?>
   </div>
@@ -133,6 +133,6 @@
 
     <?php $this->Candy->html_title($issue['Tracker']['name'] . ' #' . $issue['Issue']['id'], ' ' . $issue['Issue']['subject']) ?>
 
-<?php $this->set('Sidebar', $this->renderElement('issues/sidebar')) ?>
+<?php $this->set('Sidebar', $this->element('issues/sidebar')) ?>
 <?php $this->Html->meta('atom', array('action'=>'show', 'id'=>$issue['Issue']['id'], 'format'=>'atom', 'key'=>$rssToken), array('title'=>$issue['Project']['name'].' - '.$issue['Tracker']['name'].' ##'.$issue['Issue']['id'].': '.$issue['Issue']['subject'], 'rel'=>'alternate'), false); ?>
 <?php $this->Html->css('scm.css', null, array('media'=>'screen'), false); ?>

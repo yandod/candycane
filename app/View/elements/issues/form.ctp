@@ -111,7 +111,7 @@
 <?php if (empty($this->request->data['Issue']['id'])): ?>
 	<p>
 		<label><?php echo __('File'); ?></label>
-		<?php echo $this->renderElement('attachments/form'); ?>
+		<?php echo $this->element('attachments/form'); ?>
 	</p>
 <?php endif; ?>
 

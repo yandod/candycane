@@ -6,7 +6,7 @@
 <h2><?php echo __('Add news') ; ?></h2>
 <?php
 echo $this->Form->create('News', array('url' => "/projects/{$main_project['Project']['identifier']}/news/add", 'id' => 'NewsAddForm'));
-	echo $this->renderElement('news/_form');
+	echo $this->element('news/_form');
 	echo $this->Form->submit(__('Create'), array('div' => false));
 	echo $ajax->link(
 		__('Preview'),

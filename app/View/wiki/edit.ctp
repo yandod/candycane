@@ -9,7 +9,7 @@
                                'id' => null)))); ?>
 <?php echo $this->Form->hidden('version'); ?>
 
-<?php echo $this->renderElement('error_explanation'); ?>
+<?php echo $this->element('error_explanation'); ?>
 
 <p><?php e($this->Form->input('WikiContent.text',
                         array('type' => 'textarea',

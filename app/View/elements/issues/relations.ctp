@@ -47,7 +47,7 @@ echo $this->Form->create('IssueRelation', array(
       )
     );
 ?>
-<?php echo $this->renderElement('error_explanation'); ?>
+<?php echo $this->element('error_explanation'); ?>
 <p>
   <?php echo $this->Form->input('relation_type', array('type'=>'select', 'options'=>$this->Issues->relation_type_select(), 'onchange'=>"setPredecessorFieldsVisibility();", 'id'=>'relation_relation_type', 'div'=>false, 'label'=>false)); ?>
   <?php echo __('Issue') ?> #

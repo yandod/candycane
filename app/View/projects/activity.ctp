@@ -59,8 +59,8 @@
     <?php echo __("'Also available in:'"); ?>
     <?php echo $this->Html->link('Atom', array('project_id'=>$this->request->params['project_id'], '?'=>array_merge($this->request->params['url'], array('key'=>$rss_token, 'format'=>'atom', 'from'=>null, 'url'=>null))), array('class' => 'feed')); ?>
 </p>
-<?php $this->renderElement('projects/rss'); ?>
+<?php $this->element('projects/rss'); ?>
 
-<?php $this->set('Sidebar', $this->renderElement('projects/sidebar/activity')); ?>
+<?php $this->set('Sidebar', $this->element('projects/sidebar/activity')); ?>
 
 <?php $this->Candy->html_title(__('Activity'), $author['Project']['name']) ?>

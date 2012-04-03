@@ -26,7 +26,7 @@ echo $this->Form->create('TimeEntry', array(
   if(!empty($issue)) {
     echo $this->Form->hidden('issue_id', array('value'=>$this->request->params['url']['issue_id']));
   }
-  echo $this->renderElement('timelog/date_range', array('main_project'=>$main_project));
+  echo $this->element('timelog/date_range', array('main_project'=>$main_project));
 echo $this->Form->end();
 ?>
 
@@ -35,7 +35,7 @@ echo $this->Form->end();
 </div>
 
 <?php if(!empty($entries)) : ?>
-<?php echo $this->renderElement('timelog/list', array('entries' => $entries, 'main_project'=>$main_project, 'issue'=>$issue)); ?>
+<?php echo $this->element('timelog/list', array('entries' => $entries, 'main_project'=>$main_project, 'issue'=>$issue)); ?>
 <p class="pagination"><?php echo $this->Candy->pagination_links_full(); ?></p>
 <p class="other-formats">
 <?php echo __("'Also available in:'") ?>
