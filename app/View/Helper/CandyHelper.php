@@ -115,8 +115,8 @@ class CandyHelper extends AppHelper {
 			if (! empty($project)) {
 				$title[0] = $project['Project']['name'];
 			} else {
-				$Settings =& ClassRegistry::getObject('Setting');
-				$title[0] = $Settings->app_title;
+				$this->Settings =& ClassRegistry::getObject('Setting');
+				$title[0] = $this->Settings->app_title;
 			}
 			if (!empty($view->pageTitle)) {
 				$title[0] .= $view->pageTitle;
@@ -361,11 +361,8 @@ class CandyHelper extends AppHelper {
 			return null;
 		}
 
-		$view =& ClassRegistry::getObject('view');
-		$Settings = $view->viewVars['Settings'];
-
 		// "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
-		$date_format = (empty($Settings->date_format) || strlen($Settings->date_format) < 2) ? '%m/%d/%Y' : $Settings->date_format;
+		$date_format = (empty($this->Settings->date_format) || strlen($this->Settings->date_format) < 2) ? '%m/%d/%Y' : $this->Settings->date_format;
 		if (is_string($date)) {
 			$date = strtotime($date);
 		}

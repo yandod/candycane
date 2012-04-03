@@ -233,9 +233,9 @@ class AjaxHelper extends AppHelper {
 		$htmlOptions = array_merge($htmlDefaults, $htmlOptions);
 
 		$htmlOptions['onclick'] .= ' event.returnValue = false; return false;';
-		$return = $this->Html->link($title, $url, $htmlOptions);
+		$return = $this->_View->Html->link($title, $url, $htmlOptions);
 		$callback = $this->remoteFunction($options);
-		$script = $this->Javascript->event("'{$htmlOptions['id']}'", "click", $callback);
+		$script = $this->_View->Javascript->event("'{$htmlOptions['id']}'", "click", $callback);
 
 		if (is_string($script)) {
 			$return .= $script;
@@ -293,7 +293,7 @@ class AjaxHelper extends AppHelper {
 		}
 
 		if (isset($options['confirm'])) {
-			$func = "if (confirm('" . $this->Javascript->escapeString($options['confirm'])
+			$func = "if (confirm('" . $this->_View->Javascript->escapeString($options['confirm'])
 				. "')) { $func; } else { event.returnValue = false; return false; }";
 		}
 		return $func;
@@ -316,7 +316,7 @@ class AjaxHelper extends AppHelper {
 		$frequency = (isset($options['frequency'])) ? $options['frequency'] : 10;
 		$callback = $this->remoteFunction($options);
 		$code = "new PeriodicalExecuter(function(pe) {{$callback}}, $frequency)";
-		return $this->Javascript->codeBlock($code);
+		return $this->_View->Javascript->codeBlock($code);
 	}
 
 /**
@@ -362,7 +362,7 @@ class AjaxHelper extends AppHelper {
 		$callback = $this->remoteFunction($options);
 
 		$form = $this->Form->create($options['model'], $htmlOptions);
-		$script = $this->Javascript->event("'" . $htmlOptions['id']. "'", 'submit', $callback);
+		$script = $this->_View->Javascript->event("'" . $htmlOptions['id']. "'", 'submit', $callback);
 		return $form . $script;
 	}
 
@@ -394,7 +394,7 @@ class AjaxHelper extends AppHelper {
 		$callback = $this->remoteFunction($options);
 
 		$form = $this->Form->submit($title, $htmlOptions);
-		$script = $this->Javascript->event('"' . $htmlOptions['id'] . '"', 'click', $callback);
+		$script = $this->_View->Javascript->event('"' . $htmlOptions['id'] . '"', 'click', $callback);
 		return $form . $script;
 	}
 
@@ -435,7 +435,7 @@ class AjaxHelper extends AppHelper {
 		if (!isset($options['frequency']) || intval($options['frequency']) == 0) {
 			$observer = 'EventObserver';
 		}
-		return $this->Javascript->codeBlock(
+		return $this->_View->Javascript->codeBlock(
 			$this->_buildObserver('Form.Element.' . $observer, $field, $options)
 		);
 	}
@@ -461,7 +461,7 @@ class AjaxHelper extends AppHelper {
 		if (!isset($options['frequency']) || intval($options['frequency']) == 0) {
 			$observer = 'EventObserver';
 		}
-		return $this->Javascript->codeBlock(
+		return $this->_View->Javascript->codeBlock(
 			$this->_buildObserver('Form.' . $observer, $form, $options)
 		);
 	}
@@ -510,7 +510,7 @@ class AjaxHelper extends AppHelper {
 
 		if (isset($options['tokens'])) {
 			if (is_array($options['tokens'])) {
-				$options['tokens'] = $this->Javascript->object($options['tokens']);
+				$options['tokens'] = $this->_View->Javascript->object($options['tokens']);
 			} else {
 				$options['tokens'] = '"' . $options['tokens'] . '"';
 			}
@@ -520,11 +520,11 @@ class AjaxHelper extends AppHelper {
 		$options = $this->_buildOptions($options, $this->autoCompleteOptions);
 
 		$text = $this->Form->text($field, $htmlOptions);
-		$div = $this->Html->div(null, '', $divOptions);
+		$div = $this->_View->Html->div(null, '', $divOptions);
 		$script = "{$var}new Ajax.Autocompleter('{$htmlOptions['id']}', '{$divOptions['id']}', '";
-		$script .= $this->Html->url($url) . "', {$options});";
+		$script .= $this->_View->Html->url($url) . "', {$options});";
 
-		return  "{$text}\n{$div}\n" . $this->Javascript->codeBlock($script);
+		return  "{$text}\n{$div}\n" . $this->_View->Javascript->codeBlock($script);
 	}
 
 /**
@@ -535,7 +535,7 @@ class AjaxHelper extends AppHelper {
  */
 	function div($id, $options = array()) {
 		if (env('HTTP_X_UPDATE') != null) {
-			$this->Javascript->enabled = false;
+			$this->_View->Javascript->enabled = false;
 			$divs = explode(' ', env('HTTP_X_UPDATE'));
 
 			if (in_array($id, $divs)) {
@@ -545,7 +545,7 @@ class AjaxHelper extends AppHelper {
 			}
 		}
 		$attr = $this->_parseAttributes(array_merge($options, array('id' => $id)));
-		return sprintf($this->Html->tags['blockstart'], $attr);
+		return sprintf($this->_View->Html->tags['blockstart'], $attr);
 	}
 
 /**
@@ -564,7 +564,7 @@ class AjaxHelper extends AppHelper {
 				return '';
 			}
 		}
-		return $this->Html->tags['blockend'];
+		return $this->_View->Html->tags['blockend'];
 	}
 
 /**
@@ -595,7 +595,7 @@ class AjaxHelper extends AppHelper {
 		$options = $this->_buildOptions(
 			$this->_optionsToString($options, array('handle', 'constraint')), $this->dragOptions
 		);
-		return $this->Javascript->codeBlock("{$var}new Draggable('$id', " .$options . ");");
+		return $this->_View->Javascript->codeBlock("{$var}new Draggable('$id', " .$options . ");");
 	}
 
 /**
@@ -612,12 +612,12 @@ class AjaxHelper extends AppHelper {
 		if (!isset($options['accept']) || !is_array($options['accept'])) {
 			$optionsString[] = 'accept';
 		} else if (isset($options['accept'])) {
-			$options['accept'] = $this->Javascript->object($options['accept']);
+			$options['accept'] = $this->_View->Javascript->object($options['accept']);
 		}
 		$options = $this->_buildOptions(
 			$this->_optionsToString($options, $optionsString), $this->dropOptions
 		);
-		return $this->Javascript->codeBlock("Droppables.add('{$id}', {$options});");
+		return $this->_View->Javascript->codeBlock("Droppables.add('{$id}', {$options});");
 	}
 
 /**
@@ -640,14 +640,14 @@ class AjaxHelper extends AppHelper {
 		if (!isset($options['accept']) || !is_array($options['accept'])) {
 			$optionsString[] = 'accept';
 		} else if (isset($options['accept'])) {
-			$options['accept'] = $this->Javascript->object($options['accept']);
+			$options['accept'] = $this->_View->Javascript->object($options['accept']);
 		}
 
 		$options = $this->_buildOptions(
 			$this->_optionsToString($options, $optionsString),
 			$this->dropOptions
 		);
-		return $this->Javascript->codeBlock("Droppables.add('{$id}', {$options});");
+		return $this->_View->Javascript->codeBlock("Droppables.add('{$id}', {$options});");
 	}
 
 /**
@@ -681,12 +681,12 @@ class AjaxHelper extends AppHelper {
 		}
 
 		if (isset($options['values']) && is_array($options['values'])) {
-			$options['values'] = $this->Javascript->object($options['values']);
+			$options['values'] = $this->_View->Javascript->object($options['values']);
 		}
 
 		$options = $this->_buildOptions($options, $this->sliderOptions);
 		$script = "{$var}new Control.Slider('$id', '$trackId', $options);";
-		return $this->Javascript->codeBlock($script);
+		return $this->_View->Javascript->codeBlock($script);
 	}
 
 /**
@@ -714,7 +714,7 @@ class AjaxHelper extends AppHelper {
 
 		$type = 'InPlaceEditor';
 		if (isset($options['collection']) && is_array($options['collection'])) {
-			$options['collection'] = $this->Javascript->object($options['collection']);
+			$options['collection'] = $this->_View->Javascript->object($options['collection']);
 			$type = 'InPlaceCollectionEditor';
 		}
 
@@ -731,7 +731,7 @@ class AjaxHelper extends AppHelper {
 		));
 		$options = $this->_buildOptions($options, $this->editorOptions);
 		$script = "{$var}new Ajax.{$type}('{$id}', '{$url}', {$options});";
-		return $this->Javascript->codeBlock($script);
+		return $this->_View->Javascript->codeBlock($script);
 	}
 
 /**
@@ -777,7 +777,7 @@ class AjaxHelper extends AppHelper {
 		if (!$block) {
 			return $result;
 		}
-		return $this->Javascript->codeBlock($result);
+		return $this->_View->Javascript->codeBlock($result);
 	}
 
 /**
@@ -1023,12 +1023,12 @@ class AjaxHelper extends AppHelper {
 				$out .= 'for (n in __ajaxUpdater__) { if (typeof __ajaxUpdater__[n] == "string"';
 				$out .= ' && $(n)) Element.update($(n), unescape(decodeURIComponent(';
 				$out .= '__ajaxUpdater__[n]))); }';
-				echo $this->Javascript->codeBlock($out, false);
+				echo $this->_View->Javascript->codeBlock($out, false);
 			}
-			$scripts = $this->Javascript->getCache();
+			$scripts = $this->_View->Javascript->getCache();
 
 			if (!empty($scripts)) {
-				echo $this->Javascript->codeBlock($scripts, false);
+				echo $this->_View->Javascript->codeBlock($scripts, false);
 			}
 			$this->_stop();
 		}
