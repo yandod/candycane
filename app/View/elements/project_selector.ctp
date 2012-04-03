@@ -13,7 +13,11 @@
 -->
 <?php foreach ($currentuser['memberships'] as $member): ?>
 <?php $project = $member['Project'] ?>
-<?php echo $this->Html->tag('option',$project['name'],aa('value',$this->Html->url('/projects/show/'.$project['identifier']))) ?>
+<?php echo $this->Html->tag(
+	'option',
+	$project['name'],
+		array('value' => $this->Html->url('/projects/show/' . $project['identifier']))
+) ?>
 <?php endforeach; ?>
 </select>
 
