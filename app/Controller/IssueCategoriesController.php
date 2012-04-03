@@ -32,7 +32,7 @@ class IssueCategoriesController extends AppController
 #      @category.destroy(reassign_to)
 #      redirect_to :controller => 'projects', :action => 'settings', :id => @project, :tab => 'categories'
 #    end
-    App::import('model','Issue');
+    App::uses('Issue', 'Model');
     $Issue = new Issue();
     $issue_count = $Issue->find('count',aa('conditions',aa('category_id',$this->request->params['id'])));
     

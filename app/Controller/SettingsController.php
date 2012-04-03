@@ -92,7 +92,7 @@ class SettingsController extends AppController
   }
   function _prepareColumns()
   {
-    App::import('model','Query');
+    App::uses('Query', 'Model');
     $this->Query = new Query();
     $available_columns = $this->Query->available_columns();
     $this->set('available_columns',$available_columns);
