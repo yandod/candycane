@@ -134,3 +134,32 @@ if(!function_exists('str_split')) {
         return $parts;
     }
 }
+
+/**
+ * Constructs associative array from pairs of arguments.
+ *
+ * Example:
+ *
+ * `aa('a','b')`
+ *
+ * Would return:
+ *
+ * `array('a'=>'b')`
+ *
+ * @return array Associative array
+ * @link http://book.cakephp.org/view/1123/aa
+ * @deprecated Will be removed in 2.0
+ */
+function aa() {
+    $args = func_get_args();
+    $argc = count($args);
+    for ($i = 0; $i < $argc; $i++) {
+        if ($i + 1 < $argc) {
+            $a[$args[$i]] = $args[$i + 1];
+        } else {
+            $a[$args[$i]] = null;
+        }
+        $i++;
+    }
+    return $a;
+}
