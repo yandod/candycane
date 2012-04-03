@@ -28,8 +28,8 @@ class FetcherComponent extends Component
   var $__constantized_providers = array();
 
   function initialize(&$controller) {
-    $this->controller =& $controller;
-    App::import('model', 'Activity');
+    $this->controller = $controller;
+    App::import('file', 'Activity', array('file' => APP . 'Activity.php'));
     foreach(Activity::getInstance()->providers as $k=>$t) {
       $this->__constantized_providers[$k] = array();
       foreach($t as $model) {

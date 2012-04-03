@@ -25,7 +25,7 @@ class MenuManagerComponent extends Component
   	
   	if ( $this->controller->name == 'Versions') {
   	  $version_id = $this->controller->params['pass'][0];
-  	  App::import('model','Version');
+          App::uses('Version', 'Model');
   	  $version = new Version();
   	  $bind = array(
   	    'belongsTo' => array(
