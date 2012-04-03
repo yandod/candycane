@@ -5,11 +5,11 @@
  * to use (in this case, /app/views/pages/home.ctp)...
  */
     // for quick install
-	if (!file_exists(APP.'config'.DS.'database.php')) {
-		Router::connect('/', array('controller' => 'install', 'plugin' => 'install'));
-	} else {
+	//if (!file_exists(APP.'config'.DS.'database.php')) {
+	//	Router::connect('/', array('controller' => 'install', 'plugin' => 'install'));
+	//} else {
 		Router::connect('/', array('controller' => 'welcome', 'action' => 'index'));
-    }
+    //}
 	Router::connect('/login', array('controller' => 'account', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'account', 'action' => 'logout'));
 	Router::connect('/projects/:project_id/issues/:action/*', array('controller' => 'issues'));
@@ -110,3 +110,15 @@ Router::connect('queries/:action/:query_id',array('controller' => 'queries'));
  */
 	Router::connect('/tests', array('controller' => 'tests', 'action' => 'index'));
 
+/**
+ * Load all plugin routes.  See the CakePlugin documentation on 
+ * how to customize the loading of plugin routes.
+ */
+	CakePlugin::routes();
+
+/**
+ * Load the CakePHP default routes. Remove this if you do not want to use
+ * the built-in default routes.
+ */
+	require CAKE . 'Config' . DS . 'routes.php';
+	

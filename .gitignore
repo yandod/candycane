@@ -6,6 +6,9 @@ app/tmp/cache/*
 app/tmp/logs/*
 app/tmp/tests/*
 app/files/*
+.htaccess
+app/.htaccess
+app/webroot/.htaccess
 
 ## Simpletest
 vendors/simpletest
@@ -14,6 +17,7 @@ vendors/simpletest
 .cache
 .project
 .settings
+nbproject/*
 
 ## Allow 'empty' files
 !empty

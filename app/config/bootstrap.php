@@ -1,21 +1,23 @@
 <?php
-define('CANDYCANE_VERSION', '0.8.6');
+define('CANDYCANE_VERSION', '0.9.0');
 Configure::write('app_title', 'Candycane');
 setlocale(LC_CTYPE,'C');
 
-App::import('Vendor','MenuContainer');
-App::import('Vendor','HookContainer');
-App::import('Vendor','PluginContainer');
+App::import('Vendor','candycane/MenuContainer');
+App::import('Vendor','candycane/HookContainer');
+App::import('Vendor','candycane/PluginContainer');
 $menu_container = new MenuContainer();
 $hookContainer = new HookContainer();
 $pluginContainer = new PluginContainer();
-App::import('Core','ClassRegistry');
+App::uses('ClassRegistry', 'Utility');
+CakePlugin::loadAll();
 ClassRegistry::addObject('HookContainer',$hookContainer);
 ClassRegistry::addObject('MenuContainer',$menu_container);
 ClassRegistry::addObject('PluginContainer',$pluginContainer);
-foreach( glob(APP.'plugins/cc_*/init.php') as $val){
-	require_once(realpath($val));
-}
+//foreach( glob(APP.'plugins/cc_*/init.php') as $val){
+//	require_once(realpath($val));
+//}
+
 
 // by PHP_Compat 1.6.0a2
 function php_compat_http_build_query($formdata, $numeric_prefix = null)
@@ -131,4 +133,33 @@ if(!function_exists('str_split')) {
         }
         return $parts;
     }
+}
+
+/**
+ * Constructs associative array from pairs of arguments.
+ *
+ * Example:
+ *
+ * `aa('a','b')`
+ *
+ * Would return:
+ *
+ * `array('a'=>'b')`
+ *
+ * @return array Associative array
+ * @link http://book.cakephp.org/view/1123/aa
+ * @deprecated Will be removed in 2.0
+ */
+function aa() {
+    $args = func_get_args();
+    $argc = count($args);
+    for ($i = 0; $i < $argc; $i++) {
+        if ($i + 1 < $argc) {
+            $a[$args[$i]] = $args[$i + 1];
+        } else {
+            $a[$args[$i]] = null;
+        }
+        $i++;
+    }
+    return $a;
 }
