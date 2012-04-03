@@ -39,6 +39,8 @@ class AppController extends Controller {
  * @todo set_localzation
  */
 	function beforeFilter() {
+                $this->setSettings();
+                $this->user_setup();
 		$this->_setUrlParam();
 		$this->user_setup();
 		$this->setSettings();
