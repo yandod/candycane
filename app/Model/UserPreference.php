@@ -8,7 +8,7 @@
  * UserPreference
  *
  */
-App::Import('vendor', 'spyc');
+App::import('Vendor', 'georgious-cakephp-yaml-migrations-and-fixtures/spyc/spyc');
 class UserPreference extends AppModel
 {
   var $belongsTo = array('User');

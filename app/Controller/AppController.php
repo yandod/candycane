@@ -2,8 +2,8 @@
 #require 'uri'
 #require 'cgi'
 
-App::import('Core', 'l10n');
-App::import('View', 'CandyView');
+App::uses('L10n','I18n');
+App::uses('CandyView','View');
 
 /**
  * Application Controller
@@ -14,9 +14,9 @@ class AppController extends Controller {
 
 	public $layout = 'base';
 
-	public $helpers = array('Html', 'Form', 'Javascript', 'Candy');
+	public $helpers = array('Html', 'Form', 'Candy', 'Session');
 
-	public $components = array('Cookie', 'MenuManager','DebugKit.Toolbar');
+	public $components = array('Session','Cookie', 'MenuManager'/*,'DebugKit.Toolbar'*/);
 
 	public $uses = array('User', 'Setting', 'Project');
 

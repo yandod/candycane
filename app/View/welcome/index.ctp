@@ -6,7 +6,7 @@
   <?php if (!empty($news)): ?>
   <div class="box">
 	<h3><?php echo __('Latest news')?></h3>
-		<?php echo $this->renderElement('news',aa('news',$news)) ?>
+		<?php echo $this->element('news',array('news' => $news)) ?>
 		<?php echo $this->Html->link(__('View all news'),'/news/') ?>
   </div>
   <?php endif; ?>

@@ -773,7 +773,8 @@ function breadcrumb($args)
 #  def textilizable(*args)
   function textilizable($text, $options=array())
   {
-    App::import('Vendor','Textile',aa('file','textile-2.0.0/classTextile.php'));
+    App::import('Vendor', 'textile/classTextile');
+
     $Textile = new Textile();
     $text = $Textile->TextileThis($text);
     $text = preg_replace_callback('/(!)?(\[\[([^\]\n\|]+)(?:\|([^\]\n\|]+))?()\]\])/',

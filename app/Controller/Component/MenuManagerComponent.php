@@ -8,7 +8,7 @@ class MenuManagerComponent extends Component
   
   function initialize(&$controller) {
     // saving the controller reference for later use
-    $this->controller =& $controller;
+    $this->controller = $controller;
     $this->project_menu = $this->_getProjectMenu();
     $this->application_menu = $this->_getApplicationMenu();
   }

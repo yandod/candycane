@@ -4,6 +4,7 @@
  *
  * @package candycane
  */
+App::uses('Helper', 'View');
 class AppHelper extends Helper {
 
 /**
@@ -17,8 +18,8 @@ class AppHelper extends Helper {
  * Constructor
  *
  */
-	public function __construct() {
-		$this->Settings =& ClassRegistry::getObject('Setting');
-		parent::__construct();
+	public function __construct($view) {
+		$this->Settings = ClassRegistry::getObject('Setting');
+		parent::__construct($view);
 	}
 }

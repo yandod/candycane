@@ -6,8 +6,8 @@
 <meta name="description" content="<?php echo Configure::read('app_title'); ?>" />
 <meta name="keywords" content="issue,bug,tracker" />
 <?php echo $this->Html->css('application')  ?>
-<?php echo $javascript->link(array('prototype','effects','dragdrop','controls','application')); ?>
-<?php echo $javascript->link('https://raw.github.com/cognitom/StaffRoll.net-Libraries-and-Themes/master/include.staffroll.net/github/script/1.0/load.js?theme=underground');?>
+<?php echo $this->Html->script(array('prototype','effects','dragdrop','controls','application')); ?>
+<?php echo $this->Html->script('https://raw.github.com/cognitom/StaffRoll.net-Libraries-and-Themes/master/include.staffroll.net/github/script/1.0/load.js?theme=underground');?>
 <!-- <%= heads_for_wiki_formatter %> -->
 <?php echo $this->Html->css('jstoolbar')  ?>
 <!--[if IE]>
@@ -27,10 +27,10 @@
 <div id="top-menu">
 	<div id="account">
 		<!-- <%= render_menu :account_menu -%> -->
-		<?php echo $this->renderElement('account_menu', array('currentuser' => $currentuser)); ?>
+		<?php echo $this->element('account_menu', array('currentuser' => $currentuser)); ?>
 	</div>
 	<?php if ($currentuser['logged']) echo $this->Html->tag('div',__('Logged in as').' '.$this->Candy->link($currentuser),array('id'=>'loggedas')); ?>
-	<?php echo $this->renderElement('top_menu'); ?>
+	<?php echo $this->element('top_menu'); ?>
 </div>
 
 <div id="header">
@@ -77,7 +77,7 @@
 <?php echo $this->Html->tag('div', null, array('id' => 'main', 'class' => isset($Sidebar) ? '' : 'nosidebar')); ?>
 	<div id="sidebar">        
 		<?php if (isset($Sidebar)) {
-			echo $this->renderElement('sidebar',array('Sidebar' => $Sidebar));
+			echo $this->element('sidebar',array('Sidebar' => $Sidebar));
 		}?>
 	</div>
 
