@@ -24,7 +24,7 @@
  * @link            http://wiki.rubyonrails.org/rails/pages/ActionMailer
  * @license			http://www.opensource.org/licenses/mit-license.php The MIT License
  */
-class ActionMailer extends Object
+class ActionMailer extends Component
 {
     var $name = 'ActionMailer';
     

@@ -181,7 +181,7 @@ class AccountController extends AppController {
 			$this->set('back_url',$this->referer());
 			return;
 		}
-		$this->set('back_url',$this->request->params['form']['back_url']);
+		$this->set('back_url',$this->request->data['back_url']);
 		// validate
 		$this->User->set($this->request->data);
 		if (!$this->User->validates()) {
@@ -211,12 +211,14 @@ class AccountController extends AppController {
 			#  cookies[:autologin] = { :value => token.value, :expires => 1.year.from_now }
 			#end
 			#redirect_back_or_default :controller => 'my', :action => 'page'
-			if (!$this->request->params['form']['back_url'][0] == '/' ||
-				Router::url($this->request->params['form']['back_url']) == Router::url($this->request->action)
+			if (
+				!$this->request->data['back_url'][0] == '/' ||
+				Router::url($this->request->data['back_url'], true) == 
+				Router::url($this->request->action, true)
 			) {
-				$this->request->params['form']['back_url'] = '/';
+				$this->request->data['back_url'] = '/';
 			}
-			$this->redirect($this->request->params['form']['back_url']);
+			$this->redirect($this->request->data['back_url']);
 		}
 	}
 
@@ -225,13 +227,9 @@ class AccountController extends AppController {
  *
  * Log out current user and redirect to welcome page
  *
- * @todo implement yet
  */
 	public function logout() {
 		$this->Session->destroy();
-		#cookies.delete :autologin
-		#Token.delete_all(["user_id = ? AND action = ?", User.current.id, 'autologin']) if User.current.logged?
-		#self.logged_user = nil
 		$this->redirect('/');
 	}
 

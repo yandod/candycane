@@ -17,7 +17,7 @@ class AppController extends Controller {
 
 	public $helpers = array('Html', 'Form', 'Candy', 'Session');
 
-	public $components = array('Session','Cookie', 'MenuManager'/*,'DebugKit.Toolbar'*/);
+	public $components = array('Session','Cookie', 'MenuManager','DebugKit.Toolbar');
 
 	public $uses = array('User', 'Setting', 'Project');
 
