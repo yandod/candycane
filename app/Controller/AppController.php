@@ -2,8 +2,9 @@
 #require 'uri'
 #require 'cgi'
 
-App::uses('L10n','I18n');
-App::uses('CandyView','View');
+App::uses('L10n', 'I18n');
+App::import('View', 'CandyView');
+App::uses('Controller', 'Controller');
 
 /**
  * Application Controller
