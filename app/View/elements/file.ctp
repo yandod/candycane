@@ -10,7 +10,7 @@
   }
 ?>
 </pre></td></tr></table>
-<?php echo $javascript->codeBlock("prettyPrint()"); ?>
+<?php echo $this->Html->scriptBlock("prettyPrint()"); ?>
 <?php $this->Html->script("prettify/prettify", false); ?>
 <?php $this->Html->css("prettify/prettify", null, array(), false); ?>
 </div>

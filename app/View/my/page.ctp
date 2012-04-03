@@ -36,4 +36,4 @@
 <?php echo $this->Html->script(array('context_menu')) ?>
 <?php echo $this->Html->css('context_menu')  ?>
 <div id="context-menu" style="display: none;"></div>
-<?php echo $javascript->codeBlock("new ContextMenu('".$this->Html->url(aa('controller','issues','action','context_menu'))."')") ?>
+<?php echo $this->Html->scriptBlock("new ContextMenu('".$this->Html->url(aa('controller','issues','action','context_menu'))."')") ?>

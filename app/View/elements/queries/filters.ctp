@@ -64,12 +64,12 @@ function toggle_multi_select(field) {
 <?php foreach ($this->Queries->available_filters_sort_order($available_filters) as $field => $filter): ?>
     <tr <?php if (!isset($show_filters[$field])): ?> style="display:none;"<?php endif ?> id="tr_<?php echo h($field) ?>" class="filter">
     <td style="width:200px;">
-        <?php echo preg_replace('/^<input[^>]+>/s', '', $this->Form->checkbox('Filter.fields_' . $field, array('value' => $field, 'name' => 'fields[' . $field . ']', 'onclick' => "toggle_filter('" . $javascript->escapeString($field) . "')", 'id' => 'cb_' . $field, 'label' => false, 'hidden' => false))) ?>
+        <?php echo preg_replace('/^<input[^>]+>/s', '', $this->Form->checkbox('Filter.fields_' . $field, array('value' => $field, 'name' => 'fields[' . $field . ']', 'onclick' => "toggle_filter('" . $this->Javascript->escapeString($field) . "')", 'id' => 'cb_' . $field, 'label' => false, 'hidden' => false))) ?>
         <label for="cb_<?php echo h($field) ?>"><?php echo __($field) ?></label>
     </td>
     <td style="width:150px;">
     	<?php 
-				echo $this->Form->select('Filter.operators_' . $field, $filter['operators'], null, array('name' => 'operators[' . $field . ']', 'id' => 'operators_' . $field, 'onchange' => "toggle_operator('" . $javascript->escapeString($field) . "');", 'class' => 'select-small', 'style' => 'vertical-align: top;'), false);
+				echo $this->Form->select('Filter.operators_' . $field, $filter['operators'], null, array('name' => 'operators[' . $field . ']', 'id' => 'operators_' . $field, 'onchange' => "toggle_operator('" . $this->Javascript->escapeString($field) . "');", 'class' => 'select-small', 'style' => 'vertical-align: top;'), false);
 			?>
     </td>
     <td>    
@@ -88,7 +88,7 @@ function toggle_multi_select(field) {
 				}
 				echo $this->Form->select('Filter.values_' . $field, $filter['values'], $default_values, am(count($filter['values']) > 1 ? array('multiple' => 'true'): array(), array('name' => 'values[' . $field . ']', 'class' => 'select-small', 'style' => 'vertical-align: top;', 'id' => 'values_' . $field)), false); 
 			?>
-        <?php echo $this->Html->link($this->Html->image('bullet_toggle_plus.png'), '#', array('onclick' => "toggle_multi_select('" . $javascript->escapeString($field) . "')", 'style' => 'vertical-align: bottom'), null, false) ?>
+        <?php echo $this->Html->link($this->Html->image('bullet_toggle_plus.png'), '#', array('onclick' => "toggle_multi_select('" . $this->Javascript->escapeString($field) . "')", 'style' => 'vertical-align: bottom'), null, false) ?>
     <?php
       break;
     case 'date':

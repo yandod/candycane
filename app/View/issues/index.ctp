@@ -72,6 +72,6 @@
 <div id="context-menu" style="display: none;"></div>
 <script type="text/javascript">
 //<![CDATA[
-new ContextMenu('<?php echo $javascript->escapeString($this->Html->url(am($url_param, array('controller' => 'issues', 'action' => 'context_menu')))) ?>');
+new ContextMenu('<?php echo $this->Javascript->escapeString($this->Html->url(am($url_param, array('controller' => 'issues', 'action' => 'context_menu')))) ?>');
 //-->
 </script>

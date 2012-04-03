@@ -38,7 +38,7 @@
 </tr>
 </table>
 
-<?php echo $javascript->codeBlock("Form.Element.focus('username');") ?>
+<?php echo $this->Html->scriptBlock("Form.Element.focus('username');") ?>
 
 <?php echo $this->Form->end(); ?>
 
