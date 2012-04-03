@@ -25,14 +25,14 @@ class InstallController extends InstallAppController {
  * @var array
  * @access public
  */
-    var $uses = null;
+    public $uses = array('User');
 /**
  * No components required
  *
  * @var array
  * @access public
  */
-    var $components = null;
+    public $components = array('Session');
 /**
  * beforeFilter
  *
@@ -46,8 +46,6 @@ class InstallController extends InstallAppController {
       	$lang = $this->L10n->get();
       	Configure::write('Config.language', $lang);
         $this->layout = 'install';
-        $componentCollection = new ComponentCollection();
-        $this->Session = new SessionComponent($componentCollection);
     }
 /**
  * Step 0: welcome
