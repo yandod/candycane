@@ -8,25 +8,14 @@
 <?php echo $this->Html->css('application')  ?>
 <?php echo $this->Html->script(array('prototype','effects','dragdrop','controls','application')); ?>
 <?php echo $this->Html->script('https://raw.github.com/cognitom/StaffRoll.net-Libraries-and-Themes/master/include.staffroll.net/github/script/1.0/load.js?theme=underground');?>
-<!-- <%= heads_for_wiki_formatter %> -->
 <?php echo $this->Html->css('jstoolbar')  ?>
-<!--[if IE]>
-    <style type="text/css">
-      * html body{ width: expression( document.documentElement.clientWidth < 900 ? '900px' : '100%' ); }
-      body {behavior: url(<%= stylesheet_path "csshover.htc" %>);}
-    </style>
-<![endif]-->
-<!-- <%= call_hook :view_layouts_base_html_head %> -->
-<!-- page specific tags -->
-<!-- <%= yield :header_tags -%> -->
 <?php if (isset($header_tags)) echo $header_tags; ?>
-    <?php echo $scripts_for_layout; ?>
+<?php echo $scripts_for_layout; ?>
 </head>
 <body>
 <div id="wrapper">
 <div id="top-menu">
 	<div id="account">
-		<!-- <%= render_menu :account_menu -%> -->
 		<?php echo $this->element('account_menu', array('currentuser' => $currentuser)); ?>
 	</div>
 	<?php if ($currentuser['logged']) echo $this->Html->tag('div',__('Logged in as').' '.$this->Candy->link($currentuser),array('id'=>'loggedas')); ?>
@@ -36,7 +25,6 @@
 <div id="header">
 	<div id="quick-search">
 		<?php echo $this->Form->create(null, array('url' => '/search/index', 'type' => 'get')); ?>
-		<!-- <% form_tag({:controller => 'search', :action => 'index', :id => @project}, :method => :get ) do %> -->
 		<?php echo $this->Html->link(__('Search').':','/search/index',$this->Candy->accesskey('search')); ?>
 		<?php echo $this->Form->input('q', array(
 			'type' => 'text',
@@ -46,7 +34,6 @@
 			'div' => false,
 			'label' => false
 		)); ?>
-		<!-- <%= text_field_tag 'q', @question, :size => 20, :class => 'small', :accesskey => accesskey(:quick_search) %> -->
 		<?php echo $this->Form->end(); ?>
 
 		<?php if (!empty($currentuser['memberships'])): ?>
@@ -54,8 +41,12 @@
 		<?php endif; ?>
 	</div>
 
-	<h1><?php if (isset($main_project['Project']['name'])) { echo h($main_project['Project']['name']); } else { echo $Settings->app_title; } ?></h1>
-	<!-- <h1><%= h(@project && !@project.new_record? ? @project.name : Setting.app_title) %></h1> -->
+	<h1><?php
+	if (isset($main_project['Project']['name'])) {
+		echo h($main_project['Project']['name']);
+	} else {
+		echo $Settings->app_title;
+	} ?></h1>
 
 	<div id="main-menu">
 		<ul>
@@ -69,11 +60,9 @@
 				<li><?php echo $this->Html->link(__($item['caption']),$url,$option); ?></li>
 			<?php endforeach; ?>
 		</ul>
-		<!-- <%= render_main_menu(@project) %> -->
 	</div>
 </div>
 
-<!-- <%= tag('div', {:id => 'main', :class => (has_content?(:sidebar) ? '' : 'nosidebar')}, true) %> -->
 <?php echo $this->Html->tag('div', null, array('id' => 'main', 'class' => isset($Sidebar) ? '' : 'nosidebar')); ?>
 	<div id="sidebar">        
 		<?php if (isset($Sidebar)) {
