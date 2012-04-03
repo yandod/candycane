@@ -20,7 +20,7 @@
 */
 
 uses('file', 'folder');
-App::import('vendor','spyc');
+App::Import('vendor', 'georgious-cakephp-yaml-migrations-and-fixtures/spyc/spyc');
 App::import('vendor','migrations');
 
 

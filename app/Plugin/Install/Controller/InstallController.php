@@ -82,12 +82,13 @@ class InstallController extends InstallAppController {
             if (mysql_connect($this->data['Install']['host'], $this->data['Install']['login'], $this->data['Install']['password']) &&
                 mysql_select_db($this->data['Install']['database'])) {
                 // rename database.php.install
-                rename(APP.'config'.DS.'database.php.install', APP.'config'.DS.'database.php');
+                copy(APP.'Config'.DS.'database.php.install', APP.'Config'.DS.'database.php');
 
                 // open database.php file
-                App::import('Core', 'File');
-                $file = new File(APP.'config'.DS.'database.php', true);
+                App::uses('File', 'Utility');
+                $file = new File(APP.'Config'.DS.'database.php', true);
                 $content = $file->read();
+                
 
                 // split host information
                 $hostinfo =  explode(':', $this->data['Install']['host'], 2);

@@ -8,7 +8,7 @@
 * @package Migrations
 */
 
-App::import('vendor','spyc');
+App::Import('vendor', 'georgious-cakephp-yaml-migrations-and-fixtures/spyc/spyc');
 
 class Fixtures{
     const SPYC_CLASS_NOT_FOUND  = 0;

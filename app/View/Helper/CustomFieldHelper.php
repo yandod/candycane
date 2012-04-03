@@ -79,7 +79,7 @@ class CustomFieldHelper extends AppHelper
           $selected = $custom_field['default_value'];
         }
       }
-      App::Import('vendor', 'spyc');
+      App::Import('vendor', 'georgious-cakephp-yaml-migrations-and-fixtures/spyc/spyc');
       $list = Spyc::YAMLLoad($custom_value['CustomField']['possible_values']);
       $options = array();
       if(!empty($list)) {
@@ -155,7 +155,7 @@ class CustomFieldHelper extends AppHelper
     if (!empty($this->request->data['CustomField']['possible_values']) && is_array($this->request->data['CustomField']['possible_values'])) {
       return $this->request->data['CustomField']['possible_values'];
     }
-    App::Import('vendor', 'spyc');
+    App::Import('vendor', 'georgious-cakephp-yaml-migrations-and-fixtures/spyc/spyc');
     $list = !empty($field['CustomField']['possible_values']) ? Spyc::YAMLLoad($field['CustomField']['possible_values']) : array();
     $options = array();
     if(!empty($list)) {

@@ -44,7 +44,7 @@ class CustomizableBehavior extends ModelBehavior {
         }
       }
       if(($field['CustomField']['field_format']  == 'list') && !empty($field['CustomField']['possible_values']) && !empty($data)) {
-        App::Import('vendor', 'spyc');
+        App::Import('vendor', 'georgious-cakephp-yaml-migrations-and-fixtures/spyc/spyc');
         $list = Spyc::YAMLLoad($field['CustomField']['possible_values']);
         $options = array();
         if(!empty($list)) {

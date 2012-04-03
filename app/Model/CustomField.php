@@ -86,7 +86,7 @@ class CustomField extends AppModel
     }
     unset($this->data[$this->name]['tracker_id']);
 
-    App::Import('vendor', 'spyc');
+    App::Import('vendor', 'georgious-cakephp-yaml-migrations-and-fixtures/spyc/spyc');
     if (!empty($this->data[$this->name]['possible_values']) && $this->data[$this->name]['field_format'] == 'list') {
       if (empty($this->data[$this->name]['possible_values'][count($this->data[$this->name]['possible_values'])-1])) {
         unset($this->data[$this->name]['possible_values'][count($this->data[$this->name]['possible_values'])-1]);
