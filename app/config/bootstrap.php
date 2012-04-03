@@ -9,8 +9,8 @@ App::import('Vendor','candycane/PluginContainer');
 $menu_container = new MenuContainer();
 $hookContainer = new HookContainer();
 $pluginContainer = new PluginContainer();
-
-App::uses('ClassRegistry','Utility');
+App::uses('ClassRegistry', 'Utility');
+CakePlugin::loadAll();
 ClassRegistry::addObject('HookContainer',$hookContainer);
 ClassRegistry::addObject('MenuContainer',$menu_container);
 ClassRegistry::addObject('PluginContainer',$pluginContainer);
