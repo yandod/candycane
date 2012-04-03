@@ -104,11 +104,22 @@
 	); ?> -
 	<?php echo $this->Html->link(__('Discussion'),'https://groups.google.com/group/candycane-users'); ?><br/>
 	
-	<?php echo $this->Html->link(
-		$this->Html->image('cake.power.gif', array('alt'=> __("CakePHP: the rapid development php framework"), 'border'=>"0")),
-		'http://www.cakephp.org/',
-		array('target'=>'_blank'), null, false
-	); ?>
+<?php
+echo $this->Html->link(
+	$this->Html->image(
+		'cake.power.gif',
+		array(
+			'alt' => __("CakePHP: the rapid development php framework"),
+			'border' => "0"
+		)
+	),
+	'http://www.cakephp.org/',
+	array(
+		'target' => '_blank',
+		'escape' => false
+	)
+);
+?>
 </div>
 </div>
 </body>
