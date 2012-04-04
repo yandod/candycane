@@ -20,7 +20,7 @@ class SortComponent extends Component
    */
   public function startUp($controller) {
     $this->controller = $controller;
-    $this->request->params = $controller->params;
+    $this->request = $controller->request;
   }
 
   /**
@@ -109,8 +109,8 @@ class SortComponent extends Component
     if (!empty($sort_column)) {
       $this->sort_clause = "{$sort_column} {$sort['order']}";
     }
-    $this->controller->params['named']['sort'] = $sort_column;
-    $this->controller->params['named']['direction'] = strtolower($sort['order']);
+    $this->controller->request->params['named']['sort'] = $sort_column;
+    $this->controller->request->params['named']['direction'] = strtolower($sort['order']);
     return $this->sort_clause;
   }
 
