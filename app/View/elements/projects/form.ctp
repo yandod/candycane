@@ -2,7 +2,7 @@
 
 <div class="box">
 <!--[form:project]-->
-<p><?php echo $this->Form->input('name',aa('div',false)) ?><br /><em><?php echo $this->Candy->lwr('%d characters maximum.', 30) ?></em></p>
+<p><?php echo $this->Form->input('name',array('div' => false)) ?><br /><em><?php echo $this->Candy->lwr('%d characters maximum.', 30) ?></em></p>
 <?php /*
 <p><%= f.text_field :name, :required => true %><br /><em><%= l(:text_caracters_maximum, 30) %></em></p>
  */ ?>

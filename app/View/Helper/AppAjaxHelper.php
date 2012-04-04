@@ -1,6 +1,7 @@
 <?php
-App::import('Helper', 'Ajax');
-class AppAjaxHelper extends AjaxHelper {
+//App::import('Helper', 'Ajax');
+App::uses('JsHelper', 'View/Helper');
+class AppAjaxHelper extends JsHelper {
   /**
    * Finds URL for specified action.
    * 
