@@ -92,9 +92,10 @@ echo $ajax->link(__('login'),
   <?php endforeach; ?>
   </tbody>
 </table>
-
 <p class="pagination">
   <!--<%= pagination_links_full @user_pages, @user_count %>-->
 </p>
-
+<?php
+  echo $this->Js->writeBuffer();
+?>
 <?php $this->Candy->html_title(__('Users')); ?>

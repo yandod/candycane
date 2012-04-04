@@ -72,7 +72,7 @@
 	</div>
 
 	<div id="content">
-		<?php $this->Session->flash(); ?>
+		<?php echo $this->Session->flash(); ?>
 		<?php echo $this->fetch('content'); ?>
 	</div>
 </div>

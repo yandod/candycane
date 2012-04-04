@@ -12,7 +12,7 @@ class UsersController extends AppController {
  *
  * @var array
  */
-	public $helpers = array('Users', 'Sort', 'Ajax', 'Text');
+	public $helpers = array('Users', 'Sort', 'AppAjax', 'Text');
 
 /**
  * Components
@@ -126,8 +126,8 @@ class UsersController extends AppController {
 			array('login', 'firstname', 'lastname', 'mail', 'admin', 'created_on', 'last_login_on')
 		);
 
-		if (isset($this->request->params['url']['status'])) {
-			$status = (int)$this->request->params['url']['status'];
+		if (isset($this->request->query['status'])) {
+			$status = (int)$this->request->query['status'];
 		} else {
 			$status = 1;
 		}
@@ -183,8 +183,8 @@ class UsersController extends AppController {
 
 		$this->set('status_option', $status_option);
 
-		if (isset($request->xhr)) {
-			$this->layout = false;
+		if ($this->request->is('ajax')) {
+			//$this->layout = false;
 		}
 
 		return $this->render('list');

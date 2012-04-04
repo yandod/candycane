@@ -11,58 +11,70 @@
  * UsersHelper
  *
  */
-class UsersHelper extends AppHelper
-{
-  var $helpers = array('Html','Ajax');
+class UsersHelper extends AppHelper {
+	public $helpers = array(
+		'Html',
+		'Js'// => array('Prototype')
+	);
 
   /**
    * change_status_link
    *
    */
-  function change_status_link($user)
-  {
-    if (isset($user['User'])) {
-      $user = $user['User'];
-    }
-
-    # url = {:action => 'edit', :id => user, :page => params[:page], :status => params[:status]}
-    $url = array(
-      'action' => 'edit',
-      'id' => $user,
-      //'page' => $this->request->params['url']['page'],
-      //'status' => $this->request->params['url']['status'],
-    );
-
-    // user status locked
-    if ($user['status'] == 3) {
-      return $this->Ajax->link(
-          __('Unlock'),
-          '/users/edit/' . $user['id'],
-          array(
-              'class' => 'icon icon-unlock',
-              'with' => "{'data[User][status]':1,'data[User][id]':{$user['id']}}",
-              'update' => 'wrapper'
-              ));
-    // user registered
-    } else if ($user['status'] == 2) {
-      return $this->Ajax->link(
-          __('Activate'),
-          '/users/edit/' . $user['id'],
-          array(
-              'class' => 'icon icon-unlock',
-              'with' => "{'data[User][status]':1,'data[User][id]':{$user['id']}}",
-              'update' => 'wrapper'
-              ));
-    } else {
-      return $this->Ajax->link(
-          __('Lock'),
-          '/users/edit/' . $user['id'],
-          array(
-              'class' => 'icon icon-lock',
-              'with' => "{'data[User][status]':3,'data[User][id]':{$user['id']}}",
-              'update' => 'wrapper'
-              ));
-    }
+	public function change_status_link($user) {
+		if (isset($user['User'])) {
+			$user = $user['User'];
+		}
+		$this->Js->JqueryEngine->jQueryObject = 'jQuery';
+		if ($user['status'] == 3) {
+			// user status locked
+			return $this->Js->link(
+				__('Unlock'),
+				'/users/edit/' . $user['id'],
+				array(
+					'class' => 'icon icon-unlock',
+					//'method' => 'get',
+					//'async' => false,
+					'data' => array(
+						'data[User][status]' => 1,
+						'data[User][id]' => $user['id']						
+					),
+					'update' => 'wrapper'
+				)
+			);
+		} else if ($user['status'] == 2) {
+			// user registered
+			return $this->Js->link(
+				__('Activate'),
+				'/users/edit/' . $user['id'],
+				array(
+					'class' => 'icon icon-unlock',
+					//'method' => 'post',
+					//'async' => false,
+					'data' => array(
+						'data[User][status]' => 1,
+						'data[User][id]' => $user['id']
+					),
+					'update' => 'wrapper'
+				)
+			);
+		} else {
+			return $this->Js->link(
+				__('Lock'),
+				'/users/edit/' . $user['id'],
+				array(
+					'class' => 'icon icon-lock',
+					'method' => 'post',
+					//'async' => true,
+					'data' => array(
+						'data[User][status]' => 3,
+						'data[User][id]' => $user['id']
+					),
+					'update' => 'wrapper',
+					//'buffer' => false
+				)
+			);
+		}
 
     # if user.locked?
     #   link_to l(:button_unlock), url.merge(
@@ -80,6 +92,5 @@ class UsersHelper extends AppHelper
     #   :method => :post,
     #   :class => 'icon icon-lock'
     # end
-  }
- 
+	}
 }

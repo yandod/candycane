@@ -29,7 +29,7 @@ $projects_options = array();
 			'id' => $user['User']['id'],
 			'membership_id' => $membership['id']
 		))); ?>
-		<?php echo $this->Form->select('Member.role_id',$roles_list,$membership['role_id'],aa('class','small'),false) ?>
+		<?php echo $this->Form->select('Member.role_id',$roles_list,array('class' => 'small', 'value' => $membership['role_id'])) ?>
 		<?php echo $this->Form->submit(__('Change'),array('class' => 'small', 'div' => false)); ?>
 		<?php echo $this->Form->end(); ?>
     </td>
@@ -57,9 +57,17 @@ $projects_options = array();
 <p>
 <label><?php echo __('New project'); ?></label><br/>
 <?php echo $this->Form->create('User', array('url' => '/users/edit_membership/'.$user['User']['id'])); ?>
-<?php echo $this->Form->select('Member.project_id',$projects_options,null,aa('class','small'),false); ?>
+<?php echo $this->Form->select(
+	'Member.project_id',
+	$projects_options,
+	array('class' => 'small')
+); ?>
 <?php echo __('Roles'); ?>:
-<?php echo $this->Form->select('Member.role_id',$roles_list,null,aa('class','small'),false) ?>
+<?php echo $this->Form->select(
+	'Member.role_id',
+	$roles_list,
+	array('class' => 'small')
+) ?>
 <?php echo $this->Form->submit(__('Add'),array('div' => false)); ?>
 <?php echo $this->Form->end(); ?>
 </p>

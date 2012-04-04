@@ -143,7 +143,12 @@ class Role extends AppModel {
   function find_all_givable()
   {
 //    find(:all, :conditions => {:builtin => 0}, :order => 'position')
-    return $this->find('all',aa('conditions',aa('builtin',0),'order','position'));
+    return $this->find('all',array(
+		'conditions' => array(
+			'builtin' => 0
+		),
+		'order' => 'position')
+	);
   }
 #
 #  # Return the builtin 'non member' role
