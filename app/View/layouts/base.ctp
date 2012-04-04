@@ -10,7 +10,8 @@
 <?php echo $this->Html->script('https://raw.github.com/cognitom/StaffRoll.net-Libraries-and-Themes/master/include.staffroll.net/github/script/1.0/load.js?theme=underground');?>
 <?php echo $this->Html->css('jstoolbar')  ?>
 <?php if (isset($header_tags)) echo $header_tags; ?>
-<?php echo $scripts_for_layout; ?>
+<?php echo $this->fetch('script'); ?>
+
 </head>
 <body>
 <div id="wrapper">
@@ -72,7 +73,7 @@
 
 	<div id="content">
 		<?php $this->Session->flash(); ?>
-		<?php echo $content_for_layout; ?>
+		<?php echo $this->fetch('content'); ?>
 	</div>
 </div>
 
