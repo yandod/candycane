@@ -27,8 +27,11 @@
 
 <div style="float:left;">
 <?php 
-  $prev_days = 2*$days-1;
-  $get_params = array_merge($this->request->params['url'], $this->request->params['named']);
+	$prev_days = 2*$days-1;
+	$get_params = array_merge(
+		$this->request->query,
+		$this->request->named
+	);
   unset($get_params['url']);
   echo $this->AppAjax->link(('&#171; '.__('Previous')),
                     array('project_id'=>$this->request->params['project_id'], '?'=>array_merge($get_params, array('from' => date('Y-m-d', strtotime("-{$days} day", $date_to) - 1)))),
