@@ -236,15 +236,18 @@ class Permission extends AppModel
     return $perm ? $perm['actions'] : array();
   }
 
-  function modules_permissions($modules) {
-    $tmp = array();
-    foreach ($this->permissions as $module => $perms) {
-      foreach ($perms as $name => $p) {
-        if (($p['project_module'] == null) || in_array($p['project_module'], $modules)) {
-          $tmp[$module][$name] = $this->permissions[$module][$name];
-        }
-      }
-    }
-    return $tmp;
-  }
+	public function modules_permissions($modules) {
+		$tmp = array();
+		foreach ($this->permissions as $module => $perms) {
+			foreach ($perms as $name => $p) {
+				if (
+					($p['project_module'] == null) || 
+					( is_array($modules) && in_array($p['project_module'], $modules))
+				) {
+					$tmp[$module][$name] = $this->permissions[$module][$name];
+				}
+			}
+		}
+		return $tmp;
+	}
 }
