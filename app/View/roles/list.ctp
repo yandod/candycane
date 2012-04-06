@@ -24,10 +24,66 @@
       ?>
       <td align="center" style="width:15%;">
         <?php if (! ($role['Role']['builtin'] != 0)): ?>
-        <?php echo $this->Html->link($this->Html->image('2uparrow.png', array('alt' => __('Move to top',TRUE))), array('action' => 'move', 'id' => $role['Role']['id'], 'position' => 'highest'), array('title' => __('Move to top', TRUE)), NULL, FALSE); ?>
-        <?php echo $this->Html->link($this->Html->image('1uparrow.png', array('alt' => __('Move up',TRUE))), array('action' => 'move', 'id' => $role['Role']['id'], 'position' => 'higher'), array('title' => __('Move up', TRUE)), NULL, FALSE); ?> -
-        <?php echo $this->Html->link($this->Html->image('1downarrow.png', array('alt' => __('Move down',TRUE))), array('action' => 'move', 'id' => $role['Role']['id'], 'position' => 'lower'), array('title' => __('Move down', TRUE)), NULL, FALSE); ?>
-        <?php echo $this->Html->link($this->Html->image('2downarrow.png', array('alt' => __('Move to bottom',TRUE))), array('action' => 'move', 'id' => $role['Role']['id'], 'position' => 'lower'), array('title' => __('Move to bottom', TRUE)), NULL, FALSE); ?>
+        <?php echo $this->Html->link(
+			$this->Html->image(
+				'2uparrow.png',
+				array('alt' => __('Move to top'))
+			),
+			array(
+				'action' => 'move',
+				'id' => $role['Role']['id'],
+				'position' => 'highest',
+			),
+			array(
+				'title' => __('Move to top'),
+				'escape' => false
+			)
+		); ?>
+        <?php echo $this->Html->link(
+			$this->Html->image(
+				'1uparrow.png',
+				array('alt' => __('Move up'))
+			),
+			array(
+				'action' => 'move',
+				'id' => $role['Role']['id'],
+				'position' => 'higher'
+			),
+			array(
+				'title' => __('Move up'),
+				'escape' => false
+			)
+		); ?> -
+        <?php echo $this->Html->link(
+			$this->Html->image(
+				'1downarrow.png',
+				array('alt' => __('Move down'))
+			),
+			array(
+				'action' => 'move',
+				'id' => $role['Role']['id'],
+				'position' => 'lower'
+			),
+			array(
+				'title' => __('Move down'),
+				'escape' => false
+			)
+		); ?>
+        <?php echo $this->Html->link(
+			$this->Html->image(
+				'2downarrow.png',
+				array('alt' => __('Move to bottom'))
+			),
+			array(
+				'action' => 'move',
+				'id' => $role['Role']['id'],
+				'position' => 'lower'
+			),
+			array(
+				'title' => __('Move to bottom'),
+				'escape' => false
+			)
+		); ?>
         <?php endif; ?>
       </td>
       <td align="center" style="width:10%;">
