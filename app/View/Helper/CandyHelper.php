@@ -350,7 +350,7 @@ class CandyHelper extends AppHelper {
 			return null;
 		}
 
-		$view =& ClassRegistry::getObject('view');
+		$view = $this->_View;
 		$Settings = $view->viewVars['Settings'];
 
 		// "Setting.date_format.size < 2" is a temporary fix (content of date_format setting changed)
