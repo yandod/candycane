@@ -2,7 +2,7 @@
 <p><?php echo $this->Html->link($item['Project']['name'], array(
 	'controller' => 'projects', 
 	'action' => 'show', 
-	'id' => $item['Project']['identifier']
+	'project_id' => $item['Project']['identifier']
 	)) ?>:
 <?php echo $this->Html->link($item['News']['title'], array(
 	'controller' => 'news', 
