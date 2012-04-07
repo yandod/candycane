@@ -3,12 +3,14 @@
 		<?php echo $this->Form->label('tracker_id', __('Tracker').'<span class="required"> *</span>'); ?>
 		<?php echo $this->Form->input('tracker_id', array('div'=>false, 'label'=>false)); ?></p>
 	</p>
-	<?php echo $ajax->observeField('IssueTrackerId', array(
-		'url' => '/projects/' . $mainProject["Project"]["identifier"] . '/issues/add', 
-		'update' => 'content',
-		'allowCache' => false,
-		'with' => 'Form.serialize(\'IssueAddForm\')'
-	)); ?>
+	<?php 
+	// TODO: observe field
+	//echo $this->Js->observeField('IssueTrackerId', array(
+	//	'url' => '/projects/' . $mainProject["Project"]["identifier"] . '/issues/add', 
+	//	'update' => 'content',
+	//	'allowCache' => false,
+	//	'with' => 'Form.serialize(\'IssueAddForm\')'
+	//)); ?>
 	<hr />
 <?php endif; ?>
 
@@ -34,11 +36,11 @@
 	</p>
 	<p>
 		<?php echo $this->Form->label('assigned_to_id', __('Assigned to')); ?>
-		<?php echo $this->Form->input('assigned_to_id', array('type' => 'select', 'div' => false, 'label' => false, 'empty' => true, 'options' => $assignableUsers)); ?>
+		<?php echo $this->Form->input('assigned_to_id', array('type' => 'select', 'div' => false, 'label' => false, 'empty' => true, 'options' => $assignable_users)); ?>
 	</p>
 	<p>
 		<?php echo $this->Form->label('category_id', __('Category')); ?>
-		<?php echo $this->Form->input('category_id', array('type' => 'select', 'div' => false, 'label' => false, 'empty' => true, 'options' => $issueCategories)); ?>
+		<?php echo $this->Form->input('category_id', array('type' => 'select', 'div' => false, 'label' => false, 'empty' => true, 'options' => $issue_categories)); ?>
 		<?php
 		if ($this->Candy->authorize_for(array('controller' => 'projects', 'action' => 'add_issue_category'))) {
 			$add_issue_category_url = $this->Html->url(array(
@@ -58,7 +60,7 @@
 	</p>
 	<p>
 		<?php echo $this->Form->label('fixed_version_id', __('Target version')); ?>
-		<?php echo $this->Form->input('fixed_version_id', array('type' => 'select', 'div' => false, 'label' => false, 'empty' => true, 'options' => $fixedVersions)); ?>
+		<?php echo $this->Form->input('fixed_version_id', array('type' => 'select', 'div' => false, 'label' => false, 'empty' => true, 'options' => $fixed_versions)); ?>
 	</p>
 </div>
 
@@ -97,8 +99,8 @@
 
 <div class="splitcontentleft">
 	<?php $i = 0; ?>
-	<?php $split_on = intval(count($customFieldValues) / 2); ?>
-	<?php foreach ($customFieldValues as $value): ?>
+	<?php $split_on = intval(count($custom_field_values) / 2); ?>
+	<?php foreach ($custom_field_values as $value): ?>
 		<p><?php echo $this->CustomField->custom_field_tag_with_label($form, 'issue', $value); ?></p>
 		<?php if($i == $split_on): ?>
 			</div><div class="splitcontentright">
@@ -119,16 +121,18 @@
 	<p>
 		<label><?php echo __('Watchers'); ?></label>
 		<?php
-		$_tag = $this->Form->Html->tags['tag'];
-		$_label = $this->Form->Html->tags['label'];
-		$_checkboxmultiple = $this->Form->Html->tags['checkboxmultiple'];
-		$this->Form->Html->tags['tag'] = '%3$s';
-		$this->Form->Html->tags['label'] = '%3$s</label>';
-		$this->Form->Html->tags['checkboxmultiple'] = '<label class="floating">'.$this->Form->Html->tags['checkboxmultiple'];
-		echo $this->Form->input('watcher_user_ids', array('type'=>'select', 'multiple'=>'checkbox', 'div'=>false, 'label'=>false, 'options'=>$members));
-		$this->Form->Html->tags['tag'] = $_tag;
-		$this->Form->Html->tags['label'] = $_label;
-		$this->Form->Html->tags['checkboxmultiple'] = $_checkboxmultiple;
+		$this->Form->Html->loadConfig('checkbox.php', APP . 'config' . DS);
+		echo $this->Form->input(
+			'watcher_user_ids',
+			array(
+				'type' => 'select',
+				'multiple'=> 'checkbox',
+				'div' => false,
+				'label' => false,
+				'options' => $members
+			)
+		);
+		$this->Form->Html->loadConfig('checkbox_origin.php', APP . 'config' . DS);
 		?>
 	</p>
 <?php endif; ?>

@@ -23,6 +23,7 @@ class IssuesController extends AppController {
 		'Issue',
 		'User',
 		'Query',
+		'Version'
 	);
 
 /**
@@ -38,7 +39,8 @@ class IssuesController extends AppController {
 		'CustomField',
 		'Number',
 		'Watchers',
-		'Journals'
+		'Journals',
+		'Js' => array('prototype')
 	);
 
 /**
@@ -994,7 +996,7 @@ class IssuesController extends AppController {
 		));
 		
 		// Issue Versions
-		$fixed_versions = $this->Issue->Project->Version->find('list', array(
+		$fixed_versions = $this->Version->find('list', array(
 			'conditions' => array('project_id' => $this->_project['Project']['id']),
 			'order' => array('effective_date', 'name')
 		));

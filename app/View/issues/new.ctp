@@ -28,7 +28,7 @@
 -->
 <h2><?php $this->Candy->html_title(); __('New issue'); ?></h2>
 <?php echo $this->Form->create('Issue', array(
-	'url' => '/projects/' . $mainProject['Project']['identifier'] . '/issues/add',
+	'url' => '/projects/' . $main_project['Project']['identifier'] . '/issues/add',
 	'class' => "tabular",
 	'enctype' => "multipart/form-data",
 	'id' => 'IssueAddForm')); ?>
@@ -41,7 +41,7 @@
 	</div>
 	<?php echo $this->Form->submit(__('Create'), array('div' => false)); ?>
 	<?php echo $this->Form->submit(__('Create and continue'), array('div' => false, 'name' => 'continue')); ?>
-	<?php echo $ajax->link(__('Preview'),
+	<?php echo $this->AppAjax->link(__('Preview'),
 		array(
 			'action' => 'preview',
 			'project_id' => $this->request->params['project_id']),

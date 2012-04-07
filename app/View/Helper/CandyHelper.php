@@ -1345,7 +1345,7 @@ function breadcrumb($args)
   function calendar_for($field_id) {
     $out = $this->include_calendar_headers_tags();
     $out .= $this->Html->image("calendar.png", array('id' => "{$field_id}_trigger", 'class' => "calendar-trigger"));
-    $out .= $this->AppAjax->Javascript->codeBlock("Calendar.setup({inputField : '$field_id', ifFormat : '%Y-%m-%d', button : '{$field_id}_trigger' });");
+    $out .= $this->Html->scriptBlock("Calendar.setup({inputField : '$field_id', ifFormat : '%Y-%m-%d', button : '{$field_id}_trigger' });");
     return $out;
   }
 
@@ -1359,9 +1359,9 @@ function breadcrumb($args)
     if (isset($map[$current_language])) {
         $lang = $map[$current_language];
     }
-    $this->AppAjax->Javascript->link('calendar/calendar.js', false);
-    $this->AppAjax->Javascript->link("calendar/lang/calendar-{$lang}.js", false);
-    $this->AppAjax->Javascript->link('calendar/calendar-setup', false);
+    $this->AppAjax->link('calendar/calendar.js', false);
+    $this->AppAjax->link("calendar/lang/calendar-{$lang}.js", false);
+    $this->AppAjax->link('calendar/calendar-setup', false);
     $this->Html->css('calendar.css', null, array(), false);
   }
 
