@@ -38,7 +38,8 @@
                     array(
                       'update' => "content", 
                       'complete' => 'window.scrollTo(0,0)', 
-                      'title' => __('From').' '.$this->Candy->format_date(strtotime("-{$prev_days} day", $date_to)).' '.strtolower(__('To')).' '.$this->Candy->format_date(strtotime("-{$days} day", $date_to) - 1)
+                      'title' => __('From').' '.$this->Candy->format_date(strtotime("-{$prev_days} day", $date_to)).' '.strtolower(__('To')).' '.$this->Candy->format_date(strtotime("-{$days} day", $date_to) - 1),
+					  'escape' => false
                     ),
                     null, false);
 ?>
@@ -51,7 +52,8 @@
                     array(
                       'update' => "content", 
                       'complete' => 'window.scrollTo(0,0)', 
-                      'title' => __('From').' '.$this->Candy->format_date($date_to).' '.strtolower(__('To')).' '.$this->Candy->format_date(strtotime("$days day", $date_to) - 1)
+                      'title' => __('From').' '.$this->Candy->format_date($date_to).' '.strtolower(__('To')).' '.$this->Candy->format_date(strtotime("$days day", $date_to) - 1),
+					  'escapse' => false
                     ),
                     null, false);
   }
@@ -59,8 +61,25 @@
 </div>
 &nbsp;
 <p class="other-formats">
-    <?php echo __("'Also available in:'"); ?>
-    <?php echo $this->Html->link('Atom', array('project_id'=>$this->request->params['project_id'], '?'=>array_merge($this->request->params['url'], array('key'=>$rss_token, 'format'=>'atom', 'from'=>null, 'url'=>null))), array('class' => 'feed')); ?>
+    <?php echo __("Also available in:"); ?>
+    <?php echo $this->Html->link(
+		'Atom',
+		array(
+			'project_id' => $this->request->params['project_id'],
+			'?' => array_merge(
+				$this->request->query,
+				array(
+					'key' => $rss_token,
+					'format' => 'atom',
+					'from' => null,
+					'url' => null
+				)
+			)
+		),
+		array(
+			'class' => 'feed',
+		)
+	); ?>
 </p>
 <?php $this->element('projects/rss'); ?>
 
