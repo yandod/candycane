@@ -14,6 +14,7 @@ vendors/simpletest
 .cache
 .project
 .settings
+nbproject
 
 ## Allow 'empty' files
 !empty
