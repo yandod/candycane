@@ -26,6 +26,7 @@ class ProjectsController extends AppController {
 		'EnabledModule',
 		'Event',
 		'Issue',
+		'IssueCategory',
 		'IssueCustomField',
 		'News',
 		'Permission',
@@ -900,43 +901,75 @@ class ProjectsController extends AppController {
     $this->set('available_project_modules', $available_project_modules);
 
     // for members tab start
-    $members = $this->Project->Member->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id']),'order','Role.position'));
+    $members = $this->Project->Member->find('all',array(
+		'conditions' => array(
+			'project_id' => $this->_project['Project']['id']
+		),
+		'order' => 'Role.position')
+	);
     $this->set('members',$members);
 
     $roles = $this->Project->Member->Role->find_all_givable();
     $this->set('roles_data',$roles);
     
-    $users = $this->Project->Member->User->find('all',aa('conditions',aa('status',USER_STATUS_ACTIVE), 'recursive',-1));
+    $users = $this->Project->Member->User->find('all',array(
+		'conditions' => array(
+			'status' => USER_STATUS_ACTIVE
+		),
+		'recursive' => -1
+	));
     $this->set('users_data',$users);
     // for members tab end
     
     // for issue categories tab start
-    $issue_categories = $this->Project->IssueCategory->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id'])));
+    $issue_categories = $this->IssueCategory->find('all',array(
+		'conditions' => array(
+			'project_id' => $this->_project['Project']['id']
+		)
+	));
     $this->set('issue_categories_data',$issue_categories);
     // for issue categories tab end
 
-    $versions = $this->Project->Version->find('all',aa('conditions',aa('project_id',$this->_project['Project']['id'])));
+    $versions = $this->Version->find('all',array(
+		'conditions' => array(
+			'project_id' => $this->_project['Project']['id']
+		)
+	));
     $this->set('versions_data',$versions);
     
     
     //:TODO yando やる
     $tabs = array(
-      aa('name', 'info', 'partial', 'projects/edit', 'label', __('Information')),
-      aa('name', 'modules', 'partial', 'projects/settings/modules', 'label', __('Modules')),
-      aa('name', 'members', 'partial', 'projects/settings/members', 'label', __('Members')),
-      aa('name', 'versions', 'partial', 'projects/settings/versions', 'label', __('Versions')),
-      aa('name', 'categories', 'partial', 'projects/settings/issue_categories', 'label', __('Issue categories')),
-      aa('name', 'wiki', 'partial', 'projects/settings/wiki', 'label', __('Wiki')),
-      //aa('name', 'repository', 'partial', 'projects/settings/repository', 'label', __('Repository')),
-      //aa('name', 'boards', 'partial', 'projects/settings/boards', 'label', __('Boards')),
-      
-//            {:name => 'modules', :action => :select_project_modules, :partial => 'projects/settings/modules', :label => :label_module_plural},
-//            {:name => 'members', :action => :manage_members, :partial => 'projects/settings/members', :label => :label_member_plural},
-//            {:name => 'versions', :action => :manage_versions, :partial => 'projects/settings/versions', :label => :label_version_plural},
-//            {:name => 'categories', :action => :manage_categories, :partial => 'projects/settings/issue_categories', :label => :label_issue_category_plural},
-//            {:name => 'wiki', :action => :manage_wiki, :partial => 'projects/settings/wiki', :label => :label_wiki},
-//            {:name => 'repository', :action => :manage_repository, :partial => 'projects/settings/repository', :label => :label_repository},
-//            {:name => 'boards', :action => :manage_boards, :partial => 'projects/settings/boards', :label => :label_board_plural}
+      array(
+		  'name' => 'info',
+		  'partial' => 'projects/edit',
+		  'label' =>  __('Information')
+	  ),
+      array(
+		  'name' => 'modules',
+		  'partial' => 'projects/settings/modules',
+		  'label' => __('Modules')
+	  ),
+      array(
+		  'name' => 'members',
+		  'partial' => 'projects/settings/members',
+		  'label' => __('Members')
+	  ),
+      array(
+		  'name' => 'versions',
+		  'partial' => 'projects/settings/versions',
+		  'label' => __('Versions')
+	  ),
+      array(
+		  'name' => 'categories',
+		  'partial' => 'projects/settings/issue_categories',
+		  'label' => __('Issue categories')
+	  ),
+      array(
+		  'name' => 'wiki',
+		  'partial' => 'projects/settings/wiki',
+		  'label' => __('Wiki')
+	  ),
       );
     $selected_tab = $tabs[0]['name'];
     if (isset($this->request->params['url']['tab'])) {

@@ -228,8 +228,9 @@ class UsersController extends AppController {
  * @return boolean
  */
 	public function allowed_to() {
+		$this->autoRender = false;
 		if (empty($this->request->params['requested'])) {
-			throw new NotFoundException();
+			//throw new NotFoundException();
 		}
 		return $this->User->is_allowed_to($this->current_user, $this->request->params['aco'], $this->request->params['project']);
 	}

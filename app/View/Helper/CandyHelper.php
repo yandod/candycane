@@ -144,7 +144,7 @@ class CandyHelper extends AppHelper {
  */
 	public function authorize_for($aco, $project = false) {
 		if(empty($project)) {
-			$view =& ClassRegistry::getObject('view');
+			$view = $this->_View;
 			$project = $view->viewVars['main_project'];
 		}
 		return $this->requestAction(array('controller' => 'users', 'action' => 'allowed_to'), compact('aco', 'project'));
@@ -558,7 +558,7 @@ class CandyHelper extends AppHelper {
  */
 	public function authoring($created, $author, $options = array()) {
 		//TODO:port
-		$view =& ClassRegistry::getObject('view');
+		$view = $this->_View;;
 		$project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
 		if (empty($project)) {
 			$time_tag = $this->Html->tag('acronym', $this->distance_of_time_in_words(time(), $created), array('title' => $this->format_time($created)));

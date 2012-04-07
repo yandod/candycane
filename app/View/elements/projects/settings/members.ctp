@@ -20,8 +20,8 @@ foreach ($roles_data as $roles_row) {
 	<tr class="<?php echo $this->Candy->cycle() ?>">
 	<td><?php echo $this->Candy->format_username($member_row['User']) ?></td>
     <td align="center">
-    <?php if ($this->Candy->authorize_for(aa('controller','members','action','edit'))): ?>
-  <?php echo $ajax->form(
+    <?php if ($this->Candy->authorize_for(array('controller' => 'members','action' => 'edit'))): ?>
+  <?php echo $this->AppAjax->form(
     array('options' =>array(
       'model' => 'Member',
       'update' => 'tab-content-members',
@@ -33,18 +33,25 @@ foreach ($roles_data as $roles_row) {
       )
     ))
   ) ?>
-        <?php echo $this->Form->select('Member.role_id',$roles_list,$member_row['Member']['role_id'],aa('class','small'),false) ?>
-        <?php echo $this->Form->submit(__('Change'),aa('class','small','div',false)) ?>
+        <?php echo $this->Form->select(
+			'Member.role_id',
+			$roles_list,
+			array(
+				'class' => 'small',
+				'value' => $member_row['Member']['role_id']
+			)
+		) ?>
+        <?php echo $this->Form->submit(__('Change'),array('class' => 'small','div' => false)) ?>
       <?php echo '</form>'; ?>
       <?php endif; ?>
     </td>
     <td align="center">
-  <?php echo $ajax->link(__('Delete'),array(
+  <?php echo $this->AppAjax->link(__('Delete'),array(
         'controller' => 'members',
         'action' => 'destroy',
         'project_id' => $main_project['Project']['identifier'],
         'id' => $member_row['Member']['id'],
-      ),aa('class','icon icon-del','update','tab-content-members')
+      ),array('class' => 'icon icon-del','update' => 'tab-content-members')
     )
    ?>
     </td>
@@ -65,8 +72,8 @@ foreach ($roles_data as $roles_row) {
     $users_list[$user_row['User']['id']] = $this->Candy->format_username($user_row['User']);
   }
 ?>
-<?php if ($this->Candy->authorize_for(aa('controller','members','action','new') && !empty($users_list))): ?>
-  <?php echo $ajax->form(
+<?php if ($this->Candy->authorize_for(array('controller' => 'members','action' => 'new') && !empty($users_list))): ?>
+  <?php echo $this->AppAjax->form(
     array('options' =>array(
       'model' => 'Member',
       'update' => 'tab-content-members',
@@ -79,7 +86,7 @@ foreach ($roles_data as $roles_row) {
   ) ?>
     <p><label for="member_user_id"><?php echo __('New member') ?></label><br />
     <?php echo $this->Form->select('Member.user_id',$users_list,false,false,false) ?>
-    <?php echo __('Role') ?>: <?php echo $this->Form->select('Member.role_id',$roles_list,false,aa('class','small'),false) ?>
-    <?php echo $this->Form->submit(__('Add'),aa('div',false)) ?></p>
+    <?php echo __('Role') ?>: <?php echo $this->Form->select('Member.role_id',$roles_list,false,array('class' => 'small'),false) ?>
+    <?php echo $this->Form->submit(__('Add'),array('div' => false)) ?></p>
   <?php echo '</form>' ?>
 <?php endif; ?>

@@ -1,4 +1,6 @@
-<?php echo $this->Form->create('Project',aa('url','/projects/modules/'.$main_project['Project']['identifier'].'?tab=modules','id','modules-form')) ?>
+<?php echo $this->Form->create('Project',array(
+	'url' => '/projects/modules/'.$main_project['Project']['identifier'].'?tab=modules',
+	'id' => 'modules-form')) ?>
 <!-- <% form_for :project, @project,
             :url => { :action => 'modules', :id => @project },
             :html => {:id => 'modules-form'} do |f| %>
@@ -19,7 +21,7 @@
       $checked = 'checked';
     }
 ?>
-<p><label><?php echo $this->Form->checkbox('EnabledModule][', aa('value',$v,'div',false,'label',false,'checked',$checked)); ?>
+<p><label><?php echo $this->Form->checkbox('EnabledModule][', array('value' => $v,'div' => false,'label' => false,'checked' => $checked)); ?>
  <?php echo h(__(ucfirst(str_replace('_',' ',$v)))) ?></label></p>
 <!--
 <p><label><%= check_box_tag 'enabled_modules[]', m, @project.module_enabled?(m) -%>

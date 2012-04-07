@@ -11,8 +11,34 @@
 	<tr class="<?php echo $this->Candy->cycle() ?>">
     <td><?php echo h($issue_category_row['IssueCategory']['name']) ?></td>
     <td><?php if ( !empty($issue_category_row['AssignedTo'])) { echo h($this->Candy->format_username($issue_category_row['AssignedTo'])); } ?></td>
-    <td align="center"><?php echo $this->Candy->link_to_if_authorized(aa('controller','issue_categories','action','edit'),__('Edit'),aa('controller','issue_categories','action','edit','project_id',$main_project['Project']['identifier'],'id',$issue_category_row['IssueCategory']['id']),aa('class','icon icon-edit')); ?></td>
-    <td align="center"><?php echo $this->Candy->link_to_if_authorized(aa('controller','issue_categories','action','edit'),__('Delete'),aa('controller','issue_categories','action','destroy','project_id',$main_project['Project']['identifier'],'id',$issue_category_row['IssueCategory']['id']),aa('class','icon icon-del')); ?></td>
+    <td align="center"><?php echo $this->Candy->link_to_if_authorized(array(
+		'controller' => 'issue_categories',
+		'action' => 'edit'
+	),
+	__('Edit'),
+	array(
+		'controller' => 'issue_categories',
+		'action' => 'edit',
+		'project_id' => $main_project['Project']['identifier'],
+		'id' => $issue_category_row['IssueCategory']['id']
+	),
+	array(
+		'class' => 'icon icon-edit'
+	)); ?></td>
+    <td align="center"><?php echo $this->Candy->link_to_if_authorized(array(
+		'controller' => 'issue_categories',
+		'action' => 'edit'
+	),
+	__('Delete'),
+	array(
+		'controller' => 'issue_categories',
+		'action' => 'destroy',
+		'project_id' => $main_project['Project']['identifier'],
+		'id' => $issue_category_row['IssueCategory']['id']
+	),
+	array(
+		'class' => 'icon icon-del'
+	)); ?></td>
 	</tr>
 <?php endforeach; ?>
     </tbody>
@@ -20,4 +46,13 @@
 <?php else: ?>
 <p class="nodata"><?php echo __('No data to display') ?></p>
 <?php endif; ?>
-<p><?php echo $this->Candy->link_to_if_authorized(aa('controller','projects','action','add_issue_category'),__('New category'),aa('controller','projects','action','add_issue_category','project_id',$main_project['Project']['identifier'])); ?></p>
+<p><?php echo $this->Candy->link_to_if_authorized(array(
+	'controller' => 'projects',
+	'action' => 'add_issue_category'
+),
+__('New category'),
+array(
+	'controller' => 'projects',
+	'action' => 'add_issue_category',
+	'project_id' => $main_project['Project']['identifier']
+)); ?></p>
