@@ -407,13 +407,26 @@ class AppController extends Controller {
 	protected function _get_param($name) {
 		if (array_key_exists($name, $this->request->params)) {
 			$value = $this->request->params[$name];
-		} elseif (array_key_exists('named', $this->request->params) && array_key_exists($name, $this->request->params['named'])) {
+		} elseif (
+			array_key_exists('named', $this->request->params) &&
+			array_key_exists($name, $this->request->params['named'])
+		) {
 			$value = $this->request->params['named'][$name];
-		} elseif (array_key_exists('url', $this->request->params) && array_key_exists($name, $this->request->params['url'])) {
+		} elseif (
+			array_key_exists('url', $this->request->params) &&
+			array_key_exists($name, $this->request->params['url'])
+		) {
 			$value = $this->request->params['url'][$name];
-		} elseif (is_array($this->request->data) && array_key_exists($this->{$this->modelClass}->name, $this->request->data) && array_key_exists($name, $this->request->data[$this->{$this->modelClass}->name])) {
+		} elseif (
+			is_array($this->request->data) &&
+			array_key_exists($this->{$this->modelClass}->name, $this->request->data) &&
+			array_key_exists($name, $this->request->data[$this->{$this->modelClass}->name])
+		) {
 			$value = $this->request->data[$this->{$this->modelClass}->name][$name];
-		} elseif (array_key_exists('form', $this->request->params) && array_key_exists($name, $this->request->params['form'])) {
+		} elseif (
+			array_key_exists('form', $this->request->params) &&
+			array_key_exists($name, $this->request->params['form'])
+		) {
 			$value = $this->request->params['form'][$name];
 		} else {
 			$value = null;

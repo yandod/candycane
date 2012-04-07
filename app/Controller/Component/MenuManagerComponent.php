@@ -80,14 +80,14 @@ class MenuManagerComponent extends Component
   	  $meta_data = $this->_getProjectMenu($project_id);
   	}
   	
-  	if (isset($this->controller->params['project_id'])) {
+  	if (isset($this->controller->request->params['project_id'])) {
   	  $meta_data = $this->_allowed_items($this->project_menu);
   	} else {
       $meta_data = $this->application_menu;
     }
     $menu_data = array();
   	foreach ($meta_data as $val) {
-  		if ( $val['controller'] == $this->controller->params['controller'] && $val['action'] == $this->controller->params['action'] && !$this->__selected ) {
+  		if ( $val['controller'] == $this->controller->request->params['controller'] && $val['action'] == $this->controller->request->params['action'] && !$this->__selected ) {
   			$this->_select($val);
   		}
       if (array_key_exists('params', $val)) {
@@ -96,8 +96,8 @@ class MenuManagerComponent extends Component
           $params = array($params);
         }
         foreach ($params as $param) {
-          if (array_key_exists($param, $this->controller->params)) {
-            $val[$param] = $this->controller->params[$param];
+          if (array_key_exists($param, $this->controller->request->params)) {
+            $val[$param] = $this->controller->request->params[$param];
           }
         }
         unset($val['params']);
