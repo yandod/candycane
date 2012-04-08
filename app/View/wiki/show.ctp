@@ -7,7 +7,7 @@
         array('action' => 'edit',
         	'project_id' => $main_project['Project']['identifier'],
             'wikipage' => $page['WikiPage']['title']),
-        	aa('class', 'icon icon-edit')
+        	array('class' => 'icon icon-edit')
 		);
    } ?>
 
@@ -19,7 +19,9 @@
         	'project_id' => $main_project['Project']['identifier'],
         	'wikipage' => $page['WikiPage']['title'],
         	'?protected=1'),
-            aa('method', 'post', 'class', 'icon icon-lock')
+            array(
+				'method' => 'post',
+				'class' => 'icon icon-lock')
 		);
    } ?>
 
@@ -31,7 +33,10 @@
         	'project_id' => $main_project['Project']['identifier'],
             'wikipage' => $page['WikiPage']['title'],
             '?protected=0'),
-            aa('method', 'post', 'class', 'icon icon-unlock')
+            array(
+				'method' => 'post',
+				'class' => 'icon icon-unlock'
+			)
 		);
  } ?>
 
@@ -42,7 +47,9 @@
         array('action' => 'rename',
         	'project_id' => $main_project['Project']['identifier'],
         	'wikipage' => $page['WikiPage']['title']),
-            aa('class', 'icon icon-move')
+            array(
+				'class' => 'icon icon-move'
+			)
 		);
  } ?>
 
@@ -52,9 +59,10 @@
     array('action' => 'destroy',
     	'project_id' => $main_project['Project']['identifier'],
         'wikipage'=> $page['WikiPage']['title']),
-        aa('method', 'post',
-        	'confirm', __('Are you sure ?'),
-            'class', 'icon icon-del')
+        array(
+			'method' => 'post',
+        	'confirm' => __('Are you sure ?'),
+            'class' => 'icon icon-del')
 );
 ?>
 
@@ -66,7 +74,7 @@
         	'project_id' => $main_project['Project']['identifier'],
             'wikipage' => $page['WikiPage']['title'],
             '?version='.$content['WikiContent']['version']),
-            aa('class', 'icon icon-cancel')
+            array('class' => 'icon icon-cancel')
 	);
  } ?>
 <?php endif; ?>
@@ -77,7 +85,7 @@
 	array('action' => 'history',
     	'project_id' => $main_project['Project']['identifier'],
         'wikipage' => $page['WikiPage']['title']),
-        aa('class', 'icon icon-history')
+        array('class' => 'icon icon-history')
 	);
 ?>
 </div>
@@ -126,13 +134,14 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
                           'project_id' => $main_project['Project']['identifier'],
                           'wikipage'   => $page['WikiPage']['title'])); ?>
     <br />
-    <em><?php echo isset($content['Author']) ? $this->Candy->format_username($content['Author']) : "anonyme"); ?>, <?php e($this->Candy->format_time($content['WikiContent']['updated_on']); ?> </em><br />
+    <em><?php
+	echo isset($content['Author']) ? $this->Candy->format_username($content['Author']) : "anonyme"; ?>, <?php echo $this->Candy->format_time($content['WikiContent']['updated_on']); ?> </em><br />
     <?php echo h($content['WikiContent']['comments']); ?>
     </p>
     <hr />
 <?php endif; ?>
 
-<?php echo $this->element('wiki/content', aa('content', $content)); ?>
+<?php echo $this->element('wiki/content', array('content' => $content)); ?>
 
 <?php /* $attachment->link_to_attachments($page) // attachment helper */ ?>
 
@@ -141,9 +150,12 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
 	array('controller' => 'wiki', 'action' => 'add_attachment'),
 	__('New file'), 
 	'', 
-	aa('onclick', "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;", 'id', 'attach_files_link')
+	array(
+		'onclick' => "Element.show('add_attachment_form'); Element.hide(this); Element.scrollTo('add_attachment_form'); return false;",
+		'id' => 'attach_files_link'
+	)
 	); ?></p>
-<?php e($this->Form->create(null,
+<?php echo $this->Form->create(null,
                       array('url' => 
                             array('action' => 'add_attachment',
                                   'project_id' => $main_project['Project']['identifier'],
@@ -151,14 +163,16 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
                             'type' => 'file',
                             'id' => "add_attachment_form",
                             'style' => "display:none;"
-                            )));
+                            ));
 /* form_tag({ :controller => 'wiki', :action => 'add_attachment', :page => @page.title }, :multipart => true, :id => "add_attachment_form", :style => "display:none;") do */
 ?>
   <div class="box">
   <p><?php echo $this->element('attachments/form'); ?></p>
   </div>
-<?php echo $this->Form->submit(__('Add'), aa('div', false)); ?>
-<?php echo $this->Html->link(__('Cancel' ), '', aa('onclick', "Element.hide('add_attachment_form'); Element.show('attach_files_link'); return false;")); ?>
+<?php echo $this->Form->submit(__('Add'), array('div' => false)); ?>
+<?php echo $this->Html->link(__('Cancel' ), '', array(
+	'onclick' => "Element.hide('add_attachment_form'); Element.show('attach_files_link'); return false;"
+)); ?>
 <?php echo $this->Form->end(); ?>
 <?php endif; ?>
 
@@ -172,7 +186,7 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
     'project_id' => $main_project['Project']['identifier'],
                                 'wikipage' => $page['WikiPage']['title'],
                                 '?export=html&version='. $content['WikiContent']['version']),
-                          aa('class', 'html')); ?></span>
+                          array('class' => 'html')); ?></span>
 <span><?php echo $this->Candy->link_to_if_authorized(
 	array('controller' => 'wiki', 'action' => 'index'),
 	'TXT',
@@ -180,7 +194,7 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
     'project_id' => $main_project['Project']['identifier'],
                                 'wikipage' => $page['WikiPage']['title'],
                                 '?export=txt&version='. $content['WikiContent']['version']),
-                          aa('class', 'text')); ?></span>
+                          array('class' => 'text')); ?></span>
 </p>
 
 <?php $this->set('header_tags', $this->Html->css('scm')) ?>
