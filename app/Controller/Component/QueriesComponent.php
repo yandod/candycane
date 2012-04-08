@@ -6,9 +6,9 @@ class QueriesComponent extends Component
   var $query_filter_cond = array();
   var $show_filters = array();
   
-  function startup(& $controller)
+  function startup(Controller $controller)
   {
-    $this->controller =& $controller;
+    $this->controller = $controller;
   }
   
   function retrieve_query($query_id = 0, $forse_set_filter = null)
@@ -21,14 +21,14 @@ class QueriesComponent extends Component
     $self->set('force_show_filters', $force_show_filters);
     $show_filters = $forse_set_filter ? array() : $force_show_filters;
     $available_filters = $Query->available_filters($self->_project, $self->current_user);
-    if (!isset($self->data['Filter'])) {
-        $self->data['Filter'] = array();
+    if (!isset($self->request->data['Filter'])) {
+        $self->request->data['Filter'] = array();
     }
 
     foreach ($show_filters as $field => $options) {
-      $self->data['Filter']['fields_' . $field] = $field;
-      $self->data['Filter']['operators_' . $field] = $options['operator'];
-      $self->data['Filter']['values_' . $field] = $options['values'];
+      $self->request->data['Filter']['fields_' . $field] = $field;
+      $self->request->data['Filter']['operators_' . $field] = $options['operator'];
+      $self->request->data['Filter']['values_' . $field] = $options['values'];
     }
 
     if ($query_id > 0) {

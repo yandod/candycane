@@ -1,54 +1,4 @@
 <?php
-## Redmine - project management software
-## Copyright (C) 2006-2008  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2008
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
-#class QueryColumn  
-#  attr_accessor :name, :sortable, :default_order
-#  include GLoc
-#  
-#  def initialize(name, options={})
-#    self.name = name
-#    self.sortable = options[:sortable]
-#    self.default_order = options[:default_order]
-#  end
-#  
-#  def caption
-#    set_language_if_valid(User.current.language)
-#    l("field_#{name}")
-#  end
-#end
-#
-#class QueryCustomFieldColumn < QueryColumn
-#
-#  def initialize(custom_field)
-#    self.name = "cf_#{custom_field.id}".to_sym
-#    self.sortable = false
-#    @cf = custom_field
-#  end
-#  
-#  def caption
-#    @cf.name
-#  end
-#  
-#  def custom_field
-#    @cf
-#  end
-#end
-#
 class Query extends AppModel
 {
   var $name = 'Query';
@@ -129,7 +79,7 @@ class Query extends AppModel
     if(!empty($this->available_filters)) {
       return $this->available_filters;
     }    
-    $Status = & ClassRegistry::init('Status');
+    //$Status = & ClassRegistry::init('Status');
     $IssueStatus = & ClassRegistry::init('IssueStatus');
     $Enumeration = & ClassRegistry::init('Enumeration');
     $user_values = array();
@@ -161,10 +111,10 @@ class Query extends AppModel
     $available_filters = array(
       'status_id' => array(
         'type'   => 'list_status',
-        'values' => $Status->find('list', array(
+        'values' => $IssueStatus->find('list', array(
           'fields' => array(
-            'Status.id',
-            'Status.name',
+            'IssueStatus.id',
+            'IssueStatus.name',
           ),
         )),
         'order' => 1,

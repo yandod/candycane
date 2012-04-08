@@ -647,8 +647,8 @@ class CandyHelper extends AppHelper {
       ), null, false) ;
     }
     if ($paging['count'] !== null && $paging['count'] != 0) {
-      $per_page_links = $this->per_page_links($paging['options']['limit']);
-      $from_record = ($paging['page'] - 1) * $paging['options']['limit'] + 1;
+      $per_page_links = $this->per_page_links($paging['limit']);
+      $from_record = ($paging['page'] - 1) * $paging['limit'] + 1;
       $to_record = $from_record - 1 + $paging['current'];
       $html .= ' (' . $from_record . '-' . $to_record . '/' . $paging['count'] . ')' . (strlen($per_page_links) ? (' | ' . $per_page_links) : '');
     }

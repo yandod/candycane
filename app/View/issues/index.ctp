@@ -7,8 +7,8 @@
     <fieldset id="filters"><legend><?php echo __('Filters') ?></legend>
     <?php echo $this->element('queries/filters', array('show_filters' => $show_filters, 'available_filters' => $available_filters)) ?>
     <p class="buttons">
-      <?php echo $ajax->link(__('Apply'), array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), array('update' => 'content', 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
-      <?php echo $ajax->link(__('Clear'), array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), array('update' => 'content', 'class' => 'icon icon-reload')) ?>
+      <?php echo $this->Js->link(__('Apply'), array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), array('update' => 'content', 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
+      <?php echo $this->Js->link(__('Clear'), array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), array('update' => 'content', 'class' => 'icon icon-reload')) ?>
     <!--
     <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
     -->
@@ -39,7 +39,7 @@
 <?php endif ?>
 <!--<%= error_messages_for 'query' %>-->
 <!--<% if @query.valid? %>-->
-<?php if (!$issues): ?>
+<?php if ( empty($issue_list) ): ?>
 <p class="nodata"><?php echo h(__('No data to display')) ?></p>
 <?php else: ?>
 <?php echo $this->element('issues/list', array('issue_list' => $issue_list, 'query' => $query)) ?>
@@ -72,6 +72,6 @@
 <div id="context-menu" style="display: none;"></div>
 <script type="text/javascript">
 //<![CDATA[
-new ContextMenu('<?php echo $javascript->escapeString($this->Html->url(am($url_param, array('controller' => 'issues', 'action' => 'context_menu')))) ?>');
+new ContextMenu('<?php echo $this->Js->value($this->Html->url(array_merge($url_param, array('controller' => 'issues', 'action' => 'context_menu')))) ?>');
 //-->
 </script>

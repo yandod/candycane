@@ -6,7 +6,7 @@ class CandyBehavior extends ModelBehavior
 {
 
 	public function defaults($model) {
-		$results = aa($model->name, array());
+		$results = array($model->name => array());
 		foreach ($model->_schema as $k => $v) {
 			$results[$model->name][$k] = $v['default'];
 		}

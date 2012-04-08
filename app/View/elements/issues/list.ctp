@@ -1,7 +1,15 @@
 <?php echo $this->Form->create() ?>
 <table class="list issues">
     <thead><tr>
-        <th><?php echo $this->Html->link($this->Html->image('toggle_check.png'), array(), array('onclick' => 'toggleIssuesSelection(Element.strtoupper(this, "form")); return false;', 'title' => __('Check all') . '/' . __('Uncheck all')), null, false) ?>
+        <th><?php echo $this->Html->link(
+			$this->Html->image('toggle_check.png'),
+			array(),
+			array(
+				'onclick' => 'toggleIssuesSelection(Element.strtoupper(this, "form")); return false;',
+				'title' => __('Check all') . '/' . __('Uncheck all'),
+				'escape' => false
+			)
+		) ?>
         
         <!--<%= link_to image_tag('toggle_check.png'), {}, :onclick => 'toggleIssuesSelection(Element.strtoupper(this, "form")); return false;',
                                                            :title => "#{l(:button_check_all)}/#{l(:button_uncheck_all)}" %>
