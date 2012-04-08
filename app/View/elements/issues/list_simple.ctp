@@ -14,12 +14,20 @@
 <!-- 			    <%= check_box_tag("ids[]", issue.id, false, :style => 'display:none;') %>-->
 					<input type="checkbox" name="ids[]" value="<?php echo h($issue['Issue']['id']) ?>" style="display:none">
 <!-- 				<%= link_to issue.id, :controller => 'issues', :action => 'show', :id => issue %> -->
-				<?php echo $this->Html->link($issue['Issue']['id'],aa('controller','issues','action','show','id',$issue['Issue']['id'])); ?>
+				<?php echo $this->Html->link($issue['Issue']['id'],array(
+					'controller' => 'issues',
+					'action' => 'show',
+					'id' => $issue['Issue']['id']
+				)); ?>
 			</td>
 			<td><?php echo h($issue['Project']['name']) ?> - <?php echo $issue['Tracker']['name'] ?><br />
                 <?php echo $issue['Status']['name'] ?> - <?php echo $this->Candy->format_time($issue['Issue']['updated_on']) ?></td>
 			<td class="subject">
-                <?php echo $this->Html->link($issue['Issue']['subject'],aa('controller','issues','action','show','id',$issue['Issue']['id'])) ?>
+                <?php echo $this->Html->link($issue['Issue']['subject'],array(
+					'controller' => 'issues',
+					'action' => 'show',
+					'id' => $issue['Issue']['id']
+				)) ?>
             </td>
 		</tr>
 		<?php endforeach; ?>

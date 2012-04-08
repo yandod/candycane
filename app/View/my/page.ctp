@@ -1,5 +1,6 @@
 <div class="contextual">
-  <?php echo $this->Html->link(__('Personalize this page'), '/my/page_layout',aa('onclick','alert("not yet");return false;')); ?>
+  <?php echo $this->Html->link(__('Personalize this page'), '/my/page_layout',array(
+	'onclick' => 'alert("not yet");return false;')); ?>
 </div>
 
 <h2><?php echo $this->Candy->html_title(__('My page'), true); ?></h2>
@@ -36,4 +37,7 @@
 <?php echo $this->Html->script(array('context_menu')) ?>
 <?php echo $this->Html->css('context_menu')  ?>
 <div id="context-menu" style="display: none;"></div>
-<?php echo $javascript->codeBlock("new ContextMenu('".$this->Html->url(aa('controller','issues','action','context_menu'))."')") ?>
+<?php echo $this->Html->scriptBlock("new ContextMenu('".$this->Html->url(array(
+	'controller' => 'issues',
+	'action' => 'context_menu'
+))."')") ?>

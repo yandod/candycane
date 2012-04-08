@@ -3,7 +3,7 @@
 $Issue = ClassRegistry::init('Issue');
 $assigned_issues = $Issue->find('all',
   array(
-    'conditions' => aa('Issue.assigned_to_id',$currentuser['id']),
+    'conditions' => array('Issue.assigned_to_id' => $currentuser['id']),
     'limit' => 10,
     'order' => 'Issue.updated_on DESC'
   )
@@ -20,7 +20,12 @@ $assigned_issues = $Issue->find('all',
 <?php //<%= render :partial => 'issues/list_simple', :locals => { :issues => assigned_issues } %> ?>
 <?php if (count($assigned_issues) > 0): ?>
 <?php //<p class="small"><%= link_to l(:label_issue_view_all), :controller => 'issues', :action => 'index', :set_filter => 1, :assigned_to_id => 'me' %></p> ?>
-<p class="small"><?php echo $this->Html->link(__('View all issues'), aa('controller','issues','action','index','set_filter',1,'assigned_to_id','me' )) ?></p>
+<p class="small"><?php echo $this->Html->link(__('View all issues'), array(
+	'controller' => 'issues',
+	'action' => 'index',
+	'set_filter' => 1,
+	'assigned_to_id' => 'me'
+)) ?></p>
 <?php endif; ?>
 <?php
 //<% content_for :header_tags do %>
