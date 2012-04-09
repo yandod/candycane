@@ -226,7 +226,14 @@ class CandyHelper extends AppHelper {
 			unset($options['format']);
 		}
 		if ($user) /* && !user.anonymous? */ {
-			return $this->Html->link($this->format_username($user, $format), array('controller' => 'account', 'action' => 'show', 'id' => $user['id']), $options);
+			return $this->Html->link(
+				$this->format_username($user, $format),
+				array(
+					'controller' => 'account',
+					'action' => 'show',
+					$user['id']
+				),
+			$options);
 		}
 		return 'Anonymous';
 	}
@@ -573,7 +580,14 @@ class CandyHelper extends AppHelper {
 		#                                       {:controller => 'projects', :action => 'activity', :id => @project, :from => created.to_date},
 		#                                       :title => format_time(created))
 
-		$author_tag = $this->Html->link($this->format_username($author), array('controller' => 'account', 'action' => 'show', 'id' => $author['id']));
+		$author_tag = $this->Html->link(
+			$this->format_username($author),
+			array(
+				'controller' => 'account',
+				'action' => 'show',
+				$author['id']
+			)
+		);
 		#    author_tag = (author.is_a?(User) && !author.anonymous?) ? link_to(h(author), :controller => 'account', :action => 'show', :id => author) : h(author || 'Anonymous')
 		#    l(options[:label] || :label_added_time_by, author_tag, time_tag)
 		return $this->lwr('Added by %s %s ago',$author_tag, $time_tag);
