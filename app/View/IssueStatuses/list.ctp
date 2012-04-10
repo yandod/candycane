@@ -19,10 +19,10 @@
   <td align="center"><?php if($status['IssueStatus']['is_default']){ echo $this->Html->image('true.png'); } ?></td>
   <td align="center"><?php if($status['IssueStatus']['is_closed']){ echo $this->Html->image('true.png'); } ?></td>
   <td align="center" style="width:15%;">
-    <?php echo $this->Html->link($this->Html->image('2uparrow.png',  array('alt'=>__('Move to top'))),   array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'highest'), array('title'=>__('Move to top')), null, false); ?>
-    <?php echo $this->Html->link($this->Html->image('1uparrow.png',  array('alt'=>__('Move up'))),       array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'higher'),  array('title'=>__('Move up'))    , null, false); ?> -
-    <?php echo $this->Html->link($this->Html->image('1downarrow.png',array('alt'=>__('Move down'))),     array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'lower'),   array('title'=>__('Move down'))  , null, false); ?>
-    <?php echo $this->Html->link($this->Html->image('2downarrow.png',array('alt'=>__('Move to bottom'))),array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'lowest'),  array('title'=>__('Move to bottom')),null,false); ?>
+    <?php echo $this->Html->link($this->Html->image('2uparrow.png',  array('alt'=>__('Move to top'))),   array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'highest'), array('title'=>__('Move to top'), 'escape' => false)); ?>
+    <?php echo $this->Html->link($this->Html->image('1uparrow.png',  array('alt'=>__('Move up'))),       array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'higher'),  array('title'=>__('Move up'), 'escape' => false)); ?> -
+    <?php echo $this->Html->link($this->Html->image('1downarrow.png',array('alt'=>__('Move down'))),     array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'lower'),   array('title'=>__('Move down'), 'escape' => false)); ?>
+    <?php echo $this->Html->link($this->Html->image('2downarrow.png',array('alt'=>__('Move to bottom'))),array('action'=>'move', 'id'=>$status['IssueStatus']['id'], 'position'=>'lowest'),  array('title'=>__('Move to bottom'), 'escape' => false)); ?>
   </td>
   <td align="center" style="width:10%;">
     <?php 

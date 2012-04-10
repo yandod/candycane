@@ -17,9 +17,9 @@ echo $this->Html->tag($tag,h($role['Role']['name']));
             echo $this->Html->link($this->Html->image('toggle_check.png'),
                              '#',
                              array('onclick' => "toggleCheckboxesBySelector('input.role-" . $role['Role']['id'] . "')",
-                                   'title' => __('Check all') . '/' . __('Uncheck all')),
-                             false,
-                             false);
+                                   'title' => __('Check all') . '/' . __('Uncheck all'),
+				   'escape' => false)
+                             );
           ?>
       </th>
       <?php endforeach; ?>
@@ -37,9 +37,9 @@ echo $this->Html->tag($tag,h($role['Role']['name']));
         echo $this->Html->link($this->Html->image('toggle_check.png'),
                          '#',
                          array('onclick' => "toggleCheckboxesBySelector('.permission-" . $permission['name'] . " input')",
-                               'title' => __('Check all') . '/' . __('Uncheck all')),
-                         false,
-                         false);
+                               'title' => __('Check all') . '/' . __('Uncheck all'),
+			       'escape' => false)
+                         );
       ?>
       <?php echo __($permission_name[ $permission['name'] ]); ?>
     </td>

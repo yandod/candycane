@@ -7,8 +7,8 @@
   if($options['deletable']){
     echo $this->Html->link($this->Html->image('delete.png'), 
         array('controller'=>'attachments', 'action'=>'destroy', 'id'=>$attachment['Attachment']['id']),
-        array('method'=>'post', 'class'=>'delete', 'title'=>__('Delete')),
-        __('Are you sure ?'), false);
+        array('method'=>'post', 'class'=>'delete', 'title'=>__('Delete'), 'escape' => false),
+        __('Are you sure ?'));
   }
   ?>
   <?php if($options['Author']): ?>

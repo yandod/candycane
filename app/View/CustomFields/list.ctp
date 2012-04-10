@@ -36,10 +36,10 @@
   <td align="center"><?php echo ($custom_field['CustomField']['type'] == 'IssueCustomField' && !$custom_field['CustomField']['is_for_all']) ? $custom_field['Project']['count_all'].' '.__n('Project', 'Projects', $custom_field['Project']['count_all']) : '&nbsp;'; ?></td>
   <?php endif; ?>
     <td align="center" style="width:15%;">
-      <?php echo $this->Html->link($this->Html->image('2uparrow.png',  array('alt'=>__('Move to top'))),   array('action'=>'move', 'id'=>$custom_field['CustomField']['id'], 'position'=>'highest'), array('title'=>__('Move to top')), null, false); ?>
-      <?php echo $this->Html->link($this->Html->image('1uparrow.png',  array('alt'=>__('Move up'))),       array('action'=>'move', 'id'=>$custom_field['CustomField']['id'], 'position'=>'higher'),  array('title'=>__('Move up'))    , null, false); ?> -
-      <?php echo $this->Html->link($this->Html->image('1downarrow.png',array('alt'=>__('Move down'))),     array('action'=>'move', 'id'=>$custom_field['CustomField']['id'], 'position'=>'lower'),   array('title'=>__('Move down'))  , null, false); ?>
-      <?php echo $this->Html->link($this->Html->image('2downarrow.png',array('alt'=>__('Move to bottom'))),array('action'=>'move', 'id'=>$custom_field['CustomField']['id'], 'position'=>'lowest'),  array('title'=>__('Move to bottom')),null,false); ?>
+      <?php echo $this->Html->link($this->Html->image('2uparrow.png',  array('alt'=>__('Move to top'))),   array('action'=>'move', 'id'=>$custom_field['CustomField']['id'], 'position'=>'highest'), array('title'=>__('Move to top'), 'escape' => false)); ?>
+      <?php echo $this->Html->link($this->Html->image('1uparrow.png',  array('alt'=>__('Move up'))),       array('action'=>'move', 'id'=>$custom_field['CustomField']['id'], 'position'=>'higher'),  array('title'=>__('Move up'), 'escape' => false)); ?> -
+      <?php echo $this->Html->link($this->Html->image('1downarrow.png',array('alt'=>__('Move down'))),     array('action'=>'move', 'id'=>$custom_field['CustomField']['id'], 'position'=>'lower'),   array('title'=>__('Move down'), 'escape' => false)); ?>
+      <?php echo $this->Html->link($this->Html->image('2downarrow.png',array('alt'=>__('Move to bottom'))),array('action'=>'move', 'id'=>$custom_field['CustomField']['id'], 'position'=>'lowest'),  array('title'=>__('Move to bottom'), 'escape' => false)); ?>
     </td>
     <td align="center">
       <?php 

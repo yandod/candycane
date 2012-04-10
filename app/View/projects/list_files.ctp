@@ -51,7 +51,7 @@
     <td align="center"><small><?php echo $file['Attachment']['digest'] ?></small></td>
     <td align="center">
 <?php if ($delete_allowed): ?>
-<?php echo $this->Html->link($this->Html->image('delete.png'), array('controller'=>'attachments', 'action'=>'destroy', 'id'=>$file['Attachment']['id']), array(), __('Are you sure ?'), false) ?>
+<?php echo $this->Html->link($this->Html->image('delete.png'), array('controller'=>'attachments', 'action'=>'destroy', 'id'=>$file['Attachment']['id']), array('escape' => false), __('Are you sure ?')) ?>
 <?php endif ?>
     </td>
   </tr>

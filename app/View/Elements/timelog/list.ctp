@@ -30,8 +30,8 @@
     <td class="hours"><?php echo $this->Candy->html_hours(sprintf("%.2f",$entry['TimeEntry']['hours'])); ?></td>
     <td align="center">
     <?php if($this->Candy->authorize_for('edit_own_time_entries', $entry)): ?>
-        <?php echo $this->Html->link($this->Html->image('edit.png'),   array('controller' => 'timelog', 'action' => 'edit',    'id' => $entry['TimeEntry']['id']), array('title' => __('Edit')), false, false); ?>
-        <?php echo $this->Html->link($this->Html->image('delete.png'), array('controller' => 'timelog', 'action' => 'destroy', 'id' => $entry['TimeEntry']['id']), array('title' => __('Delete'), 'method' => 'post'), __('Are you sure ?'), false); ?>
+        <?php echo $this->Html->link($this->Html->image('edit.png'),   array('controller' => 'timelog', 'action' => 'edit',    'id' => $entry['TimeEntry']['id']), array('title' => __('Edit'), 'escape' => false)); ?>
+        <?php echo $this->Html->link($this->Html->image('delete.png'), array('controller' => 'timelog', 'action' => 'destroy', 'id' => $entry['TimeEntry']['id']), array('title' => __('Delete'), 'method' => 'post', 'escape' => false), __('Are you sure ?')); ?>
     <?php endif; ?>
     </td>
   </tr>
