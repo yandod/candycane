@@ -15,10 +15,10 @@
     <td><?php echo $this->Html->link($enumeration['Enumeration']['name'],array('action'=>'edit','id'=>$enumeration['Enumeration']['id']),array('id'=>'enumeration')) ?></td>
     <td style="width:15%;"><?php if ($enumeration['Enumeration']['is_default']) echo $this->Html->image('true.png') ?></td>
     <td style="width:15%;">
-    <?php echo $this->Html->link($this->Html->image('2uparrow.png',  array('alt'=>__('Move to top'))),   array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'highest','opt'=>$option), array('title'=>__('Move to top')), null, false); ?>
-    <?php echo $this->Html->link($this->Html->image('1uparrow.png',  array('alt'=>__('Move up'))),       array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'higher','opt'=>$option),  array('title'=>__('Move up'))    , null, false); ?> -
-    <?php echo $this->Html->link($this->Html->image('1downarrow.png',array('alt'=>__('Move down'))),     array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'lower','opt'=>$option),   array('title'=>__('Move down'))  , null, false); ?>
-    <?php echo $this->Html->link($this->Html->image('2downarrow.png',array('alt'=>__('Move to bottom'))),array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'lowest','opt'=>$option),  array('title'=>__('Move to bottom')),null,false); ?>
+    <?php echo $this->Html->link($this->Html->image('2uparrow.png',  array('alt'=>__('Move to top'))),   array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'highest','opt'=>$option), array('title'=>__('Move to top'), 'escape' => false)); ?>
+    <?php echo $this->Html->link($this->Html->image('1uparrow.png',  array('alt'=>__('Move up'))),       array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'higher','opt'=>$option),  array('title'=>__('Move up'), 'escape' => false)); ?> -
+    <?php echo $this->Html->link($this->Html->image('1downarrow.png',array('alt'=>__('Move down'))),     array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'lower','opt'=>$option),   array('title'=>__('Move down'), 'escape' => false)); ?>
+    <?php echo $this->Html->link($this->Html->image('2downarrow.png',array('alt'=>__('Move to bottom'))),array('action'=>'move', 'id'=>$enumeration['Enumeration']['id'], 'position'=>'lowest','opt'=>$option),  array('title'=>__('Move to bottom'), 'escape' => false)); ?>
     </td>
     <td align="center" style="width:10%;">
     <?php 

@@ -108,7 +108,7 @@ function toggle_multi_select(field) {
 				'value' => $default_values
 			))); 
 			?>
-        <?php echo $this->Html->link($this->Html->image('bullet_toggle_plus.png'), '#', array('onclick' => "toggle_multi_select('" . $this->Js->value($field) . "')", 'style' => 'vertical-align: bottom'), null, false) ?>
+        <?php echo $this->Html->link($this->Html->image('bullet_toggle_plus.png'), '#', array('onclick' => "toggle_multi_select('" . $this->Js->value($field) . "')", 'style' => 'vertical-align: bottom', 'escape' => false)) ?>
     <?php
       break;
     case 'date':
