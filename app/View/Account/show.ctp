@@ -30,7 +30,11 @@
   <h3><?php echo __('Projects'); ?></h3>
   <ul>
   <?php foreach($user['Membership'] as $row): ?>
-    <li><?php echo $this->Html->link($row['Project']['name'],aa('controller','projects','action','show','project_id',$row['Project']['identifier'])); ?>
+    <li><?php echo $this->Html->link($row['Project']['name'],array(
+		'controller' => 'projects',
+		'action' => 'show',
+		'project_id' => $row['Project']['identifier']
+	)); ?>
     (<?php echo h($row['Role']['name']) ?>, <?php echo $this->Candy->format_date($row['created_on']) ?>)</li>
   <?php endforeach; ?>
   </ul>
@@ -40,7 +44,14 @@
 <div class="splitcontentright">
 
 <?php if ( !empty($events_by_day_data) ): ?>
-  <h3><?php echo $this->Html->link(__('Activity'),aa('controller','projects','action','activity','?',aa('user_id',$user['User']['id'],'from',array_shift(array_keys($events_by_day_data))))) ?></h3>
+  <h3><?php echo $this->Html->link(__('Activity'),array(
+	  'controller' => 'projects',
+	  'action' => 'activity',
+	  '?' => array(
+		  'user_id' => $user['User']['id'],
+		  'from' => array_shift(array_keys($events_by_day_data))
+		)
+	)) ?></h3>
 
 <p>
 <?php echo __('Reported issues'); ?>:
