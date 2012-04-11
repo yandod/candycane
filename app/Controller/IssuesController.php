@@ -40,7 +40,7 @@ class IssuesController extends AppController {
 		'Number',
 		'Watchers',
 		'Journals',
-		'Js' => array('prototype')
+		'Js' => array('Prototype')
 	);
 
 /**
