@@ -1,5 +1,5 @@
 <?php
-class WorkflowsController extends Appcontroller {
+class WorkflowsController extends AppController {
 
   var $name = 'Workflows';
   var $uses = array('Workflow', 'Role', 'Tracker', 'IssueStatus');
