@@ -12,17 +12,22 @@ class VersionsController extends AppController
     $this->Version->id = $id;
     $this->request->data = $this->Version->read();
 
-    $issues = $this->Version->FixedIssue->find('all', aa('conditions', aa('fixed_version_id', $id)));
+    $issues = $this->Version->FixedIssue->find('all', array(
+		'conditions' => array(
+			'fixed_version_id' => $id
+		)
+	));
     foreach($issues as $key=>$issue) {
       $issues[$key]['Issue'] = $issue['FixedIssue'];
     }
     $this->set('issues', $issues); // @FIXME
     $fixed_issue_count = count($issues);
     $this->set('fixed_issue_count', $fixed_issue_count);
-    $wiki_content = $this->Wiki->WikiPage->find('first',
-                                                aa('conditions',
-                                                   aa('WikiPage.title',
-                                                   $this->request->data['Version']['wiki_page_title'])));
+    $wiki_content = $this->Wiki->WikiPage->find('first',array(
+		'conditions' => array(
+			'WikiPage.title' => $this->request->data['Version']['wiki_page_title']
+		)
+	));
     $this->set('wiki_content', $wiki_content);
     /*
 <% issues = @version.fixed_issues.find(:all,
@@ -43,8 +48,13 @@ class VersionsController extends AppController
 		  $this->request->data['Version']['effective_date'] = null;
 	  }
       if($this->Version->save($this->request->data, true, array('name', 'description', 'wiki_page_title', 'effective_date'))) {
-        $this->Session->setFlash(__('Successful update.'),'default',aa('class','flash notice'));
-        $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'id'=>$this->version['Project']['identifier'], '?' => 'tab=versions'));
+        $this->Session->setFlash(__('Successful update.'),'default',array('class' => 'flash notice'));
+        $this->redirect(array(
+			'controller' => 'projects',
+			'action' => 'settings',
+			'?' => 'tab=versions',
+			$this->version['Project']['identifier'],
+		));
       }
     }
 
@@ -53,19 +63,23 @@ class VersionsController extends AppController
     }
   }
 
-  function destroy($id)
-  {
-    if ($this->Version->del($id)) {
-    } else {
-      $this->Session->setFlash(__('Unable to delete version.'));
-    }
-    $this->redirect(array('controller'=>'versions', 'action'=>'show', 'id'=>$this->Version->id));
-#    @version.destroy
-#    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
-#  rescue
-#    flash[:error] = l(:notice_unable_delete_version)
-#    redirect_to :controller => 'projects', :action => 'settings', :tab => 'versions', :id => @project
-  }
+	public function destroy($id) {
+		if ($this->Version->delete($id)) {
+			$this->Session->setFlash(
+				__('Successful update.'),
+				'default',
+				array('class' => 'flash notice')
+			);
+		} else {
+			$this->Session->setFlash(__('Unable to delete version.'));
+		}
+		$this->redirect(array(
+			'controller' => 'projects',
+			'action' => 'settings',
+			'?' => 'tab=versions',
+			$this->version['Project']['identifier'],
+		));
+	}
 
   function status_by($id)
   {

@@ -1,5 +1,16 @@
 <div class="contextual">
-<?php echo $this->Candy->link_to_if_authorized(aa('controller','versions','action','edit'), __('Edit'), 'edit/'.$this->request->data['Version']['id'], aa('class', 'icon icon-edit', 'onclick', 'Element.show("edit-news"); return false;')) ?>
+<?php echo $this->Candy->link_to_if_authorized(
+	array(
+		'controller' => 'versions',
+		'action' => 'edit'
+	),
+	__('Edit'),
+	'edit/'.$this->request->data['Version']['id'],
+	array(
+		'class' => 'icon icon-edit',
+		'onclick' => 'Element.show("edit-news"); return false;'
+	)
+) ?>
 <?php /*
 <%= link_to_if_authorized l(:button_edit), {:controller => 'versions', :action => 'edit', :id => @version}, :class => 'icon icon-edit' %>
  */ ?>
@@ -46,7 +57,7 @@
 
 <div id="roadmap">
 <?php echo $this->element('versions/overview', array('version'=>$this->request->data['Version'])) ?>
-<?php echo $this->element('wiki/content', aa('content', $wiki_content)); ?>
+<?php echo $this->element('wiki/content', array('content' => $wiki_content)); ?>
 <?php /*
 <%= render(:partial => "wiki/content", :locals => {:content => @version.wiki_page.content}) if @version.wiki_page %>
  */ ?>

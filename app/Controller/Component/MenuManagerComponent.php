@@ -35,7 +35,12 @@ class MenuManagerComponent extends Component
   	    )
   	  );
   	  $version->bindModel($bind);
-  	  $version_row = $version->find('first',aa('condtions',aa('id',$version_id)));
+  	  $version_row = $version->find('first',array(
+		  'condtions' => array(
+			  'id' => $version_id
+			 )
+		  )
+	  );
   	  $project_id = $version_row['Project']['identifier'];
   	}
   	

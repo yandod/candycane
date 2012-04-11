@@ -1,6 +1,16 @@
 <h2><?php echo __('New version') ?></h2>
 
-<?php echo $this->Form->create('Version', array('url'=>array('controller'=>'projects', 'id'=>$main_project['Project']['identifier']), 'action'=>'add_version','class'=>'tabular')) ?>
+<?php echo $this->Form->create(
+	'Version',
+	array(
+		'url' => array(
+			'controller' => 'projects',
+			$main_project['Project']['identifier']
+			),
+		'action' => 'add_version',
+		'class' => 'tabular'
+	)
+) ?>
 
 <div class="box">
 <p>
