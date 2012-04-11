@@ -411,7 +411,7 @@ class ProjectsController extends AppController {
 					'name' => $v
 				);
 			}
-			$this->Project->EnabledModule->deleteAll(aa('project_id',$this->id));
+			$this->Project->EnabledModule->deleteAll(array('project_id' => $this->id));
 			$this->Project->EnabledModule->saveAll($data);
 			$this->Session->setFlash(__('Successful update.'), 'default', array('class' => 'flash notice'));
 		}
@@ -491,15 +491,15 @@ class ProjectsController extends AppController {
 
     if($this->RequestHandler->isPost()) {
       $data['IssueCategory']['project_id'] = $this->_project['Project']['id'];
-      $this->Project->IssueCategory->create();
-      $this->Project->IssueCategory->set($data);
-      if($this->Project->IssueCategory->save(null, true, array('project_id', 'name', 'assigned_to_id'))) {
+      $this->IssueCategory->create();
+      $this->IssueCategory->set($data);
+      if($this->IssueCategory->save(null, true, array('project_id', 'name', 'assigned_to_id'))) {
         if (!$this->RequestHandler->isAjax()) {
           $this->Session->setFlash(__('Successful creation.'), 'default', array('class'=>'flash flash_notice'));
           $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->request->data['Project']['project_id'], '?'=>'tab=categories'));
         } else {
           $this->layout = 'ajax';
-          $issue_categories = $this->Project->IssueCategory->find('list', array(
+          $issue_categories = $this->IssueCategory->find('list', array(
             'conditions' => array('project_id' => $this->request->data['Project']['id']),
             'order' => "IssueCategory.name",
           ));
@@ -716,7 +716,14 @@ class ProjectsController extends AppController {
     $this->set('trackers', $trackers);
     if (isset($this->request->data['Version'])) {
         foreach($this->request->data['Version'] as $key=>$version) {
-            $this->request->data['Version'][$key]['Issue'] = $this->Issue->find('all', aa('conditions', aa('fixed_version_id', $version['id'])));
+            $this->request->data['Version'][$key]['Issue'] = $this->Issue->find(
+				'all',
+				array('conditions' =>
+					array(
+						'fixed_version_id' => $version['id']
+					)
+				)
+			);
         }
     }
     // $issues = $this->Version->FixedIssue->find('all', 

@@ -232,7 +232,11 @@ class UsersController extends AppController {
 		if (empty($this->request->params['requested'])) {
 			//throw new NotFoundException();
 		}
-		return $this->User->is_allowed_to($this->current_user, $this->request->params['aco'], $this->request->params['project']);
+		return $this->User->is_allowed_to(
+			$this->current_user,
+			$this->request->named['aco'],
+			$this->request->named['project']
+		);
 	}
 
 }
