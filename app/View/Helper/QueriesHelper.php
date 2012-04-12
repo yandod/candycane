@@ -45,7 +45,7 @@ class QueriesHelper extends AppHelper
   {
     switch ($column) {
     case 'subject':
-      return $this->Html->link($issue['Issue']['subject'], array('controller' => 'issues', 'action' => 'show', 'id' => $issue['Issue']['id']));
+      return $this->Html->link($issue['Issue']['subject'], array('controller' => 'issues', 'action' => 'show', $issue['Issue']['id']));
     case 'author':
       return $this->Candy->format_username($issue['Author']);
     case 'tracker':

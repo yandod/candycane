@@ -46,7 +46,7 @@
   <?php foreach ($issue_list as $issue): ?>
 	<tr id="issue-<?php echo h($issue['Issue']['id']) ?>" class="hascontextmenu <?php echo $this->Candy->cycle('odd', 'even') ?> <?php echo $this->Issues->css_issue_classes($issue) ?>">
 	    <td class="checkbox"><input type="checkbox" name="ids[]" value="<?php echo h($issue['Issue']['id']) ?>" /></td>
-		<td><?php echo $this->Html->link($issue['Issue']['id'], array('controller' => 'issues', 'action' => 'show', 'id' => $issue['Issue']['id'])) ?></td>
+		<td><?php echo $this->Html->link($issue['Issue']['id'], array('controller' => 'issues', 'action' => 'show', $issue['Issue']['id'])) ?></td>
         <?php foreach ($this->Queries->columns($query) as $column): ?><?php echo $this->Html->tag('td', $this->Queries->column_content($column, $issue), array('class' => $column)) ?><?php endforeach ?>
   </tr>
 	<?php endforeach ?>
