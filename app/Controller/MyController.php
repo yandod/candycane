@@ -189,7 +189,14 @@ class MyController extends AppController
 				#        return
 			}
 		} else {
-			$this->request->data = $this->User->find('first',aa('conditions',aa('User.id',$this->current_user['id'])));
+			$this->request->data = $this->User->find(
+				'first',
+				array(
+					'conditions' => array(
+						'User.id' => $this->current_user['id']
+					)
+				)
+			);
 		}
 		$notification_options = array();
 		$notification_options['all'] = __("\"For any event on all my projects\"");

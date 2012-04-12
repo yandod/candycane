@@ -520,8 +520,7 @@ class Query extends AppModel
     return $label;    
   }
 
-  function available_columns()
-  {
+	public function available_columns() {
 #    return @available_columns if @available_columns
 #    @available_columns = Query.available_columns
 #    @available_columns += (project ? 
@@ -545,24 +544,94 @@ class Query extends AppModel
 #    QueryColumn.new(:done_ratio, :sortable => "#{Issue.table_name}.done_ratio"),
 #    QueryColumn.new(:created_on, :sortable => "#{Issue.table_name}.created_on", :default_order => 'desc'),
 #  ]
-    $columns = array(
-      aa('name','tracker','sortable','Tracker.postion','default_order','','caption',__('tracker')),
-      aa('name','status','sortable','Tracker.postion','default_order','','caption',__('status')),
-      aa('name','priority','sortable','Tracker.postion','default_order','','caption',__('priority')),
-      aa('name','subject','sortable','Tracker.postion','default_order','','caption',__('subject')),
-      aa('name','author','sortable','Tracker.postion','default_order','','caption',__('author')),
-      aa('name','assigned_to','sortable','Tracker.postion','default_order','','caption',__('assigned_to')),
-      aa('name','updated_on','sortable','Tracker.postion','default_order','','caption',__('updated_on')),
-      aa('name','category','sortable','Tracker.postion','default_order','','caption',__('category')),
-      aa('name','fixed_version','sortable','Tracker.postion','default_order','','caption',__('fixed_version')),
-      aa('name','start_date','sortable','Tracker.postion','default_order','','caption',__('start_date')),
-      aa('name','due_date','sortable','Tracker.postion','default_order','','caption',__('due_date')),
-      aa('name','estimated_hours','sortable','Tracker.postion','default_order','','caption',__('estimated_hours')),
-      aa('name','done_ratio','sortable','Tracker.postion','default_order','','caption',__('done_ratio')),
-      aa('name','created_on','sortable','Tracker.postion','default_order','','caption',__('created_on')),
-    );
-    return $columns;
-  }
+		$columns = array(
+			array(
+				'name' => 'tracker',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('tracker')
+			),
+			array(
+				'name' => 'status',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('status')
+			),
+			array(
+				'name' => 'priority',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('priority')
+			),
+			array(
+				'name' => 'subject',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('subject')
+			),
+			array(
+				'name' => 'author',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('author')
+			),
+			array(
+				'name' => 'assigned_to',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('assigned_to')
+			),
+			array(
+				'name' => 'updated_on',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('updated_on')
+			),
+			array(
+				'name' => 'category',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('category')
+			),
+			array(
+				'name' => 'fixed_version',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('fixed_version')
+			),
+			array(
+				'name' => 'start_date',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('start_date')
+			),
+			array(
+				'name' => 'due_date',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('due_date')
+			),
+			array(
+				'name' => 'estimated_hours',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('estimated_hours')
+			),
+			array(
+				'name' => 'done_ratio',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('done_ratio')
+			),
+			array(
+				'name' => 'created_on',
+				'sortable' => 'Tracker.postion',
+				'default_order' => '',
+				'caption' => __('created_on')
+			),
+		);
+		return $columns;
+	}
 #  def columns
 #    if has_default_columns?
 #      available_columns.select {|c| Setting.issue_list_default_columns.include?(c.name.to_s) }

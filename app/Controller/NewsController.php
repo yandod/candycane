@@ -117,7 +117,15 @@ class NewsController extends AppController {
 		#    @comments.reverse! if User.current.wants_comments_in_reverse_order?
 		#  end
 		//$this->request->data = $this->News->read(null, $this->request->params['news_id']);
-		$this->request->data = $this->News->find('first', aa('conditions',aa('News.id',$this->request->params['id']),'recursive',3));
+		$this->request->data = $this->News->find(
+			'first',
+			array(
+				'conditions' => array(
+					'News.id' => $this->request->params['id']
+				),
+				'recursive' => 3
+			)
+		);
 		$this->set('news', $this->request->data);
 	}
 

@@ -29,10 +29,17 @@ class SettingsController extends AppController
       foreach ($this->request->data['Setting'] as $k => $v) {
       	$this->Setting->store($k,$v);
       }
-      $this->Session->setFlash(__('Successful update.'),'default',aa('class','flash notice'));
+		$this->Session->setFlash(
+			__('Successful update.'),
+			'default',
+			array('class' => 'flash notice')
+		);
       $tab = 'general';
       if ( isset($this->request->params['url']['tab'])) $tab = $this->request->params['url']['tab'];
-      $this->redirect(aa('action','edit','?','tab='.$tab));
+		$this->redirect(array(
+			'action' => 'edit',
+			'?' => 'tab='.$tab
+		));
       return;
     }
       #      redirect_to :action => 'edit', :tab => params[:tab]
@@ -58,44 +65,63 @@ class SettingsController extends AppController
 #  rescue Redmine::PluginNotFound
 #    render_404
 #  
-  function _prepareSettingTabs()
-  {
-    $tabs = array(
-      aa('name', 'general', 'partial', 'settings/general', 'label', __('General')),
-      aa('name', 'authentication', 'partial', 'settings/authentication', 'label', __('Authentication')),
-      aa('name', 'projects', 'partial', 'settings/projects', 'label', __('Projects')),
-      aa('name', 'issues', 'partial', 'settings/issues', 'label', __('Issue tracking')),
-      aa('name', 'notifications', 'partial', 'settings/notifications', 'label', __('Email notifications')),
+	public function _prepareSettingTabs() {
+		$tabs = array(
+			array(
+				'name' => 'general',
+				'partial' => 'settings/general',
+				'label' => __('General')
+			),
+			array(
+				'name' => 'authentication',
+				'partial' => 'settings/authentication',
+				'label' =>  __('Authentication')
+			),
+			array(
+				'name' => 'projects',
+				'partial' => 'settings/projects',
+				'label' => __('Projects')
+			),
+			array(
+				'name' => 'issues',
+				'partial' => 'settings/issues',
+				'label' => __('Issue tracking')
+			),
+			array(
+				'name' => 'notifications',
+				'partial' => 'settings/notifications',
+				'label' => __('Email notifications')
+			),
       //aa('name', 'mail_handler', 'partial', 'settings/mail_handler', 'label', __('Incoming emails')),
       //aa('name', 'repositories', 'partial', 'settings/repositories', 'label', __('Repositories'))
-    );
-    $this->set('settings_tabs',$tabs);
-    $selected_tab = $tabs[0]['name'];
-    if (isset($this->request->params['url']['tab'])) {
-      $selected_tab = $this->request->params['url']['tab'];
-    }
-    $this->set('selected_tab',$selected_tab);
-  }
-  function _prepareThemes()
-  {
-    $theme_list = array_map('basename', glob(APP . DS . 'webroot/themed' . DS . '*'));
-    $themes = array_combine($theme_list, $theme_list);
-    $this->set('themes',$themes);
-  }
-  function _prepareWikiformatting()
-  {
-  	$text_formattings = a(
-  	  'Textile',
-  	  'Pukiwiki'
-  	);
-  	$this->set('text_formattings',$text_formattings);
-  }
-  function _prepareColumns()
-  {
-    App::uses('Query', 'Model');
-    $this->Query = new Query();
-    $available_columns = $this->Query->available_columns();
-    $this->set('available_columns',$available_columns);
-  }
+		);
+		$this->set('settings_tabs',$tabs);
+		$selected_tab = $tabs[0]['name'];
+		if (isset($this->request->params['url']['tab'])) {
+			$selected_tab = $this->request->params['url']['tab'];
+		}
+		$this->set('selected_tab',$selected_tab);
+	}
+
+	protected function _prepareThemes() {
+		$theme_list = array_map('basename', glob(APP . DS . 'webroot/themed' . DS . '*'));
+		$themes = array_combine($theme_list, $theme_list);
+		$this->set('themes',$themes);
+	}
+
+	protected function _prepareWikiformatting() {
+		$text_formattings = array(
+			'Textile',
+			'Pukiwiki'
+		);
+		$this->set('text_formattings',$text_formattings);
+	}
+
+	protected function _prepareColumns() {
+		App::uses('Query', 'Model');
+		$this->Query = new Query();
+		$available_columns = $this->Query->available_columns();
+		$this->set('available_columns',$available_columns);
+	}
 }
 
