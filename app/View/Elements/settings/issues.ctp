@@ -1,15 +1,41 @@
-<?php echo $this->Form->create('Setting',aa('action','edit','url',aa('?','tab=issues'))) ?>
+<?php echo $this->Form->create(
+	'Setting',
+	array(
+		'action' => 'edit',
+		'url' => array(
+			'?' => 'tab=issues'
+		)
+	)
+); ?>
 
 <div class="box tabular settings">
 <p><label><?php echo __('Allow cross-project issue relations') ?></label>
-<?php echo $this->Form->checkbox('cross_project_issue_relations', aa('checked', ($Settings->cross_project_issue_relations == '1'))); ?></p>
+<?php echo $this->Form->checkbox(
+	'cross_project_issue_relations',
+	array(
+		'checked' => ($Settings->cross_project_issue_relations == '1')
+	)
+);?></p>
 
 
 <p><label><?php echo __('Display subprojects issues on main projects by default') ?></label>
-<?php echo $this->Form->checkbox('display_subprojects_issues', aa('checked', ($Settings->display_subprojects_issues == '1'))); ?></p>
+<?php echo $this->Form->checkbox(
+	'display_subprojects_issues',
+	array(
+		'checked' => ($Settings->display_subprojects_issues == '1')
+	)
+); ?></p>
 
 <p><label><?php echo __('Issues export limit') ?></label>
-<?php echo $this->Form->input('issues_export_limit',aa('value',$Settings->issues_export_limit,'size',6,'label',false,'div',false))?></p>
+<?php echo $this->Form->input(
+	'issues_export_limit',
+	array(
+		'value' => $Settings->issues_export_limit,
+		'size' => 6,
+		'label' => false,
+		'div' => false
+	)
+);?></p>
 </div>
 
 <fieldset class="box"><legend><?php echo __('Default columns displayed on the issue list') ?></legend>
@@ -29,8 +55,18 @@
     //echo h($v['caption']);
     //echo "  </label>";
   }
-  echo $this->Form->input('issue_list_default_columns',aa('type','select','multiple','checkbox','options',$available_columns_values,'div',false,'label',false,'separator','','selected',$Settings->issue_list_default_columns));
-?>
+  echo $this->Form->input(
+	'issue_list_default_columns',
+	array(
+		'type' => 'select',
+		'multiple' => 'checkbox',
+		'options' => $available_columns_values,
+		'div' => false,
+		'label' => false,
+		'separator' => '',
+		'selected' => $Settings->issue_list_default_columns
+	)
+); ?>
 </p>
 </fieldset>
 
