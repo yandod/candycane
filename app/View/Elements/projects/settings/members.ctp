@@ -1,7 +1,4 @@
-<!-- 
-<%= error_messages_for 'member' %>
--->   
-<?php 
+ <?php 
 $roles_list = array();
 foreach ($roles_data as $roles_row) {
   $roles_list[$roles_row['Role']['id']] = $roles_row['Role']['name'];

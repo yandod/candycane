@@ -80,7 +80,7 @@
   <?php if (is_array($projects)) foreach ($projects as $project): ?>
   <tr class="<?php echo $this->Candy->cycle();?>">
      <td>
-	 <?php echo (($project['Project']['status'] == PROJECT_STATUS_ACTIVE) ? ($this->Html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'settings', 'id' => $project['Project']['identifier']))) : h($project['Project']['name'])); ?>
+	 <?php echo (($project['Project']['status'] == PROJECT_STATUS_ACTIVE) ? ($this->Html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'settings', $project['Project']['identifier']))) : h($project['Project']['name'])); ?>
 	 <td><?php echo nl2br($project['Project']['short_description']); ?></td>
 	 <td align="center"> </td>
 	 <td align="center"><?php if ($project['Project']['is_public'] == TRUE) { echo $this->Html->image('true.png'); } ?></td>
