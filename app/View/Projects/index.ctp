@@ -25,14 +25,14 @@
 
 
 <?php foreach($project_tree as $project): ?>
-<h3><?php echo $this->Html->link($project['name'], array('action' => 'show', 'id' => $project['identifier']), array('class' => 'icon icon-fav')); ?></h3>
+<h3><?php echo $this->Html->link($project['name'], array('action' => 'show', $project['identifier']), array('class' => 'icon icon-fav')); ?></h3>
 <?php echo $this->Candy->textilizable($project['short_description']); ?>
 <?php if (!empty($sub_project_tree[ $project['id'] ])): ?>
   <?php if (isset($sub_project_tree[$project['id']])): ?>
   <p><?php echo __('Subprojects'); ?>:
   <?php
   foreach ($sub_project_tree[ $project['id'] ] as $key => $subproject) {
-	  echo $this->Html->link($subproject['name'], array('action' => 'show', 'id' => $subproject['identifier']), array('class' => 'icon icon-fav'));
+	  echo $this->Html->link($subproject['name'], array('action' => 'show', $subproject['identifier']), array('class' => 'icon icon-fav'));
   }
 ?></p>
   <?php endif ?>

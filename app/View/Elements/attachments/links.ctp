@@ -6,7 +6,7 @@
   <?php 
   if($options['deletable']){
     echo $this->Html->link($this->Html->image('delete.png'), 
-        array('controller'=>'attachments', 'action'=>'destroy', 'id'=>$attachment['Attachment']['id']),
+        array('controller'=>'attachments', 'action'=>'destroy', $attachment['Attachment']['id']),
         array('method'=>'post', 'class'=>'delete', 'title'=>__('Delete'), 'escape' => false),
         __('Are you sure ?'));
   }

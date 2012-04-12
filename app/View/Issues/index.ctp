@@ -24,8 +24,8 @@
     <div class="contextual">
     <?php if ($this->Queries->editable($query, $currentuser)): ?>
     <!--<% if @query.editable_by?(User.current) %>-->
-    <?php echo $this->Html->link(__('Edit'), array('controller' => 'queries', 'action' => 'edit', 'id' => $query['Query']['id']), array('class' => 'icon icon-edit')) ?>
-    <?php echo $this->Html->link(__('Delete'), array('controller' => 'queries', 'action' => 'destroy', 'id' => $query['Query']['id']), array('class' => 'icon icon-del'), __('Are you sure ?')) ?>
+    <?php echo $this->Html->link(__('Edit'), array('controller' => 'queries', 'action' => 'edit', $query['Query']['id']), array('class' => 'icon icon-edit')) ?>
+    <?php echo $this->Html->link(__('Delete'), array('controller' => 'queries', 'action' => 'destroy', $query['Query']['id']), array('class' => 'icon icon-del'), __('Are you sure ?')) ?>
     <!--
     <%= link_to l(:button_edit), {:controller => 'queries', :action => 'edit', :id => @query}, :class => 'icon icon-edit' %>
     <%= link_to l(:button_delete), {:controller => 'queries', :action => 'destroy', :id => @query}, :confirm => l(:text_are_you_sure), :method => :post, :class => 'icon icon-del' %>

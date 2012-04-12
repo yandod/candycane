@@ -91,11 +91,11 @@
 	 if ($project['Project']['status'] == 1 /* (project.parent.nil? || project.parent.active?) */) { 
 	   echo $this->Html->link(__('Archive', TRUE),
 	     array('controller' => 'projects', 'action' => 'archive', 
-	     'id' => $project['Project']['identifier']),array('class' => 'icon icon-lock'));
+	     $project['Project']['identifier']),array('class' => 'icon icon-lock'));
      } else {
 	   echo $this->Html->link(__('Unarchive', TRUE), 
 	     array('controller' => 'projects', 'action' => 'unarchive', 
-	     'id' => $project['Project']['identifier']),array('class' => 'icon icon-unlock'));
+	     $project['Project']['identifier']),array('class' => 'icon icon-unlock'));
      }
 	 ?>
     </small>
@@ -104,7 +104,7 @@
 <!--
     <small><%= link_to(l(:button_delete), { :controller => 'projects', :action => 'destroy', :id => project }, :class => 'icon icon-del') %></small>
 -->
-	 <small><?php echo $this->Html->link(__('Delete', TRUE), array('controller' => 'projects', 'action' => 'destroy', 'id' => $project['Project']['identifier']),array('class' => 'icon icon-del')); ?></small>
+	 <small><?php echo $this->Html->link(__('Delete', TRUE), array('controller' => 'projects', 'action' => 'destroy', $project['Project']['identifier']),array('class' => 'icon icon-del')); ?></small>
   </td>
   </tr>
   <?php endforeach; ?>
