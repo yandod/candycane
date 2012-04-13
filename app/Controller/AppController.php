@@ -244,7 +244,12 @@ class AppController extends Controller {
  * @return mixed
  */
 	public function deny_access() {
-		return $this->current_user['logged'] ? $this->cakeError('error_403') : $this->require_login();
+		if($this->current_user['logged']) {
+			throw new ForbiddenException();
+		}
+		else{
+			return $this->require_login();
+		}
 	}
 
 /**
