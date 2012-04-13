@@ -10,7 +10,7 @@
   'name' => 'q',
   'value' => $question
 ))?>
-<?php echo $javascript->codeblock("Field.focus('search-input')")?>
+<?php echo $this->Html->scriptBlock("Field.focus('search-input')")?>
 <?php echo $this->Search->project_select_tag(
 	$scope,
 	$currentuser,

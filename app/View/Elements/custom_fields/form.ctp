@@ -154,4 +154,4 @@ function deleteValueField(e) {
     </p>
 <?php endswitch; ?>
 </div>
-<?php echo $javascript->codeBlock("toggle_custom_field_format();"); ?>
+<?php echo $this->Html->scriptBlock("toggle_custom_field_format();"); ?>
