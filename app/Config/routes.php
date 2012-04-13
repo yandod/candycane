@@ -57,22 +57,22 @@ Router::connect('/wikis/:action/:project_id', array('controller' => 'wikis'));
 #  map.connect 'help/:ctrl/:page', :controller => 'help'
 #  #map.connect ':controller/:action/:id/:sort_key/:sort_order'
 #  
-Router::connect('issues/:action', array('controller' => 'issues'));
-Router::connect('issues/:action/:issue_id/*', array('controller' => 'issues'));
+Router::connect('/issues/:action', array('controller' => 'issues'));
+Router::connect('/issues/:action/:issue_id/*', array('controller' => 'issues'));
 
 #  map.connect 'issues/:issue_id/relations/:action/:id', :controller => 'issue_relations'
 #  map.connect 'projects/:project_id/issues/:action', :controller => 'issues'
-Router::connect('projects/:project_id/issues/:action', array('controller' => 'issues'));
+Router::connect('/projects/:project_id/issues/:action', array('controller' => 'issues'));
 
 #  map.connect 'projects/:project_id/news/:action', :controller => 'news'
 #  map.connect 'projects/:project_id/documents/:action', :controller => 'documents'
 #  map.connect 'projects/:project_id/boards/:action/:id', :controller => 'boards'
 #  map.connect 'projects/:project_id/timelog/:action/:id', :controller => 'timelog', :project_id => /.+/
-Router::connect('timelog/:action/:id/*', array('controller' => 'timelog'));
+Router::connect('/timelog/:action/:id/*', array('controller' => 'timelog'));
 
 #  map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
 
-Router::connect('news/:action/:news_id/*', array('controller' => 'news'));
+Router::connect('/news/:action/:news_id/*', array('controller' => 'news'));
 
 #
 #  map.with_options :controller => 'repositories' do |omap|
@@ -87,10 +87,10 @@ Router::connect('news/:action/:news_id/*', array('controller' => 'news'));
 #  map.connect 'attachments/:id', :controller => 'attachments', :action => 'show', :id => /\d+/
 #  map.connect 'attachments/:id/:filename', :controller => 'attachments', :action => 'show', :id => /\d+/, :filename => /.*/
 #  map.connect 'attachments/download/:id/:filename', :controller => 'attachments', :action => 'download', :id => /\d+/, :filename => /.*/
-Router::connect('attachments/:id', array('controller' => 'attachments', 'action' => 'show'), array('id' => '\\d+'));
-Router::connect('attachments/:id/:filename', array('controller' => 'attachments', 'action' => 'show'), array('id' => '\\d+', 'filename' => '.*'));
-Router::connect('attachments/download/:id/:filename', array('controller' => 'attachments', 'action' => 'download'), array('id' => '\\d+', 'filename' => '.*'));
-Router::connect('attachments/destroy/:id', array('controller' => 'attachments', 'action' => 'destroy'), array('id' => '\\d+'));
+Router::connect('/attachments/:id', array('controller' => 'attachments', 'action' => 'show'), array('id' => '\\d+'));
+Router::connect('/attachments/:id/:filename', array('controller' => 'attachments', 'action' => 'show'), array('id' => '\\d+', 'filename' => '.*'));
+Router::connect('/attachments/download/:id/:filename', array('controller' => 'attachments', 'action' => 'download'), array('id' => '\\d+', 'filename' => '.*'));
+Router::connect('/attachments/destroy/:id', array('controller' => 'attachments', 'action' => 'destroy'), array('id' => '\\d+'));
 
 #   
 #  # Allow downloading Web Service WSDL as a file with an extension
@@ -101,9 +101,9 @@ Router::connect('attachments/destroy/:id', array('controller' => 'attachments', 
 #  # Install the default route as the lowest priority.
 #  map.connect ':controller/:action/:id'
 #end
-Router::connect('search/:action/:project_id',array('controller' => 'search'));
-Router::connect('search/:action',array('controller' => 'search'));
-Router::connect('queries/:action/:query_id',array('controller' => 'queries'));
+Router::connect('/search/:action/:project_id',array('controller' => 'search'));
+Router::connect('/search/:action',array('controller' => 'search'));
+Router::connect('/queries/:action/:query_id',array('controller' => 'queries'));
 /**
  * Then we connect url '/test' to our test controller. This is helpful in
  * developement.
