@@ -59,4 +59,4 @@ echo $this->Form->create('IssueRelation', array(
   <?php echo $this->Candy->toggle_link(__('Cancel'), 'new-relation-form'); ?>
 </p>
 <?php echo $this->Form->end(); ?>
-<?php echo $javascript->codeBlock("setPredecessorFieldsVisibility();"); ?>
+<?php echo $this->Html->scriptBlock("setPredecessorFieldsVisibility();"); ?>
