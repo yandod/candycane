@@ -77,7 +77,7 @@
 
 <p class="other-formats">
   <?php echo __("Also available in:"); ?>
-  <?php echo $this->Html->link('Atom', array('controller'=>'projects','action','activity','user_id'=>$user['User']['id'], '?'=>array_merge($this->request->params['url'], array('key'=>$currentuser['RssToken']['value'], 'format'=>'atom', 'from'=>null, 'url'=>null))), array('class' => 'feed')); ?>
+  <?php echo $this->Html->link('Atom', array('controller'=>'projects','action','activity','user_id'=>$user['User']['id'], '?'=>array_merge($this->request->query, array('key'=>$currentuser['RssToken']['value'], 'format'=>'atom', 'from'=>null))), array('class' => 'feed')); ?>
 </p>
 
 <?php endif; ?>
