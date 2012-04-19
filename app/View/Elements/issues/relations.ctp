@@ -39,11 +39,11 @@ if($this->Candy->authorize_for(array('controller'=>'issue_relations', 'action'=>
 </table>
 <?php endif; ?>
 <?php
-$url = array('controller'=>'issue_relations', 'action'=>'add', 'id'=>$issue['Issue']['id']);
+$url = array('controller'=>'issue_relations', 'action'=>'add', $issue['Issue']['id']);
 echo $this->Form->create('IssueRelation', array(
         'id'=>"new-relation-form", 'url'=>$url,
-        'onsubmit'=>$this->Js->remoteFunction(array('url'=>$url, 'form'=>true, 'after'=>'return false', 'update'=>'relations')),
-        'style'=> empty($this->validationErrors) ? 'display: none;' : ''
+        'onsubmit'=> array($this->Js->request($url, array('evalScripts' => true, 'update'=>'relations')), 'return false;'),
+        'style'=> empty($this->validationErrors['IssueRelation']) ? 'display: none;' : ''
       )
     );
 ?>
