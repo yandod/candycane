@@ -1,26 +1,26 @@
 <div class="contextual">
-<?php echo $this->Candy->link_to_if_authorized(aa('controller','news','action','edit'), __('Edit'), '#', aa('class', 'icon icon-edit', 'onclick', 'Element.show("edit-news"); return false;')) ?>
-<?php echo $this->Candy->link_to_if_authorized(aa('controller','news','action','destroy'),  __('Delete'), array( 
+<?php echo $this->Candy->link_to_if_authorized(array('controller' => 'news','action' => 'edit'), __('Edit'), '#', array('class' => 'icon icon-edit', 'onclick' => 'Element.show("edit-news"); return false;')) ?>
+<?php echo $this->Candy->link_to_if_authorized(array('controller' => 'news','action' => 'destroy'),  __('Delete'), array( 
 	'controller' => 'news', 
 	'action' => 'destroy',
 	'project_id' => $news['Project']['identifier'], 
-	'id' => $news['News']['id']), aa('class', 'icon icon-del', 'onclick', "return (confirm('" . __('Are you sure ?') . "'));")); ?>
+	'id' => $news['News']['id']), array('class' => 'icon icon-del', 'onclick' => "return (confirm('" . __('Are you sure ?') . "'));")); ?>
 </div>
 
 <h2><?php echo $news['News']['title'] ?></h2>
 
 <div id="edit-news" style="display:none;">
 <?php echo $this->Form->create('News', array(
-	'url' =>aa(
-		'controller', 'news', 
-		'action', 'edit', 
+	'url' =>array(
+		'controller' => 'news', 
+		'action' => 'edit', 
 		//'news_id', $news['News']['id'], 
-		'project_id', $this->request->params['project_id']
+		'project_id' => $this->request->params['project_id']
 		)
 	)
 );?>
 <?php echo $this->element('news/_form', array('news' => $news)) ; ?>
-<?php echo $this->Form->submit( __('Save'), aa('div', false) ) ; ?>
+<?php echo $this->Form->submit( __('Save'), array('div' => false) ) ; ?>
 <!-- <%= link_to_remote l(:label_preview), 
                    { :url => { :controller => 'news', :action => 'preview', :project_id => @project },
                      :method => 'post',
@@ -28,7 +28,7 @@
                      :with => "Form.serialize('news-form')"
                    }, :accesskey => accesskey(:preview) %> | -->
 <?php echo __('Preview'); ?> |
-<?php echo $this->Html->link( __('Cancel'), "#", aa('onclick', 'Element.hide("edit-news")') );  ?>
+<?php echo $this->Html->link( __('Cancel'), "#", array('onclick' => 'Element.hide("edit-news")') );  ?>
 <?php echo $this->Form->end(); ?>
 <div id="preview" class="wiki"></div>
 </div>
@@ -61,14 +61,14 @@
 <!-- <p><%= toggle_link l(:label_comment_add), "add_comment_form", :focus => "comment_comments" %></p>
 <% form_tag({:action => 'add_comment', :id => @news}, :id => "add_comment_form", :style => "display:none;") do %>
 <%= text_area 'comment', 'comments', :cols => 80, :rows => 15, :class => 'wiki-edit' %> -->
-<p><?php echo $this->Html->link( __('Add a comment'), '#', aa('onclick', "Element.toggle('add_comment_form'); Form.Element.focus('comment_comments'); return false;")) ?></p>
-<?php echo $this->Form->create('News', aa('url', array(
+<p><?php echo $this->Html->link( __('Add a comment'), '#', array('onclick' => "Element.toggle('add_comment_form'); Form.Element.focus('comment_comments'); return false;")) ?></p>
+<?php echo $this->Form->create('News', array('url' => array(
 	 'action' => 'add_comment',
 	 'project_id' => $news['Project']['identifier']
 
-), 'id', 'add_comment_form', 'style', 'display:none;')) ; ?>
-<?php echo $this->Form->textarea( 'comments', aa('id', 'comment_comments', 'cols', 80, 'rows', 15, 'class', 'wiki-edit' )) ; ?>
-<?php echo $this->Form->submit( __('Add'), aa('div', false) ) ; ?>
+), 'id' => 'add_comment_form', 'style' => 'display:none;')) ; ?>
+<?php echo $this->Form->textarea( 'comments', array('id' => 'comment_comments', 'cols' => 80, 'rows' => 15, 'class' => 'wiki-edit' )) ; ?>
+<?php echo $this->Form->submit( __('Add'), array('div' => false) ) ; ?>
 <?php echo $this->Form->end(); ?>
 <!--<%= wikitoolbar_for 'comment_comments' %>-->
 <?php endif; ?>
