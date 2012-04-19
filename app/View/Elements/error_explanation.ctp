@@ -7,7 +7,7 @@
   */
 ?>
 <?php
-if(!empty($this->validationErrors)):
+if(!empty($this->validationErrors['IssueRelation'])):
   if(!isset($forHelper)) {
     if(!isset($form)) {
       return;
@@ -19,7 +19,7 @@ if(!empty($this->validationErrors)):
 <span>
   <?php
   $count = 0; 
-  foreach($this->validationErrors as $errors) {
+  foreach($this->validationErrors['IssueRelation'] as $errors) {
     $count += count($errors);
   }
   echo sprintf(__('%d errors'), $count); 
@@ -27,7 +27,7 @@ if(!empty($this->validationErrors)):
 </span>
 <ul>
 <?php
-  foreach($this->validationErrors as $errors):
+  foreach($this->validationErrors['IssueRelation'] as $errors):
     foreach($errors as $field => $message):
 ?>
   <li><?php echo sprintf(__('[%s] : %s'), $this->Candy->label_text($field), $message); ?></li>

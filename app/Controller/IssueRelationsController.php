@@ -23,7 +23,7 @@ class IssueRelationsController extends AppController
     'RequestHandler',
   );
   var $helpers = array(
-    'Issues',
+    'Issues', 'Js' => array('Prototype')
   );
   var $_issue;
 
@@ -59,7 +59,7 @@ class IssueRelationsController extends AppController
       $this->set(compact('issue_relations'));
       $this->layout = 'ajax';
     } else {
-      $this->redirect(array('controller'=>'issues', 'action'=>'show', 'id'=>$this->_issue['Issue']['id']));
+      $this->redirect(array('controller'=>'issues', 'action'=>'show', $this->_issue['Issue']['id']));
     }
   }
   
@@ -92,7 +92,8 @@ class IssueRelationsController extends AppController
       $this->set(array('issue'=>$this->_issue));
       return $this->_issue;
     } else {
-      $this->cakeErorr('error404');
+      throw new NotFoundException();
+
     }
   }
 }
