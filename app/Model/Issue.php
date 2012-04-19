@@ -602,7 +602,7 @@ class Issue extends AppModel
      return $data['Tracker']['name'].' #'.$data['Issue']['id'].': '.$data['Issue']['subject'];
   }
   function _event_url($data) {
-    return  array('controller'=>'issues', 'action'=>'show', 'id'=>$data['Issue']['id']);
+    return  array('controller'=>'issues', 'action'=>'show', $data['Issue']['id']);
   }
 
 #  
