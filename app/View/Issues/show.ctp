@@ -2,7 +2,7 @@
   <?php echo $this->Candy->link_to_if_authorized(null, __('Update'), array('controller' => 'issues', 'action' => 'edit', 'id' => $issue['Issue']['id']), array('onclick' => 'showAndScrollTo("update", "notes"); return false;', 'class' => 'icon icon-edit', 'accesskey' => 'accesskey(:edit)')); ?>
   <?php echo $this->Candy->link_to_if_authorized(null, __('Log time'), array('controller' => 'timelog', 'action' => 'edit', '?'=>array('issue_id' => $issue['Issue']['id'])), array('class' => 'icon icon-time')) ?>
   <?php echo $this->Watchers->watcher_link($issue, $currentuser); ?>
-  <?php echo $this->Candy->link_to_if_authorized(aa('controller','issues', 'action','new'), __('Copy'), array('controller' => 'issues', 'action' => 'add', 'project_id' => $main_project['Project']['identifier'], '?'=>array('copy_from'=>$issue['Issue']['id'])), array('class' => 'icon icon-copy')) ?>
+  <?php echo $this->Candy->link_to_if_authorized(array('controller' => 'issues', 'action' => 'new'), __('Copy'), array('controller' => 'issues', 'action' => 'add', 'project_id' => $main_project['Project']['identifier'], '?'=>array('copy_from'=>$issue['Issue']['id'])), array('class' => 'icon icon-copy')) ?>
   <?php echo $this->Candy->link_to_if_authorized(null, __('Move'), array('controller' => 'issues', 'action' => 'move', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-move')); ?>
   <?php echo $this->Candy->link_to_if_authorized(null, __('Delete'), array('controller' => 'issues', 'action' => 'destroy', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-del'), __('Are you sure ?')); ?>
 </div>
@@ -64,7 +64,7 @@
 <hr />
 
 <div class="contextual">
-  <?php if($this->Candy->authorize_for(aa('controller','issues', 'action','reply')) && !empty($issue['Issue']['description'])) echo $ajax->link(__('Quote'), array('controller' => 'issues', 'action' => 'reply', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-comment')); ?>
+  <?php if($this->Candy->authorize_for(array('controller' => 'issues', 'action' => 'reply')) && !empty($issue['Issue']['description'])) echo $ajax->link(__('Quote'), array('controller' => 'issues', 'action' => 'reply', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-comment')); ?>
 </div>
 
 <p><strong><?php echo __('Description') ?></strong></p>
@@ -127,8 +127,8 @@
 
 <p class="other-formats">
 <?php echo __("'Also available in:'") ?>
-<span><?php echo $this->Html->link('Atom', array('action'=>'show', 'id'=>$issue['Issue']['id'], 'format'=>'atom', 'key'=>$rssToken), array('class'=>'feed'));?></span>
-<span><?php echo $this->Html->link('PDF', array('action'=>'show', 'id'=>$issue['Issue']['id'], 'format'=>'pdf'), array('class'=>'pdf')); ?></span>
+<span><?php echo $this->Html->link('Atom', array('action'=>'show', $issue['Issue']['id'], 'format'=>'atom', 'key'=>$rssToken), array('class'=>'feed'));?></span>
+<span><?php echo $this->Html->link('PDF', array('action'=>'show', $issue['Issue']['id'], 'format'=>'pdf'), array('class'=>'pdf')); ?></span>
 </p>
 
     <?php $this->Candy->html_title($issue['Tracker']['name'] . ' #' . $issue['Issue']['id'], ' ' . $issue['Issue']['subject']) ?>
