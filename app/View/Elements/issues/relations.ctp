@@ -42,7 +42,7 @@ if($this->Candy->authorize_for(array('controller'=>'issue_relations', 'action'=>
 $url = array('controller'=>'issue_relations', 'action'=>'add', 'id'=>$issue['Issue']['id']);
 echo $this->Form->create('IssueRelation', array(
         'id'=>"new-relation-form", 'url'=>$url,
-        'onsubmit'=>$ajax->remoteFunction(array('url'=>$url, 'form'=>true, 'after'=>'return false', 'update'=>'relations')),
+        'onsubmit'=>$this->Js->remoteFunction(array('url'=>$url, 'form'=>true, 'after'=>'return false', 'update'=>'relations')),
         'style'=> empty($this->validationErrors) ? 'display: none;' : ''
       )
     );
