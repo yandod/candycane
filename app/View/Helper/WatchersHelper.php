@@ -23,7 +23,7 @@ end
 */
 class WatchersHelper extends AppHelper
 {
-  var $helpers = array('Html', 'Ajax', 'Candy');
+  var $helpers = array('Html', 'Js', 'Candy');
 
   function watcher_tag($object, $user) {
     return $this->Html->tag("span", $this->watcher_link($object, $user), array('id'=>'watcher', false));
@@ -41,7 +41,7 @@ class WatchersHelper extends AppHelper
             'action' => ($watched ? 'unwatch' : 'watch'),
             'object_type' => $type,
             'object_id' => $object[$type]['id']);
-    $link = $this->Ajax->link(($watched ? __('Unwatch') : __('Watch')), $url, array(
+    $link = $this->Js->link(($watched ? __('Unwatch') : __('Watch')), $url, array(
         'class'=> ($watched ? 'icon icon-fav' : 'icon icon-fav-off'),
         'update'=>'watcher_link'
     ));
