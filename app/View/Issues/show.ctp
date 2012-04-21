@@ -64,7 +64,7 @@
 <hr />
 
 <div class="contextual">
-  <?php if($this->Candy->authorize_for(aa('controller','issues', 'action','reply')) && !empty($issue['Issue']['description'])) echo $ajax->link(__('Quote'), array('controller' => 'issues', 'action' => 'reply', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-comment')); ?>
+  <?php if($this->Candy->authorize_for(array('controller' => 'issues', 'action' => 'reply')) && !empty($issue['Issue']['description'])) echo $this->Js->link(__('Quote'), array('controller' => 'issues', 'action' => 'reply', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-comment')); ?>
 </div>
 
 <p><strong><?php echo __('Description') ?></strong></p>
@@ -92,7 +92,7 @@
     'object_type'=>'issue', 
     'watched'=>$issue['Issue']['id'], 
     'addIssueWatchersAllowed'=>$this->Candy->authorize_for(':add_issue_watchers')
-    ), 'Watchers'); ?>
+    )); ?>
 </div>
 <?php endif; ?>
 
