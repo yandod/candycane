@@ -1,7 +1,7 @@
 <div class="contextual">
 <?php
   if($addIssueWatchersAllowed) {
-    echo $ajax->link(__('Add'), array(
+    echo $this->Js->link(__('Add'), array(
         'controller'=>'watchers','action'=>'add',
         'object_type'=>$object_type,
         'object_id'=>$watched

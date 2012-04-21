@@ -60,7 +60,7 @@ var toolbar = new jsToolBar($('notes')); toolbar.setHelpLink('<?php echo __("Tex
 
   <?php echo $this->Form->hidden('lock_version'); ?>
   <?php echo $this->Form->submit(__('Submit'), array('div'=>false)); ?>
-  <?php echo $ajax->link(__('Preview'), '#', array(
+  <?php echo $this->Js->link(__('Preview'), '#', array(
     'update'=>'preview',
     'url'=>'/projects/'.$main_project['Project']['identifier'].'/issues/preview/'.$issue['Issue']['id'],
     'with'=>'Form.serialize("issue-form")',

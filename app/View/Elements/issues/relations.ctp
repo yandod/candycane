@@ -7,10 +7,9 @@ if($this->Candy->authorize_for(array('controller'=>'issue_relations', 'action'=>
 </div>
 
 <p><strong><?php echo __('Related issues')?></strong></p>
-
-<?php if(!empty($issueRelations)): ?>
+<?php if(!empty($issue_relations)): ?>
 <table style="width:100%">
-<?php foreach($issueRelations as $relation): ?>
+<?php foreach($issue_relations as $relation): ?>
 <tr>
 <td>
   <?php echo $this->Issues->relation_label_for($issue, $relation); ?>
@@ -29,7 +28,7 @@ if($this->Candy->authorize_for(array('controller'=>'issue_relations', 'action'=>
 <td><?php echo $this->Candy->format_date($other_issue['Issue']['due_date']); ?></td>
 <td>
   <?php if($this->Candy->authorize_for(array('controller'=>'issue_relations', 'action'=>'destroy'))) {
-    echo $ajax->link($this->Html->image('delete.png'), 
+    echo $this->Js->link($this->Html->image('delete.png'), 
       array('controller'=>'issue_relations', 'action'=>'destroy', 'issue_id'=>$issue['Issue']['id'], 'id'=>$relation['IssueRelation']['id']),
       array('method'=>'post', 'title'=> __('Delete relation'), 'update'=>'relations', 'escape' => false));
   }?>
@@ -39,11 +38,18 @@ if($this->Candy->authorize_for(array('controller'=>'issue_relations', 'action'=>
 </table>
 <?php endif; ?>
 <?php
-$url = array('controller'=>'issue_relations', 'action'=>'add', 'id'=>$issue['Issue']['id']);
+$url = array('controller'=>'issue_relations', 'action'=>'add', $issue['Issue']['id']);
+$data = $this->Js->get("#new-relation-form")->serializeForm(array('isForm' => true, 'inline' => true ));
 echo $this->Form->create('IssueRelation', array(
         'id'=>"new-relation-form", 'url'=>$url,
-        'onsubmit'=>$ajax->remoteFunction(array('url'=>$url, 'form'=>true, 'after'=>'return false', 'update'=>'relations')),
-        'style'=> empty($this->validationErrors) ? 'display: none;' : ''
+        'onsubmit'=> array($this->Js->request($url, array(
+		'evalScripts' => true, 
+		'dataExpression' => true,
+		'data' => $data,
+		'update'=>'relations'
+		)),
+	 'return false;'),
+        'style'=> empty($this->validationErrors['IssueRelation']) ? 'display: none;' : ''
       )
     );
 ?>
@@ -51,7 +57,7 @@ echo $this->Form->create('IssueRelation', array(
 <p>
   <?php echo $this->Form->input('relation_type', array('type'=>'select', 'options'=>$this->Issues->relation_type_select(), 'onchange'=>"setPredecessorFieldsVisibility();", 'id'=>'relation_relation_type', 'div'=>false, 'label'=>false)); ?>
   <?php echo __('Issue') ?> #
-  <?php echo $this->Form->input('issue_to_id', array('type'=>'text', 'size'=>6, 'div'=>false, 'label'=>false)); ?>
+  <?php echo $this->Form->input('issue_to_id', array('type'=>'text', 'size'=>6, 'div'=>false, 'label'=>false, 'error' => false)); ?>
   <span id="predecessor_fields" style="display:none;">
     <?php echo __('Delay'); ?>: <?php echo $this->Form->input('delay', array('size'=>3, 'div'=>false, 'label'=>false)); ?> <?php echo __('days'); ?>
   </span>
