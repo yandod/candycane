@@ -121,7 +121,7 @@
 	<p>
 		<label><?php echo __('Watchers'); ?></label>
 		<?php
-		$this->Form->Html->loadConfig('checkbox.php', APP . 'config' . DS);
+		$this->Form->Html->loadConfig('checkbox.php', APP . 'Config' . DS);
 		echo $this->Form->input(
 			'watcher_user_ids',
 			array(
@@ -132,7 +132,7 @@
 				'options' => $members
 			)
 		);
-		$this->Form->Html->loadConfig('checkbox_origin.php', APP . 'config' . DS);
+		$this->Form->Html->loadConfig('checkbox_origin.php', APP . 'Config' . DS);
 		?>
 	</p>
 <?php endif; ?>
