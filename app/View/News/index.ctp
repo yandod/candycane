@@ -1,5 +1,5 @@
 <div class="contextual">
-<?php if (isset($main_project)) echo $this->Candy->link_to_if_authorized(aa('controller','news', 'action','new'), __('Add news'), array('controller' => 'news', 'action' => 'add', 'project_id' => $main_project['Project']['identifier']), array('onclick' => 'Element.show("add-news"); return false;', 'class' => 'icon icon-add', 'accesskey' => 'accesskey(:edit)')); ?>
+<?php if (isset($main_project)) echo $this->Candy->link_to_if_authorized(array('controller' => 'news', 'action' => 'new'), __('Add news'), array('controller' => 'news', 'action' => 'add', 'project_id' => $main_project['Project']['identifier']), array('onclick' => 'Element.show("add-news"); return false;', 'class' => 'icon icon-add', 'accesskey' => 'accesskey(:edit)')); ?>
 </div>
 
 <div id="add-news" style="display:none;">
@@ -8,7 +8,7 @@
 echo $this->Form->create('News', array('url' => "/projects/{$main_project['Project']['identifier']}/news/add", 'id' => 'NewsAddForm'));
 	echo $this->element('news/_form');
 	echo $this->Form->submit(__('Create'), array('div' => false));
-	echo $ajax->link(
+	echo $this->Js->link(
 		__('Preview'),
 		array(
 			'action' => 'preview',
