@@ -75,7 +75,7 @@
 <?php
   // Copy from AttachmentHelper, because can not call element from Helper.
   if(array_key_exists('Author', $issue)) {
-    $attach_options = array_merge(array('deletable'=>$attachmentsDeletable), $issue);
+    $attach_options = array_merge(array('deletable'=>$attachments_deletable), $issue);
     echo $this->element('attachments/links', array('attachments'=>$attachments, 'options'=>$attach_options), array('Number'));
   }
 ?>
@@ -105,11 +105,11 @@
 </div>
 <?php endif; ?>
 
-<?php if(!empty($journalList)): ?>
+<?php if(!empty($journal_list)): ?>
 <div id="history">
 <h3><?php echo __('History') ?></h3>
   <?php echo $this->element('issues/history', array(
-    'journalList'=>$journalList, 
+    'journalList'=>$journal_list, 
     'issue'=>$issue
     )); ?>
 </div>
@@ -127,12 +127,12 @@
 
 <p class="other-formats">
 <?php echo __("'Also available in:'") ?>
-<span><?php echo $this->Html->link('Atom', array('action'=>'show', $issue['Issue']['id'], 'format'=>'atom', 'key'=>$rssToken), array('class'=>'feed'));?></span>
+<span><?php echo $this->Html->link('Atom', array('action'=>'show', $issue['Issue']['id'], 'format'=>'atom', 'key'=>$rss_token), array('class'=>'feed'));?></span>
 <span><?php echo $this->Html->link('PDF', array('action'=>'show', $issue['Issue']['id'], 'format'=>'pdf'), array('class'=>'pdf')); ?></span>
 </p>
 
     <?php $this->Candy->html_title($issue['Tracker']['name'] . ' #' . $issue['Issue']['id'], ' ' . $issue['Issue']['subject']) ?>
 
 <?php $this->set('Sidebar', $this->element('issues/sidebar')) ?>
-<?php $this->Html->meta('atom', array('action'=>'show', 'id'=>$issue['Issue']['id'], 'format'=>'atom', 'key'=>$rssToken), array('title'=>$issue['Project']['name'].' - '.$issue['Tracker']['name'].' ##'.$issue['Issue']['id'].': '.$issue['Issue']['subject'], 'rel'=>'alternate'), false); ?>
+<?php $this->Html->meta('atom', array('action'=>'show', 'id'=>$issue['Issue']['id'], 'format'=>'atom', 'key'=>$rss_token), array('title'=>$issue['Project']['name'].' - '.$issue['Tracker']['name'].' ##'.$issue['Issue']['id'].': '.$issue['Issue']['subject'], 'rel'=>'alternate'), false); ?>
 <?php $this->Html->css('scm.css', null, array('media'=>'screen'), false); ?>
