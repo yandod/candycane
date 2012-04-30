@@ -1,20 +1,23 @@
 <?php
+App::uses('AppHelper', 'View/Helper');
+
 class IssuesHelper extends AppHelper
 {
-  var $name = 'Issues';
-  var $helpers = array(
+  public $name = 'Issues';
+  public $helpers = array(
     'Candy',
     'CustomField',
     'Html'
   );
   var $relation_types = array();
-  function __construct() {
+  function __construct($view, $settings) {
     $this->relation_types = array(
             "relates" =>     array('name'=>__('related to'), 'sym_name'=>__('related to'), 'order'=> 1),
             "duplicates" =>  array('name'=>__('duplicates'), 'sym_name'=>__('duplicated by'), 'order'=>2),
             "blocks" =>      array('name'=>__('blocks'),     'sym_name'=>__('blocked by'), 'order'=>3),
             "precedes" =>    array('name'=>__('precedes'),   'sym_name'=>__('follows'), 'order'=>4)
           );
+	parent::__construct($view, $settings);
   }
 #require 'csv'
 #
@@ -58,7 +61,7 @@ class IssuesHelper extends AppHelper
 #    @sidebar_queries
 #  end
 #
-  function show_detail($detail, $no_html=false) {
+  public function show_detail($detail, $no_html=false) {
     $result = $this->requestAction(array('controller'=>'issues', 'action'=>'detail_values'), compact('detail'));
     // $label, $value, $old_value, $field_format, $attachment
     extract($result);
