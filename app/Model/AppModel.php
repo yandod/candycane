@@ -242,7 +242,7 @@ class AppModel extends Model {
 			}
 		}
 		if (!empty($unbind)) {
-			$this->unbindModel($unbind, false);
+			$this->unbindModel($unbind, $reset);
 		}
 	}
 }
