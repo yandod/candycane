@@ -326,7 +326,14 @@ class CandyHelper extends AppHelper {
  * @return string Link to version
  */
 	public function link_to_version($version, $options = array()) {
-		return $this->Html->link(h($version['name']), array('controller' => 'versions', 'action' => 'show', 'id' => $version['id']), $options);
+		return $this->Html->link(
+			h($version['name']),
+			array(
+				'controller' => 'versions',
+				'action' => 'show',
+				$version['id']
+			),
+		$options);
 	}
 
   function toggle_link($name, $id, $options=array()) {
