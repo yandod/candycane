@@ -11,21 +11,21 @@
  * @license  http://www.opensource.org/licenses/mit-license.php The MIT License
  * @link     http://www.croogo.org
  */
-class InstallController extends InstallAppController {
+class CcInstallController extends CcInstallAppController {
 /**
  * Controller name
  *
  * @var string
  * @access public
  */
-	var $name = 'Install';
+	var $name = 'CcInstall';
 /**
  * No models required
  *
  * @var array
  * @access public
  */
-    public $uses = array('User');
+    public $uses = array();
 /**
  * No components required
  *
@@ -39,6 +39,7 @@ class InstallController extends InstallAppController {
  * @return void
  */
     function beforeFilter() {
+		Configure::write('debug', 0);
         parent::beforeFilter();
         App::uses('L10n', 'I18n');
         App::uses('SessionComponent', 'Controller/Component');
@@ -57,7 +58,8 @@ class InstallController extends InstallAppController {
     function index() {
         $this->pageTitle = __('Installation: Welcome');
 		$url = Router::url(array(
-			'controller' => 'install',
+			'plugin' => 'cc_install',
+			'controller' => 'cc_install',
 			'action' => 'route'
 			),
 			true
@@ -127,7 +129,7 @@ class InstallController extends InstallAppController {
         //App::import('Core', 'Model');
         //$Model = new Model;
 
-        if (isset($this->params['named']['run'])) {
+        if (isset($this->request['named']['run'])) {
             App::import('Core', 'File');
             App::import('Model', 'ConnectionManager');
             $db = ConnectionManager::getDataSource('default');
@@ -154,7 +156,7 @@ class InstallController extends InstallAppController {
         if (isset($this->params['named']['delete'])) {
             App::import('Core', 'Folder');
             $this->folder = new Folder;
-            if ($this->folder->delete(APP.'plugins'.DS.'install')) {
+            if ($this->folder->delete(APP.'Plugin'.DS.'CcInstall')) {
                 $this->Session->setFlash(__('Installataion files deleted successfully.'));
                 $this->redirect('/');
                 exit();

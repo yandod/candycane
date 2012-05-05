@@ -5,11 +5,11 @@
  * to use (in this case, /app/views/pages/home.ctp)...
  */
     // for quick install
-	//if (!file_exists(APP.'config'.DS.'database.php')) {
-	//	Router::connect('/', array('controller' => 'install', 'plugin' => 'install'));
-	//} else {
+	if (!file_exists(APP.'Config'.DS.'database.php')) {
+		Router::connect('/', array('controller' => 'cc_install', 'action' => 'index', 'plugin' => 'cc_install'));
+	} else {
 		Router::connect('/', array('controller' => 'welcome', 'action' => 'index'));
-    //}
+    }
 	Router::connect('/login', array('controller' => 'account', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'account', 'action' => 'logout'));
 	Router::connect('/projects/:project_id/issues/:action/*', array('controller' => 'issues'));
