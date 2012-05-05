@@ -266,7 +266,14 @@ class CandyHelper extends AppHelper {
 			$options['class'] .= ' closed';
 		}
 
-		return $this->Html->link("{$issue['Tracker']['name']} #{$issue['Issue']['id']}", array('controller'=>'issues', 'action'=>'show', 'id'=>$issue['Issue']['id']), $options);
+		return $this->Html->link(
+			"{$issue['Tracker']['name']} #{$issue['Issue']['id']}", 
+			array(
+				'controller'=>'issues',
+				'action'=>'show',
+				$issue['Issue']['id']
+			),
+		$options);
 
 		#    options[:class] ||= ''
 		#    options[:class] << ' issue'
