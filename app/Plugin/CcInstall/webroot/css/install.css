@@ -11,12 +11,13 @@
 #install .install { -moz-border-radius: 10px; -webkit-border-radius: 10px; }
 
 .install #header {  }
+.install #main { min-height: 350px; }
 .install #footer { background: none; color: #444; text-align: center; padding: 5px }
 .install #footer a { color: #444; }
 
 body {
 	background-image: url('../img/bear.png');
 	background-repeat: no-repeat;
-	background-position: right bottom
-	
+	background-position: right bottom;
+
 }
