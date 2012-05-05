@@ -360,7 +360,7 @@ class ActionMailer extends Component
 		$ctrl->viewPath = Inflector::underscore($this->name);
 		$ctrl->set($this->data);
 		$this->_viewClass =& new $viewClass($ctrl);
-		return $this->_viewClass->render($action, $layout, $action.'.text.plain');
+		return $this->_viewClass->render($action.'.text.plain', $layout);
 	}
 	
 	/**
