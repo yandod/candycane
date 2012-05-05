@@ -13,7 +13,8 @@ class QueriesController extends AppController
     'CustomField',
     'Number',
     'Watchers',
-    'Journals'
+    'Journals',
+    'Js'
   );
   var $components = array(
     'RequestHandler',
