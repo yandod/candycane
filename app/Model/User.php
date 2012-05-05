@@ -205,7 +205,13 @@ class User extends AppModel {
 #  # Return an array of project ids for which the user has explicitly turned mail notifications on
   function notified_projects_ids($id)
   {
-    $membership = $this->Membership->find('all',aa('conditions',aa('user_id',$id,'Membership.mail_notification','1'),'recurisive',-1));
+    $membership = $this->Membership->find('all',array(
+		'conditions' => array(
+			'user_id' => $id,
+			'Membership.mail_notification' => '1'
+		),
+		'recurisive' => -1
+	));
     return Set::extract('/Membership/project_id',$membership);
 #    @notified_projects_ids ||= memberships.select {|m| m.mail_notification?}.collect(&:project_id)
   }
