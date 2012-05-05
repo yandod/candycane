@@ -17,7 +17,7 @@
 				<?php echo $this->Html->link($issue['Issue']['id'],array(
 					'controller' => 'issues',
 					'action' => 'show',
-					'id' => $issue['Issue']['id']
+					$issue['Issue']['id']
 				)); ?>
 			</td>
 			<td><?php echo h($issue['Project']['name']) ?> - <?php echo $issue['Tracker']['name'] ?><br />
@@ -26,7 +26,7 @@
                 <?php echo $this->Html->link($issue['Issue']['subject'],array(
 					'controller' => 'issues',
 					'action' => 'show',
-					'id' => $issue['Issue']['id']
+					$issue['Issue']['id']
 				)) ?>
             </td>
 		</tr>

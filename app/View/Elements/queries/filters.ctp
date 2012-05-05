@@ -75,7 +75,7 @@ function toggle_multi_select(field) {
 				array(
 					'name' => 'operators[' . $field . ']',
 					'id' => 'operators_' . $field,
-					'onchange' => "toggle_operator('" . $this->Js->value($field) . "');",
+					'onchange' => "toggle_operator(" . $this->Js->value($field) . ");",
 					'class' => 'select-small',
 					'style' => 'vertical-align: top;'
 				)
