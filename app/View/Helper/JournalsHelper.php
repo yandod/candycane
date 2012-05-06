@@ -14,17 +14,23 @@ class JournalsHelper extends AppHelper
       if(!empty($options['reply_links'])) {
         $links[] = $this->Js->link(
           $this->Html->image('comment.png'),
-          array('controller'=>'issues', 'action'=>'reply', 'id'=>$journal['Journal']['journalized_id'], 'journal_id'=>$journal['Journal']['id']),
-          array('title'=>__('Quote'))
-          ,null,false
+          array(
+			  'controller'=>'issues',
+			  'action'=>'reply',
+			  'id'=>$journal['Journal']['journalized_id'],
+			  'journal_id'=>$journal['Journal']['id']),
+          array('title'=>__('Quote'), 'escape' => false)
         );
       }
       if($editable) {
         $links[] = $this->Js->link(
           $this->Html->image('edit.png'), 
-          array('controller'=>'journals', 'action'=>'edit', 'id'=>$journal['Journal']['id']),
-          array('title'=>__('Edit')/*, 'update'=>"journal-".$journal['Journal']['id']."-notes"*/)
-          ,null,false
+          array(
+			  'controller'=>'journals',
+			  'action'=>'edit',
+			  'id'=>$journal['Journal']['id']
+		  ),
+          array('title'=>__('Edit'), 'escape' => false/*, 'update'=>"journal-".$journal['Journal']['id']."-notes"*/)
         );
       }
     }
