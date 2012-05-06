@@ -497,7 +497,10 @@ class IssuesController extends AppController {
         if(!empty($this->request->params['url']['back_to'])) {
           $this->redirect($this->request->params['url']['back_to']);
         }
-        $this->redirect(array('action'=>'show', 'id'=>$issue['Issue']['id']));
+        $this->redirect(array(
+			'action'=>'show',
+			$issue['Issue']['id']
+		));
       }
       $this->request->data['Issue']['notes'] = $notes;
     } else {
