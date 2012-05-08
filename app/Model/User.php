@@ -218,8 +218,23 @@ class User extends AppModel {
 #
   function set_notified_project_ids($ids,$user_id)
   {
-    $this->Membership->updateAll(aa('Membership.mail_notification',0),aa('Membership.user_id',$user_id));
-    $this->Membership->updateAll(aa('Membership.mail_notification',1),aa('Membership.user_id',$user_id,'Membership.project_id',$ids));
+    $this->Membership->updateAll(
+		array(
+			'Membership.mail_notification' => 0
+		),
+		array(
+			'Membership.user_id' => $user_id
+		)
+	);
+    $this->Membership->updateAll(
+		array(
+			'Membership.mail_notification' => 1
+		),
+		array(
+			'Membership.user_id' => $user_id,
+			'Membership.project_id' => $ids
+		)
+	);
 
 #    Member.update_all("mail_notification = #{connection.quoted_true}", ['user_id = ? AND project_id IN (?)', id, ids]) if ids && !ids.empty?
     return $this->notified_projects_ids($user_id);
