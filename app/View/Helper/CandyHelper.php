@@ -1066,7 +1066,7 @@ function breadcrumb($args)
                                           'action'     => 'index',
                                           'project_id' => $link_project['Project']['identifier'],
                                           'wikipage'   => $page),
-                                    aa('class', $class));
+                                    array('class' => $class));
       } else {
 
         if ($title !== "") {
@@ -1128,9 +1128,10 @@ function breadcrumb($args)
                                           'action' => 'revision',
                                           'id' => $project,
                                           'rev' => $oid),
-                                    aa('class', 'changeset',
-                                       'title',
-                                       ''/*truncate_single_line(changeset.comments, 100)*/));
+                                    array(
+										'class' => 'changeset',
+                                        'title' => ''
+                                        /*truncate_single_line(changeset.comments, 100)*/));
 
         }
       } elseif ($sep === '#') {
@@ -1145,8 +1146,9 @@ function breadcrumb($args)
                                       array('controller' => 'issues',
                                             'action' => 'show',
                                             'id' => $oid),
-                                      aa('class', $class,
-                                         'title', ''/*"#{truncate(issue.subject, 100)} (#{issue.status.name})")*/));
+                                      array(
+										'class' => $class,
+                                         'title' =>  ''/*"#{truncate(issue.subject, 100)} (#{issue.status.name})")*/));
             if (/*issue.closed?*/false) {
               $link = $this->Html->tag('del', $link);
             }
@@ -1160,7 +1162,7 @@ function breadcrumb($args)
                                       array('controller' => 'documents',
                                             'action' => 'show',
                                             'id' => $document),
-                                      aa('class', 'document'));
+                                      array('class' => 'document'));
           }
           break;
         case 'version':
@@ -1180,7 +1182,7 @@ function breadcrumb($args)
                                       array('controller' => 'documents',
                                             'action' => 'show',
                                             'id' => $document),
-                                      aa('class', 'document'));
+                                      array('class' => 'document'));
           }
           break;
         case 'version':
