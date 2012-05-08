@@ -389,7 +389,12 @@ class ProjectsController extends AppController {
 		$this->request->data['CustomField']['CustomField'] = array_filter($this->request->data['Project']['issue_custom_field_ids']);
 		if ($this->Project->save($this->request->data, true, $fields)) {
 			$this->Session->setFlash(__('Successful update.'), 'default', array('class' => 'flash notice'));
-			$this->redirect(array('action' => 'settings', 'id' => $this->request->params['project_id']));
+			$this->redirect(
+				array(
+					'action' => 'settings',
+					$this->request->params['project_id']
+				)
+			);
 		}
 		$this->settings();
 		$this->render('settings');
@@ -415,7 +420,13 @@ class ProjectsController extends AppController {
 			$this->Project->EnabledModule->saveAll($data);
 			$this->Session->setFlash(__('Successful update.'), 'default', array('class' => 'flash notice'));
 		}
-		$this->redirect(array('action' => 'settings', 'id' => $this->request->params['project_id'], '?' => 'tab=modules'));
+		$this->redirect(
+			array(
+				'action' => 'settings',
+				'?' => 'tab=modules',
+				$this->request->params['project_id']
+			)
+		);
 	}
 
 /**
@@ -496,7 +507,14 @@ class ProjectsController extends AppController {
       if($this->IssueCategory->save(null, true, array('project_id', 'name', 'assigned_to_id'))) {
         if (!$this->RequestHandler->isAjax()) {
           $this->Session->setFlash(__('Successful creation.'), 'default', array('class'=>'flash flash_notice'));
-          $this->redirect(array('controller'=>'projects', 'action'=>'settings', 'project_id'=>$this->request->data['Project']['project_id'], '?'=>'tab=categories'));
+          $this->redirect(
+			array(
+				'controller' => 'projects',
+				'action' => 'settings',
+				'project_id' => $this->request->data['Project']['project_id'],
+				'?' => 'tab=categories'
+			)
+		  );
         } else {
           $this->layout = 'ajax';
           $issue_categories = $this->IssueCategory->find('list', array(
