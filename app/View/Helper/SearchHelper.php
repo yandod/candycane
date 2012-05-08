@@ -34,7 +34,7 @@ class SearchHelper extends AppHelper {
 #    options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.active_children.empty?
 #    options << [@project.name, ''] unless @project.nil?
 #    select_tag('scope', options_for_select(options, params[:scope].to_s)) if options.size > 1
-    return $this->Form->select('scope',$options,null,array('name'=>'scope'),false);
+    return $this->Form->select('scope',$options,array('name'=>'scope'));
   }
 #  
   function render_results_by_type($results_by_type,$params){
@@ -57,10 +57,10 @@ class SearchHelper extends AppHelper {
       $links[] = $this->Html->link(
         $text,
         array('?' => array(
-          'q' => $params['url']['q'],
-          'titles_only' => $params['url']['all_words'],
-          'all_words' => $params['url']['q'],
-          'scope' => $params['url']['scope'],
+          'q' => $params->query['q'],
+          'titles_only' => $params->query['all_words'],
+          'all_words' => $params->query['q'],
+          'scope' => $params->query['scope'],
           $t[0]['scope_type'] => 1,
         ))
       );

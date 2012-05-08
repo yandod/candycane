@@ -32,12 +32,12 @@ class SearchController extends AppController {
  * @return void
  */
 	function index() {
-		$question = isset($this->request->params['url']['q']) ? trim($this->request->params['url']['q']) : '';
+		$question = isset($this->request->query['q']) ? trim($this->request->query['q']) : '';
 		#    @all_words = params[:all_words] || (params[:submit] ? false : true)
-		$all_words = isset($this->request->params['url']['all_words']) && $this->request->params['url']['all_words'];
-		$titles_only = isset($this->request->params['url']['titles_only']) && $this->request->params['url']['titles_only'];
+		$all_words = isset($this->request->query['all_words']) && $this->request->query['all_words'];
+		$titles_only = isset($this->request->query['titles_only']) && $this->request->query['titles_only'];
 
-		$scope = isset($this->request->params['url']['scope']) ? trim($this->request->params['url']['scope']) : '';
+		$scope = isset($this->request->query['scope']) ? trim($this->request->query['scope']) : '';
 		$projects_to_search = null;
 		#    projects_to_search =
 		#      case params[:scope]
@@ -87,7 +87,7 @@ class SearchController extends AppController {
 		#      
 		#    @scope = @object_types.select {|t| params[t]}
 		#    @scope = @object_types if @scope.empty?
-		$scope_types = array_intersect($object_types, array_keys($this->request->params['url']));
+		$scope_types = array_intersect($object_types, array_keys($this->request->query));
 		if (empty($scope_types)) {
 			$scope_types = $object_types;
 		}
