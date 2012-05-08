@@ -92,8 +92,8 @@ class SettingsController extends AppController
 				'partial' => 'settings/notifications',
 				'label' => __('Email notifications')
 			),
-      //aa('name', 'mail_handler', 'partial', 'settings/mail_handler', 'label', __('Incoming emails')),
-      //aa('name', 'repositories', 'partial', 'settings/repositories', 'label', __('Repositories'))
+      //array('name' => 'mail_handler', 'partial' => 'settings/mail_handler', 'label' => __('Incoming emails')),
+      //array('name' => 'repositories', 'partial' =>  'settings/repositories', 'label' => __('Repositories'))
 		);
 		$this->set('settings_tabs',$tabs);
 		$selected_tab = $tabs[0]['name'];

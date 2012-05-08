@@ -107,8 +107,8 @@ class Setting extends AppModel
    */
   function store($name,$value)
   {
-  	 $cond = aa('name',$name);
-  	 $data = $this->find('all',aa('conditions',$cond));
+  	 $cond = array('name' => $name);
+  	 $data = $this->find('all',array('conditions' => $cond));
      $id = null;
      if (isset($data[0]['Setting']['id'])) $id = $data[0]['Setting']['id'];
      
