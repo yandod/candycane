@@ -38,9 +38,16 @@ class Enumeration extends AppModel
 #    end
 #  end
 #  
-  function objects_count($row){
-    $model = ClassRegistry::init($this->OPTIONS[$row['Enumeration']['opt']]['model']);
-    return $model->find('count',aa('conditions',aa($this->OPTIONS[$row['Enumeration']['opt']]['foreign_key'],$row['Enumeration']['id'])));
+	function objects_count($row){
+		$model = ClassRegistry::init($this->OPTIONS[$row['Enumeration']['opt']]['model']);
+		return $model->find(
+			'count',
+			array(
+				'conditions' => array(
+					$this->OPTIONS[$row['Enumeration']['opt']]['foreign_key'] => $row['Enumeration']['id']
+				)
+			)
+		);
   }
 #
   function in_use($row){
@@ -51,13 +58,20 @@ class Enumeration extends AppModel
   
  # Destroy the enumeration
  # If a enumeration is specified, objects are reassigned
-  function destroy($row,$reassign_to = null) {
+	function destroy($row,$reassign_to = null) {
 #    if reassign_to && reassign_to.is_a?(Enumeration)
-    $model = ClassRegistry::init($this->OPTIONS[$row['Enumeration']['opt']]['model']);
-    $model->updateAll(aa($this->OPTIONS[$row['Enumeration']['opt']]['foreign_key'],$reassign_to),aa($this->OPTIONS[$row['Enumeration']['opt']]['foreign_key'],$row['Enumeration']['id']));
+		$model = ClassRegistry::init($this->OPTIONS[$row['Enumeration']['opt']]['model']);
+		$model->updateAll(
+			array(
+				$this->OPTIONS[$row['Enumeration']['opt']]['foreign_key'] => $reassign_to
+			),
+			array(
+				$this->OPTIONS[$row['Enumeration']['opt']]['foreign_key'] => $row['Enumeration']['id']
+			)
+		);
 #    end
-    $this->del($row['Enumeration']['id']);
-  }
+		$this->del($row['Enumeration']['id']);
+	}
 #  
 #  def <=>(enumeration)
 #    position <=> enumeration.position
