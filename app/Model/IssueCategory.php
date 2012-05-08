@@ -37,7 +37,14 @@ class IssueCategory extends AppModel
          )
        )
     ));
-    $this->Issue->updateAll(aa('category_id',$reassgin_to),aa('category_id',$id));
+    $this->Issue->updateAll(
+		array(
+			'category_id' => $reassgin_to
+		),
+		array(
+			'category_id' => $id
+		)
+	);
     $this->del($id);
   }
 #  
