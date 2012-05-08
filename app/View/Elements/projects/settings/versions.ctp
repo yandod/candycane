@@ -18,7 +18,15 @@
 		$version_row['Version']['id'])); ?></td>
     <td align="center"><?php echo $this->Candy->format_date($version_row['Version']['effective_date']) ?></td>
     <td><?php echo h($version_row['Version']['description']) ?></td>
-    <td><?php if (!empty($version_row['Version']['wiki_page_title'])): ?><?php echo $this->Html->link($version_row['Version']['wiki_page_title'],aa('controller','wiki','page',$this->Wiki->titleize($version_row['Version']['wiki_page_title']))); ?><?php endif; ?></td>
+    <td><?php if (!empty($version_row['Version']['wiki_page_title'])) {
+		echo $this->Html->link(
+			$version_row['Version']['wiki_page_title'],
+			array(
+				'controller' => 'wiki',
+				'page' => $this->Wiki->titleize($version_row['Version']['wiki_page_title'])
+			)
+		);
+		} ?></td>
     <td align="center"><?php echo $this->Html->link(__('Edit'),array(
 		'controller' => 'versions',
 		'action' => 'edit',

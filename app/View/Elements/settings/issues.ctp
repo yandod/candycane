@@ -51,7 +51,11 @@
     $available_columns_values[$v['name']] = $v['caption'];
     //$available_columns_values[$v['name']]['title'] = $v['caption'];
     //echo "<label>";
-    //echo $this->Form->checkbox('issue_list_default_columns[]',aa('value',$v['name'],'label',$v['caption'],'checked',in_array($v['name'],$Settings->issue_list_default_columns)));
+    //echo $this->Form->checkbox('issue_list_default_columns[]',array(
+	//	'value' => $v['name'],
+	//	'label' => $v['caption'],
+	//	'checked' => in_array($v['name'],$Settings->issue_list_default_columns)
+	//));
     //echo h($v['caption']);
     //echo "  </label>";
   }
