@@ -69,7 +69,14 @@ foreach ($roles_data as $roles_row) {
     $users_list[$user_row['User']['id']] = $this->Candy->format_username($user_row['User']);
   }
 ?>
-<?php if ($this->Candy->authorize_for(array('controller' => 'members','action' => 'new') && !empty($users_list))): ?>
+<?php if (
+	$this->Candy->authorize_for(
+		array(
+			'controller' => 'members',
+			'action' => 'new'
+		)
+	) && !empty($users_list)
+): ?>
   <?php echo $this->AppAjax->form(
     array('options' =>array(
       'model' => 'Member',
@@ -82,8 +89,14 @@ foreach ($roles_data as $roles_row) {
     ))
   ) ?>
     <p><label for="member_user_id"><?php echo __('New member') ?></label><br />
-    <?php echo $this->Form->select('Member.user_id',$users_list,false,false,false) ?>
-    <?php echo __('Role') ?>: <?php echo $this->Form->select('Member.role_id',$roles_list,false,array('class' => 'small'),false) ?>
+    <?php echo $this->Form->select('Member.user_id',$users_list) ?>
+    <?php echo __('Role') ?>: <?php echo $this->Form->select(
+		'Member.role_id',
+		$roles_list,
+		array(
+			'class' => 'small'
+		)
+	) ?>
     <?php echo $this->Form->submit(__('Add'),array('div' => false)) ?></p>
   <?php echo '</form>' ?>
 <?php endif; ?>
