@@ -1,6 +1,14 @@
 <h2><?php echo __($options[$enumeration['Enumeration']['opt']]['label']) ?>: <?php echo h($enumeration['Enumeration']['name']) ?></h2>
 
-<?php echo $this->Form->create(null,aa('url',aa('action','destroy','id',$enumeration['Enumeration']['id']))) ?>
+<?php echo $this->Form->create(
+	null,
+	array(
+		'url' => array(
+			'action' => 'destroy',
+			$enumeration['Enumeration']['id']
+		)
+	)
+) ?>
 <div class="box">
 <p><strong><?php echo sprintf(__("'%d objects are assigned to this value.'"),$objects_count) ?></strong></p>
 <p><?php echo __("'Reassign them to this value:'") ?>
