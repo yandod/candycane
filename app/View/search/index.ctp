@@ -19,12 +19,12 @@
 <label for="all_words"><?php echo $this->Form->checkbox('all_words',array(
   'name' => 'all_words',
   'value' => '1',
-  'checked' => isset($this->request->params['url']['all_words']) && $this->request->params['url']['all_words']
+  'checked' => isset($this->request->query['all_words']) && $this->request->query['all_words']
 ))?> <?php echo __('All words')?></label>
 <label for="titles_only"><?php echo $this->Form->checkbox('titles_only',array(
   'name' => 'titles_only',
   'value' => '1',
-  'checked' => isset($this->request->params['url']['titles_only']) && $this->request->params['url']['titles_only']
+  'checked' => isset($this->request->query['titles_only']) && $this->request->query['titles_only']
 ))?> <?php echo __('Search titles only')?></label>
 </p>
 <p>
@@ -48,7 +48,7 @@
 <?php if (isset($results) && is_array($results) && count($results)): ?>
     <div id="search-results-counts">
 	<?php if(count($scope_types) > 1) {
-		echo $this->Search->render_results_by_type($results_by_type,$this->request->params);
+		echo $this->Search->render_results_by_type($results_by_type,$this->request);
 	}?>
     </div>
     
