@@ -14,7 +14,7 @@ class CandyHelper extends AppHelper {
  *
  * @var array
  */
-	public $helpers = array('Html','Users', 'Paginator', 'AppAjax');
+	public $helpers = array('Html','Users', 'Paginator', 'AppAjax', 'Form');
 
 /**
  * Row
@@ -1325,7 +1325,7 @@ function breadcrumb($args)
 #    form_for(name, object, options.merge({ :builder => TabularFormBuilder, :lang => current_language}), &proc)
 #  end
 #
-  function back_url_hidden_field_tag($form) {
+  function back_url_hidden_field_tag() {
     $back_url = !empty($this->request->data['back_url']) ? $this->request->data['back_url'] : urlencode(env('HTTP_REFERER'));
     $out = $this->Form->hidden('back_url', array('name'=>'data[back_url]', 'value'=>$back_url));
     return $out;

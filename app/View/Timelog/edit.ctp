@@ -2,7 +2,7 @@
 
 <?php echo $this->Form->create('TimeEntry', array('url'=>'/projects/'.$main_project['Project']['identifier'].'/timelog/edit', 'class'=>'tabular')); ?>
   <?php echo $this->element('error_explanation'); ?>
-  <?php echo $this->Candy->back_url_hidden_field_tag($form); ?>
+  <?php echo $this->Candy->back_url_hidden_field_tag(); ?>
 
 <div class="box">
 <p>
@@ -25,9 +25,18 @@
 </p>
 <p>
   <?php echo $this->Form->label('activity_id', __('Activity').'<span class="required"> *</span>'); ?>
-  <?php echo $this->Form->input('activity_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$timeEntryActivities, 'empty'=>'--- '.__('Please Select').' ---')); ?> 
+  <?php echo $this->Form->input(
+	'activity_id',
+	array(
+		'div' => false,
+		'label' => false,
+		'type' => 'select',
+		'options' => $time_entry_activities,
+		'empty' => '--- '.__('Please Select').' ---'
+	)
+); ?> 
 </p>
-<?php foreach($timeEntryCustomFields as $value): ?>
+<?php foreach($time_entry_custom_fields as $value): ?>
   <p><?php echo $this->CustomField->custom_field_tag_with_label($form, 'time_entry', $value); ?></p>
 <?php endforeach; ?>
 <?php /* TODO : call_hook(:view_timelog_edit_form_bottom, { :time_entry => @time_entry, :form => f }) */ ?>
