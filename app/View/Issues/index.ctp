@@ -7,8 +7,12 @@
     <fieldset id="filters"><legend><?php echo __('Filters') ?></legend>
     <?php echo $this->element('queries/filters', array('show_filters' => $show_filters, 'available_filters' => $available_filters)) ?>
     <p class="buttons">
-      <?php echo $this->Js->link(__('Apply'), array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), array('update' => 'content', 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
-      <?php echo $this->Js->link(__('Clear'), array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), array('update' => 'content', 'class' => 'icon icon-reload')) ?>
+      <?php echo $this->Js->link(__('Apply'), 
+      		array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), 
+		array('update' => 'content', 'buffer' => false, 'evalScripts' => true, 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
+      <?php echo $this->Js->link(__('Clear'), 
+		array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'),
+		array('update' => 'content', 'buffer' => false, 'evalScripts' => true, 'class' => 'icon icon-reload')) ?>
     <!--
     <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
     -->

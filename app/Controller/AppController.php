@@ -451,8 +451,8 @@ class AppController extends Controller {
  * @return int Number of objects to be displayed
  */
 	protected function _per_page_option() {
-		if (isset($this->request->params['url']['per_page']) && in_array($this->request->params['url']['per_page'], $this->Setting->per_page_options)) {
-			$this->per_page = (int)$this->request->params['url']['per_page'];
+		if (isset($this->request->query['per_page']) && in_array($this->request->query['per_page'], $this->Setting->per_page_options)) {
+			$this->per_page = (int)$this->request->query['per_page'];
 			$this->Session->write('per_page', $this->per_page);
 		} else if (strlen($this->Session->read('per_page'))) {
 			$this->per_page = $this->Session->read('per_page');

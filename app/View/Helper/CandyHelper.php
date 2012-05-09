@@ -667,18 +667,20 @@ class CandyHelper extends AppHelper {
     $html = '';
     if ($paging['prevPage']) {
       $html .= $this->AppAjax->link('&#171;' . __('Previous'), $url = am($url_param, array($page_param => $paging['page'] - 1)), array(
+	'escape' => false,
         'update' => 'content',
         'url' => $url,
         'complete' => 'window.scrollTo(0, 0)',
-      ), null, false) . ' ';
+      )) . ' ';
     }
     $html .= $this->Paginator->numbers(array('update' => 'content', 'complete' => 'window.scrollTo(0,0)', 'url' => $url_param));
     if ($paging['nextPage']) {
       $html .= ' ' . $this->AppAjax->link(__('Next') . '&#187;', $url = am($url_param, array($page_param => $paging['page'] + 1)), array(
+	'escape' => false,
         'update' => 'content',
         'url' => $url,
         'complete' => 'window.scrollTo(0, 0)',
-      ), null, false) ;
+      )) ;
     }
     if ($paging['count'] !== null && $paging['count'] != 0) {
       $per_page_links = $this->per_page_links($paging['limit']);
@@ -749,7 +751,7 @@ class CandyHelper extends AppHelper {
         $links[] = $this->AppAjax->link($v, $url, array('update' => 'content', 'url' => $url));
       }
     }
-    return count($links) > 1 ? __("'Per page") . join(', ', $links) : '';
+    return count($links) > 1 ? __("Per page ") . join(', ', $links) : '';
   }
 #  def per_page_links(selected=nil)
 #    url_param = params.dup
