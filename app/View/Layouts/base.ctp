@@ -25,7 +25,7 @@
 
 <div id="header">
 	<div id="quick-search">
-		<?php echo $this->Form->create(null, array('url' => '/search/index', 'type' => 'get')); ?>
+		<?php echo $this->Form->create(null, array('url' => '/search/index', 'type' => 'get', 'id' => 'searchForm')); ?>
 		<?php echo $this->Html->link(__('Search').':','/search/index',$this->Candy->accesskey('search')); ?>
 		<?php echo $this->Form->input('q', array(
 			'type' => 'text',
