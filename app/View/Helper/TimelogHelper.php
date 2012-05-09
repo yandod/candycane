@@ -1,20 +1,4 @@
 <?php
-# redMine - project management software
-# Copyright (C) 2006  Jean-Philippe Lang
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-# 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 class TimelogHelper extends AppHelper
 {
   var $helpers = array(
@@ -64,8 +48,7 @@ class TimelogHelper extends AppHelper
     if(!empty($issue)) {
       $options['?'] = array('issue_id'=>$issue['Issue']['id']);
     }
-    $get_params = $this->request->params['url'];
-    unset($get_params['url']);
+    $get_params = $this->request->query;
     $options['?'] = array_merge($options['?'], $get_params);
     return $options;
   }
@@ -129,8 +112,8 @@ class TimelogHelper extends AppHelper
     if (!empty($project['Project']['identifier'])) {
       $project_id = $project['Project']['identifier'];
     }
-    $get_params = $this->request->params['url'];
-    unset($get_params['url']);
+    $get_params = $this->request->query;
+    unset($get_params);
     $url = $this->AppAjax->link(__('Clear'), 
         array('project_id' => $project_id, '?'=>array_merge($get_params, array('columns' => $columns))),
         array('class' => 'icon icon-reload', 'update' => 'content'));

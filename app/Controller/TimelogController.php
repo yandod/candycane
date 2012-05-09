@@ -1,24 +1,14 @@
 <?php
-## redMine - project management software
-## Copyright (C) 2006-2007  Jean-Philippe Lang
-##
-## This program is free software; you can redistribute it and/or
-## modify it under the terms of the GNU General Public License
-## as published by the Free Software Foundation; either version 2
-## of the License, or (at your option) any later version.
-## 
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-## GNU General Public License for more details.
-## 
-## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
-## Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-#
 class TimelogController extends AppController
 {
   var $name = 'Timelog';
+  var $helpers = array('Sort', 'Issues', 'CustomField', 'Timelog', 'Js', 'Paginator');
+  var $uses = array('TimeEntry', 'Issue');
+  var $components = array('Sort', 'RequestHandler');
+  var $_project = false;
+  var $paginate = array(
+	  'TimeEntry' => array()
+  );
 
   function beforeFilter() {
     $this->MenuManager->menu_item('issues');
@@ -39,10 +29,6 @@ class TimelogController extends AppController
 #
 #  verify :method => :post, :only => :destroy, :redirect_to => { :action => :details }
 #  
-  var $helpers = array('Sort', 'Issues', 'CustomField', 'Timelog', 'Ajax', 'Paginator');
-  var $uses = array('TimeEntry', 'Issue');
-  var $components = array('Sort', 'RequestHandler');
-  var $_project = false;
   
   function report() {
     if ($this->RequestHandler->isAjax() || $this->_get_param('format')) {
@@ -64,14 +50,14 @@ class TimelogController extends AppController
       $columns = $this->_get_param('columns');
     }
   
-    $data = array_merge(array('from'=>null, 'to'=>null, 'period_type'=>'1', 'period'=>'all'), $this->request->params['url']);
+    $data = array_merge(array('from'=>null, 'to'=>null, 'period_type'=>'1', 'period'=>'all'), $this->request->query);
     if(!empty($this->request->data['TimeEntry'])) {
       $data = array_merge($data, $this->request->data['TimeEntry']);
     }
     $range = $this->TimeEntry->retrieve_date_range($data['period_type'], $data['period'], 
       $this->current_user, $this->_project, array('from'=>$data['from'], 'to'=>$data['to']));
     $data = array_merge($data, $range);
-    $this->request->params['url'] = $data;
+    $this->request->query = $data;
   
     if(!empty($criterias)) {
       $hours = $this->TimeEntry->find_report_hours($this->_project, $available_criterias, $criterias, $this->Setting, $this->current_user, $range);      
@@ -109,7 +95,7 @@ class TimelogController extends AppController
                 'TimeEntry.issue_id' => 'TimeEntry.issue_id',
                 'TimeEntry.hours' => 'TimeEntry.hours'
     ));
-    $data = array_merge(array('from'=>null, 'to'=>null, 'period_type'=>'1', 'period'=>'all'), $this->request->params['url']);
+    $data = array_merge(array('from'=>null, 'to'=>null, 'period_type'=>'1', 'period'=>'all'), $this->request->query);
     if(!empty($this->request->data['TimeEntry'])) {
       $data = array_merge($data, $this->request->data['TimeEntry']);
     }
@@ -117,7 +103,7 @@ class TimelogController extends AppController
     // $result ==> $cond, $range
     extract($result);
     $data = array_merge($data, $range);
-    $this->request->params['url'] = $data;
+    $this->request->query = $data;
     $visible = $this->TimeEntry->find_visible_by($this->current_user, $this->_project);
     if(!empty($visible)) {
       switch($this->_get_param('format')) {
@@ -225,8 +211,8 @@ class TimelogController extends AppController
       $this->TimeEntry->bindModel(array('belongsTo'=>array('Issue')));
       $this->TimeEntry->read(null, $this->request->params['id']);
       $this->request->params['project_id'] = $this->TimeEntry->data['Project']['identifier'];
-    } elseif(!empty($this->request->params['url']['issue_id'])) {
-      $this->Issue->read(null, $this->request->params['url']['issue_id']);
+    } elseif(!empty($this->request->query['issue_id'])) {
+      $this->Issue->read(null, $this->request->query['issue_id']);
       $this->request->params['project_id'] = $this->Issue->data['Project']['identifier'];
     } elseif(!empty($this->request->params['project_id'])) {
       ;

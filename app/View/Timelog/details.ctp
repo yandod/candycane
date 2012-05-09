@@ -17,21 +17,28 @@
 <?php
 echo $this->Form->create('TimeEntry', array(
         'url'=>$this->Timelog->link_to_timelog_detail_url($main_project),
-        'onsubmit'=>$ajax->remoteFunction(array('url'=>$this->Timelog->link_to_timelog_detail_url($main_project), 'form'=>true, 'after'=>'return false', 'update'=>'content')),
-        )
-      );
+//        'onsubmit'=>$ajax->remoteFunction(
+//			array(
+//				'url' => $this->Timelog->link_to_timelog_detail_url($main_project),
+//				'form' => true,
+//				'after' => 'return false',
+//				'update' => 'content'
+//			)
+//		),
+	)
+);
   if(!empty($this->request->params['project_id'])) {
     echo $this->Form->hidden('project_id', array('value'=>$this->request->params['project_id']));
   }
   if(!empty($issue)) {
-    echo $this->Form->hidden('issue_id', array('value'=>$this->request->params['url']['issue_id']));
+    echo $this->Form->hidden('issue_id', array('value'=>$this->request->query['issue_id']));
   }
   echo $this->element('timelog/date_range', array('main_project'=>$main_project));
 echo $this->Form->end();
 ?>
 
 <div class="total-hours">
-<p><?php echo __('Total') ?>: <?php echo $this->Candy->html_hours(sprintf(__('%.2f hour'), $totalHours)); ?></p>
+<p><?php echo __('Total') ?>: <?php echo $this->Candy->html_hours(sprintf(__('%.2f hour'), $total_hours)); ?></p>
 </div>
 
 <?php if(!empty($entries)) : ?>
@@ -41,14 +48,14 @@ echo $this->Form->end();
 <?php echo __("'Also available in:'") ?>
 <span>
 <?php 
-  if(!empty($this->request->params['url']['issue_id'])) {
-    echo $this->Html->link('Atom', array('?'=>array('issue_id' => $this->request->params['url']['issue_id'], 'format' => 'atom', 'key' => $rssToken)), array('class' => 'feed'));
+  if(!empty($this->request->query['issue_id'])) {
+    echo $this->Html->link('Atom', array('?'=>array('issue_id' => $this->request->query['issue_id'], 'format' => 'atom', 'key' => $rssToken)), array('class' => 'feed'));
   } else {
-    echo $this->Html->link('Atom', array('?'=>array('format' => 'atom', 'key' => $rssToken)), array('class' => 'feed'));
+    echo $this->Html->link('Atom', array('?'=>array('format' => 'atom', 'key' => $rss_token)), array('class' => 'feed'));
   }
 ?>
 </span>
-<span><?php echo $this->Html->link('CSV', array('?'=>array_merge(array('format' => 'csv'), $this->request->params['url'])), array('class' => 'csv')); ?></span>
+<span><?php echo $this->Html->link('CSV', array('?'=>array_merge(array('format' => 'csv'), $this->request->query)), array('class' => 'csv')); ?></span>
 </p>
 <?php endif; ?>
 
@@ -61,10 +68,10 @@ echo $this->Form->end();
 ?>
 
 <?php 
-  if(!empty($this->request->params['url']['issue_id'])) {
-    $this->Html->meta('atom', array('project_id'=>$main_project['Project']['identifier'], '?'=>array('issue_id' => $this->request->params['url']['issue_id'], 'format'=>'atom', 'key'=>$rssToken)), array('title'=>__('Spent time'), 'rel'=>'alternate'), false);
+  if(!empty($this->request->query['issue_id'])) {
+    $this->Html->meta('atom', array('project_id'=>$main_project['Project']['identifier'], '?'=>array('issue_id' => $this->request->query['issue_id'], 'format'=>'atom', 'key'=>$rssToken)), array('title'=>__('Spent time'), 'rel'=>'alternate'), false);
   } elseif(!empty($main_project)) {
-    $this->Html->meta('atom', array('project_id'=>$main_project['Project']['identifier'], '?'=>array('format'=>'atom', 'key'=>$rssToken)), array('title'=>__('Spent time'), 'rel'=>'alternate'), false);
+    $this->Html->meta('atom', array('project_id'=>$main_project['Project']['identifier'], '?'=>array('format'=>'atom', 'key'=>$rss_token)), array('title'=>__('Spent time'), 'rel'=>'alternate'), false);
   } else {
     $this->Html->meta('atom', array('?'=>array('format'=>'atom', 'key'=>$rssToken)), array('title'=>__('Spent time')), false);
   }

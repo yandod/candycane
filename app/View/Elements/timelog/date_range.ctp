@@ -8,14 +8,14 @@
       'onfocus' => '$("TimeEntryPeriodType1").checked = true;',
       'label'=>false,
       'div'=>false,
-      'value'=>$this->request->params['url']['period'],
+      'value'=>$this->request->query['period'],
   ));
   echo $this->Form->input('period_type', array(
       'type'=>'radio', 
       'options'=>array('1'=>' '.$period_select), 
       'div'=>false, 
       'label'=>false,
-      'value'=>$this->request->params['url']['period_type'],
+      'value'=>$this->request->query['period_type'],
   )); 
 ?>
 </p>
@@ -29,7 +29,7 @@
       'id'   => 'from',
       'div'=>false, 
       'label'=>false,
-      'value'=>$this->request->params['url']['from'],
+      'value'=>$this->request->query['from'],
   ));
   $date_select .= $this->Candy->calendar_for('from');
   $date_select .= ' '.__('To').' ';
@@ -39,7 +39,7 @@
       'id'   => 'to',
       'div'=>false, 
       'label'=>false,
-      'value'=>$this->request->params['url']['to'],
+      'value'=>$this->request->query['to'],
   ));
   $date_select .= $this->Candy->calendar_for('to');
   $date_select .= '</span>';
@@ -48,7 +48,7 @@
       'options'=>array('2'=>' '.$date_select), 
       'div'=>false, 
       'label'=>false,
-      'value'=>$this->request->params['url']['period_type'],
+      'value'=>$this->request->query['period_type'],
   ));
   echo ' '.$this->Form->submit(__('Apply'), array('name' => null, 'div'=>false));
 ?>
@@ -57,9 +57,9 @@
 
 <div class="tabs">
 <?php
-  $url_params = ($this->request->params['url']['period_type']==2) 
-    ? array('from' => $this->request->params['url']['from'], 'to' => $this->request->params['url']['to'] ) 
-    : array('period' => $this->request->params['url']['period'] ); 
+  $url_params = ($this->request->query['period_type']==2) 
+    ? array('from' => $this->request->query['from'], 'to' => $this->request->query['to'] ) 
+    : array('period' => $this->request->query['period'] ); 
 ?>
 <ul>
   <li><?php echo $this->Html->link(__('Details'), 
