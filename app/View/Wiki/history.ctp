@@ -3,11 +3,11 @@
 <h3><?php echo __('History'); ?></h3>
 
 <?php /*form_tag({:action => "diff"}, :method => :get) do*/ ?>
-<?php e($this->Form->create(null, aa('type', 'get',
-                               'url',
+<?php echo $this->Form->create(null, array('type' => 'get',
+                               'url' =>
                                array('action' => 'diff',
                                      'project_id' => $main_project['Project']['identifier'],
-                                     'wikipage' => $page['WikiPage']['title'])))); ?>
+                                     'wikipage' => $page['WikiPage']['title']))); ?>
 <table class="list">
    <thead><tr>
    <th>#</th>
@@ -51,7 +51,7 @@ if (isset($next_version[$first_version_value])) {
    if ($show_diff && ($line_num < sizeof($versions))) {
      e($this->Form->input('version',
                     array('type'=>'radio',
-                          'options' => aa($ver['WikiContentVersion']['version'], null),
+                          'options' => array($ver['WikiContentVersion']['version'] => null),
                           'value' => $first_version_value,
                           'id' => "Cb-",
                           'onclick' => sprintf('$(\'Cbto-%d\').checked=true;',
@@ -63,7 +63,7 @@ if (isset($next_version[$first_version_value])) {
    if ($show_diff && ($line_num > 1)) {
      e($this->Form->input('version_from',
                     array('type'=>'radio',
-                          'options' => aa($ver['WikiContentVersion']['version'], null),
+                          'options' => array($ver['WikiContentVersion']['version'] => null),
                           'value' => $second_version_value,
                           'id' => "Cbto-",
                           'onclick' => sprintf('if ($(\'Cb-%d\').checked==true || $(\'version_from\').value > %d) {$(\'Cb-%d\').checked=true;}',
@@ -87,11 +87,11 @@ if (isset($next_version[$first_version_value])) {
 </table>
 <?php
 if ($show_diff) {
-  echo $this->Form->submit(__('View differences'), aa('class', 'small', 'div', false));
+  echo $this->Form->submit(__('View differences'), array('class' => 'small', 'div' => false));
 } ?>
 
 <span class="pagination"><?php
-  $this->Paginator->options(aa('url',
+  $this->Paginator->options(array('url' =>
                          array('action' => 'history',
                                'project_id' => $main_project['Project']['identifier'],
                                'wikipage' => $page['WikiPage']['title'])));
@@ -100,7 +100,7 @@ echo ' ';
 echo $this->Paginator->numbers();
 echo ' ';
 echo $this->Paginator->next(__('Next').' >>', array(), null, array('style'=>'display:none;'));
-echo $this->Paginator->counter(aa('format', '(%start%-%end%/%count%)'));
+echo $this->Paginator->counter(array('format' => '(%start%-%end%/%count%)'));
 ?></span>
 <?php /* pagination_links_full @version_pages, @version_count, :page_param => :p */ ?>
 <?php $this->Form->end() ?>

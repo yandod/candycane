@@ -23,8 +23,15 @@ class WikisController extends AppController {
   function destroy()
   {
     if ($this->request->data && isset($this->request->data['Wiki']['confirm'])) {
-      $this->Project->Wiki->del($this->_project['Wiki']['id']);    
-      $this->redirect(aa('controller','projects','action','settings','id',$this->request->params['project_id'],'?','tab=wiki'));
+      $this->Project->Wiki->delete($this->_project['Wiki']['id']);    
+      $this->redirect(
+		array(
+			'controller' => 'projects',
+			'action' => 'settings',
+			'project_id' => $this->request->params['project_id'],
+			'?' => 'tab=wiki'
+		)
+	);
     }
   }
 #  

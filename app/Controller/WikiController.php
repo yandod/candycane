@@ -3,7 +3,7 @@
 class WikiController extends AppController {
   //var $helpers = array('attachments');
   var $uses = array('Wiki', 'WikiContent', 'Project', 'User');
-  var $helpers = array('Time', 'Number', 'Wiki');
+  var $helpers = array('Time', 'Number', 'Wiki','Js');
 
   function index() {
     $page_title = null;
@@ -16,9 +16,9 @@ class WikiController extends AppController {
       $this->render('edit');
       return;
     }
-    $version = isset($this->request->params['url']['version']) ? $this->request->params['url']['version'] : null;
+    $version = isset($this->request->query['version']) ? $this->request->query['version'] : null;
     $content = $this->Wiki->WikiPage->content_for_version($version);
-    $export = isset($this->request->params['url']['export']) ? $this->request->params['url']['export'] : null;
+    $export = isset($this->request->query['export']) ? $this->request->query['export'] : null;
     if ($export === 'html') {
       //export = render_to_string :action => 'export', :layout => false
       //send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
@@ -42,15 +42,17 @@ class WikiController extends AppController {
         // eager load information about last updates, without loading text
         $this->Wiki->WikiPage->recursive = -1;
         $options = array('conditions'
-                         => aa('WikiPage.wiki_id', $this->Wiki->field('id')),
+                         => array(
+							'WikiPage.wiki_id' => $this->Wiki->field('id')
+						),
                          'fields'
                          => 'WikiPage.*, WikiContent.updated_on',
                          'joins'
-                         => a(aa(
-                                 "type", 'LEFT',
-                                 "table", 'wiki_contents',
-                                 "alias", 'WikiContent',
-                                 "conditions", 'WikiContent.page_id=WikiPage.id')),
+                         => array(array(
+                                 "type" => 'LEFT',
+                                 "table" => 'wiki_contents',
+                                 "alias" => 'WikiContent',
+                                 "conditions" => 'WikiContent.page_id=WikiPage.id')),
                          'order' => 'WikiPage.title');
         //'order' => 'Content.updated_on DESC');
         $pages = $this->Wiki->WikiPage->find('all', $options);
@@ -249,7 +251,7 @@ class WikiController extends AppController {
 
   function protect() {
     $page = $this->_find_existing_page();
-    $page['WikiPage']['protected'] = $this->request->params['url']['protected'];
+    $page['WikiPage']['protected'] = $this->request->query['protected'];
     $this->Wiki->WikiPage->save($page);
     $this->redirect(array('controller' => 'wiki',
                           'action'     => 'index',
@@ -267,16 +269,16 @@ class WikiController extends AppController {
   function history() {
     $page = $this->_find_existing_page();
     $this->set('page', $page);
-    $conditions = aa('WikiContentVersion.page_id', $page['WikiPage']['id']);
-    $this->paginate = aa('fields', a('WikiContentVersion.id',
+    $conditions = array('WikiContentVersion.page_id' => $page['WikiPage']['id']);
+    $this->paginate = array('fields' => array('WikiContentVersion.id',
                                      'Author.firstname',
                                      'Author.lastname',
                                      'Author.login',
                                      'WikiContentVersion.comments',
                                      'WikiContentVersion.updated_on',
                                      'WikiContentVersion.version'),
-                         'conditions', $conditions,
-                         'order',  aa('WikiContentVersion.version', 'DESC')
+                         'conditions' => $conditions,
+                         'order' =>  array('WikiContentVersion.version' => 'DESC')
                          );
     $versions = $this->paginate($this->Wiki->WikiPage->WikiContent->WikiContentVersion);
     $this->set('versions', $versions);
@@ -309,7 +311,7 @@ class WikiController extends AppController {
   function destroy() {
     $page = $this->_find_existing_page();
     //return render_403 unless editable?
-    $this->Wiki->WikiPage->del($page['WikiPage']['id']);
+    $this->Wiki->WikiPage->delete($page['WikiPage']['id']);
     $this->redirect(array('controller' => 'wiki',
                           'action'     => 'special',
                           'project_id' => $this->request->params['project_id'],

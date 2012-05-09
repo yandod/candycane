@@ -1,33 +1,33 @@
 <h2><?php echo h($this->Wiki->pretty_title($page['WikiPage']['title'])); ?></h2>
-<?php e($this->Form->create('WikiContent',
-                      aa('url',
+<?php echo $this->Form->create('WikiContent',
+                      array('url' =>
                          array('controller' => 'wiki',
                                'action' => 'edit',
                                'project_id' => $main_project['Project']['identifier'],
                                'wikipage' => $page['WikiPage']['title'],
                                /* formヘルパが更新時にidを上書きするのを禁止するためのtrick */
-                               'id' => null)))); ?>
+                               'id' => null))); ?>
 <?php echo $this->Form->hidden('version'); ?>
 
 <?php echo $this->element('error_explanation'); ?>
 
-<p><?php e($this->Form->input('WikiContent.text',
+<p><?php echo $this->Form->input('WikiContent.text',
                         array('type' => 'textarea',
                               'cols' => 100,
                               'rows' => 25,
                               'class' => 'wiki-edit',
                               'label' => false,
                               'div' => false,
-                              /*'accesskey' => accesskey(:edit)*/ ))) ?></p>
+                              /*'accesskey' => accesskey(:edit)*/ )) ?></p>
 <p><label><?php echo __("Comment"); ?></label><br />
-<?php e($this->Form->input('WikiContent.comments',
+<?php echo $this->Form->input('WikiContent.comments',
                      array('type' => 'text',
                            'size' => 120,
                            'label' => false,
-                           'div' => false))); ?></p>
+                           'div' => false)); ?></p>
 <p><?php echo $this->Form->submit(__("Save",
-                         aa('div', false))); ?>
-<?php echo $ajax->link(__('Preview',
+                         array('div' => false))); ?>
+<?php echo $this->Js->link(__('Preview',
                     array('controller' => 'wiki',
                           'action' => 'preview',
                           'project_id' => $main_project['Project']['identifier'],
@@ -35,7 +35,9 @@
                     array('method' => 'post',
                           'update' => 'preview',
                           'with' => "Form.serialize('WikiContentEditForm')",
-                          'complete' => "Element.scrollTo('preview')")));
+                          'complete' => "Element.scrollTo('preview')",
+							'escape' => false
+					)));
 /*}, :accesskey => accesskey(:preview)*/ ?></p>
 <?php /*wikitoolbar_for 'content_text'*/ ?>
 <?php $this->Form->end() ?>
