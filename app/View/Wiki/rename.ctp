@@ -4,14 +4,14 @@
 
 <?php /* labelled_tabular_form_for :wiki_page, @page, :url => { :action => 'rename' } do |f| */ ?>
 <?php e($this->Form->create('WikiPage',
-                      aa('url',
+                      array('url' =>
                          array('controller' => 'wiki',
                                'action' => 'rename',
                                'project_id' => $main_project['Project']['identifier'],
                                'wikipage' => $original_title,
                                /* formヘルパが更新時にidを上書きするのを禁止するためのtrick */
                                'id' => null),
-                         'class', 'tabular'))); ?>
+                         'class' => 'tabular'))); ?>
 <div class="box">
 <p><?php e($this->Form->input('WikiPage.title',
                         array('type' => 'text',
