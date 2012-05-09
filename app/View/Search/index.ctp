@@ -30,12 +30,6 @@
 <p>
 <?php foreach($object_types as $t): ?>
 <label for="<?php echo $t ?>"><?php
-// TODO:waiting cake1.3
-//  echo $this->Html->tag('checkbox',array(
-//    'name' => $t,
-//    'value' => 1,
-//    'checked' => in_array($t,$scope_types) 
-//  ));
   $checked = in_array($t,$scope_types) ? 'checked' : '';
   echo "<input type='checkbox' name='{$t}' value='1' id='{$t}' {$checked}>";
 ?> <?php echo $this->Search->type_label($t)?></label>

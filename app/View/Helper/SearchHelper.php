@@ -34,7 +34,14 @@ class SearchHelper extends AppHelper {
 #    options << [l(:label_and_its_subprojects, @project.name), 'subprojects'] unless @project.nil? || @project.active_children.empty?
 #    options << [@project.name, ''] unless @project.nil?
 #    select_tag('scope', options_for_select(options, params[:scope].to_s)) if options.size > 1
-    return $this->Form->select('scope',$options,array('name'=>'scope'));
+    return $this->Form->select(
+		'scope',
+		$options,
+		array(
+			'name' => 'scope',
+			'empty' => false
+		)
+	);
   }
 #  
   function render_results_by_type($results_by_type,$params){
