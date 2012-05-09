@@ -1264,7 +1264,7 @@ function breadcrumb($args)
  */
 	function lang_options_for_select($blank = true) {
 		$list = array();
-		foreach (glob(APP . 'locale/*') as $dir) {
+		foreach (glob(APP . 'Locale/*') as $dir) {
 			$path = explode('/', $dir);
 			$lang = end($path);
 			if ($lang == 'default.pot') {
