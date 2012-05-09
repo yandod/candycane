@@ -41,14 +41,16 @@
 	</div>
 	<?php echo $this->Form->submit(__('Create'), array('div' => false)); ?>
 	<?php echo $this->Form->submit(__('Create and continue'), array('div' => false, 'name' => 'continue')); ?>
-	<?php echo $this->AppAjax->link(__('Preview'),
+	<?php echo $this->Js->link(__('Preview'),
 		array(
 			'action' => 'preview',
 			'project_id' => $this->request->params['project_id']),
 		array(
 			'update' => 'preview',
 			'complete' => "Element.scrollTo('preview')",
-			'with' => "Form.serialize('IssueAddForm')")); ?>
+			'buffer' => false,
+			'dataExpression' => true,
+			'data' => "Form.serialize('IssueAddForm')")); ?>
 
 	<script type="text/javascript">
 	//<![CDATA[
