@@ -293,7 +293,7 @@ class Attachment extends AppModel {
 		if (!$data) {
 			$data = $this->data;
 		}
-		App::import('Model', 'MimeType');
+		App::uses('MimeType','Model');
 		return MimeType::is_type('text', $this->data[$this->alias]['filename']);
 	}
 
