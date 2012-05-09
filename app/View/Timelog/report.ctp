@@ -17,7 +17,7 @@
 <?php
 echo $this->Form->create('TimeEntry', array(
         'url'=>$this->Timelog->link_to_timelog_report_url($main_project),
-        'onsubmit'=>$ajax->remoteFunction(array('url'=>$this->Timelog->link_to_timelog_report_url($main_project), 'form'=>true, 'after'=>'return false', 'update'=>'content')),
+        //'onsubmit'=>$ajax->remoteFunction(array('url'=>$this->Timelog->link_to_timelog_report_url($main_project), 'form'=>true, 'after'=>'return false', 'update'=>'content')),
         )
       );
   foreach($criterias as $criteria) {
@@ -37,11 +37,11 @@ echo $this->Form->create('TimeEntry', array(
                                                         'onchange' => "this.form.onsubmit();")); ?>
 
   <?php echo __('Add') ?>: <?php echo $this->Form->input('criterias', array('type'=>'select', 'div'=>false, 'label'=>false,
-                                                        'options' => $this->Timelog->selectable_criterias($availableCriterias, $criterias),
+                                                        'options' => $this->Timelog->selectable_criterias($available_criterias, $criterias),
                                                         'empty' => true,
                                                         'onchange' => "this.form.onsubmit();",
                                                         'style' => 'width: 200px',
-                                                        'id' => null,
+                                                        //'id' => null,
                                                         'name'=>'data[TimeEntry][criterias][]',
                                                         'disabled' => (count($criterias) >= 3))); ?>
      <?php echo $this->Timelog->clear_link($main_project, $columns); ?>
@@ -101,7 +101,7 @@ echo $this->Html->link('CSV', array('?'=>array_merge(
       'criterias'=>$criteria,
       'columns'=>$columns
     ), 
-    $this->request->params['url']
+    $this->request->query
   )), array('class' => 'csv')); 
 ?></span>
 </p>

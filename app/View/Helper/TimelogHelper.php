@@ -113,7 +113,6 @@ class TimelogHelper extends AppHelper
       $project_id = $project['Project']['identifier'];
     }
     $get_params = $this->request->query;
-    unset($get_params);
     $url = $this->AppAjax->link(__('Clear'), 
         array('project_id' => $project_id, '?'=>array_merge($get_params, array('columns' => $columns))),
         array('class' => 'icon icon-reload', 'update' => 'content'));
