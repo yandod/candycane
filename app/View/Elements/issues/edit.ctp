@@ -30,14 +30,14 @@
     <div class="splitcontentright">
       <p>
         <?php echo $this->Form->label('TimeEntry.activity_id', __('Activity')); ?>
-        <?php echo $this->Form->input('TimeEntry.activity_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$timeEntryActivities, 'empty'=>'--- '.__('Please Select').' ---')); ?> 
+        <?php echo $this->Form->input('TimeEntry.activity_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$time_entry_activities, 'empty'=>'--- '.__('Please Select').' ---')); ?> 
       </p>
     </div>
     <p>
       <?php echo $this->Form->label('TimeEntry.comments', __('Comment')); ?>
       <?php echo $this->Form->input('TimeEntry.comments', array('div'=>false, 'label'=>false, 'size'=>60, 'type'=>'text', 'id'=>"time_entry_comments"));?> 
     </p>
-    <?php foreach($timeEntryCustomFields as $value): ?>
+    <?php foreach($time_entry_custom_fields as $value): ?>
       <p><?php echo $this->CustomField->custom_field_tag_with_label($form, 'time_entry', $value); ?></p>
     <?php endforeach; ?>
   </fieldset>
