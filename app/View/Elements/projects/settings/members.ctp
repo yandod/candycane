@@ -19,18 +19,6 @@ foreach ($roles_data as $roles_row) {
     <td align="center">
     <?php if ($this->Candy->authorize_for(array('controller' => 'members','action' => 'edit'))): ?>
   <?php echo $this->Form->create('Member');?>
-  <?php /*echo $this->AppAjax->form(
-    array('options' =>array(
-      'model' => 'Member',
-      'update' => 'tab-content-members',
-      'url' => array(
-        'controller' => 'members',
-        'action' => 'edit',
-        'project_id' => $main_project['Project']['identifier'],
-        'id' => $member_row['Member']['id'],
-      )
-    ))
-  ) */?>
         <?php echo $this->Form->select(
 			'Member.role_id',
 			$roles_list,
@@ -44,12 +32,18 @@ foreach ($roles_data as $roles_row) {
       <?php endif; ?>
     </td>
     <td align="center">
-  <?php echo $this->Js->link(__('Delete'),array(
-        'controller' => 'members',
-        'action' => 'destroy',
-        'project_id' => $main_project['Project']['identifier'],
-        'id' => $member_row['Member']['id'],
-      ),array('class' => 'icon icon-del','update' => 'tab-content-members', 'buffer' => false, 'evalScripts' => true)
+  <?php echo $this->Js->link(__('Delete'),
+  	array(
+        	'controller' => 'members',
+        	'action' => 'destroy',
+        	'project_id' => $main_project['Project']['identifier'],
+        	'id' => $member_row['Member']['id'],
+      ),array(
+      		'class' => 'icon icon-del',
+		'update' => 'tab-content-members', 
+		'buffer' => false, 
+		'evalScripts' => true
+	)
     )
    ?>
     </td>
@@ -87,19 +81,12 @@ foreach ($roles_data as $roles_row) {
 		)	
 	));
   ?>
-  <?php /*echo $this->AppAjax->form(
-    array('options' =>array(
-      'model' => 'Member',
-      'update' => 'tab-content-members',
-      'url' => array(
-        'controller' => 'members',
-        'action' => 'add',
-        'project_id' => $main_project['Project']['identifier'],
-      )
-    ))
-  ) */?>
     <p><label for="member_user_id"><?php echo __('New member') ?></label><br />
-    <?php echo $this->Form->select('Member.user_id',$users_list, array('empty' => false)) ?>
+    <?php echo $this->Form->select('Member.user_id',$users_list,
+    		array(
+			'empty' => false
+		)
+	  ) ?>
     <?php echo __('Role') ?>: <?php echo $this->Form->select(
 		'Member.role_id',
 		$roles_list,
@@ -109,12 +96,14 @@ foreach ($roles_data as $roles_row) {
 		)
 	) ?>
     <?php echo $this->Js->submit(__('Add'),array('div' => false, 'url' => 
-    	array(
+    		array(
 			'controller' => 'members',
 			'action' => 'add',
 			'project_id' => $main_project['Project']['identifier']
 		
-	)
-    ,'update' => 'tab-content-members', 'buffer' => false, 'evalScripts' => true)) ?></p>
+		),
+		'update' => 'tab-content-members', 
+		'buffer' => false, 
+		'evalScripts' => true)) ?></p>
   <?php echo '</form>' ?>
 <?php endif; ?>
