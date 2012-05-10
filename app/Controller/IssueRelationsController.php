@@ -69,7 +69,7 @@ class IssueRelationsController extends AppController
     }
     $relation = $this->IssueRelation->read(null, $relation_id);
     if($this->RequestHandler->isPost() && $relation) {
-      $this->IssueRelation->del();
+      $this->IssueRelation->delete();
     }
     if($this->RequestHandler->isAjax()) {
       $issue_relations = $this->IssueRelation->findRelations($this->_issue);

@@ -70,7 +70,7 @@ class Enumeration extends AppModel
 			)
 		);
 #    end
-		$this->del($row['Enumeration']['id']);
+		$this->delete($row['Enumeration']['id']);
 	}
 #  
 #  def <=>(enumeration)

@@ -41,7 +41,7 @@ class IssueCategoriesController extends AppController {
 		);
     
 		if ($issue_count == 0) {
-			$this->IssueCategory->del($this->request->params['id']);
+			$this->IssueCategory->delete($this->request->params['id']);
 			$this->redirect(
 				array(
 					'controller' => 'projects',

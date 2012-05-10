@@ -166,7 +166,7 @@ class IssueStatusesController extends AppController {
       $this->Session->setFlash(__("Invalid id"), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
-    if ($this->IssueStatus->del($id)) {
+    if ($this->IssueStatus->delete($id)) {
       $this->Session->setFlash(__('Successful deletion.'), 'default', array('class'=>'flash flash_notice'));
     } else {
       $this->Session->setFlash(sprintf(__('There was an error deleting with id: %1$d'), $id));

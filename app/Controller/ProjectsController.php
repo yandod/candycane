@@ -459,9 +459,9 @@ class ProjectsController extends AppController {
 		$this->set('subprojects',$subprojects);
 		if ($this->RequestHandler->isPost()) {
 			if ($this->request->data['Project']['confirm'] == 1) {
-				$this->Project->del($this->request->data['Project']['id']);
+				$this->Project->delete($this->request->data['Project']['id']);
 				foreach ($subprojects as $row) {
-					$this->Project->del($row['Project']['id']);
+					$this->Project->delete($row['Project']['id']);
 				}
 				$this->redirect(array('controller'=>'admin', 'action'=>'projects'));
 			} else {

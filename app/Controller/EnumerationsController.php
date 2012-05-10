@@ -82,7 +82,7 @@ class EnumerationsController extends AppController {
     $this->set('objects_count',$count);
     if ($count == 0) {
       # No associated objects
-      if ($this->Enumeration->del($id)){
+      if ($this->Enumeration->delete($id)){
         $this->Session->setFlash(__('Successful update.'), 'default', array('class'=>'flash flash_notice'));
         $this->redirect('index');
       }

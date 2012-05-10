@@ -45,7 +45,7 @@ class IssueCategory extends AppModel
 			'category_id' => $id
 		)
 	);
-    $this->del($id);
+    $this->delete($id);
   }
 #  
 #  def <=>(category)

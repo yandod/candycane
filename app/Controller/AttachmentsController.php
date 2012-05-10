@@ -93,7 +93,7 @@ class AttachmentsController extends AppController {
  */
 	function destroy() {
 		// Make sure association callbacks are called
-		$this->Attachment->del();
+		$this->Attachment->delete();
 		if ($this->referer(false)) {
 			$this->redirect($this->referer());
 		} else {

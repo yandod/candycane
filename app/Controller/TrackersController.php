@@ -80,7 +80,7 @@ class TrackersController extends AppController
     if (count($tracker['Issue']) > 0) {
       $this->Session->setFlash(__('This tracker contains issues and can\'t be deleted.'), 'default', array('class'=>'flash flash_error'));
     } else {
-       $this->Tracker->del($id);
+       $this->Tracker->delete($id);
     }
     $this->redirect('index');
   }
