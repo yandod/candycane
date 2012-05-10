@@ -156,7 +156,7 @@ class RolesController extends AppController {
       $this->Session->setFlash(__("Invalid id"), 'default', array('class'=>'flash flash_error'));
       $this->redirect('index');
     }
-    if ($this->Role->del($id)) {
+    if ($this->Role->delete($id)) {
       $this->Session->setFlash(__('Successful deletion.'), 'default', array('class'=>'flash flash_notice'));
     } else {
       $this->Session->setFlash(__('This role is in use and can not be deleted.'), 'default', array('class'=>'flash flash_error'));

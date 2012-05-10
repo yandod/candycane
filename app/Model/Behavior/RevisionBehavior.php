@@ -878,7 +878,7 @@ class RevisionBehavior extends ModelBehavior {
                 $conditions['order'] = $Model->alias.'.version_created ASC, '.$Model->alias.'.version_id ASC';
 				$oldest = $Model->ShadowModel->find('first',$conditions);
 				$Model->ShadowModel->id = null;
-				$Model->ShadowModel->del($oldest[$Model->alias][$Model->ShadowModel->primaryKey]);
+				$Model->ShadowModel->delete($oldest[$Model->alias][$Model->ShadowModel->primaryKey]);
 			}
 		}
 		return true;

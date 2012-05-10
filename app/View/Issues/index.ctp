@@ -9,7 +9,7 @@
     <p class="buttons">
       <?php echo $this->Js->link(__('Apply'), 
       		array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), 
-		array('update' => 'content', 'buffer' => false, 'evalScripts' => true, 'with' => "Form.serialize('query_form')", 'class' => 'icon icon-checked')) ?>
+		array('update' => 'content', 'buffer' => false, 'evalScripts' => true, 'data' => "Form.serialize('query_form')", 'dataExpression' => true, 'class' => 'icon icon-checked')) ?>
       <?php echo $this->Js->link(__('Clear'), 
 		array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'),
 		array('update' => 'content', 'buffer' => false, 'evalScripts' => true, 'class' => 'icon icon-reload')) ?>

@@ -198,7 +198,7 @@ class TimelogController extends AppController
     if(!$this->TimeEntry->is_editable_by($this->current_user, $this->_project)) {
       $this->cakeError('error403');
     }
-    if($this->TimeEntry->del()) {
+    if($this->TimeEntry->delete()) {
       $this->Session->setFlash(__('Successful deletion.'), 'default', array('class'=>'flash flash_notice'));
     }
     $this->redirect_back_or_default(array('action' => 'details', 'project_id' => $this->request->params['project_id']));

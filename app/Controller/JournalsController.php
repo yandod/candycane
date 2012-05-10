@@ -36,7 +36,7 @@ class JournalsController extends AppController
     $delete = false;
     if(!empty($journal) && !empty($this->request->data)) {
       if(empty($journal['JournalDetails']) && ($this->request->data['Journal']['notes'] == '')) {
-        $delete = $this->Journal->del($id);
+        $delete = $this->Journal->delete($id);
       } else {
         $this->Journal->saveField('notes', $this->request->data['Journal']['notes']);
       }

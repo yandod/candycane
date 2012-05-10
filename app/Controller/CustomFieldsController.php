@@ -96,7 +96,7 @@ class CustomFieldsController extends AppController {
   
   function destroy($id) {
     $this->CustomField->read(null, $id);
-    if($this->CustomField->del()) {
+    if($this->CustomField->delete()) {
       $this->Session->setFlash(__('Successful deletion.'), 'default', array('class'=>'flash flash_notice'));
       $this->redirect(array('action'=>'index', '?'=>array('tab'=>$this->CustomField->data[$this->CustomField->alias]['type'])));
     } else {

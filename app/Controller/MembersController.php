@@ -51,7 +51,7 @@ class MembersController extends AppController {
 	}
 	
 	public function destroy() {
-		$this->Member->del($this->request->params['id'],false);
+		$this->Member->delete($this->request->params['id'],false);
 		$this->_prepareSettingTabMembers();
 		$this->render('/elements/projects/settings/members');
 	}
