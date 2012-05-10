@@ -240,7 +240,7 @@ class NewsController extends AppController {
 			throw new NotFoundException();
 		}
 
-		if ($this->News->del($this->request->params['id'])) {
+		if ($this->News->delete($this->request->params['id'])) {
 			// TODO: project_idを正しく設定する！
 			$this->Session->setFlash(__('Successful deletion.'), 'default', array('class' => 'flash notice'));
 			$this->redirect(array(
