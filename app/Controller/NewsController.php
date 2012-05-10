@@ -26,7 +26,7 @@ class NewsController extends AppController {
  *
  * @var array
  */
-	public $helpers = array('Html', 'Form', 'Candy', 'Js');
+	public $helpers = array('Html', 'Form', 'Candy', 'Js' => array('Prototype'));
 
 /**
  * Components
