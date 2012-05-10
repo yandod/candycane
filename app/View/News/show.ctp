@@ -27,7 +27,21 @@
                      :update => 'preview',
                      :with => "Form.serialize('news-form')"
                    }, :accesskey => accesskey(:preview) %> | -->
-<?php echo __('Preview'); ?> |
+<?php 	echo $this->Js->link(
+		__('Preview'),
+		array(
+			'action' => 'preview',
+			'project_id' => $this->request->params['project_id']
+		),
+		array(
+			'update' => 'preview',
+			'buffer' => false,
+			'complete' => "Element.scrollTo('preview')",
+			'data' => "Form.serialize('NewsShowForm')",
+			'dataExpression' => true
+		)
+	);
+?> |
 <?php echo $this->Html->link( __('Cancel'), "#", array('onclick' => 'Element.hide("edit-news")') );  ?>
 <?php echo $this->Form->end(); ?>
 <div id="preview" class="wiki"></div>

@@ -30,14 +30,14 @@
     <div class="splitcontentright">
       <p>
         <?php echo $this->Form->label('TimeEntry.activity_id', __('Activity')); ?>
-        <?php echo $this->Form->input('TimeEntry.activity_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$timeEntryActivities, 'empty'=>'--- '.__('Please Select').' ---')); ?> 
+        <?php echo $this->Form->input('TimeEntry.activity_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$time_entry_activities, 'empty'=>'--- '.__('Please Select').' ---')); ?> 
       </p>
     </div>
     <p>
       <?php echo $this->Form->label('TimeEntry.comments', __('Comment')); ?>
       <?php echo $this->Form->input('TimeEntry.comments', array('div'=>false, 'label'=>false, 'size'=>60, 'type'=>'text', 'id'=>"time_entry_comments"));?> 
     </p>
-    <?php foreach($timeEntryCustomFields as $value): ?>
+    <?php foreach($time_entry_custom_fields as $value): ?>
       <p><?php echo $this->CustomField->custom_field_tag_with_label($form, 'time_entry', $value); ?></p>
     <?php endforeach; ?>
   </fieldset>
@@ -60,10 +60,16 @@ var toolbar = new jsToolBar($('notes')); toolbar.setHelpLink('<?php echo __("Tex
 
   <?php echo $this->Form->hidden('lock_version'); ?>
   <?php echo $this->Form->submit(__('Submit'), array('div'=>false)); ?>
-  <?php echo $this->Js->link(__('Preview'), '#', array(
+  <?php echo $this->Js->link(__('Preview'), array(
+		'controller' => 'issues',
+		'action' => 'preview',
+		'project_id' => $main_project['Project']['identifier'],
+		$issue['Issue']['id']
+	), array(
     'update'=>'preview',
-    'url'=>'/projects/'.$main_project['Project']['identifier'].'/issues/preview/'.$issue['Issue']['id'],
-    'with'=>'Form.serialize("issue-form")',
+    'data'=>'Form.serialize("issue-form")',
+    'dataExpression' => true,
+    'buffer' => false,
     'complete'=>"Element.scrollTo('preview')",
     'accesskey'=>'r'
   ));?>
