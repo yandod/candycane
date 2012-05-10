@@ -2,6 +2,9 @@
 class MembersController extends AppController {
 	public $name = 'Members';
 	public $components = array('RequestHandler');
+	public $helpers = array('Js' => array('Prototype'),
+		 'Candy', 
+		 'Form');
 #  before_filter :find_member, :except => :new
 #  before_filter :find_project, :only => :new
 #  before_filter :authorize
@@ -37,7 +40,7 @@ class MembersController extends AppController {
 			$this->Member->save($this->request->data,true,array('project_id','user_id','role_id'));
 		}
 		$this->_prepareSettingTabMembers();
-		$this->render('/elements/projects/settings/members');
+		$this->render('/Elements/projects/settings/members');
 	}
 
 	public function edit() {
@@ -53,6 +56,6 @@ class MembersController extends AppController {
 	public function destroy() {
 		$this->Member->delete($this->request->params['id'],false);
 		$this->_prepareSettingTabMembers();
-		$this->render('/elements/projects/settings/members');
+		$this->render('/Elements/projects/settings/members');
 	}
 }

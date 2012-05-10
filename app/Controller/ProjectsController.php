@@ -49,6 +49,7 @@ class ProjectsController extends AppController {
 		'Project',
 		'Time',
 		'Wiki',
+		'Js' => array('Prototype')
 	);
 
 /**
