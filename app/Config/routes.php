@@ -26,7 +26,7 @@
 		
 	
 	Router::connect('/users/list', array('controller' => 'users', 'action' => 'list_'));
-    Router::connect('/members/:action/:project_id/', array('controller' => 'members'));
+    Router::connect('/members/:action/:project_id', array('controller' => 'members'));
     Router::connect('/members/:action/:project_id/:id', array('controller' => 'members'));
 		
 #ActionController::Routing::Routes.draw do |map|
