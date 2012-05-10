@@ -157,7 +157,7 @@ class NewsController extends AppController {
 				$this->Session->setFlash(__('Successful creation.'), 'default', array('class' => 'flash notice'));
 				$this->News->Project->id = $this->_project['Project']['id'];
 				$this->Mailer->deliver_news_added($this->News);
-				$this->redirect(array('controller' => 'projects', 'action' => $this->_project['Project']['identifier'], 'news/index'));
+				$this->redirect(array('controller' => 'news', 'action' => 'index', 'project_id' => $this->_project['Project']['identifier']));
 			} else {
 				$this->Session->setFlash($this->validateErrors($this->News), 'default', array('class' => 'flash flash_error'));
 				$this->render('add');
