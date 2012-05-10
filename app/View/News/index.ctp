@@ -16,8 +16,10 @@ echo $this->Form->create('News', array('url' => "/projects/{$main_project['Proje
 		),
 		array(
 			'update' => 'preview',
+			'buffer' => false,
 			'complete' => "Element.scrollTo('preview')",
-			'with' => "Form.serialize('NewsAddForm')"
+			'data' => "Form.serialize('NewsAddForm')",
+			'dataExpression' => true
 		)
 	);
 
