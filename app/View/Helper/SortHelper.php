@@ -147,7 +147,7 @@ class SortHelper extends PaginatorHelper
     if ($caption == null) {
       $caption = __($column);
     }
-    $html = $this->sort($caption, $column, $options);
+    $html = $this->sort($column, $caption, $options);
 
     if($this->request->params['named']['sort'] == $column) {
       if($this->request->params['named']['direction'] == 'asc') {
