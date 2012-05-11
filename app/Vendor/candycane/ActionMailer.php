@@ -245,7 +245,7 @@ class ActionMailer extends Component
             if (preg_grep("/[\r\n]/", array($email, $name)))
                 return false;
             
-            if (!preg_match(VALID_EMAIL, $email))
+            if (!Validation::email($email))
                 return false;
         }
 
