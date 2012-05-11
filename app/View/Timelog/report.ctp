@@ -86,7 +86,7 @@ echo $this->Form->create('TimeEntry', array(
 <thead>
 <tr>
 <?php foreach($criterias as $criteria): ?>
-  <th><?php echo __($availableCriterias[$criteria]['label']) ?></th>
+  <th><?php echo __($available_criterias[$criteria]['label']) ?></th>
 <?php endforeach; ?>
 <?php $columns_width = (40 / (count($periods)+1)); ?>
 <?php foreach($periods as $period): ?>
@@ -100,7 +100,7 @@ echo $this->Form->create('TimeEntry', array(
     'criterias' => $criterias, 
     'hours'=>$hours, 
     'level'=>0, 
-    'availableCriterias'=>$availableCriterias,
+    'availableCriterias'=>$available_criterias,
     'columns'=>$columns,
     'periods'=>$periods,
     )); ?>
