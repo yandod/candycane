@@ -1397,10 +1397,10 @@ function breadcrumb($args)
     if (isset($map[$current_language])) {
         $lang = $map[$current_language];
     }
-    $this->AppAjax->link('calendar/calendar.js', false);
-    $this->AppAjax->link("calendar/lang/calendar-{$lang}.js", false);
-    $this->AppAjax->link('calendar/calendar-setup', false);
-    $this->Html->css('calendar.css', null, array(), false);
+    echo $this->Html->script('calendar/calendar.js', false);
+    echo $this->Html->script("calendar/lang/calendar-{$lang}.js", false);
+    echo $this->Html->script('calendar/calendar-setup', false);
+    echo $this->Html->css('calendar.css', null, array(), false);
   }
 
 #  def content_for(name, content = nil, &block)
