@@ -2,7 +2,12 @@
 class TimelogController extends AppController
 {
   var $name = 'Timelog';
-  var $helpers = array('Sort', 'Issues', 'CustomField', 'Timelog', 'Js', 'Paginator');
+  var $helpers = array('Sort', 
+	'Issues',
+	'CustomField',
+	'Timelog',
+	'Js' => array('Prototype'),
+	 'Paginator');
   var $uses = array('TimeEntry', 'Issue');
   var $components = array('Sort', 'RequestHandler');
   var $_project = false;
