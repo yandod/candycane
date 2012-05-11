@@ -12,7 +12,12 @@ class UsersController extends AppController {
  *
  * @var array
  */
-	public $helpers = array('Users', 'Sort', 'AppAjax', 'Text');
+	public $helpers = array(
+		'Js' => array('Prototype'),
+		'Users',
+		'Sort',
+		'AppAjax',
+		'Text');
 
 /**
  * Components
