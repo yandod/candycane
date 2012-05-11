@@ -46,14 +46,14 @@
 					echo $this->Html->link(__('Uninstall'),array(
 						'controller' => 'admin',
 						'action' => 'uninstallPlugin',
-						'id' => $plugin['id']
+						$plugin['id']
 					));
 				}
 			} else {
 				echo $this->Html->link(__('Install'),array(
 					'controller' => 'admin',
 					'action' => 'installPlugin',
-					'id' => $plugin['id']
+					$plugin['id']
 					));
 			}
 		?></td>

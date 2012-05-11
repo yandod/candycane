@@ -20,21 +20,11 @@ class PluginContainer extends Object {
 	}
 
 	protected function __loadEntry() {
-		$this->__entries['cc_nyancat'] = array(
-			'id' => 'cc_nyancat',
-			'name' => 'Nyan Down Chart',
-			'description' => 'This plugin make you nyan\'d!!',
-			'url' => 'https://github.com/downloads/yandod/cc_nyancat/cc_nyancat-v0.2.zip',
-			'author' => 'yandod',
-			'author_url' => 'https://github.com/yandod',
-			'version' => '0.2',
-			'installed' => false
-		);
-		$this->__entries['cc_epicsax'] = array(
-			'id' => 'cc_epicsax',
-			'name' => 'Epic Sax Guy plugin.',
-			'description' => 'You never forget this sax roll.',
-			'url' => 'https://github.com/downloads/yandod/cc_epicsax/yandod-cc_epicsax-v0.1-0-gad8a5da.zip',
+		$this->__entries['cc_octoland'] = array(
+			'id' => 'cc_octoland',
+			'name' => 'Octoland',
+			'description' => 'Collect all octocat stickers on CandyCane for free.',
+			'url' => 'https://github.com/yandod/CcOctoland/zipball/master',
 			'author' => 'yandod',
 			'author_url' => 'https://github.com/yandod',
 			'version' => '0.1',
@@ -112,14 +102,14 @@ class PluginContainer extends Object {
 	public function install($id) {
 		$entry = $this->getEntry($id);
 		if ($entry && !empty($entry['url'])) {
-			App::import('Core', 'File');
+			App::uses('File', 'Utility');
 			copy($entry['url'],TMP.DS.$id);
 			App::import('Vendor', 'PclZip', array('file' => 'pclzip-2-8-2/pclzip.lib.php'));
 			$zip = new PclZip(TMP.DS.$id);
 			$list = $zip->listContent();
 			$zip->extract(TMP);
 			unlink(TMP.DS.$id);
-			rename(TMP.DS.$list[0]['filename'], APP.'Plugin'.DS.$id);
+			rename(TMP.DS.$list[0]['filename'], APP.'Plugin' . DS . Inflector::camelize($id));
 			return true;
 		}
 		return false;
@@ -144,9 +134,9 @@ class PluginContainer extends Object {
 	public function uninstall($id) {
 		$entry = $this->getEntry($id);
 		if ($entry && !empty($entry['url'])) {
-			App::import('Core', 'Folder');
+			App::uses('Folder', 'Utility');
 			$folder = new Folder;
-			return $folder->delete(APP.'Plugin'.DS.$id);
+			return $folder->delete(APP.'Plugin'.DS. Inflector::camelize($id));
 		}
 		return false;
 	}
