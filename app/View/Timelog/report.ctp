@@ -17,7 +17,6 @@
 <?php
 echo $this->Form->create('TimeEntry', array(
         'url'=>$this->Timelog->link_to_timelog_report_url($main_project),
-        //'onsubmit'=>$ajax->remoteFunction(array('url'=>$this->Timelog->link_to_timelog_report_url($main_project), 'form'=>true, 'after'=>'return false', 'update'=>'content')),
         )
       );
   foreach($criterias as $criteria) {
@@ -34,16 +33,45 @@ echo $this->Form->create('TimeEntry', array(
                                                                            'week' =>__('Week'),
                                                                            'day'  =>__('days')),
                                                         'value'   => $columns,
-                                                        'onchange' => "this.form.onsubmit();")); ?>
+                                                        )); ?>
+	<?php 
+		echo $this->Html->scriptBlock(
+			$this->Js->get('#TimeEntryColumns')->event('change', 
+				$this->Js->request($this->Timelog->link_to_timelog_report_url($main_project), 
+				array(
+					'update' => 'content',
+					'evalScripts' => true,
+					'data' => $this->Js->serializeForm(array(
+						'inline' => true
+					)),
+					'dataExpression' => true
+	
+				)), 
+				array('buffer' => false)));
+	?>
 
   <?php echo __('Add') ?>: <?php echo $this->Form->input('criterias', array('type'=>'select', 'div'=>false, 'label'=>false,
                                                         'options' => $this->Timelog->selectable_criterias($available_criterias, $criterias),
                                                         'empty' => true,
-                                                        'onchange' => "this.form.onsubmit();",
                                                         'style' => 'width: 200px',
                                                         //'id' => null,
                                                         'name'=>'data[TimeEntry][criterias][]',
                                                         'disabled' => (count($criterias) >= 3))); ?>
+	<?php 
+		echo $this->Html->scriptBlock(
+			$this->Js->get('#TimeEntryCriterias')->event('change', 
+				$this->Js->request($this->Timelog->link_to_timelog_report_url($main_project), 
+				array(
+					'update' => 'content',
+					'evalScripts' => true,
+					'data' => $this->Js->serializeForm(array(
+						'inline' => true
+					)),
+					'dataExpression' => true
+				)), 
+				array('buffer' => false)));
+	?>
+
      <?php echo $this->Timelog->clear_link($main_project, $columns); ?>
   </p>
 <?php echo $this->Form->end(); ?>
