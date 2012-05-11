@@ -23,7 +23,7 @@ $vars = array(
   array(25,50,100),
  
 'mail_from' =>
-  'redmine@example.net',
+  'candycane@example.com',
 'bcc_recipients' =>
   '1',
 'plain_text_mail' =>
@@ -35,7 +35,7 @@ $vars = array(
 'default_language' =>
   'en',
 'host_name' =>
-  'localhost:3000',
+  'localhost',
 'protocol' =>
   'http',
 'feeds_limit' =>
