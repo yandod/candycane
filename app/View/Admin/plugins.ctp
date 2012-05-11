@@ -65,5 +65,5 @@
 <?php endif; ?>
 <p class="nodata">
 	<?php echo __('Do you want to create your own plugin? Run command bellow to create your plugin.'); ?><br/>
-	<strong>php cake/console/cake.php cc_plugin</strong>
+	<strong>php lib/Cake/Console/cake.php cc_plugin</strong>
 </p>

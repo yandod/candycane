@@ -12,7 +12,7 @@ class CcPluginShell extends Shell {
  * @return void
  */
 	function initialize() {
-		$this->path = APP . 'plugins' . DS;
+		$this->path = APP . 'Plugin' . DS;
 	}
 /**
  * Execution method always used for tasks
@@ -61,9 +61,9 @@ class CcPluginShell extends Shell {
  */
 	function bake($plugin) {
 
-		$pluginPath = Inflector::underscore($plugin);
+		$pluginPath = $plugin;
 
-		if ( substr($pluginPath,0,3) !== 'cc_' ) {
+		if ( substr($pluginPath,0,2) !== 'Cc' ) {
 			$this->err('Plugin name must start with "Cc"');
 			return;
 		}
@@ -79,8 +79,13 @@ class CcPluginShell extends Shell {
 		if (strtolower($looksGood) == 'y' || strtolower($looksGood) == 'yes') {
 			$verbose = $this->in(__('Do you want verbose output?'), array('y', 'n'), 'n');
 
+			App::uses('Folder', 'Utility');
 			$Folder = new Folder($this->path . $pluginPath);
-			$directories = array('models' . DS . 'behaviors', 'controllers' . DS . 'components', 'views' . DS . 'helpers');
+			$directories = array(
+				'Model' . DS . 'Behavior',
+				'Controller' . DS . 'Component',
+				'View' . DS . 'Helper'
+			);
 
 			foreach ($directories as $directory) {
 				$Folder->create($this->path . $pluginPath . DS . $directory);
@@ -97,25 +102,26 @@ class CcPluginShell extends Shell {
 				return false;
 			}
 
-			$controllerFileName = $pluginPath . '_app_controller.php';
+			$controllerFileName = $pluginPath . 'AppController.php';
 
 			$out = "<?php\n\n";
 			$out .= "class {$plugin}AppController extends AppController {\n\n";
 			$out .= "}\n\n";
 			$out .= "?>";
-			$this->createFile($this->path . $pluginPath. DS . $controllerFileName, $out);
+			$this->createFile($this->path . $pluginPath. DS . 'Controller' . DS .$controllerFileName, $out);
 
-			$modelFileName = $pluginPath . '_app_model.php';
+			$modelFileName = $pluginPath . 'AppModel.php';
 
 			$out = "<?php\n\n";
 			$out .= "class {$plugin}AppModel extends AppModel {\n\n";
 			$out .= "}\n\n";
 			$out .= "?>";
-			$this->createFile($this->path . $pluginPath . DS . $modelFileName, $out);
+			$this->createFile($this->path . $pluginPath . DS . 'Model' . DS . $modelFileName, $out);
 
 			$out = "<?php\n";
 			$out .= "\$pluginContainer = ClassRegistry::getObject('PluginContainer');\n";
-			$out .= "\$pluginContainer->installed('{$pluginPath}','0.1');\n";
+			$plugin_id = Inflector::underscore($pluginPath);
+			$out .= "\$pluginContainer->installed('{$plugin_id}','0.1');\n";
 			$out .= "\n\n";
 			$this->createFile($this->path . $pluginPath . DS . 'init.php', $out);
 
@@ -127,13 +133,13 @@ class CcPluginShell extends Shell {
 			$out .= "\t}\n";
 			$out .= "}\n";
 			$out .= "\n";
-			$this->createFile($this->path . $pluginPath . DS . 'controllers/home_controller.php', $out);
+			$this->createFile($this->path . $pluginPath . DS . 'Controller/HomeController.php', $out);
 
 			$out = "";
 			$out .= "Hello CandyCane {$plugin} Plugin.<br/>";
 			$out .= "You have <?php echo \$count ?> of issues.";
 			$out .= "\n\n";
-			$this->createFile($this->path . $pluginPath . DS . 'views/home/index.ctp', $out);
+			$this->createFile($this->path . $pluginPath . DS . 'View' . DS .'Home' . DS . 'index.ctp', $out);
 
 			$this->hr();
 			$this->out(sprintf(__("Created: %s in %s"), $plugin, $this->path . $pluginPath));

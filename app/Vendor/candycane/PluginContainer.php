@@ -47,7 +47,17 @@ class PluginContainer extends Object {
 	}
 
 	public function fetchEntry(){
-		$json = file_get_contents($this->__entries_url);
+		$context = stream_context_create(
+			array(
+				'http' => array(
+					'timeout' => 0.2
+				)
+			)
+		);
+		$json = @file_get_contents($this->__entries_url,false,$context);
+		if ($json == false) {
+			return false;
+		}
 		$remote = json_decode($json,true);
 		$local = $this->__entries;
 		foreach ($remote as $id => $entry) {
@@ -109,7 +119,7 @@ class PluginContainer extends Object {
 			$list = $zip->listContent();
 			$zip->extract(TMP);
 			unlink(TMP.DS.$id);
-			rename(TMP.DS.$list[0]['filename'], APP.'plugins'.DS.$id);
+			rename(TMP.DS.$list[0]['filename'], APP.'Plugin'.DS.$id);
 			return true;
 		}
 		return false;
@@ -136,7 +146,7 @@ class PluginContainer extends Object {
 		if ($entry && !empty($entry['url'])) {
 			App::import('Core', 'Folder');
 			$folder = new Folder;
-			return $folder->delete(APP.'plugins'.DS.$id);
+			return $folder->delete(APP.'Plugin'.DS.$id);
 		}
 		return false;
 	}
