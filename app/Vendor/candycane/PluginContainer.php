@@ -50,7 +50,7 @@ class PluginContainer extends Object {
 		$context = stream_context_create(
 			array(
 				'http' => array(
-					'timeout' => 0.2
+					'timeout' => 7
 				)
 			)
 		);
