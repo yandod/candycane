@@ -25,7 +25,6 @@ class UsersHelper extends AppHelper {
 		if (isset($user['User'])) {
 			$user = $user['User'];
 		}
-		$this->Js->JqueryEngine->jQueryObject = 'jQuery';
 		if ($user['status'] == 3) {
 			// user status locked
 			return $this->Js->link(
