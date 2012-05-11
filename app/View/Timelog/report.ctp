@@ -78,7 +78,7 @@ echo $this->Form->create('TimeEntry', array(
 
 <?php if(!empty($criterias)): ?>
 <div class="total-hours">
-<p><?php echo __('Total') ?>: <?php echo $this->Candy->html_hours(sprintf(__("%.2f hour"), $totalHours)); ?></p>
+<p><?php echo __('Total') ?>: <?php echo $this->Candy->html_hours(sprintf(__("%.2f hour"), $total_hours)); ?></p>
 </div>
 
 <?php if(!empty($hours)): ?>
