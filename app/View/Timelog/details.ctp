@@ -49,7 +49,7 @@ echo $this->Form->end();
 <span>
 <?php 
   if(!empty($this->request->query['issue_id'])) {
-    echo $this->Html->link('Atom', array('?'=>array('issue_id' => $this->request->query['issue_id'], 'format' => 'atom', 'key' => $rssToken)), array('class' => 'feed'));
+    echo $this->Html->link('Atom', array('?'=>array('issue_id' => $this->request->query['issue_id'], 'format' => 'atom', 'key' => $rss_token)), array('class' => 'feed'));
   } else {
     echo $this->Html->link('Atom', array('?'=>array('format' => 'atom', 'key' => $rss_token)), array('class' => 'feed'));
   }
@@ -69,10 +69,10 @@ echo $this->Form->end();
 
 <?php 
   if(!empty($this->request->query['issue_id'])) {
-    $this->Html->meta('atom', array('project_id'=>$main_project['Project']['identifier'], '?'=>array('issue_id' => $this->request->query['issue_id'], 'format'=>'atom', 'key'=>$rssToken)), array('title'=>__('Spent time'), 'rel'=>'alternate'), false);
+    $this->Html->meta('atom', array('project_id'=>$main_project['Project']['identifier'], '?'=>array('issue_id' => $this->request->query['issue_id'], 'format'=>'atom', 'key'=>$rss_token)), array('title'=>__('Spent time'), 'rel'=>'alternate'), false);
   } elseif(!empty($main_project)) {
     $this->Html->meta('atom', array('project_id'=>$main_project['Project']['identifier'], '?'=>array('format'=>'atom', 'key'=>$rss_token)), array('title'=>__('Spent time'), 'rel'=>'alternate'), false);
   } else {
-    $this->Html->meta('atom', array('?'=>array('format'=>'atom', 'key'=>$rssToken)), array('title'=>__('Spent time')), false);
+    $this->Html->meta('atom', array('?'=>array('format'=>'atom', 'key'=>$rss_token)), array('title'=>__('Spent time')), false);
   }
 ?>
