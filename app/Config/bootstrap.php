@@ -14,9 +14,9 @@ CakePlugin::loadAll();
 ClassRegistry::addObject('HookContainer',$hookContainer);
 ClassRegistry::addObject('MenuContainer',$menu_container);
 ClassRegistry::addObject('PluginContainer',$pluginContainer);
-//foreach( glob(APP.'plugins/cc_*/init.php') as $val){
-//	require_once(realpath($val));
-//}
+foreach( glob(APP.'Plugin/Cc*/init.php') as $val){
+	include_once(realpath($val));
+}
 
 
 // by PHP_Compat 1.6.0a2
