@@ -2556,3 +2556,8 @@ msgstr "Аутентификация"
 msgid "Issues by %s"
 msgstr "Сортировать по %s"
 
+msgid "CandyCane version"
+msgstr "Версия CandyCane"
+
+msgid "database driver"
+msgstr "Драйвер базы данных"
