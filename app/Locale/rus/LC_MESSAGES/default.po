@@ -826,7 +826,7 @@ msgstr "Фамилия"
 
 # label_overview
 msgid "Overview"
-msgstr "Просмотр"
+msgstr "Обзор"
 
 # label_board_plural
 msgid "Forums"
@@ -1622,7 +1622,7 @@ msgstr "Формат даты"
 
 # permission_view_messages
 msgid "View messages"
-msgstr "Просмотр сообщение"
+msgstr "Просмотр сообщений"
 
 # setting_issue_list_default_columns
 msgid "Default columns displayed on the issue list"
@@ -1822,7 +1822,7 @@ msgstr "Возможна саморегистрация"
 
 # permission_view_calendar
 msgid "View calender"
-msgstr "Просмотр календаря"
+msgstr "Обзор календаря"
 
 # enumeration_doc_categories
 msgid "Document categories"
@@ -2146,7 +2146,7 @@ msgstr "Оперативный план"
 
 # permission_browse_repository
 msgid "Browse repository"
-msgstr "Просмотр хранилища"
+msgstr "Обзор хранилища"
 
 # label_change_view_all
 msgid "View all changes"
