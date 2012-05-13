@@ -1009,8 +1009,8 @@ class ProjectsController extends AppController {
 	  ),
       );
     $selected_tab = $tabs[0]['name'];
-    if (isset($this->request->params['url']['tab'])) {
-      $selected_tab = $this->request->params['url']['tab'];
+    if (isset($this->request->query['tab'])) {
+      $selected_tab = $this->request->query['tab'];
     }
     $this->set('selected_tab',$selected_tab);
     $this->set('tabs', $tabs);  
