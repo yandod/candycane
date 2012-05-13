@@ -2226,7 +2226,7 @@ msgstr "Вы уверены, что хотите удалить данную Wik
 
 # label_preferences
 msgid "Preferences"
-msgstr "Предпочтения"
+msgstr "Настройки"
 
 # label_send_test_email
 msgid "Send a test email"
