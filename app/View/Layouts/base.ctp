@@ -5,11 +5,13 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <meta name="description" content="<?php echo Configure::read('app_title'); ?>" />
 <meta name="keywords" content="issue,bug,tracker" />
-<?php echo $this->Html->css('application')  ?>
+<?php echo $this->Html->css( 'application' ); ?>
+<?php echo $this->element( 'ui_theme' ); ?>
 <?php echo $this->Html->script(array('prototype','effects','dragdrop','controls','application')); ?>
 <?php echo $this->Html->script('https://raw.github.com/cognitom/StaffRoll.net-Libraries-and-Themes/master/include.staffroll.net/github/script/1.0/load.js?theme=underground');?>
-<?php echo $this->Html->css('jstoolbar')  ?>
+<?php echo $this->Html->css('jstoolbar');  ?>
 <?php if (isset($header_tags)) echo $header_tags; ?>
+<?php echo $this->fetch('css'); ?>
 <?php echo $this->fetch('script'); ?>
 
 </head>

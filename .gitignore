@@ -15,6 +15,9 @@ vendors/simpletest
 .project
 .settings
 nbproject
+.idea
 
 ## Allow 'empty' files
 !empty
+
+.DS_Store

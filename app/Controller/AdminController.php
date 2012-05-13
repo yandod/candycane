@@ -174,7 +174,7 @@ class AdminController extends AppController {
  */
 	public function info() {
 		$db =& ConnectionManager::getDataSource($this->Project->useDbConfig);
-		$this->set('db_driver', $db->config['driver']);
+		$this->set('db_driver', $db->config['datasource']);
 	}
 
 }
