@@ -25,9 +25,9 @@
                            'size' => 120,
                            'label' => false,
                            'div' => false)); ?></p>
-<p><?php echo $this->Form->submit(__("Save",
-                         array('div' => false))); ?>
-<?php echo $this->Js->link(__('Preview',
+<p><?php echo $this->Form->submit(__("Save"),
+                         array('div' => false)); ?>
+<?php echo $this->Js->link(__('Preview'),
                     array('controller' => 'wiki',
                           'action' => 'preview',
                           'project_id' => $main_project['Project']['identifier'],
@@ -37,7 +37,7 @@
                           'with' => "Form.serialize('WikiContentEditForm')",
                           'complete' => "Element.scrollTo('preview')",
 							'escape' => false
-					)));
+					));
 /*}, :accesskey => accesskey(:preview)*/ ?></p>
 <?php /*wikitoolbar_for 'content_text'*/ ?>
 <?php $this->Form->end() ?>
