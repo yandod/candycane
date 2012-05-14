@@ -1,16 +1,29 @@
 <?php echo $this->element('error_explanation'); ?>
-  <?php echo $this->AppAjax->form(
-    array('options' =>array(
-      'model' => 'Wiki',
-      'update' => 'tab-content-wiki',
-      'url' => array(
-        'controller' => 'wikis',
-        'action' => 'edit',
-        'project_id' => $main_project['Project']['identifier'],
-        'id' => null
-      )
-    ))
-  ) ?>
+  <?php echo $this->Form->create(
+	'Wiki',
+    	array(
+      		'url' => array(
+        		'controller' => 'wikis',
+        		'action' => 'edit',
+        		'project_id' => $main_project['Project']['identifier'],
+        		//'id' => null
+      		),
+		'id' => 'WikiMainPage'
+    ));
+	echo $this->Html->scriptBlock(
+		$this->Js->get('#WikiMainPage')->event('submit',
+			$this->Js->request(array(
+				'controller' => 'wikis',
+				'action' => 'edit',
+				'project_id' => $main_project['Project']['identifier']
+			)),
+			array(
+				'update' => 'tab-content-wiki',
+				'buffer' => false
+			)
+		)
+	);
+   ?>
 <div class="box tabular">
 <p><?php echo $this->Form->text('Wiki.start_page',array(
 	'size' => 60,
