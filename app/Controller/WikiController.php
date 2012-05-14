@@ -3,7 +3,11 @@
 class WikiController extends AppController {
   //var $helpers = array('attachments');
   var $uses = array('Wiki', 'WikiContent', 'Project', 'User');
-  var $helpers = array('Time', 'Number', 'Wiki','Js');
+  var $helpers = array(
+  	'Time',
+	'Number',
+	'Wiki',
+	'Js' => 'Prototype');
 
   function index() {
     $page_title = null;
@@ -372,7 +376,7 @@ class WikiController extends AppController {
    function preview() {
 	$this->layout = 'ajax';
 	$this->set('content', $this->request->data);
-   	$this->render('/elements/wiki/content');	
+   	$this->render('/Elements/wiki/content');	
    }
 
   // private
