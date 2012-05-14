@@ -100,7 +100,7 @@ function deleteValueField(e) {
 </p>
 <p>
   <?php echo $this->Form->label('default_value', __('Default value')); ?>
-  <?php echo $this->CustomField->default_value_tag($custom_field, $form); ?>
+  <?php echo $this->CustomField->default_value_tag($custom_field); ?>
 </p>
 </div>
 

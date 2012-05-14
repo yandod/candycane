@@ -7,7 +7,8 @@
 class CustomFieldHelper extends AppHelper
 {
   var $helpers = array(
-    'Candy'
+    'Candy',
+    'Form'
   );
 
   function show_value($custom_value)
@@ -113,7 +114,7 @@ class CustomFieldHelper extends AppHelper
   function custom_field_tag_with_label($formHelper, $name, $custom_value) {
     return $this->custom_field_label_tag($formHelper, $name, $custom_value).$this->custom_field_tag($formHelper, $name, $custom_value);
   }
-  function default_value_tag($custom_field, $form) {
+  function default_value_tag($custom_field) {
     $type = 'text';
     if(!empty($custom_field['CustomField']['field_format']) && $custom_field['CustomField']['field_format'] == 'bool') {
       $type = 'checkbox';
