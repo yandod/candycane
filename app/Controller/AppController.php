@@ -423,10 +423,10 @@ class AppController extends Controller {
 		) {
 			$value = $this->request->params['named'][$name];
 		} elseif (
-			array_key_exists('url', $this->request->params) &&
-			array_key_exists($name, $this->request->params['url'])
+			array_key_exists('query', $this->request) &&
+			array_key_exists($name, $this->request->query)
 		) {
-			$value = $this->request->params['url'][$name];
+			$value = $this->request->query[$name];
 		} elseif (
 			is_array($this->request->data) &&
 			array_key_exists($this->{$this->modelClass}->name, $this->request->data) &&
