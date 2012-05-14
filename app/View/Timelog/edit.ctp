@@ -37,7 +37,7 @@
 ); ?> 
 </p>
 <?php foreach($time_entry_custom_fields as $value): ?>
-  <p><?php echo $this->CustomField->custom_field_tag_with_label($form, 'time_entry', $value); ?></p>
+  <p><?php echo $this->CustomField->custom_field_tag_with_label('time_entry', $value); ?></p>
 <?php endforeach; ?>
 <?php /* TODO : call_hook(:view_timelog_edit_form_bottom, { :time_entry => @time_entry, :form => f }) */ ?>
 </div>

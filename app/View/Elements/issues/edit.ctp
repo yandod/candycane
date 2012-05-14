@@ -38,7 +38,7 @@
       <?php echo $this->Form->input('TimeEntry.comments', array('div'=>false, 'label'=>false, 'size'=>60, 'type'=>'text', 'id'=>"time_entry_comments"));?> 
     </p>
     <?php foreach($time_entry_custom_fields as $value): ?>
-      <p><?php echo $this->CustomField->custom_field_tag_with_label($form, 'time_entry', $value); ?></p>
+      <p><?php echo $this->CustomField->custom_field_tag_with_label('time_entry', $value); ?></p>
     <?php endforeach; ?>
   </fieldset>
   <?php endif; ?>

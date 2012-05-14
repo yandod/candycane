@@ -101,7 +101,7 @@
 	<?php $i = 0; ?>
 	<?php $split_on = intval(count($custom_field_values) / 2); ?>
 	<?php foreach ($custom_field_values as $value): ?>
-		<p><?php echo $this->CustomField->custom_field_tag_with_label($form, 'issue', $value); ?></p>
+		<p><?php echo $this->CustomField->custom_field_tag_with_label('issue', $value); ?></p>
 		<?php if($i == $split_on): ?>
 			</div><div class="splitcontentright">
 		<?php endif; ?>
