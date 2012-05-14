@@ -150,10 +150,10 @@ class IssuesController extends AppController {
  * @return void
  */
 	public function index() {
-		if (!isset($this->request->params['url']['query_id'])) {
-			$this->request->params['url']['query_id'] = 0;
+		if (!isset($this->request->query['query_id'])) {
+			$this->request->query['query_id'] = 0;
 		}
-		$this->Queries->retrieve_query($this->request->params['url']['query_id']);
+		$this->Queries->retrieve_query($this->request->query['query_id']);
 		$limit = $this->_per_page_option();
 		if (empty($this->request->params['named']['sort'])) {
 			$this->request->params['sort'] = 'Issue.id';
