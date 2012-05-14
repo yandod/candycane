@@ -12,7 +12,7 @@
 					if ($paginator->sortKey() == 'id' || $paginator->sortKey() == 'Issue.id') {
 						$sort_mark = '&nbsp;'.$html->image('sort_'.$paginator->sortDir().'.png', array('alt' => "Sort_desc"));
 					}
-					echo $html->tag('th', $paginator->sort('#', 'Issue.id').$sort_mark);
+					echo $html->tag('th', $paginator->sort('#', 'Issue.id', array('url' => $paginator->params['url_param'])).$sort_mark);
 					foreach ($queries->columns($query) as $column):
 						$sort_mark = '';
 						if ($paginator->sortKey() == $queryColumn->sortable($column)) {
