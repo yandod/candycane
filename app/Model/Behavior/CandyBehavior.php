@@ -7,7 +7,7 @@ class CandyBehavior extends ModelBehavior
 
 	public function defaults($model) {
 		$results = array($model->name => array());
-		foreach ($model->_schema as $k => $v) {
+		foreach ($model->schema() as $k => $v) {
 			$results[$model->name][$k] = $v['default'];
 		}
 		$results = $model->afterFind(array($results), true);
