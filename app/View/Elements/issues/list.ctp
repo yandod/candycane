@@ -20,7 +20,7 @@
 					if ($this->Paginator->sortKey() == 'id' || $this->Paginator->sortKey() == 'Issue.id') {
 						$sort_mark = '&nbsp;'.$this->Html->image('sort_'.$this->Paginator->sortDir().'.png', array('alt' => "Sort_desc"));
 					}
-					echo $this->Html->tag('th', $this->Paginator->sort('Issue.id', '#').$sort_mark);
+					echo $this->Html->tag('th', $this->Paginator->sort('Issue.id', '#', array('url' => $this->Paginator->params['url_param'])).$sort_mark);
 					foreach ($this->Queries->columns($query) as $column):
 						$sort_mark = '';
 						if ($this->Paginator->sortKey() == $this->QueryColumn->sortable($column)) {
