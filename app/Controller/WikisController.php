@@ -10,7 +10,7 @@ class WikisController extends AppController {
       $this->request->data['Wiki']['status'] = 1;
       $this->Wiki->save($this->request->data);
     }
-    $this->render('/elements/projects/settings/wiki');  
+    $this->render('/Elements/projects/settings/wiki');  
   }
 
 
