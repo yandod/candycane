@@ -34,9 +34,15 @@
                           'wikipage' => $page['WikiPage']['title']),
                     array('method' => 'post',
                           'update' => 'preview',
-                          'with' => "Form.serialize('WikiContentEditForm')",
+                          'data' => $this->Js->get('#WikiContentIndexForm')->serializeForm(
+			  	array(
+			  		'inline' => true,
+			  		'isForm' => true,
+			  	)
+			  ),
+			  'dataExpression' => true,
                           'complete' => "Element.scrollTo('preview')",
-							'escape' => false
+			  'buffer' => false,
 					));
 /*}, :accesskey => accesskey(:preview)*/ ?></p>
 <?php /*wikitoolbar_for 'content_text'*/ ?>
