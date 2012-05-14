@@ -434,10 +434,10 @@ class AppController extends Controller {
 		) {
 			$value = $this->request->data[$this->{$this->modelClass}->name][$name];
 		} elseif (
-			array_key_exists('form', $this->request->params) &&
-			array_key_exists($name, $this->request->params['form'])
+			array_key_exists('data', $this->request) &&
+			array_key_exists($name, $this->request->data)
 		) {
-			$value = $this->request->params['form'][$name];
+			$value = $this->request->data[$name];
 		} else {
 			$value = null;
 		}
