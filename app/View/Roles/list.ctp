@@ -4,6 +4,8 @@
 
 <h2><?php $this->Candy->html_title(); __('Roles'); ?></h2>
 
+<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <table class="list">
   <thead><tr>
    <th><?php echo __('Role');?></th>

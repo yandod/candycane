@@ -1,5 +1,7 @@
 <h2><?php echo __('Custom fields'); ?></h2>
 
+<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <div class="tabs">
 <ul>
 <?php foreach($this->CustomField->custom_fields_tabs() as $tab): ?>

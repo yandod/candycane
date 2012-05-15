@@ -3,6 +3,8 @@
 <!--    <%= link_to l(:label_issue_view_all), { :controller => 'issues' } %> | -->
 <!--    <%= link_to l(:label_overall_activity), { :controller => 'projects', :action => 'activity' }%> -->
 
+<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <?php if ($currentuser['admin']) echo $this->Html->link(__('New project',TRUE),array('controller' => 'projects', 'action' => 'add'),array('class' => 'icon icon-add'))." |"; ?>
 <?php echo $this->Html->link(__('View all issues',TRUE), array('controller' => 'issues')); ?> | 
 <?php echo $this->Html->link(__('Overall activity', TRUE), array('controller' => 'projects', 'action' => 'activity')); ?>

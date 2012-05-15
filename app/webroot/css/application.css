@@ -598,6 +598,11 @@ line-height: 22px;
 vertical-align: middle;
 }
 
+#sidebar .icon22 {
+padding-left: 20px;
+background-size: 15px 15px;
+}
+
 .icon-add { background-image: url(../img/add.png); }
 .icon-edit { background-image: url(../img/edit.png); }
 .icon-copy { background-image: url(../img/copy.png); }
@@ -644,6 +649,8 @@ vertical-align: middle;
 .icon22-package { background-image: url(../img/22x22/package.png); }
 .icon22-settings { background-image: url(../img/22x22/settings.png); }
 .icon22-plugin { background-image: url(../img/22x22/plugin.png); }
+.icon22-statuses { background-image: url(../img/22x22/statuses.png); }
+.icon22-sequence { background-image: url(../img/22x22/sequence.png); }
 
 img.gravatar { 
 	padding: 2px;

@@ -4,6 +4,8 @@
 
 <h2><?php echo $this->Candy->html_title(__('Trackers')) ?></h2>
 
+<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <table class="list">
   <thead><tr>
   <th><?php echo __('Tracker') ?></th>

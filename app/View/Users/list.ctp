@@ -13,6 +13,8 @@ $status_type = array('anon', 'active', 'registered', 'locked');
 
 <h2><?php echo __('Filters'); ?></h2>
 
+<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <?php
 echo $this->Form->create(null, array('type' => 'get', 'url' => '/users/list'));
 ?>

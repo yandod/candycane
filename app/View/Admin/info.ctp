@@ -1,5 +1,7 @@
 <h2><?php echo $this->Candy->html_title(__('Information')); ?></h2>
 
+<?php $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <table class="list">
 <tr class="odd">
   <td><?php echo __('CandyCane version'); ?></td>

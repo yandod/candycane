@@ -1,5 +1,7 @@
 <h2><?php echo __('Workflow'); ?></h2>
 
+<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <?php if (empty($roles) && empry($trackers)): ?>
 <p class="nodata"><?php echo __('No data to display'); ?></p>
 <?php else: ?>

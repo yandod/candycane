@@ -1,5 +1,7 @@
 <h2><?php $this->Candy->html_title();__('New status'); ?></h2>
 
+<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <?php echo $this->Form->create(null, array('action'=>'add', 'class'=>"tabular")); ?>
   <div class="box">
     <p>
