@@ -16,7 +16,15 @@
 				'controller' => 'wikis',
 				'action' => 'edit',
 				'project_id' => $main_project['Project']['identifier']
-			)),
+			), array(
+				'data' => $this->Js->serializeForm(array(
+					'isForm' => true,
+					'inline' => true
+				)
+				),
+				'dataExpression' => true
+			)
+			),
 			array(
 				'update' => 'tab-content-wiki',
 				'buffer' => false
