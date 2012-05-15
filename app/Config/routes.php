@@ -72,7 +72,7 @@ Router::connect('/timelog/:action/:id/*', array('controller' => 'timelog'));
 
 #  map.connect 'boards/:board_id/topics/:action/:id', :controller => 'messages'
 
-Router::connect('/news/:action/:news_id/*', array('controller' => 'news'));
+Router::connect('/news/:action/:id/*', array('controller' => 'news'));
 
 #
 #  map.with_options :controller => 'repositories' do |omap|

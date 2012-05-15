@@ -273,6 +273,16 @@ text-align: left;
 width: 270px;
 }
 
+div.checkbox input[type="checkbox"] {
+	float: left;
+}
+
+div.checkbox label {
+	margin-left: 0px;
+	float: left;
+	width: auto;
+}
+
 input#time_entry_comments { width: 90%;}
 
 #preview fieldset {margin-top: 1em; background: url(../img/draft.png)}
