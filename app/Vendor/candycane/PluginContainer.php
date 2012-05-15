@@ -139,7 +139,7 @@ class PluginContainer extends Object {
 			App::uses('Folder', 'Utility');
 			$folder = new Folder;
 			$folder->delete(APP.'Plugin'.DS. Inflector::camelize($id));
-			CakePlugin::unload(Inflector::camelize($id));
+			//CakePlugin::unload(Inflector::camelize($id));
 			Cache::clear(false, '_cake_core_');
 			return true;
 		}
