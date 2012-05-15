@@ -78,7 +78,6 @@ class Token extends AppModel
         'user_id =' => $user_id,
       )
     );
-    /*
     $this->save(
       array(
         $this->alias => array(
@@ -88,7 +87,6 @@ class Token extends AppModel
         )
       )
     );
-     */
   }
 }
 
