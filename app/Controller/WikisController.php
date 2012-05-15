@@ -2,6 +2,9 @@
 class WikisController extends AppController {
   var $uses = array('Wiki', 'Project', 'User');
   var $components = array('RequestHandler');
+  public $helpers = array(
+  	'Js' => 'Prototype'
+  );
 
   function edit() {
     if($this->request->data) {
