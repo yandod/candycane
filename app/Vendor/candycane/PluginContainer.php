@@ -110,6 +110,8 @@ class PluginContainer extends Object {
 			$zip->extract(TMP);
 			unlink(TMP.DS.$id);
 			rename(TMP.DS.$list[0]['filename'], APP.'Plugin' . DS . Inflector::camelize($id));
+			Cache::clear(false, '_cake_core_');
+			CakePlugin::loadAll();
 			return true;
 		}
 		return false;
@@ -136,7 +138,10 @@ class PluginContainer extends Object {
 		if ($entry && !empty($entry['url'])) {
 			App::uses('Folder', 'Utility');
 			$folder = new Folder;
-			return $folder->delete(APP.'Plugin'.DS. Inflector::camelize($id));
+			$folder->delete(APP.'Plugin'.DS. Inflector::camelize($id));
+			CakePlugin::unload(Inflector::camelize($id));
+			Cache::clear(false, '_cake_core_');
+			return true;
 		}
 		return false;
 	}
