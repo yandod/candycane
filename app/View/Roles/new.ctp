@@ -1,4 +1,6 @@
-<h2><?php echo __('New role'); ?></h2> 
+<h2><?php echo __('New role'); ?></h2>
+
+<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
 
 <!-- <% labelled_tabular_form_for :role, @role, :url => { :action => 'new' }, :html => {:id => 'role_form'} do |f| %> -->
 <?php echo $this->Form->create('Role', array('action' => 'add','id' => 'role_form','class' => 'tabular')); ?>

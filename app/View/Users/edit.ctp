@@ -4,6 +4,8 @@
 
 <h2><?php echo __('User'); ?>: <?php echo h($user['User']['login']); ?></h2>
 
+<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <?php $selected_tab = isset($this->request->params['named']['tab']) ? $this->request->params['named']['tab'] : 'general'; ?>
 <div class="tabs">
 	<ul>

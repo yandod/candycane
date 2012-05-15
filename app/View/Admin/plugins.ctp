@@ -1,5 +1,7 @@
 <h2><?php echo __('Plugins'); ?></h2>
 
+<?php $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <?php if (! empty($plugins)): ?>
 <table class="list plugins">
 		<tr>

@@ -4,6 +4,8 @@
 
 <h2><?php echo $this->Candy->html_title(__('Projects'));  ?></h2>
 
+<?php $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <?php echo $this->Form->create(null, array('type' => 'get', 'url' => '/admin/projects')); ?>
 <fieldset>
   <legend><?php echo __('Filters'); ?></legend>

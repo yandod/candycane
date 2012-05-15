@@ -4,6 +4,8 @@
 
 <h2><?php echo __('Workflow'); ?></h2>
 
+<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+
 <p><?php echo __('Select a role and a tracker to edit the workflow'); ?>:</p>
 
 <?php echo $this->Form->create('Workflow', array('type' => 'get','action' => 'edit')); ?>

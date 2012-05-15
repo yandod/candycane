@@ -3,6 +3,8 @@
 </div>
 
 <h2><?php echo $this->Candy->html_title(__('Issue statuses')); ?></h2>
+
+<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
  
 <table class="list">
   <thead><tr>
