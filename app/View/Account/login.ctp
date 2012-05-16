@@ -33,7 +33,7 @@
     <?php endif; ?>
   </td>
   <td align="right">
-    <?php echo $this->Form->submit(__('Login') . ' &#187', array('name' => 'login','escape' => false)); ?>
+    <?php echo $this->Form->submit(__('Sign in') . ' &#187', array('name' => 'login','escape' => false)); ?>
   </td>
 </tr>
 </table>

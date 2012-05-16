@@ -1762,7 +1762,7 @@ msgstr "связана с"
 
 # field_login
 msgid "Login"
-msgstr "Вход"
+msgstr "Логин"
 
 # mail_subject_lost_password
 msgid "Your %s password"
