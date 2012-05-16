@@ -10,7 +10,7 @@ foreach($main_project['User'] as $member) {
 ?>
 <div class="box">
 <p><label for="IssueCategoryName"><?php echo __('Name') ?></label><?php echo $this->Form->input('IssueCategory.name', array('size'=>30,'div'=>false,'label'=>false,'value'=>$issue_category_data['IssueCategory']['name'])) ?></p>
-<p><label for="IssueCategoryAssignedToId"><?php echo __('Assigned to') ?></label><?php echo $this->Form->select('IssueCategory.assigned_to_id', $users_list, $issue_category_data['IssueCategory']['assigned_to_id'], array('options'=>$users_list,'div'=>false,'label'=>false)) ?></p>
+<p><label for="IssueCategoryAssignedToId"><?php echo __('Assigned to') ?></label><?php echo $this->Form->select('IssueCategory.assigned_to_id', $users_list, array('div'=>false,'label'=>false, 'value' => $issue_category_data['IssueCategory']['assigned_to_id'] )) ?></p>
 </div>
 
 <?php echo $this->Form->submit(__('Save')) ?>

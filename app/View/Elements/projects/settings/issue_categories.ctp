@@ -20,7 +20,7 @@
 		'controller' => 'issue_categories',
 		'action' => 'edit',
 		'project_id' => $main_project['Project']['identifier'],
-		$issue_category_row['IssueCategory']['id']
+		'id' => $issue_category_row['IssueCategory']['id']
 	),
 	array(
 		'class' => 'icon icon-edit'
@@ -34,7 +34,7 @@
 		'controller' => 'issue_categories',
 		'action' => 'destroy',
 		'project_id' => $main_project['Project']['identifier'],
-		$issue_category_row['IssueCategory']['id']
+		'id' => $issue_category_row['IssueCategory']['id']
 	),
 	array(
 		'class' => 'icon icon-del'
