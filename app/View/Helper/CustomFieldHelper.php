@@ -52,21 +52,21 @@ class CustomFieldHelper extends AppHelper
   }
 
   # Return custom field html tag corresponding to its format
-  function custom_field_tag($formHelper, $name, $custom_value) {	
+  function custom_field_tag($name, $custom_value) {	
     $custom_field = $custom_value['CustomField'];
     $field_name = 'custom_field_values.'.$custom_value['CustomField']['id'];
 
     switch($custom_field['field_format']) {
     case "date" :
-      $out = $formHelper->input($field_name, array('type'=>'text', 'size'=>10, 'label'=>false, 'div'=>false)); 
+      $out = $this->Form->input($field_name, array('type'=>'text', 'size'=>10, 'label'=>false, 'div'=>false)); 
       // TODO : calender 
       // $out .= calendar_for(field_id)
       break;
     case "text" :
-      $out = $formHelper->input($field_name, array('type'=>'textarea', 'rows'=>3, 'style'=> 'width:90%', 'label'=>false, 'div'=>false ));
+      $out = $this->Form->input($field_name, array('type'=>'textarea', 'rows'=>3, 'style'=> 'width:90%', 'label'=>false, 'div'=>false ));
       break;
     case "bool" :
-      $out = $formHelper->input($field_name, array('type'=>'checkbox', 'label'=>false, 'div'=>false));
+      $out = $this->Form->input($field_name, array('type'=>'checkbox', 'label'=>false, 'div'=>false));
       break;
     case "list" :
       $empty = true;
@@ -89,16 +89,16 @@ class CustomFieldHelper extends AppHelper
         }
       }
       
-      $out = $formHelper->input($field_name, array_merge(compact('type', 'empty', 'selected', 'options'), array('label'=>false, 'div'=>false)));
+      $out = $this->Form->input($field_name, array_merge(compact('type', 'empty', 'selected', 'options'), array('label'=>false, 'div'=>false)));
       break;
     default :
-      $out = $formHelper->input($field_name, array('type'=>'text', 'label'=>false, 'div'=>false));
+      $out = $this->Form->input($field_name, array('type'=>'text', 'label'=>false, 'div'=>false));
       break;
     }
     return $out;
   }
   # Return custom field label tag
-  function custom_field_label_tag($formHelper, $name, $custom_value) {
+  function custom_field_label_tag($name, $custom_value) {
     $out = sprintf('<label for="%s" class="%s">%s', 
       $name.'_custom_field_values_'.$custom_value['CustomField']['id'],
       empty($this->validationErrors[Inflector::camelize($name)]['custom_field_values'][$custom_value['CustomField']['id']]) ? "" : "error",
@@ -111,8 +111,8 @@ class CustomFieldHelper extends AppHelper
     return $out;
   }
   # Return custom field tag with its label tag
-  function custom_field_tag_with_label($formHelper, $name, $custom_value) {
-    return $this->custom_field_label_tag($formHelper, $name, $custom_value).$this->custom_field_tag($formHelper, $name, $custom_value);
+  function custom_field_tag_with_label($name, $custom_value) {
+    return $this->custom_field_label_tag($name, $custom_value).$this->custom_field_tag($name, $custom_value);
   }
   function default_value_tag($custom_field) {
     $type = 'text';
