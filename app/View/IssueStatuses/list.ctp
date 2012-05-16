@@ -10,7 +10,7 @@ if( $currentuser[ 'admin' ] )
 </div>
 
 <h2><?php echo $this->Candy->html_title(__('Issue statuses')); ?></h2>
- 
+
 <table class="list">
   <thead><tr>
   <th><?php echo __('Status');?></th>
@@ -20,7 +20,7 @@ if( $currentuser[ 'admin' ] )
   <th></th>
   </tr></thead>
   <tbody>  
-<?php foreach($issueStatuses as $status): ?>
+<?php foreach($issue_statuses as $status): ?>
   <tr class="<?php echo $this->Candy->cycle("odd", "even");?>">
   <td><?php echo $this->Html->link($status['IssueStatus']['name'], array('action' => 'edit', 'id' => $status['IssueStatus']['id'])); ?></td>
   <td align="center"><?php if($status['IssueStatus']['is_default']){ echo $this->Html->image('true.png'); } ?></td>
