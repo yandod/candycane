@@ -37,9 +37,15 @@ class Version extends AppModel {
   }
 
 	function afterFindOne($result) {
-		if (empty($result)) {
+		if (empty($result) || empty($result['id'])) {
 			return $result;
 		}
+
+		if (empty($result['effective_date'])) {
+			$result['effective_date'] = null;
+		}
+		
+		
 
     $result['start_date'] = $result['effective_date'];
     $result['due_date'] = $result['effective_date'];
