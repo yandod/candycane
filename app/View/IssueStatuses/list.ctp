@@ -10,7 +10,7 @@ if( $currentuser[ 'admin' ] )
 </div>
 
 <h2><?php echo $this->Candy->html_title(__('Issue statuses')); ?></h2>
- 
+
 <table class="list">
   <thead><tr>
   <th><?php echo __('Status');?></th>
