@@ -21,7 +21,8 @@ class Permission extends AppModel
 
   // map.project_module 'issue'_tracking do |map|);
     # Issue categories);
-    $this->set('manage_categories', array('projects' => array('settings', 'add_issue_category'), array('issue_categories' => array('edit', 'destroy'))), array('require' => 'member'), 'issue_tracking');
+    $this->set('manage_categories', array('projects' => array('settings', 'add_issue_category'), 
+    	'issue_categories' => array('edit', 'destroy')), array('require' => 'member'), 'issue_tracking');
     # Issues);
     $this->set('view_issues', array('projects' => array('changelog', 'roadmap'),
                                   'issues' => array('index', 'changes', 'show', 'context_menu'),
