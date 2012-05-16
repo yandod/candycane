@@ -37,8 +37,8 @@ class AppSchema extends CakeSchema {
 		'attr_firstname' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'attr_lastname' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'attr_mail' => array('type' => 'string', 'null' => true, 'default' => NULL, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'onthefly_register' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'tls' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'onthefly_register' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'tls' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
 	);
@@ -105,11 +105,11 @@ class AppSchema extends CakeSchema {
 		'regexp' => array('type' => 'string', 'null' => true, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'min_length' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'max_length' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'is_required' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'is_for_all' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'is_filter' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'is_required' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'is_for_all' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'is_filter' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'position' => array('type' => 'integer', 'null' => true, 'default' => '1'),
-		'searchable' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
+		'searchable' => array('type' => 'integer', 'null' => true, 'default' => '0'),
 		'default_value' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
@@ -157,7 +157,7 @@ class AppSchema extends CakeSchema {
 		'opt' => array('type' => 'string', 'null' => false, 'length' => 4, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'name' => array('type' => 'string', 'null' => false, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'position' => array('type' => 'integer', 'null' => true, 'default' => '1'),
-		'is_default' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'is_default' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
 	);
@@ -181,8 +181,8 @@ class AppSchema extends CakeSchema {
 	public $issue_statuses = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'is_closed' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'is_default' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'is_closed' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+		'is_default' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'position' => array('type' => 'integer', 'null' => true, 'default' => '1'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
@@ -235,7 +235,7 @@ class AppSchema extends CakeSchema {
 		'project_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'role_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'created_on' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
-		'mail_notification' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'mail_notification' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
 	);
@@ -256,7 +256,7 @@ class AppSchema extends CakeSchema {
 		'name' => array('type' => 'string', 'null' => false, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'description' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'homepage' => array('type' => 'string', 'null' => true, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'is_public' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
+		'is_public' => array('type' => 'integer', 'null' => false, 'default' => '1'),
 		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'projects_count' => array('type' => 'integer', 'null' => true, 'default' => '0'),
 		'created_on' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
@@ -278,7 +278,7 @@ class AppSchema extends CakeSchema {
 		'name' => array('type' => 'string', 'null' => false, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'filters' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'is_public' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'is_public' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'column_names' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
@@ -298,7 +298,7 @@ class AppSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'position' => array('type' => 'integer', 'null' => true, 'default' => '1'),
-		'assignable' => array('type' => 'boolean', 'null' => true, 'default' => '1'),
+		'assignable' => array('type' => 'integer', 'null' => true, 'default' => '1'),
 		'builtin' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'permissions' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
@@ -341,9 +341,9 @@ class AppSchema extends CakeSchema {
 	public $trackers = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'name' => array('type' => 'string', 'null' => false, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'is_in_chlog' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'is_in_chlog' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'position' => array('type' => 'integer', 'null' => true, 'default' => '1'),
-		'is_in_roadmap' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
+		'is_in_roadmap' => array('type' => 'integer', 'null' => false, 'default' => '1'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
 	);
@@ -351,7 +351,7 @@ class AppSchema extends CakeSchema {
 		'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
 		'user_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'others' => array('type' => 'text', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'hide_mail' => array('type' => 'boolean', 'null' => true, 'default' => '0'),
+		'hide_mail' => array('type' => 'integer', 'null' => true, 'default' => '0'),
 		'time_zone' => array('type' => 'string', 'null' => true, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
@@ -363,8 +363,8 @@ class AppSchema extends CakeSchema {
 		'firstname' => array('type' => 'string', 'null' => false, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'lastname' => array('type' => 'string', 'null' => false, 'length' => 30, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'mail' => array('type' => 'string', 'null' => false, 'length' => 60, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
-		'mail_notification' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
-		'admin' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'mail_notification' => array('type' => 'integer', 'null' => false, 'default' => '1'),
+		'admin' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'status' => array('type' => 'integer', 'null' => false, 'default' => '1'),
 		'last_login_on' => array('type' => 'datetime', 'null' => true, 'default' => NULL),
 		'language' => array('type' => 'string', 'null' => true, 'length' => 5, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
@@ -424,7 +424,7 @@ class AppSchema extends CakeSchema {
 		'wiki_id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'index'),
 		'title' => array('type' => 'string', 'null' => false, 'default' => NULL, 'collate' => 'utf8_unicode_ci', 'charset' => 'utf8'),
 		'created_on' => array('type' => 'datetime', 'null' => false, 'default' => NULL),
-		'protected' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+		'protected' => array('type' => 'integer', 'null' => false, 'default' => '0'),
 		'parent_id' => array('type' => 'integer', 'null' => true, 'default' => NULL),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1), 'wiki_pages_wiki_id_title' => array('column' => array('wiki_id', 'title'), 'unique' => 0)),
 		'tableParameters' => array('charset' => 'utf8', 'collate' => 'utf8_unicode_ci', 'engine' => 'InnoDB')
