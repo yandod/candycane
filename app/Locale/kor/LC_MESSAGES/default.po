@@ -82,6 +82,10 @@ msgstr "값"
 msgid "%d characters maximum."
 msgstr "최대 %d 글자 가능."
 
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "최소한 %d 글자 이상이어야 합니다."
+
 # label_my_projects
 msgid "My projects"
 msgstr "나의 프로젝트"

@@ -96,6 +96,10 @@ msgstr ""
 msgid "%d characters maximum."
 msgstr ""
 
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr ""
+
 # label_my_projects
 msgid "My projects"
 msgstr ""

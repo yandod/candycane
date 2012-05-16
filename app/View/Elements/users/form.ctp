@@ -38,7 +38,7 @@
     <p>
       <label for="password"><?php echo __('Password'); ?><span class="required"> *</span></label>
       <?php echo $this->Form->password('password', array('size' => '25%')); ?>
-      <em><?php printf(__('%d characters maximum.'), 4); ?></em>
+      <em><?php printf(__('Must be at least %d characters long.'), 4); ?></em>
     </p>
 
     <p>

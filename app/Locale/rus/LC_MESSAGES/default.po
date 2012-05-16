@@ -96,6 +96,10 @@ msgstr "Значение"
 msgid "%d characters maximum."
 msgstr "Максимум %d символов(а)."
 
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "Должно быть не менее %d символов."
+
 # label_my_projects
 msgid "My projects"
 msgstr "Мои проекты"
