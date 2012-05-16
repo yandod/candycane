@@ -1,7 +1,4 @@
 <?php
-
-require_once ('custom_field.php');
-
 class ProjectCustomField extends CustomField
 {
   var $name = 'ProjectCustomField';
