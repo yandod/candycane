@@ -1,6 +1,11 @@
-<h2><?php echo $this->Candy->html_title(__('Enumerations')) ?></h2>
+<?php
+if( $currentuser[ 'admin' ] )
+{
+	$this->set( 'Sidebar', $this->element( 'admin/sidebar' ) );
+}
+?>
 
-<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+<h2><?php echo $this->Candy->html_title(__('Enumerations')) ?></h2>
 
 <?php $Enumeration = ClassRegistry::getObject('Enumeration'); ?>
 <?php foreach($Enumeration->OPTIONS as $option => $params  ): ?>

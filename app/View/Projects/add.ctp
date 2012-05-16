@@ -1,6 +1,11 @@
-<h2><?php echo __('New project') ?></h2>
+<?php
+if( $currentuser[ 'admin' ] )
+{
+	$this->set( 'Sidebar', $this->element( 'admin/sidebar' ) );
+}
+?>
 
-<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+<h2><?php echo __('New project') ?></h2>
 
 <?php echo $this->Form->create('Project', array('action'=>'add','class'=>'tabular')) ?>
 <?php /*

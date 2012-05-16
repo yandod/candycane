@@ -1,6 +1,11 @@
-<h2><?php echo $this->Candy->html_title(__('Information')); ?></h2>
+<?php
+if( $currentuser[ 'admin' ] )
+{
+	$this->set( 'Sidebar', $this->element( 'admin/sidebar' ) );
+}
+?>
 
-<?php $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+<h2><?php echo $this->Candy->html_title(__('Information')); ?></h2>
 
 <table class="list">
 <tr class="odd">
