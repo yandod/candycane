@@ -269,7 +269,7 @@ class ReportsController extends AppController
 #      @data = issues_by_tracker
 #      @report_title = l(:field_tracker)
 #      render :template => "reports/issue_report_details"
-    $detail = Set::extract($this->request->params, 'url.detail');
+    $detail = Set::extract($this->request->query, 'detail');
     switch ($detail) {
       case 'tracker':
         $this->set('field', 'tracker_id');
