@@ -1,10 +1,15 @@
+<?php
+if( $currentuser[ 'admin' ] )
+{
+	$this->set( 'Sidebar', $this->element( 'admin/sidebar' ) );
+}
+?>
+
 <div class="contextual">
 <?php echo $this->Html->link(__('New tracker'), array('action' => 'add'), array('class' => 'icon icon-add')); ?>
 </div>
 
 <h2><?php echo $this->Candy->html_title(__('Trackers')) ?></h2>
-
-<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
 
 <table class="list">
   <thead><tr>

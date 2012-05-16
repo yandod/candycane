@@ -1,10 +1,15 @@
+<?php
+if( $currentuser[ 'admin' ] )
+{
+	$this->set( 'Sidebar', $this->element( 'admin/sidebar' ) );
+}
+?>
+
 <div class="contextual">
 <?php echo $this->Html->link(__('New project', TRUE), array('controller' => 'projects', 'action' => 'add'), array('class' => 'icon icon-add')); ?> 
 </div>
 
 <h2><?php echo $this->Candy->html_title(__('Projects'));  ?></h2>
-
-<?php $this->set('Sidebar', $this->element('admin/sidebar')) ?>
 
 <?php echo $this->Form->create(null, array('type' => 'get', 'url' => '/admin/projects')); ?>
 <fieldset>

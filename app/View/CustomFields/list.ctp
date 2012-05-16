@@ -1,6 +1,11 @@
-<h2><?php echo __('Custom fields'); ?></h2>
+<?php
+if( $currentuser[ 'admin' ] )
+{
+	$this->set( 'Sidebar', $this->element( 'admin/sidebar' ) );
+}
+?>
 
-<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+<h2><?php echo __('Custom fields'); ?></h2>
 
 <div class="tabs">
 <ul>

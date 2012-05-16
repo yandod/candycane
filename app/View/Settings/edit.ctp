@@ -1,6 +1,11 @@
-<h2><?php echo $this->Candy->html_title(__('Settings')) ?></h2>
+<?php
+if( $currentuser[ 'admin' ] )
+{
+	$this->set( 'Sidebar', $this->element( 'admin/sidebar' ) );
+}
+?>
 
-<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+<h2><?php echo $this->Candy->html_title(__('Settings')) ?></h2>
 
 <?php $selected_tab = isset($this->request->params['named']['tab']) ? $this->request->params['named']['tab'] : 'general' ?>
 <div class="tabs">

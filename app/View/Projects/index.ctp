@@ -1,9 +1,14 @@
+<?php
+if( $currentuser[ 'admin' ] )
+{
+	$this->set( 'Sidebar', $this->element( 'admin/sidebar' ) );
+}
+?>
+
 <div class="contextual">
 <!--    <%= link_to(l(:label_project_new), {:controller => 'projects', :action => 'add'}, :class => 'icon icon-add') + ' |' if User.current.admin? %> -->
 <!--    <%= link_to l(:label_issue_view_all), { :controller => 'issues' } %> | -->
 <!--    <%= link_to l(:label_overall_activity), { :controller => 'projects', :action => 'activity' }%> -->
-
-<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
 
 <?php if ($currentuser['admin']) echo $this->Html->link(__('New project',TRUE),array('controller' => 'projects', 'action' => 'add'),array('class' => 'icon icon-add'))." |"; ?>
 <?php echo $this->Html->link(__('View all issues',TRUE), array('controller' => 'issues')); ?> | 

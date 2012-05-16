@@ -1,6 +1,11 @@
-<h2><?php echo __('Tracker'); ?></h2>
+<?php
+if( $currentuser[ 'admin' ] )
+{
+	$this->set( 'Sidebar', $this->element( 'admin/sidebar' ) );
+}
+?>
 
-<?php if( $currentuser['admin'] ) $this->set('Sidebar', $this->element('admin/sidebar')) ?>
+<h2><?php echo __('Tracker'); ?></h2>
 
 <?php echo $this->Form->create(null, array('action'=>'edit', 'class'=>"tabular")); ?>
   <div class="box">
