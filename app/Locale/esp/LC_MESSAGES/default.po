@@ -82,6 +82,10 @@ msgstr "Valor"
 msgid "%d characters maximum."
 msgstr "%d caracteres como máximo."
 
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "%d caracteres como mínimo."
+
 # label_my_projects
 msgid "My projects"
 msgstr "Mis proyectos"

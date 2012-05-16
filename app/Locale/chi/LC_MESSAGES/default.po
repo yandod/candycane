@@ -96,6 +96,10 @@ msgstr "值"
 msgid "%d characters maximum."
 msgstr "最多 %d 個字元."
 
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "長度必須大於 %d 個字元."
+
 # label_my_projects
 msgid "My projects"
 msgstr "我的專案"

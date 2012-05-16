@@ -94,6 +94,10 @@ msgstr "値"
 msgid "%d characters maximum."
 msgstr "最大 %d 文字です。"
 
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "最低%d文字の長さが必要です"
+
 # label_my_projects
 msgid "My projects"
 msgstr "マイプロジェクト"
