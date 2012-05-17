@@ -98,8 +98,8 @@ class IssueStatusesController extends AppController {
     }
   }
   function lists() {
-    $this->request->params['show'] = 25;
-    $this->request->params['sort'] = "position";
+    $this->request->params[ 'named' ]['show'] = 25;
+    $this->request->params[ 'named' ]['sort'] = "position";
     $issue_statuses = $this->paginate();
     $issue_status_pages = $issue_statuses;
     $this->set(compact('issue_statuses', 'issue_status_pages'));
