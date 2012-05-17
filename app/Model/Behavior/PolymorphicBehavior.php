@@ -1,4 +1,3 @@
-
 <?php
 /* SVN FILE: $Id: polymorphic.php 18 2008-03-07 12:56:09Z andy $ */
 /**
@@ -69,4 +68,3 @@ class PolymorphicBehavior extends ModelBehavior {
 		return $results;
 	}
 }
-?>

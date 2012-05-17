@@ -298,6 +298,9 @@ class ActionMailer extends Component
                  return false;
             }
 	    }
+      if (empty($this->recipients)) {
+        return;
+      }
 	    
 	    $this->set('recipients', $this->recipients);
 	    $this->set('sender', $this->sender);
