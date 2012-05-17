@@ -130,6 +130,7 @@ class Journal extends AppModel {
       $this->actsAs['ActivityProvider']['find_options']['joins'][$index]['table'] = $this->fullTableName($join['alias']);
     }
     parent::__construct($id, $table, $ds);
+		$this->Project = ClassRegistry::init('Project');
   }
   
   function _event_title($data) {
