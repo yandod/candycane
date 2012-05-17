@@ -1,10 +1,3 @@
-<?php
-if( $currentuser[ 'admin' ] )
-{
-	$this->set( 'Sidebar', $this->element( 'admin/sidebar' ) );
-}
-?>
-
 <h2><?php echo $this->Candy->html_title(__('Administration')); ?></h2>
 
 <?php if(isset($no_configuration_data)): ?>

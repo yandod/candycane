@@ -9,47 +9,47 @@
 <h3><?php echo $this->Candy->html_title(__('Administration')); ?></h3>
 
 <p class="icon22 icon22-projects">
-  <a href="/admin/projects" title="<?php echo __( 'Projects', true ); ?>"><?php echo __( 'Projects', true ); ?></a> |
-  <a href="/projects/add" title="<?php echo __( 'New', true ); ?>"><?php echo __( 'New', true ); ?></a>
+  <?php	echo $this->Html->link(__('Projects',TRUE), array('controller' => 'admin', 'action' => 'projects')); ?> | 
+  <?php echo $this->Html->link(__('New', TRUE), array('controller' => 'projects', 'action' => 'add')); ?>
 </p>
 
 <p class="icon22 icon22-users">
-  <a href="/users" title="<?php echo __( 'Users', true ); ?>"><?php echo __( 'Users', true ); ?></a> |
-  <a href="/users/add" title="<?php echo __( 'New', true ); ?>"><?php echo __( 'New', true ); ?></a>
+  <?php echo $this->Html->link(__('Users', TRUE), array('controller' => 'users')); ?> |
+  <?php echo $this->Html->link(__('New', TRUE), array('controller' => 'users', 'action' => 'add')); ?>
 </p>
 
 <p class="icon22 icon22-role">
-  <a href="/roles" title="<?php echo __( 'Roles and permissions', true ); ?>"><?php echo __( 'Roles and permissions', true ); ?></a>
+  <?php echo $this->Html->link(__('Roles and permissions', TRUE), array('controller' => 'roles')); ?>
 </p>
 
 <p class="icon22 icon22-tracker">
-  <a href="/trackers" title="<?php echo __( 'Trackers', true ); ?>"><?php echo __( 'Trackers', true ); ?></a>
+  <?php echo $this->Html->link(__('Trackers', TRUE), array('controller' => 'trackers')); ?>
 </p>
 
 <p class="icon22 icon22-statuses">
-  <a href="/issue_statuses" title="<?php echo __( 'Issue statuses', true ); ?>"><?php echo __( 'Issue statuses', true ); ?></a>
+  <?php echo $this->Html->link(__('Issue statuses', TRUE), array('controller' => 'issue_statuses')); ?>
 </p>
 
 <p class="icon22 icon22-sequence">
-  <a href="/workflows/edit" title="<?php echo __( 'Workflow', true ); ?>"><?php echo __( 'Workflow', true ); ?></a>
+  <?php echo $this->Html->link(__('Workflow', TRUE), array('controller' => 'workflows', 'action' => 'edit')); ?>
 </p>
 
 <p class="icon22 icon22-workflow">
-  <a href="/custom_fields" title="<?php echo __( 'Custom fields', true ); ?>"><?php echo __( 'Custom fields', true ); ?></a>
+  <?php echo $this->Html->link(__('Custom fields', TRUE), array('controller' => 'custom_fields')); ?>
 </p>
 
 <p class="icon22 icon22-options">
-  <a href="/enumerations" title="<?php echo __( 'Enumerations', true ); ?>"><?php echo __( 'Enumerations', true ); ?></a>
+  <?php echo $this->Html->link(__('Enumerations', TRUE), array('controller' => 'enumerations')); ?>
 </p>
 
 <p class="icon22 icon22-settings">
-  <a href="/settings" title="<?php echo __( 'Settings', true ); ?>"><?php echo __( 'Settings', true ); ?></a>
+  <?php echo $this->Html->link(__('Settings', TRUE), array('controller' => 'settings')); ?>
 </p>
 
 <p class="icon22 icon22-plugin">
-  <a href="/admin/plugins" title="<?php echo __( 'Plugins', true ); ?>"><?php echo __( 'Plugins', true ); ?></a>
+  <?php echo $this->Html->link(__('Plugins', TRUE), array('controller' => 'admin', 'action' => 'plugins')); ?>
 </p>
 
 <p class="icon22 icon22-info">
-  <a href="/admin/info" title="<?php echo __( 'Information', true ); ?>"><?php echo __( 'Information', true ); ?></a>
+  <?php echo $this->Html->link(__('Information', TRUE), array('controller' => 'admin', 'action' => 'info')); ?>
 </p>
