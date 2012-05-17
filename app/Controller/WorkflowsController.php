@@ -40,8 +40,8 @@ class WorkflowsController extends AppController {
   }
 
   function edit() {
-    $role_id    = isset($this->request->params['url']['role_id'])    ? $this->request->params['url']['role_id']    : NULL;
-    $tracker_id = isset($this->request->params['url']['tracker_id']) ? $this->request->params['url']['tracker_id'] : NULL;
+    $role_id    = isset($this->request->query['role_id'])    ? $this->request->query['role_id']    : NULL;
+    $tracker_id = isset($this->request->query['tracker_id']) ? $this->request->query['tracker_id'] : NULL;
 
     $role_id    = isset($this->request->data['Workflow']['role_id'])    ? $this->request->data['Workflow']['role_id']    : $role_id;
     $tracker_id = isset($this->request->data['Workflow']['tracker_id']) ? $this->request->data['Workflow']['tracker_id'] : $tracker_id;
