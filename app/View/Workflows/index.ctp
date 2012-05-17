@@ -39,9 +39,7 @@
 
         echo $this->Html->link($link,
                  'edit?role_id=' . $role['Role']['id'] . '&tracker_id=' . $tracker['Tracker']['id'],
-                 array('title' => __('Edit')),
-                 false,
-                 false);
+                 array('title' => __('Edit'), 'escape' => false));
       ?>
     </td>
     <?php endforeach; ?>
