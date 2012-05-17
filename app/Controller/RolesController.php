@@ -39,6 +39,7 @@ class RolesController extends AppController {
 #    render :action => "list", :layout => false if request.xhr?
     $this->request->params['show'] = 25;
     $this->request->params['order'] = 'builtin,position';
+    $this->paginate = array('order' => 'position');
     $roles = $this->paginate();
     $this->set('roles', $roles);
     $this->set('role_pages', $roles);
