@@ -77,7 +77,7 @@
 			array(
 				'action' => 'move',
 				$role['Role']['id'],
-				'position' => 'lower'
+				'position' => 'lowest'
 			),
 			array(
 				'title' => __('Move to bottom'),
