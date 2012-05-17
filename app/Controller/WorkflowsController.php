@@ -32,11 +32,11 @@ class WorkflowsController extends AppController {
     foreach ($data as $dt) {
       $role_id    = $dt['Workflow']['role_id'];
       $tracker_id = $dt['Workflow']['tracker_id'];
-      $count      = $dt['Workflow']['count'];
+      $count      = $dt[0]['Workflow__count'];
       $counts[$tracker_id][$role_id] = $count;
     }
     $this->set('counts', $counts);
-    pr($counts);
+    //pr($counts);
   }
 
   function edit() {
