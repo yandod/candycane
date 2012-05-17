@@ -554,7 +554,7 @@ class IssuesController extends AppController {
 		$role_id = $this->User->role_for_project($this->current_user, $this->_project);
 		if ($this->RequestHandler->isPost() && !empty($this->request->data)) {
 			$status_id = $this->_get_param('status_id');
-			$priotity_id = $this->_get_param('priority_id');
+			$priority_id = $this->_get_param('priority_id');
 			$assigned_to_id = $this->_get_param('assigned_to_id');
 			$category_id = $this->_get_param('category_id');
 			$fixed_version_id = $this->_get_param('fixed_version_id');
