@@ -40,30 +40,37 @@ class QueriesComponent extends Component
       */
       $Query->read(null, $query_id);
       $show_filters = $Query->getFilters();
+      // Showing saved queries
       foreach ($show_filters as $field => $options) {
-        $self->data['Filter']['fields_' . $field] = $field;
-        $self->data['Filter']['operators_' . $field] = $options['operator'];        
+        //$self->data['Filter']['fields_' . $field] = $field;
+        //$self->data['Filter']['operators_' . $field] = $options['operator'];        
+	$temp = array();
+	$temp['Filter']['fields_' . $field] = $field;
+        $temp['Filter']['operators_' . $field] = $options['operator'];        
         switch ($available_filters[$field]['type']) {
         case 'list':
         case 'list_optional':
         case 'list_status':
         case 'list_subprojects':
-          $self->data['Filter']['values_' . $field] = $options['values'];
+          //$self->data['Filter']['values_' . $field] = $options['values'];
+          $temp['Filter']['values_' . $field] = $options['values'];
           break;
         default :
-          $self->data['Filter']['values_' . $field] = $this->get_option_value($options['values']);
+          //$self->data['Filter']['values_' . $field] = $this->get_option_value($options['values']);
+          $temp['Filter']['values_' . $field] = $this->get_option_value($options['values']);
           break;
         }
+        $temp['Filter'] = array_merge($self->data['Filter'], $temp['Filter']);
+	$self->data = array_merge($self->data, $temp);
       }
     } else {
-      if (isset($self->params['url']['set_filter']) || $forse_set_filter) {
-          if ( !is_array($self->params['form'])) {
-              $self->params['form'] = array(
-                  'fields' => array(),
-                  'operators' => array(),
-                  'values' => array(),
-              );
+      if (isset($self->params->query['set_filter']) || $forse_set_filter) {
+          if ( !isset($self->params->data['fields'])) {
+              $self->params->data['fields'] = array();
+              $self->params->data['operators'] = array();
+              $self->params->data['values'] = array();
           }
+      	  // TODO
           if (isset($self->params['url']) && is_array($self->params['url']) ) {
               foreach ($self->params['url'] as $criteria_name => $criteria_val) {
                   $self->params['form']['fields'][$criteria_name] = $criteria_name;
@@ -74,14 +81,24 @@ class QueriesComponent extends Component
                   }                  
               }
           }
-        foreach ($self->params['form']['fields'] as $field) {
-          $operator = $self->params['form']['operators'][$field];
-          $values = isset($self->params['form']['values'][$field]) ? $self->params['form']['values'][$field] : null;
+        foreach ($self->params->data['fields'] as $field) {
+          $operator = $self->params->data['operators'][$field];
+          $values = isset($self->params->data['values'][$field]) ? $self->params->data['values'][$field] : null;
           if (isset($available_filters[$field])) {
             $show_filters[$field] = $available_filters[$field];
-            $self->data['Filter']['fields_' . $field] = $field;
-            $self->data['Filter']['operators_' . $field] = $operator;
-            $self->data['Filter']['values_' . $field] = $values;
+	    // to avoid the error:
+	    // Indirect modification of overloaded property...
+	    // we use a temporal array.
+            //$self->data['Filter']['fields_' . $field] = $field;
+            //$self->data['Filter']['operators_' . $field] = $operator;
+            //$self->data['Filter']['values_' . $field] = $values;
+	    $temp = array();
+	    $temp['Filter']['fields_' . $field] = $field;
+            $temp['Filter']['operators_' . $field] = $operator;
+            $temp['Filter']['values_' . $field] = $values;
+	    
+	    $temp['Filter'] = array_merge($self->data['Filter'], $temp['Filter']);
+	    $self->data = array_merge($self->data, $temp);
           }
         }
       }
