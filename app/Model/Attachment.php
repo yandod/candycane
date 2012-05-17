@@ -126,6 +126,8 @@ class Attachment extends AppModel {
 		));
 
 		$this->storage_path = APP . DS . 'files' . DS;
+		
+		$this->Project = ClassRegistry::init('Project');
 	}
 
 /**
