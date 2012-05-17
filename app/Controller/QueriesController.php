@@ -55,8 +55,8 @@ class QueriesController extends AppController
       $this->request->data['Query']['project_id'] = $this->_project['Project']['id'];
       $this->request->data['Query']['user_id'] = $this->current_user['id'];
       
-      foreach($this->request->params['form']['fields'] as $field) {
-        $this->Query->add_filter($field, $this->request->params['form']['operators'][$field], $this->request->params['form']['values'][$field]);
+      foreach($this->request->data['fields'] as $field) {
+        $this->Query->add_filter($field, $this->request->data['operators'][$field], $this->request->data['values'][$field]);
       }
       $this->Query->save($this->request->data);
       if(empty($this->Query->validationErrors)) {
@@ -82,8 +82,8 @@ class QueriesController extends AppController
       $query['user_id'] = $this->Query->data['User']['id'];
       $query['filters'] = array();
 
-      foreach($this->request->params['form']['fields'] as $field) {
-        $this->Query->add_filter($field, $this->request->params['form']['operators'][$field], $this->request->params['form']['values'][$field]);
+      foreach($this->request->data['fields'] as $field) {
+        $this->Query->add_filter($field, $this->request->data['operators'][$field], $this->request->data['values'][$field]);
       }
       # @query.attributes = params[:query]
       if(!empty($query['query_is_for_all'])) $query['project_id'] = null;
