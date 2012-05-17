@@ -64,7 +64,7 @@ function toggle_multi_select(field) {
 <?php foreach ($this->Queries->available_filters_sort_order($available_filters) as $field => $filter): ?>
     <tr <?php if (!isset($show_filters[$field])): ?> style="display:none;"<?php endif ?> id="tr_<?php echo h($field) ?>" class="filter">
     <td style="width:200px;">
-        <?php echo preg_replace('/^<input[^>]+>/s', '', $this->Form->checkbox('Filter.fields_' . $field, array('value' => $field, 'name' => 'fields[' . $field . ']', 'onclick' => "toggle_filter('" . $this->Js->value($field) . "')", 'id' => 'cb_' . $field, 'label' => false, 'hidden' => false))) ?>
+        <?php echo preg_replace('/^<input[^>]+>/s', '', $this->Form->checkbox('Filter.fields_' . $field, array('value' => $field, 'name' => 'fields[' . $field . ']', 'onclick' => "toggle_filter(" . $this->Js->value($field) . ")", 'id' => 'cb_' . $field, 'label' => false, 'hidden' => false))) ?>
         <label for="cb_<?php echo h($field) ?>"><?php echo __($field) ?></label>
     </td>
     <td style="width:150px;">
