@@ -329,7 +329,7 @@ class Project extends AppModel {
       $enabledModuleTable =  $this->EnabledModule->tablePrefix . $this->EnabledModule->table;
       $emName = $perm['project_module'];
 
-      $base_statement[] = array("EXISTS (SELECT em.id FROM $enabledModuleTable em WHERE em.name='$emName' AND em.project_id=$projectTable.id)" => true);
+      $base_statement[] = array("EXISTS (SELECT em.id FROM $enabledModuleTable em WHERE em.name='$emName' AND em.project_id=\"$projectTable\".\"id\")" => true);
     }
     if(!empty($options['project'])) {
       $project_statement = array();
