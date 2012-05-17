@@ -31,7 +31,7 @@
 			),
 			array(
 				'action' => 'move',
-				'id' => $role['Role']['id'],
+				$role['Role']['id'],
 				'position' => 'highest',
 			),
 			array(
@@ -46,7 +46,7 @@
 			),
 			array(
 				'action' => 'move',
-				'id' => $role['Role']['id'],
+				$role['Role']['id'],
 				'position' => 'higher'
 			),
 			array(
@@ -61,7 +61,7 @@
 			),
 			array(
 				'action' => 'move',
-				'id' => $role['Role']['id'],
+				$role['Role']['id'],
 				'position' => 'lower'
 			),
 			array(
@@ -76,7 +76,7 @@
 			),
 			array(
 				'action' => 'move',
-				'id' => $role['Role']['id'],
+				$role['Role']['id'],
 				'position' => 'lower'
 			),
 			array(
