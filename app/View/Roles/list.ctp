@@ -19,7 +19,7 @@
         echo sprintf('<%s>%s</%s>',
                      $tag,
                      $this->Html->link($role['Role']['name'],array('action' => 'edit',
-                                                             'id' => $role['Role']['id'])),
+                                                             $role['Role']['id'])),
                      $tag);
       ?>
       <td align="center" style="width:15%;">
@@ -89,7 +89,7 @@
       <td align="center" style="width:10%;">
 
         <?php
-          echo $this->Form->create(NULL, array('url' => array('action' => 'destroy', 'id' => $role['Role']['id']), array('class' => 'button_to')));
+          echo $this->Form->create(NULL, array('url' => array('action' => 'destroy', $role['Role']['id']), array('class' => 'button_to')));
           if ($role['Role']['builtin'] != 0) {
             $disabled = array('disabled' => 'disabled');
           } else {
