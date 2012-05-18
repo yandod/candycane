@@ -336,6 +336,7 @@ class Query extends AppModel
 #  
   function get_filter_cond($model, $field, $operator, $values)
   {
+    $negation = false;
     switch ($operator) {
     case '=':
       $operator = '';
@@ -347,7 +348,8 @@ class Query extends AppModel
 	  );
 	  break;
     case '!':
-      $operator = '!=';
+      $operator = '';
+      $negation = true;
       break;
     case '*':
       return null;
@@ -414,9 +416,18 @@ class Query extends AppModel
       ));
       break;
     }
-    return array(
-      $model . '.' . $field . (strlen($operator) ? $operator : '') => $values,
-    );
+    if(!$negation){
+    	return array(
+    	  $model . '.' . $field . (strlen($operator) ? $operator : '') => $values,
+    	);
+    }
+    else{
+    	return array('NOT' => array(
+    	  $model . '.' . $field . (strlen($operator) ? $operator : '') => $values,
+    	));
+ 
+    }
+
 #  def sql_for_field(field, value, db_table, db_field, is_custom_filter)
 #    sql = ''
 #    case operator_for field
