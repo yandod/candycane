@@ -15,12 +15,26 @@
       <?php echo $this->Form->label('project_id', __('Project').' :'); ?>
       <?php echo $this->Form->input('project_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$allowed_projects)); ?></p>
     </p>
-    <?php echo $ajax->observeField('IssueProjectId', array(
-        'url'=>array('action'=>'move','issue_id'=>$issue['Issue']['id']),
-        'update'=>'content',
-        'allowCache'=>false,
-        'with'=>'Form.serialize(\'IssueMoveForm\')'
-        )); ?>
+    <?php echo $this->Html->scriptblock($this->Js->get('#IssueProjectId')->event(
+    	'change',
+	$this->Js->request(
+		array(
+			'action' => 'move',
+			'issue_id' => $issue['Issue']['id']
+		),
+		array(
+			'update' => 'content',
+			'data' => $this->Js->serializeForm(array(
+				'inline' => true
+			)),
+			'dataExpression' => true,
+			'evalScripts' => true
+		)
+	),
+	array(
+		'buffer' => false
+	)
+    ));?>
     <p>
       <?php echo $this->Form->label('tracker_id', __('Tracker').' :'); ?>
       <?php echo $this->Form->input('tracker_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$trackers, 'empty'=>__('(No change)'))); ?></p>
