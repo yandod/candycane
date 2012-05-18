@@ -1,4 +1,4 @@
-<h2><?php $this->Candy->html_title();__('Move'); ?></h2>
+<h2><?php $this->Candy->html_title();echo __('Move'); ?></h2>
 
 <ul>
   <?php foreach($issue_datas as $issue) : ?>
