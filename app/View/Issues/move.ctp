@@ -13,7 +13,7 @@
   <?php endforeach; ?>
     <p>
       <?php echo $this->Form->label('project_id', __('Project').' :'); ?>
-      <?php echo $this->Form->input('project_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$allowedProjects)); ?></p>
+      <?php echo $this->Form->input('project_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$allowed_projects)); ?></p>
     </p>
     <?php echo $ajax->observeField('IssueProjectId', array(
         'url'=>array('action'=>'move','issue_id'=>$issue['Issue']['id']),
