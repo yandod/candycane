@@ -786,7 +786,7 @@ class IssuesController extends AppController {
 		} else {
 			$this->Session->setFlash(sprintf(__("\"Failed to save %d issue(s) on %d selected"), 1, 1), 'default', array('class'=>'flash flash_error'));
 		}
-		$this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues');
+		$this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues/index');
 	}
 
 #  
