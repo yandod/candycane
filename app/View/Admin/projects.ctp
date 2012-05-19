@@ -108,10 +108,9 @@ if( $currentuser[ 'admin' ] )
     </small>
 	 </td>
 	 <td align="center" style="width:10%">
-<!--
-    <small><%= link_to(l(:button_delete), { :controller => 'projects', :action => 'destroy', :id => project }, :class => 'icon icon-del') %></small>
--->
+	<?php if ($project['Project']['status'] == Project::STATUS_ARCHIVED): ?>
 	 <small><?php echo $this->Html->link(__('Delete', TRUE), array('controller' => 'projects', 'action' => 'destroy', $project['Project']['identifier']),array('class' => 'icon icon-del')); ?></small>
+	<?php endif; ?> 
   </td>
   </tr>
   <?php endforeach; ?>

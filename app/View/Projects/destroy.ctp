@@ -9,9 +9,18 @@
 <?php endif; ?>
 </p>
 <p>
-  <?php echo $this->Form->create('Project', array('action'=>'destroy','url' => array('id' => $mainProject['Project']['identifier'] ))) ?>
-    <label><?php echo $this->Form->input('confirm', array('type'=>'checkbox', 'value'=>1, 'label'=>__("Yes"))) ?></label>
-    <?php echo $this->Form->submit(__('Delete')) ?>
-  <?php echo $this->Form->end() ?>
+<?php echo $this->Form->create(
+	'Project',
+	array(
+		'action'=>'destroy',
+		'url' => array(
+			'action'=>'destroy',
+			$main_project['Project']['identifier']
+		)
+	)
+); ?>
+<label><?php echo $this->Form->input('confirm', array('type'=>'checkbox', 'value'=>1, 'label'=>__("Yes"))) ?></label>
+<?php echo $this->Form->submit(__('Delete')) ?>
+<?php echo $this->Form->end() ?>
 </p>
 </div>

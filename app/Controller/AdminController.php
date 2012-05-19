@@ -74,8 +74,8 @@ class AdminController extends AppController {
       array('name', 'is_public', 'created_on')
     );
 
-    if (isset($this->request->params['url']['status'])) {
-      $status = (int)$this->request->params['url']['status'];
+    if (isset($this->request->query['status'])) {
+      $status = (int)$this->request->query['status'];
     } else {
       $status = 1;
     }
@@ -96,8 +96,8 @@ class AdminController extends AppController {
     }
 
     $name = null;
-    if(!empty($this->request->params['url']['name'])) {
-      $name = $this->request->params['url']['name'];
+    if(!empty($this->request->query['name'])) {
+      $name = $this->request->query['name'];
       $q_name = "%{$name}%";
       $condition['LOWER(Project.identifier) LIKE ? OR LOWER(Project.name) LIKE ?'] = array($q_name, $q_name);
     } 
