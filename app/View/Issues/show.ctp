@@ -162,8 +162,38 @@ echo $this->Candy->link_to_if_authorized(
 <span><?php echo $this->Html->link('PDF', array('action'=>'show', $issue['Issue']['id'], 'format'=>'pdf'), array('class'=>'pdf')); ?></span>
 </p>
 
-    <?php $this->Candy->html_title($issue['Tracker']['name'] . ' #' . $issue['Issue']['id'], ' ' . $issue['Issue']['subject']) ?>
+    <?php $this->Candy->html_title($issue['Tracker']['name'] . ' #' . $issue['Issue']['id']. ' ' . $issue['Issue']['subject']) ?>
 
 <?php $this->set('Sidebar', $this->element('issues/sidebar')) ?>
-<?php $this->Html->meta('atom', array('action'=>'show', 'id'=>$issue['Issue']['id'], 'format'=>'atom', 'key'=>$rss_token), array('title'=>$issue['Project']['name'].' - '.$issue['Tracker']['name'].' ##'.$issue['Issue']['id'].': '.$issue['Issue']['subject'], 'rel'=>'alternate'), false); ?>
+<?php $this->Html->meta(
+	array(
+		'property' => 'og:site_name',
+		'content' => Configure::read('app_title')
+	),
+	null,
+	array('inline' => false)
+); ?>
+<?php $this->Html->meta(
+	array(
+		'property' => 'og:title',
+		'content' => $issue['Tracker']['name'] . '#' . $issue['Issue']['id'] . ' ' . $issue['Issue']['subject']
+	),
+	null,
+	array('inline' => false)
+); ?>
+
+<?php $this->Html->meta(
+	'atom',
+	array(
+		'action' => 'show',
+		'id' => $issue['Issue']['id'],
+		'format' => 'atom',
+		'key' => $rss_token
+	),
+	array(
+		'title' => $issue['Project']['name'].' - '.$issue['Tracker']['name'].' ##'.$issue['Issue']['id'].': '.$issue['Issue']['subject'],
+		'rel' => 'alternate',
+		'inline' => false
+	)
+); ?>
 <?php $this->Html->css('scm.css', null, array('media'=>'screen'), false); ?>
