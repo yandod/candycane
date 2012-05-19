@@ -181,7 +181,23 @@ echo $this->Candy->link_to_if_authorized(
 	null,
 	array('inline' => false)
 ); ?>
-
+<?php $this->Html->meta(
+	array(
+		'property' => 'og:description',
+		'content' => $issue['Issue']['description']
+	),
+	null,
+	array('inline' => false)
+); ?>
+<?php $this->Html->meta(
+	array(
+		'property' => 'og:image',
+		'content' => 'https://github.com/yandod/candycane/raw/migrate-cake2/app/Plugin/CcInstall/webroot/img/bear.png
+'
+	),
+	null,
+	array('inline' => false)
+); ?>
 <?php $this->Html->meta(
 	'atom',
 	array(
