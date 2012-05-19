@@ -19,7 +19,7 @@
 </p>
 
 <p class="icon22 icon22-role">
-  <?php echo $this->Html->link(__('Roles and permissions', TRUE), array('controller' => 'roles')); ?>
+  <?php echo $this->Html->link(__('Roles and permissions', TRUE), array('controller' => 'roles', 'action' => 'index')); ?>
 </p>
 
 <p class="icon22 icon22-tracker">
