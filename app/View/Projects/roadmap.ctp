@@ -6,7 +6,7 @@
 <div id="roadmap">
 <?php foreach($this->request->data['Version'] as $version): ?>
 	<?php 
-	if( !isset($this->request->params['url']['completed']) || !$this->request->params['url']['completed']) {
+	if( !isset($this->request->query['completed']) || !$this->request->query['completed']) {
 		if ($version['completed']) {
 			continue;
 		}
