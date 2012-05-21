@@ -266,10 +266,6 @@ msgstr "부동상수"
 msgid "Multiple values allowed (comma separated)."
 msgstr "복수의 값들이 허용됩니다.(구분자 ,)"
 
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "최소한 %d 글자 이상이어야 합니다."
-
 # label_add_another_file
 msgid "Add another file"
 msgstr "다른 파일 추가"

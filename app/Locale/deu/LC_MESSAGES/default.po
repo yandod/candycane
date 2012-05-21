@@ -272,10 +272,6 @@ msgstr "Fließkommazahl"
 msgid "Multiple values allowed (comma separated)."
 msgstr "Mehrere Werte erlaubt (durch Komma getrennt)."
 
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "Muss mindestens %d Zeichen lang sein."
-
 # label_add_another_file
 msgid "Add another file"
 msgstr "Eine weitere Datei hinzufügen"

@@ -254,10 +254,6 @@ msgstr "Decimal"
 msgid "Multiple values allowed (comma separated)."
 msgstr "Múltiplos valores são permitidos (separados por vírgula)."
 
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "deve ter ao menos %d caracteres."
-
 # label_add_another_file
 msgid "Add another file"
 msgstr "Adicionar outro arquivo"

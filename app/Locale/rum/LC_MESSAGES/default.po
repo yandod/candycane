@@ -272,10 +272,6 @@ msgstr "Float"
 msgid "Multiple values allowed (comma separated)."
 msgstr "Se poate folosi valori multiple (separate de virgula)."
 
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "Must be at least %d characters long."
-
 # label_add_another_file
 msgid "Add another file"
 msgstr "Add another file"

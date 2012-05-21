@@ -294,10 +294,6 @@ msgstr "小数"
 msgid "Multiple values allowed (comma separated)."
 msgstr "(カンマで区切った)複数の値が使えます"
 
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "最低%d文字の長さが必要です"
-
 # label_add_another_file
 msgid "Add another file"
 msgstr "別のファイルを追加"
