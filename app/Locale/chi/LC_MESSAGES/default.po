@@ -272,10 +272,6 @@ msgstr "福點數"
 msgid "Multiple values allowed (comma separated)."
 msgstr "可輸入多個值 (以逗號分隔)."
 
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "長度必須大於 %d 個字元."
-
 # label_add_another_file
 msgid "Add another file"
 msgstr "增加其他檔案"

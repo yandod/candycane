@@ -157,7 +157,12 @@ class Journal extends AppModel {
     return 'issue-note';
   }
   function _event_url($data) {
-    return  array('controller'=>'issues', 'action'=>'show', 'id'=>$data['Issue']['id'], '#' => "change-".$data['Journal']['id']);
+    return  array(
+      'controller' => 'issues',
+      'action'     => 'show',
+      '0'          => $data['Issue']['id'],
+      '#'          => "change-".$data['Journal']['id']
+    );
   }
   function __new_status($data) {
     $new_status = array();

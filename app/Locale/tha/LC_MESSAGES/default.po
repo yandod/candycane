@@ -272,10 +272,6 @@ msgstr "จำนวนจริง"
 msgid "Multiple values allowed (comma separated)."
 msgstr "ใส่ได้หลายค่า โดยคั่นด้วยลูกน้ำ( ,)."
 
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "ต้องยาวอย่างน้อย %d ตัวอักษร."
-
 # label_add_another_file
 msgid "Add another file"
 msgstr "เพิ่มแฟ้มอื่นๆ"

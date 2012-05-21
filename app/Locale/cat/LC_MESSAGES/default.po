@@ -277,10 +277,6 @@ msgstr "Flotant"
 msgid "Multiple values allowed (comma separated)."
 msgstr "Es permeten valors múltiples (separats per una coma)."
 
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "Com a mínim ha de tenir %d caràcters."
-
 # label_add_another_file
 msgid "Add another file"
 msgstr "Afegeix un altre fitxer"

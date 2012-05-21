@@ -96,6 +96,10 @@ msgstr "Valeur"
 msgid "%d characters maximum."
 msgstr "%d caractères maximum."
 
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "Doit faire au moins %d caractères."
+
 # label_my_projects
 msgid "My projects"
 msgstr "Mes projets"
@@ -267,10 +271,6 @@ msgstr "Float"
 # text_comma_separated
 msgid "Multiple values allowed (comma separated)."
 msgstr "Plusieurs valeurs autorisées (séparées par des virgules)."
-
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "Doit faire au moins %d caractères."
 
 # label_add_another_file
 msgid "Add another file"

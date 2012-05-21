@@ -272,10 +272,6 @@ msgstr "С плавающей точкой"
 msgid "Multiple values allowed (comma separated)."
 msgstr "Допустимы несколько значений (через запятую)."
 
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "Должно быть не менее %d символов."
-
 # label_add_another_file
 msgid "Add another file"
 msgstr "Добавить ещё один файл"

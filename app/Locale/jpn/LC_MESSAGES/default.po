@@ -44,7 +44,7 @@ msgstr "この関係では、循環依存になります"
 
 # button_quote
 msgid "Quote"
-msgstr "Quote"
+msgstr "引用"
 
 # label_not_contains
 msgid "doesn't contain"
@@ -60,7 +60,7 @@ msgstr "このページをパーソナライズする"
 
 # permission_view_files
 msgid "View files"
-msgstr "View files"
+msgstr "ファイルの閲覧"
 
 # label_months_from
 msgid "months from"
@@ -76,7 +76,7 @@ msgstr "「%s」アカウントを使ってにログインできます。"
 
 # permission_edit_issues
 msgid "Edit issues"
-msgstr "Edit issues"
+msgstr "チケットの編集"
 
 # label_my_account
 msgid "My account"
@@ -188,7 +188,7 @@ msgstr "最近の更新%d件"
 
 # permission_edit_own_time_entries
 msgid "Edit own time logs"
-msgstr "Edit own time logs"
+msgstr "自身が記入した変更履歴の編集"
 
 # label_public_projects
 msgid "Public projects"
@@ -252,7 +252,7 @@ msgstr "が予約されています"
 
 # permission_manage_public_queries
 msgid "Manage public queries"
-msgstr "Manage public queries"
+msgstr "公開クエリの管理"
 
 # default_activity_development
 msgid "Development"
@@ -284,7 +284,7 @@ msgstr "追加"
 
 # permission_add_issues
 msgid "Add issues"
-msgstr "Add issues"
+msgstr "チケットの追加"
 
 # label_float
 msgid "Float"
@@ -293,10 +293,6 @@ msgstr "小数"
 # text_comma_separated
 msgid "Multiple values allowed (comma separated)."
 msgstr "(カンマで区切った)複数の値が使えます"
-
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "最低%d文字の長さが必要です"
 
 # label_add_another_file
 msgid "Add another file"
@@ -320,11 +316,11 @@ msgstr "アカウントが更新されました。"
 
 # permission_edit_own_messages
 msgid "Edit own messages"
-msgstr "Edit own messages"
+msgstr "自身が記入したメッセージの編集"
 
 # field_base_dn
 msgid "Base DN"
-msgstr "Base DN"
+msgstr "検索範囲"
 
 # field_time_zone
 msgid "Time zone"
@@ -451,7 +447,7 @@ msgstr "レポート"
 
 # permission_log_time
 msgid "Log spent time"
-msgstr "Log spent time"
+msgstr "変更履歴の記入"
 
 # button_apply
 msgid "Apply"
@@ -467,7 +463,7 @@ msgstr "1ページに: "
 
 # label_renamed
 msgid "renamed"
-msgstr "renamed"
+msgstr "名称変更"
 
 # label_in_less_than
 msgid "in less than"
@@ -521,7 +517,7 @@ msgstr "異なるプロジェクトのチケット間で関係の設定を許可
 
 # permission_view_changesets
 msgid "View changesets"
-msgstr "View changesets"
+msgstr "更新履歴の閲覧"
 
 # label_download_plural
 msgid "%d Downloads"
@@ -541,7 +537,7 @@ msgstr "親プロジェクト名"
 
 # permission_delete_own_messages
 msgid "Delete own messages"
-msgstr "Delete own messages"
+msgstr "自身が記入したメッセージの削除"
 
 # label_new
 msgid "New"
@@ -597,7 +593,7 @@ msgstr "経過日数がこれより多い"
 
 # permission_view_time_entries
 msgid "View spent time"
-msgstr "View spent time"
+msgstr "変更履歴の閲覧"
 
 # label_member
 msgid "Member"
@@ -678,7 +674,7 @@ msgstr "親ページ"
 
 # permission_manage_versions
 msgid "Manage versions"
-msgstr "Manage versions"
+msgstr "バージョンの管理"
 
 # status_active
 msgid "active"
@@ -694,7 +690,7 @@ msgstr "重複している"
 
 # permission_manage_wiki
 msgid "Manage wiki"
-msgstr "Manage wiki"
+msgstr "Wikiの管理"
 
 # label_query_plural
 msgid "Custom queries"
@@ -814,7 +810,7 @@ msgstr "あわせてユーザを作成"
 
 # permission_manage_categories
 msgid "Manage issue categories"
-msgstr "Manage issue categories"
+msgstr "チケットのカテゴリの管理"
 
 # enumeration_issue_priorities
 msgid "Issue priorities"
@@ -826,7 +822,7 @@ msgstr "リビジョンを見る"
 
 # permission_protect_wiki_pages
 msgid "Protect wiki pages"
-msgstr "Protect wiki pages"
+msgstr "Wikiページの凍結"
 
 # field_language
 msgid "Language"
@@ -866,7 +862,7 @@ msgstr "ステータス"
 
 # label_nobody
 msgid "nobody"
-msgstr "nobody"
+msgstr "無記名"
 
 # label_permissions
 msgid "Permissions"
@@ -962,7 +958,7 @@ msgstr "更新日"
 
 # label_roadmap_overdue
 msgid "%s late"
-msgstr "%s late"
+msgstr "%s 遅れ"
 
 # label_user
 msgid "User"
@@ -986,7 +982,7 @@ msgstr "チェックを全部外す"
 
 # permission_comment_news
 msgid "Comment news"
-msgstr "Comment news"
+msgstr "ニュースへのコメント"
 
 # notice_account_invalid_creditentials
 msgid "Invalid user or password"
@@ -1034,7 +1030,7 @@ msgstr "残日数"
 
 # warning_attachments_not_saved
 msgid "%d file(s) could not be saved."
-msgstr "%d file(s) could not be saved."
+msgstr "%d個の添付ファイルが保存できませんでした。"
 
 # label_tracker_new
 msgid "New tracker"
@@ -1058,7 +1054,7 @@ msgstr "コミットを自動取得する"
 
 # permission_delete_messages
 msgid "Delete messages"
-msgstr "Delete messages"
+msgstr "メッセージの削除"
 
 # text_length_between
 msgid "Length between %d and %d characters."
@@ -1098,7 +1094,7 @@ msgstr "'7'"
 
 # label_internal
 msgid "Internal"
-msgstr "Internal"
+msgstr "内部"
 
 # label_my_page
 msgid "My page"
@@ -1106,11 +1102,11 @@ msgstr "マイページ"
 
 # permission_select_project_modules
 msgid "Select project modules"
-msgstr "Select project modules"
+msgstr "モジュールの選択"
 
 # permission_manage_documents
 msgid "Manage documents"
-msgstr "Manage documents"
+msgstr "文書の管理"
 
 # label_result_plural
 msgid "Results"
@@ -1118,7 +1114,7 @@ msgstr "結果"
 
 # permission_edit_wiki_pages
 msgid "Edit wiki pages"
-msgstr "Edit wiki pages"
+msgstr "Wikiページの編集"
 
 # field_filesize
 msgid "Size"
@@ -1138,7 +1134,7 @@ msgstr "%d歳"
 
 # permission_add_issue_watchers
 msgid "Add watchers"
-msgstr "Add watchers"
+msgstr "ウォッチャーの追加"
 
 # label_month
 msgid "Month"
@@ -1166,7 +1162,7 @@ msgstr "(変更無し)"
 
 # permission_view_gantt
 msgid "View gantt chart"
-msgstr "View gantt chart"
+msgstr "ガントチャートの閲覧"
 
 # notice_not_authorized
 msgid "You are not authorized to access this page."
@@ -1190,7 +1186,7 @@ msgstr "モジュール"
 
 # label_start_to_end
 msgid "start to end"
-msgstr "start to end"
+msgstr "最初-最後"
 
 # label_associated_revisions
 msgid "Associated revisions"
@@ -1210,7 +1206,7 @@ msgstr "%d件のエラー"
 
 # permission_move_issues
 msgid "Move issues"
-msgstr "Move issues"
+msgstr "チケットの移動"
 
 # notice_account_register_done
 msgid "Account was successfully created. To activate your account, click on the link that was emailed to you."
@@ -1258,7 +1254,7 @@ msgstr "新しいパスワード"
 
 # label_user_activity
 msgid "\"%s's activity\""
-msgstr "\"%s's activity\""
+msgstr "\"%s の活動\""
 
 # label_per_page
 msgid "Per page"
@@ -1270,7 +1266,7 @@ msgstr "新しいパスワードのメールを送信しました。"
 
 # permission_manage_issue_relations
 msgid "Manage issue relations"
-msgstr "Manage issue relations"
+msgstr "チケットの管理"
 
 # label_this_week
 msgid "this week"
@@ -1290,7 +1286,7 @@ msgstr "設定"
 
 # label_end_to_start
 msgid "end to start"
-msgstr "end to start"
+msgstr "最後-最初"
 
 # label_options
 msgid "Options"
@@ -1318,7 +1314,7 @@ msgstr "ログインしてください"
 
 # label_issue_watchers
 msgid "Watchers"
-msgstr "Watchers"
+msgstr "チケットのウォッチャー"
 
 # label_jump_to_a_project
 msgid "Jump to a project..."
@@ -1346,7 +1342,7 @@ msgstr "アカウントが有効になりました。ログインできます。
 
 # permission_delete_wiki_pages
 msgid "Delete wiki pages"
-msgstr "Delete wiki pages"
+msgstr "Wikiページの削除"
 
 # activerecord_error_too_long
 msgid "is too long"
@@ -1398,7 +1394,7 @@ msgstr "ガントチャート"
 
 # permission_manage_boards
 msgid "Manage boards"
-msgstr "Manage boards"
+msgstr "フォーラムの管理"
 
 # label_max_size
 msgid "Maximum size"
@@ -1406,13 +1402,13 @@ msgstr "最大サイズ"
 
 # field_fixed_version
 msgid "Target version"
-msgstr "Target version"
+msgstr "対象バージョン"
 
 msgid "Fixed Version"
-msgstr "Target version"
+msgstr "対象バージョン"
 
 msgid "fixed_version"
-msgstr "Target version"
+msgstr "対象バージョン"
 
 # activerecord_error_not_a_number
 msgid "is not a number"
@@ -1499,7 +1495,7 @@ msgstr "ホスト名"
 
 # mail_body_reminder
 msgid "\"%d issue(s) that are assigned to you are due in the next %d days:\""
-msgstr "\"%d issue(s) that are assigned to you are due in the next %d days:\""
+msgstr "\"%d件の担当チケットの期日が%d日以内に到来します:\""
 
 # label_open_issues_plural
 msgid "open"
@@ -1515,7 +1511,7 @@ msgstr "一番上へ"
 
 # label_duplicated_by
 msgid "duplicated by"
-msgstr "duplicated by"
+msgstr "重複されている"
 
 # label_day_plural
 # label_days
@@ -1544,11 +1540,11 @@ msgstr "最近の更新1件"
 
 # permission_delete_wiki_pages_attachments
 msgid "Delete attachments"
-msgstr "Delete attachments"
+msgstr "添付ファイルの削除"
 
 # permission_view_wiki_edits
 msgid "View wiki history"
-msgstr "View wiki history"
+msgstr "Wiki履歴の閲覧"
 
 # setting_protocol
 msgid "Protocol"
@@ -1628,7 +1624,7 @@ msgstr "作成しました。"
 
 # permission_add_messages
 msgid "Post messages"
-msgstr "Post messages"
+msgstr "メッセージの追加"
 
 # error_scm_command_failed
 msgid "\"An error occurred when trying to access the repository"
@@ -1708,7 +1704,7 @@ msgstr "日付の形式"
 
 # permission_view_messages
 msgid "View messages"
-msgstr "View messages"
+msgstr "メッセージの閲覧"
 
 # setting_issue_list_default_columns
 msgid "Default columns displayed on the issue list"
@@ -1760,7 +1756,7 @@ msgstr "未選択のプロジェクトでは、ウォッチまたは関係して
 
 # button_create_and_continue
 msgid "Create and continue"
-msgstr "Create and continue"
+msgstr "連続作成"
 
 # label_revision_plural
 msgid "Revisions"
@@ -1772,7 +1768,7 @@ msgstr "月曜日,火曜日,水曜日,木曜日,金曜日,土曜日,日曜日"
 
 # permission_manage_files
 msgid "Manage files"
-msgstr "Manage files"
+msgstr "ファイルの管理"
 
 # field_port
 msgid "Port"
@@ -1784,11 +1780,11 @@ msgstr "確認のパスワードと合っていません"
 
 # field_searchable
 msgid "Searchable"
-msgstr "Searchable"
+msgstr "検索条件に設定可能とする"
 
 # label_updated_time_by
 msgid "Updated by %s %s ago"
-msgstr "Updated by %s %s ago"
+msgstr "%d が%d前に更新"
 
 # label_year
 msgid "Year"
@@ -1796,7 +1792,7 @@ msgstr "年"
 
 # label_end_to_end
 msgid "end to end"
-msgstr "end to end"
+msgstr "最後-最後"
 
 # label_precedes
 msgid "precedes"
@@ -1808,7 +1804,7 @@ msgstr "等しい"
 
 # permission_edit_issue_notes
 msgid "Edit notes"
-msgstr "Edit notes"
+msgstr "注記の編集"
 
 # field_delay
 msgid "Delay"
@@ -1832,7 +1828,7 @@ msgstr "時刻の形式"
 
 # permission_manage_news
 msgid "Manage news"
-msgstr "Manage news"
+msgstr "ニュースの管理"
 
 # text_destroy_time_entries
 msgid "Delete reported hours"
@@ -1908,7 +1904,7 @@ msgstr "ユーザは自分で登録できる"
 
 # permission_view_calendar
 msgid "View calender"
-msgstr "View calendrier"
+msgstr "カレンダーの閲覧"
 
 # enumeration_doc_categories
 msgid "Document categories"
@@ -1928,7 +1924,7 @@ msgstr "Gravatarをユーザのアイコンとして使う"
 
 # permission_manage_members
 msgid "Manage members"
-msgstr "Manage members"
+msgstr "メンバーの管理"
 
 # text_journal_changed
 msgid "changed from %s to %s"
@@ -1948,7 +1944,7 @@ msgstr "使用中"
 
 # text_diff_truncated
 msgid "... This diff was truncated because it exceeds the maximum size that can be displayed."
-msgstr "... This diff was truncated because it exceeds the maximum size that can be displayed."
+msgstr "... 差分の行数が表示可能な上限を超えました。超過分は表示しません。"
 
 # label_commits_per_author
 msgid "Commits per author"
@@ -1972,11 +1968,11 @@ msgstr "コメント"
 
 # text_user_wrote
 msgid "%s wrote:"
-msgstr "%s wrote:"
+msgstr "%s は書きました:"
 
 # text_plugin_assets_writable
 msgid "Plugin assets directory writable"
-msgstr "Plugin assets directory writable"
+msgstr "Plugin assetsディレクトリに書き込み可能"
 
 # text_select_project_modules
 msgid "Select modules to enable for this project:"
@@ -2023,7 +2019,7 @@ msgstr "ソート"
 
 # permission_edit_messages
 msgid "Edit messages"
-msgstr "Edit messages"
+msgstr "メッセージの編集"
 
 # setting_issues_export_limit
 msgid "Issues export limit"
@@ -2039,7 +2035,7 @@ msgstr "%s とサブプロジェクト"
 
 # permission_delete_issues
 msgid "Delete issues"
-msgstr "Delete issues"
+msgstr "チケットの削除"
 
 # field_hide_mail
 msgid "Hide my email address"
@@ -2075,11 +2071,11 @@ msgstr "日前"
 
 # permission_view_issue_watchers
 msgid "View watchers list"
-msgstr "View watchers list"
+msgstr "ウォッチャー一覧の閲覧"
 
 # permission_manage_repository
 msgid "Manage repository"
-msgstr "Manage repository"
+msgstr "リポジトリの管理"
 
 # label_all
 msgid "all"
@@ -2135,7 +2131,7 @@ msgstr "チケットのカテゴリ"
 
 # permission_commit_access
 msgid "Commit access"
-msgstr "Commit access"
+msgstr "コミットの閲覧"
 
 # label_workflow
 msgid "Workflow"
@@ -2175,7 +2171,7 @@ msgstr "選択したプロジェクト..."
 
 # label_start_to_start
 msgid "start to start"
-msgstr "start to start"
+msgstr "最初-最初"
 
 # label_watched_issues
 msgid "Watched issues"
@@ -2238,7 +2234,7 @@ msgstr "ロードマップ"
 
 # permission_browse_repository
 msgid "Browse repository"
-msgstr "Browse repository"
+msgstr "リポジトリの閲覧"
 
 # label_change_view_all
 msgid "View all changes"
@@ -2266,7 +2262,7 @@ msgstr "%s宛にメールを送信しました。"
 
 # permission_view_documents
 msgid "View documents"
-msgstr "View documents"
+msgstr "文書の閲覧"
 
 # label_auth_source
 msgid "Authentication mode"
@@ -2290,15 +2286,15 @@ msgstr "月別のコミット"
 
 # permission_edit_project
 msgid "Edit project"
-msgstr "Edit project"
+msgstr "プロジェクトの編集"
 
 # permission_add_issue_notes
 msgid "Add notes"
-msgstr "Add notes"
+msgstr "注記の追加"
 
 # permission_save_queries
 msgid "Save queries"
-msgstr "Save queries"
+msgstr "クエリの保存"
 
 # label_project_latest
 msgid "Latest projects"
@@ -2314,7 +2310,7 @@ msgstr ""
 
 # label_copied
 msgid "copied"
-msgstr "copied"
+msgstr "コピー"
 
 # field_type
 msgid "Type"
@@ -2442,7 +2438,7 @@ msgstr "チケットのステータス"
 
 # permission_view_wiki_pages
 msgid "View wiki"
-msgstr "View wiki"
+msgstr "Wikiの閲覧"
 
 # default_role_developper
 msgid "Developer"
@@ -2542,8 +2538,8 @@ msgid ""
 "\"Select or update the Redmine user mapped to each username found in the repository log.\n"
 "Users with the same Redmine and repository username or email are automatically mapped.\""
 msgstr ""
-"\"Select ou update the Redmine user mapped to each username found in the repository log.\n"
-"Users with the same Redmine and repository username or email are automatically mapped.\""
+"リポジトリのログから検出されたユーザー名をどのRedmineユーザーに関連づけるのか選択してください。\n"
+"ログ上のユーザー名またはメールアドレスがRedmineのユーザーと一致する場合は自動的に関連づけられます。"
 
 # text_subprojects_destroy_warning
 msgid "Its subproject(%s)"
@@ -2567,7 +2563,7 @@ msgstr "適用されたステータス"
 
 # label_example
 msgid "Example"
-msgstr "Example"
+msgstr "例"
 
 # setting_commit_logs_encoding
 msgid "Commit messages encoding"
@@ -2607,7 +2603,7 @@ msgstr "新しいファイル"
 
 # permission_rename_wiki_pages
 msgid "Rename wiki pages"
-msgstr "Rename wiki pages"
+msgstr "Wikiページ名の変更"
 
 # label_new_statuses_allowed
 msgid "New statuses allowed"
@@ -2695,11 +2691,11 @@ msgstr "横に並べる"
 
 # permission_edit_time_entries
 msgid "Edit time logs"
-msgstr "Edit time logs"
+msgstr "変更履歴の編集"
 
 # permission_edit_own_issue_notes
 msgid "Edit own notes"
-msgstr "Edit own notes"
+msgstr "自身が記入した注記の編集"
 
 # general_csv_decimal_separator
 msgid "'.'"

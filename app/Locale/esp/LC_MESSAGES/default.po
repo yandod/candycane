@@ -84,7 +84,7 @@ msgstr "%d caracteres como máximo."
 
 # text_caracters_minimum
 msgid "Must be at least %d characters long."
-msgstr "%d caracteres como mínimo."
+msgstr "%d caracteres como mínimo"
 
 # label_my_projects
 msgid "My projects"
@@ -265,10 +265,6 @@ msgstr "Flotante"
 # text_comma_separated
 msgid "Multiple values allowed (comma separated)."
 msgstr "Múltiples valores permitidos (separados por coma)."
-
-# text_caracters_minimum
-msgid "Must be at least %d characters long."
-msgstr "%d caracteres como mínimo"
 
 # label_add_another_file
 msgid "Add another file"
