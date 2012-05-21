@@ -169,6 +169,7 @@ class UsersController extends AppController {
 		));
 		$this->set('user_list', $users);
 
+		$this->User->recursive = -1;
 		$status_counts = $this->User->find('all', array(
 			'group' => array('status'),
 			'fields' => array('User.status', 'COUNT(*) as cnt'),
