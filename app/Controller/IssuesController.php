@@ -364,7 +364,7 @@ class IssuesController extends AppController {
 				$this->Session->setFlash(__('Successful update.'), 'default', array('class' => 'flash flash_notice'));
 				$this->Mailer->deliver_issue_add($this->Issue);
 				# Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
-				if (!empty($this->request->params['form']['continue'])) {
+				if (!empty($this->request->data['continue'])) {
 					$this->redirect('/projects/'.$this->_project['Project']['identifier'].'/issues/add/tracker_id:'.$this->request->data['Issue']['tracker_id']);
 				}
 				$this->redirect(array('action' => 'show', 'issue_id' => $this->Issue->getLastInsertID()));
