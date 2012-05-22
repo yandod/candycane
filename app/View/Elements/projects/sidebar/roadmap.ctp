@@ -10,7 +10,7 @@
 <?php endforeach ?>
 <br />
 <label for="completed"><?php echo $this->Form->input('completed', array('type'=>'checkbox', 'value'=>1, /* params[:completed] */ 'label'=>__('Show completed versions'))) ?> </label>
-<p><?php echo $this->Form->submit('Apply', array('class'=>'button-small', 'name'=>null)) ?></p>
+<p><?php echo $this->Form->submit(__('Apply'), array('class'=>'button-small', 'name'=>null)) ?></p>
 <?php echo $this->Form->end() ?>
 
 <h3><?php echo __('Versions') ?></h3>
