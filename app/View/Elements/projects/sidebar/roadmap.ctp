@@ -9,8 +9,8 @@
   </label><br />
 <?php endforeach ?>
 <br />
-<label for="completed"><?php echo $this->Form->input('completed', array('type'=>'checkbox', 'value'=>1, 'label'=>__('Show completed versions'), 'checked' => $this->request->query['completed'])) ?> </label>
-<p><?php echo $this->Form->submit('Apply', array('class'=>'button-small', 'name'=>null)) ?></p>
+<label for="completed"><?php echo $this->Form->input('completed', array('type'=>'checkbox', 'value'=>1, 'label'=>__('Show completed versions'), 'checked' => isset($this->request->query['completed']) && $this->request->query['completed'] )) ?> </label>
+<p><?php echo $this->Form->submit(__('Apply'), array('class'=>'button-small', 'name'=>null)) ?></p>
 <?php echo $this->Form->end() ?>
 
 <h3><?php echo __('Versions') ?></h3>
