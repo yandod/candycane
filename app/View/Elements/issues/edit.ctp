@@ -1,4 +1,4 @@
-<?php echo $this->Form->create('Issue', array('url'=>array('action'=>'edit', 'id'=>$issue['Issue']['id']), 'enctype'=>"multipart/form-data", 'id'=>'issue-form')); ?>
+<?php echo $this->Form->create('Issue', array('url'=>array('action'=>'edit', $issue['Issue']['id']), 'enctype'=>"multipart/form-data", 'id'=>'issue-form')); ?>
   <?php echo $this->element('error_explanation'); ?>
   <div class="box">
   <?php if($this->Candy->authorize_for('edit_issues') && !empty($allowed_statuses)): ?>
