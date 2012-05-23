@@ -47,7 +47,7 @@ class MenuContainer extends Object {
 				'url' => '/admin',
 				'class' => 'administration',
 				'caption' => 'Administration',
-				'logged' => false,
+				'logged' => true,
 				'admin' => true
 			),
 			'help' => array(
