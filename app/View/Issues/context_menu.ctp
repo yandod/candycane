@@ -1,14 +1,14 @@
 <ul>
 <?php if ($issue): ?>
 	<li><?php echo $this->Candy->context_menu_link( __('Edit'), 
-		array('controller'=>'issues', 'action'=>'edit', 'id'=>$issue['Issue']['id']),
+		array('controller'=>'issues', 'action'=>'edit', $issue['Issue']['id']),
 		array('class'=>'icon-edit', 'disabled'=>!$can['edit'])); ?></li>
 	<li class="folder">			
 		<a href="#" class="submenu" onclick="return false;"><?php echo __('Status') ?></a>
 		<ul>
 		<?php foreach($statuses as $s): ?>
 		    <li><?php echo $this->Candy->context_menu_link( $s['Status']['name'], 
-				array('controller'=>'issues', 'action'=>'edit', 'id'=>$issue['Issue']['id'], 
+				array('controller'=>'issues', 'action'=>'edit', $issue['Issue']['id'], 
 					'?'=>array('issue[status_id]' => $s['Status']['id'], 'back_to' => $back)),
 		        array('method' => 'post','selected' => ($s['Status']['id'] == $issue['Issue']['status_id']), 'disabled' => !($can['update'] && array_key_exists($s['Status']['id'], $allowed_statuses)))); ?></li>
 		<?php endforeach; ?>
