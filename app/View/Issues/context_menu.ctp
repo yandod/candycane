@@ -84,7 +84,7 @@
 	</li>
 	<?php endif; ?>
 	<li class="folder">
-		<a href="#" class="submenu"><?php echo __('%% Done'); ?></a>
+		<a href="#" class="submenu"><?php echo __('% Done'); ?></a>
 		<ul>
 		<?php for($i = 0; $i <= 10; $i++): $p = $i * 10; ?>
 		   <li><?php echo $this->Candy->context_menu_link ("$p%", 
