@@ -30,7 +30,7 @@ class AppController extends Controller {
 
 	public $per_page;
 
-	public $view = 'Candy';
+	public $viewClass = 'Candy';
 
 	public $theme = '';
 
