@@ -76,6 +76,6 @@
 <div id="context-menu" style="display: none;"></div>
 <script type="text/javascript">
 //<![CDATA[
-new ContextMenu('<?php echo $this->Js->value($this->Html->url(array_merge($url_param, array('controller' => 'issues', 'action' => 'context_menu')))) ?>');
+new ContextMenu('<?php echo $this->Html->url(array('controller' => 'issues', 'action' => 'context_menu')) ?>');
 //-->
 </script>

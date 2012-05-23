@@ -16,44 +16,54 @@
 <?php echo $this->Form->select(
 	'status_id', 
 	$this->Candy->options_from_collection_for_select($available_statuses, 'Status', 'id', 'name'), 
-	isset($this->request->params['url']['status_id']) ? $this->request->params['url']['status_id'] : null,
-	array(),
-	__('(No change)')); ?>
+	array(
+		'value' => isset($this->request->query['status_id']) ? $this->request->query['status_id'] : null,
+		'empty' => __('(No change)')
+	)
+	); ?>
 </label>
 <?php endif; ?>
 <label><?php echo __('Priority') ?>: 
 <?php echo $this->Form->select(
 	'priority_id', 
-	$this->Candy->options_from_collection_for_select($priorities, 'Priority', 'id', 'name'), 
-	isset($this->request->params['url']['priority_id']) ? $this->request->params['url']['priority_id'] : null,
-	array(),
-	__('(No change)')); ?>
+	$this->Candy->options_from_collection_for_select($priorities, 'Priority', 'id', 'name'),
+	array(
+		'value' => isset($this->request->query['priority_id']) ? $this->request->query['priority_id'] : null,
+		'empty' => __('(No change)')
+	)
+	); ?>
 </label>
 <label><?php echo __('Category') ?>: 
 <?php echo $this->Form->select(
 	'category_id', 
-	array('none' => __('none')) + $issueCategories, 
-	isset($this->request->params['url']['category_id']) ? $this->request->params['url']['category_id'] : null,
-	array(),
-	__('(No change)')); ?>
+	array('none' => __('none')) + $issue_categories, 
+	array(
+		'value' => isset($this->request->query['category_id']) ? $this->request->query['category_id'] : null,
+		'empty' => __('(No change)')
+	)
+	); ?>
 </label>
 </p>
 <p>
 <label><?php echo __('Assigned to') ?>: 
 <?php echo $this->Form->select(
 	'assigned_to_id', 
-	array('none' => __('nobody')) + $assignableUsers, 
-	isset($this->request->params['url']['assigned_to_id']) ? $this->request->params['url']['assigned_to_id'] : null,
-	array(),
-	__('(No change)')); ?>
+	array('none' => __('nobody')) + $assignable_users, 
+	array(
+		'value' => isset($this->request->query['assigned_to_id']) ? $this->request->query['assigned_to_id'] : null,
+		'empty' => __('(No change)')
+	)
+	); ?>
 </label>
 <label><?php echo __('Target version') ?>: 
 <?php echo $this->Form->select(
 	'fixed_version_id', 
-	array('none' => __('none')) + $fixedVersions, 
-	isset($this->request->params['url']['fixed_version_id']) ? $this->request->params['url']['fixed_version_id'] : null,
-	array(),
-	__('(No change)')); ?>
+	array('none' => __('none')) + $fixed_versions, 
+	array(
+		'value' => isset($this->request->query['fixed_version_id']) ? $this->request->query['fixed_version_id'] : null,
+		'empty' => __('(No change)')
+	)
+	); ?>
 </label>
 </p>
 
@@ -62,16 +72,18 @@
 <?php echo $this->Form->text('start_date', array('value'=>'', 'size' => 10)); echo $this->Candy->calendar_for('IssueStartDate'); ?></label>
 <label><?php echo __('Due date') ?>: 
 <?php echo $this->Form->text('due_date', array('value'=>'', 'size' => 10)); echo $this->Candy->calendar_for('IssueDueDate');?></label>
-<label><?php echo __('%% Done') ?>: 
+<label><?php echo __('% Done') ?>: 
 <?php 
 $done_ratios = array();
 for($i = 0;$i<=10;$i++) {$done_ratios[$i] = sprintf('%d %%', $i*10);}
 echo $this->Form->select(
 	'done_ratio', 
 	$done_ratios, 
-	isset($this->request->params['url']['done_ratio']) ? $this->request->params['url']['done_ratio'] : null,
-	array(),
-	__('(No change)')); ?>
+	array(
+		'value' => isset($this->request->query['done_ratio']) ? $this->request->query['done_ratio'] : null,
+		'empty' => __('(No change)')
+	)
+	); ?>
 </label>
 </p>
 <?php /* call_hook(:view_issues_bulk_edit_details_bottom, { :issues => @issues }) */ ?>

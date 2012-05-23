@@ -487,7 +487,7 @@ class ProjectsController extends AppController {
   {
     if ($this->RequestHandler->isAjax()) {
       Configure::write('debug', 0);
-      $data = $this->request->params['url']['data'];
+      $data = $this->request->query['data'];
     } else {
       $data = $this->request->data;
     }
@@ -523,6 +523,11 @@ class ProjectsController extends AppController {
             'order' => "IssueCategory.name",
           ));
           $this->set(compact('issue_categories'));
+
+	  // Force Content-type
+	  $this->response->type('text/javascript');
+	  $this->response->send();
+
           $this->render('add_issue_category_ajax');
         }
       }
