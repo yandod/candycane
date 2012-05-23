@@ -640,7 +640,7 @@ class CandyHelper extends AppHelper {
   {
     $params = $this->Paginator->params;
     $paging = $params['paging'][$this->Paginator->defaultModel()];
-    $view =& ClassRegistry::getObject('view');
+    $view = $this->_View;
     if (isset($options['page_param'])) {
       unset($options['page_param']);
       $page_param = null;
@@ -1036,7 +1036,7 @@ function breadcrumb($args)
      *   [[project:mypage]]
      *   [[project:mypage|mytext]]
      */
-    $view =& ClassRegistry::getObject('view');
+    $view = $this->_View;
     $link_project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
     list(, $esc, $all, $page, $title) = $already_matched;
     $result = $all;
@@ -1123,7 +1123,7 @@ function breadcrumb($args)
      *  Forum messages:
      *     message#1218 -> Link to message with id 1218
      */
-    $view =& ClassRegistry::getObject('view');
+    $view = $this->_View;
     $project = isset($view->viewVars['main_project']['Project']['identifier']) ? $view->viewVars['main_project']['Project']['identifier'] : null;
 
     list($all, $leading, $esc, $prefix,, $sep, $oid) = $already_matched;
