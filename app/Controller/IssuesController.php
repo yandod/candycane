@@ -858,7 +858,7 @@ class IssuesController extends AppController {
 		$this->layout = 'ajax';
 		Configure::write('debug', Configure::read('debug') > 1 ? 1 : 0);
 
-		$params = $this->request->params['form'];
+		$params = $this->request->data;
 		$issues = $this->Issue->find('all', array('conditions' => array('Issue.id' => $params['ids']), 'recursive' => -1));
 		$this->set('issue_list', $issues);
 		$allowed_statuses = array();
