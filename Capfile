@@ -11,7 +11,7 @@ set :application, "candycane"
 set :deploy_via, :checkout
 set :deploy_to, "/home/candycane/apps/#{application}"
 set :use_sudo, false
-set :git_enable_submodules, 1
+#set :git_enable_submodules, 1
 
 namespace :deploy do
   # disable restarting
@@ -24,14 +24,13 @@ namespace :deploy do
   #
   task :finalize_update do
     run <<-CMD
-      cp #{shared_path}/config-master/database.php #{latest_release}/app/config/ &&
-      cp #{shared_path}/config-master/core.php #{latest_release}/app/config/ &&
+      cp #{shared_path}/config-master/database.php #{latest_release}/app/Config/ &&
+      cp #{shared_path}/config-master/core.php #{latest_release}/app/Config/ &&
       ln -s #{shared_path}/lib/tcpdf #{latest_release}/app/vendors/tcpdf &&
-      ln -s #{shared_path}/lib/tcpdf_php4 #{latest_release}/app/vendors/tcpdf_php4 &&
       rm -Rf #{latest_release}/app/files &&
       ln -s #{shared_path}/files #{latest_release}/app/files &&
-      rm -Rf #{latest_release}/app/plugins/install &&
-      chmod 2777 #{latest_release}/app/tmp #{latest_release}/app/plugins
+      rm -Rf #{latest_release}/app/Plugin/CcInstall &&
+      chmod 2777 #{latest_release}/app/tmp #{latest_release}/app/Plugin
     CMD
   end
 end
