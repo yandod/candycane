@@ -1,0 +1,2619 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: Òscar Casajuana <elboletaire@underave.net>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# label_time_tracking
+msgid "Time tracking"
+msgstr "Temps de seguiment"
+
+# label_comment_plural
+msgid "Comments"
+msgstr "Comentaris"
+
+# label_role
+msgid "Role"
+msgstr "Rol"
+
+# label_auth_source_new
+msgid "New authentication mode"
+msgstr "Mode d'autenticació nou"
+
+# button_add
+msgid "Add"
+msgstr "Afegeix"
+
+# field_start_page
+msgid "Start page"
+msgstr "Pàgina inicial"
+
+# actionview_datehelper_time_in_words_minute
+msgid "1 minute"
+msgstr "1 minut"
+
+# activerecord_error_circular_dependency
+msgid "This relation would create a circular dependency"
+msgstr "Aquesta relació crearia una dependència circular"
+
+# button_quote
+msgid "Quote"
+msgstr "Cita"
+
+# label_not_contains
+msgid "doesn't contain"
+msgstr "no conté"
+
+# label_personalize_page
+msgid "Personalize this page"
+msgstr "Personalitza aquesta pàgina"
+
+# field_mail
+msgid "Email"
+msgstr "Correu electrònic"
+
+# permission_view_files
+msgid "View files"
+msgstr "Veure fitxers"
+
+# label_months_from
+msgid "months from"
+msgstr "mesos des de"
+
+# activerecord_error_invalid
+msgid "is invalid"
+msgstr "no és vàlid"
+
+# mail_body_account_information_external
+msgid "You can use your \"%s\" account to log in."
+msgstr "Podeu utilitzar el compte \"%s\" per a entrar."
+
+# permission_edit_issues
+msgid "Edit issues"
+msgstr "Editar assumptes"
+
+# label_my_account
+msgid "My account"
+msgstr "El meu compte"
+
+# label_environment
+msgid "Environment"
+msgstr "Entorn"
+
+# field_value
+msgid "Value"
+msgstr "Valor"
+
+# text_caracters_maximum
+msgid "%d characters maximum."
+msgstr "%d caràcters com a màxim."
+
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "Com a mínim ha de tenir %d caràcters."
+
+# label_my_projects
+msgid "My projects"
+msgstr "Els meus projectes"
+
+# label_issue_status_new
+msgid "New status"
+msgstr "Estat nou"
+
+# button_submit
+msgid "Submit"
+msgstr "Tramet"
+
+# label_attribute_plural
+msgid "Attributes"
+msgstr "Atributs"
+
+# label_total
+msgid "Total"
+msgstr "Total"
+
+# text_issue_category_destroy_question
+msgid "Some issues (%d) are assigned to this category. What do you want to do ?"
+msgstr "Alguns assumptes (%d) estan assignats a aquesta categoria. Què voleu fer?"
+
+# button_create
+msgid "Create"
+msgstr "Crea"
+
+# label_downloads_abbr
+msgid "D/L"
+msgstr "Baixades"
+
+# label_integer
+msgid "Integer"
+msgstr "Enter"
+
+# activerecord_error_not_same_project
+msgid "doesn't belong to the same project"
+msgstr "no pertany al mateix projecte"
+
+# field_assigned_to
+msgid "Assigned to"
+msgstr "Assignat a"
+
+# field_is_filter
+msgid "Used as a filter"
+msgstr "S'ha utilitzat com a filtre"
+
+# label_previous
+msgid "Previous"
+msgstr "Anterior"
+
+# field_created_on
+msgid "Created"
+msgstr "Creat"
+
+# field_mail_notification
+msgid "Email notifications"
+msgstr "Notificacions per correu electrònic"
+
+# general_text_no
+msgid "'no'"
+msgstr "no"
+
+# field_attr_mail
+msgid "Email attribute"
+msgstr "Atribut del correu electrònic"
+
+# label_current_status
+msgid "Current status"
+msgstr "Estat actual"
+
+# label_last_updates_plural
+msgid "%d last updated"
+msgstr "%d última actualització"
+
+# permission_edit_own_time_entries
+msgid "Edit own time logs"
+msgstr "Editar registres de temps propis"
+
+# label_public_projects
+msgid "Public projects"
+msgstr "Projectes públics"
+
+# label_index_by_date
+msgid "Index by date"
+msgstr "Índex per data"
+
+# setting_default_language
+msgid "Default language"
+msgstr "Idioma predeterminat"
+
+# field_tracker
+msgid "Tracker"
+msgstr "Seguidor"
+
+# field_author
+msgid "Author"
+msgstr "Autor"
+
+# setting_enabled_scm
+msgid "Enabled SCM"
+msgstr "Habilita l'SCM"
+
+# button_change_password
+msgid "Change password"
+msgstr "Canvia la contrasenya"
+
+# label_roadmap_no_issues
+msgid "No issues for this version"
+msgstr "No hi ha assumptes per a aquesta versió"
+
+# general_text_yes
+msgid "'yes'"
+msgstr "si"
+
+# text_tip_task_begin_end_day
+msgid "task beginning and ending this day"
+msgstr "tasca que s'inicia i finalitza aquest dia"
+
+# label_chronological_order
+msgid "In chronological order"
+msgstr "En ordre cronològic"
+
+# activerecord_error_exclusion
+msgid "is reserved"
+msgstr "està reservat"
+
+# permission_manage_public_queries
+msgid "Manage public queries"
+msgstr "Administrar consultes públiques"
+
+# default_activity_development
+msgid "Development"
+msgstr "Desenvolupament"
+
+# text_tip_task_end_day
+msgid "task ending this day"
+msgstr "tasca que finalitza aquest dia"
+
+# button_rename
+msgid "Rename"
+msgstr "Reanomena"
+
+# label_feed_plural
+msgid "Feeds"
+msgstr "Canals"
+
+# field_url
+msgid "URL"
+msgstr "URL"
+
+# actionview_datehelper_time_in_words_second_less_than_plural
+msgid "less than %d seconds"
+msgstr "menys de %d segons"
+
+# label_relation_new
+msgid "New relation"
+msgstr "Relació nova"
+
+# label_added
+msgid "added"
+msgstr "afegit"
+
+# permission_add_issues
+msgid "Add issues"
+msgstr "Afegir assumptes"
+
+# actionview_datehelper_time_in_words_second_less_than
+msgid "less than a second"
+msgstr "menys d'un segon"
+
+# label_float
+msgid "Float"
+msgstr "Flotant"
+
+# text_comma_separated
+msgid "Multiple values allowed (comma separated)."
+msgstr "Es permeten valors múltiples (separats per una coma)."
+
+# label_add_another_file
+msgid "Add another file"
+msgstr "Afegeix un altre fitxer"
+
+# label_feeds_access_key_created_on
+msgid "RSS access key created %s ago"
+msgstr "Clau d'accés del RSS creada fa %s"
+
+# label_issue_status_plural
+msgid "Issue statuses"
+msgstr "Estats de l'assumpte"
+
+# label_issue_added
+msgid "Issue added"
+msgstr "Assumpte afegit"
+
+# notice_account_updated
+msgid "Account was successfully updated."
+msgstr "El compte s'ha actualitzat correctament."
+
+# permission_edit_own_messages
+msgid "Edit own messages"
+msgstr "Editar missatges propis"
+
+# field_base_dn
+msgid "Base DN"
+msgstr "Base DN"
+
+# field_time_zone
+msgid "Time zone"
+msgstr "Zona horària"
+
+# default_priority_normal
+msgid "Normal"
+msgstr "Normal"
+
+# button_configure
+msgid "Configure"
+msgstr "Configura"
+
+# label_incoming_emails
+msgid "Incoming emails"
+msgstr "Correu electrònics d'entrada"
+
+# label_sort_lower
+msgid "Move down"
+msgstr "Mou cap avall"
+
+# label_export_to
+msgid "'Also available in:'"
+msgstr "També disponible a:"
+
+# notice_successful_delete
+msgid "Successful deletion."
+msgstr "S'ha suprimit correctament."
+
+# notice_file_not_found
+msgid "The page you were trying to access doesn't exist or has been removed."
+msgstr "La pàgina a la que intenteu accedir no existeix o s'ha suprimit."
+
+# general_text_No
+msgid "'No'"
+msgstr "No"
+
+# default_issue_status_feedback
+msgid "Feedback"
+msgstr "Comentaris"
+
+# button_copy
+msgid "Copy"
+msgstr "Copia"
+
+# label_this_month
+msgid "this month"
+msgstr "aquest més"
+
+# label_role_plural
+msgid "Roles"
+msgstr "Rols"
+
+# label_permissions_report
+msgid "Permissions report"
+msgstr "Informe de permisos"
+
+# general_fmt_age
+msgid "%d yr"
+msgstr "%d any"
+
+# actionview_datehelper_time_in_words_hour_about_single
+msgid "about an hour"
+msgstr "aproximadament una hora"
+
+# label_add_note
+msgid "Add a note"
+msgstr "Afegeix una nota"
+
+# label_message_new
+msgid "New message"
+msgstr "Missatge nou"
+
+# label_less_than_ago
+msgid "less than days ago"
+msgstr "fa menys de"
+
+# field_project
+msgid "Project"
+msgstr "Projecte"
+
+# field_summary
+msgid "Summary"
+msgstr "Resum"
+
+# notice_no_issue_selected
+msgid "\"No issue is selected! Please, check the issues you want to edit.\""
+msgstr "No s'ha seleccionat cap assumpte. Activeu els assumptes que voleu editar."
+
+# label_document
+msgid "Document"
+msgstr "Document"
+
+# project_module_boards
+msgid "Boards"
+msgstr "Fòrums"
+
+# setting_emails_footer
+msgid "Emails footer"
+msgstr "Peu dels correus electrònics"
+
+# activerecord_error_not_a_date
+msgid "is not a valid date"
+msgstr "no és una data vàlida"
+
+# label_role_new
+msgid "New role"
+msgstr "Rol nou"
+
+# label_date
+msgid "Date"
+msgstr "Data"
+
+# label_date_to
+msgid "To"
+msgstr "A"
+
+# label_wiki
+msgid "Wiki"
+msgstr "Wiki"
+
+# label_report
+msgid "Report"
+msgstr "Informe"
+
+# permission_log_time
+msgid "Log spent time"
+msgstr "Registrar temps dedicat"
+
+# button_apply
+msgid "Apply"
+msgstr "Aplica"
+
+# button_check_all
+msgid "Check all"
+msgstr "Activa-ho tot"
+
+# label_display_per_page
+msgid "'Per page"
+msgstr "Per pàgina"
+
+# label_renamed
+msgid "renamed"
+msgstr "reanomenat"
+
+# label_in_less_than
+msgid "in less than"
+msgstr "en menys de"
+
+# setting_app_subtitle
+msgid "Application subtitle"
+msgstr "Subtítol de l'aplicació"
+
+# general_csv_encoding
+msgid "ISO-8859-1"
+msgstr "ISO-8859-15"
+
+# activerecord_error_accepted
+msgid "must be accepted"
+msgstr "s'ha d'acceptar"
+
+# general_fmt_date
+msgid "%%m/%%d/%%Y"
+msgstr "%%d/%%m/%%Y"
+
+# default_issue_status_rejected
+msgid "Rejected"
+msgstr "Rebutjat"
+
+# button_rollback
+msgid "Rollback to this version"
+msgstr "Torna a aquesta versió"
+
+# label_generate_key
+msgid "Generate a key"
+msgstr "Genera una clau"
+
+# label_relation_delete
+msgid "Delete relation"
+msgstr "Suprimeix la relació"
+
+# activerecord_error_inclusion
+msgid "is not included in the list"
+msgstr "no està inclòs a la llista"
+
+# setting_cross_project_issue_relations
+msgid "Allow cross-project issue relations"
+msgstr "Permet les relacions d'assumptes entre projectes"
+
+# permission_view_changesets
+msgid "View changesets"
+msgstr "Veure canvis"
+
+# label_download_plural
+msgid "%d Downloads"
+msgstr "%d baixades"
+
+# text_project_identifier_info
+msgid "'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'"
+msgstr "Es permeten lletres en minúscules (a-z), números i guions.<br />Un cop desat, l'identificador no es pot modificar."
+
+# label_sort_higher
+msgid "Move up"
+msgstr "Mou cap amunt"
+
+# field_parent
+msgid "Subproject of"
+msgstr "Subprojecte de"
+
+# permission_delete_own_messages
+msgid "Delete own messages"
+msgstr "Eliminar missatges propis"
+
+# label_new
+msgid "New"
+msgstr "Nou"
+
+# field_regexp
+msgid "Regular expression"
+msgstr "Expressió regular"
+
+# text_regexp_info
+msgid "eg. ^[A-Z0-9]+$"
+msgstr "ex. ^[A-Z0-9]+$"
+
+# button_unlock
+msgid "Unlock"
+msgstr "Desbloca"
+
+# label_blocks
+msgid "blocks"
+msgstr "bloqueja"
+
+# label_default_columns
+msgid "Default columns"
+msgstr "Columnes predeterminades"
+
+# label_send_information
+msgid "Send account information to the user"
+msgstr "Envia la informació del compte a l'usuari"
+
+# label_issue_updated
+msgid "Issue updated"
+msgstr "Assumpte actualitzat"
+
+# notice_account_wrong_password
+msgid "Wrong password"
+msgstr "Contrasenya incorrecta"
+
+# label_document_plural
+msgid "Documents"
+msgstr "Documents"
+
+# actionview_datehelper_time_in_words_minute_plural
+msgid "%d minutes"
+msgstr "%d minuts"
+
+# label_registration_activation_by_email
+msgid "account activation by email"
+msgstr "activació del compte per correu electrònic"
+
+# label_more_than_ago
+msgid "more than days ago"
+msgstr "fa més de"
+
+# permission_view_time_entries
+msgid "View spent time"
+msgstr "Veure temps emprat"
+
+# label_member
+msgid "Member"
+msgstr "Membre"
+
+# label_user_mail_no_self_notified
+msgid "\"I don't want to be notified of changes that I make myself\""
+msgstr "No vull ser notificat pels canvis que faig jo mateix"
+
+# label_loading
+msgid "Loading..."
+msgstr "S'està carregant..."
+
+# label_user_plural
+msgid "Users"
+msgstr "Usuaris"
+
+# field_field_format
+msgid "Format"
+msgstr "Format"
+
+# label_planning
+msgid "Planning"
+msgstr "Planificació"
+
+# button_lock
+msgid "Lock"
+msgstr "Bloca"
+
+# label_f_hour
+msgid "%.2f hour"
+msgstr "%.2f hora"
+
+# label_filter_plural
+msgid "Filters"
+msgstr "Filtres"
+
+# notice_successful_connection
+msgid "Successful connection."
+msgstr "S'ha connectat correctament."
+
+# default_issue_status_resolved
+msgid "Resolved"
+msgstr "Resolt"
+
+# label_change_plural
+msgid "Changes"
+msgstr "Canvis"
+
+# setting_sequential_project_identifiers
+msgid "Generate sequential project identifiers"
+msgstr "Genera identificadors de projecte seqüencials"
+
+# setting_plain_text_mail
+msgid "plain text mail (no HTML)"
+msgstr "e-mail de text pla (no HTML)"
+
+# setting_activity_days_default
+msgid "Days displayed on project activity"
+msgstr "Dies a mostrar l'activitat del projecte"
+
+# project_module_issue_tracking
+msgid "Issue tracking"
+msgstr "Seguidor d'assumptes"
+
+# field_host
+msgid "Host"
+msgstr "Ordinador"
+
+# setting_per_page_options
+msgid "Objects per page options"
+msgstr "Opcions dels objectes per pàgina"
+
+# actionview_instancetag_blank_option
+msgid "Please select"
+msgstr "Seleccioneu"
+
+# field_parent_title
+msgid "Parent page"
+msgstr "Pàgina pare"
+
+# permission_manage_versions
+msgid "Manage versions"
+msgstr "Administrar versions"
+
+# status_active
+msgid "active"
+msgstr "actiu"
+
+# label_theme
+msgid "Theme"
+msgstr "Tema"
+
+# label_duplicates
+msgid "duplicates"
+msgstr "duplicats"
+
+# label_query_plural
+msgid "Custom queries"
+msgstr "Consultes personalitzades"
+
+# permission_manage_wiki
+msgid "Manage wiki"
+msgstr "Administrar wiki"
+
+# label_enumeration_new
+msgid "New value"
+msgstr "Valor nou"
+
+# label_disabled
+msgid "disabled"
+msgstr "inhabilitat"
+
+# label_version_plural
+msgid "Versions"
+msgstr "Versions"
+
+# enumeration_activities
+msgid "Activities (time tracking)"
+msgstr "Activitats (seguidor de temps)"
+
+# label_date_from
+msgid "From"
+msgstr "Des de"
+
+# label_attribute
+msgid "Attribute"
+msgstr "Atribut"
+
+# field_hours
+msgid "Hours"
+msgstr "Hores"
+
+# setting_mail_from
+msgid "Emission email address"
+msgstr "Adreça de correu electrònic d'emissió"
+
+# mail_body_register
+msgid "'To activate your account, click on the following link:'"
+msgstr "Per a activar el compte, feu clic en l'enllaç següent:"
+
+# field_min_length
+msgid "Minimum length"
+msgstr "Longitud mínima"
+
+# label_latest_revision
+msgid "Latest revision"
+msgstr "Última revisió"
+
+# setting_welcome_text
+msgid "Welcome text"
+msgstr "Text de benvinguda"
+
+# field_due_date
+msgid "Due date"
+msgstr "Data de venciment"
+
+# notice_account_password_updated
+msgid "Password was successfully updated."
+msgstr "La contrasenya s'ha modificat correctament."
+
+# label_issue
+msgid "Issue"
+msgstr "Assumpte"
+
+# button_delete
+msgid "Delete"
+msgstr "Suprimeix"
+
+# label_follows
+msgid "follows"
+msgstr "posterior a"
+
+# label_revision
+msgid "Revision"
+msgstr "Revisió"
+
+# field_name
+msgid "Name"
+msgstr "Nom"
+
+# mail_subject_account_activation_request
+msgid "%s account activation request"
+msgstr "Sol·licitud d'activació del compte de %s"
+
+# mail_body_account_activation_request
+msgid "'A new user (%s) has registered. The account is pending your approval:'"
+msgstr "S'ha registrat un usuari nou (%s). El seu compte està pendent d'aprovació:"
+
+# label_user_new
+msgid "New user"
+msgstr "Usuari nou"
+
+# text_tracker_no_workflow
+msgid "No workflow defined for this tracker"
+msgstr "No s'ha definit cap flux de treball per a aquest seguidor"
+
+# button_unarchive
+msgid "Unarchive"
+msgstr "Desarxiva"
+
+# label_message_last
+msgid "Last message"
+msgstr "Últim missatge"
+
+# label_deleted
+msgid "deleted"
+msgstr "suprimit"
+
+# field_onthefly
+msgid "On-the-fly user creation"
+msgstr "Creació de l'usuari «al vol»"
+
+# permission_manage_categories
+msgid "Manage issue categories"
+msgstr "Administrar categories d'assumptes"
+
+# enumeration_issue_priorities
+msgid "Issue priorities"
+msgstr "Prioritat dels assumptes"
+
+# label_view_revisions
+msgid "View revisions"
+msgstr "Visualitza les revisions"
+
+# permission_protect_wiki_pages
+msgid "Protect wiki pages"
+msgstr "Protegir pàgines wiki"
+
+# field_language
+msgid "Language"
+msgstr "Idioma"
+
+# text_issues_ref_in_commit_messages
+msgid "Referencing and fixing issues in commit messages"
+msgstr "Referència i soluciona els assumptes en els missatges publicats"
+
+# text_unallowed_characters
+msgid "Unallowed characters"
+msgstr "Caràcters no permesos"
+
+# label_last_n_days
+msgid "last %d days"
+msgstr "els últims %d dies"
+
+# label_all_time
+msgid "all time"
+msgstr "tot el temps"
+
+# label_login
+msgid "Sign in"
+msgstr "Entra"
+
+# field_status
+msgid "Status"
+msgstr "Estat"
+
+# label_nobody
+msgid "nobody"
+msgstr "ningú"
+
+# label_permissions
+msgid "Permissions"
+msgstr "Permisos"
+
+# field_attr_lastname
+msgid "Lastname attribute"
+msgstr "Atribut del cognom"
+
+# label_overview
+msgid "Overview"
+msgstr "Resum"
+
+# label_board_plural
+msgid "Forums"
+msgstr "Fòrums"
+
+# notice_default_data_loaded
+msgid "Default configuration successfully loaded."
+msgstr "S'ha carregat correctament la configuració predeterminada."
+
+# mail_subject_register
+msgid "Your %s account activation"
+msgstr "Activació del compte de %s"
+
+# label_history
+msgid "History"
+msgstr "Historial"
+
+# label_registered_on
+msgid "Registered on"
+msgstr "Informat el"
+
+# text_destroy_time_entries_question
+msgid "%.02f hours were reported on the issues you are about to delete. What do you want to do ?"
+msgstr "S'han informat %.02f hores en els assumptes que aneu a suprimir. Què voleu fer?"
+
+# label_default
+msgid "Default"
+msgstr "Predeterminat"
+
+# actionview_datehelper_select_month_names
+msgid "January,February,March,April,May,June,July,August,September,October,November,December"
+msgstr "Gener,Febrer,Març,Abril,Maig,Juny,Juliol,Agost,Setembre,Octubre,Novembre,Desembre"
+
+# text_email_delivery_not_configured
+msgid ""
+"\"Email delivery is not configured, and notifications are disabled.\n"
+"Configure your SMTP server in config/email.yml and restart the application to enable them.\""
+msgstr ""
+"El lliurament per correu electrònic no està configurat i les notificacions estan inhabilitades.\n"
+"Configureu el servidor SMTP a config/email.yml i reinicieu l'aplicació per habilitar-lo."
+
+# label_min_max_length
+msgid "Min - Max length"
+msgstr "Longitud mín - max"
+
+# general_fmt_datetime_short
+msgid "%%b %%d, %%I:%%M %%p"
+msgstr "%%d/%%m %%H:%%M"
+
+# label_list
+msgid "List"
+msgstr "Llista"
+
+# label_changes_details
+msgid "Details of all changes"
+msgstr "Detalls de tots els canvis"
+
+# field_start_date
+msgid "Start"
+msgstr "Inici"
+
+# field_password_confirmation
+msgid "Confirmation"
+msgstr "Confirmació"
+
+# label_logged_as
+msgid "Logged in as"
+msgstr "Heu entrat com a"
+
+# error_issue_not_found_in_project
+msgid "'The issue was not found or does not belong to this project'"
+msgstr "No s'ha trobat l'assumpte o no pertany a aquest projecte"
+
+# field_updated_on
+msgid "Updated"
+msgstr "Actualitzat"
+
+# label_roadmap_overdue
+msgid "%s late"
+msgstr "%s tard"
+
+# label_user
+msgid "User"
+msgstr "Usuari"
+
+# default_priority_urgent
+msgid "Urgent"
+msgstr "Urgent"
+
+# text_file_repository_writable
+msgid "Attachments directory writable"
+msgstr "Es pot escriure en el dipòsit de fitxers"
+
+# button_watch
+msgid "Watch"
+msgstr "Vigila"
+
+# button_uncheck_all
+msgid "Uncheck all"
+msgstr "Desactiva-ho tot"
+
+# permission_comment_news
+msgid "Comment news"
+msgstr "Comentar notícies"
+
+# notice_account_invalid_creditentials
+msgid "Invalid user or password"
+msgstr "Usuari o contrasenya invàlid"
+
+# label_board
+msgid "Forum"
+msgstr "Fòrum"
+
+# label_view_diff
+msgid "View differences"
+msgstr "Visualitza les diferències"
+
+# activerecord_error_taken
+msgid "has already been taken"
+msgstr "ja s'està utilitzant"
+
+# label_sort_lowest
+msgid "Move to bottom"
+msgstr "Mou a la part inferior"
+
+# activerecord_error_wrong_length
+msgid "is the wrong length"
+msgstr "la longitud és incorrecta"
+
+# mail_body_lost_password
+msgid "'To change your password, click on the following link:'"
+msgstr "Per a canviar la contrasenya, feu clic en l'enllaç següent:"
+
+# label_attachment_delete
+msgid "Delete file"
+msgstr "Suprimeix el fitxer"
+
+# text_workflow_edit
+msgid "Select a role and a tracker to edit the workflow"
+msgstr "Seleccioneu un rol i un seguidor per a editar el flux de treball"
+
+# text_project_destroy_confirmation
+msgid "Are you sure you want to delete this project and related data ?"
+msgstr "Segur que voleu suprimir aquest projecte i les dades relacionades?"
+
+# label_in
+msgid "in"
+msgstr "a"
+
+# warning_attachments_not_saved
+msgid "\"%d file(s) could not be saved.\""
+msgstr "%d fitxer(s) no s'ha(n) pogut desar."
+
+# label_tracker_new
+msgid "New tracker"
+msgstr "Seguidor nou"
+
+# field_firstname
+msgid "Firstname"
+msgstr "Nom"
+
+# label_member_plural
+msgid "Members"
+msgstr "Membres"
+
+# project_module_repository
+msgid "Repository"
+msgstr "Dipòsit"
+
+# setting_autofetch_changesets
+msgid "Autofetch commits"
+msgstr "Omple automàticament les publicacions"
+
+# permission_delete_messages
+msgid "Delete messages"
+msgstr "Eliminar missatges"
+
+# text_length_between
+msgid "Length between %d and %d characters."
+msgstr "Longitud entre %d i %d caràcters."
+
+# status_registered
+msgid "registered"
+msgstr "informat"
+
+# label_not_equals
+msgid "is not"
+msgstr "no és"
+
+# default_role_reporter
+msgid "Reporter"
+msgstr "Informador"
+
+# button_change
+msgid "Change"
+msgstr "Canvia"
+
+# field_lastname
+msgid "Lastname"
+msgstr "Cognom"
+
+# button_clear
+msgid "Clear"
+msgstr "Neteja"
+
+# label_this_year
+msgid "this year"
+msgstr "aquest any"
+
+# general_first_day_of_week
+msgid "'7'"
+msgstr "'1'"
+
+# label_internal
+msgid "Internal"
+msgstr "Intern"
+
+# label_my_page
+msgid "My page"
+msgstr "La meva pàgina"
+
+# permission_select_project_modules
+msgid "Select project modules"
+msgstr "Seleccionar mòduls de projecte"
+
+# permission_manage_documents
+msgid "Manage documents"
+msgstr "Administrar documents"
+
+# label_result_plural
+msgid "Results"
+msgstr "Resultats"
+
+# label_last_changes
+msgid "last %d changes"
+msgstr "últims %d canvis"
+
+# permission_edit_wiki_pages
+msgid "Edit wiki pages"
+msgstr "Editar pàgines wiki"
+
+# field_filesize
+msgid "Size"
+msgstr "Mida"
+
+# error_scm_not_found
+msgid "\"The entry or revision was not found in the repository.\""
+msgstr "No s'ha trobat l'entrada o la revisió en el dipòsit."
+
+# general_fmt_age_plural
+msgid "%d yrs"
+msgstr "%d anys"
+
+# permission_add_issue_watchers
+msgid "Add watchers"
+msgstr "Afegir vigilants"
+
+# label_month
+msgid "Month"
+msgstr "Mes"
+
+# label_details
+msgid "Details"
+msgstr "Detalls"
+
+# text_assign_time_entries_to_project
+msgid "Assign reported hours to the project"
+msgstr "Assigna les hores informades al projecte"
+
+# button_view
+msgid "View"
+msgstr "Visualitza"
+
+# button_save
+msgid "Save"
+msgstr "Desa"
+
+# label_no_change_option
+msgid "(No change)"
+msgstr "(sense canvis)"
+
+# permission_view_gantt
+msgid "View gantt chart"
+msgstr "Veure gràfica de gantt"
+
+# notice_not_authorized
+msgid "You are not authorized to access this page."
+msgstr "No teniu permís per a accedir a aquesta pàgina."
+
+# project_module_files
+msgid "Files"
+msgstr "Fitxers"
+
+# button_cancel
+msgid "Cancel"
+msgstr "Cancel·la"
+
+# label_news
+msgid "News"
+msgstr "Notícies"
+
+# label_module_plural
+msgid "Modules"
+msgstr "Mòduls"
+
+# label_start_to_end
+msgid "start to end"
+msgstr "començament al final"
+
+# label_associated_revisions
+msgid "Associated revisions"
+msgstr "Revisions associades"
+
+# label_date_range
+msgid "Date range"
+msgstr "Abast de les dates"
+
+# label_version
+msgid "Version"
+msgstr "Versió"
+
+# gui_validation_error_plural
+msgid "%d errors"
+msgstr "%d errors"
+
+# permission_move_issues
+msgid "Move issues"
+msgstr "Moure assumptes"
+
+# notice_account_register_done
+msgid "Account was successfully created. To activate your account, click on the link that was emailed to you."
+msgstr "El compte s'ha creat correctament. Per a activar el compte, feu clic en l'enllaç que us han enviat per correu electrònic."
+
+# label_bulk_edit_selected_issues
+msgid "Bulk edit selected issues"
+msgstr "Edita en bloc els assumptes seleccionats"
+
+# label_information
+msgid "Information"
+msgstr "Informació"
+
+# text_enumeration_category_reassign_to
+msgid "'Reassign them to this value:'"
+msgstr "'Torna a assignar-los a aquest valor:'"
+
+# setting_attachment_max_size
+msgid "Attachment max. size"
+msgstr "Mida màxima dels adjunts"
+
+# default_issue_status_closed
+msgid "Closed"
+msgstr "Tancat"
+
+# label_f_hour_plural
+msgid "%.2f hours"
+msgstr "%.2f hores"
+
+# field_is_closed
+msgid "Issue closed"
+msgstr "Assumpte tancat"
+
+# notice_account_unknown_email
+msgid "Unknown user."
+msgstr "Usuari desconegut."
+
+# field_title
+msgid "Title"
+msgstr "Títol"
+
+# field_new_password
+msgid "New password"
+msgstr "Contrasenya nova"
+
+# label_user_activity
+msgid "\"%s's activity\""
+msgstr "activitat de %s"
+
+# label_per_page
+msgid "Per page"
+msgstr "Per pàgina"
+
+# notice_account_lost_email_sent
+msgid "An email with instructions to choose a new password has been sent to you."
+msgstr "S'ha enviat un correu electrònic amb instruccions per a seleccionar una contrasenya nova."
+
+# permission_manage_issue_relations
+msgid "Manage issue relations"
+msgstr "Administrar relacions entre assumptes"
+
+# label_this_week
+msgid "this week"
+msgstr "aquesta setmana"
+
+# label_change_log
+msgid "Change log"
+msgstr "Registre de canvis"
+
+# field_assignable
+msgid "Issues can be assigned to this role"
+msgstr "Es poden assignar assumptes a aquest rol"
+
+# label_settings
+msgid "Settings"
+msgstr "Paràmetres"
+
+# label_end_to_start
+msgid "end to start"
+msgstr "final al començament"
+
+# label_options
+msgid "Options"
+msgstr "Opcions"
+
+# label_index_by_title
+msgid "Index by title"
+msgstr "Índex per títol"
+
+# label_project_all
+msgid "All Projects"
+msgstr "Tots els projectes"
+
+# label_issue_view_all
+msgid "View all issues"
+msgstr "Visualitza tots els assumptes"
+
+# label_issue_category_plural
+msgid "Issue categories"
+msgstr "Categories de l'assumpte"
+
+# label_please_login
+msgid "Please log in"
+msgstr "Entreu"
+
+# label_issue_watchers
+msgid "Watchers"
+msgstr "Vigilants"
+
+# label_jump_to_a_project
+msgid "Jump to a project..."
+msgstr "Salta al projecte..."
+
+# label_board_new
+msgid "New forum"
+msgstr "Fòrum nou"
+
+# label_contains
+msgid "contains"
+msgstr "conté"
+
+# label_sort_by
+msgid "Sort by %s"
+msgstr "Ordena per %s"
+
+# label_related_issues
+msgid "Related issues"
+msgstr "Assumptes relacionats"
+
+# notice_account_activated
+msgid "Your account has been activated. You can now log in."
+msgstr "El compte s'ha activat. Ara podeu entrar."
+
+# permission_delete_wiki_pages
+msgid "Delete wiki pages"
+msgstr "Eliminar pàgines wiki"
+
+# activerecord_error_too_long
+msgid "is too long"
+msgstr "és massa llarg"
+
+# label_custom_field_plural
+msgid "Custom fields"
+msgstr "Camps personalitzats"
+
+# notice_unable_delete_version
+msgid "Unable to delete version."
+msgstr "No s'ha pogut suprimir la versió."
+
+# field_subject
+msgid "Subject"
+msgstr "Tema"
+
+# field_attr_firstname
+msgid "Firstname attribute"
+msgstr "Atribut del nom"
+
+# field_subproject
+msgid "Subproject"
+msgstr "Subprojecte"
+
+# notice_can_t_change_password
+msgid "This account uses an external authentication source. Impossible to change the password."
+msgstr "Aquest compte utilitza una font d'autenticació externa. No és possible canviar la contrasenya."
+
+# activerecord_error_greater_than_start_date
+msgid "must be greater than start date"
+msgstr "ha de ser superior que la data inicial"
+
+# label_read
+msgid "Read..."
+msgstr "Llegeix..."
+
+# label_language_based
+msgid "Based on user's language"
+msgstr "Basat en l'idioma de l'usuari"
+
+# label_gantt
+msgid "Gantt"
+msgstr "Gantt"
+
+# permission_manage_boards
+msgid "Manage boards"
+msgstr "Administrar fòrums"
+
+# label_max_size
+msgid "Maximum size"
+msgstr "Mida màxima"
+
+# field_fixed_version
+msgid "Target version"
+msgstr "Versió objectiu"
+
+# activerecord_error_not_a_number
+msgid "is not a number"
+msgstr "no és un número"
+
+# setting_wiki_compression
+msgid "Wiki history compression"
+msgstr "Comprimeix l'historial del wiki"
+
+# text_are_you_sure
+msgid "Are you sure ?"
+msgstr "Segur?"
+
+# text_min_max_length_info
+msgid "0 means no restriction"
+msgstr "0 significa sense restricció"
+
+# label_version_new
+msgid "New version"
+msgstr "Versió nova"
+
+# label_help
+msgid "Help"
+msgstr "Ajuda"
+
+# label_auth_source_plural
+msgid "Authentication modes"
+msgstr "Modes d'autenticació"
+
+# default_issue_status_assigned
+msgid "Assigned"
+msgstr "Assignat"
+
+# label_show_completed_versions
+msgid "Show completed versions"
+msgstr "Mostra les versions completes"
+
+# setting_app_title
+msgid "Application title"
+msgstr "Títol de l'aplicació"
+
+# text_issues_destroy_confirmation
+msgid "'Are you sure you want to delete the selected issue(s) ?'"
+msgstr "Segur que voleu suprimir els assumptes seleccionats?"
+
+# field_downloads
+msgid "Downloads"
+msgstr "Baixades"
+
+# label_text
+msgid "Long text"
+msgstr "Text llarg"
+
+# field_admin
+msgid "Administrator"
+msgstr "Administrador"
+
+# field_category
+msgid "Category"
+msgstr "Categoria"
+
+# field_homepage
+msgid "Homepage"
+msgstr "Pàgina web"
+
+# notice_failed_to_save_issues
+msgid "\"Failed to save %d issue(s) on %d selected"
+msgstr "No s'han pogut desar %s assumptes de %d seleccionats"
+
+# label_registration_automatic_activation
+msgid "automatic account activation"
+msgstr "activació del compte automàtica"
+
+# label_last_week
+msgid "last week"
+msgstr "l'última setmana"
+
+# setting_host_name
+msgid "Host name and path"
+msgstr "Nom de l'ordinador"
+
+# mail_body_reminder
+msgid "\"%d issue(s) that are assigned to you are due in the next %d days:\""
+msgstr "%d assumptes que teniu assignades venceran els següents %d dies:"
+
+# label_open_issues_plural
+msgid "open"
+msgstr "oberts"
+
+# label_ldap_authentication
+msgid "LDAP authentication"
+msgstr "Autenticació LDAP"
+
+# label_sort_highest
+msgid "Move to top"
+msgstr "Mou a la part superior"
+
+# label_duplicated_by
+msgid "duplicated by"
+msgstr "duplicat per"
+
+# label_day_plural
+msgid "days"
+msgstr "dies"
+
+# field_done_ratio
+msgid "%% Done"
+msgstr "%% realitzat"
+
+# general_lang_name
+msgid "'English'"
+msgstr "'Català'"
+
+# general_text_Yes
+msgid "'Yes'"
+msgstr "Si"
+
+# label_last_updates
+msgid "Last updated"
+msgstr "Última actualització"
+
+# permission_delete_wiki_pages_attachments
+msgid "Delete attachments"
+msgstr "Eliminar fitxers"
+
+# permission_view_wiki_edits
+msgid "View wiki history"
+msgstr "Veure historial del wiki"
+
+# setting_protocol
+msgid "Protocol"
+msgstr "Protocol"
+
+# setting_display_subprojects_issues
+msgid "Display subprojects issues on main projects by default"
+msgstr "Mostra els assumptes d'un subprojecte en el projecte pare per defecte"
+
+# default_role_manager
+msgid "Manager"
+msgstr "Gestor"
+
+# label_stay_logged_in
+msgid "Stay logged in"
+msgstr "Manté l'entrada"
+
+# label_filter_add
+msgid "Add filter"
+msgstr "Afegeix un filtre"
+
+# label_last_login
+msgid "Last connection"
+msgstr "Última connexió"
+
+# text_enumeration_destroy_question
+msgid "'%d objects are assigned to this value.'"
+msgstr "%d objectes estan assignats a aquest valor."
+
+# label_file_added
+msgid "File added"
+msgstr "Fitxer afegit"
+
+# label_wiki_edit
+msgid "Wiki edit"
+msgstr "Edició wiki"
+
+# label_latest_revision_plural
+msgid "Latest revisions"
+msgstr "Últimes revisions"
+
+# label_document_added
+msgid "Document added"
+msgstr "Document afegit"
+
+# label_news_new
+msgid "Add news"
+msgstr "Afegeix noticies"
+
+# field_is_in_roadmap
+msgid "Issues displayed in roadmap"
+msgstr "Assumptes mostrats en la planificació"
+
+# label_tracker_plural
+msgid "Trackers"
+msgstr "Seguidors"
+
+# notice_account_pending
+msgid "\"Your account was created and is now pending administrator approval.\""
+msgstr "S'ha creat el compte i ara està pendent de l'aprovació de l'administrador."
+
+# actionview_datehelper_time_in_words_day_plural
+msgid "%d days"
+msgstr "%d dies"
+
+# default_doc_category_tech
+msgid "Technical documentation"
+msgstr "Documentació tècnica"
+
+# text_issue_updated
+msgid "Issue %s has been updated by %s."
+msgstr "L'assumpte %s ha sigut actualitzat per %s."
+
+# notice_successful_create
+msgid "Successful creation."
+msgstr "S'ha creat correctament."
+
+# permission_add_messages
+msgid "Post messages"
+msgstr "Publicar missatges"
+
+# actionview_datehelper_time_in_words_minute_half
+msgid "half a minute"
+msgstr "mig minut"
+
+# error_scm_command_failed
+msgid "\"An error occurred when trying to access the repository"
+msgstr "S'ha produït un error en intentar accedir al dipòsit"
+
+# label_optional_description
+msgid "Optional description"
+msgstr "Descripció opcional"
+
+# label_diff_inline
+msgid "inline"
+msgstr "en línia"
+
+# field_notes
+msgid "Notes"
+msgstr "Notes"
+
+# actionview_datehelper_time_in_words_minute_less_than
+msgid "less than a minute"
+msgstr "menys d'un minut"
+
+# setting_default_projects_public
+msgid "New projects are public by default"
+msgstr "Els projectes nous són públics per defecte"
+
+# setting_commit_fix_keywords
+msgid "Fixing keywords"
+msgstr "Paraules claus per a la correcció"
+
+# actionview_datehelper_select_month_names_abbr
+msgid "Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec"
+msgstr "Gen,Feb,Mar,Abr,Mai,Jun,Jul,Ago,Set,Oct,Nov,Dec"
+
+# notice_locking_conflict
+msgid "Data has been updated by another user."
+msgstr "Un altre usuari ha actualitzat les dades."
+
+# button_archive
+msgid "Archive"
+msgstr "Arxiva"
+
+# label_modification
+msgid "%d change"
+msgstr "%d canvi"
+
+# setting_autologin
+msgid "Autologin"
+msgstr "Entrada automàtica"
+
+# button_move
+msgid "Move"
+msgstr "Mou"
+
+# label_more
+msgid "More"
+msgstr "Més"
+
+# field_account
+msgid "Account"
+msgstr "Compte"
+
+# setting_user_format
+msgid "Users display format"
+msgstr "Format de com mostrar l'usuari"
+
+# notice_successful_update
+msgid "Successful update."
+msgstr "S'ha modificat correctament."
+
+# field_default_value
+msgid "Default value"
+msgstr "Valor predeterminat"
+
+# button_log_time
+msgid "Log time"
+msgstr "Hora d'entrada"
+
+# label_message_posted
+msgid "Message added"
+msgstr "Missatge afegit"
+
+# setting_date_format
+msgid "Date format"
+msgstr "Format de la data"
+
+# permission_view_messages
+msgid "View messages"
+msgstr "Veure missatges"
+
+# actionview_datehelper_time_in_words_day
+msgid "1 day"
+msgstr "1 dia"
+
+# setting_issue_list_default_columns
+msgid "Default columns displayed on the issue list"
+msgstr "Columnes mostrades per defecte en la llista d'assumptes"
+
+# field_description
+msgid "Description"
+msgstr "Descripció"
+
+# label_custom_field_new
+msgid "New custom field"
+msgstr "Camp personalitzat nou"
+
+# label_enumerations
+msgid "Enumerations"
+msgstr "Enumeracions"
+
+# default_activity_design
+msgid "Design"
+msgstr "Disseny"
+
+# label_registration_manual_activation
+msgid "manual account activation"
+msgstr "activació del compte manual"
+
+# label_wiki_edit_plural
+msgid "Wiki edits"
+msgstr "Edicions wiki"
+
+# label_all_words
+msgid "All words"
+msgstr "Totes les paraules"
+
+# label_yesterday
+msgid "yesterday"
+msgstr "ahir"
+
+# label_comment_delete
+msgid "Delete comments"
+msgstr "Suprimeix comentaris"
+
+# field_activity
+msgid "Activity"
+msgstr "Activitat"
+
+# text_user_mail_option
+msgid "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
+msgstr "Per als projectes no seleccionats, només rebreu notificacions sobre les coses que vigileu o que hi esteu implicat (ex. assumptes que en sou l'autor o hi esteu assignat)."
+
+# button_create_and_continue
+msgid "Create and continue"
+msgstr "Crea i continua"
+
+# label_revision_plural
+msgid "Revisions"
+msgstr "Revisions"
+
+# general_day_names
+msgid "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
+msgstr "Dilluns,Dimarts,Dimecres,Dijous,Divendres,Dissabte,Diumenge"
+
+# permission_manage_files
+msgid "Manage files"
+msgstr "Administrar fitxers"
+
+# field_port
+msgid "Port"
+msgstr "Port"
+
+# activerecord_error_confirmation
+msgid "doesn't match confirmation"
+msgstr "la confirmació no coincideix"
+
+# field_searchable
+msgid "Searchable"
+msgstr "Es pot cercar"
+
+# label_updated_time_by
+msgid "Updated by %s %s ago"
+msgstr "Actualitzat per %s fa %s"
+
+# label_year
+msgid "Year"
+msgstr "Any"
+
+# label_end_to_end
+msgid "end to end"
+msgstr "final al final"
+
+# label_precedes
+msgid "precedes"
+msgstr "anterior a"
+
+# label_equals
+msgid "is"
+msgstr "és"
+
+# permission_edit_issue_notes
+msgid "Edit notes"
+msgstr "Editar notes"
+
+# field_delay
+msgid "Delay"
+msgstr "Retard"
+
+# button_unwatch
+msgid "Unwatch"
+msgstr "No vigilis"
+
+# label_roadmap_due_in
+msgid "Due in %s"
+msgstr "Venç en %s"
+
+# label_last_month
+msgid "last month"
+msgstr "l'últim més"
+
+# setting_time_format
+msgid "Time format"
+msgstr "Format de hora"
+
+# permission_manage_news
+msgid "Manage news"
+msgstr "Administrar notícies"
+
+# text_destroy_time_entries
+msgid "Delete reported hours"
+msgstr "Suprimeix les hores informades"
+
+# label_relates_to
+msgid "related to"
+msgstr "relacionat amb"
+
+# field_login
+msgid "Login"
+msgstr "Entrada"
+
+# mail_subject_lost_password
+msgid "Your %s password"
+msgstr "Contrasenya de %s"
+
+# button_update
+msgid "Update"
+msgstr "Actualitza"
+
+# label_age
+msgid "Age"
+msgstr "Edat"
+
+# notice_feeds_access_key_reseted
+msgid "Your RSS access key was reset."
+msgstr "S'ha reiniciat la clau d'accés del RSS."
+
+# setting_sys_api_enabled
+msgid "Enable WS for repository management"
+msgstr "Habilita el WS per a la gestió del dipòsit"
+
+# field_redirect_existing_links
+msgid "Redirect existing links"
+msgstr "Redirigeix els enllaços existents"
+
+# label_no_data
+msgid "No data to display"
+msgstr "Sense dades a mostrar"
+
+# gui_validation_error
+msgid "1 error"
+msgstr "1 error"
+
+# text_default_administrator_account_changed
+msgid "Default administrator account changed"
+msgstr "S'ha canviat el compte d'administrador predeterminat"
+
+# status_locked
+msgid "locked"
+msgstr "bloquejat"
+
+# button_reply
+msgid "Reply"
+msgstr "Resposta"
+
+# label_calendar
+msgid "Calendar"
+msgstr "Calendari"
+
+# field_attr_login
+msgid "Login attribute"
+msgstr "Atribut d'entrada"
+
+# activerecord_error_too_short
+msgid "is too short"
+msgstr "és massa curt"
+
+# setting_self_registration
+msgid "Self-registration"
+msgstr "Registre automàtic"
+
+# permission_view_calendar
+msgid "View calender"
+msgstr "Veure calendari"
+
+# enumeration_doc_categories
+msgid "Document categories"
+msgstr "Categories del document"
+
+# default_tracker_support
+msgid "Support"
+msgstr "Suport"
+
+# label_wiki_page
+msgid "Wiki page"
+msgstr "Pàgina wiki"
+
+# setting_gravatar_enabled
+msgid "Use Gravatar user icons"
+msgstr "Empra icones d'usuari de Gravatar"
+
+# permission_manage_members
+msgid "Manage members"
+msgstr "Administrar membres"
+
+# text_journal_changed
+msgid "changed from %s to %s"
+msgstr "canviat des de %s a %s"
+
+# label_wiki_page_plural
+msgid "Wiki pages"
+msgstr "Pàgines wiki"
+
+# setting_bcc_recipients
+msgid "Blind carbon copy recipients (bcc)"
+msgstr "Vincula els destinataris de les còpies amb carbó (bcc)"
+
+# actionview_datehelper_time_in_words_hour_about_plural
+msgid "about %d hours"
+msgstr "aproximadament %d hores"
+
+# label_used_by
+msgid "Used by"
+msgstr "Utilitzat per"
+
+# text_diff_truncated
+msgid "'... This diff was truncated because it exceeds the maximum size that can be displayed.'"
+msgstr "... Aquesta diferència ha estat tallada perquè excedeix la mida màxima que es pot mostrar."
+
+# label_commits_per_author
+msgid "Commits per author"
+msgstr "Publicacions per autor"
+
+# activerecord_error_blank
+msgid "can't be blank"
+msgstr "no pot estar en blanc"
+
+# label_project_plural
+msgid "Projects"
+msgstr "Projectes"
+
+# field_comments_sorting
+msgid "Display comments"
+msgstr "Mostra els comentaris"
+
+# field_comments
+msgid "Comment"
+msgstr "Comentari"
+
+# text_user_wrote
+msgid "'%s wrote:'"
+msgstr "%s va escriure:"
+
+# text_plugin_assets_writable
+msgid "Plugin assets directory writable"
+msgstr "El directori de plugins té permisos d'escriptura"
+
+# text_select_project_modules
+msgid "'Select modules to enable for this project:'"
+msgstr "Seleccioneu els mòduls a habilitar per a aquest projecte:"
+
+# text_journal_set_to
+msgid "set to %s"
+msgstr "establert a %s"
+
+# label_copy_workflow_from
+msgid "Copy workflow from"
+msgstr "Copia el flux de treball des de"
+
+# label_modification_plural
+msgid "%d changes"
+msgstr "%d canvis"
+
+# field_possible_values
+msgid "Possible values"
+msgstr "Valors possibles"
+
+# setting_login_required
+msgid "Authentication required"
+msgstr "Es necessita autenticació"
+
+# setting_mail_handler_api_enabled
+msgid "Enable WS for incoming emails"
+msgstr "Habilita el WS per correus electrònics d'entrada"
+
+# field_is_in_chlog
+msgid "Issues displayed in changelog"
+msgstr "Assumptes mostrats en el registre de canvis"
+
+# label_issue_new
+msgid "New issue"
+msgstr "Assumpte nou"
+
+# button_sort
+msgid "Sort"
+msgstr "Ordena"
+
+# permission_edit_messages
+msgid "Edit messages"
+msgstr "Editar missatges"
+
+# setting_issues_export_limit
+msgid "Issues export limit"
+msgstr "Límit d'exportació d'assumptes"
+
+# text_select_mail_notifications
+msgid "Select actions for which email notifications should be sent."
+msgstr "Seleccioneu les accions per les quals s'hauria d'enviar una notificació per correu electrònic."
+
+# label_and_its_subprojects
+msgid "%s and its subprojects"
+msgstr "%s i els seus subprojectes"
+
+# permission_delete_issues
+msgid "Delete issues"
+msgstr "Eliminar assumptes"
+
+# field_hide_mail
+msgid "Hide my email address"
+msgstr "Oculta l'adreça de correu electrònic"
+
+# text_reassign_time_entries
+msgid "'Reassign reported hours to this issue:'"
+msgstr "'Torna a assignar les hores informades a aquest assumpte:'"
+
+# text_issue_category_reassign_to
+msgid "Reassign issues to this category"
+msgstr "Torna a assignar els assumptes a aquesta categoria"
+
+# notice_email_error
+msgid "An error occurred while sending mail (%s)"
+msgstr "S'ha produït un error en enviar el correu (%s)"
+
+# label_member_new
+msgid "New member"
+msgstr "Membre nou"
+
+# default_priority_immediate
+msgid "Immediate"
+msgstr "Immediata"
+
+# label_reverse_chronological_order
+msgid "In reverse chronological order"
+msgstr "En ordre cronològic invers"
+
+# label_ago
+msgid "days ago"
+msgstr "fa"
+
+# permission_view_issue_watchers
+msgid "View watchers list"
+msgstr "Veure llista de vigilants"
+
+# permission_manage_repository
+msgid "Manage repository"
+msgstr "Administrar dipòsit"
+
+# label_all
+msgid "all"
+msgstr "tots"
+
+# label_boolean
+msgid "Boolean"
+msgstr "Booleà"
+
+# default_tracker_bug
+msgid "Bug"
+msgstr "Error"
+
+# text_issue_added
+msgid "Issue %s has been reported by %s."
+msgstr "L'assumpte %s ha sigut informat per %s."
+
+# label_on
+msgid "'on'"
+msgstr "de"
+
+# label_scm
+msgid "SCM"
+msgstr "SCM"
+
+# label_general
+msgid "General"
+msgstr "General"
+
+# label_comment_add
+msgid "Add a comment"
+msgstr "Afegeix un comentari"
+
+# activerecord_error_empty
+msgid "can't be empty"
+msgstr "no pot estar buit"
+
+# field_filename
+msgid "File"
+msgstr "Fitxer"
+
+# label_comment_added
+msgid "Comment added"
+msgstr "Comentari afegit"
+
+# mail_subject_reminder
+msgid "\"%d issue(s) due in the next days\""
+msgstr "%d assumptes venceran els següents %d dies"
+
+# label_issue_category
+msgid "Issue category"
+msgstr "Categoria de l'assumpte"
+
+# permission_commit_access
+msgid "Commit access"
+msgstr "Accedir als commits"
+
+# label_query_new
+msgid "New query"
+msgstr "Consulta nova"
+
+# label_workflow
+msgid "Workflow"
+msgstr "Flux de treball"
+
+# label_report_plural
+msgid "Reports"
+msgstr "Informes"
+
+# label_assigned_to_me_issues
+msgid "Issues assigned to me"
+msgstr "Assumptes assignats a mi"
+
+# field_max_length
+msgid "Maximum length"
+msgstr "Longitud màxima"
+
+# setting_mail_handler_api_key
+msgid "API key"
+msgstr "Clau API"
+
+# text_issue_category_destroy_assignments
+msgid "Remove category assignments"
+msgstr "Suprimeix les assignacions de la categoria"
+
+# button_test
+msgid "Test"
+msgstr "Test"
+
+# label_user_mail_option_selected
+msgid "\"For any event on the selected projects only...\""
+msgstr "Per qualsevol esdeveniment en els projectes seleccionats..."
+
+# label_start_to_start
+msgid "start to start"
+msgstr "començament al començament"
+
+# label_watched_issues
+msgid "Watched issues"
+msgstr "Assumptes vigilats"
+
+# label_spent_time
+msgid "Spent time"
+msgstr "Temps invertit"
+
+# label_register
+msgid "Register"
+msgstr "Registre"
+
+# label_none
+msgid "none"
+msgstr "cap"
+
+# error_scm_annotate
+msgid "\"The entry does not exist or can not be annotated.\""
+msgstr "L'entrada no existeix o no s'ha pogut anotar."
+
+# setting_text_formatting
+msgid "Text formatting"
+msgstr "Format del text"
+
+# default_priority_high
+msgid "High"
+msgstr "Alta"
+
+# default_tracker_feature
+msgid "Feature"
+msgstr "Característica"
+
+# label_search_titles_only
+msgid "Search titles only"
+msgstr "Cerca només en els títols"
+
+# label_message_plural
+msgid "Messages"
+msgstr "Missatges"
+
+# _gloc_rule_default
+msgid "'|n| n==1 ? \"\""
+msgstr "'|n| n==1 ? \""
+
+# general_fmt_time
+msgid "%%I:%%M %%p"
+msgstr "%%H:%%M"
+
+# text_tip_task_begin_day
+msgid "task beginning this day"
+msgstr "tasca que s'inicia aquest dia"
+
+# label_reply_plural
+msgid "Replies"
+msgstr "Respostes"
+
+# label_roadmap
+msgid "Roadmap"
+msgstr "Planificació"
+
+# label_change_view_all
+msgid "View all changes"
+msgstr "Visualitza tots els canvis"
+
+# permission_browse_repository
+msgid "Browse repository"
+msgstr "Explorar dipòsit"
+
+# field_priority
+msgid "Priority"
+msgstr "Prioritat"
+
+# label_logout
+msgid "Sign out"
+msgstr "Surt"
+
+# notice_email_sent
+msgid "An email was sent to %s"
+msgstr "S'ha enviat un correu electrònic a %s"
+
+# permission_view_documents
+msgid "View documents"
+msgstr "Veure documents"
+
+# label_auth_source
+msgid "Authentication mode"
+msgstr "Mode d'autenticació"
+
+# button_annotate
+msgid "Annotate"
+msgstr "Anota"
+
+# label_change_properties
+msgid "Change properties"
+msgstr "Canvia les propietats"
+
+# label_next
+msgid "Next"
+msgstr "Següent"
+
+# label_commits_per_month
+msgid "Commits per month"
+msgstr "Publicacions per mes"
+
+# permission_edit_project
+msgid "Edit project"
+msgstr "Editar projecte"
+
+# permission_add_issue_notes
+msgid "Add notes"
+msgstr "Afegir notes"
+
+# permission_save_queries
+msgid "Save queries"
+msgstr "Desar consultes"
+
+# label_project_latest
+msgid "Latest projects"
+msgstr "Els últims projectes"
+
+# text_no_configuration_data
+msgid ""
+"\"Roles, trackers, issue statuses and workflow have not been configured yet.\n"
+"It is highly recommended to load the default configuration. You will be able to modify it once loaded.\""
+msgstr ""
+"Encara no s'han configurat els rols, seguidors, estats de l'assumpte i flux de treball.\n"
+"És altament recomanable que carregueu la configuració predeterminada. Podreu modificar-la un cop carregada.\""
+
+# label_copied
+msgid "copied"
+msgstr "copiat"
+
+# field_type
+msgid "Type"
+msgstr "Tipus"
+
+# label_change_status
+msgid "Change status"
+msgstr "Canvia l'estat"
+
+# text_wiki_destroy_confirmation
+msgid "Are you sure you want to delete this wiki and all its content ?"
+msgstr "Segur que voleu suprimir aquest wiki i tots els seus continguts?"
+
+# label_preferences
+msgid "Preferences"
+msgstr "Preferències"
+
+# label_send_test_email
+msgid "Send a test email"
+msgstr "Envia un correu electrònic de prova"
+
+# field_identifier
+msgid "Identifier"
+msgstr "Identificador"
+
+# label_closed_issues
+msgid "closed"
+msgstr "tancat"
+
+# label_preview
+msgid "Preview"
+msgstr "Previsualització"
+
+# label_search
+msgid "Search"
+msgstr "Cerca"
+
+# label_browse
+msgid "Browse"
+msgstr "Navega"
+
+# label_password_lost
+msgid "Lost password"
+msgstr "Contrasenya perduda"
+
+# label_project_new
+msgid "New project"
+msgstr "Projecte nou"
+
+# label_issue_category_new
+msgid "New category"
+msgstr "Categoria nova"
+
+# label_news_added
+msgid "News added"
+msgstr "Noticies afegides"
+
+# field_issue_to_id
+msgid "Related issue"
+msgstr "Assumpte relacionat"
+
+# default_priority_low
+msgid "Low"
+msgstr "Baixa"
+
+# label_plugins
+msgid "Plugins"
+msgstr "Connectors"
+
+# general_fmt_datetime
+msgid "%%m/%%d/%%Y %%I:%%M %%p"
+msgstr "%%d/%%m/%%Y %%H:%%M"
+
+# label_custom_field
+msgid "Custom field"
+msgstr "Camp personalitzat"
+
+# label_news_view_all
+msgid "View all news"
+msgstr "Visualitza totes les noticies"
+
+# label_home
+msgid "Home"
+msgstr "Inici"
+
+# label_download
+msgid "%d Download"
+msgstr "%d baixada"
+
+# field_password
+msgid "Password"
+msgstr "Contrasenya"
+
+# label_reported_issues
+msgid "Reported issues"
+msgstr "Assumptes informats"
+
+# button_download
+msgid "Download"
+msgstr "Baixa"
+
+# label_today
+msgid "today"
+msgstr "avui"
+
+# label_query
+msgid "Custom query"
+msgstr "Consulta personalitzada"
+
+# field_is_for_all
+msgid "For all projects"
+msgstr "Per a tots els projectes"
+
+# label_document_new
+msgid "New document"
+msgstr "Document nou"
+
+# label_issue_plural
+msgid "Issues"
+msgstr "Assumptes"
+
+# label_issue_status
+msgid "Issue status"
+msgstr "Estat de l'assumpte"
+
+# permission_view_wiki_pages
+msgid "View wiki"
+msgstr "Veure wiki"
+
+# default_role_developper
+msgid "Developer"
+msgstr "Desenvolupador"
+
+# label_updated_time
+msgid "Updated %s ago"
+msgstr "Actualitzat fa %s"
+
+# label_modified
+msgid "modified"
+msgstr "modificat"
+
+# label_overall_activity
+msgid "Overall activity"
+msgstr "Activitat global"
+
+# setting_commit_ref_keywords
+msgid "Referencing keywords"
+msgstr "Paraules claus per a la referència"
+
+# text_load_default_configuration
+msgid "Load the default configuration"
+msgstr "Carrega la configuració predeterminada"
+
+# label_added_time_by
+msgid "Added by %s %s ago"
+msgstr "Afegit per %s fa %s"
+
+# label_me
+msgid "me"
+msgstr "jo mateix"
+
+# mail_body_account_information
+msgid "Your account information"
+msgstr "Informació del compte"
+
+# label_string
+msgid "Text"
+msgstr "Text"
+
+# general_csv_separator
+msgid "','"
+msgstr "';'"
+
+# label_administration
+msgid "Administration"
+msgstr "Administració"
+
+# text_repository_usernames_mapping
+msgid ""
+"\"Select or update the Redmine user mapped to each username found in the repository log.\n"
+"Users with the same Redmine and repository username or email are automatically mapped.\""
+msgstr ""
+"\"Select ou update the Redmine user mapped to each username found in the repository log.\n"
+"Users with the same Redmine and repository username or email are automatically mapped.\""
+
+# text_subprojects_destroy_warning
+msgid "'Its subproject(s)"
+msgstr "També seran suprimits els seus subprojectes"
+
+# button_back
+msgid "Back"
+msgstr "Enrere"
+
+# label_changeset_plural
+msgid "Changesets"
+msgstr "Conjunt de canvis"
+
+# label_week
+msgid "Week"
+msgstr "Setmana"
+
+# label_applied_status
+msgid "Applied status"
+msgstr "Estat aplicat"
+
+# label_example
+msgid "Example"
+msgstr "Example"
+
+# setting_commit_logs_encoding
+msgid "Commit messages encoding"
+msgstr "Codificació dels missatges publicats"
+
+# button_edit
+msgid "Edit"
+msgstr "Edita"
+
+# label_blocked_by
+msgid "blocked by"
+msgstr "bloquejats per"
+
+# label_in_more_than
+msgid "in more than"
+msgstr "en més de"
+
+# setting_repositories_encodings
+msgid "Repositories encodings"
+msgstr "Codificacions del dipòsit"
+
+# label_current_version
+msgid "Current version"
+msgstr "Versió actual"
+
+# label_repository_plural
+msgid "Repositories"
+msgstr "Dipòsits"
+
+# field_is_public
+msgid "Public"
+msgstr "Públic"
+
+# label_attachment_new
+msgid "New file"
+msgstr "Fitxer nou"
+
+# permission_rename_wiki_pages
+msgid "Rename wiki pages"
+msgstr "Reanomenar pàgines wiki"
+
+# label_new_statuses_allowed
+msgid "New statuses allowed"
+msgstr "Nous estats autoritzats"
+
+# setting_feeds_limit
+msgid "Feed content limit"
+msgstr "Límit de contingut del canal"
+
+# label_statistics
+msgid "Statistics"
+msgstr "Estadístiques"
+
+# field_is_required
+msgid "Required"
+msgstr "Necessari"
+
+# error_can_t_load_default_data
+msgid "\"Default configuration could not be loaded"
+msgstr "No s'ha pogut carregar la configuració predeterminada"
+
+# button_reset
+msgid "Reset"
+msgstr "Reinicia"
+
+# setting_diff_max_lines_displayed
+msgid "Max number of diff lines displayed"
+msgstr "Nombre màxim de línies de diferències a mostrar"
+
+# field_estimated_hours
+msgid "Estimated time"
+msgstr "Temps previst"
+
+# text_rmagick_available
+msgid "RMagick available (optional)"
+msgstr "RMagick disponible (opcional)"
+
+# button_activate
+msgid "Activate"
+msgstr "Activa"
+
+# label_user_mail_option_all
+msgid "\"For any event on all my projects\""
+msgstr "Per qualsevol esdeveniment en tots els meus projectes"
+
+# field_column_names
+msgid "Columns"
+msgstr "Columnes"
+
+# label_subproject_plural
+msgid "Subprojects"
+msgstr "Subprojectes"
+
+# default_doc_category_user
+msgid "User documentation"
+msgstr "Documentació d'usuari"
+
+# label_user_mail_option_none
+msgid "\"Only for things I watch or I'm involved in\""
+msgstr "Només per les coses que vigilo o hi estic implicat"
+
+# label_topic_plural
+msgid "Topics"
+msgstr "Temes"
+
+# label_news_latest
+msgid "Latest news"
+msgstr "Últimes noticies"
+
+# label_role_and_permissions
+msgid "Roles and permissions"
+msgstr "Rols i permisos"
+
+# text_status_changed_by_changeset
+msgid "Applied in changeset %s."
+msgstr "Aplicat en el conjunt de canvis %s."
+
+# label_diff_side_by_side
+msgid "side by side"
+msgstr "costat per costat"
+
+# permission_edit_time_entries
+msgid "Edit time logs"
+msgstr "Editar temps dedicats"
+
+# permission_edit_own_issue_notes
+msgid "Edit own notes"
+msgstr "Editar notes pròpies"
+
+# general_csv_decimal_separator
+msgid "'.'"
+msgstr "','"
+
+# label_authentication
+msgid "Authentication"
+msgstr "Autenticació"
+
+# label_issues_by
+msgid "Issues by %s"
+msgstr "Assumptes per %s"
+

@@ -1,5 +1,5 @@
 ## Configuration and Temporary files
-app/config/database.php
+app/Config/database.php
 app/tmp/cache/models/*
 app/tmp/cache/persistent/*
 app/tmp/cache/*
@@ -14,6 +14,10 @@ vendors/simpletest
 .cache
 .project
 .settings
+nbproject
+.idea
 
 ## Allow 'empty' files
 !empty
+
+.DS_Store

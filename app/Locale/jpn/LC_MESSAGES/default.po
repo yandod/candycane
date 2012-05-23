@@ -1,0 +1,2775 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# No version information was available in the source files.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: candycane 0.72\n"
+"POT-Creation-Date: 2011-06-14 06:31+0900\n"
+"PO-Revision-Date: 2011-06-14 07:00+0900\n"
+"Last-Translator: Yusuke Ando <yandod@gmail.com>\n"
+"Language-Team: candycane <nothing@example.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+# label_time_tracking
+msgid "Time tracking"
+msgstr "時間トラッキング"
+
+# label_comment_plural
+msgid "Comments"
+msgstr "コメント"
+
+# label_role
+msgid "Role"
+msgstr "ロール"
+
+# label_auth_source_new
+msgid "New authentication mode"
+msgstr "新しい認証モード"
+
+# button_add
+msgid "Add"
+msgstr "追加"
+
+# field_start_page
+msgid "Start page"
+msgstr "メインページ"
+
+# activerecord_error_circular_dependency
+msgid "This relation would create a circular dependency"
+msgstr "この関係では、循環依存になります"
+
+# button_quote
+msgid "Quote"
+msgstr "引用"
+
+# label_not_contains
+msgid "doesn't contain"
+msgstr "含まない"
+
+# field_mail
+msgid "Email"
+msgstr "メールアドレス"
+
+# label_personalize_page
+msgid "Personalize this page"
+msgstr "このページをパーソナライズする"
+
+# permission_view_files
+msgid "View files"
+msgstr "ファイルの閲覧"
+
+# label_months_from
+msgid "months from"
+msgstr "ヶ月 from"
+
+# activerecord_error_invalid
+msgid "is invalid"
+msgstr "が無効です"
+
+# mail_body_account_information_external
+msgid "You can use your \"%s\" account to log in."
+msgstr "「%s」アカウントを使ってにログインできます。"
+
+# permission_edit_issues
+msgid "Edit issues"
+msgstr "チケットの編集"
+
+# label_my_account
+msgid "My account"
+msgstr "マイアカウント"
+
+# label_environment
+msgid "Environment"
+msgstr "環境"
+
+# field_value
+msgid "Value"
+msgstr "値"
+
+# text_caracters_maximum
+msgid "%d characters maximum."
+msgstr "最大 %d 文字です。"
+
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "最低%d文字の長さが必要です"
+
+# label_my_projects
+msgid "My projects"
+msgstr "マイプロジェクト"
+
+# label_issue_status_new
+msgid "New status"
+msgstr "新しいステータス"
+
+# button_submit
+msgid "Submit"
+msgstr "変更"
+
+# label_attribute_plural
+msgid "Attributes"
+msgstr "属性"
+
+# label_total
+msgid "Total"
+msgstr "合計"
+
+# text_issue_category_destroy_question
+msgid "Some issues (%d) are assigned to this category. What do you want to do ?"
+msgstr "このカテゴリに割り当て済みのチケット(%d)があります。何をしようとしていますか？"
+
+# button_create
+msgid "Create"
+msgstr "作成"
+
+# label_downloads_abbr
+msgid "D/L"
+msgstr "DL"
+
+# label_integer
+msgid "Integer"
+msgstr "整数"
+
+# activerecord_error_not_same_project
+msgid "doesn't belong to the same project"
+msgstr "同じプロジェクトに属していません"
+
+# field_assigned_to
+msgid "Assigned to"
+msgstr "担当者"
+
+# field_assigned_to 2
+msgid "assigned_to"
+msgstr "担当者"
+
+# field_assigned_to 3
+msgid "assigned_to_id"
+msgstr "担当者"
+
+# field_is_filter
+msgid "Used as a filter"
+msgstr "フィルタとして使う"
+
+# label_previous
+msgid "Previous"
+msgstr "前"
+
+# field_created_on
+msgid "Created"
+msgstr "作成日"
+
+# field_created_on 2
+msgid "created_on"
+msgstr "作成日"
+
+# field_mail_notification
+msgid "Email notifications"
+msgstr "メール通知"
+
+# general_text_no
+msgid "'no'"
+msgstr "'いいえ'"
+
+# field_attr_mail
+msgid "Email attribute"
+msgstr "メール属性"
+
+# label_current_status
+msgid "Current status"
+msgstr "現在のステータス"
+
+# label_last_updates_plural
+msgid "%d last updated"
+msgstr "最近の更新%d件"
+
+# permission_edit_own_time_entries
+msgid "Edit own time logs"
+msgstr "自身が記入した変更履歴の編集"
+
+# label_public_projects
+msgid "Public projects"
+msgstr "公開プロジェクト"
+
+# label_index_by_date
+msgid "Index by date"
+msgstr "索引(日付順)"
+
+# setting_default_language
+msgid "Default language"
+msgstr "既定の言語"
+
+# field_tracker
+msgid "Tracker"
+msgstr "トラッカー"
+
+# field_tracker 2
+msgid "tracker"
+msgstr "トラッカー"
+
+# field_author
+msgid "Author"
+msgstr "起票者"
+
+# field_author 2
+msgid "author"
+msgstr "起票者"
+
+# field_author 3
+msgid "author_id"
+msgstr "起票者"
+
+# setting_enabled_scm
+msgid "Enabled SCM"
+msgstr "使用するSCM"
+
+# button_change_password
+msgid "Change password"
+msgstr "パスワード変更"
+
+# label_roadmap_no_issues
+msgid "No issues for this version"
+msgstr "このバージョンに向けてのチケットはありません"
+
+# general_text_yes
+msgid "'yes'"
+msgstr "'はい'"
+
+# text_tip_task_begin_end_day
+msgid "task beginning and ending this day"
+msgstr "この日のうちに開始して終了するタスク"
+
+# label_chronological_order
+msgid "In chronological order"
+msgstr "古い順"
+
+# activerecord_error_exclusion
+msgid "is reserved"
+msgstr "が予約されています"
+
+# permission_manage_public_queries
+msgid "Manage public queries"
+msgstr "公開クエリの管理"
+
+# default_activity_development
+msgid "Development"
+msgstr "開発作業"
+
+# text_tip_task_end_day
+msgid "task ending this day"
+msgstr "この日に終了するタスク"
+
+# button_rename
+msgid "Rename"
+msgstr "名前変更"
+
+# label_feed_plural
+msgid "Feeds"
+msgstr "フィード"
+
+# field_url
+msgid "URL"
+msgstr "URL"
+
+# label_relation_new
+msgid "New relation"
+msgstr "新しい関連"
+
+# label_added
+msgid "added"
+msgstr "追加"
+
+# permission_add_issues
+msgid "Add issues"
+msgstr "チケットの追加"
+
+# label_float
+msgid "Float"
+msgstr "小数"
+
+# text_comma_separated
+msgid "Multiple values allowed (comma separated)."
+msgstr "(カンマで区切った)複数の値が使えます"
+
+# label_add_another_file
+msgid "Add another file"
+msgstr "別のファイルを追加"
+
+# label_feeds_access_key_created_on
+msgid "RSS access key created %s ago"
+msgstr "RSSアクセスキーは%s前に作成されました"
+
+# label_issue_status_plural
+msgid "Issue statuses"
+msgstr "チケットのステータス"
+
+# label_issue_added
+msgid "Issue added"
+msgstr "チケットが追加されました"
+
+# notice_account_updated
+msgid "Account was successfully updated."
+msgstr "アカウントが更新されました。"
+
+# permission_edit_own_messages
+msgid "Edit own messages"
+msgstr "自身が記入したメッセージの編集"
+
+# field_base_dn
+msgid "Base DN"
+msgstr "検索範囲"
+
+# field_time_zone
+msgid "Time zone"
+msgstr "タイムゾーン"
+
+# default_priority_normal
+msgid "Normal"
+msgstr "通常"
+
+# button_configure
+msgid "Configure"
+msgstr "設定"
+
+# label_incoming_emails
+msgid "Incoming emails"
+msgstr "受信メール"
+
+# label_sort_lower
+msgid "Move down"
+msgstr "下へ"
+
+# label_export_to
+msgid "'Also available in:'"
+msgstr "他の形式に出力"
+
+msgid "Also available in:"
+msgstr "他の形式に出力"
+
+# notice_successful_delete
+msgid "Successful deletion."
+msgstr "削除しました。"
+
+# notice_file_not_found
+msgid "The page you were trying to access doesn't exist or has been removed."
+msgstr "アクセスしようとしたページは存在しないか削除されています。"
+
+# general_text_No
+msgid "No"
+msgstr "いいえ"
+
+# default_issue_status_feedback
+msgid "Feedback"
+msgstr "フィードバック"
+
+# button_copy
+msgid "Copy"
+msgstr "コピー"
+
+# label_this_month
+msgid "this month"
+msgstr "今月"
+
+# label_role_plural
+msgid "Roles"
+msgstr "ロール"
+
+# label_permissions_report
+msgid "Permissions report"
+msgstr "権限レポート"
+
+# general_fmt_age
+msgid "%d yr"
+msgstr "%d歳"
+
+# label_add_note
+msgid "Add a note"
+msgstr "注記を追加"
+
+# label_message_new
+msgid "New message"
+msgstr "新しいメッセージ"
+
+# label_less_than_ago
+msgid "less than days ago"
+msgstr "経過日数がこれより少ない"
+
+# field_project
+msgid "Project"
+msgstr "プロジェクト"
+
+# field_summary
+msgid "Summary"
+msgstr "サマリ"
+
+# notice_no_issue_selected
+msgid "\"No issue is selected! Please, check the issues you want to edit.\""
+msgstr "\"チケットが選択されていません! 更新対象のチケットを選択してください。\""
+
+# label_document
+msgid "Document"
+msgstr "文書"
+
+# project_module_boards
+msgid "Boards"
+msgstr "フォーラム"
+
+# setting_emails_footer
+msgid "Emails footer"
+msgstr "メールのフッタ"
+
+# activerecord_error_not_a_date
+msgid "is not a valid date"
+msgstr "の日付が間違っています"
+
+# label_role_new
+msgid "New role"
+msgstr "新しいロール"
+
+# label_date
+msgid "Date"
+msgstr "日付"
+
+# label_date_to
+msgid "To"
+msgstr "から"
+
+# label_wiki
+msgid "Wiki"
+msgstr "Wiki"
+
+# label_report
+msgid "Report"
+msgstr "レポート"
+
+# permission_log_time
+msgid "Log spent time"
+msgstr "変更履歴の記入"
+
+# button_apply
+msgid "Apply"
+msgstr "適用"
+
+# button_check_all
+msgid "Check all"
+msgstr "チェックを全部つける"
+
+# label_display_per_page
+msgid "'Per page"
+msgstr "1ページに: "
+
+# label_renamed
+msgid "renamed"
+msgstr "名称変更"
+
+# label_in_less_than
+msgid "in less than"
+msgstr "残日数がこれより多い"
+
+# setting_app_subtitle
+msgid "Application subtitle"
+msgstr "アプリケーションのサブタイトル"
+
+# general_csv_encoding
+msgid "ISO-8859-1"
+msgstr "SJIS"
+
+# activerecord_error_accepted
+msgid "must be accepted"
+msgstr "を承諾してください"
+
+# general_fmt_date
+msgid "%m/%d/%Y"
+msgstr "%Y年%m月%d日"
+
+msgid "%Y-%m-%d"
+msgstr "%Y年%m月%d日"
+
+msgid "%H:%M:%S"
+msgstr "%H:%M %p"
+
+# default_issue_status_rejected
+msgid "Rejected"
+msgstr "却下"
+
+# button_rollback
+msgid "Rollback to this version"
+msgstr "このバージョンにロールバック"
+
+# label_generate_key
+msgid "Generate a key"
+msgstr "キーの生成"
+
+# label_relation_delete
+msgid "Delete relation"
+msgstr "関連の削除"
+
+# activerecord_error_inclusion
+msgid "is not included in the list"
+msgstr "がリストに含まれていません"
+
+# setting_cross_project_issue_relations
+msgid "Allow cross-project issue relations"
+msgstr "異なるプロジェクトのチケット間で関係の設定を許可"
+
+# permission_view_changesets
+msgid "View changesets"
+msgstr "更新履歴の閲覧"
+
+# label_download_plural
+msgid "%d Downloads"
+msgstr "%d ダウンロード"
+
+# text_project_identifier_info
+msgid "'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'"
+msgstr "'英小文字(a-z)と数字とダッシュ(-)が使えます。<br />一度保存すると、識別子は変更できません。'"
+
+# label_sort_higher
+msgid "Move up"
+msgstr "上へ"
+
+# field_parent
+msgid "Subproject of"
+msgstr "親プロジェクト名"
+
+# permission_delete_own_messages
+msgid "Delete own messages"
+msgstr "自身が記入したメッセージの削除"
+
+# label_new
+msgid "New"
+msgstr "新規"
+
+# field_regexp
+msgid "Regular expression"
+msgstr "正規表現"
+
+# text_regexp_info
+msgid "eg. ^[A-Z0-9]+$"
+msgstr "例) ^[A-Z0-9]+$"
+
+# button_unlock
+msgid "Unlock"
+msgstr "アンロック"
+
+# label_blocks
+msgid "blocks"
+msgstr "ブロックしている"
+
+# label_default_columns
+msgid "Default columns"
+msgstr "既定の項目"
+
+# label_send_information
+msgid "Send account information to the user"
+msgstr "アカウント情報をユーザに送信"
+
+# label_issue_updated
+msgid "Issue updated"
+msgstr "チケットが更新されました"
+
+#actionview_instancetag_blank_option
+msgid "Please Select"
+msgstr "選んでください"
+
+# notice_account_wrong_password
+msgid "Wrong password"
+msgstr "パスワードが違います"
+
+# label_document_plural
+msgid "Documents"
+msgstr "文書"
+
+# label_registration_activation_by_email
+msgid "account activation by email"
+msgstr "メールでアカウントを有効化"
+
+# label_more_than_ago
+msgid "more than days ago"
+msgstr "経過日数がこれより多い"
+
+# permission_view_time_entries
+msgid "View spent time"
+msgstr "変更履歴の閲覧"
+
+# label_member
+msgid "Member"
+msgstr "メンバー"
+
+# label_user_mail_no_self_notified
+msgid "\"I don't want to be notified of changes that I make myself\""
+msgstr "自分自身による変更の通知は不要です"
+
+# label_loading
+msgid "Loading..."
+msgstr "ロード中..."
+
+# label_user_plural
+msgid "Users"
+msgstr "ユーザ"
+
+# field_field_format
+msgid "Format"
+msgstr "書式"
+
+# label_planning
+msgid "Planning"
+msgstr "計画"
+
+# button_lock
+msgid "Lock"
+msgstr "ロック"
+
+# label_f_hour
+msgid "%.2f hour"
+msgstr "%.2f 時間"
+
+# label_filter_plural
+msgid "Filters"
+msgstr "フィルタ"
+
+# notice_successful_connection
+msgid "Successful connection."
+msgstr "接続しました。"
+
+# default_issue_status_resolved
+msgid "Resolved"
+msgstr "解決"
+
+# label_change_plural
+msgid "Changes"
+msgstr "変更"
+
+# setting_sequential_project_identifiers
+msgid "Generate sequential project identifiers"
+msgstr "プロジェクト識別子を連番で生成する"
+
+# setting_plain_text_mail
+msgid "plain text mail (no HTML)"
+msgstr "プレインテキストのみ(HTMLなし)"
+
+# setting_activity_days_default
+msgid "Days displayed on project activity"
+msgstr "プロジェクトの活動ページに表示される日数"
+
+# project_module_issue_tracking
+# label_issue_tracking
+msgid "Issue tracking"
+msgstr "チケットトラッキング"
+
+# field_host
+msgid "Host"
+msgstr "ホスト"
+
+# setting_per_page_options
+msgid "Objects per page options"
+msgstr "ページ毎の表示件数"
+
+# field_parent_title
+msgid "Parent page"
+msgstr "親ページ"
+
+# permission_manage_versions
+msgid "Manage versions"
+msgstr "バージョンの管理"
+
+# status_active
+msgid "active"
+msgstr "有効"
+
+# label_theme
+msgid "Theme"
+msgstr "テーマ"
+
+# label_duplicates
+msgid "duplicates"
+msgstr "重複している"
+
+# permission_manage_wiki
+msgid "Manage wiki"
+msgstr "Wikiの管理"
+
+# label_query_plural
+msgid "Custom queries"
+msgstr "カスタムクエリ"
+
+# label_enumeration_new
+msgid "New value"
+msgstr "新しい値"
+
+# label_disabled
+msgid "disabled"
+msgstr "無効"
+
+# label_version_plural
+msgid "Versions"
+msgstr "バージョン"
+
+# enumeration_activities
+msgid "Activities (time tracking)"
+msgstr "作業分類 (時間トラッキング)"
+
+# label_date_from
+msgid "From"
+msgstr "日付指定"
+
+# label_attribute
+msgid "Attribute"
+msgstr "属性"
+
+# field_hours
+msgid "Hours"
+msgstr "時間"
+
+# setting_mail_from
+msgid "Emission email address"
+msgstr "送信元メールアドレス"
+
+# mail_body_register
+msgid "'To activate your account, click on the following link:'"
+msgstr "'アカウントをアクティブにするには、以下のリンクをたどってください:'"
+
+# field_min_length
+msgid "Minimum length"
+msgstr "最小値"
+
+# label_latest_revision
+msgid "Latest revision"
+msgstr "最新リビジョン"
+
+# setting_welcome_text
+msgid "Welcome text"
+msgstr "ウェルカムメッセージ"
+
+# field_due_date
+msgid "Due date"
+msgstr "期限日"
+
+# field_due_date 2
+msgid "due_date"
+msgstr "期限日"
+
+# notice_account_password_updated
+msgid "Password was successfully updated."
+msgstr "パスワードが更新されました。"
+
+# label_issue
+msgid "Issue"
+msgstr "チケット"
+
+# button_delete
+msgid "Delete"
+msgstr "削除"
+
+# label_follows
+msgid "follows"
+msgstr "後続する"
+
+# label_revision
+msgid "Revision"
+msgstr "リビジョン"
+
+# field_name
+msgid "Name"
+msgstr "名前"
+
+# mail_subject_account_activation_request
+msgid "%s account activation request"
+msgstr "%sアカウントの有効化要求"
+
+# mail_body_account_activation_request
+msgid "'A new user (%s) has registered. The account is pending your approval:'"
+msgstr "新しいユーザ(%s)が登録しています。このアカウントはあなたの承認待ちです："
+
+# label_user_new
+msgid "New user"
+msgstr "新しいユーザ"
+
+# text_tracker_no_workflow
+msgid "No workflow defined for this tracker"
+msgstr "このトラッカーにワークフローが定義されていません"
+
+# button_unarchive
+msgid "Unarchive"
+msgstr "書庫から戻す"
+
+# label_message_last
+msgid "Last message"
+msgstr "最新のメッセージ"
+
+# label_deleted
+msgid "deleted"
+msgstr "削除"
+
+# field_onthefly
+msgid "On-the-fly user creation"
+msgstr "あわせてユーザを作成"
+
+# permission_manage_categories
+msgid "Manage issue categories"
+msgstr "チケットのカテゴリの管理"
+
+# enumeration_issue_priorities
+msgid "Issue priorities"
+msgstr "チケットの優先度"
+
+# label_view_revisions
+msgid "View revisions"
+msgstr "リビジョンを見る"
+
+# permission_protect_wiki_pages
+msgid "Protect wiki pages"
+msgstr "Wikiページの凍結"
+
+# field_language
+msgid "Language"
+msgstr "言語"
+
+# text_issues_ref_in_commit_messages
+msgid "Referencing and fixing issues in commit messages"
+msgstr "コミットメッセージ内でチケットの参照/修正"
+
+# text_unallowed_characters
+msgid "Unallowed characters"
+msgstr "使えない文字です"
+
+# label_last_n_days
+msgid "last %d days"
+msgstr "最後の%d日間"
+
+# label_all_time
+msgid "all time"
+msgstr "全期間"
+
+# label_login
+msgid "Sign in"
+msgstr "ログイン"
+
+# field_status
+msgid "Status"
+msgstr "ステータス"
+
+# field_status 2
+msgid "status"
+msgstr "ステータス"
+
+# field_status 3
+msgid "status_id"
+msgstr "ステータス"
+
+# label_nobody
+msgid "nobody"
+msgstr "無記名"
+
+# label_permissions
+msgid "Permissions"
+msgstr "権限"
+
+# field_attr_lastname
+msgid "Lastname attribute"
+msgstr "苗字属性"
+
+# label_overview
+msgid "Overview"
+msgstr "概要"
+
+# label_board_plural
+msgid "Forums"
+msgstr "フォーラム"
+
+# notice_default_data_loaded
+msgid "Default configuration successfully loaded."
+msgstr "デフォルト設定をロードしました。"
+
+# mail_subject_register
+msgid "Your %s account activation"
+msgstr "%sアカウントのアクティブ化"
+
+# label_history
+msgid "History"
+msgstr "履歴"
+
+# label_registered_on
+msgid "Registered on"
+msgstr "登録日"
+
+# text_destroy_time_entries_question
+msgid "%.02f hours were reported on the issues you are about to delete. What do you want to do ?"
+msgstr "チケットに記録された%.02f時間を削除しようとしています。何がしたいのですか？"
+
+# label_default
+msgid "Default"
+msgstr "既定"
+
+# text_email_delivery_not_configured
+msgid ""
+"\"Email delivery is not configured, and notifications are disabled.\n"
+"Configure your SMTP server in config/email.yml and restart the application to enable them.\""
+msgstr ""
+"\"メールを送信するために必要な設定が行われていないため、メール通知は利用できません。\n"
+"config/email.ymlでSMTPサーバの設定を行い、アプリケーションを再起動してください。\""
+
+# label_min_max_length
+msgid "Min - Max length"
+msgstr "最小値 - 最大値の長さ"
+
+# general_fmt_datetime_short
+msgid "%%b %%d, %%I:%%M %%p"
+msgstr "%%b %%d, %%H:%%M %%p"
+
+# label_list
+msgid "List"
+msgstr "リストから選択"
+
+# label_changes_details
+msgid "Details of all changes"
+msgstr "全変更の詳細"
+
+# field_start_date
+msgid "Start"
+msgstr "開始日"
+
+# field_start_date 2
+msgid "start_date"
+msgstr "開始日"
+
+# field_password_confirmation
+msgid "Confirmation"
+msgstr "確認"
+
+# label_logged_as
+msgid "Logged in as"
+msgstr "ログイン中："
+
+# error_issue_not_found_in_project
+msgid "'The issue was not found or does not belong to this project'"
+msgstr "'チケットが見つかりません、もしくはこのプロジェクトに属していません'"
+
+# field_updated_on
+msgid "Updated"
+msgstr "更新日"
+
+# field_updated_on 2
+msgid "updated_on"
+msgstr "更新日"
+
+# label_roadmap_overdue
+msgid "%s late"
+msgstr "%s 遅れ"
+
+# label_user
+msgid "User"
+msgstr "ユーザ"
+
+# default_priority_urgent
+msgid "Urgent"
+msgstr "急いで"
+
+# text_file_repository_writable
+msgid "Attachments directory writable"
+msgstr "ファイルリポジトリに書き込み可能"
+
+# button_watch
+msgid "Watch"
+msgstr "ウォッチ"
+
+# button_uncheck_all
+msgid "Uncheck all"
+msgstr "チェックを全部外す"
+
+# permission_comment_news
+msgid "Comment news"
+msgstr "ニュースへのコメント"
+
+# notice_account_invalid_creditentials
+msgid "Invalid user or password"
+msgstr "ユーザ名もしくはパスワードが無効"
+
+# label_board
+msgid "Forum"
+msgstr "フォーラム"
+
+# label_view_diff
+msgid "View differences"
+msgstr "差分を見る"
+
+# activerecord_error_taken
+msgid "has already been taken"
+msgstr "はすでに登録されています"
+
+# label_sort_lowest
+msgid "Move to bottom"
+msgstr "一番下へ"
+
+# activerecord_error_wrong_length
+msgid "is the wrong length"
+msgstr "の長さが間違っています"
+
+# mail_body_lost_password
+msgid "To change your password, click on the following link:"
+msgstr "パスワードを変更するには、以下のリンクをたどってください:"
+
+# label_attachment_delete
+msgid "Delete file"
+msgstr "ファイルを削除"
+
+# text_workflow_edit
+msgid "Select a role and a tracker to edit the workflow"
+msgstr "ワークフローを編集するロールとトラッカーを選んでください"
+
+# text_project_destroy_confirmation
+msgid "Are you sure you want to delete this project and related data ?"
+msgstr "本当にこのプロジェクトと関連データを削除したいのですか？"
+
+# label_in
+msgid "in"
+msgstr "残日数"
+
+# warning_attachments_not_saved
+msgid "%d file(s) could not be saved."
+msgstr "%d個の添付ファイルが保存できませんでした。"
+
+# label_tracker_new
+msgid "New tracker"
+msgstr "新しいトラッカーを作成"
+
+# field_firstname
+msgid "Firstname"
+msgstr "名前"
+
+# label_member_plural
+msgid "Members"
+msgstr "メンバー"
+
+# project_module_repository
+msgid "Repository"
+msgstr "リポジトリ"
+
+# setting_autofetch_changesets
+msgid "Autofetch commits"
+msgstr "コミットを自動取得する"
+
+# permission_delete_messages
+msgid "Delete messages"
+msgstr "メッセージの削除"
+
+# text_length_between
+msgid "Length between %d and %d characters."
+msgstr "長さは %d から %d 文字までです。"
+
+# status_registered
+msgid "registered"
+msgstr "登録"
+
+# label_not_equals
+msgid "is not"
+msgstr "等しくない"
+
+# default_role_reporter
+msgid "Reporter"
+msgstr "報告者"
+
+# button_change
+msgid "Change"
+msgstr "変更"
+
+# field_lastname
+msgid "Lastname"
+msgstr "苗字"
+
+# button_clear
+msgid "Clear"
+msgstr "クリア"
+
+# label_this_year
+msgid "this year"
+msgstr "今年"
+
+# general_first_day_of_week
+msgid "'7'"
+msgstr "'7'"
+
+# label_internal
+msgid "Internal"
+msgstr "内部"
+
+# label_my_page
+msgid "My page"
+msgstr "マイページ"
+
+# permission_select_project_modules
+msgid "Select project modules"
+msgstr "モジュールの選択"
+
+# permission_manage_documents
+msgid "Manage documents"
+msgstr "文書の管理"
+
+# label_result_plural
+msgid "Results"
+msgstr "結果"
+
+# permission_edit_wiki_pages
+msgid "Edit wiki pages"
+msgstr "Wikiページの編集"
+
+# field_filesize
+msgid "Size"
+msgstr "サイズ"
+
+# label_last_changes
+msgid "last %d changes"
+msgstr "最新の変更%d件"
+
+# error_scm_not_found
+msgid "\"The entry or revision was not found in the repository.\""
+msgstr "リポジトリに、エントリ/リビジョンが存在しません。"
+
+# general_fmt_age_plural
+msgid "%d yrs"
+msgstr "%d歳"
+
+# permission_add_issue_watchers
+msgid "Add watchers"
+msgstr "ウォッチャーの追加"
+
+# label_month
+msgid "Month"
+msgstr "月"
+
+# label_details
+msgid "Details"
+msgstr "詳細"
+
+# text_assign_time_entries_to_project
+msgid "Assign reported hours to the project"
+msgstr "記録された時間をプロジェクトに割り当て"
+
+# button_view
+msgid "View"
+msgstr "見る"
+
+# button_save
+msgid "Save"
+msgstr "保存"
+
+# label_no_change_option
+msgid "(No change)"
+msgstr "(変更無し)"
+
+# permission_view_gantt
+msgid "View gantt chart"
+msgstr "ガントチャートの閲覧"
+
+# notice_not_authorized
+msgid "You are not authorized to access this page."
+msgstr "このページにアクセスするには認証が必要です。"
+
+# project_module_files
+msgid "Files"
+msgstr "ファイル"
+
+# button_cancel
+msgid "Cancel"
+msgstr "キャンセル"
+
+# label_news
+msgid "News"
+msgstr "ニュース"
+
+# label_module_plural
+msgid "Modules"
+msgstr "モジュール"
+
+# label_start_to_end
+msgid "start to end"
+msgstr "最初-最後"
+
+# label_associated_revisions
+msgid "Associated revisions"
+msgstr "関係しているリビジョン"
+
+# label_date_range
+msgid "Date range"
+msgstr "日付の範囲"
+
+# label_version
+msgid "Version"
+msgstr "バージョン"
+
+# gui_validation_error_plural
+msgid "%d errors"
+msgstr "%d件のエラー"
+
+# permission_move_issues
+msgid "Move issues"
+msgstr "チケットの移動"
+
+# notice_account_register_done
+msgid "Account was successfully created. To activate your account, click on the link that was emailed to you."
+msgstr "アカウントが作成されました。"
+
+# label_bulk_edit_selected_issues
+msgid "Bulk edit selected issues"
+msgstr "チケットの一括編集"
+
+# label_information
+msgid "Information"
+msgstr "情報"
+
+# text_enumeration_category_reassign_to
+msgid "'Reassign them to this value:'"
+msgstr "次の値に割り当て直す:"
+
+# setting_attachment_max_size
+msgid "Attachment max. size"
+msgstr "添付の最大サイズ"
+
+# default_issue_status_closed
+msgid "Closed"
+msgstr "終了"
+
+# label_f_hour_plural
+msgid "%.2f hours"
+msgstr "%.2f 時間"
+
+# field_is_closed
+msgid "Issue closed"
+msgstr "終了したチケット"
+
+# notice_account_unknown_email
+msgid "Unknown user."
+msgstr "ユーザが存在しません。"
+
+# field_title
+msgid "Title"
+msgstr "タイトル"
+
+# field_new_password
+msgid "New password"
+msgstr "新しいパスワード"
+
+# label_user_activity
+msgid "\"%s's activity\""
+msgstr "\"%s の活動\""
+
+# label_per_page
+msgid "Per page"
+msgstr "ページ毎"
+
+# notice_account_lost_email_sent
+msgid "An email with instructions to choose a new password has been sent to you."
+msgstr "新しいパスワードのメールを送信しました。"
+
+# permission_manage_issue_relations
+msgid "Manage issue relations"
+msgstr "チケットの管理"
+
+# label_this_week
+msgid "this week"
+msgstr "この週"
+
+# label_change_log
+msgid "Change log"
+msgstr "変更記録"
+
+# field_assignable
+msgid "Issues can be assigned to this role"
+msgstr "チケットはこのロールに割り当てることができます"
+
+# label_settings
+msgid "Settings"
+msgstr "設定"
+
+# label_end_to_start
+msgid "end to start"
+msgstr "最後-最初"
+
+# label_options
+msgid "Options"
+msgstr "オプション"
+
+# label_index_by_title
+msgid "Index by title"
+msgstr "索引(名前順)"
+
+# label_project_all
+msgid "All Projects"
+msgstr "全プロジェクト"
+
+# label_issue_view_all
+msgid "View all issues"
+msgstr "チケットを全て見る"
+
+# label_issue_category_plural
+msgid "Issue categories"
+msgstr "チケットのカテゴリ"
+
+# label_please_login
+msgid "Please log in"
+msgstr "ログインしてください"
+
+# label_issue_watchers
+msgid "Watchers"
+msgstr "チケットのウォッチャー"
+
+# label_jump_to_a_project
+msgid "Jump to a project..."
+msgstr "プロジェクトへ移動..."
+
+# label_board_new
+msgid "New forum"
+msgstr "新しいフォーラム"
+
+# label_contains
+msgid "contains"
+msgstr "含む"
+
+# label_sort_by
+msgid "Sort by %s"
+msgstr "%sで並び替え"
+
+# label_related_issues
+msgid "Related issues"
+msgstr "関連するチケット"
+
+# notice_account_activated
+msgid "Your account has been activated. You can now log in."
+msgstr "アカウントが有効になりました。ログインできます。"
+
+# permission_delete_wiki_pages
+msgid "Delete wiki pages"
+msgstr "Wikiページの削除"
+
+# activerecord_error_too_long
+msgid "is too long"
+msgstr "が長すぎます"
+
+# label_custom_field_plural
+msgid "Custom fields"
+msgstr "カスタムフィールド"
+
+# notice_unable_delete_version
+msgid "Unable to delete version."
+msgstr "バージョンを削除できません"
+
+# field_subject
+msgid "Subject"
+msgstr "題名"
+
+# field_subject
+msgid "subject"
+msgstr "題名"
+
+# field_attr_firstname
+msgid "Firstname attribute"
+msgstr "名前属性"
+
+# field_subproject
+msgid "Subproject"
+msgstr "サブプロジェクト"
+
+# notice_can_t_change_password
+msgid "This account uses an external authentication source. Impossible to change the password."
+msgstr "このアカウントでは外部認証を使っています。パスワードは変更できません。"
+
+# activerecord_error_greater_than_start_date
+msgid "must be greater than start date"
+msgstr "を開始日より後にしてください"
+
+# label_read
+msgid "Read..."
+msgstr "読む..."
+
+# label_language_based
+msgid "Based on user's language"
+msgstr "既定の言語の設定に従う"
+
+# label_gantt
+msgid "Gantt"
+msgstr "ガントチャート"
+
+# permission_manage_boards
+msgid "Manage boards"
+msgstr "フォーラムの管理"
+
+# label_max_size
+msgid "Maximum size"
+msgstr "最大サイズ"
+
+# field_fixed_version
+msgid "Target version"
+msgstr "対象バージョン"
+
+msgid "Fixed Version"
+msgstr "対象バージョン"
+
+msgid "fixed_version"
+msgstr "対象バージョン"
+
+# activerecord_error_not_a_number
+msgid "is not a number"
+msgstr "が数字ではありません"
+
+# setting_wiki_compression
+msgid "Wiki history compression"
+msgstr "Wiki履歴を圧縮する"
+
+# text_are_you_sure
+msgid "Are you sure ?"
+msgstr "よろしいですか？"
+
+# text_min_max_length_info
+msgid "0 means no restriction"
+msgstr "0だと無制限になります"
+
+# label_version_new
+msgid "New version"
+msgstr "新しいバージョン"
+
+# label_help
+msgid "Help"
+msgstr "ヘルプ"
+
+# label_auth_source_plural
+msgid "Authentication modes"
+msgstr "認証モード"
+
+# default_issue_status_assigned
+msgid "Assigned"
+msgstr "担当"
+
+# label_show_completed_versions
+msgid "Show completed versions"
+msgstr "完了したバージョンを表示"
+
+# setting_app_title
+msgid "Application title"
+msgstr "アプリケーションのタイトル"
+
+# text_issues_destroy_confirmation
+msgid "'Are you sure you want to delete the selected issue(s) ?'"
+msgstr "'本当に選択したチケットを削除しますか？'"
+
+# field_downloads
+msgid "Downloads"
+msgstr "ダウンロード"
+
+# label_text
+msgid "Long text"
+msgstr "長いテキスト"
+
+# field_admin
+msgid "Administrator"
+msgstr "管理者"
+
+# field_category
+msgid "Category"
+msgstr "カテゴリ"
+
+msgid "category"
+msgstr "カテゴリ"
+
+# field_homepage
+msgid "Homepage"
+msgstr "ホームページ"
+
+# notice_failed_to_save_issues
+msgid "\"Failed to save %d issue(s) on %d selected"
+msgstr "\"%d件のチケットが保存できませんでした(%d件選択のうち)"
+
+# label_registration_automatic_activation
+msgid "automatic account activation"
+msgstr "自動でアカウントを有効化"
+
+# label_last_week
+msgid "last week"
+msgstr "先週"
+
+# setting_host_name
+msgid "Host name and path"
+msgstr "ホスト名"
+
+# mail_body_reminder
+msgid "\"%d issue(s) that are assigned to you are due in the next %d days:\""
+msgstr "\"%d件の担当チケットの期日が%d日以内に到来します:\""
+
+# label_open_issues_plural
+msgid "open"
+msgstr "未完了"
+
+# label_ldap_authentication
+msgid "LDAP authentication"
+msgstr "LDAP認証"
+
+# label_sort_highest
+msgid "Move to top"
+msgstr "一番上へ"
+
+# label_duplicated_by
+msgid "duplicated by"
+msgstr "重複されている"
+
+# label_day_plural
+# label_days
+msgid "days"
+msgstr "日"
+
+# field_done_ratio
+msgid "%% Done"
+msgstr "進捗 %"
+
+# field_done_ratio
+msgid "done_ratio"
+msgstr "進捗"
+
+# general_lang_name
+msgid "'English'"
+msgstr "'Japanese (日本語)'"
+
+# general_text_Yes
+msgid "Yes"
+msgstr "はい"
+
+# label_last_updates
+msgid "Last updated"
+msgstr "最近の更新1件"
+
+# permission_delete_wiki_pages_attachments
+msgid "Delete attachments"
+msgstr "添付ファイルの削除"
+
+# permission_view_wiki_edits
+msgid "View wiki history"
+msgstr "Wiki履歴の閲覧"
+
+# setting_protocol
+msgid "Protocol"
+msgstr "プロトコル"
+
+# setting_display_subprojects_issues
+msgid "Display subprojects issues on main projects by default"
+msgstr "デフォルトでサブプロジェクトのチケットをメインプロジェクトに表示する"
+
+# default_role_manager
+msgid "Manager"
+msgstr "管理者"
+
+# label_stay_logged_in
+msgid "Stay logged in"
+msgstr "ログインを維持"
+
+# label_filter_add
+msgid "Add filter"
+msgstr "フィルタ追加"
+
+# label_last_login
+msgid "Last connection"
+msgstr "最近の接続"
+
+# text_enumeration_destroy_question
+msgid "'%d objects are assigned to this value.'"
+msgstr "%d個のオブジェクトがこの値に割り当てられています。"
+
+# label_file_added
+msgid "File added"
+msgstr "ファイルが追加されました"
+
+# label_wiki_edit
+msgid "Wiki edit"
+msgstr "Wiki編集"
+
+# label_latest_revision_plural
+msgid "Latest revisions"
+msgstr "最新リビジョン"
+
+# label_document_added
+msgid "Document added"
+msgstr "文書が追加されました"
+
+# label_news_new
+msgid "Add news"
+msgstr "ニュースを追加"
+
+# field_is_in_roadmap
+msgid "Issues displayed in roadmap"
+msgstr "ロードマップに表示されているチケット"
+
+# label_tracker_plural
+msgid "Trackers"
+msgstr "トラッカー"
+
+# label_tracker_plural 2
+msgid "tracker_id"
+msgstr "トラッカー"
+
+# notice_account_pending
+msgid "\"Your account was created and is now pending administrator approval.\""
+msgstr "アカウントは作成済みで、管理者の承認待ちです。"
+
+# default_doc_category_tech
+msgid "Technical documentation"
+msgstr "技術文書"
+
+# text_issue_updated
+msgid "Issue %s has been updated by %s."
+msgstr "チケット %s が更新されました。 (by %s)"
+
+# notice_successful_create
+msgid "Successful creation."
+msgstr "作成しました。"
+
+# permission_add_messages
+msgid "Post messages"
+msgstr "メッセージの追加"
+
+# error_scm_command_failed
+msgid "\"An error occurred when trying to access the repository"
+msgstr "\"リポジトリへアクセスしようとしてエラーになりました"
+
+# label_optional_description
+msgid "Optional description"
+msgstr "任意のコメント"
+
+# label_diff_inline
+msgid "inline"
+msgstr "インライン"
+
+# field_notes
+msgid "Notes"
+msgstr "注記"
+
+# setting_default_projects_public
+msgid "New projects are public by default"
+msgstr "デフォルトで新しいプロジェクトは公開にする"
+
+# setting_commit_fix_keywords
+msgid "Fixing keywords"
+msgstr "修正用キーワード"
+
+# notice_locking_conflict
+msgid "Data has been updated by another user."
+msgstr "別のユーザがデータを更新しています。"
+
+# button_archive
+msgid "Archive"
+msgstr "書庫に保存"
+
+# label_modification
+msgid "%d change"
+msgstr "%d点の変更"
+
+# setting_autologin
+msgid "Autologin"
+msgstr "自動ログイン"
+
+# button_move
+msgid "Move"
+msgstr "移動"
+
+# label_more
+msgid "More"
+msgstr "続き"
+
+# field_account
+msgid "Account"
+msgstr "アカウント"
+
+# setting_user_format
+msgid "Users display format"
+msgstr "ユーザ名の表示書式"
+
+# notice_successful_update
+msgid "Successful update."
+msgstr "更新しました。"
+
+# field_default_value
+msgid "Default value"
+msgstr "デフォルトのステータス"
+
+# button_log_time
+msgid "Log time"
+msgstr "時間を記録"
+
+# label_message_posted
+msgid "Message added"
+msgstr "メッセージが追加されました"
+
+# setting_date_format
+msgid "Date format"
+msgstr "日付の形式"
+
+# permission_view_messages
+msgid "View messages"
+msgstr "メッセージの閲覧"
+
+# setting_issue_list_default_columns
+msgid "Default columns displayed on the issue list"
+msgstr "チケットの一覧で表示する項目"
+
+# field_description
+msgid "Description"
+msgstr "説明"
+
+# label_custom_field_new
+msgid "New custom field"
+msgstr "新しいカスタムフィールドを作成"
+
+# label_enumerations
+msgid "Enumerations"
+msgstr "列挙項目"
+
+# default_activity_design
+msgid "Design"
+msgstr "設計作業"
+
+# label_registration_manual_activation
+msgid "manual account activation"
+msgstr "手動でアカウントを有効化"
+
+# label_wiki_edit_plural
+msgid "Wiki edits"
+msgstr "Wiki編集"
+
+# label_all_words
+msgid "All words"
+msgstr "すべての単語"
+
+# label_yesterday
+msgid "yesterday"
+msgstr "昨日"
+
+# label_comment_delete
+msgid "Delete comments"
+msgstr "コメント削除"
+
+# field_activity
+msgid "Activity"
+msgstr "活動"
+
+# text_user_mail_option
+msgid "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
+msgstr "未選択のプロジェクトでは、ウォッチまたは関係しているチケット(例 自分が報告者もしくは担当者であるチケット)のみメールが送信されます。"
+
+# button_create_and_continue
+msgid "Create and continue"
+msgstr "連続作成"
+
+# label_revision_plural
+msgid "Revisions"
+msgstr "リビジョン"
+
+# general_day_names
+msgid "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
+msgstr "月曜日,火曜日,水曜日,木曜日,金曜日,土曜日,日曜日"
+
+# permission_manage_files
+msgid "Manage files"
+msgstr "ファイルの管理"
+
+# field_port
+msgid "Port"
+msgstr "ポート"
+
+# activerecord_error_confirmation
+msgid "doesn't match confirmation"
+msgstr "確認のパスワードと合っていません"
+
+# field_searchable
+msgid "Searchable"
+msgstr "検索条件に設定可能とする"
+
+# label_updated_time_by
+msgid "Updated by %s %s ago"
+msgstr "%d が%d前に更新"
+
+# label_year
+msgid "Year"
+msgstr "年"
+
+# label_end_to_end
+msgid "end to end"
+msgstr "最後-最後"
+
+# label_precedes
+msgid "precedes"
+msgstr "先行する"
+
+# label_equals
+msgid "is"
+msgstr "等しい"
+
+# permission_edit_issue_notes
+msgid "Edit notes"
+msgstr "注記の編集"
+
+# field_delay
+msgid "Delay"
+msgstr "遅延"
+
+# button_unwatch
+msgid "Unwatch"
+msgstr "ウォッチをやめる"
+
+# label_roadmap_due_in
+msgid "Due in %s"
+msgstr "期日まで %s"
+
+# label_last_month
+msgid "last month"
+msgstr "先月"
+
+# setting_time_format
+msgid "Time format"
+msgstr "時刻の形式"
+
+# permission_manage_news
+msgid "Manage news"
+msgstr "ニュースの管理"
+
+# text_destroy_time_entries
+msgid "Delete reported hours"
+msgstr "記録された時間を削除"
+
+# label_relates_to
+msgid "related to"
+msgstr "関係している"
+
+# field_login
+msgid "Login"
+msgstr "ログイン"
+
+# mail_subject_lost_password
+msgid "Your %s password"
+msgstr "%sパスワード"
+
+# button_update
+msgid "Update"
+msgstr "更新"
+
+# label_age
+msgid "Age"
+msgstr "年齢"
+
+# notice_feeds_access_key_reseted
+msgid "Your RSS access key was reset."
+msgstr "RSSアクセスキーを初期化しました。"
+
+# setting_sys_api_enabled
+msgid "Enable WS for repository management"
+msgstr "リポジトリ管理用のWeb Serviceを有効にする"
+
+# field_redirect_existing_links
+msgid "Redirect existing links"
+msgstr "既存のリンクをリダイレクトする"
+
+# label_no_data
+msgid "No data to display"
+msgstr "表示するデータがありません"
+
+# gui_validation_error
+msgid "1 error"
+msgstr "1件のエラー"
+
+# text_default_administrator_account_changed
+msgid "Default administrator account changed"
+msgstr "デフォルト管理アカウントが変更済"
+
+# status_locked
+msgid "locked"
+msgstr "ロック"
+
+# button_reply
+msgid "Reply"
+msgstr "返答"
+
+# label_calendar
+msgid "Calendar"
+msgstr "カレンダー"
+
+# field_attr_login
+msgid "Login attribute"
+msgstr "ログイン名属性"
+
+# activerecord_error_too_short
+msgid "is too short"
+msgstr "が短かすぎます"
+
+# setting_self_registration
+msgid "Self-registration"
+msgstr "ユーザは自分で登録できる"
+
+# permission_view_calendar
+msgid "View calender"
+msgstr "カレンダーの閲覧"
+
+# enumeration_doc_categories
+msgid "Document categories"
+msgstr "文書カテゴリ"
+
+# default_tracker_support
+msgid "Support"
+msgstr "サポート"
+
+# label_wiki_page
+msgid "Wiki page"
+msgstr "Wikiページ"
+
+# setting_gravatar_enabled
+msgid "Use Gravatar user icons"
+msgstr "Gravatarをユーザのアイコンとして使う"
+
+# permission_manage_members
+msgid "Manage members"
+msgstr "メンバーの管理"
+
+# text_journal_changed
+msgid "changed from %s to %s"
+msgstr "%sから%sに変更"
+
+# label_wiki_page_plural
+msgid "Wiki pages"
+msgstr "Wikiページ"
+
+# setting_bcc_recipients
+msgid "Blind carbon copy recipients (bcc)"
+msgstr "ブラインドカーボンコピーで受信(bcc)"
+
+# label_used_by
+msgid "Used by"
+msgstr "使用中"
+
+# text_diff_truncated
+msgid "... This diff was truncated because it exceeds the maximum size that can be displayed."
+msgstr "... 差分の行数が表示可能な上限を超えました。超過分は表示しません。"
+
+# label_commits_per_author
+msgid "Commits per author"
+msgstr "起票者別のコミット"
+
+# activerecord_error_blank
+msgid "can't be blank"
+msgstr "が空白です"
+
+# label_project_plural
+msgid "Projects"
+msgstr "プロジェクト"
+
+# field_comments_sorting
+msgid "Display comments"
+msgstr "コメントを表示"
+
+# field_comments
+msgid "Comment"
+msgstr "コメント"
+
+# text_user_wrote
+msgid "%s wrote:"
+msgstr "%s は書きました:"
+
+# text_plugin_assets_writable
+msgid "Plugin assets directory writable"
+msgstr "Plugin assetsディレクトリに書き込み可能"
+
+# text_select_project_modules
+msgid "Select modules to enable for this project:"
+msgstr "このプロジェクトで使用するモジュールを選択してください:"
+
+# text_journal_set_to
+msgid "set to %s"
+msgstr "%sにセット"
+
+# label_copy_workflow_from
+msgid "Copy workflow from"
+msgstr "ワークフローをここからコピー"
+
+# label_modification_plural
+msgid "%d changes"
+msgstr "%d点の変更"
+
+# field_possible_values
+msgid "Possible values"
+msgstr "選択肢"
+
+msgid "Possible Values"
+msgstr "選択肢"
+
+# setting_login_required
+msgid "Authentication required"
+msgstr "認証が必要"
+
+# setting_mail_handler_api_enabled
+msgid "Enable WS for incoming emails"
+msgstr "受信メール用のWeb Serviceを有効にする"
+
+# field_is_in_chlog
+msgid "Issues displayed in changelog"
+msgstr "変更記録に表示されているチケット"
+
+# label_issue_new
+msgid "New issue"
+msgstr "新しいチケット"
+
+# button_sort
+msgid "Sort"
+msgstr "ソート"
+
+# permission_edit_messages
+msgid "Edit messages"
+msgstr "メッセージの編集"
+
+# setting_issues_export_limit
+msgid "Issues export limit"
+msgstr "出力するチケット数の上限"
+
+# text_select_mail_notifications
+msgid "Select actions for which email notifications should be sent."
+msgstr "どのメール通知を送信するか、アクションを選択してください。"
+
+# label_and_its_subprojects
+msgid "%s and its subprojects"
+msgstr "%s とサブプロジェクト"
+
+# permission_delete_issues
+msgid "Delete issues"
+msgstr "チケットの削除"
+
+# field_hide_mail
+msgid "Hide my email address"
+msgstr "メールアドレスを隠す"
+
+# text_reassign_time_entries
+msgid "Reassign reported hours to this issue:"
+msgstr "記録された時間をこのチケットに再割り当て："
+
+# text_issue_category_reassign_to
+msgid "Reassign issues to this category"
+msgstr "チケットをこのカテゴリに再割り当てする"
+
+# notice_email_error
+msgid "An error occurred while sending mail (%s)"
+msgstr "メール送信中にエラーが発生しました(%s)"
+
+# label_member_new
+msgid "New member"
+msgstr "新しいメンバー"
+
+# default_priority_immediate
+msgid "Immediate"
+msgstr "今すぐ"
+
+# label_reverse_chronological_order
+msgid "In reverse chronological order"
+msgstr "新しい順"
+
+# label_ago
+msgid "days ago"
+msgstr "日前"
+
+# permission_view_issue_watchers
+msgid "View watchers list"
+msgstr "ウォッチャー一覧の閲覧"
+
+# permission_manage_repository
+msgid "Manage repository"
+msgstr "リポジトリの管理"
+
+# label_all
+msgid "all"
+msgstr "全て"
+
+# label_boolean
+msgid "Boolean"
+msgstr "真偽値"
+
+# default_tracker_bug
+msgid "Bug"
+msgstr "バグ"
+
+# text_issue_added
+msgid "Issue %s has been reported by %s."
+msgstr "チケット %s が報告されました。 (by %s)"
+
+# label_on
+msgid "'on'"
+msgstr "合計"
+
+# label_scm
+msgid "SCM"
+msgstr "SCM"
+
+# label_general
+msgid "General"
+msgstr "全般"
+
+# activerecord_error_empty
+msgid "can't be empty"
+msgstr "が空です"
+
+# field_filename
+msgid "File"
+msgstr "ファイル"
+
+# label_comment_add
+msgid "Add a comment"
+msgstr "コメント追加"
+
+# label_comment_added
+msgid "Comment added"
+msgstr "追加されたコメント"
+
+# mail_subject_reminder
+msgid "\"%d issue(s) due in the next days\""
+msgstr "\"%d issue(s) due in the next days\""
+
+# label_issue_category
+msgid "Issue category"
+msgstr "チケットのカテゴリ"
+
+# permission_commit_access
+msgid "Commit access"
+msgstr "コミットの閲覧"
+
+# label_workflow
+msgid "Workflow"
+msgstr "ワークフロー"
+
+# label_report_plural
+msgid "Reports"
+msgstr "レポート"
+
+# label_assigned_to_me_issues
+msgid "Issues assigned to me"
+msgstr "担当しているチケット"
+
+# label_query_new
+msgid "New query"
+msgstr "新しいクエリ"
+
+# field_max_length
+msgid "Maximum length"
+msgstr "最大値"
+
+# setting_mail_handler_api_key
+msgid "API key"
+msgstr "APIキー"
+
+# text_issue_category_destroy_assignments
+msgid "Remove category assignments"
+msgstr "カテゴリの割り当てを削除する"
+
+# button_test
+msgid "Test"
+msgstr "テスト"
+
+# label_user_mail_option_selected
+msgid "\"For any event on the selected projects only...\""
+msgstr "選択したプロジェクト..."
+
+# label_start_to_start
+msgid "start to start"
+msgstr "最初-最初"
+
+# label_watched_issues
+msgid "Watched issues"
+msgstr "ウォッチ中のチケット"
+
+# label_spent_time
+msgid "Spent time"
+msgstr "経過時間"
+
+msgid "Spent On"
+msgstr "日付"
+
+# label_register
+msgid "Register"
+msgstr "登録する"
+
+# label_none
+msgid "none"
+msgstr "なし"
+
+# error_scm_annotate
+msgid "\"The entry does not exist or can not be annotated.\""
+msgstr "\"エントリが存在しない、もしくはアノテートできません。\""
+
+# setting_text_formatting
+msgid "Text formatting"
+msgstr "テキストの書式"
+
+# default_priority_high
+msgid "High"
+msgstr "高め"
+
+# default_tracker_feature
+msgid "Feature"
+msgstr "機能"
+
+# label_search_titles_only
+msgid "Search titles only"
+msgstr "タイトルのみ"
+
+# label_message_plural
+msgid "Messages"
+msgstr "メッセージ"
+
+# general_fmt_time
+msgid "%I:%M %p"
+msgstr "%H:%M %p"
+
+# text_tip_task_begin_day
+msgid "task beginning this day"
+msgstr "この日に開始するタスク"
+
+# label_reply_plural
+msgid "Replies"
+msgstr "返答"
+
+# label_roadmap
+msgid "Roadmap"
+msgstr "ロードマップ"
+
+# permission_browse_repository
+msgid "Browse repository"
+msgstr "リポジトリの閲覧"
+
+# label_change_view_all
+msgid "View all changes"
+msgstr "全ての変更を見る"
+
+# field_priority
+msgid "Priority"
+msgstr "優先度"
+
+# field_priority
+msgid "priority"
+msgstr "優先度"
+
+# field_priority
+msgid "priority_id"
+msgstr "優先度"
+
+# label_logout
+msgid "Sign out"
+msgstr "ログアウト"
+
+# notice_email_sent
+msgid "An email was sent to %s"
+msgstr "%s宛にメールを送信しました。"
+
+# permission_view_documents
+msgid "View documents"
+msgstr "文書の閲覧"
+
+# label_auth_source
+msgid "Authentication mode"
+msgstr "認証モード"
+
+# button_annotate
+msgid "Annotate"
+msgstr "注釈"
+
+# label_change_properties
+msgid "Change properties"
+msgstr "プロパティの変更"
+
+# label_next
+msgid "Next"
+msgstr "次"
+
+# label_commits_per_month
+msgid "Commits per month"
+msgstr "月別のコミット"
+
+# permission_edit_project
+msgid "Edit project"
+msgstr "プロジェクトの編集"
+
+# permission_add_issue_notes
+msgid "Add notes"
+msgstr "注記の追加"
+
+# permission_save_queries
+msgid "Save queries"
+msgstr "クエリの保存"
+
+# label_project_latest
+msgid "Latest projects"
+msgstr "最近のプロジェクト"
+
+# text_no_configuration_data
+msgid ""
+"\"Roles, trackers, issue statuses and workflow have not been configured yet.\n"
+"It is highly recommended to load the default configuration. You will be able to modify it once loaded.\""
+msgstr ""
+"\"ロール、トラッカー、チケットのステータス、ワークフローがまだ設定されていません。\n"
+"デフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。\""
+
+# label_copied
+msgid "copied"
+msgstr "コピー"
+
+# field_type
+msgid "Type"
+msgstr "タイプ"
+
+# label_change_status
+msgid "Change status"
+msgstr "ステータスの変更"
+
+# text_wiki_destroy_confirmation
+msgid "Are you sure you want to delete this wiki and all its content ?"
+msgstr "本当にこのwikiとその内容の全てを削除しますか？"
+
+# label_preferences
+msgid "Preferences"
+msgstr "設定"
+
+# label_send_test_email
+msgid "Send a test email"
+msgstr "テストメールを送信"
+
+# field_identifier
+msgid "Identifier"
+msgstr "識別子"
+
+# label_closed_issues
+msgid "closed"
+msgstr "終了"
+
+# label_preview
+msgid "Preview"
+msgstr "プレビュー"
+
+# label_search
+msgid "Search"
+msgstr "検索"
+
+# label_browse
+msgid "Browse"
+msgstr "ブラウズ"
+
+# label_password_lost
+msgid "Lost password"
+msgstr "パスワードの再発行"
+
+# label_project_new
+msgid "New project"
+msgstr "新しいプロジェクト"
+
+# label_issue_category_new
+msgid "New category"
+msgstr "新しいカテゴリ"
+
+# label_news_added
+msgid "News added"
+msgstr "ニュースが追加されました"
+
+# field_issue_to_id
+msgid "Related issue"
+msgstr "関連するチケット"
+
+# default_priority_low
+msgid "Low"
+msgstr "低め"
+
+# label_plugins
+msgid "Plugins"
+msgstr "プラグイン"
+
+# general_fmt_datetime
+msgid "%%m/%%d/%%Y %%I:%%M %%p"
+msgstr "%%Y年%%m月%%d日 %%H:%%M %%p"
+
+# label_custom_field
+msgid "Custom field"
+msgstr "カスタムフィールド"
+
+# label_news_view_all
+msgid "View all news"
+msgstr "全てのニュースを見る"
+
+# label_home
+msgid "Home"
+msgstr "ホーム"
+
+# label_download
+msgid "%d Download"
+msgstr "%d ダウンロード"
+
+# field_password
+msgid "Password"
+msgstr "パスワード"
+
+# label_reported_issues
+msgid "Reported issues"
+msgstr "報告したチケット"
+
+# button_download
+msgid "Download"
+msgstr "ダウンロード"
+
+# label_today
+msgid "today"
+msgstr "今日"
+
+# field_is_for_all
+msgid "For all projects"
+msgstr "全プロジェクト向け"
+
+# label_document_new
+msgid "New document"
+msgstr "新しい文書"
+
+# label_issue_plural
+msgid "Issues"
+msgstr "チケット"
+
+# label_query
+msgid "Custom query"
+msgstr "カスタムクエリ"
+
+# label_issue_status
+msgid "Issue status"
+msgstr "チケットのステータス"
+
+# permission_view_wiki_pages
+msgid "View wiki"
+msgstr "Wikiの閲覧"
+
+# default_role_developper
+msgid "Developer"
+msgstr "開発者"
+
+# label_updated_time
+msgid "Updated %s ago"
+msgstr "%s前に更新されました"
+
+#actionview_datehelper_time_in_words_day:
+msgid "1 day"
+msgstr "1日"
+
+msgid "%d day"
+msgstr "%d日"
+
+#actionview_datehelper_time_in_words_day_plural:
+msgid "%d days"
+msgstr "%d日"
+
+#actionview_datehelper_time_in_words_hour_about:
+#actionview_datehelper_time_in_words_hour_about_single:
+msgid "about an hour"
+msgstr "約1時間"
+
+#actionview_datehelper_time_in_words_hour_about_plural:
+msgid "about %d hours"
+msgstr "約%d時間"
+
+#actionview_datehelper_time_in_words_minute:
+#actionview_datehelper_time_in_words_minute_single:
+msgid "1 minute"
+msgstr "1分"
+
+#actionview_datehelper_time_in_words_minute_half:
+msgid "half a minute"
+msgstr "約30秒"
+
+#actionview_datehelper_time_in_words_minute_less_than:
+msgid "less than a minute"
+msgstr "1分以内"
+
+#actionview_datehelper_time_in_words_minute_plural:
+msgid "%d minutes"
+msgstr "%d分"
+
+#actionview_datehelper_time_in_words_second_less_than:
+msgid "less than a second"
+msgstr "1秒以内"
+
+#actionview_datehelper_time_in_words_second_less_than_plural:
+msgid "less than %d seconds"
+msgstr "%d秒以内"
+
+# label_modified
+msgid "modified"
+msgstr "変更"
+
+# label_overall_activity
+msgid "Overall activity"
+msgstr "全ての活動"
+
+# setting_commit_ref_keywords
+msgid "Referencing keywords"
+msgstr "参照用キーワード"
+
+# text_load_default_configuration
+msgid "Load the default configuration"
+msgstr "デフォルト設定をロード"
+
+# label_added_time_by
+msgid "Added by %s %s ago"
+msgstr "%sが%s前に追加しました"
+
+# label_me
+msgid "me"
+msgstr "自分"
+
+# mail_body_account_information
+msgid "Your account information"
+msgstr "アカウント情報"
+
+# label_string
+msgid "Text"
+msgstr "テキスト"
+
+# general_csv_separator
+msgid "','"
+msgstr "','"
+
+# label_administration
+msgid "Administration"
+msgstr "管理"
+
+# text_repository_usernames_mapping
+msgid ""
+"\"Select or update the Redmine user mapped to each username found in the repository log.\n"
+"Users with the same Redmine and repository username or email are automatically mapped.\""
+msgstr ""
+"リポジトリのログから検出されたユーザー名をどのRedmineユーザーに関連づけるのか選択してください。\n"
+"ログ上のユーザー名またはメールアドレスがRedmineのユーザーと一致する場合は自動的に関連づけられます。"
+
+# text_subprojects_destroy_warning
+msgid "Its subproject(%s)"
+msgstr "サブプロジェクト %s も削除されます。"
+
+# button_back
+msgid "Back"
+msgstr "戻る"
+
+# label_changeset_plural
+msgid "Changesets"
+msgstr "チェンジセット"
+
+# label_week
+msgid "Week"
+msgstr "週"
+
+# label_applied_status
+msgid "Applied status"
+msgstr "適用されたステータス"
+
+# label_example
+msgid "Example"
+msgstr "例"
+
+# setting_commit_logs_encoding
+msgid "Commit messages encoding"
+msgstr "コミットメッセージのエンコーディング"
+
+# button_edit
+msgid "Edit"
+msgstr "編集"
+
+# label_blocked_by
+msgid "blocked by"
+msgstr "ブロックされている"
+
+# label_in_more_than
+msgid "in more than"
+msgstr "残日数がこれより少ない"
+
+# setting_repositories_encodings
+msgid "Repositories encodings"
+msgstr "リポジトリのエンコーディング"
+
+# label_current_version
+msgid "Current version"
+msgstr "最新版"
+
+# label_repository_plural
+msgid "Repositories"
+msgstr "リポジトリ"
+
+# field_is_public
+msgid "Public"
+msgstr "公開"
+
+# label_attachment_new
+msgid "New file"
+msgstr "新しいファイル"
+
+# permission_rename_wiki_pages
+msgid "Rename wiki pages"
+msgstr "Wikiページ名の変更"
+
+# label_new_statuses_allowed
+msgid "New statuses allowed"
+msgstr "ステータスの移行先"
+
+# setting_feeds_limit
+msgid "Feed content limit"
+msgstr "フィード内容の上限"
+
+# label_statistics
+msgid "Statistics"
+msgstr "統計"
+
+# field_is_required
+msgid "Required"
+msgstr "必須"
+
+# error_can_t_load_default_data
+msgid "\"Default configuration could not be loaded"
+msgstr "\"デフォルト設定がロードできませんでした"
+
+# button_reset
+msgid "Reset"
+msgstr "リセット"
+
+# setting_diff_max_lines_displayed
+msgid "Max number of diff lines displayed"
+msgstr "差分を表示する行数の上限"
+
+# field_estimated_hours
+msgid "Estimated time"
+msgstr "予定工数"
+
+# field_estimated_hours 2
+msgid "estimated_hours"
+msgstr "予定工数"
+
+# text_rmagick_available
+msgid "RMagick available (optional)"
+msgstr "RMagickが使用可能 (オプション)"
+
+# button_activate
+msgid "Activate"
+msgstr "有効にする"
+
+# label_user_mail_option_all
+msgid "\"For any event on all my projects\""
+msgstr "参加しているプロジェクトの全てのチケット"
+
+# field_column_names
+msgid "Columns"
+msgstr "項目"
+
+# label_subproject_plural
+msgid "Subprojects"
+msgstr "サブプロジェクト"
+
+# default_doc_category_user
+msgid "User documentation"
+msgstr "ユーザ文書"
+
+# label_user_mail_option_none
+msgid "\"Only for things I watch or I'm involved in\""
+msgstr "ウォッチまたは関係しているチケットのみ"
+
+# label_topic_plural
+msgid "Topics"
+msgstr "トピック"
+
+# label_news_latest
+msgid "Latest news"
+msgstr "最新ニュース"
+
+# label_role_and_permissions
+msgid "Roles and permissions"
+msgstr "ロールと権限"
+
+# text_status_changed_by_changeset
+msgid "Applied in changeset %s."
+msgstr "チェンジセット%sで適用されました。"
+
+# label_diff_side_by_side
+msgid "side by side"
+msgstr "横に並べる"
+
+# permission_edit_time_entries
+msgid "Edit time logs"
+msgstr "変更履歴の編集"
+
+# permission_edit_own_issue_notes
+msgid "Edit own notes"
+msgstr "自身が記入した注記の編集"
+
+# general_csv_decimal_separator
+msgid "'.'"
+msgstr "'.'"
+
+# label_authentication
+msgid "Authentication"
+msgstr "認証"
+
+# label_issues_by
+msgid "Issues by %s"
+msgstr "%s別のチケット"
+
+# label_ticket
+msgid "Ticket"
+msgstr "チケット"
+
+msgid "Install candycane"
+msgstr "candycane インストール"
+
+msgid "Your tmp directory is writable."
+msgstr "tmpディレクトリは書込み可能です。"
+
+msgid "Your tmp directory is NOT writable."
+msgstr "tmpディレクトリが書込み不可能です。"
+
+msgid "Your config directory is writable."
+msgstr "configディレクトリが書込み可能です。"
+
+msgid "Your config directory is NOT writable."
+msgstr "configディレクトリが書込み不可能です。"
+
+msgid "Your files directory is writable."
+msgstr "filesディレクトリが書込み可能です。"
+
+msgid "Your files directory is NOT writable."
+msgstr "filesディレクトリが書込み不可能です。"
+
+msgid "Installation cannot continue as minimum requirements are not met."
+msgstr "条件を満たすまでインストールは続行できません。"
+
+msgid "Click here to begin installation"
+msgstr "クリックでインストールを開始します"
+
+msgid "Step 1: Database"
+msgstr "ステップ1: データベース"
+
+msgid "Creating database conection setting. please type valid configuration for your database server."
+msgstr "データベース設定を作成します。あなたのデータベースに接続する正しい設定を入力してください。"
+
+msgid "Exsisting database name"
+msgstr "存在するデータベースの名前"
+
+msgid "Prefix for table name.(if you need)"
+msgstr "テーブル名の接頭語(必要な場合のみ)"
+
+msgid "Build database"
+msgstr "データベースを設定"
+
+msgid "Step 2: Run SQL"
+msgstr "ステップ2: SQLの実行"
+
+msgid "Loading initial data to database which you configured."
+msgstr "あなたが設定したデータベースに初期データをロードします。"
+
+msgid "Click here to build your database"
+msgstr "クリックでデータベースを構築します"
+
+msgid "Delete the installation directory <strong>/app/plugins/install</strong>."
+msgstr "インストール用のディレクトリを削除してください。 <strong>/app/plugins/install</strong>"
+
+msgid "Click here to delete installation files"
+msgstr "クリックでインストール用のファイルを削除します"
+
+msgid "Installation completed successfully"
+msgstr "インストールが完了しました"
+

@@ -1,0 +1,2758 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# No version information was available in the source files.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: candycane 0.90\n"
+"POT-Creation-Date: 2011-06-14 06:31+0900\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+
+# label_time_tracking
+msgid "Time tracking"
+msgstr ""
+
+# label_comment_plural
+msgid "Comments"
+msgstr ""
+
+# label_role
+msgid "Role"
+msgstr ""
+
+# label_auth_source_new
+msgid "New authentication mode"
+msgstr ""
+
+# button_add
+msgid "Add"
+msgstr ""
+
+# field_start_page
+msgid "Start page"
+msgstr ""
+
+# activerecord_error_circular_dependency
+msgid "This relation would create a circular dependency"
+msgstr ""
+
+# button_quote
+msgid "Quote"
+msgstr ""
+
+# label_not_contains
+msgid "doesn't contain"
+msgstr ""
+
+# field_mail
+msgid "Email"
+msgstr ""
+
+# label_personalize_page
+msgid "Personalize this page"
+msgstr ""
+
+# permission_view_files
+msgid "View files"
+msgstr ""
+
+# label_months_from
+msgid "months from"
+msgstr ""
+
+# activerecord_error_invalid
+msgid "is invalid"
+msgstr ""
+
+# mail_body_account_information_external
+msgid "You can use your \"%s\" account to log in."
+msgstr ""
+
+# permission_edit_issues
+msgid "Edit issues"
+msgstr ""
+
+# label_my_account
+msgid "My account"
+msgstr ""
+
+# label_environment
+msgid "Environment"
+msgstr ""
+
+# field_value
+msgid "Value"
+msgstr ""
+
+# text_caracters_maximum
+msgid "%d characters maximum."
+msgstr ""
+
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr ""
+
+# label_my_projects
+msgid "My projects"
+msgstr ""
+
+# label_issue_status_new
+msgid "New status"
+msgstr ""
+
+# button_submit
+msgid "Submit"
+msgstr ""
+
+# label_attribute_plural
+msgid "Attributes"
+msgstr ""
+
+# label_total
+msgid "Total"
+msgstr ""
+
+# text_issue_category_destroy_question
+msgid "Some issues (%d) are assigned to this category. What do you want to do ?"
+msgstr ""
+
+# button_create
+msgid "Create"
+msgstr ""
+
+# label_downloads_abbr
+msgid "D/L"
+msgstr ""
+
+# label_integer
+msgid "Integer"
+msgstr ""
+
+# activerecord_error_not_same_project
+msgid "doesn't belong to the same project"
+msgstr ""
+
+# field_assigned_to
+msgid "Assigned to"
+msgstr ""
+
+# field_assigned_to 2
+msgid "assigned_to"
+msgstr ""
+
+# field_assigned_to 3
+msgid "assigned_to_id"
+msgstr ""
+
+# field_is_filter
+msgid "Used as a filter"
+msgstr ""
+
+# label_previous
+msgid "Previous"
+msgstr ""
+
+# field_created_on
+msgid "Created"
+msgstr ""
+
+# field_created_on 2
+msgid "created_on"
+msgstr ""
+
+# field_mail_notification
+msgid "Email notifications"
+msgstr ""
+
+# general_text_no
+msgid "'no'"
+msgstr ""
+
+# field_attr_mail
+msgid "Email attribute"
+msgstr ""
+
+# label_current_status
+msgid "Current status"
+msgstr ""
+
+# label_last_updates_plural
+msgid "%d last updated"
+msgstr ""
+
+# permission_edit_own_time_entries
+msgid "Edit own time logs"
+msgstr ""
+
+# label_public_projects
+msgid "Public projects"
+msgstr ""
+
+# label_index_by_date
+msgid "Index by date"
+msgstr ""
+
+# setting_default_language
+msgid "Default language"
+msgstr ""
+
+# field_tracker
+msgid "Tracker"
+msgstr ""
+
+# field_tracker 2
+msgid "tracker"
+msgstr ""
+
+# field_author
+msgid "Author"
+msgstr ""
+
+# field_author 2
+msgid "author"
+msgstr ""
+
+# field_author 3
+msgid "author_id"
+msgstr ""
+
+# setting_enabled_scm
+msgid "Enabled SCM"
+msgstr ""
+
+# button_change_password
+msgid "Change password"
+msgstr ""
+
+# label_roadmap_no_issues
+msgid "No issues for this version"
+msgstr ""
+
+# general_text_yes
+msgid "'yes'"
+msgstr ""
+
+# text_tip_task_begin_end_day
+msgid "task beginning and ending this day"
+msgstr ""
+
+# label_chronological_order
+msgid "In chronological order"
+msgstr ""
+
+# activerecord_error_exclusion
+msgid "is reserved"
+msgstr ""
+
+# permission_manage_public_queries
+msgid "Manage public queries"
+msgstr ""
+
+# default_activity_development
+msgid "Development"
+msgstr ""
+
+# text_tip_task_end_day
+msgid "task ending this day"
+msgstr ""
+
+# button_rename
+msgid "Rename"
+msgstr ""
+
+# label_feed_plural
+msgid "Feeds"
+msgstr ""
+
+# field_url
+msgid "URL"
+msgstr ""
+
+# label_relation_new
+msgid "New relation"
+msgstr ""
+
+# label_added
+msgid "added"
+msgstr ""
+
+# permission_add_issues
+msgid "Add issues"
+msgstr ""
+
+# label_float
+msgid "Float"
+msgstr ""
+
+# text_comma_separated
+msgid "Multiple values allowed (comma separated)."
+msgstr ""
+
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr ""
+
+# label_add_another_file
+msgid "Add another file"
+msgstr ""
+
+# label_feeds_access_key_created_on
+msgid "RSS access key created %s ago"
+msgstr ""
+
+# label_issue_status_plural
+msgid "Issue statuses"
+msgstr ""
+
+# label_issue_added
+msgid "Issue added"
+msgstr ""
+
+# notice_account_updated
+msgid "Account was successfully updated."
+msgstr ""
+
+# permission_edit_own_messages
+msgid "Edit own messages"
+msgstr ""
+
+# field_base_dn
+msgid "Base DN"
+msgstr ""
+
+# field_time_zone
+msgid "Time zone"
+msgstr ""
+
+# default_priority_normal
+msgid "Normal"
+msgstr ""
+
+# button_configure
+msgid "Configure"
+msgstr ""
+
+# label_incoming_emails
+msgid "Incoming emails"
+msgstr ""
+
+# label_sort_lower
+msgid "Move down"
+msgstr ""
+
+# label_export_to
+msgid "'Also available in:'"
+msgstr ""
+msgid "Also available in:"
+msgstr ""
+
+# notice_successful_delete
+msgid "Successful deletion."
+msgstr ""
+
+# notice_file_not_found
+msgid "The page you were trying to access doesn't exist or has been removed."
+msgstr ""
+
+# general_text_No
+msgid "No"
+msgstr ""
+
+# default_issue_status_feedback
+msgid "Feedback"
+msgstr ""
+
+# button_copy
+msgid "Copy"
+msgstr ""
+
+# label_this_month
+msgid "this month"
+msgstr ""
+
+# label_role_plural
+msgid "Roles"
+msgstr ""
+
+# label_permissions_report
+msgid "Permissions report"
+msgstr ""
+
+# general_fmt_age
+msgid "%d yr"
+msgstr ""
+
+# label_add_note
+msgid "Add a note"
+msgstr ""
+
+# label_message_new
+msgid "New message"
+msgstr ""
+
+# label_less_than_ago
+msgid "less than days ago"
+msgstr ""
+
+# field_project
+msgid "Project"
+msgstr ""
+
+# field_summary
+msgid "Summary"
+msgstr ""
+
+# notice_no_issue_selected
+msgid "\"No issue is selected! Please, check the issues you want to edit.\""
+msgstr ""チケットが選択されていません! 更新対象のチケットを選択してください。\""
+
+# label_document
+msgid "Document"
+msgstr ""
+
+# project_module_boards
+msgid "Boards"
+msgstr ""
+
+# setting_emails_footer
+msgid "Emails footer"
+msgstr ""
+
+# activerecord_error_not_a_date
+msgid "is not a valid date"
+msgstr ""
+
+# label_role_new
+msgid "New role"
+msgstr ""
+
+# label_date
+msgid "Date"
+msgstr ""
+
+# label_date_to
+msgid "To"
+msgstr ""
+
+# label_wiki
+msgid "Wiki"
+msgstr ""
+
+# label_report
+msgid "Report"
+msgstr ""
+
+# permission_log_time
+msgid "Log spent time"
+msgstr ""
+
+# button_apply
+msgid "Apply"
+msgstr ""
+
+# button_check_all
+msgid "Check all"
+msgstr ""
+
+# label_display_per_page
+msgid "'Per page"
+msgstr ""
+
+# label_renamed
+msgid "renamed"
+msgstr ""
+
+# label_in_less_than
+msgid "in less than"
+msgstr ""
+
+# setting_app_subtitle
+msgid "Application subtitle"
+msgstr ""
+
+# general_csv_encoding
+msgid "ISO-8859-1"
+msgstr ""
+
+# activerecord_error_accepted
+msgid "must be accepted"
+msgstr ""
+
+# general_fmt_date
+msgid "%m/%d/%Y"
+msgstr ""
+msgid "%Y-%m-%d"
+msgstr ""
+msgid "%H:%M:%S"
+msgstr ""
+
+# default_issue_status_rejected
+msgid "Rejected"
+msgstr ""
+
+# button_rollback
+msgid "Rollback to this version"
+msgstr ""
+
+# label_generate_key
+msgid "Generate a key"
+msgstr ""
+
+# label_relation_delete
+msgid "Delete relation"
+msgstr ""
+
+# activerecord_error_inclusion
+msgid "is not included in the list"
+msgstr ""
+
+# setting_cross_project_issue_relations
+msgid "Allow cross-project issue relations"
+msgstr ""
+
+# permission_view_changesets
+msgid "View changesets"
+msgstr ""
+
+# label_download_plural
+msgid "%d Downloads"
+msgstr ""
+
+# text_project_identifier_info
+msgid "'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'"
+msgstr ""
+
+# label_sort_higher
+msgid "Move up"
+msgstr ""
+
+# field_parent
+msgid "Subproject of"
+msgstr ""
+
+# permission_delete_own_messages
+msgid "Delete own messages"
+msgstr ""
+
+# label_new
+msgid "New"
+msgstr ""
+
+# field_regexp
+msgid "Regular expression"
+msgstr ""
+
+# text_regexp_info
+msgid "eg. ^[A-Z0-9]+$"
+msgstr ""
+
+# button_unlock
+msgid "Unlock"
+msgstr ""
+
+# label_blocks
+msgid "blocks"
+msgstr ""
+
+# label_default_columns
+msgid "Default columns"
+msgstr ""
+
+# label_send_information
+msgid "Send account information to the user"
+msgstr ""
+
+# label_issue_updated
+msgid "Issue updated"
+msgstr ""
+
+#actionview_instancetag_blank_option
+msgid  "Please Select"
+msgstr ""
+
+# notice_account_wrong_password
+msgid "Wrong password"
+msgstr ""
+
+# label_document_plural
+msgid "Documents"
+msgstr ""
+
+# label_registration_activation_by_email
+msgid "account activation by email"
+msgstr ""
+
+# label_more_than_ago
+msgid "more than days ago"
+msgstr ""
+
+# permission_view_time_entries
+msgid "View spent time"
+msgstr ""
+
+# label_member
+msgid "Member"
+msgstr ""
+
+# label_user_mail_no_self_notified
+msgid "\"I don't want to be notified of changes that I make myself\""
+msgstr ""
+
+# label_loading
+msgid "Loading..."
+msgstr ""
+
+# label_user_plural
+msgid "Users"
+msgstr ""
+
+# field_field_format
+msgid "Format"
+msgstr ""
+
+# label_planning
+msgid "Planning"
+msgstr ""
+
+# button_lock
+msgid "Lock"
+msgstr ""
+
+# label_f_hour
+msgid "%.2f hour"
+msgstr ""
+
+# label_filter_plural
+msgid "Filters"
+msgstr ""
+
+# notice_successful_connection
+msgid "Successful connection."
+msgstr ""
+
+# default_issue_status_resolved
+msgid "Resolved"
+msgstr ""
+
+# label_change_plural
+msgid "Changes"
+msgstr ""
+
+# setting_sequential_project_identifiers
+msgid "Generate sequential project identifiers"
+msgstr ""
+
+# setting_plain_text_mail
+msgid "plain text mail (no HTML)"
+msgstr ""
+
+# setting_activity_days_default
+msgid "Days displayed on project activity"
+msgstr ""
+
+# project_module_issue_tracking
+msgid "Issue tracking"
+msgstr ""
+
+# field_host
+msgid "Host"
+msgstr ""
+
+# setting_per_page_options
+msgid "Objects per page options"
+msgstr ""
+
+# field_parent_title
+msgid "Parent page"
+msgstr ""
+
+# permission_manage_versions
+msgid "Manage versions"
+msgstr ""
+
+# status_active
+msgid "active"
+msgstr ""
+
+# label_theme
+msgid "Theme"
+msgstr ""
+
+# label_duplicates
+msgid "duplicates"
+msgstr ""
+
+# permission_manage_wiki
+msgid "Manage wiki"
+msgstr ""
+
+# label_query_plural
+msgid "Custom queries"
+msgstr ""
+
+# label_enumeration_new
+msgid "New value"
+msgstr ""
+
+# label_disabled
+msgid "disabled"
+msgstr ""
+
+# label_version_plural
+msgid "Versions"
+msgstr ""
+
+# enumeration_activities
+msgid "Activities (time tracking)"
+msgstr ""
+
+# label_date_from
+msgid "From"
+msgstr ""
+
+# label_attribute
+msgid "Attribute"
+msgstr ""
+
+# field_hours
+msgid "Hours"
+msgstr ""
+
+# setting_mail_from
+msgid "Emission email address"
+msgstr ""
+
+# mail_body_register
+msgid "To activate your account, click on the following link:"
+msgstr ""
+
+# field_min_length
+msgid "Minimum length"
+msgstr ""
+
+# label_latest_revision
+msgid "Latest revision"
+msgstr ""
+
+# setting_welcome_text
+msgid "Welcome text"
+msgstr ""
+
+# field_due_date
+msgid "Due date"
+msgstr ""
+
+# field_due_date 2
+msgid "due_date"
+msgstr ""
+
+# notice_account_password_updated
+msgid "Password was successfully updated."
+msgstr ""
+
+# label_issue
+msgid "Issue"
+msgstr ""
+
+# label_issue_tracking
+msgid "Issue tracking"
+msgstr ""
+
+# button_delete
+msgid "Delete"
+msgstr ""
+
+# label_follows
+msgid "follows"
+msgstr ""
+
+# label_revision
+msgid "Revision"
+msgstr ""
+
+# field_name
+msgid "Name"
+msgstr ""
+
+# mail_subject_account_activation_request
+msgid "%s account activation request"
+msgstr ""
+
+# mail_body_account_activation_request
+msgid "A new user (%s) has registered. The account is pending your approval:"
+msgstr ""
+
+# label_user_new
+msgid "New user"
+msgstr ""
+
+# text_tracker_no_workflow
+msgid "No workflow defined for this tracker"
+msgstr ""
+
+# button_unarchive
+msgid "Unarchive"
+msgstr ""
+
+# label_message_last
+msgid "Last message"
+msgstr ""
+
+# label_deleted
+msgid "deleted"
+msgstr ""
+
+# field_onthefly
+msgid "On-the-fly user creation"
+msgstr ""
+
+# permission_manage_categories
+msgid "Manage issue categories"
+msgstr ""
+
+# enumeration_issue_priorities
+msgid "Issue priorities"
+msgstr ""
+
+# label_view_revisions
+msgid "View revisions"
+msgstr ""
+
+# permission_protect_wiki_pages
+msgid "Protect wiki pages"
+msgstr ""
+
+# field_language
+msgid "Language"
+msgstr ""
+
+# text_issues_ref_in_commit_messages
+msgid "Referencing and fixing issues in commit messages"
+msgstr ""
+
+# text_unallowed_characters
+msgid "Unallowed characters"
+msgstr ""
+
+# label_last_n_days
+msgid "last %d days"
+msgstr ""
+
+# label_all_time
+msgid "all time"
+msgstr ""
+
+# label_login
+msgid "Sign in"
+msgstr ""
+
+# field_status
+msgid "Status"
+msgstr ""
+
+# field_status 2
+msgid "status"
+msgstr ""
+
+# field_status 3
+msgid "status_id"
+msgstr ""
+
+# label_nobody
+msgid "nobody"
+msgstr ""
+
+# label_permissions
+msgid "Permissions"
+msgstr ""
+
+# field_attr_lastname
+msgid "Lastname attribute"
+msgstr ""
+
+# label_overview
+msgid "Overview"
+msgstr ""
+
+# label_board_plural
+msgid "Forums"
+msgstr ""
+
+# notice_default_data_loaded
+msgid "Default configuration successfully loaded."
+msgstr ""
+
+# mail_subject_register
+msgid "Your %s account activation"
+msgstr ""
+
+# label_history
+msgid "History"
+msgstr ""
+
+# label_registered_on
+msgid "Registered on"
+msgstr ""
+
+# text_destroy_time_entries_question
+msgid "%.02f hours were reported on the issues you are about to delete. What do you want to do ?"
+msgstr ""
+
+# label_default
+msgid "Default"
+msgstr ""
+
+# text_email_delivery_not_configured
+msgid "\"Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them.\""
+msgstr ""メールを送信するために必要な設定が行われていないため、メール通知は利用できません。\nconfig/email.ymlでSMTPサーバの設定を行い、アプリケーションを再起動してください。\""
+
+# label_min_max_length
+msgid "Min - Max length"
+msgstr ""
+
+# general_fmt_datetime_short
+msgid "%%b %%d, %%I:%%M %%p"
+msgstr ""
+
+# label_list
+msgid "List"
+msgstr ""
+
+# label_changes_details
+msgid "Details of all changes"
+msgstr ""
+
+# field_start_date
+msgid "Start"
+msgstr ""
+
+# field_start_date 2
+msgid "start_date"
+msgstr ""
+
+# field_password_confirmation
+msgid "Confirmation"
+msgstr ""
+
+# label_logged_as
+msgid "Logged in as"
+msgstr ""
+
+# error_issue_not_found_in_project
+msgid "'The issue was not found or does not belong to this project'"
+msgstr ""
+
+# field_updated_on
+msgid "Updated"
+msgstr ""
+
+# field_updated_on 2
+msgid "updated_on"
+msgstr ""
+
+# label_roadmap_overdue
+msgid "%s late"
+msgstr ""
+
+# label_user
+msgid "User"
+msgstr ""
+
+# default_priority_urgent
+msgid "Urgent"
+msgstr ""
+
+# text_file_repository_writable
+msgid "Attachments directory writable"
+msgstr ""
+
+# button_watch
+msgid "Watch"
+msgstr ""
+
+# button_uncheck_all
+msgid "Uncheck all"
+msgstr ""
+
+# permission_comment_news
+msgid "Comment news"
+msgstr ""
+
+# notice_account_invalid_creditentials
+msgid "Invalid user or password"
+msgstr ""
+
+# label_board
+msgid "Forum"
+msgstr ""
+
+# label_view_diff
+msgid "View differences"
+msgstr ""
+
+# activerecord_error_taken
+msgid "has already been taken"
+msgstr ""
+
+# label_sort_lowest
+msgid "Move to bottom"
+msgstr ""
+
+# activerecord_error_wrong_length
+msgid "is the wrong length"
+msgstr ""
+
+# mail_body_lost_password
+msgid "To change your password, click on the following link:"
+msgstr ""
+
+# label_attachment_delete
+msgid "Delete file"
+msgstr ""
+
+# text_workflow_edit
+msgid "Select a role and a tracker to edit the workflow"
+msgstr ""
+
+# text_project_destroy_confirmation
+msgid "Are you sure you want to delete this project and related data ?"
+msgstr ""
+
+# label_in
+msgid "in"
+msgstr ""
+
+# warning_attachments_not_saved
+msgid "%d file(s) could not be saved."
+msgstr ""
+
+# label_tracker_new
+msgid "New tracker"
+msgstr ""
+
+# field_firstname
+msgid "Firstname"
+msgstr ""
+
+# label_member_plural
+msgid "Members"
+msgstr ""
+
+# project_module_repository
+msgid "Repository"
+msgstr ""
+
+# setting_autofetch_changesets
+msgid "Autofetch commits"
+msgstr ""
+
+# permission_delete_messages
+msgid "Delete messages"
+msgstr ""
+
+# text_length_between
+msgid "Length between %d and %d characters."
+msgstr ""
+
+# status_registered
+msgid "registered"
+msgstr ""
+
+# label_not_equals
+msgid "is not"
+msgstr ""
+
+# default_role_reporter
+msgid "Reporter"
+msgstr ""
+
+# button_change
+msgid "Change"
+msgstr ""
+
+# field_lastname
+msgid "Lastname"
+msgstr ""
+
+# button_clear
+msgid "Clear"
+msgstr ""
+
+# label_this_year
+msgid "this year"
+msgstr ""
+
+# general_first_day_of_week
+msgid "'7'"
+msgstr ""
+
+# label_internal
+msgid "Internal"
+msgstr ""
+
+# label_my_page
+msgid "My page"
+msgstr ""
+
+# permission_select_project_modules
+msgid "Select project modules"
+msgstr ""
+
+# permission_manage_documents
+msgid "Manage documents"
+msgstr ""
+
+# label_result_plural
+msgid "Results"
+msgstr ""
+
+# permission_edit_wiki_pages
+msgid "Edit wiki pages"
+msgstr ""
+
+# field_filesize
+msgid "Size"
+msgstr ""
+
+# label_last_changes
+msgid "last %d changes"
+msgstr ""
+
+# error_scm_not_found
+msgid "\"The entry or revision was not found in the repository.\""
+msgstr ""
+
+# general_fmt_age_plural
+msgid "%d yrs"
+msgstr ""
+
+# permission_add_issue_watchers
+msgid "Add watchers"
+msgstr ""
+
+# label_month
+msgid "Month"
+msgstr ""
+
+# label_details
+msgid "Details"
+msgstr ""
+
+# text_assign_time_entries_to_project
+msgid "Assign reported hours to the project"
+msgstr ""
+
+# button_view
+msgid "View"
+msgstr ""
+
+# button_save
+msgid "Save"
+msgstr ""
+
+# label_no_change_option
+msgid "(No change)"
+msgstr ""
+
+# permission_view_gantt
+msgid "View gantt chart"
+msgstr ""
+
+# notice_not_authorized
+msgid "You are not authorized to access this page."
+msgstr ""
+
+# project_module_files
+msgid "Files"
+msgstr ""
+
+# button_cancel
+msgid "Cancel"
+msgstr ""
+
+# label_news
+msgid "News"
+msgstr ""
+
+# label_module_plural
+msgid "Modules"
+msgstr ""
+
+# label_start_to_end
+msgid "start to end"
+msgstr ""
+
+# label_associated_revisions
+msgid "Associated revisions"
+msgstr ""
+
+# label_date_range
+msgid "Date range"
+msgstr ""
+
+# label_version
+msgid "Version"
+msgstr ""
+
+# gui_validation_error_plural
+msgid "%d errors"
+msgstr ""
+
+# permission_move_issues
+msgid "Move issues"
+msgstr ""
+
+# notice_account_register_done
+msgid "Account was successfully created. To activate your account, click on the link that was emailed to you."
+msgstr ""
+
+# label_bulk_edit_selected_issues
+msgid "Bulk edit selected issues"
+msgstr ""
+
+# label_information
+msgid "Information"
+msgstr ""
+
+# text_enumeration_category_reassign_to
+msgid "'Reassign them to this value:'"
+msgstr ""
+
+# setting_attachment_max_size
+msgid "Attachment max. size"
+msgstr ""
+
+# default_issue_status_closed
+msgid "Closed"
+msgstr ""
+
+# label_f_hour_plural
+msgid "%.2f hours"
+msgstr ""
+
+# field_is_closed
+msgid "Issue closed"
+msgstr ""
+
+# notice_account_unknown_email
+msgid "Unknown user."
+msgstr ""
+
+# field_title
+msgid "Title"
+msgstr ""
+
+# field_new_password
+msgid "New password"
+msgstr ""
+
+# label_user_activity
+msgid "\"%s's activity\""
+msgstr ""%s's activity\""
+
+# label_per_page
+msgid "Per page"
+msgstr ""
+
+# notice_account_lost_email_sent
+msgid "An email with instructions to choose a new password has been sent to you."
+msgstr ""
+
+# permission_manage_issue_relations
+msgid "Manage issue relations"
+msgstr ""
+
+# label_this_week
+msgid "this week"
+msgstr ""
+
+# label_change_log
+msgid "Change log"
+msgstr ""
+
+# field_assignable
+msgid "Issues can be assigned to this role"
+msgstr ""
+
+# label_settings
+msgid "Settings"
+msgstr ""
+
+# label_end_to_start
+msgid "end to start"
+msgstr ""
+
+# label_options
+msgid "Options"
+msgstr ""
+
+# label_index_by_title
+msgid "Index by title"
+msgstr ""
+
+# label_project_all
+msgid "All Projects"
+msgstr ""
+
+# label_issue_view_all
+msgid "View all issues"
+msgstr ""
+
+# label_issue_category_plural
+msgid "Issue categories"
+msgstr ""
+
+# label_please_login
+msgid "Please log in"
+msgstr ""
+
+# label_issue_watchers
+msgid "Watchers"
+msgstr ""
+
+# label_jump_to_a_project
+msgid "Jump to a project..."
+msgstr ""
+
+# label_board_new
+msgid "New forum"
+msgstr ""
+
+# label_contains
+msgid "contains"
+msgstr ""
+
+# label_sort_by
+msgid "Sort by %s"
+msgstr ""
+
+# label_related_issues
+msgid "Related issues"
+msgstr ""
+
+# notice_account_activated
+msgid "Your account has been activated. You can now log in."
+msgstr ""
+
+# permission_delete_wiki_pages
+msgid "Delete wiki pages"
+msgstr ""
+
+# activerecord_error_too_long
+msgid "is too long"
+msgstr ""
+
+# label_custom_field_plural
+msgid "Custom fields"
+msgstr ""
+
+# notice_unable_delete_version
+msgid "Unable to delete version."
+msgstr ""
+
+# field_subject
+msgid "Subject"
+msgstr ""
+
+# field_subject
+msgid "subject"
+msgstr ""
+
+# field_attr_firstname
+msgid "Firstname attribute"
+msgstr ""
+
+# field_subproject
+msgid "Subproject"
+msgstr ""
+
+# notice_can_t_change_password
+msgid "This account uses an external authentication source. Impossible to change the password."
+msgstr ""
+
+# activerecord_error_greater_than_start_date
+msgid "must be greater than start date"
+msgstr ""
+
+# label_read
+msgid "Read..."
+msgstr ""
+
+# label_language_based
+msgid "Based on user's language"
+msgstr ""
+
+# label_gantt
+msgid "Gantt"
+msgstr ""
+
+# permission_manage_boards
+msgid "Manage boards"
+msgstr ""
+
+# label_max_size
+msgid "Maximum size"
+msgstr ""
+
+# field_fixed_version
+msgid "Target version"
+msgstr ""
+msgid "Fixed Version"
+msgstr ""
+msgid "fixed_version"
+msgstr ""
+
+# activerecord_error_not_a_number
+msgid "is not a number"
+msgstr ""
+
+# setting_wiki_compression
+msgid "Wiki history compression"
+msgstr ""
+
+# text_are_you_sure
+msgid "Are you sure ?"
+msgstr ""
+
+# text_min_max_length_info
+msgid "0 means no restriction"
+msgstr ""
+
+# label_version_new
+msgid "New version"
+msgstr ""
+
+# label_help
+msgid "Help"
+msgstr ""
+
+# label_auth_source_plural
+msgid "Authentication modes"
+msgstr ""
+
+# default_issue_status_assigned
+msgid "Assigned"
+msgstr ""
+
+# label_show_completed_versions
+msgid "Show completed versions"
+msgstr ""
+
+# setting_app_title
+msgid "Application title"
+msgstr ""
+
+# text_issues_destroy_confirmation
+msgid "'Are you sure you want to delete the selected issue(s) ?'"
+msgstr ""
+
+# field_downloads
+msgid "Downloads"
+msgstr ""
+
+# label_text
+msgid "Long text"
+msgstr ""
+
+# field_admin
+msgid "Administrator"
+msgstr ""
+
+# field_category
+msgid "Category"
+msgstr ""
+msgid "category"
+msgstr ""
+
+# field_homepage
+msgid "Homepage"
+msgstr ""
+
+# notice_failed_to_save_issues
+msgid "\"Failed to save %d issue(s) on %d selected"
+msgstr ""%d件のチケットが保存できませんでした(%d件選択のうち)"
+
+# label_registration_automatic_activation
+msgid "automatic account activation"
+msgstr ""
+
+# label_last_week
+msgid "last week"
+msgstr ""
+
+# setting_host_name
+msgid "Host name and path"
+msgstr ""
+
+# mail_body_reminder
+msgid "\"%d issue(s) that are assigned to you are due in the next %d days:\""
+msgstr ""%d issue(s) that are assigned to you are due in the next %d days:\""
+
+# label_open_issues_plural
+msgid "open"
+msgstr ""
+
+# label_ldap_authentication
+msgid "LDAP authentication"
+msgstr ""
+
+# label_sort_highest
+msgid "Move to top"
+msgstr ""
+
+# label_duplicated_by
+msgid "duplicated by"
+msgstr ""
+
+# label_day_plural
+msgid "days"
+msgstr ""
+
+# field_done_ratio
+msgid "%% Done"
+msgstr ""
+
+# field_done_ratio
+msgid "done_ratio"
+msgstr ""
+
+# general_lang_name
+msgid "'English'"
+msgstr ""
+
+# general_text_Yes
+msgid "Yes"
+msgstr ""
+
+# label_last_updates
+msgid "Last updated"
+msgstr ""
+
+# permission_delete_wiki_pages_attachments
+msgid "Delete attachments"
+msgstr ""
+
+# permission_view_wiki_edits
+msgid "View wiki history"
+msgstr ""
+
+# setting_protocol
+msgid "Protocol"
+msgstr ""
+
+# setting_display_subprojects_issues
+msgid "Display subprojects issues on main projects by default"
+msgstr ""
+
+# default_role_manager
+msgid "Manager"
+msgstr ""
+
+# label_stay_logged_in
+msgid "Stay logged in"
+msgstr ""
+
+# label_filter_add
+msgid "Add filter"
+msgstr ""
+
+# label_last_login
+msgid "Last connection"
+msgstr ""
+
+# text_enumeration_destroy_question
+msgid "'%d objects are assigned to this value.'"
+msgstr ""
+
+# label_file_added
+msgid "File added"
+msgstr ""
+
+# label_wiki_edit
+msgid "Wiki edit"
+msgstr ""
+
+# label_latest_revision_plural
+msgid "Latest revisions"
+msgstr ""
+
+# label_document_added
+msgid "Document added"
+msgstr ""
+
+# label_news_new
+msgid "Add news"
+msgstr ""
+
+# field_is_in_roadmap
+msgid "Issues displayed in roadmap"
+msgstr ""
+
+# label_tracker_plural
+msgid "Trackers"
+msgstr ""
+
+# label_tracker_plural 2
+msgid "tracker_id"
+msgstr ""
+
+# notice_account_pending
+msgid "Your account was created and is now pending administrator approval."
+msgstr ""
+
+# default_doc_category_tech
+msgid "Technical documentation"
+msgstr ""
+
+# text_issue_updated
+msgid "Issue %s has been updated by %s."
+msgstr ""
+
+# notice_successful_create
+msgid "Successful creation."
+msgstr ""
+
+# permission_add_messages
+msgid "Post messages"
+msgstr ""
+
+# error_scm_command_failed
+msgid "\"An error occurred when trying to access the repository"
+msgstr ""リポジトリへアクセスしようとしてエラーになりました"
+
+# label_optional_description
+msgid "Optional description"
+msgstr ""
+
+# label_diff_inline
+msgid "inline"
+msgstr ""
+
+# field_notes
+msgid "Notes"
+msgstr ""
+
+# setting_default_projects_public
+msgid "New projects are public by default"
+msgstr ""
+
+# setting_commit_fix_keywords
+msgid "Fixing keywords"
+msgstr ""
+
+# notice_locking_conflict
+msgid "Data has been updated by another user."
+msgstr ""
+
+# button_archive
+msgid "Archive"
+msgstr ""
+
+# label_modification
+msgid "%d change"
+msgstr ""
+
+# setting_autologin
+msgid "Autologin"
+msgstr ""
+
+# button_move
+msgid "Move"
+msgstr ""
+
+# label_more
+msgid "More"
+msgstr ""
+
+# field_account
+msgid "Account"
+msgstr ""
+
+# setting_user_format
+msgid "Users display format"
+msgstr ""
+
+# notice_successful_update
+msgid "Successful update."
+msgstr ""
+
+# field_default_value
+msgid "Default value"
+msgstr ""
+
+# button_log_time
+msgid "Log time"
+msgstr ""
+
+# label_message_posted
+msgid "Message added"
+msgstr ""
+
+# setting_date_format
+msgid "Date format"
+msgstr ""
+
+# permission_view_messages
+msgid "View messages"
+msgstr ""
+
+# setting_issue_list_default_columns
+msgid "Default columns displayed on the issue list"
+msgstr ""
+
+# field_description
+msgid "Description"
+msgstr ""
+
+# label_custom_field_new
+msgid "New custom field"
+msgstr ""
+
+# label_enumerations
+msgid "Enumerations"
+msgstr ""
+
+# default_activity_design
+msgid "Design"
+msgstr ""
+
+# label_registration_manual_activation
+msgid "manual account activation"
+msgstr ""
+
+# label_wiki_edit_plural
+msgid "Wiki edits"
+msgstr ""
+
+# label_all_words
+msgid "All words"
+msgstr ""
+
+# label_yesterday
+msgid "yesterday"
+msgstr ""
+
+# label_comment_delete
+msgid "Delete comments"
+msgstr ""
+
+# field_activity
+msgid "Activity"
+msgstr ""
+
+# text_user_mail_option
+msgid "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
+msgstr ""
+
+# button_create_and_continue
+msgid "Create and continue"
+msgstr ""
+
+# label_revision_plural
+msgid "Revisions"
+msgstr ""
+
+# general_day_names
+msgid "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
+msgstr ""
+
+# permission_manage_files
+msgid "Manage files"
+msgstr ""
+
+# field_port
+msgid "Port"
+msgstr ""
+
+# activerecord_error_confirmation
+msgid "doesn't match confirmation"
+msgstr ""
+
+# field_searchable
+msgid "Searchable"
+msgstr ""
+
+# label_updated_time_by
+msgid "Updated by %s %s ago"
+msgstr ""
+
+# label_year
+msgid "Year"
+msgstr ""
+
+# label_end_to_end
+msgid "end to end"
+msgstr ""
+
+# label_precedes
+msgid "precedes"
+msgstr ""
+
+# label_equals
+msgid "is"
+msgstr ""
+
+# permission_edit_issue_notes
+msgid "Edit notes"
+msgstr ""
+
+# field_delay
+msgid "Delay"
+msgstr ""
+
+# button_unwatch
+msgid "Unwatch"
+msgstr ""
+
+# label_roadmap_due_in
+msgid "Due in %s"
+msgstr ""
+
+# label_last_month
+msgid "last month"
+msgstr ""
+
+# setting_time_format
+msgid "Time format"
+msgstr ""
+
+# permission_manage_news
+msgid "Manage news"
+msgstr ""
+
+# text_destroy_time_entries
+msgid "Delete reported hours"
+msgstr ""
+
+# label_relates_to
+msgid "related to"
+msgstr ""
+
+# field_login
+msgid "Login"
+msgstr ""
+
+# mail_subject_lost_password
+msgid "Your %s password"
+msgstr ""
+
+# button_update
+msgid "Update"
+msgstr ""
+
+# label_age
+msgid "Age"
+msgstr ""
+
+# notice_feeds_access_key_reseted
+msgid "Your RSS access key was reset."
+msgstr ""
+
+# setting_sys_api_enabled
+msgid "Enable WS for repository management"
+msgstr ""
+
+# field_redirect_existing_links
+msgid "Redirect existing links"
+msgstr ""
+
+# label_no_data
+msgid "No data to display"
+msgstr ""
+
+# gui_validation_error
+msgid "1 error"
+msgstr ""
+
+# text_default_administrator_account_changed
+msgid "Default administrator account changed"
+msgstr ""
+
+# status_locked
+msgid "locked"
+msgstr ""
+
+# button_reply
+msgid "Reply"
+msgstr ""
+
+# label_calendar
+msgid "Calendar"
+msgstr ""
+
+# field_attr_login
+msgid "Login attribute"
+msgstr ""
+
+# activerecord_error_too_short
+msgid "is too short"
+msgstr ""
+
+# setting_self_registration
+msgid "Self-registration"
+msgstr ""
+
+# permission_view_calendar
+msgid "View calender"
+msgstr ""
+
+# enumeration_doc_categories
+msgid "Document categories"
+msgstr ""
+
+# default_tracker_support
+msgid "Support"
+msgstr ""
+
+# label_wiki_page
+msgid "Wiki page"
+msgstr ""
+
+# setting_gravatar_enabled
+msgid "Use Gravatar user icons"
+msgstr ""
+
+# permission_manage_members
+msgid "Manage members"
+msgstr ""
+
+# text_journal_changed
+msgid "changed from %s to %s"
+msgstr ""
+
+# label_wiki_page_plural
+msgid "Wiki pages"
+msgstr ""
+
+# setting_bcc_recipients
+msgid "Blind carbon copy recipients (bcc)"
+msgstr ""
+
+# label_used_by
+msgid "Used by"
+msgstr ""
+
+# text_diff_truncated
+msgid "... This diff was truncated because it exceeds the maximum size that can be displayed."
+msgstr ""
+
+# label_commits_per_author
+msgid "Commits per author"
+msgstr ""
+
+# activerecord_error_blank
+msgid "can't be blank"
+msgstr ""
+
+# label_project_plural
+msgid "Projects"
+msgstr ""
+
+# field_comments_sorting
+msgid "Display comments"
+msgstr ""
+
+# field_comments
+msgid "Comment"
+msgstr ""
+
+# text_user_wrote
+msgid "%s wrote:"
+msgstr ""
+
+# text_plugin_assets_writable
+msgid "Plugin assets directory writable"
+msgstr ""
+
+# text_select_project_modules
+msgid "Select modules to enable for this project:"
+msgstr ""
+
+# text_journal_set_to
+msgid "set to %s"
+msgstr ""
+
+# label_copy_workflow_from
+msgid "Copy workflow from"
+msgstr ""
+
+# label_modification_plural
+msgid "%d changes"
+msgstr ""
+
+# field_possible_values
+msgid "Possible values"
+msgstr ""
+
+msgid "Possible Values"
+msgstr ""
+
+# setting_login_required
+msgid "Authentication required"
+msgstr ""
+
+# setting_mail_handler_api_enabled
+msgid "Enable WS for incoming emails"
+msgstr ""
+
+# field_is_in_chlog
+msgid "Issues displayed in changelog"
+msgstr ""
+
+# label_issue_new
+msgid "New issue"
+msgstr ""
+
+# button_sort
+msgid "Sort"
+msgstr ""
+
+# permission_edit_messages
+msgid "Edit messages"
+msgstr ""
+
+# setting_issues_export_limit
+msgid "Issues export limit"
+msgstr ""
+
+# text_select_mail_notifications
+msgid "Select actions for which email notifications should be sent."
+msgstr ""
+
+# label_and_its_subprojects
+msgid "%s and its subprojects"
+msgstr ""
+
+# permission_delete_issues
+msgid "Delete issues"
+msgstr ""
+
+# field_hide_mail
+msgid "Hide my email address"
+msgstr ""
+
+# text_reassign_time_entries
+msgid "Reassign reported hours to this issue:"
+msgstr ""
+
+# text_issue_category_reassign_to
+msgid "Reassign issues to this category"
+msgstr ""
+
+# notice_email_error
+msgid "An error occurred while sending mail (%s)"
+msgstr ""
+
+# label_member_new
+msgid "New member"
+msgstr ""
+
+# default_priority_immediate
+msgid "Immediate"
+msgstr ""
+
+# label_reverse_chronological_order
+msgid "In reverse chronological order"
+msgstr ""
+
+# label_ago
+msgid "days ago"
+msgstr ""
+
+# permission_view_issue_watchers
+msgid "View watchers list"
+msgstr ""
+
+# permission_manage_repository
+msgid "Manage repository"
+msgstr ""
+
+# label_all
+msgid "all"
+msgstr ""
+
+# label_boolean
+msgid "Boolean"
+msgstr ""
+
+# default_tracker_bug
+msgid "Bug"
+msgstr ""
+
+# text_issue_added
+msgid "Issue %s has been reported by %s."
+msgstr ""
+
+# label_on
+msgid "'on'"
+msgstr ""
+
+# label_scm
+msgid "SCM"
+msgstr ""
+
+# label_general
+msgid "General"
+msgstr ""
+
+# activerecord_error_empty
+msgid "can't be empty"
+msgstr ""
+
+# field_filename
+msgid "File"
+msgstr ""
+
+# label_comment_add
+msgid "Add a comment"
+msgstr ""
+
+# label_comment_added
+msgid "Comment added"
+msgstr ""
+
+# mail_subject_reminder
+msgid "\"%d issue(s) due in the next days\""
+msgstr ""%d issue(s) due in the next days\""
+
+# label_issue_category
+msgid "Issue category"
+msgstr ""
+
+# permission_commit_access
+msgid "Commit access"
+msgstr ""
+
+# label_workflow
+msgid "Workflow"
+msgstr ""
+
+# label_report_plural
+msgid "Reports"
+msgstr ""
+
+# label_assigned_to_me_issues
+msgid "Issues assigned to me"
+msgstr ""
+
+# label_query_new
+msgid "New query"
+msgstr ""
+
+# field_max_length
+msgid "Maximum length"
+msgstr ""
+
+# setting_mail_handler_api_key
+msgid "API key"
+msgstr ""
+
+# text_issue_category_destroy_assignments
+msgid "Remove category assignments"
+msgstr ""
+
+# button_test
+msgid "Test"
+msgstr ""
+
+# label_user_mail_option_selected
+msgid "\"For any event on the selected projects only...\""
+msgstr ""
+
+# label_start_to_start
+msgid "start to start"
+msgstr ""
+
+# label_watched_issues
+msgid "Watched issues"
+msgstr ""
+
+# label_spent_time
+msgid "Spent time"
+msgstr ""
+
+msgid "Spent On"
+msgstr ""
+
+# label_register
+msgid "Register"
+msgstr ""
+
+# label_none
+msgid "none"
+msgstr ""
+
+# error_scm_annotate
+msgid "\"The entry does not exist or can not be annotated.\""
+msgstr ""エントリが存在しない、もしくはアノテートできません。\""
+
+# setting_text_formatting
+msgid "Text formatting"
+msgstr ""
+
+# default_priority_high
+msgid "High"
+msgstr ""
+
+# default_tracker_feature
+msgid "Feature"
+msgstr ""
+
+# label_search_titles_only
+msgid "Search titles only"
+msgstr ""
+
+# label_message_plural
+msgid "Messages"
+msgstr ""
+
+# general_fmt_time
+msgid "%I:%M %p"
+msgstr ""
+
+# text_tip_task_begin_day
+msgid "task beginning this day"
+msgstr ""
+
+# label_reply_plural
+msgid "Replies"
+msgstr ""
+
+# label_roadmap
+msgid "Roadmap"
+msgstr ""
+
+# permission_browse_repository
+msgid "Browse repository"
+msgstr ""
+
+# label_change_view_all
+msgid "View all changes"
+msgstr ""
+
+# field_priority
+msgid "Priority"
+msgstr ""
+
+# field_priority
+msgid "priority"
+msgstr ""
+
+# field_priority
+msgid "priority_id"
+msgstr ""
+
+# label_logout
+msgid "Sign out"
+msgstr ""
+
+# notice_email_sent
+msgid "An email was sent to %s"
+msgstr ""
+
+# permission_view_documents
+msgid "View documents"
+msgstr ""
+
+# label_auth_source
+msgid "Authentication mode"
+msgstr ""
+
+# button_annotate
+msgid "Annotate"
+msgstr ""
+
+# label_change_properties
+msgid "Change properties"
+msgstr ""
+
+# label_next
+msgid "Next"
+msgstr ""
+
+# label_commits_per_month
+msgid "Commits per month"
+msgstr ""
+
+# permission_edit_project
+msgid "Edit project"
+msgstr ""
+
+# permission_add_issue_notes
+msgid "Add notes"
+msgstr ""
+
+# permission_save_queries
+msgid "Save queries"
+msgstr ""
+
+# label_project_latest
+msgid "Latest projects"
+msgstr ""
+
+# text_no_configuration_data
+msgid "\"Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded.\""
+msgstr ""ロール、トラッカー、チケットのステータス、ワークフローがまだ設定されていません。\nデフォルト設定のロードを強くお勧めします。ロードした後、それを修正することができます。\""
+
+# label_copied
+msgid "copied"
+msgstr ""
+
+# field_type
+msgid "Type"
+msgstr ""
+
+# label_change_status
+msgid "Change status"
+msgstr ""
+
+# text_wiki_destroy_confirmation
+msgid "Are you sure you want to delete this wiki and all its content ?"
+msgstr ""
+
+# label_preferences
+msgid "Preferences"
+msgstr ""
+
+# label_send_test_email
+msgid "Send a test email"
+msgstr ""
+
+# field_identifier
+msgid "Identifier"
+msgstr ""
+
+# label_closed_issues
+msgid "closed"
+msgstr ""
+
+# label_preview
+msgid "Preview"
+msgstr ""
+
+# label_search
+msgid "Search"
+msgstr ""
+
+# label_browse
+msgid "Browse"
+msgstr ""
+
+# label_password_lost
+msgid "Lost password"
+msgstr ""
+
+# label_project_new
+msgid "New project"
+msgstr ""
+
+# label_issue_category_new
+msgid "New category"
+msgstr ""
+
+# label_news_added
+msgid "News added"
+msgstr ""
+
+# field_issue_to_id
+msgid "Related issue"
+msgstr ""
+
+# default_priority_low
+msgid "Low"
+msgstr ""
+
+# label_plugins
+msgid "Plugins"
+msgstr ""
+
+# general_fmt_datetime
+msgid "%%m/%%d/%%Y %%I:%%M %%p"
+msgstr ""
+
+# label_custom_field
+msgid "Custom field"
+msgstr ""
+
+# label_news_view_all
+msgid "View all news"
+msgstr ""
+
+# label_home
+msgid "Home"
+msgstr ""
+
+# label_download
+msgid "%d Download"
+msgstr ""
+
+# field_password
+msgid "Password"
+msgstr ""
+
+# label_reported_issues
+msgid "Reported issues"
+msgstr ""
+
+# button_download
+msgid "Download"
+msgstr ""
+
+# label_today
+msgid "today"
+msgstr ""
+
+# field_is_for_all
+msgid "For all projects"
+msgstr ""
+
+# label_document_new
+msgid "New document"
+msgstr ""
+
+# label_issue_plural
+msgid "Issues"
+msgstr ""
+
+# label_query
+msgid "Custom query"
+msgstr ""
+
+# label_issue_status
+msgid "Issue status"
+msgstr ""
+
+# permission_view_wiki_pages
+msgid "View wiki"
+msgstr ""
+
+# default_role_developper
+msgid "Developer"
+msgstr ""
+
+# label_updated_time
+msgid "Updated %s ago"
+msgstr ""
+
+#actionview_datehelper_time_in_words_day:
+msgid "1 day"
+msgstr ""
+msgid "%d day"
+msgstr ""
+#actionview_datehelper_time_in_words_day_plural: 
+msgid "%d days"
+msgstr ""
+#actionview_datehelper_time_in_words_hour_about: 
+msgid "about an hour"
+msgstr ""
+#actionview_datehelper_time_in_words_hour_about_plural: 
+msgid "about %d hours"
+msgstr ""
+#actionview_datehelper_time_in_words_hour_about_single: 
+msgid "about an hour"
+msgstr ""
+#actionview_datehelper_time_in_words_minute: 
+msgid "1 minute"
+msgstr ""
+#actionview_datehelper_time_in_words_minute_half: 
+msgid "half a minute"
+msgstr ""
+#actionview_datehelper_time_in_words_minute_less_than: 
+msgid "less than a minute"
+msgstr ""
+#actionview_datehelper_time_in_words_minute_plural: 
+msgid "%d minutes"
+msgstr ""
+#actionview_datehelper_time_in_words_minute_single: 
+msgid "1 minute"
+msgstr ""
+#actionview_datehelper_time_in_words_second_less_than: 
+msgid "less than a second"
+msgstr ""
+#actionview_datehelper_time_in_words_second_less_than_plural: 
+msgid "less than %d seconds"
+msgstr ""
+
+# label_modified
+msgid "modified"
+msgstr ""
+
+# label_overall_activity
+msgid "Overall activity"
+msgstr ""
+
+# setting_commit_ref_keywords
+msgid "Referencing keywords"
+msgstr ""
+
+# text_load_default_configuration
+msgid "Load the default configuration"
+msgstr ""
+
+# label_added_time_by
+msgid "Added by %s %s ago"
+msgstr ""
+
+# label_me
+msgid "me"
+msgstr ""
+
+# mail_body_account_information
+msgid "Your account information"
+msgstr ""
+
+# label_string
+msgid "Text"
+msgstr ""
+
+# general_csv_separator
+msgid "','"
+msgstr ""
+
+# label_administration
+msgid "Administration"
+msgstr ""
+
+# text_repository_usernames_mapping
+msgid "\"Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped.\""
+msgstr ""Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped.\""
+
+# text_subprojects_destroy_warning
+msgid "'Its subproject(s)"
+msgstr ""
+
+# button_back
+msgid "Back"
+msgstr ""
+
+# label_changeset_plural
+msgid "Changesets"
+msgstr ""
+
+# label_week
+msgid "Week"
+msgstr ""
+
+# label_applied_status
+msgid "Applied status"
+msgstr ""
+
+# label_example
+msgid "Example"
+msgstr ""
+
+# setting_commit_logs_encoding
+msgid "Commit messages encoding"
+msgstr ""
+
+# button_edit
+msgid "Edit"
+msgstr ""
+
+# label_blocked_by
+msgid "blocked by"
+msgstr ""
+
+# label_in_more_than
+msgid "in more than"
+msgstr ""
+
+# setting_repositories_encodings
+msgid "Repositories encodings"
+msgstr ""
+
+# label_current_version
+msgid "Current version"
+msgstr ""
+
+# label_repository_plural
+msgid "Repositories"
+msgstr ""
+
+# field_is_public
+msgid "Public"
+msgstr ""
+
+# label_attachment_new
+msgid "New file"
+msgstr ""
+
+# permission_rename_wiki_pages
+msgid "Rename wiki pages"
+msgstr ""
+
+# label_new_statuses_allowed
+msgid "New statuses allowed"
+msgstr ""
+
+# setting_feeds_limit
+msgid "Feed content limit"
+msgstr ""
+
+# label_statistics
+msgid "Statistics"
+msgstr ""
+
+# field_is_required
+msgid "Required"
+msgstr ""
+
+# error_can_t_load_default_data
+msgid "\"Default configuration could not be loaded"
+msgstr ""デフォルト設定がロードできませんでした"
+
+# button_reset
+msgid "Reset"
+msgstr ""
+
+# setting_diff_max_lines_displayed
+msgid "Max number of diff lines displayed"
+msgstr ""
+
+# field_estimated_hours
+msgid "Estimated time"
+msgstr ""
+
+# field_estimated_hours 2
+msgid "estimated_hours"
+msgstr ""
+
+# text_rmagick_available
+msgid "RMagick available (optional)"
+msgstr ""
+
+# button_activate
+msgid "Activate"
+msgstr ""
+
+# label_user_mail_option_all
+msgid "\"For any event on all my projects\""
+msgstr ""
+
+# field_column_names
+msgid "Columns"
+msgstr ""
+
+# label_subproject_plural
+msgid "Subprojects"
+msgstr ""
+
+# default_doc_category_user
+msgid "User documentation"
+msgstr ""
+
+# label_user_mail_option_none
+msgid "\"Only for things I watch or I'm involved in\""
+msgstr ""
+
+# label_topic_plural
+msgid "Topics"
+msgstr ""
+
+# label_news_latest
+msgid "Latest news"
+msgstr ""
+
+# label_role_and_permissions
+msgid "Roles and permissions"
+msgstr ""
+
+# text_status_changed_by_changeset
+msgid "Applied in changeset %s."
+msgstr ""
+
+# label_diff_side_by_side
+msgid "side by side"
+msgstr ""
+
+# permission_edit_time_entries
+msgid "Edit time logs"
+msgstr ""
+
+# permission_edit_own_issue_notes
+msgid "Edit own notes"
+msgstr ""
+
+# general_csv_decimal_separator
+msgid "'.'"
+msgstr ""
+
+# label_authentication
+msgid "Authentication"
+msgstr ""
+
+# label_issues_by
+msgid "Issues by %s"
+msgstr ""
+
+# label_ticket
+msgid "Ticket"
+msgstr ""
+
+# label_days
+msgid "days"
+msgstr ""
+
+msgid "Install candycane"
+msgstr ""
+
+msgid "Your tmp directory is writable."
+msgstr ""
+
+msgid "Your tmp directory is NOT writable."
+msgstr ""
+
+msgid "Your config directory is writable."
+msgstr ""
+
+msgid "Your config directory is NOT writable."
+msgstr ""
+
+msgid "Installation cannot continue as minimum requirements are not met."
+msgstr ""
+
+msgid "Click here to begin installation"
+msgstr ""
+
+msgid "Step 1: Database"
+msgstr ""
+
+msgid "Creating database conection setting. please type valid configuration for your database server."
+msgstr ""
+
+msgid "Exsisting database name"
+msgstr ""
+
+msgid "Prefix for table name.(if you need)"
+msgstr ""
+
+msgid "Build database"
+msgstr ""
+
+msgid "Step 2: Run SQL"
+msgstr ""
+
+msgid "Loading initial data to database which you configured."
+msgstr ""
+
+msgid "Click here to build your database"
+msgstr ""
+
+msgid "Delete the installation directory <strong>/app/plugins/install</strong>."
+msgstr ""
+
+msgid "Click here to delete installation files"
+msgstr ""
+
+msgid "Installation completed successfully"
+msgstr ""
+
+

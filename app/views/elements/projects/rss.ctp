@@ -1,1 +1,0 @@
-<?php $html->meta('atom', array('project_id'=>$this->params['project_id'], '?'=>array_merge($this->params['url'], array('key'=>$rss_token, 'format'=>'atom', 'from'=>null, 'url'=>null))), array('title'=>$rss_title, 'rel'=>'alternate'), false); ?>
