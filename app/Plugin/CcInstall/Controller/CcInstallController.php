@@ -154,9 +154,10 @@ class CcInstallController extends CcInstallAppController {
     function finish() {
         $this->pageTitle = __('Installation completed successfully');
         if (isset($this->params['named']['delete'])) {
-            App::import('Core', 'Folder');
+            App::uses('Folder', 'Utility');
             $this->folder = new Folder;
             if ($this->folder->delete(APP.'Plugin'.DS.'CcInstall')) {
+                Cache::clear(false, '_cake_core_');
                 $this->Session->setFlash(__('Installataion files deleted successfully.'));
                 $this->redirect('/');
                 exit();
