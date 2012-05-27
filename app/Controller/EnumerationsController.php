@@ -1,7 +1,11 @@
 <?php
 class EnumerationsController extends AppController {
-#  before_filter :require_admin
-#  
+
+  public function beforeFilter() {
+    parent::beforeFilter();
+    $this->require_admin();
+  }
+
   function index(){
     $this->getlist();
     $this->render('list');
