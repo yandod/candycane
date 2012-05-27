@@ -21,12 +21,16 @@ class RolesController extends AppController {
   var $name = 'Roles';
   var $components = array('RequestHandler');
   var $uses = array('Role','Permission');
-  
-#  before_filter :require_admin
-#
+
 #  verify :method => :post, :only => [ :destroy, :move ],
 #         :redirect_to => { :action => :list }
 #
+
+  public function beforeFilter() {
+    parent::beforeFilter();
+    $this->require_admin();
+  }
+
   function index() {
     $this->lists();
     if (!$this->RequestHandler->isAjax()) {
