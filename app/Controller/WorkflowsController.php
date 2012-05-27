@@ -4,9 +4,11 @@ class WorkflowsController extends AppController {
   var $name = 'Workflows';
   var $uses = array('Workflow', 'Role', 'Tracker', 'IssueStatus');
 
-#  before_filter :require_admin
 
-
+  public function beforeFilter() {
+    parent::beforeFilter();
+    $this->require_admin();
+  }
 
 
   function index() {
