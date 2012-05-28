@@ -5,7 +5,7 @@ if( $currentuser[ 'admin' ] )
 }
 ?>
 
-<h2><?php echo __('Enumerations') ?></h2>
+<h2><?php echo $this->Candy->html_title(__('Enumerations')) ?></h2>
 
 <?php echo $this->Form->create('Enumeration',array('url' => array('action'=>'edit','id'=>$enumeration['Enumeration']['id']),'class'=>'tabular')); ?>
   <?php echo $this->element('enumerations/_form',array('opt' => $enumeration['Enumeration']['opt'])) ?>

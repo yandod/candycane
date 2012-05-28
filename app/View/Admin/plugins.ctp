@@ -5,7 +5,7 @@ if( $currentuser[ 'admin' ] )
 }
 ?>
 
-<h2><?php echo __('Plugins'); ?></h2>
+<h2><?php echo $this->Candy->html_title(__('Plugins')); ?></h2>
 
 <?php if (! empty($plugins)): ?>
 <table class="list plugins">

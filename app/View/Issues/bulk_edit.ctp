@@ -1,4 +1,4 @@
-<h2><?php echo __('Bulk edit selected issues') ?></h2>
+<h2><?php echo $this->Candy->html_title(__('Bulk edit selected issues')); ?></h2>
 
 <ul><?php foreach($_issues as $i): ?>
 	<li><?php echo $this->Html->link(h("{$i['Tracker']['name']} #{$i['Issue']['id']}"), array('action' => 'show', 'id' => $i['Issue']['id'] )).h(": {$i['Issue']['subject']}"); ?></li>

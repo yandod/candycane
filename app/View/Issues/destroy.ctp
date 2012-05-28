@@ -1,4 +1,4 @@
-<h2><?php $this->Candy->html_title();__('confirmation'); ?></h2>
+<h2><?php echo $this->Candy->html_title(__('confirmation')); ?></h2>
 
 <?php echo $this->Form->create(array('url'=>array('action'=>'destroy'), 'id'=>'IssueDestroyForm')); ?>
   <div class="box">
