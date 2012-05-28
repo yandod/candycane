@@ -1,4 +1,4 @@
-<h2><?php echo __('Lost password'); ?></h2>
+<h2><?php echo $this->Candy->html_title(__('Lost password')); ?></h2>
 
 <div class="box">
     <p>

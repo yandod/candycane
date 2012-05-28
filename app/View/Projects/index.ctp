@@ -15,7 +15,7 @@ if( $currentuser[ 'admin' ] )
 <?php echo $this->Html->link(__('Overall activity', TRUE), array('controller' => 'projects', 'action' => 'activity')); ?>
 </div>
 
-<h2><?php echo __('Projects'); ?></h2>
+<h2><?php echo $this->Candy->html_title(__('Projects')); ?></h2>
 
 <!--
 <% @project_tree.keys.sort.each do |project| %>

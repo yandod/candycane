@@ -1,4 +1,4 @@
-<h2><?php echo __('Issue category')?></h2>
+<h2><?php echo $this->Candy->html_title(__('Issue category'))?></h2>
 
 <?php echo $this->Form->create('IssueCategory', array('url'=>array('controller'=>'issue_categories','action'=>'edit', 'project_id'=>$main_project['Project']['identifier'],'id'=>$issue_category_data['IssueCategory']['id']), 'class'=>'tabular')) ?>
 <?php echo $this->Form->error('projects/add_issue_category') ?>
