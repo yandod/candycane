@@ -64,7 +64,7 @@ class QueriesComponent extends Component
 	$self->data = array_merge($self->data, $temp);
       }
     } else {
-      if (isset($self->params->query['set_filter']) || $forse_set_filter) {
+      if (isset($self->request->data['set_filter']) || $forse_set_filter) {
           if ( !isset($self->params->data['fields'])) {
               $self->params->data['fields'] = array();
               $self->params->data['operators'] = array();
