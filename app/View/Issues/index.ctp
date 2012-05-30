@@ -2,16 +2,17 @@
     <h2><?php  $this->Candy->html_title(__('Issues')) ?></h2>
     
     <form action="<?php echo h($this->Html->url(array('controller' => 'queries', 'action' => 'add'))) ?>" method="post" id="query_form">
+    <input type="hidden" name="set_filter" value="1" />
     <?php if (isset($main_project)): ?><input type="hidden" name="project_id" value="<?php echo h($main_project['Project']['identifier']) ?>" /><?php endif ?>
     <fieldset id="filters"><legend><?php echo __('Filters') ?></legend>
     <?php echo $this->element('queries/filters', array('show_filters' => $show_filters, 'available_filters' => $available_filters)) ?>
     <p class="buttons">
       <?php echo $this->Js->link(__('Apply'), 
-      		array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'), 
-		array('update' => 'content', 'buffer' => false, 'evalScripts' => true, 'data' => "Form.serialize('query_form')", 'dataExpression' => true, 'class' => 'icon icon-checked')) ?>
+      		array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null),
+		array('update' => 'content', 'buffer' => false, 'evalScripts' => true, 'data' => "Form.serialize('query_form')", 'dataExpression' => true, 'class' => 'icon icon-checked', 'method' => 'GET')) ?>
       <?php echo $this->Js->link(__('Clear'), 
-		array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null, '?set_filter=1'),
-		array('update' => 'content', 'buffer' => false, 'evalScripts' => true, 'class' => 'icon icon-reload')) ?>
+		array('controller' => 'issues', 'action' => 'index', 'project_id' => isset($main_project) ? $main_project['Project']['identifier_or_id'] : null),
+		array('update' => 'content', 'buffer' => false, 'evalScripts' => true, 'class' => 'icon icon-reload', 'method' => 'GET')) ?>
     <!--
     <% if User.current.allowed_to?(:save_queries, @project, :global => true) %>
     -->

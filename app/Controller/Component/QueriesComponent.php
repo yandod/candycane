@@ -65,10 +65,10 @@ class QueriesComponent extends Component
       }
     } else {
       if (isset($self->params->query['set_filter']) || $forse_set_filter) {
-          if ( !isset($self->params->data['fields'])) {
-              $self->params->data['fields'] = array();
-              $self->params->data['operators'] = array();
-              $self->params->data['values'] = array();
+          if ( !isset($self->params->query['fields'])) {
+              $self->params->query['fields'] = array();
+              $self->params->query['operators'] = array();
+              $self->params->query['values'] = array();
           }
       	  // TODO
           if (isset($self->params['url']) && is_array($self->params['url']) ) {
@@ -81,9 +81,9 @@ class QueriesComponent extends Component
                   }                  
               }
           }
-        foreach ($self->params->data['fields'] as $field) {
-          $operator = $self->params->data['operators'][$field];
-          $values = isset($self->params->data['values'][$field]) ? $self->params->data['values'][$field] : null;
+        foreach ($self->params->query['fields'] as $field) {
+          $operator = $self->params->query['operators'][$field];
+          $values = isset($self->params->query['values'][$field]) ? $self->params->query['values'][$field] : null;
           if (isset($available_filters[$field])) {
             $show_filters[$field] = $available_filters[$field];
 	    // to avoid the error:
