@@ -656,7 +656,7 @@ class CandyHelper extends AppHelper {
     $paginator_params = array('sort', 'page', 'direction');
     foreach($paginator_params as $paginator_param) {
       if(!empty($get_param[$paginator_param])) {
-        $url_oaram[$paginator_param] = $get_param[$paginator_param];
+        $url_param[$paginator_param] = $get_param[$paginator_param];
         unset($get_param[$paginator_param]);
       }
     }
