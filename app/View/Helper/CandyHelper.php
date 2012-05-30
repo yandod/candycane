@@ -640,7 +640,6 @@ class CandyHelper extends AppHelper {
   {
     $params = $this->Paginator->params;
     $paging = $params['paging'][$this->Paginator->defaultModel()];
-    $view = $this->_View;
     if (isset($options['page_param'])) {
       unset($options['page_param']);
       $page_param = null;
