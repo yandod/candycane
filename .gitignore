@@ -6,7 +6,6 @@ app/tmp/cache/*
 app/tmp/logs/*
 app/tmp/tests/*
 app/files/*
-app/Plugin/*
 
 ## Simpletest
 vendors/simpletest
