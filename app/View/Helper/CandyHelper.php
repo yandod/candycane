@@ -640,7 +640,6 @@ class CandyHelper extends AppHelper {
   {
     $params = $this->Paginator->params;
     $paging = $params['paging'][$this->Paginator->defaultModel()];
-    $view = $this->_View;
     if (isset($options['page_param'])) {
       unset($options['page_param']);
       $page_param = null;
@@ -649,21 +648,18 @@ class CandyHelper extends AppHelper {
     }
     $url_param = $params['url_param'];
     $get_param = array();
-    if(!empty($this->request->params['url'])) {
-      $get_param = $this->request->params['url'];
+    if(!empty($this->request->query)) {
+      $get_param = $this->request->query;
       unset($get_param['url']);
     }
     $paginator_params = array('sort', 'page', 'direction');
     foreach($paginator_params as $paginator_param) {
       if(!empty($get_param[$paginator_param])) {
-        $url_oaram[$paginator_param] = $get_param[$paginator_param];
+        $url_param[$paginator_param] = $get_param[$paginator_param];
         unset($get_param[$paginator_param]);
       }
     }
     $url_param['?'] = !empty($url_param['?']) ? am($url_param['?'], $get_param) : $get_param;
-    if(!empty($url_param['?']['set_filter'])) {
-      unset($url_param['?']['set_filter']);
-    }
     $html = '';
     if ($paging['prevPage']) {
       $html .= $this->AppAjax->link('&#171;' . __('Previous'), $url = am($url_param, array($page_param => $paging['page'] - 1)), array(
