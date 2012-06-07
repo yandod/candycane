@@ -34,6 +34,10 @@ class WikiController extends AppController {
     $this->set('page', $page);
     $this->set('content', $content);
     $this->set('editable', $this->is_editable());
+    $attachments = $this->Wiki->WikiPage->findAttachments($this->Wiki->WikiPage->id);//data['WikiPage']['id']);
+    $attachments_deletable = $this->Wiki->WikiPage->is_attachments_deletable($this->current_user, $this->_project);
+    $this->set(compact('attachments'));
+    $this->set(compact('attachments_deletable'));
     $this->render('show');
   }
 
@@ -377,6 +381,24 @@ class WikiController extends AppController {
 	$this->layout = 'ajax';
 	$this->set('content', $this->request->data);
    	$this->render('/Elements/wiki/content');	
+   }
+
+   function add_attachment(){
+    	$project_id = $this->viewVars['main_project']['Project']['project_id'];
+        
+    	$page = $this->Wiki->find_or_new_page($this->request->params['wikipage']);
+	if(!empty($this->request->params['form'])) {
+        	$attachments = $this->Wiki->WikiPage->attach_files($this->request->params['form'], $this->current_user);
+        	if (!empty($attachments['unsaved'])) {
+          		$this->Session->setFlash(sprintf(__("%d file(s) could not be saved."), count($attachments['unsaved'])), 'default', array('class'=>'flash flash_warning'));
+        	}
+        	
+	}
+     	$this->redirect(array('controller' => 'wiki',
+                              'action'=>'index',
+                              'project_id'=>$this->request->params['project_id'],
+                              'wikipage' => $this->request->params['wikipage']));
+   	
    }
 
   // private
