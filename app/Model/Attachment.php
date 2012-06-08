@@ -268,7 +268,7 @@ class Attachment extends AppModel {
  */
 	public function project() {
 		$Container = & ClassRegistry::init($this->data[$this->name]['container_type']);
-		$projecT = null;
+		$project = null;
 		if(method_exists($Container, 'project')){
 			$Container->read(null, $this->data[$this->name]['container_id']);
 			$project = $Container->project();
