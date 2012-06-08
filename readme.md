@@ -28,26 +28,40 @@ Currently some features which are present in Redmine are not supported by CandyC
 - Forum
 - Documents
 
-CandyCane is using CakePHP v1.2. But using some PHP5 syntax in codes.
+CandyCane is using CakePHP v2.1. But using some PHP5 syntax in codes.
 
 
 ## Contributors
 
 - yandod
 - halt
+- Ignacio Albors
 - k-kishida
-- akiyan
 - [Graham Weldon](http://grahamweldon.com) (predominant)
+- akiyan
 - Takuya Sato
 - Yoshio HANAWA
 - kaz29
+- Dima
 - Norio Suzuki
+- hamaco
+- kiang
+- okonomi
 - shin1x1
 - Steve Grosbois
 - Spenser Jones
 - tomo
 - hiromi2424
-
+- Mindiell
+- mzdakr
+- Òscar Casajuana
+- elboletaire
+- Michito Suzuki
+- Shogo Kawahara
+- Sebastien pencreach
+- Sardorbek Pulatov
+- Hisateru Tanaka
+     
 We will appreciate any pull requests.
 
 I try to merge as much as possible. Please fork the repository if you find something you want to fix, and submit a pull request.
