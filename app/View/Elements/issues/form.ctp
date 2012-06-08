@@ -66,21 +66,21 @@
 
 <div class="splitcontentright">
 	<p>
-		<?php echo $this->Form->label('start_date', __('start_date')); ?>
+		<?php echo $this->Form->label('start_date', __('Start date')); ?>
 		<?php echo $this->Form->input('start_date', array('div' => false, 'label' => false, 'size' => 10, 'type' => 'text')); ?>
 		<?php echo $this->Candy->calendar_for('IssueStartDate'); ?>
 	</p>
 	<p>
-		<?php echo $this->Form->label('due_date', __('due_date')); ?>
+		<?php echo $this->Form->label('due_date', __('Due date')); ?>
 		<?php echo $this->Form->input('due_date', array('div' => false, 'label' => false, 'size' => 10, 'type' => 'text')); ?>
 		<?php echo $this->Candy->calendar_for('IssueDueDate'); ?>
 	</p>
 	<p>
-		<?php echo $this->Form->label('estimated_hours', __('estimated_hours')); ?>
+		<?php echo $this->Form->label('estimated_hours', __('Estimated time')); ?>
 		<?php echo $this->Form->input('estimated_hours', array('div' => false, 'label' => false, 'size' => 10, 'type' => 'text')); __('Hours');?>
 	</p>
 	<p>
-		<?php echo $this->Form->label('done_ratio', __('done_ratio').'%'); ?>
+		<?php echo $this->Form->label('done_ratio', __('Done').' %'); ?>
 		<?php echo $this->Form->input('done_ratio', array('type' => 'select', 'div' => false, 'label' => false, 'options' => array(
 			0   => '0 %',
 			10  => '10 %',
