@@ -51,19 +51,21 @@
 		echo $Settings->app_title;
 	} ?></h1>
 
-	<div id="main-menu">
-		<ul>
-			<?php foreach ($main_menu as $item): ?>
-				<?php
-				$url = $item;
-				unset($url['class']);
-				unset($url['caption']);
-				$option = array('class' => $item['class']); 
-				?>
-				<li><?php echo $this->Html->link(__($item['caption']),$url,$option); ?></li>
-			<?php endforeach; ?>
-		</ul>
-	</div>
+    <?php if(!empty($main_menu)) :?>
+        <div id="main-menu">
+            <ul>
+                <?php foreach ($main_menu as $item): ?>
+                    <?php
+                    $url = $item;
+                    unset($url['class']);
+                    unset($url['caption']);
+                    $option = array('class' => $item['class']);
+                    ?>
+                    <li><?php echo $this->Html->link(__($item['caption']),$url,$option); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
 </div>
 
 <?php echo $this->Html->tag('div', null, array('id' => 'main', 'class' => isset($Sidebar) ? '' : 'nosidebar')); ?>
