@@ -65,21 +65,26 @@ class QueriesComponent extends Component
       }
     } else {
       if (isset($self->params->query['set_filter']) || $forse_set_filter) {
+          if (isset($self->params->query) && is_array($self->params->query) ) {
+	      $temp = array();
+              foreach ($self->params->query as $criteria_name => $criteria_val) {
+                  //$self->params['form']['fields'][$criteria_name] = $criteria_name;
+                  //$self->params['form']['operators'][$criteria_name] = '=';
+                  //$self->params['form']['values'][$criteria_name] = array($criteria_val);
+		  $temp['fields'][$criteria_name] = $criteria_name;
+                  $temp['operators'][$criteria_name] = '=';
+                  $temp['values'][$criteria_name] = array($criteria_val);
+                  if ($criteria_name == 'status_id') {
+                      //$self->params['form']['operators'][$criteria_name] = $criteria_val;
+                      $temp['operators'][$criteria_name] = $criteria_val;
+                  }                  
+              }
+	      $self->params->query = $temp;
+          }
           if ( !isset($self->params->query['fields'])) {
               $self->params->query['fields'] = array();
               $self->params->query['operators'] = array();
               $self->params->query['values'] = array();
-          }
-      	  // TODO
-          if (isset($self->params['url']) && is_array($self->params['url']) ) {
-              foreach ($self->params['url'] as $criteria_name => $criteria_val) {
-                  $self->params['form']['fields'][$criteria_name] = $criteria_name;
-                  $self->params['form']['operators'][$criteria_name] = '=';
-                  $self->params['form']['values'][$criteria_name] = array($criteria_val);
-                  if ($criteria_name == 'status_id') {
-                      $self->params['form']['operators'][$criteria_name] = $criteria_val;
-                  }                  
-              }
           }
         foreach ($self->params->query['fields'] as $field) {
           $operator = $self->params->query['operators'][$field];
