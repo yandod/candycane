@@ -935,7 +935,7 @@ msgid "Start"
 msgstr ""
 
 # field_start_date 2
-msgid "start_date"
+msgid "Start date"
 msgstr ""
 
 # field_password_confirmation
@@ -1521,7 +1521,7 @@ msgid "%% Done"
 msgstr ""
 
 # field_done_ratio
-msgid "done_ratio"
+msgid "Done"
 msgstr ""
 
 # general_lang_name
