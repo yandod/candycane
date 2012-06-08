@@ -59,7 +59,7 @@ echo $this->Candy->link_to_if_authorized(
 </tr>
 <tr>
     <td class="assigned-to"><b><?php echo __('Assigned to') ?>:</b></td><td><?php echo $this->Candy->avatar(array('User' => $issue['AssignedTo']), array('size' => 14)) ?><?php echo strlen($issue['Issue']['assigned_to_id']) ? $this->Candy->link_to_user($issue['AssignedTo']) : "-" ?></td>
-    <td class="progress"><b><?php echo __('done_ratio') ?> %:</b></td><td class="progress"><?php echo $this->Candy->progress_bar($issue['Issue']['done_ratio'], array('width'=>'80px', 'legend'=>$issue['Issue']['done_ratio'].'%')); ?></td>
+    <td class="progress"><b><?php echo __('Done') ?> %:</b></td><td class="progress"><?php echo $this->Candy->progress_bar($issue['Issue']['done_ratio'], array('width'=>'80px', 'legend'=>$issue['Issue']['done_ratio'].'%')); ?></td>
 </tr>
 <tr>
     <td class="category"><b><?php echo __('Category') ?>:</b></td><td><?php echo h(strlen($issue['Issue']['category_id']) ? $issue['Category']['name'] : "-") ?></td>
