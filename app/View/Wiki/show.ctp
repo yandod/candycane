@@ -145,6 +145,11 @@ if ($content['WikiContent']['version'] < $page['WikiContent']['version']) {
 
 <?php /* $attachment->link_to_attachments($page) // attachment helper */ ?>
 
+<?php
+	$attach_options = array_merge(array('deletable'=>$attachments_deletable), $content);
+	echo $this->element('attachments/links', array('attachments'=>$attachments, 'options'=>$attach_options), array('Number'));
+?>
+
 <?php if ($editable /* && authorize_for('wiki', 'add_attachment')*/ ) : ?>
 <p><?php echo $this->Candy->link_to_if_authorized(
 	array('controller' => 'wiki', 'action' => 'add_attachment'),

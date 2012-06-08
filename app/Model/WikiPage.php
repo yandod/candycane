@@ -66,7 +66,9 @@ class WikiPage extends AppModel {
 			'description' => array('Proc' => '_event_description'),
 			'datetime' => 'created_on',
 			'url' => array('Proc' => '_event_url')
-		)
+		),
+		'Attachable'
+
 	);
 
 /**
@@ -314,6 +316,12 @@ class WikiPage extends AppModel {
 #    @lines.each { |line| line[0] ||= current.version }
 #  end
 #end
+	function project() {
+		$wiki = $this->read('Wiki.*', $this->data['Wiki']['id']);
+		$project = $this->Wiki->find('first', array('conditions' => array('Project.id' =>  $wiki['Wiki']['project_id'])));
+
+		return $project;
+	}
 
 /**
  * Check if the title is unique

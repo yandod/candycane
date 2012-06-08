@@ -616,4 +616,9 @@ class Issue extends AppModel
 #  end
 #end
 #
+  public function project() {
+	$project = $this->read('Project.*', $this->data['Issue']['id']);
+
+  	return $project;
+  }
 }

@@ -98,7 +98,7 @@ class ProjectsController extends AppController {
 		}
 		*/
 
-		$only = array('add', 'archive', 'unarchive', 'destroy');
+		$only = array('add', 'archive', 'unarchive', 'destroy', 'settings');
 		if (in_array($this->request->action, $only)) {
 			$this->require_admin();
 		}

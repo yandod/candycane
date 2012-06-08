@@ -53,7 +53,7 @@
                       'update' => "content", 
                       'complete' => 'window.scrollTo(0,0)', 
                       'title' => __('From').' '.$this->Candy->format_date($date_to).' '.strtolower(__('To')).' '.$this->Candy->format_date(strtotime("$days day", $date_to) - 1),
-					  'escapse' => false
+					  'escape' => false
                     ),
                     null, false);
   }
