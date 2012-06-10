@@ -10,7 +10,19 @@
 	//	'update' => 'content',
 	//	'allowCache' => false,
 	//	'with' => 'Form.serialize(\'IssueAddForm\')'
-	//)); ?>
+	//));
+	echo $this->Js->get('#IssueTrackerId')->event('change', $this->Js->request(
+		'/projects/' . $main_project["Project"]["identifier"] . '/issues/add',
+		//array('controller' => 'critiques', 'action' => 'auto_select_author'), 
+		array( 
+		'update' => '#content', 
+		'async' => true, 
+		'dataExpression' => true, 
+		'method' => 'post', 
+		'data' => $this->Js->serializeForm(array('isForm' => false, 'inline' => true)) 
+	) ) );
+	echo $this->Js->writeBuffer();
+	?>
 	<hr />
 <?php endif; ?>
 
@@ -136,10 +148,8 @@
 		?>
 	</p>
 <?php endif; ?>
+<?php echo $this->Html->script(array('jstoolbar/jstoolbar','jstoolbar/textile','jstoolbar/lang/jstoolbar-ja')); ?>
 
-<script src="/js/jstoolbar/jstoolbar.js?1236399204" type="text/javascript"></script>
-<script src="/js/jstoolbar/textile.js?1236399204" type="text/javascript"></script>
-<script src="/js/jstoolbar/lang/jstoolbar-ja.js?1236399204" type="text/javascript"></script>
 <script type="text/javascript">
 //<![CDATA[
 var toolbar = new jsToolBar($('description')); toolbar.setHelpLink('<?php echo __("Text formatting");?>: <a href="/help/wiki_syntax.html?1236399200" onclick="window.open(&quot;/help/wiki_syntax.html?1236399200&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;"><?php echo __("Help"); ?></a>'); toolbar.draw();
