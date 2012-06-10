@@ -6,7 +6,7 @@
 </p>
 
 <p class="icon22 icon22-users">
-  <?php echo $this->Html->link(__('Users', TRUE), array('controller' => 'users')); ?> |
+  <?php echo $this->Html->link(__('Users', TRUE), array('controller' => 'users', 'action' => 'index')); ?> |
   <?php echo $this->Html->link(__('New', TRUE), array('controller' => 'users', 'action' => 'add')); ?>
 </p>
 
