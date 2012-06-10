@@ -34,8 +34,18 @@ foreach ($roles_data as $roles_row) {
 				'value' => $member_row['Member']['role_id']
 			)
 		) ?>
-        <?php echo $this->Form->submit(__('Change'),array('class' => 'small','div' => false)) ?>
-      <?php echo '</form>'; ?>
+	<?php echo $this->Js->submit(__('Change'),array('div' => false, 'class' => 'small', 'url' => 
+    		array(
+			'controller' => 'members',
+			'action' => 'edit',
+			'project_id' => $main_project['Project']['identifier'],
+			'id' => $member_row['Member']['id']
+		),
+		'update' => 'tab-content-members', 
+		'buffer' => false, 
+		'evalScripts' => true))    
+	?>
+	<?php echo '</form>'; ?>
       <?php endif; ?>
     </td>
     <td align="center">
