@@ -321,7 +321,7 @@ class IssueTest extends CakeTestCase {
   function test_issue_destroy() {
     $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail');
     $this->Issue->read(null, 1);
-    $this->Issue->del();
+    $this->Issue->delete();
     $this->assertFalse($this->Issue->read(null, 1));
     $this->assertFalse($this->Issue->TimeEntry->findByIssueId(1));
   }
