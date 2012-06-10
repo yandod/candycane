@@ -28,7 +28,7 @@ class IssueTest extends CakeTestCase {
       'subject' => 'test_create', 
       'description' => 'IssueTest#test_create', 
       'estimated_hours' => '1:30'));
-    $this->assertTrue($this->Issue->save());
+    $this->assertNotEmpty($this->Issue->save());
     $this->Issue->read(null, $this->Issue->getLastInsertID());
     $this->assertEqual(1.5, $this->Issue->data['Issue']['estimated_hours']);
   }
@@ -43,7 +43,7 @@ class IssueTest extends CakeTestCase {
       'status_id' => 1, 
       'priority_id' => $priorities[0]['Priority']['id'], 
       'subject' => 'test_create'));
-    $this->assertTrue($this->Issue->save());
+    $this->assertNotEmpty($this->Issue->save());
     $this->assertNull($this->Issue->data['Issue']['description']);
   }
 
@@ -55,7 +55,7 @@ class IssueTest extends CakeTestCase {
     //change field setting temporary
     $this->assertEqual($field['CustomField']['name'],'Database');
     $IssueCustomField->id = $field['CustomField']['id'];
-    $this->assertTrue($IssueCustomField->saveField('is_required',true));
+    $this->assertNotEmpty($IssueCustomField->saveField('is_required',true));
 
     $this->Issue->create();
     $data = array(
@@ -219,13 +219,13 @@ class IssueTest extends CakeTestCase {
       'subject' => 'Duplicates test', 
       'description' => 'Duplicates test');
     $this->Issue->create();
-    $this->assertTrue($this->Issue->save($data));
+    $this->assertNotEmpty($this->Issue->save($data));
     $issue1 = $this->Issue->getLastInsertID();
     $this->Issue->create();
-    $this->assertTrue($this->Issue->save($data));
+    $this->assertNotEmpty($this->Issue->save($data));
     $issue2 = $this->Issue->getLastInsertID();
     $this->Issue->create();
-    $this->assertTrue($this->Issue->save($data));
+    $this->assertNotEmpty($this->Issue->save($data));
     $issue3 = $this->Issue->getLastInsertID();
 
     $IssueRelation =& ClassRegistry::init('IssueRelation');
@@ -247,7 +247,7 @@ class IssueTest extends CakeTestCase {
     $this->Issue->init_journal($this->Issue->data, $user['Author'], "Closing issue1");
     $status = $this->Issue->Status->find('first', array('conditions' => array('is_closed' => true)));
     $this->Issue->data['Issue']['status_id'] = $status['Status']['id'];
-    $this->assertTrue($this->Issue->save());
+    $this->assertNotEmpty($this->Issue->save());
 
     # 2 and 3 should be also closed
     $this->Issue->read(null, $issue2);
@@ -269,10 +269,10 @@ class IssueTest extends CakeTestCase {
       'subject' => 'Duplicates test', 
       'description' => 'Duplicates test');
     $this->Issue->create();
-    $this->assertTrue($this->Issue->save($data));
+    $this->assertNotEmpty($this->Issue->save($data));
     $issue1 = $this->Issue->getLastInsertID();
     $this->Issue->create();
-    $this->assertTrue($this->Issue->save($data));
+    $this->assertNotEmpty($this->Issue->save($data));
     $issue2 = $this->Issue->getLastInsertID();
 
     $IssueRelation =& ClassRegistry::init('IssueRelation');

@@ -28,11 +28,11 @@ class IssueStatusTest extends CakeTestCase {
 
     $this->IssueStatus->create();
     $this->IssueStatus->set(array('name' => "新規"));
-    $this->assertTrue($this->IssueStatus->save());
+    $this->assertNotEmpty($this->IssueStatus->save());
 
     $this->IssueStatus->create();
     $this->IssueStatus->set(array('name' => "Test Status"));
-    $this->assertTrue($this->IssueStatus->save());
+    $this->assertNotEmpty($this->IssueStatus->save());
     $this->IssueStatus->read(null, $this->IssueStatus->getLastInsertID());
     $this->assertFalse($this->IssueStatus->data['IssueStatus']['is_default']);
   }
@@ -72,7 +72,7 @@ class IssueStatusTest extends CakeTestCase {
     $this->IssueStatus->read(null, 2);
     $this->assertFalse($this->IssueStatus->data['IssueStatus']['is_default']);
     $this->IssueStatus->data['IssueStatus']['is_default'] = true;
-    $this->assertTrue($this->IssueStatus->save());
+    $this->assertNotEmpty($this->IssueStatus->save());
     $this->IssueStatus->read(null, 2);
 
     $this->assertTrue($this->IssueStatus->data['IssueStatus']['is_default']);

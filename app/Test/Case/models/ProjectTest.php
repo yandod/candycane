@@ -23,7 +23,10 @@ class ProjectTest extends CakeTestCase {
     $this->assertEqual('eCookbook', $project['Project']['name']);
     $this->assertEqual(8, count($project['EnabledModule']));
 
-    $this->assertEqual(array('issue_tracking','time_tracking','news','documents','files','wiki','repository','boards'), Set::extract('{n}.name', $project['EnabledModule']));
+    $this->assertEqual(
+		array('issue_tracking','time_tracking','news','documents','files','wiki','repository','boards'),
+		array_reverse(Set::extract('{n}.name', $project['EnabledModule']))
+	);
     
   }
 
