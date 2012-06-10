@@ -20,18 +20,18 @@ class WatcherTest extends CakeTestCase {
     $this->issue = $this->Issue->read(null, 1);
   }
   function test_watch() {
-    $this->assertTrue($this->Issue->add_watcher($this->user));
+    $this->assertNotEmpty($this->Issue->add_watcher($this->user));
     $this->issue = $this->Issue->read(null, 1);
     $this->assertTrue(in_array($this->user['User']['id'], Set::extract('{n}.User.id', $this->issue['Watcher'])));
   }
 
   function test_cant_watch_twice() {
-    $this->assertTrue($this->Issue->add_watcher($this->user));
+    $this->assertNotEmpty($this->Issue->add_watcher($this->user));
     $this->assertFalse($this->Issue->add_watcher($this->user));
   }
 
   function test_watched_by() {
-    $this->assertTrue($this->Issue->add_watcher($this->user));
+    $this->assertNotEmpty($this->Issue->add_watcher($this->user));
     $this->issue = $this->Issue->read(null, 1);
     $this->assertTrue($this->Issue->is_watched_by($this->user));
     $watcher = $this->Issue->watched_by($this->user);
@@ -45,7 +45,7 @@ class WatcherTest extends CakeTestCase {
     $this->issue = $this->Issue->read(null, 1);
 
     $this->assertEqual(0, count($this->Issue->watcher_recipients()));
-    $this->assertTrue($this->Issue->add_watcher($this->user));
+    $this->assertNotEmpty($this->Issue->add_watcher($this->user));
 
     $User =& ClassRegistry::init('User');
     $this->user['User']['mail_notification'] = true;
@@ -60,11 +60,10 @@ class WatcherTest extends CakeTestCase {
   }
 
   function test_unwatch() {
-    $this->assertTrue($this->Issue->add_watcher($this->user));
+    $this->assertNotEmpty($this->Issue->add_watcher($this->user));
     $this->issue = $this->Issue->read(null, 1);
     $this->assertEqual(1, $this->Issue->remove_watcher($this->user));  
   }
 
 
 }
-?>
