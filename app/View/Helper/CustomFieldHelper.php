@@ -85,7 +85,7 @@ class CustomFieldHelper extends AppHelper
       $options = array();
       if(!empty($list)) {
         foreach($list as $item) {
-          $options[$item[0]] = $item[0];
+          $options[$item] = $item;
         }
       }
       
