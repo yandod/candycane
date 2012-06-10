@@ -18,7 +18,14 @@ foreach ($roles_data as $roles_row) {
 	<td><?php echo $this->Candy->format_username($member_row['User']) ?></td>
     <td align="center">
     <?php if ($this->Candy->authorize_for(array('controller' => 'members','action' => 'edit'))): ?>
-  <?php echo $this->Form->create('Member');?>
+  <?php echo $this->Form->create('Member', array(
+  		'url' => array(
+			'controller' => 'members',
+			'action' => 'edit',
+			'project_id' => $main_project['Project']['identifier'],
+			'id' => $member_row['Member']['id']
+		)
+	));?>
         <?php echo $this->Form->select(
 			'Member.role_id',
 			$roles_list,
