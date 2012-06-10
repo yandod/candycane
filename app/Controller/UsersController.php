@@ -105,7 +105,7 @@ class UsersController extends AppController {
 		$this->redirect(array(
 			'controller' => 'users',
 			'action' => 'edit',
-			'id' => $id,
+			$id,
 			'tab' => 'memberships'
 		));
 	}
@@ -115,7 +115,7 @@ class UsersController extends AppController {
 		$this->redirect(array(
 			'controller' => 'users',
 			'action' => 'edit',
-			'id' => $id,
+			$id,
 			'tab' => 'memberships'
 		));
 	}
