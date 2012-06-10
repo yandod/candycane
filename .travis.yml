@@ -104,4 +104,4 @@ before_script:
     }" > app/Config/database.php
 
 script:
-  - cd ./app; ./app/Console/cake test app All --stderr
+  - cd ./app; ./Console/cake test app All --stderr
