@@ -1,6 +1,9 @@
 <?php 
 App::uses('FetcherComponent', 'Controller/Component');
 App::uses('Controller', 'Controller');
+App::uses('CakeRequest', 'Network');
+App::uses('CakeResponse', 'Network');
+App::uses('ComponentCollection', 'Controller');
 
 class FetcherComponentTestController extends Controller {}
 
@@ -9,6 +12,7 @@ class FetcherComponentTest extends CakeTestCase {
   var $fixtures = array(
     'app.issue', 'app.project', 'app.tracker', 'app.issue_status', 'app.user', 'app.version',
     'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
+	'app.custom_fields_project',
     'app.enabled_module', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
     'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher', 'app.journal', 'app.journal_detail',
     'app.news', 'app.comment', 'app.document',
@@ -21,13 +25,16 @@ class FetcherComponentTest extends CakeTestCase {
   function startTest() {
     $this->loadFixtures('Project', 'Version', 'User', 'Role', 'Member', 'Issue', 'Journal', 'JournalDetail', 
               'Tracker', 'ProjectsTracker', 'IssueStatus', 'EnabledModule', 'IssueCategory', 'TimeEntry', 
-              'Enumeration', 'CustomValue', 'CustomField', 'News', 'Comment', 'Document'
+              'Enumeration', 'CustomValue', 'CustomField', 'News', 'Comment', 'Document', 'CustomFieldsProject',
+			  'Changeset','ChangesetsIssue','Token','UserPreference','Watcher','Attachment'
               );
     $this->Project =& ClassRegistry::init('Project');
     $this->Project->read(null, 1);
-
-    $this->Controller = &new FetcherComponentTestController();
-    $this->Component = &new FetcherComponent();
+	$Collection = new ComponentCollection();
+	$CakeRequest = new CakeRequest();
+    $CakeResponse = new CakeResponse();
+    $this->Controller = &new FetcherComponentTestController($CakeRequest, $CakeResponse);
+    $this->Component = &new FetcherComponent($Collection);
     
     $this->Component->initialize($this->Controller);
   }
