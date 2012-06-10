@@ -26,7 +26,7 @@ $projects_options = array();
 		<?php echo $this->Form->create('User', array( 'url' => array(
 			'controller' => 'users',
 			'action' => 'edit_membership',
-			'id' => $user['User']['id'],
+			$user['User']['id'],
 			'membership_id' => $membership['id']
 		))); ?>
 		<?php echo $this->Form->select('Member.role_id',$roles_list,array('class' => 'small', 'value' => $membership['role_id'])) ?>
@@ -38,7 +38,7 @@ $projects_options = array();
 				__('Delete'),
 				array(
 					'action' => 'destroy_membership',
-					'id' => $user['User']['id'],
+					$user['User']['id'],
 					'membership_id' => $membership['id']
 				),
 				array('class' => 'icon icon-del')) ?>
