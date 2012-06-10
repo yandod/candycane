@@ -45,7 +45,7 @@ class IssueStatusTest extends CakeTestCase {
     );
     $count_before = $this->IssueStatus->findCount();
     $this->IssueStatus->read(null, 3);
-    $this->assertTrue($this->IssueStatus->del());
+    $this->assertTrue($this->IssueStatus->delete());
     $this->assertEqual($count_before - 1, $this->IssueStatus->findCount());
   }
 
@@ -58,7 +58,7 @@ class IssueStatusTest extends CakeTestCase {
     # Status assigned to an Issue
     $Issue =& ClassRegistry::init('Issue');
     $issue = $Issue->findById(1);
-    $this->assertFalse($this->IssueStatus->del($issue['Issue']['status_id']));
+    $this->assertFalse($this->IssueStatus->delete($issue['Issue']['status_id']));
   }
 
   function test_default() {
