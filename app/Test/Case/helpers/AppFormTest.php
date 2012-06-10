@@ -1,6 +1,12 @@
 <?php
-App::import('Helper', 'Html');
-App::import('Helper', 'Timelog');
+App::uses('View', 'View');
+App::uses('Controller', 'Controller');
+App::uses('Router', 'Routing');
+App::uses('HtmlHelper', 'View/Helper');
+App::uses('TimelogHelper','View/Helper');
+App::uses('CakeRequest', 'Network');
+App::uses('CakeResponse', 'Network');
+
 
 class TimelogTestController extends Controller {
   var $name = 'TimelogTests';
@@ -13,7 +19,7 @@ class AppFormTest extends CakeTestCase {
       'app.issue', 'app.project', 'app.tracker', 'app.issue_status', 'app.user', 'app.version',
       'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
       'app.enabled_module', 'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
-      'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher',
+      'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher','app.custom_fields_project',
       'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow'
   );
 
@@ -23,11 +29,12 @@ class AppFormTest extends CakeTestCase {
     Router::connect('/projects/:project_id/timelog/:action/*', array('controller' => 'timelog'), array('project_id' => '.+'));
     Router::connect('/projects/:project_id/timelog/:action/:page/:sort/:direction/*', array('controller' => 'timelog'), array('project_id' => '.+'));
     Router::connect('timelog/:action/:id/*', array('controller' => 'timelog'));
-
-    $this->Timelog = new TimelogHelper();
-    $this->Timelog->Html =& new HtmlHelper();
-    $this->Controller =& new TimelogTestController();
-    $this->View =& new View($this->Controller);
+	$CakeRequest = new CakeRequest();
+    $CakeResponse = new CakeResponse();
+    $this->Controller = new TimelogTestController($CakeRequest,$CakeResponse);
+    $this->View = new View($this->Controller);
+    $this->Timelog = new TimelogHelper($this->View);
+    $this->Timelog->Html = new HtmlHelper($this->View);
 
   }
   function tearDown() {
@@ -64,14 +71,14 @@ class AppFormTest extends CakeTestCase {
   }
   
   function test_url_options_only_project() {
-    $this->loadFixtures('Project', 'Tracker', 'User', 'Version', 'IssueCategory', 'TimeEntry');
+    $this->loadFixtures('Project', 'Tracker', 'User', 'Version', 'IssueCategory', 'TimeEntry','CustomField','Enumeration','Issue','IssueStatus', 'EnabledModule','ProjectsTracker','Member','CustomFieldsProject','Changeset','ChangesetsIssue','Watcher');
     $this->Timelog->params['url'] = array();
     $project = ClassRegistry::init('Project')->read(null, 1);
     $this->assertEqual(array('project_id'=>'ecookbook', '?'=>array()), $this->Timelog->url_options($project, array()));
   }
 
   function test_url_options_only_project_issue() {
-    $this->loadFixtures('Project', 'Tracker', 'User', 'Version', 'IssueCategory', 'TimeEntry', 'Issue', 'IssueStatus', 'Enumeration', 'CustomValue', 'CustomField');
+    $this->loadFixtures('Project', 'Tracker', 'User', 'Version', 'IssueCategory', 'TimeEntry', 'Issue', 'IssueStatus', 'Enumeration', 'CustomValue', 'CustomField', 'EnabledModule','ProjectsTracker','Member','CustomFieldsProject','Changeset','ChangesetsIssue','Watcher');
     $this->Timelog->params['url'] = array();
     $project = ClassRegistry::init('Project')->read(null, 1);
     $issue = ClassRegistry::init('Issue')->read(null, 1);
@@ -79,7 +86,7 @@ class AppFormTest extends CakeTestCase {
   }
 
   function test_url_options_full() {
-    $this->loadFixtures('Project', 'Tracker', 'User', 'Version', 'IssueCategory', 'TimeEntry', 'Issue', 'IssueStatus', 'Enumeration', 'CustomValue', 'CustomField');
+    $this->loadFixtures('Project', 'Tracker', 'User', 'Version', 'IssueCategory', 'TimeEntry', 'Issue', 'IssueStatus', 'Enumeration', 'CustomValue', 'CustomField', 'EnabledModule','ProjectsTracker','Member','CustomFieldsProject','Changeset','ChangesetsIssue','Watcher');
     $this->Timelog->params['url'] = array('from'=>'2009-05-10','to'=>'2009-05-20');
     $project = ClassRegistry::init('Project')->read(null, 1);
     $issue = ClassRegistry::init('Issue')->read(null, 1);
@@ -236,7 +243,7 @@ class AppFormTest extends CakeTestCase {
   }
   
   function test_format_criteria_value_project() {
-    $this->loadFixtures('Project');
+    $this->loadFixtures('Project','EnabledModule','ProjectsTracker','Member','CustomFieldsProject');
     $locale = Configure::write('Config.language', 'en');
     $available_criterias = array(
       'project'  => array('sql' => 'TimeEntry.project_id',
@@ -248,7 +255,7 @@ class AppFormTest extends CakeTestCase {
   }
 
   function test_format_criteria_value_version() {
-    $this->loadFixtures('Version');
+    $this->loadFixtures('Version','Changeset','ChangesetsIssue');
     $locale = Configure::write('Config.language', 'en');
     $available_criterias = array(
       'version'  => array('sql' => "Issue.fixed_version_id",
@@ -272,7 +279,7 @@ class AppFormTest extends CakeTestCase {
   }
 
   function test_format_criteria_value_member() {
-    $this->loadFixtures('User');
+    $this->loadFixtures('User','Token','UserPreference','Member');
     $locale = Configure::write('Config.language', 'en');
     $available_criterias = array(
       'member'   => array('sql' => "TimeEntry.user_id",
@@ -284,7 +291,7 @@ class AppFormTest extends CakeTestCase {
   }
 
   function test_format_criteria_value_tracker() {
-    $this->loadFixtures('Tracker');
+    $this->loadFixtures('Tracker','Workflow','Token');
     $locale = Configure::write('Config.language', 'en');
     $available_criterias = array(
       'tracker'  => array('sql' => "Issue.tracker_id",
@@ -308,7 +315,7 @@ class AppFormTest extends CakeTestCase {
   }
 
   function test_format_criteria_value_issue() {
-    $this->loadFixtures('Issue', 'Tracker');
+    $this->loadFixtures('Issue', 'Tracker','Changeset','ChangesetsIssue','Watcher','Workflow');
     $locale = Configure::write('Config.language', 'en');
     $available_criterias = array(
       'issue'    => array('sql' => "TimeEntry.issue_id",
