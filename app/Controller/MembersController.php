@@ -50,7 +50,7 @@ class MembersController extends AppController {
 		}
 
 		$this->_prepareSettingTabMembers();
-		$this->render('/elements/projects/settings/members');
+		$this->render('/Elements/projects/settings/members');
 	}
 	
 	public function destroy() {
