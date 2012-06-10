@@ -1,5 +1,6 @@
 <?php 
-App::import('Component', 'Fetcher');
+App::uses('Fetcher', 'Component');
+App::uses('Controller', 'Controller');
 
 class FetcherComponentTestController extends Controller {}
 
