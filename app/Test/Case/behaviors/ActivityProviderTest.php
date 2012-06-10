@@ -13,9 +13,12 @@ class ActivityProviderTest extends CakeTestCase {
   );
 
   function startTest() {
-    $this->loadFixtures('Project', 'Tracker', 'User', 'Version', 'IssueCategory', 'TimeEntry', 
-                        'Issue', 'IssueStatus', 'Enumeration', 'CustomValue', 'CustomField', 
-                        'EnabledModule', 'Role', 'Member');
+    $this->loadFixtures(
+		'Project', 'Tracker', 'User', 'Version', 'IssueCategory', 'TimeEntry', 
+		'Issue', 'IssueStatus', 'Enumeration', 'CustomValue', 'CustomField', 
+        'EnabledModule', 'Role', 'Member', 'Changeset', 'ChangesetsIssue','Watcher',
+		'Token','UserPreference'
+	);
     $this->Issue =& ClassRegistry::init('Issue');
     $this->data = $this->Issue->read(null, 1);
   }
