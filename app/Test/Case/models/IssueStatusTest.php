@@ -43,10 +43,10 @@ class IssueStatusTest extends CakeTestCase {
       'IssueCategory', 'TimeEntry', 'Changeset', 'ChangesetsIssue', 'Attachment',
       'ProjectsTracker', 'CustomValue', 'CustomField', 'Watcher'
     );
-    $count_before = $this->IssueStatus->findCount();
+    $count_before = $this->IssueStatus->find('count');
     $this->IssueStatus->read(null, 3);
     $this->assertTrue($this->IssueStatus->delete());
-    $this->assertEqual($count_before - 1, $this->IssueStatus->findCount());
+    $this->assertEqual($count_before - 1, $this->IssueStatus->find('count'));
   }
 
   function test_destroy_status_in_use() {
