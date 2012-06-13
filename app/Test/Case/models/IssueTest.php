@@ -16,7 +16,7 @@ class IssueTest extends CakeTestCase {
   }
 
   function test_create() {
-    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'ChangesetsIssue', 'Watcher');
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'ChangesetsIssue', 'Watcher','CustomValue','CustomField','IssueRelation');
     $priorities = $this->Issue->Priority->get_values('IPRI');
     $this->Issue->create();
     $this->Issue->set(array(
