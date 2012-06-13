@@ -50,36 +50,36 @@ class AppFormTest extends CakeTestCase {
 
   function test_link_to_timelog_detail_url() {
     $project = array('Project'=>array('identifier'=>'timelogtest'));
-    $this->assertEqual('/timelog/details/?period=all', $this->Timelog->url(array_merge($this->Timelog->link_to_timelog_detail_url(array()), array('?'=>array('period'=>'all')))));
+    $this->assertEqual('/timelog/details?period=all', $this->Timelog->url(array_merge($this->Timelog->link_to_timelog_detail_url(array()), array('?'=>array('period'=>'all')))));
     $this->assertEqual('/projects/timelogtest/timelog/details?period=all', $this->Timelog->url(array_merge($this->Timelog->link_to_timelog_detail_url($project), array('?'=>array('period'=>'all')))));
   }
 
   function test_link_to_timelog_report_url() {
     $project = array('Project'=>array('identifier'=>'timelogtest'));
-    $this->assertEqual('/timelog/report/?period=all', $this->Timelog->url(array_merge($this->Timelog->link_to_timelog_report_url(array()), array('?'=>array('period'=>'all')))));
+    $this->assertEqual('/timelog/report?period=all', $this->Timelog->url(array_merge($this->Timelog->link_to_timelog_report_url(array()), array('?'=>array('period'=>'all')))));
     $this->assertEqual('/projects/timelogtest/timelog/report?period=all', $this->Timelog->url(array_merge($this->Timelog->link_to_timelog_report_url($project), array('?'=>array('period'=>'all')))));
   }
   
   function test_url_options_empty() {
-    $this->Timelog->params['url'] = array();
+    $this->Timelog->request->query = array();
     $this->assertEqual(array('?'=>array()), $this->Timelog->url_options(array(), array()));
   }
 
   function test_url_options_only_getparameter() {
-    $this->Timelog->params['url'] = array('from'=>'2009-05-10','to'=>'2009-05-20');
+    $this->Timelog->request->query = array('from'=>'2009-05-10','to'=>'2009-05-20');
     $this->assertEqual(array('?'=>array('from'=>'2009-05-10','to'=>'2009-05-20')), $this->Timelog->url_options(array(), array()));
   }
   
   function test_url_options_only_project() {
     $this->loadFixtures('Project', 'Tracker', 'User', 'Version', 'IssueCategory', 'TimeEntry','CustomField','Enumeration','Issue','IssueStatus', 'EnabledModule','ProjectsTracker','Member','CustomFieldsProject','Changeset','ChangesetsIssue','Watcher');
-    $this->Timelog->params['url'] = array();
+    $this->Timelog->request->query = array();
     $project = ClassRegistry::init('Project')->read(null, 1);
     $this->assertEqual(array('project_id'=>'ecookbook', '?'=>array()), $this->Timelog->url_options($project, array()));
   }
 
   function test_url_options_only_project_issue() {
     $this->loadFixtures('Project', 'Tracker', 'User', 'Version', 'IssueCategory', 'TimeEntry', 'Issue', 'IssueStatus', 'Enumeration', 'CustomValue', 'CustomField', 'EnabledModule','ProjectsTracker','Member','CustomFieldsProject','Changeset','ChangesetsIssue','Watcher');
-    $this->Timelog->params['url'] = array();
+    $this->Timelog->request->query = array();
     $project = ClassRegistry::init('Project')->read(null, 1);
     $issue = ClassRegistry::init('Issue')->read(null, 1);
     $this->assertEqual(array('project_id'=>'ecookbook', '?'=>array('issue_id'=>1)), $this->Timelog->url_options($project, $issue));
@@ -87,10 +87,20 @@ class AppFormTest extends CakeTestCase {
 
   function test_url_options_full() {
     $this->loadFixtures('Project', 'Tracker', 'User', 'Version', 'IssueCategory', 'TimeEntry', 'Issue', 'IssueStatus', 'Enumeration', 'CustomValue', 'CustomField', 'EnabledModule','ProjectsTracker','Member','CustomFieldsProject','Changeset','ChangesetsIssue','Watcher');
-    $this->Timelog->params['url'] = array('from'=>'2009-05-10','to'=>'2009-05-20');
+    $this->Timelog->request->query = array('from'=>'2009-05-10','to'=>'2009-05-20');
     $project = ClassRegistry::init('Project')->read(null, 1);
     $issue = ClassRegistry::init('Issue')->read(null, 1);
-    $this->assertEqual(array('project_id'=>'ecookbook', '?'=>array('from'=>'2009-05-10','to'=>'2009-05-20', 'issue_id'=>1)), $this->Timelog->url_options($project, $issue));
+    $this->assertEqual(
+		$this->Timelog->url_options($project, $issue),
+		array(
+			'project_id' => 'ecookbook',
+			'?' => array(
+				'from' => '2009-05-10',
+				'to' => '2009-05-20',
+				'issue_id' => '1'
+			)
+		)
+	);
   }
 
   function test_select_hours_month_criteria() {
