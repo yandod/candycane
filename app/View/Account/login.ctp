@@ -18,13 +18,15 @@
   </td>
 </tr>
 
+<?php if ($setting->autologin): ?>
 <tr>
   <td align="left" colspan="2">
-    &nbsp;&nbsp;<?php if ($setting->autologin): ?>
     <?php echo $this->Form->input('autologin', array('type' => 'checkbox', 'options' => array(1))); ?>
-    <?php endif; ?>
   </td>
 </tr>
+<?php endif; ?>
+
+<?php echo $this->element('accounts/middlebox', array()); ?>
 
 <tr>
   <td align="left">

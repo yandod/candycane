@@ -68,37 +68,15 @@ class SettingsController extends AppController {
 #    render_404
 #  
 	public function _prepareSettingTabs() {
-		$tabs = array(
-			array(
-				'name' => 'general',
-				'partial' => 'settings/general',
-				'label' => __('General')
-			),
-			array(
-				'name' => 'authentication',
-				'partial' => 'settings/authentication',
-				'label' =>  __('Authentication')
-			),
-			array(
-				'name' => 'projects',
-				'partial' => 'settings/projects',
-				'label' => __('Projects')
-			),
-			array(
-				'name' => 'issues',
-				'partial' => 'settings/issues',
-				'label' => __('Issue tracking')
-			),
-			array(
-				'name' => 'notifications',
-				'partial' => 'settings/notifications',
-				'label' => __('Email notifications')
-			),
-      //array('name' => 'mail_handler', 'partial' => 'settings/mail_handler', 'label' => __('Incoming emails')),
-      //array('name' => 'repositories', 'partial' =>  'settings/repositories', 'label' => __('Repositories'))
-		);
+		$settingContainer = ClassRegistry::getObject('SettingContainer');
+		$tabs = $settingContainer->getSystemSetting();
+
 		$this->set('settings_tabs',$tabs);
-		$selected_tab = $tabs[0]['name'];
+		$selected_tab = '';
+		foreach ($tabs as $row) {
+			$selected_tab = $row['name'];
+			break;
+		}
 		if (isset($this->request->params['url']['tab'])) {
 			$selected_tab = $this->request->params['url']['tab'];
 		}

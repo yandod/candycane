@@ -6,14 +6,23 @@ setlocale(LC_CTYPE,'C');
 App::import('Vendor','candycane/MenuContainer');
 App::import('Vendor','candycane/HookContainer');
 App::import('Vendor','candycane/PluginContainer');
+App::import('Vendor','candycane/SettingContainer');
+
 $menu_container = new MenuContainer();
 $hookContainer = new HookContainer();
 $pluginContainer = new PluginContainer();
+$settingContainer = new SettingContainer();
+
 App::uses('ClassRegistry', 'Utility');
-CakePlugin::loadAll();
+CakePlugin::loadAll(
+	array(
+//		array('routes' => true)
+	)
+);
 ClassRegistry::addObject('HookContainer',$hookContainer);
 ClassRegistry::addObject('MenuContainer',$menu_container);
 ClassRegistry::addObject('PluginContainer',$pluginContainer);
+ClassRegistry::addObject('SettingContainer',$settingContainer);
 foreach( glob(APP.'Plugin/Cc*/init.php') as $val){
 	include_once(realpath($val));
 }
