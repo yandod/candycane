@@ -205,6 +205,15 @@ class AccountController extends AppController {
 			// Valid user
 			$this->logged_user($user);
 
+			$event = new CakeEvent(
+				'Controller.Candy.accountSuccessAuthenticationAfter',
+				$this,
+				array(
+					'user' => $user
+				)
+			);
+			$this->getEventManager()->dispatch($event);
+
 			## generate a key and set cookie if autologin
 			#if params[:autologin] && Setting.autologin?
 			#  token = Token.create(:user => user, :action => 'autologin')
