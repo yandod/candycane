@@ -1,93 +1,65 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
+
 <head>
-  <meta charset='utf-8'>
+	<meta charset="utf-8">
 
-  <title>yandod/candycane @ GitHub</title>
+	<title>CandyCane - Open Source Bug Tracking System</title>
 
-  <style type="text/css">
-    body {
-      margin-top: 1.0em;
-      background-color: #d3b8a1;
-      font-family: Helvetica, Arial, FreeSans, san-serif;
-      color: #000000;
-    }
-    #container {
-      margin: 0 auto;
-      width: 700px;
-    }
-    h1 { font-size: 3.8em; color: #2c475e; margin-bottom: 3px; }
-    h1 .small { font-size: 0.4em; }
-    h1 a { text-decoration: none }
-    h2 { font-size: 1.5em; color: #2c475e; }
-    h3 { text-align: center; color: #2c475e; }
-    a { color: #2c475e; }
-    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
-    .download { float: right; }
-    pre { background: #000; color: #fff; padding: 15px;}
-    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
-    .footer { text-align:center; padding-top:30px; font-style: italic; }
-  </style>
+	<meta name="keywords" content="CandyCane, Bug tracking system, PHP, MySQL, BTS" />
+	<meta name="description" content="CandyCane is a sweet & flexible open source bug tracking system, built with PHP and MySQL." />
+	<meta name="author" content="Yusuke Ando" />
+
+	<meta name="copyright" content="&copy; 2012 - CandyCane, LLC." />
+	
+
+	<meta property="og:site_name" content="CandyCane"/>
+	<meta property="og:image" content="http://demo.nao-net.com/candycane/style/images/candycane-square.png" />
+
+	
+
+	<meta name="pagetype" content="top">
+
+	
+	<link rel="template" href="style/template.html" />
+	<script src="js/jquery-1.7.1.min.js"></script>
+	<script src="js/yinyang.js"></script>
+
 </head>
-
 <body>
-  <a href="https://github.com/yandod/candycane"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
 
-  <div id="container">
+	<div class="hello">
+		<h1 class="logo">CandyCane - Open Source Bug Tracking System</h1>
+		<ul class="buttons">
+			<li><a class="button github" href="https://github.com/yandod/candycane">Fork me on GitHub</a></li>
+			<li><a class="button download" href="https://github.com/yandod/candycane/zipball/master">Download Version 0.9</a></li>
+		</ul>
+		<p class="lead">43-second install and no hustle.<br />
+		Let's get to work and get it done.</p>
+	</div>
+	
+	<iframe class="opening" width="420" height="315" src="http://www.youtube.com/embed/U_Q6DTUTEfM" frameborder="0" allowfullscreen></iframe>
+	
+	<hr class="clear" />
 
-    <div class="download">
-      <a href="https://github.com/yandod/candycane/zipball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/zip.png"></a>
-      <a href="https://github.com/yandod/candycane/tarball/master">
-        <img border="0" width="90" src="https://github.com/images/modules/download/tar.png"></a>
-    </div>
+	<h2>Sweet & Flexible Open Source Bug Tracking System</h2>
 
-    <h1><a href="https://github.com/yandod/candycane">CandyCane</a>
-      <span class="small">by <a href="https://github.com/yandod">yandod</a></span></h1>
+	<ul id="features">
+		<li class="install"><h3>43-sec Quick Install</h3>
+		<p>CandyCane lets you get things done from the beginning. Installation is super sweet, easy and fast.<br />
+		<a href="https://github.com/yandod/candycane/blob/master/readme.md" target="_blank">How to Install</a></p>
+		</li>
+		<li class="plugin"><h3>Flexible Plugin System</h3>
+		<p>Need more customization? Add <a href="https://github.com/yandod/CcFacebook">Facebook</a> support, <a href="https://github.com/yandod/candycane-emoji">emoji</a> or <a href="https://github.com/yandod/cc_nyancat">Nyancat</a>. You can even write your own without touching the core files.</p>
+		</li>
+		<li class="database"><h3>MySQL/PostgreSQL</h3>
+		<p>Pick your flavor of database. CandyCane installer supports both MySQL and PostgreSQL.</p>
+		</li>
+	</ul>
 
-    <div class="description">
-      sweet and flexible issue tracking system
-    </div>
-
-    
-      <p>a port of Redmine to CakePHP from Ruby on Rails</p>
-    
-
-    
-
-    
-
-    
-      <h2>License</h2>
-      <p>Will migrate to MIT licence from GPL soon.</p>
-    
-
-    
-      <h2>Authors</h2>
-      <p>akiyan (akiyan.com@gmail.com)<br/>yandod (ando@rikezemi.com)<br/>Òscar Casajuana (elboletaire@gmail.com)<br/>Graham Weldon (graham@grahamweldon.com)<br/>ha1t (halt.feits@gmail.com)<br/>k-kishida (k-kishida@esm.co.jp)<br/>Shogo Kawahara (kawahara@bucyou.net)<br/>kaz29 (kaz@e-2.co.jp)<br/>Michito Suzuki (michito.suzuki@gmail.com)<br/>Norio Suzuki (norio.suzuki@gmail.com)<br/>okonomi (oknm@okonomi.sakura.ne.jp)<br/>Sebastien pencreach (pencreach.sebastien@gmail.com)<br/>tomo (quickness.net+accounts@gmail.com)<br/>shin1x1 (shin1x1@gmail.com)<br/>Spenser Jones (spenser.jones@aifcanada.com)<br/>Steve Grosbois (steve.grosbois@gmail.com)<br/>Takuya Sato (takuya0219@gmail.com)<br/>hiromi2424 (tanaka2424@gmail.com)<br/>Hisateru Tanaka (tanakahisateru@gmail.com)<br/>Yoshio HANAWA (y@hnw.jp)<br/>Yusuke Ando (yandod@gmail.com)<br/>      </p>
-    
-
-    
-      <h2>Contact</h2>
-      <p>Yusuke Ando (yandod@gmail.com)<br/>      </p>
-    
-
-    <h2>Download</h2>
-    <p>
-      You can download this project in either
-      <a href="https://github.com/yandod/candycane/zipball/master">zip</a> or
-      <a href="https://github.com/yandod/candycane/tarball/master">tar formats.
-    </p>
-    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
-      by running:
-      <pre>$ git clone git://github.com/yandod/candycane</pre>
-    </p>
-
-    <div class="footer">
-      get the source code on GitHub : <a href="https://github.com/yandod/candycane">yandod/candycane</a>
-    </div>
-
-  </div>
-
+	<hr class="clear" />
+	<h2>Technical Info & Requirements</h2>
+	<p class="requirements">CandyCane is powered by CakePHP 2.1. To run, you need a HTTP server (e.g. Apache) and PHP 5.2.8 or greater. We currently supports MySQL 4 or PostgreSQL X.<br />For detailed information, please check <a href="http://book.cakephp.org/2.0/en/installation.html">CakePHP requirements documetation</a>.</p>
+		
 </body>
 </html>

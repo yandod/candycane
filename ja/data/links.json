@@ -1,0 +1,7 @@
+[
+	{"title":"Home", "url":"index.html"},
+	{"title":"Demo", "url": "http://my.candycane.jp/"},
+	{"title":"Blog", "url": "http://blog.candycane.jp/"},
+	{"title":"Download", "url": "https://github.com/yandod/candycane/zipball/master"},
+	{"title":"English", "url": "../"}
+]
