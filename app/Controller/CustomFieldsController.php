@@ -41,6 +41,15 @@ class CustomFieldsController extends AppController {
     if (!empty($this->request->data)) {
       $this->CustomField->set($this->request->data);
       if ($this->CustomField->save()) {
+        $event = new CakeEvent(
+          'Controller.Candy.customFieldsNewAfterSave',
+          $this,
+          array(
+            'custom_field' => $this->request->data
+          )
+        );
+        $this->getEventManager()->dispatch($event);
+
         $this->Session->setFlash(__('Successful update.'), 'default', array('class'=>'flash flash_notice'));
         $this->redirect(array('action'=>'index', '?'=>array('tab'=>$this->_get_param('type'))));
       }
@@ -62,6 +71,15 @@ class CustomFieldsController extends AppController {
     if (!empty($this->request->data)) {
       $this->CustomField->set($this->request->data);
       if ($this->CustomField->save()) {
+        $event = new CakeEvent(
+          'Controller.Candy.customFieldsEditAfterSave',
+          $this,
+          array(
+            'custom_field' => $this->request->data
+          )
+        );
+        $this->getEventManager()->dispatch($event);
+
         $this->Session->setFlash(__('Successful update.'), 'default', array('class'=>'flash flash_notice'));
         $this->redirect(array('action'=>'index', '?'=>array('tab'=>$this->CustomField->data[$this->CustomField->alias]['type'])));
       }
