@@ -180,6 +180,15 @@ class WikiController extends AppController {
         $save_data['WikiContent']['version'] = 1; // 暫定
       }
       if ($this->Wiki->WikiPage->saveAll($save_data)) {
+        $event = new CakeEvent(
+          'Controller.Candy.wikiEditAfterSave',
+          $this,
+          array(
+            'wiki' => $this->Wiki
+          )
+        );
+        $this->getEventManager()->dispatch($event);
+
         $this->redirect(array('controller' => 'wiki',
                               'action'     => 'index',
                               'project_id' => $this->request->params['project_id'],

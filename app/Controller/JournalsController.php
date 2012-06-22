@@ -41,9 +41,16 @@ class JournalsController extends AppController
         $this->Journal->saveField('notes', $this->request->data['Journal']['notes']);
       }
       $this->set(compact('delete'));
-      // TODO call_hook for Plugins.
-      // call_hook(:controller_journals_edit_post, { :journal => @journal, :params => params})
-      
+
+      $event = new CakeEvent(
+        'Controller.Candy.journalsEditPost',
+        $this,
+        array(
+          'jornal' => $this->request->data
+        )
+      );
+      $this->getEventManager()->dispatch($event);
+
       if($this->RequestHandler->isAjax()) {
         $this->render('update');
       } else {
