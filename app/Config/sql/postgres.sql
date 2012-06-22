@@ -336,7 +336,7 @@ ALTER TABLE public.enabled_modules_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE enabled_modules_id_seq OWNED BY enabled_modules.id;
 
-SELECT pg_catalog.setval('enabled_modules_id_seq', 1, false);
+SELECT pg_catalog.setval('enabled_modules_id_seq', 9, false);
 
 CREATE TABLE enumerations (
     id integer NOT NULL,
@@ -361,7 +361,7 @@ ALTER TABLE public.enumerations_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE enumerations_id_seq OWNED BY enumerations.id;
 
-SELECT pg_catalog.setval('enumerations_id_seq', 1, false);
+SELECT pg_catalog.setval('enumerations_id_seq', 10, false);
 
 CREATE TABLE issue_categories (
     id integer NOT NULL,
@@ -435,7 +435,7 @@ ALTER TABLE public.issue_statuses_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE issue_statuses_id_seq OWNED BY issue_statuses.id;
 
-SELECT pg_catalog.setval('issue_statuses_id_seq', 1, false);
+SELECT pg_catalog.setval('issue_statuses_id_seq', 7, false);
 
 CREATE TABLE issues (
     id integer NOT NULL,
@@ -473,7 +473,7 @@ ALTER TABLE public.issues_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE issues_id_seq OWNED BY issues.id;
 
-SELECT pg_catalog.setval('issues_id_seq', 1, false);
+SELECT pg_catalog.setval('issues_id_seq', 4, false);
 
 CREATE TABLE journal_details (
     id integer NOT NULL,
@@ -579,7 +579,7 @@ ALTER TABLE public.news_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE news_id_seq OWNED BY news.id;
 
-SELECT pg_catalog.setval('news_id_seq', 1, false);
+SELECT pg_catalog.setval('news_id_seq', 3, false);
 
 CREATE TABLE projects (
     id integer NOT NULL,
@@ -610,7 +610,7 @@ ALTER TABLE public.projects_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE projects_id_seq OWNED BY projects.id;
 
-SELECT pg_catalog.setval('projects_id_seq', 1, false);
+SELECT pg_catalog.setval('projects_id_seq', 2, false);
 
 CREATE TABLE projects_trackers (
     project_id integer NOT NULL,
@@ -712,7 +712,7 @@ ALTER TABLE public.roles_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE roles_id_seq OWNED BY roles.id;
 
-SELECT pg_catalog.setval('roles_id_seq', 1, false);
+SELECT pg_catalog.setval('roles_id_seq', 6, false);
 
 CREATE TABLE schema_migrations (
     version character varying(255) NOT NULL
@@ -801,7 +801,7 @@ ALTER TABLE public.tokens_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE tokens_id_seq OWNED BY tokens.id;
 
-SELECT pg_catalog.setval('tokens_id_seq', 1, false);
+SELECT pg_catalog.setval('tokens_id_seq', 5, false);
 
 CREATE TABLE trackers (
     id integer NOT NULL,
@@ -826,7 +826,7 @@ ALTER TABLE public.trackers_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE trackers_id_seq OWNED BY trackers.id;
 
-SELECT pg_catalog.setval('trackers_id_seq', 1, false);
+SELECT pg_catalog.setval('trackers_id_seq', 4, false);
 
 CREATE TABLE user_preferences (
     id integer NOT NULL,
@@ -851,7 +851,7 @@ ALTER TABLE public.user_preferences_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE user_preferences_id_seq OWNED BY user_preferences.id;
 
-SELECT pg_catalog.setval('user_preferences_id_seq', 1, false);
+SELECT pg_catalog.setval('user_preferences_id_seq', 10, false);
 
 CREATE TABLE users (
     id integer NOT NULL,
@@ -967,7 +967,7 @@ ALTER TABLE public.wiki_content_versions_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE wiki_content_versions_id_seq OWNED BY wiki_content_versions.id;
 
-SELECT pg_catalog.setval('wiki_content_versions_id_seq', 1, false);
+SELECT pg_catalog.setval('wiki_content_versions_id_seq', 4, false);
 
 CREATE TABLE wiki_contents (
     id integer NOT NULL,
@@ -994,7 +994,7 @@ ALTER TABLE public.wiki_contents_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE wiki_contents_id_seq OWNED BY wiki_contents.id;
 
-SELECT pg_catalog.setval('wiki_contents_id_seq', 1, false);
+SELECT pg_catalog.setval('wiki_contents_id_seq', 3, false);
 
 CREATE TABLE wiki_pages (
     id integer NOT NULL,
@@ -1020,7 +1020,7 @@ ALTER TABLE public.wiki_pages_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE wiki_pages_id_seq OWNED BY wiki_pages.id;
 
-SELECT pg_catalog.setval('wiki_pages_id_seq', 1, false);
+SELECT pg_catalog.setval('wiki_pages_id_seq', 3, false);
 
 CREATE TABLE wiki_redirects (
     id integer NOT NULL,
@@ -1069,7 +1069,7 @@ ALTER TABLE public.wikis_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE wikis_id_seq OWNED BY wikis.id;
 
-SELECT pg_catalog.setval('wikis_id_seq', 1, false);
+SELECT pg_catalog.setval('wikis_id_seq', 2, false);
 
 CREATE TABLE workflows (
     id integer NOT NULL,
@@ -1094,7 +1094,7 @@ ALTER TABLE public.workflows_id_seq OWNER TO pgadmin;
 
 ALTER SEQUENCE workflows_id_seq OWNED BY workflows.id;
 
-SELECT pg_catalog.setval('workflows_id_seq', 1, false);
+SELECT pg_catalog.setval('workflows_id_seq', 145, false);
 
 ALTER TABLE attachments ALTER COLUMN id SET DEFAULT nextval('attachments_id_seq'::regclass);
 
