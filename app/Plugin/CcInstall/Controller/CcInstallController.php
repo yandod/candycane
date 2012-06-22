@@ -80,9 +80,29 @@ class CcInstallController extends CcInstallAppController {
     function database() {
         $this->pageTitle = __('Step 1: Database');
         if (!empty($this->data)) {
-            // test database connection
-            if (mysql_connect($this->data['Install']['host'], $this->data['Install']['login'], $this->data['Install']['password']) &&
+			$check = false;
+
+            // split host information
+            $hostinfo =  explode(':', $this->data['Install']['host'], 2);
+            $host = $hostinfo[0];
+            $port = '';
+            if (count($hostinfo) >= 2) {
+                $port = $hostinfo[1];
+            }
+
+			if ($this->data['Install']['datasource'] === 'mysql' && 
+				mysql_connect($this->data['Install']['host'], $this->data['Install']['login'], $this->data['Install']['password']) &&
                 mysql_select_db($this->data['Install']['database'])) {
+				$check = true ;
+			} else if ($this->data['Install']['datasource'] === 'postgres') {
+				$port = (empty($port))?'5432':$port;
+				if (pg_connect("host={$host} port={$port} dbname={$this->data['Install']['database']} user={$this->data['Install']['login']} password={$this->data['Install']['password']}") ) {
+					$check = true ;
+				}
+			}
+
+            // test database connection
+            if ($check===true) {
                 // rename database.php.install
                 copy(APP.'Config'.DS.'database.php.install', APP.'Config'.DS.'database.php');
 
@@ -91,16 +111,10 @@ class CcInstallController extends CcInstallAppController {
                 $file = new File(APP.'Config'.DS.'database.php', true);
                 $content = $file->read();
                 
-
-                // split host information
-                $hostinfo =  explode(':', $this->data['Install']['host'], 2);
-                $host = $hostinfo[0];
-                $port = '';
-                if (count($hostinfo) >= 2) {
-                    $port = $hostinfo[1];
-                }
-
+				$driver = 'Database/'.ucfirst($this->data['Install']['datasource']);
+				
                 // write database.php file
+                $content = str_replace('{default_datasource}', $driver, $content);
                 $content = str_replace('{default_host}', $host, $content);
                 $content = str_replace('{default_port}', $port, $content);
                 $content = str_replace('{default_login}', $this->data['Install']['login'], $content);
@@ -137,7 +151,9 @@ class CcInstallController extends CcInstallAppController {
             if(!$db->isConnected()) {
                 $this->Session->setFlash(__('Could not connect to database.'));
             } else {
-                $this->__executeSQLScript($db, APP . 'Config' . DS.'sql'.DS.'dump.sql');
+				list(,$database) = explode('/', $db->config['datasource']);
+				
+                $this->__executeSQLScript($db, APP . 'Config' . DS.'sql'.DS.strtolower($database).'.sql');
                 $this->__updateData(); //translate names
                 $this->redirect(array('action' => 'finish'));
                 exit();
