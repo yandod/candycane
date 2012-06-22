@@ -353,6 +353,17 @@ class IssuesController extends AppController {
 			if (array_key_exists('custom_field_values',$this->request->data)) {
 				$save_data['Issue']['custom_field_values'] = $this->Issue->filterCustomFieldValue($this->request->data['custom_field_values']);
 			}
+
+			$event = new CakeEvent(
+				'Controller.Candy.beforeIssuesNewSave',
+				$this,
+				array(
+					'issue' => $save_data
+				)
+			);
+			$this->getEventManager()->dispatch($event);
+			$save_data = $event->data['issue'];
+
 			if (!$this->Issue->save($save_data) && empty($this->Issue->validationErrors)) {
 				return $this->cakeError('error', array('message' => 'Can not save Issue.'));
 			}
@@ -361,6 +372,16 @@ class IssuesController extends AppController {
 				if (!empty($this->request->params['form'])) {
 					$this->Issue->attach_files($this->request->params['form'], $this->current_user);
 				}
+
+				$event = new CakeEvent(
+					'Controller.Candy.afterIssuesNewSave',
+					$this,
+					array(
+						'issue' => $this->Issue
+					)
+				);
+				$this->getEventManager()->dispatch($event);
+
 				$this->Session->setFlash(__('Successful update.'), 'default', array('class' => 'flash flash_notice'));
 				$this->Mailer->deliver_issue_add($this->Issue);
 				# Mailer.deliver_issue_add(@issue) if Setting.notified_events.include?('issue_added')
