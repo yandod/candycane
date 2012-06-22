@@ -188,8 +188,8 @@ class AccountController extends AppController {
 			return;
 		}
 
-        // Authenticate user
-        $user = $this->User->tryToLogin($this->request->data['User']['username'], $this->request->data['User']['password']);
+		// Authenticate user
+		$user = $this->User->tryToLogin($this->request->data['User']['username'], $this->request->data['User']['password']);
 
 		if ($user === false) {
 			// Invalid credentials
@@ -204,6 +204,15 @@ class AccountController extends AppController {
 		} else {
 			// Valid user
 			$this->logged_user($user);
+
+			$event = new CakeEvent(
+				'Controller.Candy.accountSuccessAuthenticationAfter',
+				$this,
+				array(
+					'user' => $user
+				)
+			);
+			$this->getEventManager()->dispatch($event);
 
 			## generate a key and set cookie if autologin
 			#if params[:autologin] && Setting.autologin?
