@@ -804,17 +804,16 @@ function breadcrumb($args)
     $text = preg_replace_callback('{([\s\(,\-\>]|^)(!)?(attachment|document|version|commit|source|export|message)?((#|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|\s|<|$)}',
                                   array($this, '_replaceCandycaneLinks'),
                                   $text);
-	$event = new CakeEvent(
-		'Helper.Candy.afterTextilizable',
-		$this,
-		array(
-			'text' => $text
-		)
-	);
-	$this->_View->getEventManager()->dispatch($event);
-    if (!empty($event->result['text'])) {
-        $text = $event->result['text'];
-    }
+    $event = new CakeEvent(
+      'Helper.Candy.afterTextilizable',
+      $this,
+      array(
+        'text' => $text
+      )
+    );
+    $this->_View->getEventManager()->dispatch($event);
+    $text = $event->data['text'];
+
     return $text;
 
 #    options = args.last.is_a?(Hash) ? args.pop : {}
