@@ -3,6 +3,7 @@
     <p><?php echo __('Creating database conection setting. please type valid configuration for your database server.') ?></p>
     <?php
         echo $this->Form->create('Install', array('url' => array('plugin' => 'cc_install', 'controller' => 'cc_install', 'action' => 'database')));
+        echo $this->Form->input('Install.datasource', array('type' => 'select', 'label' => 'Driver', 'options' => array('mysql' => 'MySQL', 'postgres'=>'PostgreSQL')));
         echo $this->Form->input('Install.host', array('label' => 'Host', 'value' => 'localhost'));
         echo $this->Form->input('Install.login', array('label' => 'User / Login', 'value' => 'root'));
         echo $this->Form->input('Install.password', array('label' => 'Password'));
