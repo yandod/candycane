@@ -355,7 +355,7 @@ class IssuesController extends AppController {
 			}
 
 			$event = new CakeEvent(
-				'Controller.Candy.beforeIssuesNewSave',
+				'Controller.Candy.issuesNewBeforeSave',
 				$this,
 				array(
 					'issue' => $save_data
@@ -374,7 +374,7 @@ class IssuesController extends AppController {
 				}
 
 				$event = new CakeEvent(
-					'Controller.Candy.afterIssuesNewSave',
+					'Controller.Candy.issuesNewAfterSave',
 					$this,
 					array(
 						'issue' => $this->Issue
