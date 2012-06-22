@@ -812,9 +812,8 @@ function breadcrumb($args)
       )
     );
     $this->_View->getEventManager()->dispatch($event);
-    if (!empty($event->result['text'])) {
-        $text = $event->result['text'];
-    }
+    $text = $event->data['text'];
+
     return $text;
 
 #    options = args.last.is_a?(Hash) ? args.pop : {}
