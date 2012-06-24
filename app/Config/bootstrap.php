@@ -7,11 +7,13 @@ App::import('Vendor','candycane/MenuContainer');
 App::import('Vendor','candycane/HookContainer');
 App::import('Vendor','candycane/PluginContainer');
 App::import('Vendor','candycane/SettingContainer');
+App::import('Vendor','candycane/ThemeContainer');
 
 $menu_container = new MenuContainer();
 $hookContainer = new HookContainer();
 $pluginContainer = new PluginContainer();
 $settingContainer = new SettingContainer();
+$themeContainer = new ThemeContainer();
 
 App::uses('ClassRegistry', 'Utility');
 CakePlugin::loadAll(
@@ -23,6 +25,7 @@ ClassRegistry::addObject('HookContainer',$hookContainer);
 ClassRegistry::addObject('MenuContainer',$menu_container);
 ClassRegistry::addObject('PluginContainer',$pluginContainer);
 ClassRegistry::addObject('SettingContainer',$settingContainer);
+ClassRegistry::addObject('ThemeContainer',$themeContainer);
 foreach( glob(APP.'Plugin/Cc*/init.php') as $val){
 	include_once(realpath($val));
 }

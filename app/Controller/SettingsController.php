@@ -84,9 +84,9 @@ class SettingsController extends AppController {
 	}
 
 	protected function _prepareThemes() {
-		$theme_list = array_map('basename', glob(APP . DS . 'webroot/themed' . DS . '*'));
-		$themes = array_combine($theme_list, $theme_list);
-		$this->set('themes',$themes);
+		$themeContainer = ClassRegistry::getObject('ThemeContainer');
+		$themes = $themeContainer->getThemeLists();
+		$this->set('themes', $themes);
 	}
 
 	protected function _prepareWikiformatting() {
