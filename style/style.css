@@ -27,11 +27,11 @@ img.photo { padding:10px; box-shadow: 0px 1px 3px #444; }
 img.photo[align="right"] { margin-left:20px; }
 img.photo[align="left"] { margin-right:20px; }
 
-body { background:url(images/body.png); font-family:'PT Sans', sans-serif; color:#3A291C;  }
+body { background:url(images/body.png); font-family:"PT Sans","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ",Meiryo,"ＭＳ Ｐゴシック","Helvetica","Arial",sans-serif; sans-serif; color:#3A291C; }
 
 body>header { background: url(images/header.png); height:62px; box-shadow: 0px 1px 3px #444; position:fixed; top:0; left:0; right:0; z-index:99; opacity:0.95; }
 body>header div.center { position:relative; width:900px; margin:0 auto }
-body>header div.center>h1 { position:absolute; top:8px; width:156px; height:56px; text-indent:-9999px; background:url(images/sprite.png) 0 -195px; }
+body>header div.center>h1 { position:absolute; top:8px; width:156px; height:56px; text-indent:-9999px; background:url(images/sprite.png) 0 -244px; }
 body>header div.center>h1>a { display:block; width:100%; height:100%; }
 body>header div.center>nav { position:absolute; top:20px; right:50px; }
 body>header div.center>nav>a { margin:0 .5em; color: #3A291C; font-weight:bold; text-decoration:none; text-shadow: #fff 1px 1px 0; font-size: 16px; }
@@ -44,7 +44,7 @@ a:active { color: #A30000; }
 #main-content { background: #FFF url(images/woodboard.png); padding:64px 0 3em }
 #main-content div.center { margin:.5em auto; width:900px; background: }
 #main-content h1 { font-size:300%; margin-top:30px; margin-bottom:20px; }
-#main-content h1.logo { height:74px; width: 350px; text-indent:-9999px; background: url(images/sprite.png) 0 -266px no-repeat; margin:65px 0 50px 50px; }
+#main-content h1.logo { height:74px; width: 350px; text-indent:-9999px; background: url(images/sprite.png) 0 -317px no-repeat; margin:65px 0 50px 50px; }
 #main-content p.logo-desc { margin-top:0; text-indent:5px; color:#2B1917 }
 body.top iframe { float: left; }
 
@@ -65,7 +65,7 @@ body.top iframe { float: left; }
 .github { background-image:url(images/button-overlay.png), url(images/octofication.png); background-repeat:repeat-x, no-repeat; background-position:left, 0 -1px }
 #main-content div.hello { float: left; width: 470px; }
 #main-content iframe.opening { margin-top: 20px; float: right; }
-p.requirements { background: url(images/sprite.png) 0px -436px no-repeat; padding: 20px 0 20px 140px; }
+p.requirements { background: url(images/sprite.png) 0px -484px no-repeat; padding: 20px 0 20px 140px; }
 
 ul#features { background: none; border: none; display: block; padding: 0; }
 ul#features li { width: 33%; float: left; display: block; }
@@ -73,24 +73,18 @@ ul#features h3, ul#features p { margin: 10px 25px 0 0; }
 ul#features h3 { margin-top: 0; font-size: 20px; text-shadow: #fff -1px -1px 0; }
 ul#features li h3 { background: url(images/sprite.png) no-repeat 0 0; padding: 14px 0 14px 58px; }
 ul#features li.plugin h3 { background-position: 0 -65px; }
-ul#features li.database h3 { background-position: 0 -130px; }
+ul#features li.database h3 { background-position: 0 -179px; }
 
 body>footer { background: url(images/footer.png) repeat-x; box-shadow: 0px -3px 3px; color: #B3A594; }
 body>footer div.center { width:900px; margin:0 auto; padding:30px 0; color: #B3A594; text-align: center }
 body>footer div.center p { margin:1em 0; font-size:13px }
-body>footer div.center a.made-in-osscafe { display:inline-block; width: 320px; height:70px; text-indent:-9999px; background: url(images/sprite.png) 0 -356px no-repeat }
+body>footer div.center a.made-in-osscafe { display:inline-block; width: 320px; height:70px; text-indent:-9999px; background: url(images/sprite.png) 0 -406px no-repeat }
 
 img.github-ribon { position: absolute; top: 0; right: 0; border: 0; z-index:99; }
 a.see-my-template { position:fixed; bottom:100px; right:0; width:85px; height:155px; background:url(images/label.png); text-indent:-9999px; }
 span.leader { padding-left:2em; }
 
 body>header div.center>nav>a,
-#main-content h1,
-#main-content h2,
-#main-content p.logo-desc,
-#main-content p.lead,
-.button,
-body>footer { font-family:'PT Sans', sans-serif; font-weight:normal; }
-
+#main-content h1, #main-content h2, .button { font-weight:normal; }
 
 p:after, hr.clear { content:"."; display:block; clear:both; visibility:hidden; line-height:0; height:0 }
