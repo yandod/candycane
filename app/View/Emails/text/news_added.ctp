@@ -3,7 +3,7 @@
 
 <?php echo $news_url; ?>
 
-<?php echo $this->Candy->authoring($news['News']['created_on'], $news['Author']); ?>
+<?php echo $this->Candy->format_username($news['Author']); ?>
 
 
 <?php echo $news['News']['description']; ?>
