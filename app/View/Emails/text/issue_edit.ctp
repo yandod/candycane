@@ -1,3 +1,4 @@
+<?php $this->loadHelper('Candy'); ?>
 <?php echo $this->Candy->lwr(
 	'Issue %s has been updated by %s.',
 	$journal['Issue']['id'],
