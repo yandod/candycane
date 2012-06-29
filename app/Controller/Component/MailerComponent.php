@@ -1,15 +1,19 @@
 <?php
 App::import('Vendor','candycane/ActionMailer');
-class MailerComponent extends ActionMailer {
-    var $name = 'Mailer';
-    var $layout = 'mail';
-    var $subject = '';
-    
-    function startup($controller){
-        $this->controller = $controller;
-        $this->setHeader('Content-type', 'text/plain');
 
-        if(extension_loaded('mbstring')){
+class MailerComponent extends ActionMailer {
+
+	public $name = 'Mailer';
+
+	public $layout = 'mail';
+
+	public $subject = '';
+
+	public function startup($controller) {
+		$this->controller = $controller;
+		$this->setHeader('Content-type', 'text/plain');
+
+		if (extension_loaded('mbstring')) {
 			switch (Configure::read('Config.language')) {
 				case 'jpn':
 					$lang = "ja";
@@ -20,24 +24,24 @@ class MailerComponent extends ActionMailer {
 				default:
 					$lang = "uni";
 			}
-            mb_language($lang);
-            mb_internal_encoding("UTF-8");
-        }
-    }
+			mb_language($lang);
+			mb_internal_encoding("UTF-8");
+		}
+	}
 
-    function  beforeRender() {
-      parent::beforeRender();
-      $this->setHeader('From', $this->controller->Setting->mail_from);
-      $this->set('footer',$this->controller->Setting->emails_footer);
-    }
-	
+	public function beforeRender() {
+		parent::beforeRender();
+		$this->setHeader('From', $this->controller->Setting->mail_from);
+		$this->set('footer', $this->controller->Setting->emails_footer);
+	}
+
 	public function setRecipients($emails) {
 		if (
 			isset($this->controller->current_user['UserPreference']['pref']['no_self_notified']) &&
 			$this->controller->current_user['UserPreference']['pref']['no_self_notified']
 		) {
 			$new_emails = array();
-			foreach( $emails as $k => $v ) {
+			foreach ($emails as $k => $v) {
 				if ($this->controller->current_user['mail'] == $v) {
 					continue;
 				}
@@ -47,63 +51,64 @@ class MailerComponent extends ActionMailer {
 		}
 		parent::setRecipients($emails);
 	}
-    function issue_add($Issue) {
-    #    redmine_headers 'Project' => issue.project.identifier,
-    #                    'Issue-Id' => issue.id,
-    #                    'Issue-Author' => issue.author.login
-    #    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
-    #    recipients issue.recipients
-    $this->setRecipients($Issue->recipients());
-    #    cc(issue.watcher_recipients - @recipients)
-    $issue_data = $Issue->findById($Issue->id);
-    $s = "{$issue_data['Project']['name']} - {$issue_data['Tracker']['name']} #{$issue_data['Issue']['id']} ";
-    $s .= "{$issue_data['Status']['name']} ";
-    $s .= "{$issue_data['Issue']['subject']}";
-    $this->subject = $s;
-    #    body :issue => issue,
-    #         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
-    $this->set('issue',$issue_data);
-    $this->set('issueurl',Router::url(array(
-        'controller' => 'issues',
-        'action' => 'show',
-        'issue_id' => $Issue->id
-        ),
-        true
-    ));
-    }
-    
-    function issue_edit($Journal,$Issue) {
-    #    issue = journal.journalized
-    #    redmine_headers 'Project' => issue.project.identifier,
-    #                    'Issue-Id' => issue.id,
-    #                    'Issue-Author' => issue.author.login
-    #    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
-    #    @author = journal.user
-    #    recipients issue.recipients
-    $this->setRecipients($Issue->recipients());
-    #    # Watchers in cc
-    #    cc(issue.watcher_recipients - @recipients)
-    #    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
-    $issue_data = $Issue->findById($Issue->id);
-    $s = "{$issue_data['Project']['name']} - {$issue_data['Tracker']['name']} #{$issue_data['Issue']['id']} ";
-    $s .= "{$issue_data['Status']['name']} ";
-    $s .= "{$issue_data['Issue']['subject']}";
-    $this->subject = $s;
-    #    body :issue => issue,
-    #         :journal => journal,
-    #         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
-    #  end
-    $journal_data = $Journal->findById($Journal->getLastInsertID());
-    $this->set('issue',$issue_data);
-    $this->set('journal',$journal_data);
-    $this->set('issueurl',Router::url(array(
-        'controller' => 'issues',
-        'action' => 'show',
-        'issue_id' => $Issue->id
-        ),
-        true
-    ));
-    }
+
+	public function issue_add($Issue) {
+		#    redmine_headers 'Project' => issue.project.identifier,
+		#                    'Issue-Id' => issue.id,
+		#                    'Issue-Author' => issue.author.login
+		#    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+		#    recipients issue.recipients
+		$this->setRecipients($Issue->recipients());
+		#    cc(issue.watcher_recipients - @recipients)
+		$issue_data = $Issue->findById($Issue->id);
+		$s = "{$issue_data['Project']['name']} - {$issue_data['Tracker']['name']} #{$issue_data['Issue']['id']} ";
+		$s .= "{$issue_data['Status']['name']} ";
+		$s .= "{$issue_data['Issue']['subject']}";
+		$this->subject = $s;
+		#    body :issue => issue,
+		#         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
+		$this->set('issue', $issue_data);
+		$this->set('issueurl', Router::url(array(
+			'controller' => 'issues',
+			'action' => 'show',
+			'issue_id' => $Issue->id
+			),
+			true
+		));
+	}
+
+	public function issue_edit($Journal, $Issue) {
+		#    issue = journal.journalized
+		#    redmine_headers 'Project' => issue.project.identifier,
+		#                    'Issue-Id' => issue.id,
+		#                    'Issue-Author' => issue.author.login
+		#    redmine_headers 'Issue-Assignee' => issue.assigned_to.login if issue.assigned_to
+		#    @author = journal.user
+		#    recipients issue.recipients
+		$this->setRecipients($Issue->recipients());
+		#    # Watchers in cc
+		#    cc(issue.watcher_recipients - @recipients)
+		#    s = "[#{issue.project.name} - #{issue.tracker.name} ##{issue.id}] "
+		$issue_data = $Issue->findById($Issue->id);
+		$s = "{$issue_data['Project']['name']} - {$issue_data['Tracker']['name']} #{$issue_data['Issue']['id']} ";
+		$s .= "{$issue_data['Status']['name']} ";
+		$s .= "{$issue_data['Issue']['subject']}";
+		$this->subject = $s;
+		#    body :issue => issue,
+		#         :journal => journal,
+		#         :issue_url => url_for(:controller => 'issues', :action => 'show', :id => issue)
+		#  end
+		$journal_data = $Journal->findById($Journal->getLastInsertID());
+		$this->set('issue', $issue_data);
+		$this->set('journal', $journal_data);
+		$this->set('issueurl', Router::url(array(
+			'controller' => 'issues',
+			'action' => 'show',
+			'issue_id' => $Issue->id
+			),
+			true
+		));
+	}
 
 	public function register($token, $user) {
 		#    set_language_if_valid(token.user.language)
@@ -122,7 +127,7 @@ class MailerComponent extends ActionMailer {
 				)
 			),
 			true
-		));		
+		));
 	}
 
 	public function account_activation_request($user, $User) {
@@ -150,27 +155,26 @@ class MailerComponent extends ActionMailer {
 				)
 			),
 			true
-		));		
+		));
 	}
 
-    function lost_password($token, $user)
-    {
-        # set_language_if_valid(token.user.language)
+	function lost_password($token, $user) {
+		# set_language_if_valid(token.user.language)
 
-        $this->addRecipient($user['User']['mail']);
-        $this->setSubject(__('Your password'));
+		$this->addRecipient($user['User']['mail']);
+		$this->setSubject(__('Your password'));
 
-        $this->set('token', $token);
-        $this->set('user', $user);
-        $this->set('url', Router::url(
-            array(
-                'controller' => 'account',
-                'action' => 'lost_password',
-                'token' => $token['Token']['value']
-            ),
-            true
-        ));
-    }
+		$this->set('token', $token);
+		$this->set('user', $user);
+		$this->set('url', Router::url(
+			array(
+				'controller' => 'account',
+				'action' => 'lost_password',
+				'token' => $token['Token']['value']
+			),
+			true
+		));
+	}
 
 	public function news_added($news) {
 		#    redmine_headers 'Project' => news.project.identifier
@@ -184,13 +188,13 @@ class MailerComponent extends ActionMailer {
 		));
 		$this->set('news', $news->data);
 		$this->set('news_url', Router::url(
-            array(
-                'controller' => 'news',
-                'action' => 'show',
-                'id' => $news->id
-            ),
-            true
-        ));
+			array(
+				'controller' => 'news',
+				'action' => 'show',
+				'id' => $news->id
+			),
+			true
+		));
 	}
 
 	public function test($user) {
@@ -198,9 +202,9 @@ class MailerComponent extends ActionMailer {
 		$this->setRecipient($user['mail']);
 		$this->setSubject('CandyCane test');
 		$this->set('url',Router::url(
-            array('controller' => 'welcome'),
-            true
-        ));
+			array('controller' => 'welcome'),
+			true
+		));
 	}
 }
 #class Mailer < ActionMailer::Base
@@ -317,13 +321,13 @@ class MailerComponent extends ActionMailer {
 #    super
 #    set_language_if_valid Setting.default_language
 #    from Setting.mail_from
-#    
+#
 #    # URL options
 #    h = Setting.host_name
 #    h = h.to_s.gsub(%r{\/.*$}, '') unless ActionController::AbstractRequest.relative_url_root.blank?
 #    default_url_options[:host] = h
 #    default_url_options[:protocol] = Setting.protocol
-#    
+#
 #    # Common headers
 #    headers 'X-Mailer' => 'Redmine',
 #            'X-Redmine-Host' => Setting.host_name,
