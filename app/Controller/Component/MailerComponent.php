@@ -47,6 +47,13 @@ class MailerComponent extends Component {
 	public function deliver_issue_add($Issue) {
 		$issue_data = $Issue->findById($Issue->id);
 
+		if ($this->Controller->Setting->bcc_recipients) {
+			$this->Email->to($this->Controller->Setting->mail_from);
+			$this->Email->bcc($this->_toNoSelfFilter($Issue->recipients()));
+		} else {
+			$this->Email->to($this->_toNoSelfFilter($Issue->recipients()));
+		}
+
 		return $this->Email->template('issue_add')
 			->viewVars(array(
 				'issue' => $issue_data,
@@ -56,7 +63,6 @@ class MailerComponent extends Component {
 					'issue_id' => $Issue->id
 				), true),
 			))
-			->to($this->_toNoSelfFilter($Issue->recipients()))
 			->subject(vsprintf('%s - %s #%s %s %s', array(
 				$issue_data['Project']['name'],
 				$issue_data['Tracker']['name'],
@@ -71,6 +77,13 @@ class MailerComponent extends Component {
 		$issue_data = $Issue->findById($Issue->id);
 		$journal_data = $Journal->findById($Journal->getLastInsertID());
 
+		if ($this->Controller->Setting->bcc_recipients) {
+			$this->Email->to($this->Controller->Setting->mail_from);
+			$this->Email->bcc($this->_toNoSelfFilter($Issue->recipients()));
+		} else {
+			$this->Email->to($this->_toNoSelfFilter($Issue->recipients()));
+		}
+
 		return $this->Email->template('issue_edit')
 			->viewVars(array(
 				'issue' => $issue_data,
@@ -81,7 +94,6 @@ class MailerComponent extends Component {
 					'issue_id' => $Issue->id
 				), true),
 			))
-			->to($this->_toNoSelfFilter($Issue->recipients()))
 			->subject(vsprintf('%s - %s #%s %s %s', array(
 				$issue_data['Project']['name'],
 				$issue_data['Tracker']['name'],
@@ -118,6 +130,13 @@ class MailerComponent extends Component {
 			)
 		));
 
+		if ($this->Controller->Setting->bcc_recipients) {
+			$this->Email->to($this->Controller->Setting->mail_from);
+			$this->Email->bcc($this->_toNoSelfFilter($recipients));
+		} else {
+			$this->Email->to($this->_toNoSelfFilter($recipients));
+		}
+
 		return $this->Email->template('account_activation_request')
 			->viewVars(array(
 				'user' => $user,
@@ -127,7 +146,6 @@ class MailerComponent extends Component {
 					'?' => array('status' => 2)
 				), true),
 			))
-			->to($this->_toNoSelfFilter($recipients))
 			->subject(__('%s account activation request', $this->Controller->Setting->app_title))
 			->send();
 	}
@@ -155,6 +173,13 @@ class MailerComponent extends Component {
 		$news->read();
 		$news->Project->read();
 
+		if ($this->Controller->Setting->bcc_recipients) {
+			$this->Email->to($this->Controller->Setting->mail_from);
+			$this->Email->bcc($this->_toNoSelfFilter($news->Project->recipients()));
+		} else {
+			$this->Email->to($this->_toNoSelfFilter($news->Project->recipients()));
+		}
+
 		return $this->Email->template('news_added')
 			->viewVars(array(
 				'news' => $news->data,
@@ -164,7 +189,6 @@ class MailerComponent extends Component {
 					'id' => $news->id
 				), true),
 			))
-			->to($this->_toNoSelfFilter($news->Project->recipients()))
 			->subject(vsprintf('[%s] %s: %s', array(
 				$news->Project->data['Project']['name'],
 				__('News'),
