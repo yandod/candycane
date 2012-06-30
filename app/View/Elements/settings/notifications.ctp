@@ -18,6 +18,61 @@
 	)
 );?></p>
 
+<p><label><?php echo __('email transport') ?></label>
+<?php echo $this->Form->input(
+	'mail_transport',
+	array(
+		'options' => array('Mail' => __('PHP Mail'), 'Smtp' => __('SMTP Server')),
+		'value' => $Settings->mail_transport,
+		'label' => false,
+		'div' => false
+	)
+);?></p>
+
+<p><label><?php echo __('smtp host') ?></label>
+<?php echo $this->Form->input(
+	'mail_host',
+	array(
+		'value' => $Settings->mail_host,
+		'size' => 60,
+		'label' => false,
+		'div' => false
+	)
+);?></p>
+
+<p><label><?php echo __('smtp port') ?></label>
+<?php echo $this->Form->input(
+	'mail_port',
+	array(
+		'value' => $Settings->mail_port,
+		'size' => 60,
+		'label' => false,
+		'div' => false
+	)
+);?></p>
+
+<p><label><?php echo __('smtp username') ?></label>
+<?php echo $this->Form->input(
+	'mail_username',
+	array(
+		'value' => $Settings->mail_username,
+		'size' => 60,
+		'label' => false,
+		'div' => false
+	)
+);?></p>
+
+<p><label><?php echo __('smtp password') ?></label>
+<?php echo $this->Form->input(
+	'mail_password',
+	array(
+		'value' => $Settings->mail_password,
+		'size' => 60,
+		'label' => false,
+		'div' => false
+	)
+);?></p>
+
 <p><label><?php echo __('Blind carbon copy recipients (bcc)') ?></label>
 <?php echo $this->Form->checkbox(
 	'bcc_recipients',
