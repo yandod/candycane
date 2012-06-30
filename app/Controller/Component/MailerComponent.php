@@ -21,11 +21,18 @@ class MailerComponent extends Component {
 			mb_internal_encoding("UTF-8");
 		}
 
-		$this->Email = new CakeEmail('default');
+		$this->Email = new CakeEmail(array(
+			'transport' => $this->Controller->Setting->mail_transport,
+			'from' => $this->Controller->Setting->mail_from,
+			'host' => $this->Controller->Setting->mail_host,
+			'port' => $this->Controller->Setting->mail_port,
+			'username' => $this->Controller->Setting->mail_username,
+			'password' => $this->Controller->Setting->mail_password,
+
+		));
 		$this->Email->viewVars(array(
-				'footer' => $this->Controller->Setting->emails_footer
-			))
-			->from($this->Controller->Setting->mail_from);
+			'footer' => $this->Controller->Setting->emails_footer
+		));
 		if ($this->Controller->Setting->plain_text_mail) {
 			$this->Email->emailFormat('text');
 		} else {
