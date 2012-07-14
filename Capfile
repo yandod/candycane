@@ -29,8 +29,8 @@ namespace :deploy do
       ln -s #{shared_path}/lib/tcpdf #{latest_release}/app/vendors/tcpdf &&
       rm -Rf #{latest_release}/app/files &&
       ln -s #{shared_path}/files #{latest_release}/app/files &&
-      rm -Rf #{latest_release}/app/Plugin/CcInstall &&
-      chmod 2777 #{latest_release}/app/tmp #{latest_release}/app/Plugin
+      rm -Rf #{latest_release}/app/Plugin &&
+      ln -s #{shared_path}/Plugin #{latest_release}/app/Plugin
     CMD
   end
 end
