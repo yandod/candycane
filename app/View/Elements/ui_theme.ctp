@@ -1,6 +1,9 @@
 <?php
-App::uses('ClassRegistry','Utility');
-$ui = ClassRegistry::getObject('Setting')->ui_theme;
+$Setting = ClassRegistry::getObject('Setting');
+if ($Setting) {
+  $ui = $Setting->ui_theme;
+}
+
 if ( !empty( $ui ) )
 {
 	$css = '/themed/' . $ui . '/css/application.css';
