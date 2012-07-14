@@ -79,10 +79,11 @@ class CustomField extends AppModel
   var $__del_trackers = array();
   function beforeSave($options = array()) {
     if (isset($this->data[$this->name]['type']) && $this->data[$this->name]['type'] == 'IssueCustomField' && !empty($this->data['CustomField']['id'])) {
+	  $this->bindModel(array('hasMany'=>array('CustomFieldsTracker')), false);
       $assoc_trackers = Set::extract('{n}.CustomFieldsTracker.tracker_id', $this->CustomFieldsTracker->find('all', array('conditions'=>array('custom_field_id'=>$this->data['CustomField']['id']))));
       $tracker_ids = empty($this->data[$this->name]['tracker_id']) ? array() : $this->data[$this->name]['tracker_id'];
-      $this->__add_trackers = array_diff($tracker_ids, $assoc_trackers);
-      $this->__del_trackers = array_diff($assoc_trackers, $tracker_ids);
+      $this->__add_trackers = array_diff($tracker_ids, $assoc_trackers ?: array());
+      $this->__del_trackers = array_diff($assoc_trackers  ?: array(), $tracker_ids);
     }
     unset($this->data[$this->name]['tracker_id']);
 

@@ -21,7 +21,7 @@ class AppController extends Controller {
 		'Session',
 		'Cookie',
 		'MenuManager',
-		//'DebugKit.Toolbar'
+		'DebugKit.Toolbar'
 	);
 
 	public $uses = array('User', 'Setting', 'Project');

@@ -100,7 +100,7 @@ class IssueTest extends CakeTestCase {
     $IssueCustomField = & ClassRegistry::init('CustomField');
     $field = $IssueCustomField->findByName('Database');
     $field['CustomField']['is_required'] = true;
-    $IssueCustomField->save($field);
+    $ret = $IssueCustomField->save($field,array('validate' => false, 'callbacks' => false ));
 
     $this->Issue->read(null, 1);
     $data = $this->Issue->data;
@@ -110,7 +110,7 @@ class IssueTest extends CakeTestCase {
     $this->Issue->data['Issue']['custom_field_values'] = array(
       $data['CustomValue'][0]['custom_field_id'] => $data['CustomValue'][0]['value']
     );
-    $this->assertFalse($this->Issue->save());
+    $this->assertNotEmpty($this->Issue->save());
     # Blank value
     $this->Issue->create();
     $this->Issue->set($data);
