@@ -1,4 +1,5 @@
 <?php
+App::uses('ClassRegistry','Utility');
 $ui = ClassRegistry::getObject('Setting')->ui_theme;
 if ( !empty( $ui ) )
 {
