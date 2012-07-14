@@ -83,7 +83,7 @@ class CustomField extends AppModel
       $assoc_trackers = Set::extract('{n}.CustomFieldsTracker.tracker_id', $this->CustomFieldsTracker->find('all', array('conditions'=>array('custom_field_id'=>$this->data['CustomField']['id']))));
       $tracker_ids = empty($this->data[$this->name]['tracker_id']) ? array() : $this->data[$this->name]['tracker_id'];
       $this->__add_trackers = array_diff($tracker_ids, $assoc_trackers ? $assoc_trackers : array());
-      $this->__del_trackers = array_diff($assoc_trackers  ?: array(), $tracker_ids);
+      $this->__del_trackers = array_diff($assoc_trackers  ? $assoc_trackers : array(), $tracker_ids);
     }
     unset($this->data[$this->name]['tracker_id']);
 
