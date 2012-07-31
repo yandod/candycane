@@ -156,8 +156,8 @@ class IssuesController extends AppController {
 		$this->Queries->retrieve_query($this->request->query['query_id']);
 		$limit = $this->_per_page_option();
 		if (empty($this->request->params['named']['sort'])) {
-			$this->request->params['sort'] = 'Issue.id';
-			$this->request->params['direction'] = 'desc';
+			$this->request->params['named']['sort'] = 'Issue.id';
+			$this->request->params['named']['direction'] = 'desc';
 		}
 		$this->paginate = array('Issue' => array(
 			'conditions' => $this->Queries->query_filter_cond,
@@ -509,6 +509,7 @@ class IssuesController extends AppController {
         }
       }
       // call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
+
       if($this->Issue->saveAll($save_data)) {
         if($this->Issue->actually_changed) {
           # Only send notification if something was actually changed
