@@ -387,7 +387,12 @@ class ProjectsController extends AppController {
 
 		$fields = array('name', 'description', 'homepage', 'is_public');
 		$this->request->data['Tracker']['Tracker'] = array_filter($this->request->data['Project']['Tracker']);
-		$this->request->data['CustomField']['CustomField'] = array_filter($this->request->data['Project']['issue_custom_field_ids']);
+		if (
+			isset($this->request->data['Project']['issue_custom_field_ids']) &&
+			is_array($this->request->data['Project']['issue_custom_field_ids'])
+		) {
+			$this->request->data['CustomField']['CustomField'] = array_filter($this->request->data['Project']['issue_custom_field_ids']);
+		}
 		if ($this->Project->save($this->request->data, true, $fields)) {
 			$this->Session->setFlash(__('Successful update.'), 'default', array('class' => 'flash notice'));
 			$this->redirect(
