@@ -20,10 +20,11 @@ vim: filetype=php
   <?php if ($parent_project): ?>
   <li><?php echo __('Subproject of') ?>: <?php echo $this->Html->link($parent_project['Project']['name'], array('controller'=>'projects', 'action'=>'show', 'project_id'=>$parent_project['Project']['identifier_or_id'])) ?></li>
   <?php endif ?>
-<?php if (isset($custom_values)): ?>
-<?php foreach($custom_values as $custom_value): ?>
-  <?php if (!empty($custom_value['CustomValue']['value'])): ?>
-  <li><?php echo h($custom_value['CustomField']['name']) ?>: <?php echo h($custom_field->show_value($custom_value)) ?></li>
+<?php if (isset($main_project['CustomValue'])): ?>
+<?php foreach($main_project['CustomValue'] as $custom_value): ?>
+  <?php if (!empty($custom_value['value'])): ?>
+  <?php $custom_value['CustomValue'] = $custom_value; ?>
+  <li><?php echo h($custom_value['CustomField']['name']) ?>: <?php echo h($this->CustomField->show_value($custom_value)) ?></li>
    <?php endif ?>
 <?php endforeach ?>
 <?php endif ?>

@@ -31,6 +31,7 @@ class Project extends AppModel {
 			'url' => array('Proc' => '_event_url'),
 			'author' => null),
 		'Searchable',
+		'Customizable',
 //		'Containable'
 	);
 

@@ -145,6 +145,7 @@ function deleteValueField(e) {
     <p>
       <?php echo $this->Form->label('is_required', __('Required')); ?>
       <?php echo $this->Form->input('is_required', array('type'=>'checkbox', 'div'=>false, 'label'=>false)); ?>
+      <?php echo $this->Form->hidden('is_for_all', array('value'=>'1')); ?>
     </p>
 <?php break; ?>
 <?php case "TimeEntryCustomField" ?>

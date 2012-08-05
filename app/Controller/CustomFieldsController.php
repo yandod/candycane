@@ -7,6 +7,11 @@ class CustomFieldsController extends AppController {
   var $helpers = array(
     'CustomField',
   );
+  
+  public $uses = array(
+	  'CustomField',
+	  'CustomValue',
+  );
 
   function beforeFilter()
   {
@@ -114,6 +119,11 @@ class CustomFieldsController extends AppController {
   
   function destroy($id) {
     $this->CustomField->read(null, $id);
+	$this->CustomValue->deleteAll(
+	array(
+		'CustomValue.custom_field_id' => $id
+	)
+	);
     if($this->CustomField->delete()) {
       $this->Session->setFlash(__('Successful deletion.'), 'default', array('class'=>'flash flash_notice'));
       $this->redirect(array('action'=>'index', '?'=>array('tab'=>$this->CustomField->data[$this->CustomField->alias]['type'])));
