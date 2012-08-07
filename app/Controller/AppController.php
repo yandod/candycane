@@ -487,7 +487,7 @@ class AppController extends Controller {
 				throw new NotFoundException();
 			}
 			if (!$this->_isVisible($this->_project['Project']['id'])) {
-				throw new NotFoundException();
+				$this->require_login();
 			}
 		}
 	}
