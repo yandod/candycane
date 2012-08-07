@@ -176,8 +176,11 @@ class AccountController extends AppController {
  */
 	public function login() {
 		$this->set('setting', $this->Setting);
-
-		if (!$this->request->data) {
+		
+		if (isset($this->request->query['back_url'])) {
+			$this->set('back_url',$this->request->query['back_url']);
+			return;
+		} elseif (!$this->request->data) {
 			$this->set('back_url',$this->referer());
 			return;
 		}
