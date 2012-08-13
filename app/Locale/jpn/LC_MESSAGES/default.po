@@ -933,7 +933,7 @@ msgid "Start"
 msgstr "開始日"
 
 # field_start_date 2
-msgid "start_date"
+msgid "Start date"
 msgstr "開始日"
 
 # field_password_confirmation
@@ -1523,6 +1523,10 @@ msgid "%% Done"
 msgstr "進捗 %"
 
 # field_done_ratio
+msgid "Done"
+msgstr "進捗"
+
+# field_done_ratio
 msgid "done_ratio"
 msgstr "進捗"
 
@@ -1841,6 +1845,14 @@ msgstr "関係している"
 # field_login
 msgid "Login"
 msgstr "ログイン"
+
+# field_admin
+msgid "Admin"
+msgstr "管理者"
+
+# field_mail
+msgid "Mail"
+msgstr "メールアドレス"
 
 # mail_subject_lost_password
 msgid "Your %s password"
