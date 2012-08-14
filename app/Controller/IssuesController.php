@@ -508,10 +508,30 @@ class IssuesController extends AppController {
               );
         }
       }
-      // call_hook(:controller_issues_edit_before_save, { :params => params, :issue => @issue, :time_entry => @time_entry, :journal => journal})
+	  $event = new CakeEvent(
+		  'Controller.Candy.issuesEditBeforeSave',
+		  $this,
+		  array(
+			'issue' => $this->Issue,
+			'journal' => $journal
+		  )
+	  );
+	  $this->getEventManager()->dispatch($event);
 
+	  
       if($this->Issue->saveAll($save_data)) {
         if($this->Issue->actually_changed) {
+
+		  $event = new CakeEvent(
+			  'Controller.Candy.issuesEditAfterSave',
+				$this,
+				array(
+					'issue' => $this->Issue,
+					'journal' => $journal
+				)
+		  );
+		  $this->getEventManager()->dispatch($event);
+
           # Only send notification if something was actually changed
           $this->Session->setFlash(__('Successful update.'), 'default', array('class'=>'flash flash_notice'));
           $this->Mailer->deliver_issue_edit($journal,$this->Issue);
