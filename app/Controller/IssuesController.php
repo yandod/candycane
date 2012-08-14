@@ -377,7 +377,9 @@ class IssuesController extends AppController {
 					'Controller.Candy.issuesNewAfterSave',
 					$this,
 					array(
-						'issue' => $this->Issue
+						'project' => $this->_project,
+						'issue' => $this->Issue,
+						'save_data' => $save_data
 					)
 				);
 				$this->getEventManager()->dispatch($event);
@@ -526,8 +528,11 @@ class IssuesController extends AppController {
 			  'Controller.Candy.issuesEditAfterSave',
 				$this,
 				array(
+					'project' => $this->_project,
 					'issue' => $this->Issue,
-					'journal' => $journal
+					'save_data' => $save_data,
+					'journal' => $journal,
+					'notes' => $notes
 				)
 		  );
 		  $this->getEventManager()->dispatch($event);
