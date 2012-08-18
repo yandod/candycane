@@ -1583,4 +1583,22 @@ function breadcrumb($args)
     }
     return $options;
   }
+	
+  public function project_icon($project = null) {
+	  $url = '/themed/kuma/img/kuma-48-square.png';
+	  if ( isset($project['CustomValue']) && is_array($project['CustomValue']) ) {
+		  foreach ($project['CustomValue'] as $row) {
+			  if ($row['CustomField']['name'] == 'projecticon') {
+				  $url = $row['value'];
+			  }
+		  }
+	  }
+	  return $this->Html->image(
+		$url,
+		array(
+			'class' => 'project-icon',
+			'alt' => 'kuma',
+		)
+	);
+  }
 }
