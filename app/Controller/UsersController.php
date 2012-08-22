@@ -216,13 +216,15 @@ class UsersController extends AppController {
 			}
 		}
 
+		$Setting = ClassRegistry::getObject('Setting');
+
 		$user = $this->User->create(array(
 			'id' => '',
 			'login' => '',
 			'firstname' => '',
 			'lastname' => '',
 			'mail' => '',
-			'language' => '',
+			'language' => $Setting->default_language,
 			));
 		$this->set('user', $user);
 		# @auth_sources = AuthSource.find(:all)
