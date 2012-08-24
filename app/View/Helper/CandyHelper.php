@@ -1586,7 +1586,8 @@ function breadcrumb($args)
   }
 	
   public function project_icon($project = null, $as_url = false) {
-	  $url = '/themed/kuma/img/kuma-48-square.png';
+
+	  $url = Router::url('/', true) . 'themed/kuma/img/kuma-48-square.png';
 	  if ( isset($project['CustomValue']) && is_array($project['CustomValue']) ) {
 		  foreach ($project['CustomValue'] as $row) {
 			  if ($row['CustomField']['name'] == 'projecticon') {
@@ -1601,6 +1602,7 @@ function breadcrumb($args)
 	  return $this->Html->image(
 		$url,
 		array(
+//			'fullBase' => true,
 			'class' => 'project-icon',
 			'alt' => 'kuma',
 		)
