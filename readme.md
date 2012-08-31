@@ -11,10 +11,10 @@ Continuous Integration is running on here: [http://ci.candycane.jp:8080/](http:/
 
 1. Extract all files, and place into a directory that is accessible to the web server, and able to run PHP.
 2. Setup correct permissions on files and folders:
-	* chmod -R 777 app/Config
-	* chmod -R 777 app/files
-	* chmod -R 777 app/tmp
-	* chmod -R 777 app/Plugin 
+	* `chmod -R 777 app/Config`
+	* `chmod -R 777 app/files`
+	* `chmod -R 777 app/tmp`
+	* `chmod -R 777 app/Plugin`
 3. Access the site via your web server. If you installed into a subdirectory, then ensure that directory is in your URL: http://mysite.com/candycane
 4. The step-by-step installer will appear.
 5. Just use it!
@@ -61,7 +61,8 @@ CandyCane is using CakePHP v2.1. But using some PHP5 syntax in codes.
 - Sebastien pencreach
 - Sardorbek Pulatov
 - Hisateru Tanaka
-     
+- [Jose Gonzalez](http://josediazgonzalez.com) (savant)
+
 We will appreciate any pull requests.
 
 I try to merge as much as possible. Please fork the repository if you find something you want to fix, and submit a pull request.
