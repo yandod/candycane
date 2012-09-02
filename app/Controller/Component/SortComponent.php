@@ -18,7 +18,7 @@ class SortComponent extends Component
   /**
    * startUp
    */
-  public function startUp($controller) {
+  public function startup(Controller $controller) {
     $this->controller = $controller;
     $this->request = $controller->request;
   }

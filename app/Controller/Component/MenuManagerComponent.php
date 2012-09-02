@@ -13,7 +13,7 @@ class MenuManagerComponent extends Component
     $this->application_menu = $this->_getApplicationMenu();
   }
   
-  function startup() {
+  public function startup(Controller $controller) {
   }
   
   function _detectProjectId()
