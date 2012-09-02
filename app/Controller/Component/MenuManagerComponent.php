@@ -49,7 +49,7 @@ class MenuManagerComponent extends Component
   }
   
 
-  function beforeRender($controller) {
+  public function beforeRender(Controller $controller) {
     $this->_prepareSelect();
     $this->_prepareMainmenu();
     $controller->set('main_menu', $this->menu_items);

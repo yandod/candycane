@@ -37,7 +37,7 @@ class FetcherComponent extends Component
     $this->scope = $this->event_types();
   }
   
-  function beforeRender($controller) {
+  public function beforeRender(Controller $controller) {
   }
 
   /**
