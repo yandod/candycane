@@ -6,7 +6,7 @@ class MenuManagerComponent extends Component
   var $symbol_link = array();
   var $__selected = false;
   
-  function initialize(&$controller) {
+  public function initialize(Controller $controller) {
     // saving the controller reference for later use
     $this->controller = $controller;
     $this->project_menu = $this->_getProjectMenu();
