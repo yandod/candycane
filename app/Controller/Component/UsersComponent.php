@@ -12,7 +12,7 @@ class UsersComponent extends Component
 {
   var $User = null;
 
-  public function startUp(Controller $controller)
+  public function startup(Controller $controller)
   {
     $this->User = $controller->User;
   }
