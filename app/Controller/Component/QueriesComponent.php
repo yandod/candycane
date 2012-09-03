@@ -6,7 +6,7 @@ class QueriesComponent extends Component
   var $query_filter_cond = array();
   var $show_filters = array();
   
-  function startup(Controller $controller)
+  public function startup(Controller $controller)
   {
     $this->controller = $controller;
   }
