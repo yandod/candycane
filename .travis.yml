@@ -102,6 +102,6 @@ before_script:
       }
     }
     }" > app/Config/database.php
-  - mysql cakephp_test < app/Config/sql/dump.sql
+  - mysql cakephp_test < app/Config/sql/mysql.sql
 script:
   - cd ./app; ./Console/cake test app All --stderr
