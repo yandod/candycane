@@ -1,14 +1,14 @@
 <?php
 class AllTest extends CakeTestSuite {
-    public static function suite() {
-        $suite = new CakeTestSuite('All tests');
-        $suite->addTestDirectory(TESTS . 'Case' . DS . 'behaviors');
+	public static function suite() {
+		$suite = new CakeTestSuite('All tests');
+		$suite->addTestDirectory(TESTS . 'Case' . DS . 'Controller');
+		$suite->addTestDirectory(TESTS . 'Case' . DS . 'Controller' . DS . 'Component');
+		$suite->addTestDirectory(TESTS . 'Case' . DS . 'Model');
+		$suite->addTestDirectory(TESTS . 'Case' . DS . 'Model' . DS . 'Behavior');
+		$suite->addTestDirectory(TESTS . 'Case' . DS . 'View' . DS . 'Helper');
 		$suite->addTestDirectory(TESTS . 'Case' . DS . 'candycane');
-		$suite->addTestDirectory(TESTS . 'Case' . DS . 'components');
-		$suite->addTestDirectory(TESTS . 'Case' . DS . 'controllers');
-		$suite->addTestDirectory(TESTS . 'Case' . DS . 'helpers');
-		$suite->addTestDirectory(TESTS . 'Case' . DS . 'models');
-		
-        return $suite;
-    }
+
+		return $suite;
+	}
 }
