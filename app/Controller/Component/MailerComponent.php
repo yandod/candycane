@@ -3,7 +3,7 @@ App::uses('CakeEmail', 'Network/Email');
 
 class MailerComponent extends Component {
 
-	public function startup($Controller) {
+	public function startup(Controller $controller) {
 		$this->Controller = $Controller;
 
 		if (extension_loaded('mbstring')) {

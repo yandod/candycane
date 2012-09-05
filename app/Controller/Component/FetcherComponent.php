@@ -9,7 +9,7 @@ class FetcherComponent extends Component
   # Needs to be unloaded in development mode
   var $__constantized_providers = array();
 
-  function initialize($controller) {
+  public function initialize(Controller $controller) {
     $this->controller = $controller;
     App::import('Vendor', 'candycane/Activity');
     foreach(Activity::getInstance()->providers as $k=>$t) {
@@ -37,7 +37,7 @@ class FetcherComponent extends Component
     $this->scope = $this->event_types();
   }
   
-  function beforeRender($controller) {
+  public function beforeRender(Controller $controller) {
   }
 
   /**

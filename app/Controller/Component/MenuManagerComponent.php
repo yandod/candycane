@@ -6,14 +6,14 @@ class MenuManagerComponent extends Component
   var $symbol_link = array();
   var $__selected = false;
   
-  function initialize(&$controller) {
+  public function initialize(Controller $controller) {
     // saving the controller reference for later use
     $this->controller = $controller;
     $this->project_menu = $this->_getProjectMenu();
     $this->application_menu = $this->_getApplicationMenu();
   }
   
-  function startup() {
+  public function startup(Controller $controller) {
   }
   
   function _detectProjectId()
@@ -49,7 +49,7 @@ class MenuManagerComponent extends Component
   }
   
 
-  function beforeRender($controller) {
+  public function beforeRender(Controller $controller) {
     $this->_prepareSelect();
     $this->_prepareMainmenu();
     $controller->set('main_menu', $this->menu_items);
