@@ -176,7 +176,11 @@ class Journal extends AppModel {
 
   function is_editable_by($usr) {
     $this->Issue->Project->recursive = -1;
-    $project = $this->Issue->Project->read(null, $this->data['Issue']['project_id']);
+    $project = $this->Issue->Project->find('first', array(
+    	'conditions' => array(
+		'Project.id' => $this->data['Issue']['project_id']
+		),
+	'recursive' => 1));
     return $usr 
       && $usr['logged'] 
       && ($this->User->is_allowed_to($usr, ':edit_issue_notes', $project) 
