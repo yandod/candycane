@@ -68,7 +68,7 @@ class JournalsController extends AppController
       throw new NotFoundException();
     }
     if(!$this->Journal->is_editable_by($this->current_user)) {
-      $this->cakeError('error403');
+      throw new NotFoundException();
     }
     return $journal;
   }
