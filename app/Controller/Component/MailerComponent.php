@@ -4,7 +4,7 @@ App::uses('CakeEmail', 'Network/Email');
 class MailerComponent extends Component {
 
 	public function startup(Controller $controller) {
-		$this->Controller = $Controller;
+		$this->Controller = $controller;
 
 		if (extension_loaded('mbstring')) {
 			switch (Configure::read('Config.language')) {
