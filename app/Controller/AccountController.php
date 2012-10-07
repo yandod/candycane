@@ -40,8 +40,8 @@ class AccountController extends AppController {
 
 /**
  * activate
- * 
- * Token based account activation 
+ *
+ * Token based account activation
  */
 	public function activate() {
 
@@ -57,7 +57,7 @@ class AccountController extends AppController {
 				'Token.value' => $this->request->params['url']['token']
 			)
 		));
-		
+
 		if (
 			$token == false ||
 			// todo: expired
@@ -65,12 +65,12 @@ class AccountController extends AppController {
 		) {
 			$this->redirect('/');
 		}
-		
+
 		$data = array(
 			'id' => $token['User']['id'],
 			'status' => 1 //active
 		);
-		
+
 		if ($this->User->save($data)) {
 			$this->Token->destroy($data['id'], 'register');
 			$this->Session->setFlash(
@@ -176,7 +176,7 @@ class AccountController extends AppController {
  */
 	public function login() {
 		$this->set('setting', $this->Setting);
-		
+
 		if (isset($this->request->query['back_url'])) {
 			$this->set('back_url',$this->request->query['back_url']);
 			return;
@@ -224,8 +224,8 @@ class AccountController extends AppController {
 			#end
 			#redirect_back_or_default :controller => 'my', :action => 'page'
 			if (
-				!$this->request->data['back_url'][0] == '/' ||
-				Router::url($this->request->data['back_url'], true) == 
+				$this->request->data['back_url'][0] == '/' ||
+				Router::url($this->request->data['back_url'], true) ==
 				Router::url($this->request->action, true)
 			) {
 				$this->request->data['back_url'] = '/';
