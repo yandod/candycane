@@ -13,24 +13,35 @@ class JournalsHelper extends AppHelper
     if($journal['Journal']['notes'] != '') {
       if(!empty($options['reply_links'])) {
         $links[] = $this->Js->link(
-          $this->Html->image('comment.png'),
-          array(
-			  'controller'=>'issues',
-			  'action'=>'reply',
-			  'id'=>$journal['Journal']['journalized_id'],
-			  'journal_id'=>$journal['Journal']['id']),
-          array('title'=>__('Quote'), 'escape' => false)
+          	$this->Html->image('comment.png', array(
+			'title'=>__('Quote')
+		)),
+          	array(
+			'controller'=>'issues',
+			'action'=>'reply',
+			'id'=>$journal['Journal']['journalized_id'],
+			'journal_id'=>$journal['Journal']['id']),
+          	array(
+			'escape' => false,
+			'buffer' => false,
+			'evalScripts' => true)
         );
       }
       if($editable) {
         $links[] = $this->Js->link(
-          $this->Html->image('edit.png'), 
-          array(
+          	$this->Html->image('edit.png', array(
+			'title'=>__('Edit')
+		)), 
+          	array(
 			  'controller'=>'journals',
 			  'action'=>'edit',
-			  'id'=>$journal['Journal']['id']
-		  ),
-          array('title'=>__('Edit'), 'escape' => false/*, 'update'=>"journal-".$journal['Journal']['id']."-notes"*/)
+			  $journal['Journal']['id']
+		),
+          	array(
+			'escape' => false,
+			'buffer' => false,
+			'evalScripts' => true,
+			'update'=>"journal-".$journal['Journal']['id']."-notes")
         );
       }
     }
