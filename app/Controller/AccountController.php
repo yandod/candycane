@@ -46,7 +46,7 @@ class AccountController extends AppController {
 	public function activate() {
 
 		if (
-			!isset($this->request->params['url']['token']) ||
+			!isset($this->request->query['token']) ||
 			$this->Setting->self_registration !== '1'
 		) {
 			$this->redirect('/');
@@ -54,7 +54,7 @@ class AccountController extends AppController {
 		$token = $this->Token->find('first',array(
 			'conditions' => array(
 				'Token.action' => 'register',
-				'Token.value' => $this->request->params['url']['token']
+				'Token.value' => $this->request->query['token']
 			)
 		));
 
