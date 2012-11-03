@@ -8,7 +8,7 @@ class PluginContainer extends Object {
 
 	protected $__entries = array();
 
-	protected $__entries_url = 'https://raw.github.com/gist/2766952/entries2.json';
+	protected $__entries_url = 'https://raw.github.com/yandod/candycane-plugins/master/entries2.json';
 
 	public function  __construct() {
 		$this->__init();
