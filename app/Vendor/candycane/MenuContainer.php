@@ -9,12 +9,15 @@ class MenuContainer extends Object {
 
 	protected $project_menu = array();
 
+  protected $project_setting_menu = array();
+
 /**
  * constructor
  */
 	public function __construct() {
 		$this->_initTopMenu();
 		$this->_initProjectMenu();
+		$this->_initProjectSettingMenu();
 	}
 
 /**
@@ -128,6 +131,43 @@ class MenuContainer extends Object {
 			),
 		);
 	}
+
+  protected function _initProjectSettingMenu()
+  {
+    $this->project_setting_menu = array(
+      array(
+        'name' => 'info',
+        'partial' => 'projects/edit',
+        'label' =>  __('Information')
+      ),
+      array(
+        'name' => 'modules',
+        'partial' => 'projects/settings/modules',
+        'label' => __('Modules')
+      ),
+      array(
+        'name' => 'members',
+        'partial' => 'projects/settings/members',
+        'label' => __('Members')
+      ),
+      array(
+        'name' => 'versions',
+        'partial' => 'projects/settings/versions',
+        'label' => __('Versions')
+      ),
+      array(
+        'name' => 'categories',
+        'partial' => 'projects/settings/issue_categories',
+        'label' => __('Issue categories')
+      ),
+      array(
+        'name' => 'wiki',
+        'partial' => 'projects/settings/wiki',
+        'label' => __('Wiki')
+      ),
+    );
+  }
+
 /**
  * get top menu items.
  * @param array $currentuser
@@ -160,6 +200,10 @@ class MenuContainer extends Object {
 		return $this->project_menu;
 	}
 
+  public function getProjectSettingMenu() {
+    return $this->project_setting_menu;
+  }
+
 /**
  * add item to topmenu.
  * @param array $item
@@ -178,4 +222,7 @@ class MenuContainer extends Object {
 		$this->project_menu[$key] = $item;
 	}
 
+  public function addProjectSettingMenu($key, $item, $first = false) {
+    $this->project_setting_menu[$key] = $item;
+  }
 }
