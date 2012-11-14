@@ -972,41 +972,9 @@ class ProjectsController extends AppController {
 		)
 	));
     $this->set('versions_data',$versions);
-    
-    
-    //:TODO yando やる
-    $tabs = array(
-      array(
-		  'name' => 'info',
-		  'partial' => 'projects/edit',
-		  'label' =>  __('Information')
-	  ),
-      array(
-		  'name' => 'modules',
-		  'partial' => 'projects/settings/modules',
-		  'label' => __('Modules')
-	  ),
-      array(
-		  'name' => 'members',
-		  'partial' => 'projects/settings/members',
-		  'label' => __('Members')
-	  ),
-      array(
-		  'name' => 'versions',
-		  'partial' => 'projects/settings/versions',
-		  'label' => __('Versions')
-	  ),
-      array(
-		  'name' => 'categories',
-		  'partial' => 'projects/settings/issue_categories',
-		  'label' => __('Issue categories')
-	  ),
-      array(
-		  'name' => 'wiki',
-		  'partial' => 'projects/settings/wiki',
-		  'label' => __('Wiki')
-	  ),
-      );
+
+    $menuContainer = ClassRegistry::getObject('MenuContainer');
+    $tabs = $menuContainer->getProjectSettingMenu();
     $selected_tab = $tabs[0]['name'];
     if (isset( $this->params[ 'url' ]['tab'])) {
       $selected_tab =  $this->params[ 'url' ]['tab'];
