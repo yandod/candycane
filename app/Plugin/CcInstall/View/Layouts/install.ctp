@@ -18,6 +18,8 @@
             <h1><?php echo __('Install CandyCane'); ?></h1>
         </div>
 
+        <?php echo $this->Session->flash() ?>
+
         <div id="main">
             <div id="install">
             <?php
