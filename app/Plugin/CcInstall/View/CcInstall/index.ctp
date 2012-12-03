@@ -2,6 +2,15 @@
     <?php
         $check = true;
 		$cmd = "";
+
+        // pdo extension check
+        if (extension_loaded('pdo')) {
+            echo '<p class="success">' . __('PDO extension is loaded.').'</p>';
+        } else {
+            $check = false;
+            echo '<p class="error">' . __('PDO extension is NOT loaded.').'</p>';
+        }
+
         // tmp is writable
         if (is_writable(TMP)) {
             echo '<p class="success">' . __('Your tmp directory is writable.') . '('.TMP.')</p>';
