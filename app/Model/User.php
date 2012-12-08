@@ -250,6 +250,16 @@ class User extends AppModel {
     return (!empty($token) && ($token['User']['status'] == USER_STATUS_ACTIVE)) ? $token['User'] : null;
   }
 
+  public function find_by_api_key($key) {
+    $token = $this->ApiToken->find('first', array('conditions'=>array('value'=>$key)));
+    $user = (!empty($token) && ($token['User']['status'] == USER_STATUS_ACTIVE)) ? $token['User'] : null;
+
+    if ($user !== null) {
+      $user['logged'] = true; // @todo fixme
+    }
+    return $user;
+  }
+
 /**
  * Find User by ID Logged
  *
