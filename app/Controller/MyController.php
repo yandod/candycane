@@ -79,6 +79,13 @@ class MyController extends AppController
 		$this->redirect('account');
 	}
 
+	public function reset_api_key() {
+		//TODO: POST check
+		$this->User->ApiToken->destroy($this->current_user['id'], 'api');
+		$this->Session->setFlash(__('Your API access key was reset.'), 'default', array('class' => 'flash flash_notice'));
+		$this->redirect('account');
+	}
+
 	public function page_layout() {
 		#    @user = User.current
 		#    @blocks = @user.pref[:my_page_layout] || DEFAULT_LAYOUT.dup

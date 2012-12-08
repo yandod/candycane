@@ -52,6 +52,11 @@ class User extends AppModel {
 			'dependent' => true,
 			'conditions' => "action='feeds'",
 			'external' => true),
+		'ApiToken' => array(
+			'className' => 'Token',
+			'dependent' => true,
+			'conditions' => "action='api'",
+			'external' => true),
 	);
 
 #  belongs_to :auth_source
