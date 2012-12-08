@@ -58,6 +58,11 @@ Router::connect('/wikis/:action/:project_id', array('controller' => 'wikis'));
 #  map.connect 'help/:ctrl/:page', :controller => 'help'
 #  #map.connect ':controller/:action/:id/:sort_key/:sort_order'
 #  
+Router::connect(
+  '/issues/:issue_id/*',
+  array('controller' => 'issues', 'action' => 'show'),
+  array('issue_id' => '[0-9]+')
+);
 Router::connect('/issues/:action', array('controller' => 'issues'));
 Router::connect('/issues/:action/:issue_id/*', array('controller' => 'issues'));
 
