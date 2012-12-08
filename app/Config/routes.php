@@ -111,6 +111,8 @@ Router::connect('/queries/:action/:query_id',array('controller' => 'queries'));
  */
 	Router::connect('/tests', array('controller' => 'tests', 'action' => 'index'));
 
+  Router::parseExtensions('xml', 'json');
+
 /**
  * Load all plugin routes.  See the CakePlugin documentation on 
  * how to customize the loading of plugin routes.
