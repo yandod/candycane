@@ -60,62 +60,72 @@ class QueriesComponent extends Component
           $temp['Filter']['values_' . $field] = $this->get_option_value($options['values']);
           break;
         }
-        $temp['Filter'] = array_merge($self->data['Filter'], $temp['Filter']);
-	$self->data = array_merge($self->data, $temp);
+        $temp['Filter'] = array_merge($self->request->data['Filter'], $temp['Filter']);
+	$self->request->data = array_merge($self->request->data, $temp);
       }
     } else {
-      if (isset($self->params->query['set_filter']) || $forse_set_filter) {
-          if (isset($self->params->query) && is_array($self->params->query) ) {
-	      $temp = array();
-              foreach ($self->params->query as $criteria_name => $criteria_val) {
+      if (isset($self->request->query['set_filter']) || $forse_set_filter) {
+          if (isset($self->request->query) && is_array($self->request->query) ) {
+	          $temp = array();
+              foreach ($self->request->query['values'] as $criteria_name => $criteria_val) {
                   //$self->params['form']['fields'][$criteria_name] = $criteria_name;
                   //$self->params['form']['operators'][$criteria_name] = '=';
                   //$self->params['form']['values'][$criteria_name] = array($criteria_val);
-		  $temp['fields'][$criteria_name] = $criteria_name;
+				  if (!in_array($criteria_name, $self->request->query['fields'])) {
+					  continue;
+				  }
+		          $temp['fields'][$criteria_name] = $criteria_name;
                   $temp['operators'][$criteria_name] = '=';
                   $temp['values'][$criteria_name] = array($criteria_val);
                   if ($criteria_name == 'status_id') {
                       //$self->params['form']['operators'][$criteria_name] = $criteria_val;
-                      $temp['operators'][$criteria_name] = $criteria_val;
+                      //$temp['operators'][$criteria_name] = $criteria_val[0];
                   }                  
               }
-	      $self->params->query = $temp;
           }
-          if ( !isset($self->params->query['fields'])) {
-              $self->params->query['fields'] = array();
-              $self->params->query['operators'] = array();
-              $self->params->query['values'] = array();
+	      $self->request->query = $temp;		  
+          if ( !isset($self->request->query['fields'])) {
+              $self->request->query['fields'] = array();
+              $self->request->query['operators'] = array();
+              $self->request->query['values'] = array();
           }
-        foreach ($self->params->query['fields'] as $field) {
-          $operator = $self->params->query['operators'][$field];
-          $values = isset($self->params->query['values'][$field]) ? $self->params->query['values'][$field] : null;
+        foreach ($self->request->query['fields'] as $field) {
+          $operator = $self->request->query['operators'][$field];
+          $values = isset($self->request->query['values'][$field]) ? $self->request->query['values'][$field] : null;
           if (isset($available_filters[$field])) {
             $show_filters[$field] = $available_filters[$field];
-	    // to avoid the error:
-	    // Indirect modification of overloaded property...
-	    // we use a temporal array.
+	        // to avoid the error:
+	        // Indirect modification of overloaded property...
+	        // we use a temporal array.
             //$self->data['Filter']['fields_' . $field] = $field;
             //$self->data['Filter']['operators_' . $field] = $operator;
             //$self->data['Filter']['values_' . $field] = $values;
-	    $temp = array();
-	    $temp['Filter']['fields_' . $field] = $field;
+	        $temp = array();
+	        $temp['Filter']['fields_' . $field] = $field;
             $temp['Filter']['operators_' . $field] = $operator;
-            $temp['Filter']['values_' . $field] = $values;
-	    
-	    $temp['Filter'] = array_merge($self->data['Filter'], $temp['Filter']);
-	    $self->data = array_merge($self->data, $temp);
+            $temp['Filter']['values_' . $field] = $this->get_option_value($values);
+	        $temp['Filter'] = array_merge($self->request->data['Filter'], $temp['Filter']);
+	        $self->request->data = array_merge($self->request->data, $temp);
           }
         }
+		//debug($self->request->data);
       }
     }
-    if ($self->_project) $this->query_filter_cond = array('Issue.project_id' => $self->_project['Project']['id']);
+    if ($self->_project) {
+		$this->query_filter_cond = array(
+			'Issue.project_id' => $self->_project['Project']['id']
+		);
+	}
     foreach ($show_filters as $field => $options) {
-      $operator = $self->data['Filter']['operators_' . $field];
-      $values = $self->data['Filter']['values_' . $field];
+      $operator = $self->request->data['Filter']['operators_' . $field];
+      $values = $self->request->data['Filter']['values_' . $field];
       switch ($field) {
       case 'author_id':
       case 'assigned_to_id':
-        foreach($values as $index=>$value) {
+		  if (!is_array($values)) {
+			  break;
+		  }
+        foreach($values as $index => $value) {
           if ($value == 'me') {
             if ($self->current_user) {
               $values[$index] = $self->current_user['id'];
