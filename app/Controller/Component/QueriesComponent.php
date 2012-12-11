@@ -145,7 +145,7 @@ class QueriesComponent extends Component
   }
   
   function get_option_value($value) {
-    if(is_array($value)) {
+    if(is_array($value) && count($value) == 1) {
       return $this->get_option_value($value[0]);
     }
     return $value;
