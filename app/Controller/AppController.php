@@ -115,32 +115,39 @@ class AppController extends Controller {
  * @todo rss key authentication
  */
 	protected function _find_current_user() {
-		if ($this->Session->read('user_id')) {
-			// existing session
-			return $this->User->find_by_id_logged($this->Session->read('user_id'));
-			# (User.active.find(session[:user_id]) rescue nil)
-		} else if ($this->Cookie->read('autologin')) {
-			# elsif cookies[:autologin] && Setting.autologin?
-			#      # auto-login feature
-			#      User.find_by_autologin_key(cookies[:autologin])
-		} elseif (!empty($this->request->params['url']['key'])) {
-			// from rss reader
-			$user = $this->User->find_by_rss_key($this->request->params['url']['key']);
-			if (!empty($user)) {
-				$user = $this->User->find_by_id_logged($user['id']);
+		if (!$this->is_api_request()) {
+			if ($this->Session->read('user_id')) {
+				// existing session
+				return $this->User->find_by_id_logged($this->Session->read('user_id'));
+				# (User.active.find(session[:user_id]) rescue nil)
+			} else if ($this->Cookie->read('autologin')) {
+				# elsif cookies[:autologin] && Setting.autologin?
+				#      # auto-login feature
+				#      User.find_by_autologin_key(cookies[:autologin])
+			} elseif (!empty($this->request->params['url']['key'])) {
+				// from rss reader
+				$user = $this->User->find_by_rss_key($this->request->params['url']['key']);
+				if (!empty($user)) {
+					$user = $this->User->find_by_id_logged($user['id']);
+				}
+				if (empty($user)) {
+					throw new NotFoundException();
+				}
+				return $user;
 			}
+		} else {
+			$user = $this->User->find_by_api_key($this->request->query['key']);
 			if (empty($user)) {
 				throw new NotFoundException();
 			}
 			return $user;
-		} else {
-			$user = $this->User->anonymous();
-			$user['User']['logged'] = false;
-			$user['User']['name'] = $user['User']['login'];
-			$user['User']['memberships'] = array();
-			return $user['User'];
 		}
-		return null;
+
+		$user = $this->User->anonymous();
+		$user['User']['logged'] = false;
+		$user['User']['name'] = $user['User']['login'];
+		$user['User']['memberships'] = array();
+		return $user['User'];
 	}
 
 /**
@@ -150,6 +157,16 @@ class AppController extends Controller {
  */
 	public function find_current_user() {
 		return $this->_find_current_user();
+	}
+
+	protected function is_api_request()
+	{
+		if (!isset($this->request->params['ext'])) {
+			return false;
+		}
+
+		$ext = $this->request->params['ext'];
+		return in_array($ext, array('xml', 'json'));
 	}
 
 /**
