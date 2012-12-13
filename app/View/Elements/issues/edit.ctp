@@ -45,7 +45,8 @@
 
   <fieldset><legend><?php echo __('Notes') ?></legend>
     <?php echo $this->Form->input('notes', array('div'=>false, 'label'=>false, 'cols'=>60, 'rows'=>'10', 'type'=>'textarea', 'class'=>'wiki-edit', 'id'=>'notes')); ?>
-    <script src="/js/jstoolbar/jstoolbar.js?1236399204" type="text/javascript"></script><script src="/js/jstoolbar/textile.js?1236399204" type="text/javascript"></script><script src="/js/jstoolbar/lang/jstoolbar-ja.js?1236399204" type="text/javascript"></script><script type="text/javascript">
+    <?php echo $this->Html->script(array('jstoolbar/jstoolbar', 'jstoolbar/textile', 'jstoolbar/lang/jstoolbar-ja')); ?>
+<script type="text/javascript">
 //<![CDATA[
 var toolbar = new jsToolBar($('notes')); toolbar.setHelpLink('<?php echo __("Text formatting");?>: <a href="/help/wiki_syntax.html?1236399200" onclick="window.open(&quot;/help/wiki_syntax.html?1236399200&quot;, &quot;&quot;, &quot;resizable=yes, location=no, width=300, height=640, menubar=no, status=no, scrollbars=yes&quot;); return false;"><?php echo __("Help"); ?></a>'); toolbar.draw();
 //]]>
