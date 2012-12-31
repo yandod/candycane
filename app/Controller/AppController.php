@@ -135,7 +135,7 @@ class AppController extends Controller {
 				}
 				return $user;
 			}
-		} else {
+		} elseif (isset($this->request->query['key'])) {
 			$user = $this->User->find_by_api_key($this->request->query['key']);
 			if (empty($user)) {
 				throw new NotFoundException();
