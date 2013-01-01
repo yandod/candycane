@@ -234,8 +234,10 @@ class TimelogController extends AppController
     } elseif(!empty($this->request->params['project_id'])) {
       ; // parent::beforeFilter
     }
-    parent::_findProject();
+    //_findProject uses the $this->current_user variable
     parent::user_setup();
+    parent::_findProject();
+    
     if(!$this->TimeEntry->User->is_allowed_to($this->current_user, 'view_time_entries', $this->_project, array('global' => true))) {
       return parent::deny_access();
     }
