@@ -13,18 +13,25 @@ class JournalsHelper extends AppHelper
     if($journal['Journal']['notes'] != '') {
       if(!empty($options['reply_links'])) {
         $links[] = $this->Js->link(
-          	$this->Html->image('comment.png', array(
-			'title'=>__('Quote')
-		)),
+          	$this->Html->image(
+			    'comment.png',
+				array(
+			       'title'=>__('Quote')
+		        )
+			),
           	array(
-			'controller'=>'issues',
-			'action'=>'reply',
-			'id'=>$journal['Journal']['journalized_id'],
-			'journal_id'=>$journal['Journal']['id']),
+			    'controller'=>'issues',
+			    'action'=>'reply',
+			    $journal['Journal']['journalized_id'],
+			    $journal['Journal']['id']
+			),
           	array(
-			'escape' => false,
-			'buffer' => false,
-			'evalScripts' => true)
+			    'escape' => false,
+			    'buffer' => false,
+			    'evalScripts' => true,
+				'update'=>"journal-".$journal['Journal']['id']."-reply"
+				//'success' => 'Element.show("update")'
+			)
         );
       }
       if($editable) {
@@ -47,8 +54,22 @@ class JournalsHelper extends AppHelper
     }
     if(!empty($links)) $content .= $this->Html->tag('div', join(' ', $links), array('class'=>'contextual'));
     $content .= $this->Candy->textilizable($journal['Journal']['notes']);
-    return $this->Html->tag('div', $content, array('id'=>"journal-".$journal['Journal']['id']."-notes", 'class'=>($editable ? 'wiki editable' : 'wiki')));
-  }
+    $return = $this->Html->tag(
+        'div',
+        $content,
+        array(
+            'id' => "journal-".$journal['Journal']['id']."-notes",
+            'class' => ($editable ? 'wiki editable' : 'wiki')
+        )
+    ) . $this->Html->tag(
+        'div',
+		'',
+		array(
+		    'id' => "journal-".$journal['Journal']['id']."-reply",
+		)
+    );
+        return $return;
+    }
 
   function is_editable_by($journal, $usr) {
     return !empty($usr) && $usr['logged'] && ($this->Candy->authorize_for(':edit_issue_notes') || ($journal['User']['id'] == $usr['id'] && $this->Candy->authorize_for(':edit_own_issue_notes')) );
