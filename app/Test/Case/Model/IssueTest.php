@@ -278,17 +278,18 @@ class IssueTest extends CakeTestCase {
     $IssueRelation =& ClassRegistry::init('IssueRelation');
     # 2 is a dupe of 1
     $IssueRelation->create();
-    $IssueRelation->save(array('issue_from_id' => $issue2, 'issue_to_id' => $issue1, 'relation_type' => ISSUERELATION_TYPE_DUPLICATES));
+    $result = $IssueRelation->save(array('issue_from_id' => $issue2, 'issue_to_id' => $issue1, 'relation_type' => ISSUERELATION_TYPE_DUPLICATES));
+	$this->assertNotEqual($result,false);
     # 2 is a dup of 1 but 1 is not a duplicate of 2
     $this->Issue->read(null, $issue2);
-    $this->assertFalse(in_array($issue1, Set::extract('{n}.IssueFrom.id', $this->Issue->duplicates())));
+    $this->assertEqual($this->Issue->duplicates(),array());
 
     # Closing issue 2
     $user = $this->Issue->Author->find('first');
     $this->Issue->init_journal($this->Issue->data, $user['Author'], "Closing issue2");
     $status = $this->Issue->Status->find('first', array('conditions' => array('is_closed' => true)));
     $this->Issue->data['Issue']['status_id'] = $status['Status']['id'];
-    $this->assertTrue($this->Issue->save());
+    $this->assertNotEqual($this->Issue->save(), false);
     # 1 should not be also closed
     $this->Issue->read(null, $issue1);
     $this->assertFalse($this->Issue->is_closed());
