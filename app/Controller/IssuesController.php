@@ -575,11 +575,11 @@ class IssuesController extends AppController {
 		}
 		Configure::write('debug', 0);
 		$issue = $this->_find_issue($this->request->params['issue_id']);
-		$Journal = & ClassRegistry::init('Journal');
+		$Journal =& ClassRegistry::init('Journal');
 		// $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
 		$journal = false;
-		if ($this->_get_param('journal_id')) {
-			$journal = $Journal->read(null, $this->_get_param('journal_id'));
+		if ($this->request->params['pass'][0]) {
+			$journal = $Journal->read(null, $this->request->params['pass'][0]);
 		}
 		if (!empty($journal)) {
 			$user = $journal['User'];

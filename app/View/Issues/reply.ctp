@@ -1,8 +1,8 @@
 <?php
-$content = sprintf(__('%s wrote:'), $this->Candy->format_username($user));
+$content = sprintf(__("%s wrote:\\n>"), $this->Candy->format_username($user));
 //$text = preg_replace('/<pre>((.|\s)*?)<\/pre>/m', '[...]', trim($text));
 //$text = preg_replace('/\"/', '/\\\"/', $text);
-//$text = preg_replace('/(\r?\n|\r\n?)/', "\\n> ", $text);
+$text = preg_replace('/(\r?\n|\r\n?)/', "\\n> ", $text);
 //$text .= "\\n\\n"; 
 $content .= $text;
 
