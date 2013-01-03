@@ -3,7 +3,8 @@ class WatchersController extends AppController
 {
   var $name = 'Watchers';
   var $helpers = array(
-    'Watchers'
+    'Watchers',
+	'Js'
   );
   var $components = array(
     'RequestHandler',
