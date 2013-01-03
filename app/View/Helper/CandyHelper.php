@@ -1154,7 +1154,7 @@ function breadcrumb($args)
             $link = $this->Html->link("#${oid}",
                                       array('controller' => 'issues',
                                             'action' => 'show',
-                                            'id' => $oid),
+                                            $oid),
                                       array(
 										'class' => $class,
                                          'title' =>  ''/*"#{truncate(issue.subject, 100)} (#{issue.status.name})")*/));
