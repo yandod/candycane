@@ -26,37 +26,45 @@ class WatchersController extends AppController
     $this->_set_watcher($this->current_user, false);
   }
   
-  function add() {
-    if($this->RequestHandler->isPost() && !empty($this->request->data['Watcher']['user_id'])) {
-      $Model = & ClassRegistry::init($this->request->params['named']['object_type']);
-      if($Model->read(null, $this->request->params['named']['object_id']) && $this->Watcher->User->read(null, $this->request->data['Watcher']['user_id'])) {
-        $Model->add_watcher($this->Watcher->User->data);
-      }
-    }
-    Configure::write('debug', 0);
-    extract($this->request->params['named']);
-    $Model = & ClassRegistry::init(Inflector::camelize($object_type));
-    $data = $Model->read(null, $object_id);
-    $project_id = $Model->get_watched_project_id();
-    $project = $this->Project->read('identifier', $project_id);
-    $this->request->params['project_id'] = $project['Project']['identifier'];
-    parent::_findProject();
-    $members = $this->Project->members($project_id);
-    if(!empty($data['Watcher'])) {
-      foreach($data['Watcher'] as $value) {
-        if(array_key_exists($value['user_id'], $members)) {
-          unset($members[$value['user_id']]);
+    public function add()
+    {
+        if(
+            $this->RequestHandler->isPost() &&
+			!empty($this->request->data['Watcher']['user_id'])
+		) {
+            $Model = & ClassRegistry::init($this->request->params['named']['object_type']);
+            if(
+			    $Model->read(null, $this->request->params['named']['object_id']) &&
+				$this->Watcher->User->read(null, $this->request->data['Watcher']['user_id'])
+			) {
+                $Model->add_watcher($this->Watcher->User->data);
+            }
+         }
+        //Configure::write('debug', 0);
+        extract($this->request->params['named']);
+        $Model = & ClassRegistry::init(Inflector::camelize($object_type));
+        $data = $Model->read(null, $object_id);
+        $project_id = $Model->get_watched_project_id();
+        $project = $this->Project->read('identifier', $project_id);
+        $this->request->params['project_id'] = $project['Project']['identifier'];
+        parent::_findProject();
+        $members = $this->Project->members($project_id);
+        if(!empty($data['Watcher'])) {
+            foreach($data['Watcher'] as $value) {
+                if(array_key_exists($value['user_id'], $members)) {
+                    unset($members[$value['user_id']]);
+                }
+            }
         }
+        $this->set(array_merge(compact('members', 'object_type', 'object_id', 'data')));
+        if($this->RequestHandler->isAjax()) {
+            $this->render('_watchers');
+            $this->layout = 'ajax';
+        } else {
+            //$this->redirect(env('HTTP_REFERER'));
+        }
+	    $this->render('_watchers');
       }
-    }
-    $this->set(array_merge(compact('members', 'object_type', 'object_id', 'data')));
-    if($this->RequestHandler->isAjax()) {
-      $this->render('_watchers');
-      $this->layout = 'ajax';
-    } else {
-      $this->redirect(env('HTTP_REFERER'));
-    }
-  }
   function _set_watcher($user, $watching) {
     Configure::write('debug', 0);
     $Model = & ClassRegistry::init($this->request->params['named']['object_type']);
