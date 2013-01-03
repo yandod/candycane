@@ -33,12 +33,13 @@ class WatchersController extends AppController
             $this->RequestHandler->isPost() &&
 			!empty($this->request->data['Watcher']['user_id'])
 		) {
-            $Model = & ClassRegistry::init($this->request->params['named']['object_type']);
+            $Model = & ClassRegistry::init(ucfirst($this->request->params['named']['object_type']));
             if(
 			    $Model->read(null, $this->request->params['named']['object_id']) &&
 				$this->Watcher->User->read(null, $this->request->data['Watcher']['user_id'])
 			) {
                 $Model->add_watcher($this->Watcher->User->data);
+				$this->redirect(env('HTTP_REFERER'));
             }
          }
         //Configure::write('debug', 0);
