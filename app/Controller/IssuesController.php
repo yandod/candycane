@@ -578,7 +578,7 @@ class IssuesController extends AppController {
 		$Journal =& ClassRegistry::init('Journal');
 		// $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
 		$journal = false;
-		if ($this->request->params['pass'][0]) {
+		if ( isset($this->request->params['pass'][0]) && $this->request->params['pass'][0]) {
 			$journal = $Journal->read(null, $this->request->params['pass'][0]);
 		}
 		if (!empty($journal)) {

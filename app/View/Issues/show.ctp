@@ -95,9 +95,35 @@ echo $this->Candy->link_to_if_authorized(
 <hr />
 
 <div class="contextual">
-  <?php if($this->Candy->authorize_for(array('controller' => 'issues', 'action' => 'reply')) && !empty($issue['Issue']['description'])) echo $this->Js->link(__('Quote'), array('controller' => 'issues', 'action' => 'reply', 'id' => $issue['Issue']['id']), array('class' => 'icon icon-comment')); ?>
+<?php
+if (
+    $this->Candy->authorize_for(
+	    array(
+		    'controller' => 'issues',
+			'action' => 'reply'
+		)
+	) && 
+	!empty($issue['Issue']['description'])
+) {
+	echo $this->Js->link(
+		__('Quote'),
+		array(
+			'controller' => 'issues',
+			'action' => 'reply',
+			$issue['Issue']['id']
+		),
+		array(
+			'class' => 'icon icon-comment',
+			'escape' => false,
+			'buffer' => false,
+			'evalScripts' => true,
+			'update' => 'issue-reply'
+		)
+	);
+}
+?>
 </div>
-
+<div id="issue-reply"></div>
 <p><strong><?php echo __('Description') ?></strong></p>
 <div class="wiki">
   <?php echo $this->Candy->textilizable($issue['Issue']['description']); ?>
