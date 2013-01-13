@@ -229,7 +229,7 @@ class QueriesComponentTest extends CakeTestCase
         );
     }
     
-    public function testTretrieveQueryFromQueryStringWithNotEqual()
+    public function testRetrieveQueryFromQueryStringWithNotEqual()
     {
         //data should be empty before process
         $this->assertEqual(
@@ -287,5 +287,54 @@ class QueriesComponentTest extends CakeTestCase
                 ),
             )
         );
-    }    
+    }
+
+    public function testRetrieveQueryFromQueryStringWithoutIssueStatus()
+    {
+        //data should be empty before process
+        $this->assertEqual(
+            $this->Controller->request->data,
+            array()
+        );
+        
+        //get parameter for query string
+        $this->Component->controller->request->query = array(
+            'set_filter' => 1,
+            'values' => array(
+                'subject' => 'private',
+            ),
+            'fields' => array(
+                'subject'
+            ),
+            'operators' => array(
+                'subject' => '~'
+            )
+        );
+        $this->assertEqual($this->Component->retrieve_query(),null);
+        $this->assertEqual(
+            $this->Controller->request->data,
+            array(
+                'Filter' => array(
+                    'fields_subject' => 'subject',
+                    'operators_subject' => '~',
+                    'values_subject' => 'private',
+                )
+            )
+        );
+
+        //check state of show_filters
+        $this->assertEqual(
+        $this->Controller->viewVars['show_filters'],
+            array(
+                'subject' => array(
+                    'type' => 'text',
+                    'order' => 8,
+                    'operators' => array(
+                        '~' => 'contains',
+                        '!~' => "doesn't contain",
+                    ),
+                )
+            )
+        );
+    }
 }
