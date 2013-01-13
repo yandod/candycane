@@ -408,13 +408,13 @@ class QueriesComponentTest extends CakeTestCase
         $this->Component->controller->request->query = array(
             'set_filter' => 1,
             'values' => array(
-                'assigned_to_id' => array('me'),
+                'created_on' => '3',
             ),
             'fields' => array(
-                'assigned_to_id'
+                'created_on' => 'created_on'
             ),
             'operators' => array(
-                'assigned_to_id' => '='
+                'created_on' => '>t-'
             )
         );
         $this->Component->controller->current_user = array(
@@ -428,9 +428,9 @@ class QueriesComponentTest extends CakeTestCase
             $this->Controller->request->data,
             array(
                 'Filter' => array(
-                    'fields_assigned_to_id' => 'assigned_to_id',
-                    'operators_assigned_to_id' => '=',
-                    'values_assigned_to_id' => 'me',
+                    'fields_created_on' => 'created_on',
+                    'operators_created_on' => '>t-',
+                    'values_created_on' => '3',
                 )
             )
         );
@@ -439,18 +439,16 @@ class QueriesComponentTest extends CakeTestCase
         $this->assertEqual(
         $this->Controller->viewVars['show_filters'],
             array(
-                'assigned_to_id' => array(
-                    'type' => 'list_optional',
-                    'order' => 4,
+                'created_on' => array(
+                    'type' => 'date_past',
+                    'order' => 9,
                     'operators' => array(
-                        '=' => 'is',
-                        '!' => 'is not',
-                        '!*' => 'none',
-                        '*' => 'all',
+                        '>t-' => 'less than days ago',
+                        '<t-' => 'more than days ago',
+                        't-' => 'days ago',
+                        't' => 'today',
+                        'w' => 'this week',
                     ),
-                    'values' => array(
-                        'me' => 'me'
-                    )
                 )
             )
         );
@@ -459,7 +457,12 @@ class QueriesComponentTest extends CakeTestCase
             $this->Component->query_filter_cond,
             array(
                 'Issue.project_id' => 2,
-                'Issue.assigned_to_id' => array(4),   
+                0 => array(
+                    'Issue.created_on >' => date('Y-m-d 23:59:59',  strtotime('-3 days')),
+                ),
+                1 => array(
+                    'Issue.created_on <=' => date('Y-m-d 23:59:59'),
+                ), 
             )
         );
     }
