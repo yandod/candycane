@@ -135,50 +135,56 @@ class QueriesComponent extends Component
     public function retrieveFromParameter($forse_set_filter, $available_filters)
     {
         $self = $this->controller;
-      if (isset($self->request->query['set_filter']) || $forse_set_filter) {
-          if (isset($self->request->query) && is_array($self->request->query) ) {
-	          $temp = array();
-              foreach ($self->request->query['values'] as $criteria_name => $criteria_val) {
-                  //$self->params['form']['fields'][$criteria_name] = $criteria_name;
-                  //$self->params['form']['operators'][$criteria_name] = '=';
-                  //$self->params['form']['values'][$criteria_name] = array($criteria_val);
-				  if (!in_array($criteria_name, $self->request->query['fields'])) {
-					  continue;
-				  }
-		          $temp['fields'][$criteria_name] = $criteria_name;
-                  $temp['operators'][$criteria_name] = '=';
-                  $temp['values'][$criteria_name] = array($criteria_val);
-                  if ($criteria_name == 'status_id') {
-                      //$self->params['form']['operators'][$criteria_name] = $criteria_val;
-                      //$temp['operators'][$criteria_name] = $criteria_val[0];
-                  }                  
-              }
-          }
-	      $self->request->query = $temp;		  
-          if ( !isset($self->request->query['fields'])) {
-              $self->request->query['fields'] = array();
-              $self->request->query['operators'] = array();
-              $self->request->query['values'] = array();
-          }
-        foreach ($self->request->query['fields'] as $field) {
-          $operator = $self->request->query['operators'][$field];
-          $values = isset($self->request->query['values'][$field]) ? $self->request->query['values'][$field] : null;
-          if (isset($available_filters[$field])) {
-            $this->show_filters[$field] = $available_filters[$field];
-	        // to avoid the error:
-	        // Indirect modification of overloaded property...
-	        // we use a temporal array.
-            //$self->data['Filter']['fields_' . $field] = $field;
-            //$self->data['Filter']['operators_' . $field] = $operator;
-            //$self->data['Filter']['values_' . $field] = $values;
-	        $temp = array();
-	        $temp['Filter']['fields_' . $field] = $field;
-            $temp['Filter']['operators_' . $field] = $operator;
-            $temp['Filter']['values_' . $field] = $this->get_option_value($values);
-	        $temp['Filter'] = array_merge($self->request->data['Filter'], $temp['Filter']);
-	        $self->request->data = array_merge($self->request->data, $temp);
-          }
+        if (
+            !isset($self->request->query['set_filter']) &&
+            !$forse_set_filter
+        ) {
+            return;
         }
-      }  
+        
+        
+        if (isset($self->request->query) && is_array($self->request->query) ) {
+            $temp = array();
+            foreach ($self->request->query['values'] as $criteria_name => $criteria_val) {
+                //$self->params['form']['fields'][$criteria_name] = $criteria_name;
+                //$self->params['form']['operators'][$criteria_name] = '=';
+                //$self->params['form']['values'][$criteria_name] = array($criteria_val);
+                if (!in_array($criteria_name, $self->request->query['fields'])) {
+                    continue;
+                }
+                $temp['fields'][$criteria_name] = $criteria_name;
+                $temp['operators'][$criteria_name] = '=';
+                $temp['values'][$criteria_name] = array($criteria_val);
+                if ($criteria_name == 'status_id') {
+                    //$self->params['form']['operators'][$criteria_name] = $criteria_val;
+                    //$temp['operators'][$criteria_name] = $criteria_val[0];
+                }                  
+            }
+        }
+        $self->request->query = $temp;		  
+        if ( !isset($self->request->query['fields'])) {
+            $self->request->query['fields'] = array();
+            $self->request->query['operators'] = array();
+            $self->request->query['values'] = array();
+        }
+        foreach ($self->request->query['fields'] as $field) {
+            $operator = $self->request->query['operators'][$field];
+            $values = isset($self->request->query['values'][$field]) ? $self->request->query['values'][$field] : null;
+            if (isset($available_filters[$field])) {
+                $this->show_filters[$field] = $available_filters[$field];
+                // to avoid the error:
+                // Indirect modification of overloaded property...
+                // we use a temporal array.
+                //$self->data['Filter']['fields_' . $field] = $field;
+                //$self->data['Filter']['operators_' . $field] = $operator;
+                //$self->data['Filter']['values_' . $field] = $values;
+                $temp = array();
+                $temp['Filter']['fields_' . $field] = $field;
+                $temp['Filter']['operators_' . $field] = $operator;
+                $temp['Filter']['values_' . $field] = $this->get_option_value($values);
+                $temp['Filter'] = array_merge($self->request->data['Filter'], $temp['Filter']);
+                $self->request->data = array_merge($self->request->data, $temp);
+            }
+        }
     }
 }
