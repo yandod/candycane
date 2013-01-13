@@ -140,7 +140,13 @@ class QueriesComponentTest extends CakeTestCase
                 'status_id' => array(
                     'operator' => 'o',
                     'values' => array(
-                        0 => ''
+                        0 => 1
+                    )
+                ),
+                'tracker_id' => array(
+                    'operator' => '=',
+                    'values' => array(
+                        0 => 2
                     )
                 )
             )

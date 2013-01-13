@@ -32,13 +32,13 @@ class QueriesComponent extends Component
     $Query = $self->Query;
     $force_show_filters = $Query->show_filters();
     $self->set('force_show_filters', $force_show_filters);
-    $show_filters = $forse_set_filter ? array() : $force_show_filters;
+    $this->show_filters = $forse_set_filter ? array() : $force_show_filters;
     $available_filters = $Query->available_filters($self->_project, $self->current_user);
     if (!isset($self->request->data['Filter'])) {
         $self->request->data['Filter'] = array();
     }
 
-    foreach ($show_filters as $field => $options) {
+    foreach ($this->show_filters as $field => $options) {
       $self->request->data['Filter']['fields_' . $field] = $field;
       $self->request->data['Filter']['operators_' . $field] = $options['operator'];
       $self->request->data['Filter']['values_' . $field] = $options['values'];
@@ -48,59 +48,14 @@ class QueriesComponent extends Component
     if ($query_id > 0) {
         $this->retrieveFromDb($query_id, $available_filters);
     } else {
-      if (isset($self->request->query['set_filter']) || $forse_set_filter) {
-          if (isset($self->request->query) && is_array($self->request->query) ) {
-	          $temp = array();
-              foreach ($self->request->query['values'] as $criteria_name => $criteria_val) {
-                  //$self->params['form']['fields'][$criteria_name] = $criteria_name;
-                  //$self->params['form']['operators'][$criteria_name] = '=';
-                  //$self->params['form']['values'][$criteria_name] = array($criteria_val);
-				  if (!in_array($criteria_name, $self->request->query['fields'])) {
-					  continue;
-				  }
-		          $temp['fields'][$criteria_name] = $criteria_name;
-                  $temp['operators'][$criteria_name] = '=';
-                  $temp['values'][$criteria_name] = array($criteria_val);
-                  if ($criteria_name == 'status_id') {
-                      //$self->params['form']['operators'][$criteria_name] = $criteria_val;
-                      //$temp['operators'][$criteria_name] = $criteria_val[0];
-                  }                  
-              }
-          }
-	      $self->request->query = $temp;		  
-          if ( !isset($self->request->query['fields'])) {
-              $self->request->query['fields'] = array();
-              $self->request->query['operators'] = array();
-              $self->request->query['values'] = array();
-          }
-        foreach ($self->request->query['fields'] as $field) {
-          $operator = $self->request->query['operators'][$field];
-          $values = isset($self->request->query['values'][$field]) ? $self->request->query['values'][$field] : null;
-          if (isset($available_filters[$field])) {
-            $show_filters[$field] = $available_filters[$field];
-	        // to avoid the error:
-	        // Indirect modification of overloaded property...
-	        // we use a temporal array.
-            //$self->data['Filter']['fields_' . $field] = $field;
-            //$self->data['Filter']['operators_' . $field] = $operator;
-            //$self->data['Filter']['values_' . $field] = $values;
-	        $temp = array();
-	        $temp['Filter']['fields_' . $field] = $field;
-            $temp['Filter']['operators_' . $field] = $operator;
-            $temp['Filter']['values_' . $field] = $this->get_option_value($values);
-	        $temp['Filter'] = array_merge($self->request->data['Filter'], $temp['Filter']);
-	        $self->request->data = array_merge($self->request->data, $temp);
-          }
-        }
-		//debug($self->request->data);
-      }
+        $this->retrieveFromParameter($forse_set_filter, $available_filters);
     }
     if ($self->_project) {
 		$this->query_filter_cond = array(
 			'Issue.project_id' => $self->_project['Project']['id']
 		);
 	}
-    foreach ($show_filters as $field => $options) {
+    foreach ($this->show_filters as $field => $options) {
       $operator = $self->request->data['Filter']['operators_' . $field];
       $values = $self->request->data['Filter']['values_' . $field];
       switch ($field) {
@@ -124,8 +79,8 @@ class QueriesComponent extends Component
       }
     }
     $self->set('available_filters', $available_filters);
-    $self->set('show_filters', $show_filters);
-    $this->show_filters = $show_filters;
+    $self->set('show_filters', $this->show_filters);
+    //$this->show_filters = $show_filters;
   }
   
 /**
@@ -147,9 +102,9 @@ class QueriesComponent extends Component
     public function retrieveFromDb($query_id, $available_filters)
     {
         $this->controller->Query->read(null, $query_id);
-        $show_filters = $this->controller->Query->getFilters();
+        $this->show_filters = $this->controller->Query->getFilters();
         // Showing saved queries
-        foreach ($show_filters as $field => $options) {
+        foreach ($this->show_filters as $field => $options) {
             //$self->data['Filter']['fields_' . $field] = $field;
             //$self->data['Filter']['operators_' . $field] = $options['operator'];        
             $temp = array();
@@ -177,7 +132,7 @@ class QueriesComponent extends Component
 /**
  * build paremter from query string 
  */
-    public function retrieveFromParameter($forse_set_filter, $available_filters, $show_filters)
+    public function retrieveFromParameter($forse_set_filter, $available_filters)
     {
         $self = $this->controller;
       if (isset($self->request->query['set_filter']) || $forse_set_filter) {
@@ -209,7 +164,7 @@ class QueriesComponent extends Component
           $operator = $self->request->query['operators'][$field];
           $values = isset($self->request->query['values'][$field]) ? $self->request->query['values'][$field] : null;
           if (isset($available_filters[$field])) {
-            $show_filters[$field] = $available_filters[$field];
+            $this->show_filters[$field] = $available_filters[$field];
 	        // to avoid the error:
 	        // Indirect modification of overloaded property...
 	        // we use a temporal array.
