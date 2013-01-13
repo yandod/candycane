@@ -31,6 +31,7 @@ class QueriesComponentTest extends CakeTestCase
     public $fixtures = array(
         'app.issue_status',
         'app.project',
+        'app.version',
         'app.user',
         'app.enumeration',
         'app.query'
@@ -391,6 +392,74 @@ class QueriesComponentTest extends CakeTestCase
                         'me' => 'me'
                     )
                 )
+            )
+        );
+    }
+
+    public function testRetrieveQueryFromQueryStringWithProject()
+    {
+        //data should be empty before process
+        $this->assertEqual(
+            $this->Controller->request->data,
+            array()
+        );
+        
+        //get parameter for query string
+        $this->Component->controller->request->query = array(
+            'set_filter' => 1,
+            'values' => array(
+                'assigned_to_id' => array('me'),
+            ),
+            'fields' => array(
+                'assigned_to_id'
+            ),
+            'operators' => array(
+                'assigned_to_id' => '='
+            )
+        );
+        $this->Component->controller->current_user = array(
+            'id' => 4
+        );
+        $this->Component->controller->_project = array(
+            'Project' => array('id' => 2)
+        );
+        $this->assertEqual($this->Component->retrieve_query(),null);
+        $this->assertEqual(
+            $this->Controller->request->data,
+            array(
+                'Filter' => array(
+                    'fields_assigned_to_id' => 'assigned_to_id',
+                    'operators_assigned_to_id' => '=',
+                    'values_assigned_to_id' => 'me',
+                )
+            )
+        );
+
+        //check state of show_filters
+        $this->assertEqual(
+        $this->Controller->viewVars['show_filters'],
+            array(
+                'assigned_to_id' => array(
+                    'type' => 'list_optional',
+                    'order' => 4,
+                    'operators' => array(
+                        '=' => 'is',
+                        '!' => 'is not',
+                        '!*' => 'none',
+                        '*' => 'all',
+                    ),
+                    'values' => array(
+                        'me' => 'me'
+                    )
+                )
+            )
+        );
+        
+        $this->assertEqual(
+            $this->Component->query_filter_cond,
+            array(
+                'Issue.project_id' => 2,
+                'Issue.assigned_to_id' => array(4),   
             )
         );
     }
