@@ -153,7 +153,7 @@ class QueriesComponentTest extends CakeTestCase
         );
     }
     
-    public function testTretrieveQueryFromQueryString()
+    public function testRetrieveQueryFromQueryString()
     {
         //data should be empty before process
         $this->assertEqual(
@@ -228,4 +228,64 @@ class QueriesComponentTest extends CakeTestCase
             )
         );
     }
+    
+    public function testTretrieveQueryFromQueryStringWithNotEqual()
+    {
+        //data should be empty before process
+        $this->assertEqual(
+            $this->Controller->request->data,
+            array()
+        );
+        
+        //get parameter for query string
+        $this->Component->controller->request->query = array(
+            'set_filter' => 1,
+            'values' => array(
+                'status_id' => array(1),
+            ),
+            'fields' => array(
+                'status_id',
+            ),
+            'operators' => array(
+                'status_id' => '!',
+            )
+        );
+        $this->assertEqual($this->Component->retrieve_query(),null);
+        $this->assertEqual(
+            $this->Controller->request->data,
+            array(
+                'Filter' => array(
+                    'fields_status_id' => 'status_id',
+                    'operators_status_id' => '!',
+                    'values_status_id' => 1,
+                )
+            )
+        );
+
+        //check state of show_filters
+        $this->assertEqual(
+        $this->Controller->viewVars['show_filters'],
+            array(
+                'status_id' => array(
+                    'values' => array(
+                        6 => 'Rejected',
+                        1 => 'New',
+                        2 => 'Assigned',
+                        3 => 'Resolved',
+                        4 => 'Feedback',
+                        5 => 'Closed',
+                    ),
+                    'type' => 'list_status',
+                    'order' => 1,
+                    'operators' => array(
+                        'o' => 'open',
+                        '=' => 'is',
+                        '!' => 'is not',
+                        'c' => 'closed',
+                        '*' => 'all',
+                    )
+                ),
+            )
+        );
+    }    
 }

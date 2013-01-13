@@ -153,7 +153,7 @@ class QueriesComponent extends Component
                     continue;
                 }
                 $temp['fields'][$criteria_name] = $criteria_name;
-                $temp['operators'][$criteria_name] = '=';
+                $temp['operators'][$criteria_name] = $self->request->query['operators'][$criteria_name];
                 $temp['values'][$criteria_name] = array($criteria_val);
                 if ($criteria_name == 'status_id') {
                     //$self->params['form']['operators'][$criteria_name] = $criteria_val;
