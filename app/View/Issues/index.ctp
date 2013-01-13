@@ -1,7 +1,7 @@
 <?php if(empty($query['Query']['id'])): ?>
     <h2><?php  $this->Candy->html_title(__('Issues')) ?></h2>
     
-    <form action="<?php echo h($this->Html->url(array('controller' => 'queries', 'action' => 'add'))) ?>" method="post" id="query_form">
+    <form action="<?php echo h($this->Html->url(array('controller' => 'queries', 'action' => 'add'))) ?>" method="get" id="query_form">
     <input type="hidden" name="set_filter" value="1" />
     <?php if (isset($main_project)): ?><input type="hidden" name="project_id" value="<?php echo h($main_project['Project']['identifier']) ?>" /><?php endif ?>
     <fieldset id="filters"><legend><?php echo __('Filters') ?></legend>

@@ -143,7 +143,7 @@ class QueriesComponent extends Component
         }
         
         
-        if (isset($self->request->query) && is_array($self->request->query) ) {
+        if (isset($self->request->query['values']) && is_array($self->request->query['values']) ) {
             $temp = array();
             foreach ($self->request->query['values'] as $criteria_name => $criteria_val) {
                 //$self->params['form']['fields'][$criteria_name] = $criteria_name;
@@ -160,8 +160,8 @@ class QueriesComponent extends Component
                     //$temp['operators'][$criteria_name] = $criteria_val[0];
                 }                  
             }
+            $self->request->query = $temp;		              
         }
-        $self->request->query = $temp;		  
         if ( !isset($self->request->query['fields'])) {
             $self->request->query['fields'] = array();
             $self->request->query['operators'] = array();
