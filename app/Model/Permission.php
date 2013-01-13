@@ -90,13 +90,13 @@ class Permission extends AppModel
   // end);
 
   // map.project_module 'boards' do |map|);
-    $this->set('manage_boards', array('boards' => array('new', 'edit', 'destroy')), array('require' => 'member'), 'boards');
-    $this->set('view_messages', array('boards' => array('index', 'show'), array('messages' => array('show'))), array('public' => true), 'boards');
-    $this->set('add_messages', array('messages' => array('new', 'reply', 'quote')), array(), 'boards');
-    $this->set('edit_messages', array('messages' => 'edit'), array('require' => 'member'), 'boards');
-    $this->set('edit_own_messages', array('messages' => 'edit'), array('require' => 'loggedin'), 'boards');
-    $this->set('delete_messages', array('messages' => 'destroy'), array('require' => 'member'), 'boards');
-    $this->set('delete_own_messages', array('messages' => 'destroy'), array('require' => 'loggedin'), 'boards');
+  //  $this->set('manage_boards', array('boards' => array('new', 'edit', 'destroy')), array('require' => 'member'), 'boards');
+  //  $this->set('view_messages', array('boards' => array('index', 'show'), array('messages' => array('show'))), array('public' => true), 'boards');
+  //  $this->set('add_messages', array('messages' => array('new', 'reply', 'quote')), array(), 'boards');
+  //  $this->set('edit_messages', array('messages' => 'edit'), array('require' => 'member'), 'boards');
+  //  $this->set('edit_own_messages', array('messages' => 'edit'), array('require' => 'loggedin'), 'boards');
+  //  $this->set('delete_messages', array('messages' => 'destroy'), array('require' => 'member'), 'boards');
+  //  $this->set('delete_own_messages', array('messages' => 'destroy'), array('require' => 'loggedin'), 'boards');
   // end)
 
   }
