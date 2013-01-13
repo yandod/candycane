@@ -56,7 +56,7 @@ class QueriesComponent extends Component
       case 'author_id':
       case 'assigned_to_id':
 		  if (!is_array($values)) {
-			  break;
+              $values = array($values);
 		  }
         foreach($values as $index => $value) {
           if ($value == 'me') {
