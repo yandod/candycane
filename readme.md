@@ -4,7 +4,8 @@ CandyCane is a issue tracking system. The original implementation on which it is
 
 You can view a live demo of CandyCane, as well as the bug tracking for CandyCane here: [http://my.candycane.jp/](http://my.candycane.jp/)
 
-Continuous Integration is running on here: [http://ci.candycane.jp:8080/](http://ci.candycane.jp:8080/)
+Continuous Integration is running on here: [https://travis-ci.org/yandod/candycane](https://travis-ci.org/yandod/candycane)
+[![Build Status](https://travis-ci.org/yandod/candycane.png?branch=master)](https://travis-ci.org/yandod/candycane)
 
 
 ## Installation ##
