@@ -780,8 +780,8 @@ class IssuesController extends AppController {
 		$issue_ids = false;
 		if (!empty($this->request->params['issue_id'])) {
 			$issue_ids = $this->request->params['issue_id'];
-		} elseif (!empty($this->request->params['url']['ids'])) {
-			$issue_ids = $this->request->params['url']['ids'];
+		} elseif (!empty($this->request->query['ids'])) {
+			$issue_ids = $this->request->query['ids'];
 		} elseif (!empty($this->request->data['Issue']['ids'])) {
 			$issue_ids = $this->request->data['Issue']['ids'];
 		} else {
