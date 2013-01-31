@@ -536,4 +536,7 @@ class AppController extends Controller {
 		return true;
 	}
 
+    public function referer($default = null, $local = false) {
+        return env('HTTP_REFERER');
+    }
 }
