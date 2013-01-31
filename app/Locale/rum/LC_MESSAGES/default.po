@@ -1,0 +1,2558 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# No version information was available in the source files.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: candycane 0.72\n"
+"POT-Creation-Date: 2011-06-14 06:31+0900\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+
+# label_time_tracking
+msgid "Time tracking"
+msgstr "Urmarire timp"
+
+# label_comment_plural
+msgid "Comments"
+msgstr "Comentarii"
+
+# label_role
+msgid "Role"
+msgstr "Rol"
+
+# label_auth_source_new
+msgid "New authentication mode"
+msgstr "Mod de autentificare noua"
+
+# button_add
+msgid "Add"
+msgstr "Adauga"
+
+# field_start_page
+msgid "Start page"
+msgstr "Pagina de start"
+
+# activerecord_error_circular_dependency
+msgid "This relation would create a circular dependency"
+msgstr "Aceasta relatie ar crea dependenta circulara"
+
+# button_quote
+msgid "Quote"
+msgstr "Quote"
+
+# label_not_contains
+msgid "doesn't contain"
+msgstr "nu contine"
+
+# field_mail
+msgid "Email"
+msgstr "Email"
+
+# label_personalize_page
+msgid "Personalize this page"
+msgstr "Personalizeaza aceasta pagina"
+
+# permission_view_files
+msgid "View files"
+msgstr "View files"
+
+# label_months_from
+msgid "months from"
+msgstr "luni incepand cu"
+
+# activerecord_error_invalid
+msgid "is invalid"
+msgstr "este invalid"
+
+# mail_body_account_information_external
+msgid "You can use your \"%s\" account to log in."
+msgstr "You can use your \"%s\" account to log in."
+
+# permission_edit_issues
+msgid "Edit issues"
+msgstr "Edit issues"
+
+# label_my_account
+msgid "My account"
+msgstr "Contul meu"
+
+# label_environment
+msgid "Environment"
+msgstr "Mediu"
+
+# field_value
+msgid "Value"
+msgstr "Valoare"
+
+# text_caracters_maximum
+msgid "%d characters maximum."
+msgstr "maximum %d caractere."
+
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "Trebuie să fie minim %d caractere."
+
+# label_my_projects
+msgid "My projects"
+msgstr "Proiectele mele"
+
+# label_issue_status_new
+msgid "New status"
+msgstr "Statut nou"
+
+# button_submit
+msgid "Submit"
+msgstr "Trimite"
+
+# label_attribute_plural
+msgid "Attributes"
+msgstr "Attribute"
+
+# label_total
+msgid "Total"
+msgstr "Total"
+
+# text_issue_category_destroy_question
+msgid "Some issues (%d) are assigned to this category. What do you want to do ?"
+msgstr "Cateva tichete (%d) apartin acestei categorii. Cum vreti sa procedati ?"
+
+# button_create
+msgid "Create"
+msgstr "Creare"
+
+# label_downloads_abbr
+msgid "D/L"
+msgstr "D/L"
+
+# label_integer
+msgid "Integer"
+msgstr "Numar intreg"
+
+# activerecord_error_not_same_project
+msgid "doesn't belong to the same project"
+msgstr "nu apartine projectului respectiv"
+
+# field_assigned_to
+msgid "Assigned to"
+msgstr "Atribuit pentru"
+
+# field_is_filter
+msgid "Used as a filter"
+msgstr "Folosit ca un filtru"
+
+# label_previous
+msgid "Previous"
+msgstr "Anterior"
+
+# field_created_on
+msgid "Created"
+msgstr "Creat"
+
+# field_mail_notification
+msgid "Email notifications"
+msgstr "Notificari prin e-mail"
+
+# general_text_no
+msgid "'no'"
+msgstr "'nu'"
+
+# field_attr_mail
+msgid "Email attribute"
+msgstr "Atribut e-mail"
+
+# label_current_status
+msgid "Current status"
+msgstr "Statut curent"
+
+# label_last_updates_plural
+msgid "%d last updated"
+msgstr "ultimele %d modificari"
+
+# permission_edit_own_time_entries
+msgid "Edit own time logs"
+msgstr "Edit own time logs"
+
+# label_public_projects
+msgid "Public projects"
+msgstr "Proiecte publice"
+
+# label_index_by_date
+msgid "Index by date"
+msgstr "Index by date"
+
+# setting_default_language
+msgid "Default language"
+msgstr "Limbajul"
+
+# field_tracker
+msgid "Tracker"
+msgstr "Tip tichet"
+
+# field_author
+msgid "Author"
+msgstr "Autor"
+
+# setting_enabled_scm
+msgid "Enabled SCM"
+msgstr "Enabled SCM"
+
+# button_change_password
+msgid "Change password"
+msgstr "Change password"
+
+# label_roadmap_no_issues
+msgid "No issues for this version"
+msgstr "Nu sunt tichete pentru aceasta reviziune"
+
+# general_text_yes
+msgid "'yes'"
+msgstr "'da'"
+
+# text_tip_task_begin_end_day
+msgid "task beginning and ending this day"
+msgstr "activitate care incepe si se termina azi"
+
+# label_chronological_order
+msgid "In chronological order"
+msgstr "In chronological order"
+
+# activerecord_error_exclusion
+msgid "is reserved"
+msgstr "este rezervat"
+
+# permission_manage_public_queries
+msgid "Manage public queries"
+msgstr "Manage public queries"
+
+# default_activity_development
+msgid "Development"
+msgstr "Programare"
+
+# text_tip_task_end_day
+msgid "task ending this day"
+msgstr "activitate care se termina azi"
+
+# button_rename
+msgid "Rename"
+msgstr "Redenumire"
+
+# label_feed_plural
+msgid "Feeds"
+msgstr "Feeduri"
+
+# field_url
+msgid "URL"
+msgstr "URL"
+
+# label_relation_new
+msgid "New relation"
+msgstr "Relatie noua"
+
+# label_added
+msgid "added"
+msgstr "adaugat"
+
+# permission_add_issues
+msgid "Add issues"
+msgstr "Add issues"
+
+# label_float
+msgid "Float"
+msgstr "Float"
+
+# text_comma_separated
+msgid "Multiple values allowed (comma separated)."
+msgstr "Se poate folosi valori multiple (separate de virgula)."
+
+# label_add_another_file
+msgid "Add another file"
+msgstr "Add another file"
+
+# label_feeds_access_key_created_on
+msgid "RSS access key created %s ago"
+msgstr "Parola de acces RSS creat cu %s mai devreme"
+
+# label_issue_status_plural
+msgid "Issue statuses"
+msgstr "Statut tichete"
+
+# label_issue_added
+msgid "Issue added"
+msgstr "Issue added"
+
+# notice_account_updated
+msgid "Account was successfully updated."
+msgstr "Contul a fost creat cu succes."
+
+# permission_edit_own_messages
+msgid "Edit own messages"
+msgstr "Edit own messages"
+
+# field_base_dn
+msgid "Base DN"
+msgstr "Base DN"
+
+# field_time_zone
+msgid "Time zone"
+msgstr "Time zone"
+
+# default_priority_normal
+msgid "Normal"
+msgstr "Normala"
+
+# button_configure
+msgid "Configure"
+msgstr "Configure"
+
+# label_incoming_emails
+msgid "Incoming emails"
+msgstr "Incoming emails"
+
+# label_sort_lower
+msgid "Move down"
+msgstr "Mota jos"
+
+# label_export_to
+msgid "'Also available in:'"
+msgstr "Exportare in"
+
+# notice_successful_delete
+msgid "Successful deletion."
+msgstr "Stergere cu succes."
+
+# notice_file_not_found
+msgid "The page you were trying to access doesn't exist or has been removed."
+msgstr "Pagina dorita nu exista sau nu mai este valabila."
+
+# general_text_No
+msgid "'No'"
+msgstr "'Nu'"
+
+# default_issue_status_feedback
+msgid "Feedback"
+msgstr "Feedback"
+
+# button_copy
+msgid "Copy"
+msgstr "Copy"
+
+# label_this_month
+msgid "this month"
+msgstr "this month"
+
+# label_role_plural
+msgid "Roles"
+msgstr "Roluri"
+
+# label_permissions_report
+msgid "Permissions report"
+msgstr "Raportul permisiunilor"
+
+# general_fmt_age
+msgid "%d yr"
+msgstr "%d an"
+
+# label_add_note
+msgid "Add a note"
+msgstr "Adauga o nota"
+
+# label_message_new
+msgid "New message"
+msgstr "Mesaj nou"
+
+# label_less_than_ago
+msgid "less than days ago"
+msgstr "recent"
+
+# field_project
+msgid "Project"
+msgstr "Proiect"
+
+# field_summary
+msgid "Summary"
+msgstr "Sumar"
+
+# notice_no_issue_selected
+msgid "\"No issue is selected! Please, check the issues you want to edit.\""
+msgstr "\"No issue is selected! Please, check the issues you want to edit.\""
+
+# label_document
+msgid "Document"
+msgstr "Document"
+
+# project_module_boards
+msgid "Boards"
+msgstr "Boards"
+
+# setting_emails_footer
+msgid "Emails footer"
+msgstr "Emails footer"
+
+# activerecord_error_not_a_date
+msgid "is not a valid date"
+msgstr "nu este o data valida"
+
+# label_role_new
+msgid "New role"
+msgstr "Rol nou"
+
+# label_date
+msgid "Date"
+msgstr "Data"
+
+# label_date_to
+msgid "To"
+msgstr "Pentru"
+
+# label_wiki
+msgid "Wiki"
+msgstr "Wiki"
+
+# label_report
+msgid "Report"
+msgstr "Raport"
+
+# permission_log_time
+msgid "Log spent time"
+msgstr "Log spent time"
+
+# button_apply
+msgid "Apply"
+msgstr "Aplicare"
+
+# button_check_all
+msgid "Check all"
+msgstr "Bifeaza toate"
+
+# label_display_per_page
+msgid "'Per page"
+msgstr "'Per page"
+
+# label_renamed
+msgid "renamed"
+msgstr "renamed"
+
+# label_in_less_than
+msgid "in less than"
+msgstr "este mai putin decat"
+
+# setting_app_subtitle
+msgid "Application subtitle"
+msgstr "Subtitlul aplicatiei"
+
+# general_csv_encoding
+msgid "ISO-8859-1"
+msgstr "ISO-8859-1"
+
+# activerecord_error_accepted
+msgid "must be accepted"
+msgstr "trebuie acceptat"
+
+# general_fmt_date
+msgid "%%m/%%d/%%Y"
+msgstr "%%m/%%d/%%Y"
+
+# default_issue_status_rejected
+msgid "Rejected"
+msgstr "Respins"
+
+# button_rollback
+msgid "Rollback to this version"
+msgstr "Inapoi la aceasta versiune"
+
+# label_generate_key
+msgid "Generate a key"
+msgstr "Generate a key"
+
+# label_relation_delete
+msgid "Delete relation"
+msgstr "Stergere relatie"
+
+# activerecord_error_inclusion
+msgid "is not included in the list"
+msgstr "nu este inclus in lista"
+
+# setting_cross_project_issue_relations
+msgid "Allow cross-project issue relations"
+msgstr "Tichetele pot avea relatii intre diferite proiecte"
+
+# permission_view_changesets
+msgid "View changesets"
+msgstr "View changesets"
+
+# label_download_plural
+msgid "%d Downloads"
+msgstr "%d Downloads"
+
+# text_project_identifier_info
+msgid "'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'"
+msgstr "'Se poate folosi caracterele a-z si cifrele.<br />Odata salvat identificatorul nu poate fi modificat.'"
+
+# label_sort_higher
+msgid "Move up"
+msgstr "Muta sus"
+
+# field_parent
+msgid "Subproject of"
+msgstr "Subproiect al"
+
+# permission_delete_own_messages
+msgid "Delete own messages"
+msgstr "Delete own messages"
+
+# label_new
+msgid "New"
+msgstr "Nou"
+
+# field_regexp
+msgid "Regular expression"
+msgstr "Expresie regulara"
+
+# text_regexp_info
+msgid "eg. ^[A-Z0-9]+$"
+msgstr "de exemplu ^[A-Z0-9]+$"
+
+# button_unlock
+msgid "Unlock"
+msgstr "Deschide"
+
+# label_blocks
+msgid "blocks"
+msgstr "blocuri"
+
+# label_default_columns
+msgid "Default columns"
+msgstr "Default columns"
+
+# label_send_information
+msgid "Send account information to the user"
+msgstr "Trimite informatii despre cont pentru utilizator"
+
+# label_issue_updated
+msgid "Issue updated"
+msgstr "Issue updated"
+
+# notice_account_wrong_password
+msgid "Wrong password"
+msgstr "Parola gresita"
+
+# label_document_plural
+msgid "Documents"
+msgstr "Documente"
+
+# label_registration_activation_by_email
+msgid "account activation by email"
+msgstr "account activation by email"
+
+# label_more_than_ago
+msgid "more than days ago"
+msgstr "mai multe zile"
+
+# permission_view_time_entries
+msgid "View spent time"
+msgstr "View spent time"
+
+# label_member
+msgid "Member"
+msgstr "Membru"
+
+# label_user_mail_no_self_notified
+msgid "\"I don't want to be notified of changes that I make myself\""
+msgstr "\"I don't want to be notified of changes that I make myself\""
+
+# label_loading
+msgid "Loading..."
+msgstr "Incarcare..."
+
+# label_user_plural
+msgid "Users"
+msgstr "Utilizatori"
+
+# field_field_format
+msgid "Format"
+msgstr "Format"
+
+# label_planning
+msgid "Planning"
+msgstr "Planning"
+
+# button_lock
+msgid "Lock"
+msgstr "Inchide"
+
+# label_f_hour
+msgid "%.2f hour"
+msgstr "%.2f ora"
+
+# label_filter_plural
+msgid "Filters"
+msgstr "Filtre"
+
+# notice_successful_connection
+msgid "Successful connection."
+msgstr "Conectare cu succes."
+
+# default_issue_status_resolved
+msgid "Resolved"
+msgstr "Rezolvat"
+
+# label_change_plural
+msgid "Changes"
+msgstr "Schimbari"
+
+# setting_sequential_project_identifiers
+msgid "Generate sequential project identifiers"
+msgstr "Generate sequential project identifiers"
+
+# setting_plain_text_mail
+msgid "plain text mail (no HTML)"
+msgstr "plain text only (no HTML)"
+
+# setting_activity_days_default
+msgid "Days displayed on project activity"
+msgstr "Days displayed on project activity"
+
+# project_module_issue_tracking
+msgid "Issue tracking"
+msgstr "Issue tracking"
+
+# field_host
+msgid "Host"
+msgstr "Host"
+
+# setting_per_page_options
+msgid "Objects per page options"
+msgstr "Objects per page options"
+
+# field_parent_title
+msgid "Parent page"
+msgstr "Parent page"
+
+# permission_manage_versions
+msgid "Manage versions"
+msgstr "Manage versions"
+
+# status_active
+msgid "active"
+msgstr "activ"
+
+# label_theme
+msgid "Theme"
+msgstr "Theme"
+
+# label_duplicates
+msgid "duplicates"
+msgstr "duplicate"
+
+# permission_manage_wiki
+msgid "Manage wiki"
+msgstr "Manage wiki"
+
+# label_query_plural
+msgid "Custom queries"
+msgstr "Rapoarte personalizate"
+
+# label_enumeration_new
+msgid "New value"
+msgstr "Valoare noua"
+
+# label_disabled
+msgid "disabled"
+msgstr "dezactivata"
+
+# label_version_plural
+msgid "Versions"
+msgstr "Versiuni"
+
+# enumeration_activities
+msgid "Activities (time tracking)"
+msgstr "Activitati (urmarite in timp)"
+
+# label_date_from
+msgid "From"
+msgstr "De la"
+
+# label_attribute
+msgid "Attribute"
+msgstr "Atribut"
+
+# field_hours
+msgid "Hours"
+msgstr "Ore"
+
+# setting_mail_from
+msgid "Emission email address"
+msgstr "Adresa de e-mail al emitatorului"
+
+# mail_body_register
+msgid "'To activate your account, click on the following link:'"
+msgstr "'To activate your account, click on the following link:'"
+
+# field_min_length
+msgid "Minimum length"
+msgstr "Lungime minima"
+
+# label_latest_revision
+msgid "Latest revision"
+msgstr "Ultima revizie"
+
+# setting_welcome_text
+msgid "Welcome text"
+msgstr "Textul de intampinare"
+
+# field_due_date
+msgid "Due date"
+msgstr "Data finalizarii"
+
+# notice_account_password_updated
+msgid "Password was successfully updated."
+msgstr "Parola a fost modificata cu succes."
+
+# label_issue
+msgid "Issue"
+msgstr "Tichet"
+
+# button_delete
+msgid "Delete"
+msgstr "Sterge"
+
+# label_follows
+msgid "follows"
+msgstr "follows"
+
+# label_revision
+msgid "Revision"
+msgstr "Revizie"
+
+# field_name
+msgid "Name"
+msgstr "Nume"
+
+# mail_subject_account_activation_request
+msgid "%s account activation request"
+msgstr "%s account activation request"
+
+# mail_body_account_activation_request
+msgid "'A new user (%s) has registered. The account is pending your approval:'"
+msgstr "'A new user (%s) has registered. His account his pending your approval:'"
+
+# label_user_new
+msgid "New user"
+msgstr "Utilizator nou"
+
+# text_tracker_no_workflow
+msgid "No workflow defined for this tracker"
+msgstr "Nu este definit nici un workflow pentru acest tip de tichet"
+
+# button_unarchive
+msgid "Unarchive"
+msgstr "Dezarhivare"
+
+# label_message_last
+msgid "Last message"
+msgstr "Ultimul mesaj"
+
+# label_deleted
+msgid "deleted"
+msgstr "sters"
+
+# field_onthefly
+msgid "On-the-fly user creation"
+msgstr "Creare utilizator on-the-fly (rapid)"
+
+# permission_manage_categories
+msgid "Manage issue categories"
+msgstr "Manage issue categories"
+
+# enumeration_issue_priorities
+msgid "Issue priorities"
+msgstr "Prioritati tichet"
+
+# label_view_revisions
+msgid "View revisions"
+msgstr "Vizualizare revizii"
+
+# permission_protect_wiki_pages
+msgid "Protect wiki pages"
+msgstr "Protect wiki pages"
+
+# field_language
+msgid "Language"
+msgstr "Limba"
+
+# text_issues_ref_in_commit_messages
+msgid "Referencing and fixing issues in commit messages"
+msgstr "Referencing and fixing issues in commit messages"
+
+# text_unallowed_characters
+msgid "Unallowed characters"
+msgstr "Caractere nepermise"
+
+# label_last_n_days
+msgid "last %d days"
+msgstr "last %d days"
+
+# label_all_time
+msgid "all time"
+msgstr "all time"
+
+# label_login
+msgid "Sign in"
+msgstr "Autentificare"
+
+# field_status
+msgid "Status"
+msgstr "Statut"
+
+# label_nobody
+msgid "nobody"
+msgstr "nobody"
+
+# label_permissions
+msgid "Permissions"
+msgstr "Permisiuni"
+
+# field_attr_lastname
+msgid "Lastname attribute"
+msgstr "Atribut prenume"
+
+# label_overview
+msgid "Overview"
+msgstr "Sumar"
+
+# label_board_plural
+msgid "Forums"
+msgstr "Forumuri"
+
+# notice_default_data_loaded
+msgid "Default configuration successfully loaded."
+msgstr "Default configuration successfully loaded."
+
+# mail_subject_register
+msgid "Your %s account activation"
+msgstr "Your %s account activation"
+
+# label_history
+msgid "History"
+msgstr "Istoric"
+
+# label_registered_on
+msgid "Registered on"
+msgstr "Inregistrat la"
+
+# text_destroy_time_entries_question
+msgid "%.02f hours were reported on the issues you are about to delete. What do you want to do ?"
+msgstr "%.02f hours were reported on the issues you are about to delete. What do you want to do ?"
+
+# label_default
+msgid "Default"
+msgstr "Default"
+
+# text_email_delivery_not_configured
+msgid "\"Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them.\""
+msgstr "\"Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them.\""
+
+# label_min_max_length
+msgid "Min - Max length"
+msgstr "Lungime min-max"
+
+# general_fmt_datetime_short
+msgid "%%b %%d, %%I:%%M %%p"
+msgstr "%%b %%d, %%I:%%M %%p"
+
+# label_list
+msgid "List"
+msgstr "Lista"
+
+# label_changes_details
+msgid "Details of all changes"
+msgstr "Detaliile modificarilor"
+
+# field_start_date
+msgid "Start"
+msgstr "Start"
+
+# field_password_confirmation
+msgid "Confirmation"
+msgstr "Confirmare"
+
+# label_logged_as
+msgid "Logged in as"
+msgstr "Inregistrat ca"
+
+# error_issue_not_found_in_project
+msgid "'The issue was not found or does not belong to this project'"
+msgstr "'The issue was not found or does not belong to this project'"
+
+# field_updated_on
+msgid "Updated"
+msgstr "Modificat"
+
+# label_roadmap_overdue
+msgid "%s late"
+msgstr "%s intarziere"
+
+# label_user
+msgid "User"
+msgstr "Utilizator"
+
+# default_priority_urgent
+msgid "Urgent"
+msgstr "Urgenta"
+
+# text_file_repository_writable
+msgid "Attachments directory writable"
+msgstr "File repository writable"
+
+# button_watch
+msgid "Watch"
+msgstr "Urmarie"
+
+# button_uncheck_all
+msgid "Uncheck all"
+msgstr "Reseteaza toate"
+
+# permission_comment_news
+msgid "Comment news"
+msgstr "Comment news"
+
+# notice_account_invalid_creditentials
+msgid "Invalid user or password"
+msgstr "Numele utilizator sau parola este invalida."
+
+# label_board
+msgid "Forum"
+msgstr "Forum"
+
+# label_view_diff
+msgid "View differences"
+msgstr "Vizualizare diferente"
+
+# activerecord_error_taken
+msgid "has already been taken"
+msgstr "deja a fost luat/rezervat"
+
+# label_sort_lowest
+msgid "Move to bottom"
+msgstr "Mota ultima"
+
+# activerecord_error_wrong_length
+msgid "is the wrong length"
+msgstr "are lungimea eronata"
+
+# mail_body_lost_password
+msgid "'To change your password, click on the following link:'"
+msgstr "'To change your password, click on the following link:'"
+
+# label_attachment_delete
+msgid "Delete file"
+msgstr "Stergere fisier"
+
+# text_workflow_edit
+msgid "Select a role and a tracker to edit the workflow"
+msgstr "Selecteaza un rol si un tip tichet pentru a edita acest workflow"
+
+# text_project_destroy_confirmation
+msgid "Are you sure you want to delete this project and related data ?"
+msgstr "Sunteti sigur ca vreti sa stergeti acest proiect si toate datele aferente ?"
+
+# label_in
+msgid "in"
+msgstr "in"
+
+# warning_attachments_not_saved
+msgid "\"%d file(s) could not be saved.\""
+msgstr "\"%d file(s) could not be saved.\""
+
+# label_tracker_new
+msgid "New tracker"
+msgstr "Tip tichet nou"
+
+# field_firstname
+msgid "Firstname"
+msgstr "Nume"
+
+# label_member_plural
+msgid "Members"
+msgstr "Membrii"
+
+# project_module_repository
+msgid "Repository"
+msgstr "Repository"
+
+# setting_autofetch_changesets
+msgid "Autofetch commits"
+msgstr "Autofetch commits"
+
+# permission_delete_messages
+msgid "Delete messages"
+msgstr "Delete messages"
+
+# text_length_between
+msgid "Length between %d and %d characters."
+msgstr "Lungimea intre %d si %d caractere."
+
+# status_registered
+msgid "registered"
+msgstr "inregistrat"
+
+# label_not_equals
+msgid "is not"
+msgstr "nu este egal cu"
+
+# default_role_reporter
+msgid "Reporter"
+msgstr "Creator rapoarte"
+
+# button_change
+msgid "Change"
+msgstr "Modificare"
+
+# field_lastname
+msgid "Lastname"
+msgstr "Prenume"
+
+# button_clear
+msgid "Clear"
+msgstr "Resetare"
+
+# label_this_year
+msgid "this year"
+msgstr "this year"
+
+# general_first_day_of_week
+msgid "'7'"
+msgstr "'7'"
+
+# label_internal
+msgid "Internal"
+msgstr "Internal"
+
+# label_my_page
+msgid "My page"
+msgstr "Pagina mea"
+
+# permission_select_project_modules
+msgid "Select project modules"
+msgstr "Select project modules"
+
+# permission_manage_documents
+msgid "Manage documents"
+msgstr "Manage documents"
+
+# label_result_plural
+msgid "Results"
+msgstr "Rezultate"
+
+# permission_edit_wiki_pages
+msgid "Edit wiki pages"
+msgstr "Edit wiki pages"
+
+# field_filesize
+msgid "Size"
+msgstr "Marimea fisierului"
+
+# label_last_changes
+msgid "last %d changes"
+msgstr "ultimele %d modificari"
+
+# error_scm_not_found
+msgid "\"The entry or revision was not found in the repository.\""
+msgstr "\"Articolul sau reviziunea nu exista in stoc (Repository).\""
+
+# general_fmt_age_plural
+msgid "%d yrs"
+msgstr "%d ani"
+
+# permission_add_issue_watchers
+msgid "Add watchers"
+msgstr "Add watchers"
+
+# label_month
+msgid "Month"
+msgstr "Luna"
+
+# label_details
+msgid "Details"
+msgstr "Detalii"
+
+# text_assign_time_entries_to_project
+msgid "Assign reported hours to the project"
+msgstr "Assign reported hours to the project"
+
+# button_view
+msgid "View"
+msgstr "Vizualizare"
+
+# button_save
+msgid "Save"
+msgstr "Salveaza"
+
+# label_no_change_option
+msgid "(No change)"
+msgstr "(No change)"
+
+# permission_view_gantt
+msgid "View gantt chart"
+msgstr "View gantt chart"
+
+# notice_not_authorized
+msgid "You are not authorized to access this page."
+msgstr "Nu aveti autorizatia sa accesati aceasta pagina."
+
+# project_module_files
+msgid "Files"
+msgstr "Files"
+
+# button_cancel
+msgid "Cancel"
+msgstr "Anulare"
+
+# label_news
+msgid "News"
+msgstr "Stiri"
+
+# label_module_plural
+msgid "Modules"
+msgstr "Module"
+
+# label_start_to_end
+msgid "start to end"
+msgstr "de la sfarsit la capat"
+
+# label_associated_revisions
+msgid "Associated revisions"
+msgstr "Associated revisions"
+
+# label_date_range
+msgid "Date range"
+msgstr "Date range"
+
+# label_version
+msgid "Version"
+msgstr "Versiune"
+
+# gui_validation_error_plural
+msgid "%d errors"
+msgstr "%d erori"
+
+# permission_move_issues
+msgid "Move issues"
+msgstr "Move issues"
+
+# notice_account_register_done
+msgid "Account was successfully created. To activate your account, click on the link that was emailed to you."
+msgstr "Contul a fost creat cu succes. Pentru activarea contului folositi linkul primit in e-mailul de confirmare."
+
+# label_bulk_edit_selected_issues
+msgid "Bulk edit selected issues"
+msgstr "Bulk edit selected issues"
+
+# label_information
+msgid "Information"
+msgstr "Informatie"
+
+# text_enumeration_category_reassign_to
+msgid "'Reassign them to this value:'"
+msgstr "'Reassign them to this value:'"
+
+# setting_attachment_max_size
+msgid "Attachment max. size"
+msgstr "Lungimea maxima al attachmentului"
+
+# default_issue_status_closed
+msgid "Closed"
+msgstr "Closed"
+
+# label_f_hour_plural
+msgid "%.2f hours"
+msgstr "%.2f ore"
+
+# field_is_closed
+msgid "Issue closed"
+msgstr "Tichet rezolvat"
+
+# notice_account_unknown_email
+msgid "Unknown user."
+msgstr "Utilizator inexistent."
+
+# field_title
+msgid "Title"
+msgstr "Titlu"
+
+# field_new_password
+msgid "New password"
+msgstr "Parola noua"
+
+# label_user_activity
+msgid "\"%s's activity\""
+msgstr "\"%s's activity\""
+
+# label_per_page
+msgid "Per page"
+msgstr "Per pagina"
+
+# notice_account_lost_email_sent
+msgid "An email with instructions to choose a new password has been sent to you."
+msgstr "Un e-mail cu instructiuni de a seta noua parola a fost trimisa."
+
+# permission_manage_issue_relations
+msgid "Manage issue relations"
+msgstr "Manage issue relations"
+
+# label_this_week
+msgid "this week"
+msgstr "saptamana curenta"
+
+# label_change_log
+msgid "Change log"
+msgstr "Change log"
+
+# field_assignable
+msgid "Issues can be assigned to this role"
+msgstr "La acest rol se poate atribui tichete"
+
+# label_settings
+msgid "Settings"
+msgstr "Setari"
+
+# label_end_to_start
+msgid "end to start"
+msgstr "de la sfarsit la capat"
+
+# label_options
+msgid "Options"
+msgstr "Optiuni"
+
+# label_index_by_title
+msgid "Index by title"
+msgstr "Index by title"
+
+# label_project_all
+msgid "All Projects"
+msgstr "Toate proiectele"
+
+# label_issue_view_all
+msgid "View all issues"
+msgstr "Vizualizare toate tichetele"
+
+# label_issue_category_plural
+msgid "Issue categories"
+msgstr "Categorii tichete"
+
+# label_please_login
+msgid "Please log in"
+msgstr "Va rugam sa va autentificati"
+
+# label_issue_watchers
+msgid "Watchers"
+msgstr "Watchers"
+
+# label_jump_to_a_project
+msgid "Jump to a project..."
+msgstr "Alege un proiect ..."
+
+# label_board_new
+msgid "New forum"
+msgstr "Forum nou"
+
+# label_contains
+msgid "contains"
+msgstr "contine"
+
+# label_sort_by
+msgid "Sort by %s"
+msgstr "Sortare dupa %s"
+
+# label_related_issues
+msgid "Related issues"
+msgstr "Tichete similare"
+
+# notice_account_activated
+msgid "Your account has been activated. You can now log in."
+msgstr "Contul a fost activat. Acum puteti intra in cont."
+
+# permission_delete_wiki_pages
+msgid "Delete wiki pages"
+msgstr "Delete wiki pages"
+
+# activerecord_error_too_long
+msgid "is too long"
+msgstr "este prea lung"
+
+# label_custom_field_plural
+msgid "Custom fields"
+msgstr "Campuri personalizate"
+
+# notice_unable_delete_version
+msgid "Unable to delete version."
+msgstr "Unable to delete version"
+
+# field_subject
+msgid "Subject"
+msgstr "Subiect"
+
+# field_attr_firstname
+msgid "Firstname attribute"
+msgstr "Atribut nume"
+
+# field_subproject
+msgid "Subproject"
+msgstr "Subproiect"
+
+# notice_can_t_change_password
+msgid "This account uses an external authentication source. Impossible to change the password."
+msgstr "Acest cont foloseste un sistem de autenticare externa. Parola nu poate fi schimbata."
+
+# activerecord_error_greater_than_start_date
+msgid "must be greater than start date"
+msgstr "trebuie sa fie mai mare ca data de start"
+
+# label_read
+msgid "Read..."
+msgstr "Citire..."
+
+# label_language_based
+msgid "Based on user's language"
+msgstr "Bazat pe limbaj"
+
+# label_gantt
+msgid "Gantt"
+msgstr "Gantt"
+
+# permission_manage_boards
+msgid "Manage boards"
+msgstr "Manage boards"
+
+# label_max_size
+msgid "Maximum size"
+msgstr "Marime maxima"
+
+# field_fixed_version
+msgid "Target version"
+msgstr "Target version"
+
+# activerecord_error_not_a_number
+msgid "is not a number"
+msgstr "nu este un numar"
+
+# setting_wiki_compression
+msgid "Wiki history compression"
+msgstr "Compresie istoric wiki"
+
+# text_are_you_sure
+msgid "Are you sure ?"
+msgstr "Sunteti sigur ?"
+
+# text_min_max_length_info
+msgid "0 means no restriction"
+msgstr "0 inseamna fara restrictii"
+
+# label_version_new
+msgid "New version"
+msgstr "Versiune noua"
+
+# label_help
+msgid "Help"
+msgstr "Ajutor"
+
+# label_auth_source_plural
+msgid "Authentication modes"
+msgstr "Moduri de autentificare"
+
+# default_issue_status_assigned
+msgid "Assigned"
+msgstr "Atribuit"
+
+# label_show_completed_versions
+msgid "Show completed versions"
+msgstr "Vizualizare verziuni completate"
+
+# setting_app_title
+msgid "Application title"
+msgstr "Titlul aplicatiei"
+
+# text_issues_destroy_confirmation
+msgid "'Are you sure you want to delete the selected issue(s) ?'"
+msgstr "'Are you sure you want to delete the selected issue(s) ?'"
+
+# field_downloads
+msgid "Downloads"
+msgstr "Download"
+
+# label_text
+msgid "Long text"
+msgstr "text lung"
+
+# field_admin
+msgid "Administrator"
+msgstr "Administrator"
+
+# field_category
+msgid "Category"
+msgstr "Categorie"
+
+# field_homepage
+msgid "Homepage"
+msgstr "Pagina principala"
+
+# notice_failed_to_save_issues
+msgid "\"Failed to save %d issue(s) on %d selected"
+msgstr "\"Failed to save %d issue(s) on %d selected"
+
+# label_registration_automatic_activation
+msgid "automatic account activation"
+msgstr "automatic account activation"
+
+# label_last_week
+msgid "last week"
+msgstr "last week"
+
+# setting_host_name
+msgid "Host name and path"
+msgstr "Numele hostului"
+
+# mail_body_reminder
+msgid "\"%d issue(s) that are assigned to you are due in the next %d days:\""
+msgstr "\"%d issue(s) that are assigned to you are due in the next %d days:\""
+
+# label_open_issues_plural
+msgid "open"
+msgstr "deschise"
+
+# label_ldap_authentication
+msgid "LDAP authentication"
+msgstr "LDAP authentication"
+
+# label_sort_highest
+msgid "Move to top"
+msgstr "Muta prima"
+
+# label_duplicated_by
+msgid "duplicated by"
+msgstr "duplicated by"
+
+# label_day_plural
+msgid "days"
+msgstr "zile"
+
+# field_done_ratio
+msgid "%% Done"
+msgstr "%% rezolvat"
+
+# general_lang_name
+msgid "'English'"
+msgstr "'Română'"
+
+# general_text_Yes
+msgid "'Yes'"
+msgstr "'Da'"
+
+# label_last_updates
+msgid "Last updated"
+msgstr "Ultima modificare"
+
+# permission_delete_wiki_pages_attachments
+msgid "Delete attachments"
+msgstr "Delete attachments"
+
+# permission_view_wiki_edits
+msgid "View wiki history"
+msgstr "View wiki history"
+
+# setting_protocol
+msgid "Protocol"
+msgstr "Protocol"
+
+# setting_display_subprojects_issues
+msgid "Display subprojects issues on main projects by default"
+msgstr "Display subprojects issues on main projects by default"
+
+# default_role_manager
+msgid "Manager"
+msgstr "Manager"
+
+# label_stay_logged_in
+msgid "Stay logged in"
+msgstr "Ramane autenticat"
+
+# label_filter_add
+msgid "Add filter"
+msgstr "Adauga filtru"
+
+# label_last_login
+msgid "Last connection"
+msgstr "Ultima conectare"
+
+# text_enumeration_destroy_question
+msgid "'%d objects are assigned to this value.'"
+msgstr "'%d objects are assigned to this value.'"
+
+# label_file_added
+msgid "File added"
+msgstr "File added"
+
+# label_wiki_edit
+msgid "Wiki edit"
+msgstr "Editare wiki"
+
+# label_latest_revision_plural
+msgid "Latest revisions"
+msgstr "Ultimele revizii"
+
+# label_document_added
+msgid "Document added"
+msgstr "Document added"
+
+# label_news_new
+msgid "Add news"
+msgstr "Adauga stiri"
+
+# field_is_in_roadmap
+msgid "Issues displayed in roadmap"
+msgstr "Tichetele sunt vizibile in roadmap"
+
+# label_tracker_plural
+msgid "Trackers"
+msgstr "Tipuri de tichete"
+
+# notice_account_pending
+msgid "\"Your account was created and is now pending administrator approval.\""
+msgstr "\"Your account was created and is now pending administrator approval.\""
+
+# default_doc_category_tech
+msgid "Technical documentation"
+msgstr "Documentatie tehnica"
+
+# text_issue_updated
+msgid "Issue %s has been updated by %s."
+msgstr "tichetul %s a fost modificat (by %s)."
+
+# notice_successful_create
+msgid "Successful creation."
+msgstr "Creat cu succes."
+
+# permission_add_messages
+msgid "Post messages"
+msgstr "Post messages"
+
+# error_scm_command_failed
+msgid "\"An error occurred when trying to access the repository"
+msgstr "\"An error occurred when trying to access the repository"
+
+# label_optional_description
+msgid "Optional description"
+msgstr "Optional description"
+
+# label_diff_inline
+msgid "inline"
+msgstr "inline"
+
+# field_notes
+msgid "Notes"
+msgstr "Note"
+
+# setting_default_projects_public
+msgid "New projects are public by default"
+msgstr "New projects are public by default"
+
+# setting_commit_fix_keywords
+msgid "Fixing keywords"
+msgstr "Cuvinte cheie de rezolvare"
+
+# notice_locking_conflict
+msgid "Data has been updated by another user."
+msgstr "Informatiile au fost modificate de un alt utilizator."
+
+# button_archive
+msgid "Archive"
+msgstr "Arhivare"
+
+# label_modification
+msgid "%d change"
+msgstr "%d modificare"
+
+# setting_autologin
+msgid "Autologin"
+msgstr "Autentificare automata"
+
+# button_move
+msgid "Move"
+msgstr "Mutare"
+
+# label_more
+msgid "More"
+msgstr "More"
+
+# field_account
+msgid "Account"
+msgstr "Cont"
+
+# setting_user_format
+msgid "Users display format"
+msgstr "Users display format"
+
+# notice_successful_update
+msgid "Successful update."
+msgstr "Modificare cu succes."
+
+# field_default_value
+msgid "Default value"
+msgstr "Default value"
+
+# button_log_time
+msgid "Log time"
+msgstr "Log time"
+
+# label_message_posted
+msgid "Message added"
+msgstr "Message added"
+
+# setting_date_format
+msgid "Date format"
+msgstr "Formatul datelor"
+
+# permission_view_messages
+msgid "View messages"
+msgstr "View messages"
+
+# setting_issue_list_default_columns
+msgid "Default columns displayed on the issue list"
+msgstr "Default columns displayed on the issue list"
+
+# field_description
+msgid "Description"
+msgstr "Descriere"
+
+# label_custom_field_new
+msgid "New custom field"
+msgstr "Camp personalizat nou"
+
+# label_enumerations
+msgid "Enumerations"
+msgstr "Enumeratii"
+
+# default_activity_design
+msgid "Design"
+msgstr "Design"
+
+# label_registration_manual_activation
+msgid "manual account activation"
+msgstr "manual account activation"
+
+# label_wiki_edit_plural
+msgid "Wiki edits"
+msgstr "Editari wiki"
+
+# label_all_words
+msgid "All words"
+msgstr "Toate cuvintele"
+
+# label_yesterday
+msgid "yesterday"
+msgstr "yesterday"
+
+# label_comment_delete
+msgid "Delete comments"
+msgstr "Stergere comentarii"
+
+# field_activity
+msgid "Activity"
+msgstr "Activitate"
+
+# text_user_mail_option
+msgid "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
+msgstr "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
+
+# button_create_and_continue
+msgid "Create and continue"
+msgstr "Create and continue"
+
+# label_revision_plural
+msgid "Revisions"
+msgstr "Revizii"
+
+# general_day_names
+msgid "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
+msgstr "Luni,Marti,Miercuri,Joi,Vineri,Sambata,Duminica"
+
+# permission_manage_files
+msgid "Manage files"
+msgstr "Manage files"
+
+# field_port
+msgid "Port"
+msgstr "Port"
+
+# activerecord_error_confirmation
+msgid "doesn't match confirmation"
+msgstr "nu corespunde confirmarii"
+
+# field_searchable
+msgid "Searchable"
+msgstr "Searchable"
+
+# label_updated_time_by
+msgid "Updated by %s %s ago"
+msgstr "Updated by %s %s ago"
+
+# label_year
+msgid "Year"
+msgstr "An"
+
+# label_end_to_end
+msgid "end to end"
+msgstr "de la sfarsit la sfarsit"
+
+# label_precedes
+msgid "precedes"
+msgstr "precedes"
+
+# label_equals
+msgid "is"
+msgstr "egal cu"
+
+# permission_edit_issue_notes
+msgid "Edit notes"
+msgstr "Edit notes"
+
+# field_delay
+msgid "Delay"
+msgstr "Intarziere"
+
+# button_unwatch
+msgid "Unwatch"
+msgstr "Terminare urmarire"
+
+# label_roadmap_due_in
+msgid "Due in %s"
+msgstr "Rezolvat in %s"
+
+# label_last_month
+msgid "last month"
+msgstr "last month"
+
+# setting_time_format
+msgid "Time format"
+msgstr "Time format"
+
+# permission_manage_news
+msgid "Manage news"
+msgstr "Manage news"
+
+# text_destroy_time_entries
+msgid "Delete reported hours"
+msgstr "Delete reported hours"
+
+# label_relates_to
+msgid "related to"
+msgstr "relatat la"
+
+# field_login
+msgid "Login"
+msgstr "Autentificare"
+
+# mail_subject_lost_password
+msgid "Your %s password"
+msgstr "Your %s password"
+
+# button_update
+msgid "Update"
+msgstr "Update"
+
+# label_age
+msgid "Age"
+msgstr "Age"
+
+# notice_feeds_access_key_reseted
+msgid "Your RSS access key was reset."
+msgstr "Parola de acces RSS a fost resetat."
+
+# setting_sys_api_enabled
+msgid "Enable WS for repository management"
+msgstr "Setare WS pentru managementul stocului (repository)"
+
+# field_redirect_existing_links
+msgid "Redirect existing links"
+msgstr "Redirectare linkuri existente"
+
+# label_no_data
+msgid "No data to display"
+msgstr "Nu exista date de vizualizat"
+
+# gui_validation_error
+msgid "1 error"
+msgstr "1 eroare"
+
+# text_default_administrator_account_changed
+msgid "Default administrator account changed"
+msgstr "Default administrator account changed"
+
+# status_locked
+msgid "locked"
+msgstr "inchis"
+
+# button_reply
+msgid "Reply"
+msgstr "Raspuns"
+
+# label_calendar
+msgid "Calendar"
+msgstr "Calendar"
+
+# field_attr_login
+msgid "Login attribute"
+msgstr "Atribut autentificare"
+
+# activerecord_error_too_short
+msgid "is too short"
+msgstr "este prea scurt"
+
+# setting_self_registration
+msgid "Self-registration"
+msgstr "Inregistrarea utilizatorilor pe cont propriu este permisa"
+
+# permission_view_calendar
+msgid "View calender"
+msgstr "View calendrier"
+
+# enumeration_doc_categories
+msgid "Document categories"
+msgstr "Categorii documente"
+
+# default_tracker_support
+msgid "Support"
+msgstr "Suport"
+
+# label_wiki_page
+msgid "Wiki page"
+msgstr "Pagina wiki"
+
+# setting_gravatar_enabled
+msgid "Use Gravatar user icons"
+msgstr "Use Gravatar user icons"
+
+# permission_manage_members
+msgid "Manage members"
+msgstr "Manage members"
+
+# text_journal_changed
+msgid "changed from %s to %s"
+msgstr "modificat de la %s la %s"
+
+# label_wiki_page_plural
+msgid "Wiki pages"
+msgstr "Pagini wiki"
+
+# setting_bcc_recipients
+msgid "Blind carbon copy recipients (bcc)"
+msgstr "Blind carbon copy recipients (bcc)"
+
+# label_used_by
+msgid "Used by"
+msgstr "Folosit de"
+
+# text_diff_truncated
+msgid "'... This diff was truncated because it exceeds the maximum size that can be displayed.'"
+msgstr "'... This diff was truncated because it exceeds the maximum size that can be displayed.'"
+
+# label_commits_per_author
+msgid "Commits per author"
+msgstr "Rezolvari"
+
+# activerecord_error_blank
+msgid "can't be blank"
+msgstr "nu poate fi gol"
+
+# label_project_plural
+msgid "Projects"
+msgstr "Proiecte"
+
+# field_comments_sorting
+msgid "Display comments"
+msgstr "Display comments"
+
+# field_comments
+msgid "Comment"
+msgstr "Comentariu"
+
+# text_user_wrote
+msgid "'%s wrote:'"
+msgstr "'%s wrote:'"
+
+# text_plugin_assets_writable
+msgid "Plugin assets directory writable"
+msgstr "Plugin assets directory writable"
+
+# text_select_project_modules
+msgid "'Select modules to enable for this project:'"
+msgstr "'Select modules to enable for this project:'"
+
+# text_journal_set_to
+msgid "set to %s"
+msgstr "setat la %s"
+
+# label_copy_workflow_from
+msgid "Copy workflow from"
+msgstr "Copiaza workflow de la"
+
+# label_modification_plural
+msgid "%d changes"
+msgstr "%d modificari"
+
+# field_possible_values
+msgid "Possible values"
+msgstr "Valori posibile"
+
+# setting_login_required
+msgid "Authentication required"
+msgstr "Autentificare obligatorie"
+
+# setting_mail_handler_api_enabled
+msgid "Enable WS for incoming emails"
+msgstr "Enable WS for incoming emails"
+
+# field_is_in_chlog
+msgid "Issues displayed in changelog"
+msgstr "Tichetele sunt vizibile in changelog"
+
+# label_issue_new
+msgid "New issue"
+msgstr "Tichet nou"
+
+# button_sort
+msgid "Sort"
+msgstr "Sortare"
+
+# permission_edit_messages
+msgid "Edit messages"
+msgstr "Edit messages"
+
+# setting_issues_export_limit
+msgid "Issues export limit"
+msgstr "Limita de exportare a tichetelor"
+
+# text_select_mail_notifications
+msgid "Select actions for which email notifications should be sent."
+msgstr "Selectare actiuni pentru care se va trimite notificari prin e-mail."
+
+# label_and_its_subprojects
+msgid "%s and its subprojects"
+msgstr "%s and its subprojects"
+
+# permission_delete_issues
+msgid "Delete issues"
+msgstr "Delete issues"
+
+# field_hide_mail
+msgid "Hide my email address"
+msgstr "Ascunde adresa de e-mail"
+
+# text_reassign_time_entries
+msgid "'Reassign reported hours to this issue:'"
+msgstr "'Reassign reported hours to this issue:'"
+
+# text_issue_category_reassign_to
+msgid "Reassign issues to this category"
+msgstr "Reassing issues to this category"
+
+# notice_email_error
+msgid "An error occurred while sending mail (%s)"
+msgstr "Eroare in trimiterea e-mailului (%s)"
+
+# label_member_new
+msgid "New member"
+msgstr "Membru nou"
+
+# default_priority_immediate
+msgid "Immediate"
+msgstr "Imediata"
+
+# label_reverse_chronological_order
+msgid "In reverse chronological order"
+msgstr "In reverse chronological order"
+
+# label_ago
+msgid "days ago"
+msgstr "in ultimele zile"
+
+# permission_view_issue_watchers
+msgid "View watchers list"
+msgstr "View watchers list"
+
+# permission_manage_repository
+msgid "Manage repository"
+msgstr "Manage repository"
+
+# label_all
+msgid "all"
+msgstr "toate"
+
+# label_boolean
+msgid "Boolean"
+msgstr "Variabila logica"
+
+# default_tracker_bug
+msgid "Bug"
+msgstr "Defect"
+
+# text_issue_added
+msgid "Issue %s has been reported by %s."
+msgstr "Tichetul %s a fost raportat (by %s)."
+
+# label_on
+msgid "'on'"
+msgstr "'din'"
+
+# label_scm
+msgid "SCM"
+msgstr "SCM"
+
+# label_general
+msgid "General"
+msgstr "General"
+
+# activerecord_error_empty
+msgid "can't be empty"
+msgstr "nu poate fi gol"
+
+# field_filename
+msgid "File"
+msgstr "Fisier"
+
+# label_comment_add
+msgid "Add a comment"
+msgstr "Adauga un comentariu"
+
+# label_comment_added
+msgid "Comment added"
+msgstr "Comentariu adaugat"
+
+# mail_subject_reminder
+msgid "\"%d issue(s) due in the next days\""
+msgstr "\"%d issue(s) due in the next days\""
+
+# label_issue_category
+msgid "Issue category"
+msgstr "Categorie tichet"
+
+# permission_commit_access
+msgid "Commit access"
+msgstr "Commit access"
+
+# label_workflow
+msgid "Workflow"
+msgstr "Workflow"
+
+# label_report_plural
+msgid "Reports"
+msgstr "Rapoarte"
+
+# label_assigned_to_me_issues
+msgid "Issues assigned to me"
+msgstr "Tichete atribuite pentru mine"
+
+# label_query_new
+msgid "New query"
+msgstr "Raport nou"
+
+# field_max_length
+msgid "Maximum length"
+msgstr "Lungime maxima"
+
+# setting_mail_handler_api_key
+msgid "API key"
+msgstr "API key"
+
+# text_issue_category_destroy_assignments
+msgid "Remove category assignments"
+msgstr "Remove category assignments"
+
+# button_test
+msgid "Test"
+msgstr "Test"
+
+# label_user_mail_option_selected
+msgid "\"For any event on the selected projects only...\""
+msgstr "\"For any event on the selected projects only...\""
+
+# label_start_to_start
+msgid "start to start"
+msgstr "de la capat la capat"
+
+# label_watched_issues
+msgid "Watched issues"
+msgstr "Tichete urmarite"
+
+# label_spent_time
+msgid "Spent time"
+msgstr "Timp consumat"
+
+# label_register
+msgid "Register"
+msgstr "Inregistrare"
+
+# label_none
+msgid "none"
+msgstr "n/a"
+
+# error_scm_annotate
+msgid "\"The entry does not exist or can not be annotated.\""
+msgstr "\"The entry does not exist or can not be annotated.\""
+
+# setting_text_formatting
+msgid "Text formatting"
+msgstr "Formatarea textului"
+
+# default_priority_high
+msgid "High"
+msgstr "Ridicata"
+
+# default_tracker_feature
+msgid "Feature"
+msgstr "Functionalitate"
+
+# label_search_titles_only
+msgid "Search titles only"
+msgstr "Search titles only"
+
+# label_message_plural
+msgid "Messages"
+msgstr "Mesaje"
+
+# general_fmt_time
+msgid "%%I:%%M %%p"
+msgstr "%%I:%%M %%p"
+
+# text_tip_task_begin_day
+msgid "task beginning this day"
+msgstr "activitate care incepe azi"
+
+# label_reply_plural
+msgid "Replies"
+msgstr "Raspunsuri"
+
+# label_roadmap
+msgid "Roadmap"
+msgstr "Harta activitatiilor"
+
+# permission_browse_repository
+msgid "Browse repository"
+msgstr "Browse repository"
+
+# label_change_view_all
+msgid "View all changes"
+msgstr "Vizualizare toate modificarile"
+
+# field_priority
+msgid "Priority"
+msgstr "Prioritate"
+
+# label_logout
+msgid "Sign out"
+msgstr "Iesire din cont"
+
+# notice_email_sent
+msgid "An email was sent to %s"
+msgstr "Un e-mail a fost trimis la adresa %s"
+
+# permission_view_documents
+msgid "View documents"
+msgstr "View documents"
+
+# label_auth_source
+msgid "Authentication mode"
+msgstr "Modul de autentificare"
+
+# button_annotate
+msgid "Annotate"
+msgstr "Annotate"
+
+# label_change_properties
+msgid "Change properties"
+msgstr "Change properties"
+
+# label_next
+msgid "Next"
+msgstr "Urmator"
+
+# label_commits_per_month
+msgid "Commits per month"
+msgstr "Rezolvari lunare"
+
+# permission_edit_project
+msgid "Edit project"
+msgstr "Edit project"
+
+# permission_add_issue_notes
+msgid "Add notes"
+msgstr "Add notes"
+
+# permission_save_queries
+msgid "Save queries"
+msgstr "Save queries"
+
+# label_project_latest
+msgid "Latest projects"
+msgstr "Ultimele proiecte"
+
+# text_no_configuration_data
+msgid "\"Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded.\""
+msgstr "\"Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded.\""
+
+# label_copied
+msgid "copied"
+msgstr "copied"
+
+# field_type
+msgid "Type"
+msgstr "Tip"
+
+# label_change_status
+msgid "Change status"
+msgstr "Schimbare statut"
+
+# text_wiki_destroy_confirmation
+msgid "Are you sure you want to delete this wiki and all its content ?"
+msgstr "Sunteti sigur ca vreti sa stergeti acest wiki si continutul ei ?"
+
+# label_preferences
+msgid "Preferences"
+msgstr "Preferences"
+
+# label_send_test_email
+msgid "Send a test email"
+msgstr "trimite un e-mail de test"
+
+# field_identifier
+msgid "Identifier"
+msgstr "Identificator"
+
+# label_closed_issues
+msgid "closed"
+msgstr "rezolvat"
+
+# label_preview
+msgid "Preview"
+msgstr "Pre-vizualizare"
+
+# label_search
+msgid "Search"
+msgstr "Cauta"
+
+# label_browse
+msgid "Browse"
+msgstr "Navigare"
+
+# label_password_lost
+msgid "Lost password"
+msgstr "Parola pierduta"
+
+# label_project_new
+msgid "New project"
+msgstr "Proiect nou"
+
+# label_issue_category_new
+msgid "New category"
+msgstr "Categorie noua"
+
+# label_news_added
+msgid "News added"
+msgstr "News added"
+
+# field_issue_to_id
+msgid "Related issue"
+msgstr "Articole similare"
+
+# default_priority_low
+msgid "Low"
+msgstr "Redusa"
+
+# label_plugins
+msgid "Plugins"
+msgstr "Plugins"
+
+# general_fmt_datetime
+msgid "%%m/%%d/%%Y %%I:%%M %%p"
+msgstr "%%m/%%d/%%Y %%I:%%M %%p"
+
+# label_custom_field
+msgid "Custom field"
+msgstr "Camp personalizat"
+
+# label_news_view_all
+msgid "View all news"
+msgstr "Vizualizare stiri"
+
+# label_home
+msgid "Home"
+msgstr "Prima pagina"
+
+# label_download
+msgid "%d Download"
+msgstr "%d Download"
+
+# field_password
+msgid "Password"
+msgstr "Parola"
+
+# label_reported_issues
+msgid "Reported issues"
+msgstr "Tichete raportate"
+
+# button_download
+msgid "Download"
+msgstr "Download"
+
+# label_today
+msgid "today"
+msgstr "azi"
+
+# field_is_for_all
+msgid "For all projects"
+msgstr "Pentru toate proiectele"
+
+# label_document_new
+msgid "New document"
+msgstr "Document nou"
+
+# label_issue_plural
+msgid "Issues"
+msgstr "Tichete"
+
+# label_query
+msgid "Custom query"
+msgstr "Raport personalizat"
+
+# label_issue_status
+msgid "Issue status"
+msgstr "Statut tichet"
+
+# permission_view_wiki_pages
+msgid "View wiki"
+msgstr "View wiki"
+
+# default_role_developper
+msgid "Developer"
+msgstr "Programator"
+
+# label_updated_time
+msgid "Updated %s ago"
+msgstr "Modificat %s mai devreme"
+
+# label_modified
+msgid "modified"
+msgstr "modificat"
+
+# label_overall_activity
+msgid "Overall activity"
+msgstr "Overall activity"
+
+# setting_commit_ref_keywords
+msgid "Referencing keywords"
+msgstr "Cuvinte cheie de referinta"
+
+# text_load_default_configuration
+msgid "Load the default configuration"
+msgstr "Load the default configuration"
+
+# label_added_time_by
+msgid "Added by %s %s ago"
+msgstr "Adaugat de %s %s mai devreme"
+
+# label_me
+msgid "me"
+msgstr "mine"
+
+# mail_body_account_information
+msgid "Your account information"
+msgstr "Your account information"
+
+# label_string
+msgid "Text"
+msgstr "Text"
+
+# general_csv_separator
+msgid "','"
+msgstr "','"
+
+# label_administration
+msgid "Administration"
+msgstr "Administrare"
+
+# text_repository_usernames_mapping
+msgid "\"Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped.\""
+msgstr "\"Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped.\""
+
+# text_subprojects_destroy_warning
+msgid "'Its subproject(s)"
+msgstr "'Its subproject(s)"
+
+# button_back
+msgid "Back"
+msgstr "Inapoi"
+
+# label_changeset_plural
+msgid "Changesets"
+msgstr "Changesets"
+
+# label_week
+msgid "Week"
+msgstr "Saptamana"
+
+# label_applied_status
+msgid "Applied status"
+msgstr "Statut aplicat"
+
+# label_example
+msgid "Example"
+msgstr "Example"
+
+# setting_commit_logs_encoding
+msgid "Commit messages encoding"
+msgstr "Commit messages encoding"
+
+# button_edit
+msgid "Edit"
+msgstr "Editare"
+
+# label_blocked_by
+msgid "blocked by"
+msgstr "blocat de"
+
+# label_in_more_than
+msgid "in more than"
+msgstr "este mai mult ca"
+
+# setting_repositories_encodings
+msgid "Repositories encodings"
+msgstr "Repositories encodings"
+
+# label_current_version
+msgid "Current version"
+msgstr "Versiunea curenta"
+
+# label_repository_plural
+msgid "Repositories"
+msgstr "Repositories"
+
+# field_is_public
+msgid "Public"
+msgstr "Public"
+
+# label_attachment_new
+msgid "New file"
+msgstr "Fisier nou"
+
+# permission_rename_wiki_pages
+msgid "Rename wiki pages"
+msgstr "Rename wiki pages"
+
+# label_new_statuses_allowed
+msgid "New statuses allowed"
+msgstr "Drepturi de a schimba statutul in"
+
+# setting_feeds_limit
+msgid "Feed content limit"
+msgstr "Limita continut feed"
+
+# label_statistics
+msgid "Statistics"
+msgstr "Statistici"
+
+# field_is_required
+msgid "Required"
+msgstr "Obligatoriu"
+
+# error_can_t_load_default_data
+msgid "\"Default configuration could not be loaded"
+msgstr "\"Default configuration could not be loaded"
+
+# button_reset
+msgid "Reset"
+msgstr "Reset"
+
+# setting_diff_max_lines_displayed
+msgid "Max number of diff lines displayed"
+msgstr "Max number of diff lines displayed"
+
+# field_estimated_hours
+msgid "Estimated time"
+msgstr "Timpul estimat"
+
+# text_rmagick_available
+msgid "RMagick available (optional)"
+msgstr "RMagick available (optional)"
+
+# button_activate
+msgid "Activate"
+msgstr "Activare"
+
+# label_user_mail_option_all
+msgid "\"For any event on all my projects\""
+msgstr "\"For any event on all my projects\""
+
+# field_column_names
+msgid "Columns"
+msgstr "Columns"
+
+# label_subproject_plural
+msgid "Subprojects"
+msgstr "Subproiecte"
+
+# default_doc_category_user
+msgid "User documentation"
+msgstr "Documentatie"
+
+# label_user_mail_option_none
+msgid "\"Only for things I watch or I'm involved in\""
+msgstr "\"Only for things I watch or I'm involved in\""
+
+# label_topic_plural
+msgid "Topics"
+msgstr "Subiecte"
+
+# label_news_latest
+msgid "Latest news"
+msgstr "Ultimele noutati"
+
+# label_role_and_permissions
+msgid "Roles and permissions"
+msgstr "Roluri si permisiuni"
+
+# text_status_changed_by_changeset
+msgid "Applied in changeset %s."
+msgstr "Applied in changeset %s."
+
+# label_diff_side_by_side
+msgid "side by side"
+msgstr "side by side"
+
+# permission_edit_time_entries
+msgid "Edit time logs"
+msgstr "Edit time logs"
+
+# permission_edit_own_issue_notes
+msgid "Edit own notes"
+msgstr "Edit own notes"
+
+# general_csv_decimal_separator
+msgid "'.'"
+msgstr "'.'"
+
+# label_authentication
+msgid "Authentication"
+msgstr "Autentificare"
+
+# label_issues_by
+msgid "Issues by %s"
+msgstr "Issues by %s"
+

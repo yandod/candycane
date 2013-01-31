@@ -1,0 +1,2558 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+# No version information was available in the source files.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: candycane 0.72\n"
+"POT-Creation-Date: 2011-06-14 06:31+0900\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+
+# label_time_tracking
+msgid "Time tracking"
+msgstr "ติดตามการใช้เวลา"
+
+# label_comment_plural
+msgid "Comments"
+msgstr "ความเห็น"
+
+# label_role
+msgid "Role"
+msgstr "บทบาท"
+
+# label_auth_source_new
+msgid "New authentication mode"
+msgstr "สร้างวิธีการยืนยันตัวตนใหม่"
+
+# button_add
+msgid "Add"
+msgstr "เพิ่ม"
+
+# field_start_page
+msgid "Start page"
+msgstr "หน้าเริ่มต้น"
+
+# activerecord_error_circular_dependency
+msgid "This relation would create a circular dependency"
+msgstr "ความสัมพันธ์อ้างอิงเป็นวงกลม"
+
+# button_quote
+msgid "Quote"
+msgstr "Quote"
+
+# label_not_contains
+msgid "doesn't contain"
+msgstr "ไม่มี..."
+
+# field_mail
+msgid "Email"
+msgstr "อีเมล์"
+
+# label_personalize_page
+msgid "Personalize this page"
+msgstr "ปรับแต่งหน้านี้"
+
+# permission_view_files
+msgid "View files"
+msgstr "View files"
+
+# label_months_from
+msgid "months from"
+msgstr "เดือนจาก"
+
+# activerecord_error_invalid
+msgid "is invalid"
+msgstr "ไม่ถูกต้อง"
+
+# mail_body_account_information_external
+msgid "You can use your \"%s\" account to log in."
+msgstr "คุณสามารถใช้บัญชี \"%s\" เพื่อเข้าสู่ระบบ."
+
+# permission_edit_issues
+msgid "Edit issues"
+msgstr "Edit issues"
+
+# label_my_account
+msgid "My account"
+msgstr "บัญชีของฉัน"
+
+# label_environment
+msgid "Environment"
+msgstr "สภาพแวดล้อม"
+
+# field_value
+msgid "Value"
+msgstr "ค่า"
+
+# text_caracters_maximum
+msgid "%d characters maximum."
+msgstr "สูงสุด %d ตัวอักษร."
+
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "ต้องยาวอย่างน้อย %d ตัวอักษร."
+
+# label_my_projects
+msgid "My projects"
+msgstr "โครงการของฉัน"
+
+# label_issue_status_new
+msgid "New status"
+msgstr "สถานะใหม"
+
+# button_submit
+msgid "Submit"
+msgstr "จัดส่งข้อมูล"
+
+# label_attribute_plural
+msgid "Attributes"
+msgstr "คุณลักษณะ"
+
+# label_total
+msgid "Total"
+msgstr "จำนวนรวม"
+
+# text_issue_category_destroy_question
+msgid "Some issues (%d) are assigned to this category. What do you want to do ?"
+msgstr "บางปัญหา (%d) อยู่ในประเภทนี้. คุณต้องการทำอย่างไร ?"
+
+# button_create
+msgid "Create"
+msgstr "สร้าง"
+
+# label_downloads_abbr
+msgid "D/L"
+msgstr "D/L"
+
+# label_integer
+msgid "Integer"
+msgstr "จำนวนเต็ม"
+
+# activerecord_error_not_same_project
+msgid "doesn't belong to the same project"
+msgstr "ไม่ได้อยู่ในโครงการเดียวกัน"
+
+# field_assigned_to
+msgid "Assigned to"
+msgstr "มอบหมายให้"
+
+# field_is_filter
+msgid "Used as a filter"
+msgstr "ใช้เป็นตัวกรอง"
+
+# label_previous
+msgid "Previous"
+msgstr "ก่อนหน้า"
+
+# field_created_on
+msgid "Created"
+msgstr "สร้าง"
+
+# field_mail_notification
+msgid "Email notifications"
+msgstr "การแจ้งเตือนทางอีเมล์"
+
+# general_text_no
+msgid "'no'"
+msgstr "'ไม่'"
+
+# field_attr_mail
+msgid "Email attribute"
+msgstr "อีเมล์ attribute"
+
+# label_current_status
+msgid "Current status"
+msgstr "สถานะปัจจุบัน"
+
+# label_last_updates_plural
+msgid "%d last updated"
+msgstr "%d ปรับปรุงครั้งสุดท้าย"
+
+# permission_edit_own_time_entries
+msgid "Edit own time logs"
+msgstr "Edit own time logs"
+
+# label_public_projects
+msgid "Public projects"
+msgstr "โครงการสาธารณะ"
+
+# label_index_by_date
+msgid "Index by date"
+msgstr "เรียงตามวัน"
+
+# setting_default_language
+msgid "Default language"
+msgstr "ภาษาเริ่มต้น"
+
+# field_tracker
+msgid "Tracker"
+msgstr "การติดตาม"
+
+# field_author
+msgid "Author"
+msgstr "ผู้แต่ง"
+
+# setting_enabled_scm
+msgid "Enabled SCM"
+msgstr "Enabled SCM"
+
+# button_change_password
+msgid "Change password"
+msgstr "เปลี่ยนรหัสผ่าน"
+
+# label_roadmap_no_issues
+msgid "No issues for this version"
+msgstr "ไม่มีปัญหาสำหรับรุ่นนี้"
+
+# general_text_yes
+msgid "'yes'"
+msgstr "'ใช่'"
+
+# text_tip_task_begin_end_day
+msgid "task beginning and ending this day"
+msgstr "งานที่เริ่มและจบวันนี้"
+
+# label_chronological_order
+msgid "In chronological order"
+msgstr "เรียงจากเก่าไปใหม่"
+
+# activerecord_error_exclusion
+msgid "is reserved"
+msgstr "ถูกสงวนไว้"
+
+# permission_manage_public_queries
+msgid "Manage public queries"
+msgstr "Manage public queries"
+
+# default_activity_development
+msgid "Development"
+msgstr "พัฒนา"
+
+# text_tip_task_end_day
+msgid "task ending this day"
+msgstr "งานที่จบวันนี้"
+
+# button_rename
+msgid "Rename"
+msgstr "เปลี่ยนชื่อ"
+
+# label_feed_plural
+msgid "Feeds"
+msgstr "Feeds"
+
+# field_url
+msgid "URL"
+msgstr "URL"
+
+# label_relation_new
+msgid "New relation"
+msgstr "ความสัมพันธ์ใหม่"
+
+# label_added
+msgid "added"
+msgstr "ถูกเพิ่ม"
+
+# permission_add_issues
+msgid "Add issues"
+msgstr "Add issues"
+
+# label_float
+msgid "Float"
+msgstr "จำนวนจริง"
+
+# text_comma_separated
+msgid "Multiple values allowed (comma separated)."
+msgstr "ใส่ได้หลายค่า โดยคั่นด้วยลูกน้ำ( ,)."
+
+# label_add_another_file
+msgid "Add another file"
+msgstr "เพิ่มแฟ้มอื่นๆ"
+
+# label_feeds_access_key_created_on
+msgid "RSS access key created %s ago"
+msgstr "RSS access key สร้างเมื่อ %s ที่ผ่านมา"
+
+# label_issue_status_plural
+msgid "Issue statuses"
+msgstr "สถานะของปัญหา"
+
+# label_issue_added
+msgid "Issue added"
+msgstr "ปัญหาถูกเพิ่ม"
+
+# notice_account_updated
+msgid "Account was successfully updated."
+msgstr "บัญชีได้ถูกปรับปรุงแล้ว."
+
+# permission_edit_own_messages
+msgid "Edit own messages"
+msgstr "Edit own messages"
+
+# field_base_dn
+msgid "Base DN"
+msgstr "Base DN"
+
+# field_time_zone
+msgid "Time zone"
+msgstr "ย่านเวลา"
+
+# default_priority_normal
+msgid "Normal"
+msgstr "ปกติ"
+
+# button_configure
+msgid "Configure"
+msgstr "ปรับแต่ง"
+
+# label_incoming_emails
+msgid "Incoming emails"
+msgstr "Incoming emails"
+
+# label_sort_lower
+msgid "Move down"
+msgstr "ย้ายลง"
+
+# label_export_to
+msgid "'Also available in:'"
+msgstr "'รูปแบบอื่นๆ :'"
+
+# notice_successful_delete
+msgid "Successful deletion."
+msgstr "ลบเสร็จแล้ว."
+
+# notice_file_not_found
+msgid "The page you were trying to access doesn't exist or has been removed."
+msgstr "หน้าที่คุณต้องการดูไม่มีอยู่จริง หรือถูกลบไปแล้ว."
+
+# general_text_No
+msgid "'No'"
+msgstr "'ไม่'"
+
+# default_issue_status_feedback
+msgid "Feedback"
+msgstr "รอคำตอบ"
+
+# button_copy
+msgid "Copy"
+msgstr "คัดลอก"
+
+# label_this_month
+msgid "this month"
+msgstr "เดือนนี้"
+
+# label_role_plural
+msgid "Roles"
+msgstr "บทบาท"
+
+# label_permissions_report
+msgid "Permissions report"
+msgstr "รายงานสิทธิ"
+
+# general_fmt_age
+msgid "%d yr"
+msgstr "%d ปี"
+
+# label_add_note
+msgid "Add a note"
+msgstr "เพิ่มบันทึก"
+
+# label_message_new
+msgid "New message"
+msgstr "เขียนข้อความใหม่"
+
+# label_less_than_ago
+msgid "less than days ago"
+msgstr "น้อยกว่าหนึ่งวัน"
+
+# field_project
+msgid "Project"
+msgstr "โครงการ"
+
+# field_summary
+msgid "Summary"
+msgstr "สรุปย่อ"
+
+# notice_no_issue_selected
+msgid "\"No issue is selected! Please, check the issues you want to edit.\""
+msgstr "\"ไม่มีปัญหาที่ถูกเลือก! กรุณาเลือกปัญหาที่คุณต้องการแก้ไข.\""
+
+# label_document
+msgid "Document"
+msgstr "เอกสาร"
+
+# project_module_boards
+msgid "Boards"
+msgstr "กระดานข้อความ"
+
+# setting_emails_footer
+msgid "Emails footer"
+msgstr "คำลงท้ายอีเมล์"
+
+# activerecord_error_not_a_date
+msgid "is not a valid date"
+msgstr "ไม่ใช่วันที่ ที่ถูกต้อง"
+
+# label_role_new
+msgid "New role"
+msgstr "บทบาทใหม่"
+
+# label_date
+msgid "Date"
+msgstr "วันที่"
+
+# label_date_to
+msgid "To"
+msgstr "ถึง"
+
+# label_wiki
+msgid "Wiki"
+msgstr "Wiki"
+
+# label_report
+msgid "Report"
+msgstr "รายงาน"
+
+# permission_log_time
+msgid "Log spent time"
+msgstr "Log spent time"
+
+# button_apply
+msgid "Apply"
+msgstr "ประยุกต์ใช้"
+
+# button_check_all
+msgid "Check all"
+msgstr "เลือกทั้งหมด"
+
+# label_display_per_page
+msgid "'Per page"
+msgstr "'ต่อหน้า"
+
+# label_renamed
+msgid "renamed"
+msgstr "renamed"
+
+# label_in_less_than
+msgid "in less than"
+msgstr "น้อยกว่า"
+
+# setting_app_subtitle
+msgid "Application subtitle"
+msgstr "ชื่อโปรแกรมรอง"
+
+# general_csv_encoding
+msgid "ISO-8859-1"
+msgstr "Windows-874"
+
+# activerecord_error_accepted
+msgid "must be accepted"
+msgstr "ต้องยอมรับ"
+
+# general_fmt_date
+msgid "%%m/%%d/%%Y"
+msgstr "%%d/%%B/%%Y"
+
+# default_issue_status_rejected
+msgid "Rejected"
+msgstr "ยกเลิก"
+
+# button_rollback
+msgid "Rollback to this version"
+msgstr "ถอยกลับมาที่รุ่นนี้"
+
+# label_generate_key
+msgid "Generate a key"
+msgstr "Generate a key"
+
+# label_relation_delete
+msgid "Delete relation"
+msgstr "ลบความสัมพันธ์"
+
+# activerecord_error_inclusion
+msgid "is not included in the list"
+msgstr "ไม่อยู่ในรายการ"
+
+# setting_cross_project_issue_relations
+msgid "Allow cross-project issue relations"
+msgstr "อนุญาตให้ระบุปัญหาข้ามโครงการ"
+
+# permission_view_changesets
+msgid "View changesets"
+msgstr "View changesets"
+
+# label_download_plural
+msgid "%d Downloads"
+msgstr "%d ดาวน์โหลด"
+
+# text_project_identifier_info
+msgid "'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'"
+msgstr "'ภาษาอังกฤษตัวเล็ก(a-z), ตัวเลข(0-9) และขีด (-) เท่านั้น.<br />เมื่อจัดเก็บแล้ว, ชื่อเฉพาะไม่สามารถเปลี่ยนแปลงได้'"
+
+# label_sort_higher
+msgid "Move up"
+msgstr "ย้ายขึ้น"
+
+# field_parent
+msgid "Subproject of"
+msgstr "โครงการย่อยของ"
+
+# permission_delete_own_messages
+msgid "Delete own messages"
+msgstr "Delete own messages"
+
+# label_new
+msgid "New"
+msgstr "ใหม่"
+
+# field_regexp
+msgid "Regular expression"
+msgstr "Regular expression"
+
+# text_regexp_info
+msgid "eg. ^[A-Z0-9]+$"
+msgstr "ตัวอย่าง ^[A-Z0-9]+$"
+
+# button_unlock
+msgid "Unlock"
+msgstr "ยกเลิกการล็อค"
+
+# label_blocks
+msgid "blocks"
+msgstr "กีดกัน"
+
+# label_default_columns
+msgid "Default columns"
+msgstr "สดมภ์เริ่มต้น"
+
+# label_send_information
+msgid "Send account information to the user"
+msgstr "ส่งรายละเอียดของบัญชีให้ผู้ใช้"
+
+# label_issue_updated
+msgid "Issue updated"
+msgstr "ปัญหาถูกปรับปรุง"
+
+# notice_account_wrong_password
+msgid "Wrong password"
+msgstr "รหัสผ่านไม่ถูกต้อง"
+
+# label_document_plural
+msgid "Documents"
+msgstr "เอกสาร"
+
+# label_registration_activation_by_email
+msgid "account activation by email"
+msgstr "เปิดบัญชีผ่านอีเมล์"
+
+# label_more_than_ago
+msgid "more than days ago"
+msgstr "มากกว่าหนึ่งวัน"
+
+# permission_view_time_entries
+msgid "View spent time"
+msgstr "View spent time"
+
+# label_member
+msgid "Member"
+msgstr "สมาชิก"
+
+# label_user_mail_no_self_notified
+msgid "\"I don't want to be notified of changes that I make myself\""
+msgstr "\"ฉันไม่ต้องการได้รับการแจ้งเตือนในสิ่งที่ฉันทำเอง\""
+
+# label_loading
+msgid "Loading..."
+msgstr "กำลังโหลด..."
+
+# label_user_plural
+msgid "Users"
+msgstr "ผู้ใช้"
+
+# field_field_format
+msgid "Format"
+msgstr "รูปแบบ"
+
+# label_planning
+msgid "Planning"
+msgstr "การวางแผน"
+
+# button_lock
+msgid "Lock"
+msgstr "ล็อค"
+
+# label_f_hour
+msgid "%.2f hour"
+msgstr "%.2f ชั่วโมง"
+
+# label_filter_plural
+msgid "Filters"
+msgstr "ตัวกรอง"
+
+# notice_successful_connection
+msgid "Successful connection."
+msgstr "ติดต่อสำเร็จแล้ว."
+
+# default_issue_status_resolved
+msgid "Resolved"
+msgstr "ดำเนินการ"
+
+# label_change_plural
+msgid "Changes"
+msgstr "เปลี่ยนแปลง"
+
+# setting_sequential_project_identifiers
+msgid "Generate sequential project identifiers"
+msgstr "Generate sequential project identifiers"
+
+# setting_plain_text_mail
+msgid "plain text mail (no HTML)"
+msgstr "plain text only (no HTML)"
+
+# setting_activity_days_default
+msgid "Days displayed on project activity"
+msgstr "จำนวนวันที่แสดงในกิจกรรมของโครงการ"
+
+# project_module_issue_tracking
+msgid "Issue tracking"
+msgstr "การติดตามปัญหา"
+
+# field_host
+msgid "Host"
+msgstr "โฮสต์"
+
+# setting_per_page_options
+msgid "Objects per page options"
+msgstr "ตัวเลือกจำนวนต่อหน้า"
+
+# field_parent_title
+msgid "Parent page"
+msgstr "Parent page"
+
+# permission_manage_versions
+msgid "Manage versions"
+msgstr "Manage versions"
+
+# status_active
+msgid "active"
+msgstr "เปิดใช้งานแล้ว"
+
+# label_theme
+msgid "Theme"
+msgstr "ชุดรูปแบบ"
+
+# label_duplicates
+msgid "duplicates"
+msgstr "ซ้ำ"
+
+# permission_manage_wiki
+msgid "Manage wiki"
+msgstr "Manage wiki"
+
+# label_query_plural
+msgid "Custom queries"
+msgstr "แบบสอบถามแบบกำหนดเอง"
+
+# label_enumeration_new
+msgid "New value"
+msgstr "สร้างใหม่"
+
+# label_disabled
+msgid "disabled"
+msgstr "ไม่ใช้งาน"
+
+# label_version_plural
+msgid "Versions"
+msgstr "รุ่น"
+
+# enumeration_activities
+msgid "Activities (time tracking)"
+msgstr "กิจกรรม (ใช้ในการติดตามเวลา)"
+
+# label_date_from
+msgid "From"
+msgstr "จาก"
+
+# label_attribute
+msgid "Attribute"
+msgstr "คุณลักษณะ"
+
+# field_hours
+msgid "Hours"
+msgstr "ชั่วโมง"
+
+# setting_mail_from
+msgid "Emission email address"
+msgstr "อีเมล์ที่ใช้ส่ง"
+
+# mail_body_register
+msgid "'To activate your account, click on the following link:'"
+msgstr "'คลิ๊กที่ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่าน:'"
+
+# field_min_length
+msgid "Minimum length"
+msgstr "สั้นสุด"
+
+# label_latest_revision
+msgid "Latest revision"
+msgstr "รุ่นการแก้ไขล่าสุด"
+
+# setting_welcome_text
+msgid "Welcome text"
+msgstr "ข้อความต้อนรับ"
+
+# field_due_date
+msgid "Due date"
+msgstr "วันครบกำหนด"
+
+# notice_account_password_updated
+msgid "Password was successfully updated."
+msgstr "รหัสได้ถูกปรับปรุงแล้ว."
+
+# label_issue
+msgid "Issue"
+msgstr "ปัญหา"
+
+# button_delete
+msgid "Delete"
+msgstr "ลบ"
+
+# label_follows
+msgid "follows"
+msgstr "ตามหลัง"
+
+# label_revision
+msgid "Revision"
+msgstr "การแก้ไข"
+
+# field_name
+msgid "Name"
+msgstr "ชื่อ"
+
+# mail_subject_account_activation_request
+msgid "%s account activation request"
+msgstr "กรุณาเปิดบัญชี %s"
+
+# mail_body_account_activation_request
+msgid "'A new user (%s) has registered. The account is pending your approval:'"
+msgstr "'ผู้ใช้ใหม่ (%s) ได้ลงทะเบียน. บัญชีของเขากำลังรออนุมัติ:'"
+
+# label_user_new
+msgid "New user"
+msgstr "ผู้ใช้ใหม่"
+
+# text_tracker_no_workflow
+msgid "No workflow defined for this tracker"
+msgstr "ไม่ได้บัญญัติลำดับงานสำหรับการติดตามนี้"
+
+# button_unarchive
+msgid "Unarchive"
+msgstr "เอาออกจากโกดัง"
+
+# label_message_last
+msgid "Last message"
+msgstr "ข้อความล่าสุด"
+
+# label_deleted
+msgid "deleted"
+msgstr "ถูกลบ"
+
+# field_onthefly
+msgid "On-the-fly user creation"
+msgstr "สร้างผู้ใช้ทันที"
+
+# permission_manage_categories
+msgid "Manage issue categories"
+msgstr "Manage issue categories"
+
+# enumeration_issue_priorities
+msgid "Issue priorities"
+msgstr "ความสำคัญของปัญหา"
+
+# label_view_revisions
+msgid "View revisions"
+msgstr "ดูการแก้ไข"
+
+# permission_protect_wiki_pages
+msgid "Protect wiki pages"
+msgstr "Protect wiki pages"
+
+# field_language
+msgid "Language"
+msgstr "ภาษา"
+
+# text_issues_ref_in_commit_messages
+msgid "Referencing and fixing issues in commit messages"
+msgstr "Referencing and fixing issues in commit messages"
+
+# text_unallowed_characters
+msgid "Unallowed characters"
+msgstr "ตัวอักษรต้องห้าม"
+
+# label_last_n_days
+msgid "last %d days"
+msgstr "%d วันย้อนหลัง"
+
+# label_all_time
+msgid "all time"
+msgstr "ตลอดเวลา"
+
+# label_login
+msgid "Sign in"
+msgstr "เข้าระบบ"
+
+# field_status
+msgid "Status"
+msgstr "สถานะ"
+
+# label_nobody
+msgid "nobody"
+msgstr "ไม่มีใคร"
+
+# label_permissions
+msgid "Permissions"
+msgstr "สิทธิ"
+
+# field_attr_lastname
+msgid "Lastname attribute"
+msgstr "นามสกุล attribute"
+
+# label_overview
+msgid "Overview"
+msgstr "ภาพรวม"
+
+# label_board_plural
+msgid "Forums"
+msgstr "สภากาแฟ"
+
+# notice_default_data_loaded
+msgid "Default configuration successfully loaded."
+msgstr "ค่าเริ่มต้นโหลดเสร็จแล้ว."
+
+# mail_subject_register
+msgid "Your %s account activation"
+msgstr "เปิดบัญชี %s ของคุณ"
+
+# label_history
+msgid "History"
+msgstr "ประวัติ"
+
+# label_registered_on
+msgid "Registered on"
+msgstr "ลงทะเบียนเมื่อ"
+
+# text_destroy_time_entries_question
+msgid "%.02f hours were reported on the issues you are about to delete. What do you want to do ?"
+msgstr "%.02f ชั่วโมงที่ถูกแจ้งในปัญหานี้จะโดนลบ. คุณต้องการทำอย่างไร?"
+
+# label_default
+msgid "Default"
+msgstr "ค่าเริ่มต้น"
+
+# text_email_delivery_not_configured
+msgid "\"Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them.\""
+msgstr "\"Email delivery is not configured, and notifications are disabled.\nConfigure your SMTP server in config/email.yml and restart the application to enable them.\""
+
+# label_min_max_length
+msgid "Min - Max length"
+msgstr "สั้น-ยาว สุดที่"
+
+# general_fmt_datetime_short
+msgid "%%b %%d, %%I:%%M %%p"
+msgstr "%%d %%b, %%H:%%M"
+
+# label_list
+msgid "List"
+msgstr "รายการ"
+
+# label_changes_details
+msgid "Details of all changes"
+msgstr "รายละเอียดการเปลี่ยนแปลงทั้งหมด"
+
+# field_start_date
+msgid "Start"
+msgstr "เริ่ม"
+
+# field_password_confirmation
+msgid "Confirmation"
+msgstr "ยืนยันรหัสผ่าน"
+
+# label_logged_as
+msgid "Logged in as"
+msgstr "เข้าระบบในชื่อ"
+
+# error_issue_not_found_in_project
+msgid "'The issue was not found or does not belong to this project'"
+msgstr "'ไม่พบปัญหานี้ หรือปัญหาไม่ได้อยู่ในโครงการนี้'"
+
+# field_updated_on
+msgid "Updated"
+msgstr "ปรับปรุง"
+
+# label_roadmap_overdue
+msgid "%s late"
+msgstr "%s ช้ากว่ากำหนด"
+
+# label_user
+msgid "User"
+msgstr "ผู้ใช้"
+
+# default_priority_urgent
+msgid "Urgent"
+msgstr "เร่งด่วน"
+
+# text_file_repository_writable
+msgid "Attachments directory writable"
+msgstr "ที่เก็บต้นฉบับสามารถเขียนได้"
+
+# button_watch
+msgid "Watch"
+msgstr "เฝ้าดู"
+
+# button_uncheck_all
+msgid "Uncheck all"
+msgstr "ไม่เลือกทั้งหมด"
+
+# permission_comment_news
+msgid "Comment news"
+msgstr "Comment news"
+
+# notice_account_invalid_creditentials
+msgid "Invalid user or password"
+msgstr "ชื้ผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"
+
+# label_board
+msgid "Forum"
+msgstr "สภากาแฟ"
+
+# label_view_diff
+msgid "View differences"
+msgstr "ดูความแตกต่าง"
+
+# activerecord_error_taken
+msgid "has already been taken"
+msgstr "ถูกใช้ไปแล้ว"
+
+# label_sort_lowest
+msgid "Move to bottom"
+msgstr "ย้ายไปล่างสุด"
+
+# activerecord_error_wrong_length
+msgid "is the wrong length"
+msgstr "ความยาวไม่ถูกต้อง"
+
+# mail_body_lost_password
+msgid "'To change your password, click on the following link:'"
+msgstr "'คลิ๊กที่ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่าน:'"
+
+# label_attachment_delete
+msgid "Delete file"
+msgstr "ลบแฟ้ม"
+
+# text_workflow_edit
+msgid "Select a role and a tracker to edit the workflow"
+msgstr "เลือกบทบาทและการติดตาม เพื่อแก้ไขลำดับงาน"
+
+# text_project_destroy_confirmation
+msgid "Are you sure you want to delete this project and related data ?"
+msgstr "คุณแน่ใจไหมว่าต้องการลบโครงการและข้อมูลที่เกี่ยวข้่อง ?"
+
+# label_in
+msgid "in"
+msgstr "ในช่วง"
+
+# warning_attachments_not_saved
+msgid "\"%d file(s) could not be saved.\""
+msgstr "\"%d file(s) could not be saved.\""
+
+# label_tracker_new
+msgid "New tracker"
+msgstr "การติดตามใหม่"
+
+# field_firstname
+msgid "Firstname"
+msgstr "ชื่อ"
+
+# label_member_plural
+msgid "Members"
+msgstr "สมาชิก"
+
+# project_module_repository
+msgid "Repository"
+msgstr "ที่เก็บต้นฉบับ"
+
+# setting_autofetch_changesets
+msgid "Autofetch commits"
+msgstr "ดึง commits อัตโนมัติ"
+
+# permission_delete_messages
+msgid "Delete messages"
+msgstr "Delete messages"
+
+# text_length_between
+msgid "Length between %d and %d characters."
+msgstr "ความยาวระหว่าง %d ถึง %d ตัวอักษร."
+
+# status_registered
+msgid "registered"
+msgstr "รอการอนุมัติ"
+
+# label_not_equals
+msgid "is not"
+msgstr "ไม่ใช่"
+
+# default_role_reporter
+msgid "Reporter"
+msgstr "ผู้รายงาน"
+
+# button_change
+msgid "Change"
+msgstr "เปลี่ยนแปลง"
+
+# field_lastname
+msgid "Lastname"
+msgstr "นามสกุล"
+
+# button_clear
+msgid "Clear"
+msgstr "ล้างข้อความ"
+
+# label_this_year
+msgid "this year"
+msgstr "ปีนี้"
+
+# general_first_day_of_week
+msgid "'7'"
+msgstr "'1'"
+
+# label_internal
+msgid "Internal"
+msgstr "ภายใน"
+
+# label_my_page
+msgid "My page"
+msgstr "หน้าของฉัน"
+
+# permission_select_project_modules
+msgid "Select project modules"
+msgstr "Select project modules"
+
+# permission_manage_documents
+msgid "Manage documents"
+msgstr "Manage documents"
+
+# label_result_plural
+msgid "Results"
+msgstr "ผลการค้นหา"
+
+# permission_edit_wiki_pages
+msgid "Edit wiki pages"
+msgstr "Edit wiki pages"
+
+# field_filesize
+msgid "Size"
+msgstr "ขนาด"
+
+# label_last_changes
+msgid "last %d changes"
+msgstr "last %d เปลี่ยนแปลง"
+
+# error_scm_not_found
+msgid "\"The entry or revision was not found in the repository.\""
+msgstr "\"ไม่พบรุ่นที่ต้องการในแหล่งเก็บต้นฉบับ.\""
+
+# general_fmt_age_plural
+msgid "%d yrs"
+msgstr "%d ปี"
+
+# permission_add_issue_watchers
+msgid "Add watchers"
+msgstr "Add watchers"
+
+# label_month
+msgid "Month"
+msgstr "เดือน"
+
+# label_details
+msgid "Details"
+msgstr "รายละเอียด"
+
+# text_assign_time_entries_to_project
+msgid "Assign reported hours to the project"
+msgstr "ระบุเวลาที่ใช้ในโครงการนี้"
+
+# button_view
+msgid "View"
+msgstr "มุมมอง"
+
+# button_save
+msgid "Save"
+msgstr "จัดเก็บ"
+
+# label_no_change_option
+msgid "(No change)"
+msgstr "(ไม่เปลี่ยนแปลง)"
+
+# permission_view_gantt
+msgid "View gantt chart"
+msgstr "View gantt chart"
+
+# notice_not_authorized
+msgid "You are not authorized to access this page."
+msgstr "คุณไม่มีสิทธิเข้าถึงหน้านี้."
+
+# project_module_files
+msgid "Files"
+msgstr "แฟ้ม"
+
+# button_cancel
+msgid "Cancel"
+msgstr "ยกเลิก"
+
+# label_news
+msgid "News"
+msgstr "ข่าว"
+
+# label_module_plural
+msgid "Modules"
+msgstr "ส่วนประกอบ"
+
+# label_start_to_end
+msgid "start to end"
+msgstr "เริ่ม-จบ"
+
+# label_associated_revisions
+msgid "Associated revisions"
+msgstr "การแก้ไขที่เกี่ยวข้อง"
+
+# label_date_range
+msgid "Date range"
+msgstr "ช่วงวันที่"
+
+# label_version
+msgid "Version"
+msgstr "รุ่น"
+
+# gui_validation_error_plural
+msgid "%d errors"
+msgstr "%d ข้อผิดพลาด"
+
+# permission_move_issues
+msgid "Move issues"
+msgstr "Move issues"
+
+# notice_account_register_done
+msgid "Account was successfully created. To activate your account, click on the link that was emailed to you."
+msgstr "บัญชีถูกสร้างแล้ว. กรุณาเช็คเมล์ แล้วคลิ๊กที่ลิงค์ในอีเมล์เพื่อเปิดใช้บัญชี"
+
+# label_bulk_edit_selected_issues
+msgid "Bulk edit selected issues"
+msgstr "แก้ไขปัญหาที่เลือกทั้งหมด"
+
+# label_information
+msgid "Information"
+msgstr "ข้อมูล"
+
+# text_enumeration_category_reassign_to
+msgid "'Reassign them to this value:'"
+msgstr "'Reassign them to this value:'"
+
+# setting_attachment_max_size
+msgid "Attachment max. size"
+msgstr "ขนาดแฟ้มแนบสูงสุด"
+
+# default_issue_status_closed
+msgid "Closed"
+msgstr "จบ"
+
+# label_f_hour_plural
+msgid "%.2f hours"
+msgstr "%.2f ชั่วโมง"
+
+# field_is_closed
+msgid "Issue closed"
+msgstr "ปัญหาจบ"
+
+# notice_account_unknown_email
+msgid "Unknown user."
+msgstr "ไม่มีผู้ใช้ที่ใช้อีเมล์นี้."
+
+# field_title
+msgid "Title"
+msgstr "ชื่อเรื่อง"
+
+# field_new_password
+msgid "New password"
+msgstr "รหัสผ่านใหม่"
+
+# label_user_activity
+msgid "\"%s's activity\""
+msgstr "\"%s's activity\""
+
+# label_per_page
+msgid "Per page"
+msgstr "ต่อหน้า"
+
+# notice_account_lost_email_sent
+msgid "An email with instructions to choose a new password has been sent to you."
+msgstr "เราได้ส่งอีเมล์พร้อมวิธีการสร้างรหัีสผ่านใหม่ให้คุณแล้ว กรุณาเช็คเมล์."
+
+# permission_manage_issue_relations
+msgid "Manage issue relations"
+msgstr "Manage issue relations"
+
+# label_this_week
+msgid "this week"
+msgstr "อาทิตย์นี้"
+
+# label_change_log
+msgid "Change log"
+msgstr "บันทึกการเปลี่ยนแปลง"
+
+# field_assignable
+msgid "Issues can be assigned to this role"
+msgstr "ปัญหาสามารถมอบหมายให้คนที่ทำบทบาทนี้"
+
+# label_settings
+msgid "Settings"
+msgstr "ปรับแต่ง"
+
+# label_end_to_start
+msgid "end to start"
+msgstr "จบ-เริ่ม"
+
+# label_options
+msgid "Options"
+msgstr "ตัวเลือก"
+
+# label_index_by_title
+msgid "Index by title"
+msgstr "เรียงตามชื่อเรื่อง"
+
+# label_project_all
+msgid "All Projects"
+msgstr "โครงการทั้งหมด"
+
+# label_issue_view_all
+msgid "View all issues"
+msgstr "ดูปัญหาทั้งหมด"
+
+# label_issue_category_plural
+msgid "Issue categories"
+msgstr "ประเภทของปัญหา"
+
+# label_please_login
+msgid "Please log in"
+msgstr "กรุณาเข้าระบบก่อน"
+
+# label_issue_watchers
+msgid "Watchers"
+msgstr "Watchers"
+
+# label_jump_to_a_project
+msgid "Jump to a project..."
+msgstr "ไปที่โครงการ..."
+
+# label_board_new
+msgid "New forum"
+msgstr "สร้างสภากาแฟ"
+
+# label_contains
+msgid "contains"
+msgstr "มี..."
+
+# label_sort_by
+msgid "Sort by %s"
+msgstr "เรียงโดย %s"
+
+# label_related_issues
+msgid "Related issues"
+msgstr "ปัญหาที่เกี่ยวข้อง"
+
+# notice_account_activated
+msgid "Your account has been activated. You can now log in."
+msgstr "บัญชีของคุณได้เปิดใช้แล้ว. ตอนนี้คุณสามารถเข้าสู่ระบบได้แล้ว."
+
+# permission_delete_wiki_pages
+msgid "Delete wiki pages"
+msgstr "Delete wiki pages"
+
+# activerecord_error_too_long
+msgid "is too long"
+msgstr "ยาวเกินไป"
+
+# label_custom_field_plural
+msgid "Custom fields"
+msgstr "เขตข้อมูลแบบระบุเอง"
+
+# notice_unable_delete_version
+msgid "Unable to delete version."
+msgstr "Unable to delete version"
+
+# field_subject
+msgid "Subject"
+msgstr "เรื่อง"
+
+# field_attr_firstname
+msgid "Firstname attribute"
+msgstr "ชื่อ attribute"
+
+# field_subproject
+msgid "Subproject"
+msgstr "โครงการย่อย"
+
+# notice_can_t_change_password
+msgid "This account uses an external authentication source. Impossible to change the password."
+msgstr "บัญชีนี้ใช้การยืนยันตัวตนจากแหล่งภายนอก. ไม่สามารถปลี่ยนรหัสผ่านได้."
+
+# activerecord_error_greater_than_start_date
+msgid "must be greater than start date"
+msgstr "ต้องมากกว่าวันเริ่ม"
+
+# label_read
+msgid "Read..."
+msgstr "อ่าน..."
+
+# label_language_based
+msgid "Based on user's language"
+msgstr "ขึ้นอยู่กับภาษาของผู้ใช้"
+
+# label_gantt
+msgid "Gantt"
+msgstr "Gantt"
+
+# permission_manage_boards
+msgid "Manage boards"
+msgstr "Manage boards"
+
+# label_max_size
+msgid "Maximum size"
+msgstr "ขนาดใหญ่สุด"
+
+# field_fixed_version
+msgid "Target version"
+msgstr "รุ่น"
+
+# activerecord_error_not_a_number
+msgid "is not a number"
+msgstr "ไม่ใช่ตัวเลข"
+
+# setting_wiki_compression
+msgid "Wiki history compression"
+msgstr "บีบอัดประวัติ Wiki"
+
+# text_are_you_sure
+msgid "Are you sure ?"
+msgstr "คุณแน่ใจไหม ?"
+
+# text_min_max_length_info
+msgid "0 means no restriction"
+msgstr "0 หมายถึงไม่จำกัด"
+
+# label_version_new
+msgid "New version"
+msgstr "รุ่นใหม่"
+
+# label_help
+msgid "Help"
+msgstr "ช่วยเหลือ"
+
+# label_auth_source_plural
+msgid "Authentication modes"
+msgstr "วิธีการ Authentication"
+
+# default_issue_status_assigned
+msgid "Assigned"
+msgstr "รับมอบหมาย"
+
+# label_show_completed_versions
+msgid "Show completed versions"
+msgstr "แสดงรุ่นที่สมบูรณ์"
+
+# setting_app_title
+msgid "Application title"
+msgstr "ชื่อโปรแกรม"
+
+# text_issues_destroy_confirmation
+msgid "'Are you sure you want to delete the selected issue(s) ?'"
+msgstr "'คุณแน่ใจไหมว่าต้องการลบปัญหา(ทั้งหลาย)ที่เลือกไว้?'"
+
+# field_downloads
+msgid "Downloads"
+msgstr "ดาวน์โหลด"
+
+# label_text
+msgid "Long text"
+msgstr "ข้อความขนาดยาว"
+
+# field_admin
+msgid "Administrator"
+msgstr "ผู้บริหารจัดการ"
+
+# field_category
+msgid "Category"
+msgstr "ประเภท"
+
+# field_homepage
+msgid "Homepage"
+msgstr "หน้าแรก"
+
+# notice_failed_to_save_issues
+msgid "\"Failed to save %d issue(s) on %d selected"
+msgstr "\"%d ปัญหาจาก %d ปัญหาที่ถูกเลือกไม่สามารถจัดเก็บ"
+
+# label_registration_automatic_activation
+msgid "automatic account activation"
+msgstr "เปิดบัญชีอัตโนมัติ"
+
+# label_last_week
+msgid "last week"
+msgstr "อาทิตย์ที่แล้ว"
+
+# setting_host_name
+msgid "Host name and path"
+msgstr "ชื่อโฮสต์"
+
+# mail_body_reminder
+msgid "\"%d issue(s) that are assigned to you are due in the next %d days:\""
+msgstr "\"%d issue(s) that are assigned to you are due in the next %d days:\""
+
+# label_open_issues_plural
+msgid "open"
+msgstr "เปิด"
+
+# label_ldap_authentication
+msgid "LDAP authentication"
+msgstr "การยืนยันตัวตนโดยใช้ LDAP"
+
+# label_sort_highest
+msgid "Move to top"
+msgstr "ย้ายไปบนสุด"
+
+# label_duplicated_by
+msgid "duplicated by"
+msgstr "duplicated by"
+
+# label_day_plural
+msgid "days"
+msgstr "วัน"
+
+# field_done_ratio
+msgid "%% Done"
+msgstr "%% สำเร็จ"
+
+# general_lang_name
+msgid "'English'"
+msgstr "'Thai (ไทย)'"
+
+# general_text_Yes
+msgid "'Yes'"
+msgstr "'ใช่'"
+
+# label_last_updates
+msgid "Last updated"
+msgstr "ปรับปรุงครั้งสุดท้าย"
+
+# permission_delete_wiki_pages_attachments
+msgid "Delete attachments"
+msgstr "Delete attachments"
+
+# permission_view_wiki_edits
+msgid "View wiki history"
+msgstr "View wiki history"
+
+# setting_protocol
+msgid "Protocol"
+msgstr "Protocol"
+
+# setting_display_subprojects_issues
+msgid "Display subprojects issues on main projects by default"
+msgstr "แสดงปัญหาของโครงการย่อยในโครงการหลัก"
+
+# default_role_manager
+msgid "Manager"
+msgstr "ผู้จัดการ"
+
+# label_stay_logged_in
+msgid "Stay logged in"
+msgstr "อยู่ในระบบต่อ"
+
+# label_filter_add
+msgid "Add filter"
+msgstr "เพิ่มตัวกรอง"
+
+# label_last_login
+msgid "Last connection"
+msgstr "ติดต่อครั้งสุดท้าย"
+
+# text_enumeration_destroy_question
+msgid "'%d objects are assigned to this value.'"
+msgstr "'%d objects are assigned to this value.'"
+
+# label_file_added
+msgid "File added"
+msgstr "แฟ้มถูกเพิ่ม"
+
+# label_wiki_edit
+msgid "Wiki edit"
+msgstr "แก้ไข Wiki"
+
+# label_latest_revision_plural
+msgid "Latest revisions"
+msgstr "รุ่นการแก้ไขล่าสุด"
+
+# label_document_added
+msgid "Document added"
+msgstr "เอกสารถูกเพิ่ม"
+
+# label_news_new
+msgid "Add news"
+msgstr "เพิ่มข่าว"
+
+# field_is_in_roadmap
+msgid "Issues displayed in roadmap"
+msgstr "ปัญหาแสดงใน แผนงาน"
+
+# label_tracker_plural
+msgid "Trackers"
+msgstr "การติดตาม"
+
+# notice_account_pending
+msgid "\"Your account was created and is now pending administrator approval.\""
+msgstr "\"บัญชีของคุณสร้างเสร็จแล้ว ขณะนี้รอการอนุมัติจากผู้บริหารจัดการ.\""
+
+# default_doc_category_tech
+msgid "Technical documentation"
+msgstr "เอกสารทางเทคนิค"
+
+# text_issue_updated
+msgid "Issue %s has been updated by %s."
+msgstr "ปัญหา %s ถูกปรับปรุงโดย %s."
+
+# notice_successful_create
+msgid "Successful creation."
+msgstr "สร้างเสร็จแล้ว."
+
+# permission_add_messages
+msgid "Post messages"
+msgstr "Post messages"
+
+# error_scm_command_failed
+msgid "\"An error occurred when trying to access the repository"
+msgstr "\"เกิดความผิดพลาดในการเข้าถึงแหล่งเก็บต้นฉบับ"
+
+# label_optional_description
+msgid "Optional description"
+msgstr "รายละเอียดเพิ่มเติม"
+
+# label_diff_inline
+msgid "inline"
+msgstr "inline"
+
+# field_notes
+msgid "Notes"
+msgstr "บันทึก"
+
+# setting_default_projects_public
+msgid "New projects are public by default"
+msgstr "โครงการใหม่มีค่าเริ่มต้นเป็น สาธารณะ"
+
+# setting_commit_fix_keywords
+msgid "Fixing keywords"
+msgstr "คำสำคัญ Fixing"
+
+# notice_locking_conflict
+msgid "Data has been updated by another user."
+msgstr "ข้อมูลถูกปรับปรุงโดยผู้ใช้คนอื่น."
+
+# button_archive
+msgid "Archive"
+msgstr "เก็บเข้าโกดัง"
+
+# label_modification
+msgid "%d change"
+msgstr "%d เปลี่ยนแปลง"
+
+# setting_autologin
+msgid "Autologin"
+msgstr "เข้าระบบอัตโนมัติ"
+
+# button_move
+msgid "Move"
+msgstr "ย้าย"
+
+# label_more
+msgid "More"
+msgstr "อื่น ๆ"
+
+# field_account
+msgid "Account"
+msgstr "บัญชี"
+
+# setting_user_format
+msgid "Users display format"
+msgstr "รูปแบบการแสดงชื่อผู้ใช้"
+
+# notice_successful_update
+msgid "Successful update."
+msgstr "ปรับปรุงเสร็จแล้ว."
+
+# field_default_value
+msgid "Default value"
+msgstr "ค่าเริ่มต้น"
+
+# button_log_time
+msgid "Log time"
+msgstr "บันทึกเวลา"
+
+# label_message_posted
+msgid "Message added"
+msgstr "ข้อความถูกเพิ่มแล้ว"
+
+# setting_date_format
+msgid "Date format"
+msgstr "รูปแบบวันที่"
+
+# permission_view_messages
+msgid "View messages"
+msgstr "View messages"
+
+# setting_issue_list_default_columns
+msgid "Default columns displayed on the issue list"
+msgstr "สดมภ์เริ่มต้นแสดงในรายการปัญหา"
+
+# field_description
+msgid "Description"
+msgstr "รายละเอียด"
+
+# label_custom_field_new
+msgid "New custom field"
+msgstr "สร้างเขตข้อมูลแบบระบุเอง"
+
+# label_enumerations
+msgid "Enumerations"
+msgstr "รายการ"
+
+# default_activity_design
+msgid "Design"
+msgstr "ออกแบบ"
+
+# label_registration_manual_activation
+msgid "manual account activation"
+msgstr "อนุมัติโดยผู้บริหารจัดการ"
+
+# label_wiki_edit_plural
+msgid "Wiki edits"
+msgstr "แก้ไข Wiki"
+
+# label_all_words
+msgid "All words"
+msgstr "ทุกคำ"
+
+# label_yesterday
+msgid "yesterday"
+msgstr "เมื่อวาน"
+
+# label_comment_delete
+msgid "Delete comments"
+msgstr "ลบความเห็น"
+
+# field_activity
+msgid "Activity"
+msgstr "กิจกรรม"
+
+# text_user_mail_option
+msgid "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
+msgstr "\"ในโครงการที่ไม่ได้เลือก, คุณจะได้รับการแจ้งเกี่ยวกับสิ่งที่คุณเฝ้าดูหรือมีส่วนเกี่ยวข้อง (เช่นปัญหาที่คุณแจ้งไว้หรือได้รับมอบหมาย).\""
+
+# button_create_and_continue
+msgid "Create and continue"
+msgstr "Create and continue"
+
+# label_revision_plural
+msgid "Revisions"
+msgstr "การแก้ไข"
+
+# general_day_names
+msgid "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
+msgstr "จันทร์,อังคาร,พุธ,พฤหัสบดี,ศุกร์,เสาร์,อาทิตย์"
+
+# permission_manage_files
+msgid "Manage files"
+msgstr "Manage files"
+
+# field_port
+msgid "Port"
+msgstr "พอร์ต"
+
+# activerecord_error_confirmation
+msgid "doesn't match confirmation"
+msgstr "พิมพ์ไม่เหมือนเดิม"
+
+# field_searchable
+msgid "Searchable"
+msgstr "ค้นหาได้"
+
+# label_updated_time_by
+msgid "Updated by %s %s ago"
+msgstr "Updated by %s %s ago"
+
+# label_year
+msgid "Year"
+msgstr "ปี"
+
+# label_end_to_end
+msgid "end to end"
+msgstr "จบ-จบ"
+
+# label_precedes
+msgid "precedes"
+msgstr "นำหน้า"
+
+# label_equals
+msgid "is"
+msgstr "คือ"
+
+# permission_edit_issue_notes
+msgid "Edit notes"
+msgstr "Edit notes"
+
+# field_delay
+msgid "Delay"
+msgstr "เลื่อน"
+
+# button_unwatch
+msgid "Unwatch"
+msgstr "เลิกเฝ้าดู"
+
+# label_roadmap_due_in
+msgid "Due in %s"
+msgstr "ถึงกำหนดใน %s"
+
+# label_last_month
+msgid "last month"
+msgstr "เดือนที่แล้ว"
+
+# setting_time_format
+msgid "Time format"
+msgstr "รูปแบบเวลา"
+
+# permission_manage_news
+msgid "Manage news"
+msgstr "Manage news"
+
+# text_destroy_time_entries
+msgid "Delete reported hours"
+msgstr "ลบเวลาที่รายงานไว้"
+
+# label_relates_to
+msgid "related to"
+msgstr "สัมพันธ์กับ"
+
+# field_login
+msgid "Login"
+msgstr "ชื่อที่ใช้เข้าระบบ"
+
+# mail_subject_lost_password
+msgid "Your %s password"
+msgstr "รหัสผ่าน %s ของคุณ"
+
+# button_update
+msgid "Update"
+msgstr "ปรับปรุง"
+
+# label_age
+msgid "Age"
+msgstr "อายุ"
+
+# notice_feeds_access_key_reseted
+msgid "Your RSS access key was reset."
+msgstr "RSS access key ของคุณถูก reset แล้ว."
+
+# setting_sys_api_enabled
+msgid "Enable WS for repository management"
+msgstr "เปิดใช้ WS สำหรับการจัดการที่เก็บต้นฉบับ"
+
+# field_redirect_existing_links
+msgid "Redirect existing links"
+msgstr "ย้ายจุดเชื่อมโยงนี้"
+
+# label_no_data
+msgid "No data to display"
+msgstr "จำนวนข้อมูลที่แสดง"
+
+# gui_validation_error
+msgid "1 error"
+msgstr "1 ข้อผิดพลาด"
+
+# text_default_administrator_account_changed
+msgid "Default administrator account changed"
+msgstr "ค่าเริ่มต้นของบัญชีผู้บริหารจัดการถูกเปลี่ยนแปลง"
+
+# status_locked
+msgid "locked"
+msgstr "ล็อค"
+
+# button_reply
+msgid "Reply"
+msgstr "ตอบกลับ"
+
+# label_calendar
+msgid "Calendar"
+msgstr "ปฏิทิน"
+
+# field_attr_login
+msgid "Login attribute"
+msgstr "เข้าระบบ attribute"
+
+# activerecord_error_too_short
+msgid "is too short"
+msgstr "สั้นเกินไป"
+
+# setting_self_registration
+msgid "Self-registration"
+msgstr "ลงทะเบียนด้วยตนเอง"
+
+# permission_view_calendar
+msgid "View calender"
+msgstr "View calendrier"
+
+# enumeration_doc_categories
+msgid "Document categories"
+msgstr "ประเภทเอกสาร"
+
+# default_tracker_support
+msgid "Support"
+msgstr "สนับสนุน"
+
+# label_wiki_page
+msgid "Wiki page"
+msgstr "หน้า Wiki"
+
+# setting_gravatar_enabled
+msgid "Use Gravatar user icons"
+msgstr "Use Gravatar user icons"
+
+# permission_manage_members
+msgid "Manage members"
+msgstr "Manage members"
+
+# text_journal_changed
+msgid "changed from %s to %s"
+msgstr "เปลี่ยนแปลงจาก %s เป็น %s"
+
+# label_wiki_page_plural
+msgid "Wiki pages"
+msgstr "หน้า Wiki"
+
+# setting_bcc_recipients
+msgid "Blind carbon copy recipients (bcc)"
+msgstr "ไม่ระบุชื่อผู้รับ (bcc)"
+
+# label_used_by
+msgid "Used by"
+msgstr "ถูกใช้โดย"
+
+# text_diff_truncated
+msgid "'... This diff was truncated because it exceeds the maximum size that can be displayed.'"
+msgstr "'... This diff was truncated because it exceeds the maximum size that can be displayed.'"
+
+# label_commits_per_author
+msgid "Commits per author"
+msgstr "Commits ต่อผู้แต่ง"
+
+# activerecord_error_blank
+msgid "can't be blank"
+msgstr "ต้องเติม"
+
+# label_project_plural
+msgid "Projects"
+msgstr "โครงการ"
+
+# field_comments_sorting
+msgid "Display comments"
+msgstr "แสดงความเห็น"
+
+# field_comments
+msgid "Comment"
+msgstr "ความเห็น"
+
+# text_user_wrote
+msgid "'%s wrote:'"
+msgstr "'%s wrote:'"
+
+# text_plugin_assets_writable
+msgid "Plugin assets directory writable"
+msgstr "Plugin assets directory writable"
+
+# text_select_project_modules
+msgid "'Select modules to enable for this project:'"
+msgstr "'เลือกส่วนประกอบที่ต้องการใช้งานสำหรับโครงการนี้:'"
+
+# text_journal_set_to
+msgid "set to %s"
+msgstr "ตั้งค่าเป็น %s"
+
+# label_copy_workflow_from
+msgid "Copy workflow from"
+msgstr "คัดลอกลำดับงานจาก"
+
+# label_modification_plural
+msgid "%d changes"
+msgstr "%d เปลี่ยนแปลง"
+
+# field_possible_values
+msgid "Possible values"
+msgstr "ค่าที่เป็นไปได้"
+
+# setting_login_required
+msgid "Authentication required"
+msgstr "ต้องป้อนผู้ใช้-รหัสผ่าน"
+
+# setting_mail_handler_api_enabled
+msgid "Enable WS for incoming emails"
+msgstr "Enable WS for incoming emails"
+
+# field_is_in_chlog
+msgid "Issues displayed in changelog"
+msgstr "ปัญหาแสดงใน รายกาเปลี่ยนแปลง"
+
+# label_issue_new
+msgid "New issue"
+msgstr "ปัญหาใหม่"
+
+# button_sort
+msgid "Sort"
+msgstr "จัดเรียง"
+
+# permission_edit_messages
+msgid "Edit messages"
+msgstr "Edit messages"
+
+# setting_issues_export_limit
+msgid "Issues export limit"
+msgstr "การส่งออกปัญหาสูงสุด"
+
+# text_select_mail_notifications
+msgid "Select actions for which email notifications should be sent."
+msgstr "เลือกการกระทำที่ต้องการให้ส่งอีเมล์แจ้ง."
+
+# label_and_its_subprojects
+msgid "%s and its subprojects"
+msgstr "%s and its subprojects"
+
+# permission_delete_issues
+msgid "Delete issues"
+msgstr "Delete issues"
+
+# field_hide_mail
+msgid "Hide my email address"
+msgstr "ซ่อนอีเมล์ของฉัน"
+
+# text_reassign_time_entries
+msgid "'Reassign reported hours to this issue:'"
+msgstr "'ระบุเวลาที่ใช้ในโครงการนี่อีกครั้ง:'"
+
+# text_issue_category_reassign_to
+msgid "Reassign issues to this category"
+msgstr "ระบุปัญหาในประเภทนี้"
+
+# notice_email_error
+msgid "An error occurred while sending mail (%s)"
+msgstr "เกิดความผิดพลาดขณะกำส่งอีเมล์ (%s)"
+
+# label_member_new
+msgid "New member"
+msgstr "สมาชิกใหม่"
+
+# default_priority_immediate
+msgid "Immediate"
+msgstr "ด่วนมาก"
+
+# label_reverse_chronological_order
+msgid "In reverse chronological order"
+msgstr "เรียงจากใหม่ไปเก่า"
+
+# label_ago
+msgid "days ago"
+msgstr "วันผ่านมาแล้ว"
+
+# permission_view_issue_watchers
+msgid "View watchers list"
+msgstr "View watchers list"
+
+# permission_manage_repository
+msgid "Manage repository"
+msgstr "Manage repository"
+
+# label_all
+msgid "all"
+msgstr "ทั้งหมด"
+
+# label_boolean
+msgid "Boolean"
+msgstr "ถูกผิด"
+
+# default_tracker_bug
+msgid "Bug"
+msgstr "บั๊ก"
+
+# text_issue_added
+msgid "Issue %s has been reported by %s."
+msgstr "ปัญหา %s ถูกแจ้งโดย %s."
+
+# label_on
+msgid "'on'"
+msgstr "'ใน'"
+
+# label_scm
+msgid "SCM"
+msgstr "ตัวจัดการต้นฉบับ"
+
+# label_general
+msgid "General"
+msgstr "ทั่วๆ ไป"
+
+# activerecord_error_empty
+msgid "can't be empty"
+msgstr "ต้องเติม"
+
+# field_filename
+msgid "File"
+msgstr "แฟ้ม"
+
+# label_comment_add
+msgid "Add a comment"
+msgstr "เพิ่มความเห็น"
+
+# label_comment_added
+msgid "Comment added"
+msgstr "ความเห็นถูกเพิ่ม"
+
+# mail_subject_reminder
+msgid "\"%d issue(s) due in the next days\""
+msgstr "\"%d issue(s) due in the next days\""
+
+# label_issue_category
+msgid "Issue category"
+msgstr "ประเภทของปัญหา"
+
+# permission_commit_access
+msgid "Commit access"
+msgstr "Commit access"
+
+# label_workflow
+msgid "Workflow"
+msgstr "ลำดับงาน"
+
+# label_report_plural
+msgid "Reports"
+msgstr "รายงาน"
+
+# label_assigned_to_me_issues
+msgid "Issues assigned to me"
+msgstr "ปัญหาที่มอบหมายให้ฉัน"
+
+# label_query_new
+msgid "New query"
+msgstr "แบบสอบถามใหม่"
+
+# field_max_length
+msgid "Maximum length"
+msgstr "ยาวสุด"
+
+# setting_mail_handler_api_key
+msgid "API key"
+msgstr "API key"
+
+# text_issue_category_destroy_assignments
+msgid "Remove category assignments"
+msgstr "ลบประเภทนี้"
+
+# button_test
+msgid "Test"
+msgstr "ทดสอบ"
+
+# label_user_mail_option_selected
+msgid "\"For any event on the selected projects only...\""
+msgstr "\"ทุกๆ เหตุการณ์ในโครงการที่เลือก...\""
+
+# label_start_to_start
+msgid "start to start"
+msgstr "เริ่ม-เริ่ม"
+
+# label_watched_issues
+msgid "Watched issues"
+msgstr "เฝ้าดูปัญหา"
+
+# label_spent_time
+msgid "Spent time"
+msgstr "เวลาที่ใช้"
+
+# label_register
+msgid "Register"
+msgstr "ลงทะเบียน"
+
+# label_none
+msgid "none"
+msgstr "ไม่มี"
+
+# error_scm_annotate
+msgid "\"The entry does not exist or can not be annotated.\""
+msgstr "\"entry ไม่มีอยู่จริง หรือไม่สามารถเขียนหมายเหตุประกอบ.\""
+
+# setting_text_formatting
+msgid "Text formatting"
+msgstr "การจัดรูปแบบข้อความ"
+
+# default_priority_high
+msgid "High"
+msgstr "สูง"
+
+# default_tracker_feature
+msgid "Feature"
+msgstr "ลักษณะเด่น"
+
+# label_search_titles_only
+msgid "Search titles only"
+msgstr "ค้นหาจากชื่อเรื่องเท่านั้น"
+
+# label_message_plural
+msgid "Messages"
+msgstr "ข้อความ"
+
+# general_fmt_time
+msgid "%%I:%%M %%p"
+msgstr "%%H:%%M"
+
+# text_tip_task_begin_day
+msgid "task beginning this day"
+msgstr "งานที่เริ่มวันนี้"
+
+# label_reply_plural
+msgid "Replies"
+msgstr "ตอบกลับ"
+
+# label_roadmap
+msgid "Roadmap"
+msgstr "แผนงาน"
+
+# permission_browse_repository
+msgid "Browse repository"
+msgstr "Browse repository"
+
+# label_change_view_all
+msgid "View all changes"
+msgstr "ดูการเปลี่ยนแปลงทั้งหมด"
+
+# field_priority
+msgid "Priority"
+msgstr "ความสำคัญ"
+
+# label_logout
+msgid "Sign out"
+msgstr "ออกระบบ"
+
+# notice_email_sent
+msgid "An email was sent to %s"
+msgstr "อีเมล์ได้ถูกส่งถึง %s"
+
+# permission_view_documents
+msgid "View documents"
+msgstr "View documents"
+
+# label_auth_source
+msgid "Authentication mode"
+msgstr "วิธีการการยืนยันตัวตน"
+
+# button_annotate
+msgid "Annotate"
+msgstr "หมายเหตุประกอบ"
+
+# label_change_properties
+msgid "Change properties"
+msgstr "เปลี่ยนคุณสมบัติ"
+
+# label_next
+msgid "Next"
+msgstr "ต่อไป"
+
+# label_commits_per_month
+msgid "Commits per month"
+msgstr "Commits ต่อเดือน"
+
+# permission_edit_project
+msgid "Edit project"
+msgstr "Edit project"
+
+# permission_add_issue_notes
+msgid "Add notes"
+msgstr "Add notes"
+
+# permission_save_queries
+msgid "Save queries"
+msgstr "Save queries"
+
+# label_project_latest
+msgid "Latest projects"
+msgstr "โครงการล่าสุด"
+
+# text_no_configuration_data
+msgid "\"Roles, trackers, issue statuses and workflow have not been configured yet.\nIt is highly recommended to load the default configuration. You will be able to modify it once loaded.\""
+msgstr "\"บทบาท, การติดตาม, สถานะปัญหา และลำดับงานยังไม่ได้ถูกตั้งค่า.\nขอแนะนำให้โหลดค่าเริ่มต้น. คุณสามารถแก้ไขค่าได้หลังจากโหลดแล้ว.\""
+
+# label_copied
+msgid "copied"
+msgstr "copied"
+
+# field_type
+msgid "Type"
+msgstr "ชนิด"
+
+# label_change_status
+msgid "Change status"
+msgstr "เปลี่ยนสถานะ"
+
+# text_wiki_destroy_confirmation
+msgid "Are you sure you want to delete this wiki and all its content ?"
+msgstr "คุณแน่ใจหรือว่าต้องการลบ wiki นี้พร้อมทั้งเนี้อหา?"
+
+# label_preferences
+msgid "Preferences"
+msgstr "ค่าที่ชอบใจ"
+
+# label_send_test_email
+msgid "Send a test email"
+msgstr "ส่งจดหมายทดสอบ"
+
+# field_identifier
+msgid "Identifier"
+msgstr "ชื่อเฉพาะ"
+
+# label_closed_issues
+msgid "closed"
+msgstr "ปิด"
+
+# label_preview
+msgid "Preview"
+msgstr "ตัวอย่างก่อนจัดเก็บ"
+
+# label_search
+msgid "Search"
+msgstr "ค้นหา"
+
+# label_browse
+msgid "Browse"
+msgstr "เปิดหา"
+
+# label_password_lost
+msgid "Lost password"
+msgstr "ลืมรหัสผ่าน"
+
+# label_project_new
+msgid "New project"
+msgstr "โครงการใหม่"
+
+# label_issue_category_new
+msgid "New category"
+msgstr "ประเภทใหม่"
+
+# label_news_added
+msgid "News added"
+msgstr "ข่าวถูกเพิ่ม"
+
+# field_issue_to_id
+msgid "Related issue"
+msgstr "ปัญหาที่เกี่ยวข้อง"
+
+# default_priority_low
+msgid "Low"
+msgstr "ต่ำ"
+
+# label_plugins
+msgid "Plugins"
+msgstr "ส่วนเสริม"
+
+# general_fmt_datetime
+msgid "%%m/%%d/%%Y %%I:%%M %%p"
+msgstr "%%d/%%B/%%Y %%H:%%M"
+
+# label_custom_field
+msgid "Custom field"
+msgstr "เขตข้อมูลแบบระบุเอง"
+
+# label_news_view_all
+msgid "View all news"
+msgstr "ดูข่าวทั้งหมด"
+
+# label_home
+msgid "Home"
+msgstr "หน้าแรก"
+
+# label_download
+msgid "%d Download"
+msgstr "%d ดาวน์โหลด"
+
+# field_password
+msgid "Password"
+msgstr "รหัสผ่าน"
+
+# label_reported_issues
+msgid "Reported issues"
+msgstr "ปัญหาที่แจ้งไว้"
+
+# button_download
+msgid "Download"
+msgstr "ดาวน์โหลด"
+
+# label_today
+msgid "today"
+msgstr "วันนี้"
+
+# field_is_for_all
+msgid "For all projects"
+msgstr "สำหรับทุกโครงการ"
+
+# label_document_new
+msgid "New document"
+msgstr "เอกสารใหม่"
+
+# label_issue_plural
+msgid "Issues"
+msgstr "ปัญหา"
+
+# label_query
+msgid "Custom query"
+msgstr "แบบสอบถามแบบกำหนดเอง"
+
+# label_issue_status
+msgid "Issue status"
+msgstr "สถานะของปัญหา"
+
+# permission_view_wiki_pages
+msgid "View wiki"
+msgstr "View wiki"
+
+# default_role_developper
+msgid "Developer"
+msgstr "ผู้พัฒนา"
+
+# label_updated_time
+msgid "Updated %s ago"
+msgstr "ปรับปรุง %s ที่ผ่านมา"
+
+# label_modified
+msgid "modified"
+msgstr "ถูกแก้ไข"
+
+# label_overall_activity
+msgid "Overall activity"
+msgstr "กิจกรรมโดยรวม"
+
+# setting_commit_ref_keywords
+msgid "Referencing keywords"
+msgstr "คำสำคัญ Referencing"
+
+# text_load_default_configuration
+msgid "Load the default configuration"
+msgstr "โหลดค่าเริ่มต้น"
+
+# label_added_time_by
+msgid "Added by %s %s ago"
+msgstr "เพิ่มโดย %s %s ที่ผ่านมา"
+
+# label_me
+msgid "me"
+msgstr "ฉัน"
+
+# mail_body_account_information
+msgid "Your account information"
+msgstr "ข้อมูลบัญชีของคุณ"
+
+# label_string
+msgid "Text"
+msgstr "ข้อความ"
+
+# general_csv_separator
+msgid "','"
+msgstr "','"
+
+# label_administration
+msgid "Administration"
+msgstr "บริหารจัดการ"
+
+# text_repository_usernames_mapping
+msgid "\"Select or update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped.\""
+msgstr "\"Select ou update the Redmine user mapped to each username found in the repository log.\nUsers with the same Redmine and repository username or email are automatically mapped.\""
+
+# text_subprojects_destroy_warning
+msgid "'Its subproject(s)"
+msgstr "'โครงการย่อย"
+
+# button_back
+msgid "Back"
+msgstr "กลับ"
+
+# label_changeset_plural
+msgid "Changesets"
+msgstr "กลุ่มการเปลี่ยนแปลง"
+
+# label_week
+msgid "Week"
+msgstr "สัปดาห์"
+
+# label_applied_status
+msgid "Applied status"
+msgstr "จัดเก็บสถานะ"
+
+# label_example
+msgid "Example"
+msgstr "Example"
+
+# setting_commit_logs_encoding
+msgid "Commit messages encoding"
+msgstr "Commit messages encoding"
+
+# button_edit
+msgid "Edit"
+msgstr "แก้ไข"
+
+# label_blocked_by
+msgid "blocked by"
+msgstr "กีดกันโดย"
+
+# label_in_more_than
+msgid "in more than"
+msgstr "มากกว่า"
+
+# setting_repositories_encodings
+msgid "Repositories encodings"
+msgstr "การเข้ารหัสที่เก็บต้นฉบับ"
+
+# label_current_version
+msgid "Current version"
+msgstr "รุ่นปัจจุบัน"
+
+# label_repository_plural
+msgid "Repositories"
+msgstr "ที่เก็บต้นฉบับ"
+
+# field_is_public
+msgid "Public"
+msgstr "สาธารณะ"
+
+# label_attachment_new
+msgid "New file"
+msgstr "แฟ้มใหม่"
+
+# permission_rename_wiki_pages
+msgid "Rename wiki pages"
+msgstr "Rename wiki pages"
+
+# label_new_statuses_allowed
+msgid "New statuses allowed"
+msgstr "อนุญาตให้มีสถานะใหม่"
+
+# setting_feeds_limit
+msgid "Feed content limit"
+msgstr "จำนวน Feed"
+
+# label_statistics
+msgid "Statistics"
+msgstr "สถิติ"
+
+# field_is_required
+msgid "Required"
+msgstr "ต้องใส่"
+
+# error_can_t_load_default_data
+msgid "\"Default configuration could not be loaded"
+msgstr "\"ค่าเริ่มต้นโหลดไม่สำเร็จ"
+
+# button_reset
+msgid "Reset"
+msgstr "เริ่มใหมท"
+
+# setting_diff_max_lines_displayed
+msgid "Max number of diff lines displayed"
+msgstr "Max number of diff lines displayed"
+
+# field_estimated_hours
+msgid "Estimated time"
+msgstr "เวลาที่ใช้โดยประมาณ"
+
+# text_rmagick_available
+msgid "RMagick available (optional)"
+msgstr "RMagick มีให้ใช้ (เป็นตัวเลือก)"
+
+# button_activate
+msgid "Activate"
+msgstr "เปิดใช้"
+
+# label_user_mail_option_all
+msgid "\"For any event on all my projects\""
+msgstr "\"ทุกๆ เหตุการณ์ในโครงการของฉัน\""
+
+# field_column_names
+msgid "Columns"
+msgstr "สดมภ์"
+
+# label_subproject_plural
+msgid "Subprojects"
+msgstr "โครงการย่อย"
+
+# default_doc_category_user
+msgid "User documentation"
+msgstr "เอกสารของผู้ใช้"
+
+# label_user_mail_option_none
+msgid "\"Only for things I watch or I'm involved in\""
+msgstr "\"เฉพาะสิ่งที่ฉันเลือกหรือมีส่วนเกี่ยวข้อง\""
+
+# label_topic_plural
+msgid "Topics"
+msgstr "หัวข้อ"
+
+# label_news_latest
+msgid "Latest news"
+msgstr "ข่าวล่าสุด"
+
+# label_role_and_permissions
+msgid "Roles and permissions"
+msgstr "บทบาทและสิทธิ"
+
+# text_status_changed_by_changeset
+msgid "Applied in changeset %s."
+msgstr "ประยุกต์ใช้ในกลุ่มการเปลี่ยนแปลง %s."
+
+# label_diff_side_by_side
+msgid "side by side"
+msgstr "side by side"
+
+# permission_edit_time_entries
+msgid "Edit time logs"
+msgstr "Edit time logs"
+
+# permission_edit_own_issue_notes
+msgid "Edit own notes"
+msgstr "Edit own notes"
+
+# general_csv_decimal_separator
+msgid "'.'"
+msgstr "'.'"
+
+# label_authentication
+msgid "Authentication"
+msgstr "การยืนยันตัวตน"
+
+# label_issues_by
+msgid "Issues by %s"
+msgstr "ปัญหาโดย %s"
+

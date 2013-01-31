@@ -1,19 +1,20 @@
 ## Configuration and Temporary files
-app/config/database.php
-app/tmp/cache/models/*
-app/tmp/cache/persistent/*
-app/tmp/cache/*
-app/tmp/logs/*
-app/tmp/tests/*
+app/tmp/*
 app/files/*
+app/Config/database.php
+app/Config/email.php
 
 ## Simpletest
 vendors/simpletest
+
 
 ## IDE files and folders
 .cache
 .project
 .settings
+nbproject
+.idea
+.DS_Store
 
 ## Allow 'empty' files
 !empty
