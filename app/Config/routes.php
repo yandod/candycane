@@ -13,6 +13,7 @@
 	Router::connect('/login', array('controller' => 'account', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'account', 'action' => 'logout'));
 	Router::connect('/projects/:project_id/issues/:action/*', array('controller' => 'issues'));
+    Router::connect('/projects/:project_id/wiki', array('controller' => 'wiki', 'action' => 'index'));
 	Router::connect('/projects/:action/:project_id', array('controller' => 'projects'));
     Router::connect('/projects/:action', array('controller' => 'projects'));
 	Router::connect('/projects/:project_id', array('controller' => 'projects', 'action' => 'show'));
@@ -50,9 +51,8 @@
 #  map.signout 'logout', :controller => 'account', :action => 'logout'
 #  
 
-Router::connect('/wiki/:project_id', array('controller' => 'wiki', 'action' => 'index'));
-Router::connect('/wiki/:project_id/:wikipage', array('controller' => 'wiki', 'action' => 'index'));
-Router::connect('/wiki/:project_id/:wikipage/:action/*', array('controller' => 'wiki', 'action' => 'index', 'wikipage' => null));
+Router::connect('/projects/:project_id/wiki/:wikipage', array('controller' => 'wiki', 'action' => 'index'));
+Router::connect('/projects/:project_id/wiki/:wikipage/:action/*', array('controller' => 'wiki', 'action' => 'index', 'wikipage' => null));
 Router::connect('/wikis/:action/:project_id', array('controller' => 'wikis'));
 
 #  map.connect 'wiki/:id/:page/:action', :controller => 'wiki', :page => nil
