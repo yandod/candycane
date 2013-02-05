@@ -2,7 +2,7 @@
 
 <ul>
   <?php foreach($issue_datas as $issue) : ?>
-  <li><?php echo $this->Html->link($issue['Tracker']['name'].' #'.$issue['Issue']['id'], array('action'=>'show', 'id'=>$issue['Issue']['id'])).':'.h($issue['Issue']['subject']);?></li>
+  <li><?php echo $this->Html->link($issue['Tracker']['name'].' #'.$issue['Issue']['id'], array('action'=>'show', 'issue_id'=>$issue['Issue']['id'])).':'.h($issue['Issue']['subject']);?></li>
   <?php endforeach; ?>
 </ul>
 

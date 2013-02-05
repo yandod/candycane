@@ -37,8 +37,11 @@
 		'id' => $issue_category_row['IssueCategory']['id']
 	),
 	array(
-		'class' => 'icon icon-del'
-	)); ?></td>
+		'class' => 'icon icon-del',
+		'confirm' => __('Are you sure ?'),
+		'method' => 'post'
+	)
+	); ?></td>
 	</tr>
 <?php endforeach; ?>
     </tbody>

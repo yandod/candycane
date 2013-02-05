@@ -7,7 +7,7 @@
   <div class="box">
 	<h3><?php echo __('Latest news')?></h3>
 		<?php echo $this->element('news',array('news' => $news)) ?>
-		<?php echo $this->Html->link(__('View all news'),'/news/') ?>
+		<?php echo $this->Html->link(__('View all news'), array('controller' => 'news')) ?>
   </div>
   <?php endif; ?>
 </div>
@@ -19,7 +19,7 @@
 		<ul>
 		<?php foreach ($projects as $project): ?>
 			<li>
-			<?php echo $this->Html->link($project['Project']['name'],"/projects/show/{$project['Project']['identifier']}") ?>(<?php echo $this->Candy->format_time($project['Project']['created_on'])?>)
+			<?php echo $this->Html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'show', 'project_id' => $project['Project']['identifier'])) ?>(<?php echo $this->Candy->format_time($project['Project']['created_on'])?>)
 <!--  			<%= textilizable project.short_description, :project => project %> -->
 				<?php echo $this->Candy->textilizable($project['Project']['description']) ?>
 			</li>

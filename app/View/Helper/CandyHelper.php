@@ -593,7 +593,7 @@ class CandyHelper extends AppHelper {
 		} else {
 			$time_tag = $this->Html->link(
 				$this->distance_of_time_in_words(time(), $created),
-				array('controller' => 'projects', 'action' => 'activity', 'id' => $project['Project']['id'], 'from' => $created),
+				array('controller' => 'projects', 'action' => 'activity', 'project_id' => $project['Project']['identifier'], 'from' => $created),
 				array('title' => $this->format_time($created)));
 		}
 		#    time_tag = @project.nil? ? content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created)) :

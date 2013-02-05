@@ -382,7 +382,7 @@ class ProjectsController extends AppController {
 			$this->redirect(
 				array(
 					'action' => 'settings',
-					$this->request->params['project_id']
+					'project_id' => $this->request->params['project_id']
 				)
 			);
 		}
@@ -414,7 +414,7 @@ class ProjectsController extends AppController {
 			array(
 				'action' => 'settings',
 				'?' => 'tab=modules',
-				$this->request->params['project_id']
+				'project_id' => $this->request->params['project_id']
 			)
 		);
 	}

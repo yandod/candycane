@@ -87,7 +87,7 @@ if( $currentuser[ 'admin' ] )
   <?php if (is_array($projects)) foreach ($projects as $project): ?>
   <tr class="<?php echo $this->Candy->cycle();?>">
      <td>
-	 <?php echo (($project['Project']['status'] == PROJECT_STATUS_ACTIVE) ? ($this->Html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'settings', $project['Project']['identifier']))) : h($project['Project']['name'])); ?>
+	 <?php echo (($project['Project']['status'] == PROJECT_STATUS_ACTIVE) ? ($this->Html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'settings', 'project_id' => $project['Project']['identifier']))) : h($project['Project']['name'])); ?>
 	 <td><?php echo nl2br($project['Project']['short_description']); ?></td>
 	 <td align="center"> </td>
 	 <td align="center"><?php if ($project['Project']['is_public'] == TRUE) { echo $this->Html->image('true.png'); } ?></td>
@@ -98,18 +98,18 @@ if( $currentuser[ 'admin' ] )
 	 if ($project['Project']['status'] == 1 /* (project.parent.nil? || project.parent.active?) */) { 
 	   echo $this->Html->link(__('Archive', TRUE),
 	     array('controller' => 'projects', 'action' => 'archive', 
-	     $project['Project']['identifier']),array('class' => 'icon icon-lock'));
+	     'project_id' => $project['Project']['identifier']),array('class' => 'icon icon-lock'));
      } else {
 	   echo $this->Html->link(__('Unarchive', TRUE), 
 	     array('controller' => 'projects', 'action' => 'unarchive', 
-	     $project['Project']['identifier']),array('class' => 'icon icon-unlock'));
+	     'project_id' => $project['Project']['identifier']),array('class' => 'icon icon-unlock'));
      }
 	 ?>
     </small>
 	 </td>
 	 <td align="center" style="width:10%">
 	<?php if ($project['Project']['status'] == Project::STATUS_ARCHIVED): ?>
-	 <small><?php echo $this->Html->link(__('Delete', TRUE), array('controller' => 'projects', 'action' => 'destroy', $project['Project']['identifier']),array('class' => 'icon icon-del')); ?></small>
+	 <small><?php echo $this->Html->link(__('Delete', TRUE), array('controller' => 'projects', 'action' => 'destroy', 'project_id' => $project['Project']['identifier']),array('class' => 'icon icon-del')); ?></small>
 	<?php endif; ?> 
   </td>
   </tr>

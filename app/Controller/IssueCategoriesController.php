@@ -12,7 +12,7 @@ class IssueCategoriesController extends AppController {
 						'controller' => 'projects',
 						'action' => 'settings',
 						'?' => 'tab=categories',
-						$this->_project['Project']['identifier'],
+						'project_id' => $this->_project['Project']['identifier'],
 					)
 				);
 			}
@@ -47,7 +47,7 @@ class IssueCategoriesController extends AppController {
 					'controller' => 'projects',
 					'action' => 'settings',
 					'?' => 'tab=categories',
-					$this->_project['Project']['identifier'],
+					'project_id' => $this->_project['Project']['identifier'],
 				)
 			);
 		} elseif ( $this->request->data ) {
@@ -61,7 +61,7 @@ class IssueCategoriesController extends AppController {
 					'controller' => 'projects',
 					'action' => 'settings',
 					'?' => 'tab=categories',
-					$this->_project['Project']['identifier'],
+					'project_id' => $this->_project['Project']['identifier'],
 				)
 			);
 		}

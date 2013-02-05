@@ -46,10 +46,10 @@ echo $this->Form->create('News', array('url' => "/projects/{$main_project['Proje
     <h3>
     <?php 
       if ( isset($main_project) &&$news['Project']['id'] != $main_project['Project']['id'] ) {
-        echo $this->Html->link( h($news['Project']['name']), array( 'controller' => 'projects', 'action' => 'show', 'id' => $news['Project']['id'])) . ': '; 
+        echo $this->Html->link( h($news['Project']['name']), array( 'controller' => 'projects', 'action' => 'show', 'project_id' => $news['Project']['identifier'])) . ': '; 
       }
     ?>
-    <?php echo $this->Html->link( h($news['News']['title']), array( 'controller' => 'news', 'action' => 'show', 'id' => $news['News']['id'], 'project_id' => $news['Project']['id']) ) ; ?>
+    <?php echo $this->Html->link( h($news['News']['title']), array( 'controller' => 'news', 'action' => 'show', 'id' => $news['News']['id'], 'project_id' => $news['Project']['identifier']) ) ; ?>
     <?php 
       if ( $news['News']['comments_count'] > 0 ) {
          echo "(".$news['News']['comments_count'] . ' ' . __('Comments') . ')' ; 

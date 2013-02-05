@@ -5,9 +5,9 @@
 	array(
 		'url' => array(
 			'controller' => 'projects',
-			$main_project['Project']['identifier']
+    		'action' => 'add_version',
+			'project_id' => $main_project['Project']['identifier']
 			),
-		'action' => 'add_version',
 		'class' => 'tabular'
 	)
 ) ?>
