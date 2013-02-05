@@ -763,8 +763,13 @@ class CandyHelper extends AppHelper {
 #
 function breadcrumb($args)
 {
-  $elements = Set::flatten($args);
-  return (count($elements) > 0) ? $this->Html->tag('p', join(' &#187; ', $args).' &#187; ', array('class' => 'breadcrumb')) : '';
+  $result = "";
+  foreach(array_slice($args,0,-1) as $value) {
+    $result .= $this->Html->link($value[0], $value[1]) . ' &#187; ';
+  }
+  $last = array_slice($args,-1);
+  $result .= $last[0][0] . ' &#187; ';
+  return (count($args) > 0) ? $this->Html->tag('p', $result, array('class' => 'breadcrumb')) : '';
 }
 #  def breadcrumb(*args)
 #    elements = args.flatten
