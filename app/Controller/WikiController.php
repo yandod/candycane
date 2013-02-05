@@ -26,7 +26,7 @@ class WikiController extends AppController {
       $this->Session->write('Wiki_pages', array());
     }
     $wiki_pages = $this->Session->read('Wiki_pages');
-    $new_page = array($page['WikiPage']['title'],
+    $new_page = array(str_replace('_', ' ', $page['WikiPage']['title']),
       array(
         'controller' => 'wiki',
         'action' => 'index',
