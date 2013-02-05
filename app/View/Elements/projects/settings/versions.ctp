@@ -23,7 +23,9 @@
 			$version_row['Version']['wiki_page_title'],
 			array(
 				'controller' => 'wiki',
-				'page' => $this->Wiki->titleize($version_row['Version']['wiki_page_title'])
+				'action' => 'index',
+				'project_id' => $main_project['Project']['identifier'],
+				'wikipage' => $this->Wiki->titleize($version_row['Version']['wiki_page_title'])
 			)
 		);
 		} ?></td>
@@ -56,6 +58,6 @@
 <p><?php echo $this->Html->link(__('New version'),array(
 	'controller' => 'projects',
 	'action' => 'add_version',
-	$main_project['Project']['identifier']
+	'project_id' => $main_project['Project']['identifier']
 )); ?></p>
 
