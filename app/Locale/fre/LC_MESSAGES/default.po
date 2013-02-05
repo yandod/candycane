@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: candycane 0.72\n"
 "POT-Creation-Date: 2013-01-31 22:16+0100\n"
-"PO-Revision-Date: 2013-02-05 13:44+0100\n"
+"PO-Revision-Date: 2013-02-05 13:49+0100\n"
 "Last-Translator: Thomas Bouchet <thomas.bouchet@sourismaline.fr>\n"
 "Language-Team: SourisMaline <projects@sourismaline.fr>\n"
 "MIME-Version: 1.0\n"
@@ -2331,12 +2331,12 @@ msgstr "Nouvelle valeur"
 # general_fmt_date
 #: View/Helper/CandyHelper.php:418
 msgid "%m/%d/%Y"
-msgstr "%%d/%%m/%%Y"
+msgstr "%d/%m/%Y"
 
 # general_fmt_time
 #: View/Helper/CandyHelper.php:424
 msgid "%I:%M %p"
-msgstr "%%H:%%M"
+msgstr "%H:%M"
 
 # label_roadmap_overdue
 #: View/Helper/CandyHelper.php:513
