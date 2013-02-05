@@ -1,5 +1,13 @@
 <?php
 /**
+ * Regular expressions used for Route elements
+ */
+    App::import('Controller', 'Projects');
+    $methods = get_class_methods('ProjectsController');
+    $projects_actions = implode('|', $methods);
+    $project_id = '(?!('.$projects_actions.'))[-a-z0-9_]+';
+
+/**
  * Here, we are connecting '/' (base path) to controller called 'Pages',
  * its action called 'display', and we pass a param to select the view file
  * to use (in this case, /app/views/pages/home.ctp)...
@@ -12,18 +20,24 @@
     }
 	Router::connect('/login', array('controller' => 'account', 'action' => 'login'));
 	Router::connect('/logout', array('controller' => 'account', 'action' => 'logout'));
-	Router::connect('/projects/:project_id/issues/:action/*', array('controller' => 'issues'));
-    Router::connect('/projects/:project_id/wiki', array('controller' => 'wiki', 'action' => 'index'));
-	Router::connect('/projects/:action/:project_id', array('controller' => 'projects'));
-    Router::connect('/projects/:action', array('controller' => 'projects'));
-	Router::connect('/projects/:project_id', array('controller' => 'projects', 'action' => 'show'));
-	Router::connect('/projects/:project_id/news/:action', array('controller' => 'news'));
-	Router::connect('/projects/:project_id/news/:action/:id', array('controller' => 'news'));
-	Router::connect('/projects/:project_id/documents/:action/', array('controller' => 'documents'));
-	Router::connect('/projects/:project_id/boards/:action/:id/', array('controller' => 'boards'));
-	Router::connect('/projects/:project_id/timelog/:action/*', array('controller' => 'timelog'), array('project_id' => '.+'));
-	Router::connect('/projects/:project_id/timelog/:action/:page/:sort/:direction/*', array('controller' => 'timelog'), array('project_id' => '.+'));
-	Router::connect('/projects/:project_id/reports/:action', array('controller' => 'reports'), array('project_id' => '.+'));
+
+    Router::connect('/projects', array('controller' => 'projects'));
+    Router::connect('/projects/:action', array('controller' => 'projects'), array('action' => $projects_actions));
+    Router::connect('/projects/:project_id', array('controller' => 'projects', 'action' => 'show'));//, array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/boards/:action/:id/', array('controller' => 'boards'), array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/documents/:action/', array('controller' => 'documents'), array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/issues/:action/*', array('controller' => 'issues'), array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/news/:action', array('controller' => 'news'), array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/news/:action/:id', array('controller' => 'news'), array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/reports/:action', array('controller' => 'reports'), array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/timelog/:action/*', array('controller' => 'timelog'), array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/timelog/:action/:page/:sort/:direction/*', array('controller' => 'timelog'), array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/wiki', array('controller' => 'wiki', 'action' => 'index'), array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/wiki/:wikipage', array('controller' => 'wiki', 'action' => 'index'), array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/wiki/:wikipage/:action/*', array('controller' => 'wiki', 'action' => 'index', 'wikipage' => null), array('project_id' => $project_id));
+    Router::connect('/projects/:project_id/:action', array('controller' => 'projects'), array('project_id' => $project_id, 'action' => $projects_actions));
+    Router::connect('/projects/:project_id/:action/*', array('controller' => 'projects'), array('project_id' => $project_id, 'action' => $projects_actions));
+
 	Router::connect('/reports/:action/:project_id', array('controller' => 'reports'));
 
     Router::connect('/issue_categories/:action/:id/:project_id', array('controller' => 'issue_categories'));
@@ -51,8 +65,6 @@
 #  map.signout 'logout', :controller => 'account', :action => 'logout'
 #  
 
-Router::connect('/projects/:project_id/wiki/:wikipage', array('controller' => 'wiki', 'action' => 'index'));
-Router::connect('/projects/:project_id/wiki/:wikipage/:action/*', array('controller' => 'wiki', 'action' => 'index', 'wikipage' => null));
 Router::connect('/wikis/:action/:project_id', array('controller' => 'wikis'));
 
 #  map.connect 'wiki/:id/:page/:action', :controller => 'wiki', :page => nil
@@ -60,11 +72,7 @@ Router::connect('/wikis/:action/:project_id', array('controller' => 'wikis'));
 #  map.connect 'help/:ctrl/:page', :controller => 'help'
 #  #map.connect ':controller/:action/:id/:sort_key/:sort_order'
 #  
-Router::connect(
-  '/issues/:issue_id/*',
-  array('controller' => 'issues', 'action' => 'show'),
-  array('issue_id' => '[0-9]+')
-);
+Router::connect('/issues/:issue_id/*', array('controller' => 'issues', 'action' => 'show'), array('issue_id' => '[0-9]+'));
 Router::connect('/issues/:action', array('controller' => 'issues'));
 Router::connect('/issues/:action/:issue_id/*', array('controller' => 'issues'));
 

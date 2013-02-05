@@ -35,7 +35,7 @@ echo $this->Candy->link_to_if_authorized(
   <?php echo $this->Watchers->watcher_link($issue, $currentuser); ?>
   <?php echo $this->Candy->link_to_if_authorized(array('controller' => 'issues', 'action' => 'new'), __('Copy'), array('controller' => 'issues', 'action' => 'add', 'project_id' => $main_project['Project']['identifier'], '?'=>array('copy_from'=>$issue['Issue']['id'])), array('class' => 'icon icon-copy')) ?>
   <?php echo $this->Candy->link_to_if_authorized(null, __('Move'), array('controller' => 'issues', 'action' => 'move', $issue['Issue']['id']), array('class' => 'icon icon-move')); ?>
-  <?php echo $this->Candy->link_to_if_authorized(null, __('Delete'), array('controller' => 'issues', 'action' => 'destroy', $issue['Issue']['id']), array('class' => 'icon icon-del'), __('Are you sure ?')); ?>
+  <?php echo $this->Candy->link_to_if_authorized(null, __('Delete'), array('controller' => 'issues', 'action' => 'destroy', $issue['Issue']['id']), array('class' => 'icon icon-del', 'confirm' => __('Are you sure ?'), 'method' => 'post')); ?>
 </div>
 
 <h2><?php echo h($issue['Tracker']['name']) ?> #<?php echo h($issue['Issue']['id']) ?></h2>

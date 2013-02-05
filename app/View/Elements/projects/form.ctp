@@ -55,7 +55,7 @@ endforeach;
 ?>
 <fieldset class="box"><legend><?php echo __('Trackers') ?></legend>
 <?php foreach($trackers as $tracker): ?>
-    <label class="floating">
+    <label class="floating" for="<?php echo $tracker['Tracker']['id']; ?>">
 <?php
     $checked = "";
     if ( in_array($tracker['Tracker']['id'],$checked_trackers) ) {
@@ -66,7 +66,8 @@ endforeach;
                         'value'=>$tracker['Tracker']['id'],
                         'checked' => $checked,
                         'label'=>false,
-                        'div' => false
+                        'div' => false,
+                        'id' => $tracker['Tracker']['id']
                       )) ?>
 <?php echo h($tracker['Tracker']['name']); ?>
 <?php /*
