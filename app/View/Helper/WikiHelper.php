@@ -40,7 +40,7 @@ class WikiHelper extends AppHelper
       );
     }
     $last_page = array_slice($wiki_links,-1);
-    $links[] = $last_page[0][0];
+    $links[] = str_replace('_',' ',$last_page[0][0]);
     return $this->Candy->breadcrumb($links);
   }
 }
