@@ -593,7 +593,7 @@ class CandyHelper extends AppHelper {
 		} else {
 			$time_tag = $this->Html->link(
 				$this->distance_of_time_in_words(time(), $created),
-				array('controller' => 'projects', 'action' => 'activity', 'project_id' => $project['Project']['identifier'], 'from' => $created),
+				array('controller' => 'projects', 'action' => 'activity', 'id' => $project['Project']['id'], 'from' => $created),
 				array('title' => $this->format_time($created)));
 		}
 		#    time_tag = @project.nil? ? content_tag('acronym', distance_of_time_in_words(Time.now, created), :title => format_time(created)) :
@@ -763,13 +763,8 @@ class CandyHelper extends AppHelper {
 #
 function breadcrumb($args)
 {
-  $result = "";
-  foreach(array_slice($args,0,-1) as $value) {
-    $result .= $this->Html->link($value[0], $value[1]) . ' &#187; ';
-  }
-  $last = array_slice($args,-1);
-  $result .= $last[0][0] . ' &#187; ';
-  return (count($args) > 0) ? $this->Html->tag('p', $result, array('class' => 'breadcrumb')) : '';
+  $elements = Set::flatten($args);
+  return (count($elements) > 0) ? $this->Html->tag('p', join(' &#187; ', $args).' &#187; ', array('class' => 'breadcrumb')) : '';
 }
 #  def breadcrumb(*args)
 #    elements = args.flatten
