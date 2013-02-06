@@ -20,6 +20,23 @@ class WikiController extends AppController {
       $this->render('edit');
       return;
     }
+
+    // Managing wiki breadcrumb through CakePHP Session
+    if ($page_title==null) {
+      $this->Session->write('Wiki_pages', array());
+    }
+    $wiki_pages = $this->Session->read('Wiki_pages');
+    $new_page = array($page['WikiPage']['title'], $this->request->params['project_id']);
+    if (($key = array_search($new_page, $wiki_pages)) !== false) {
+      unset($wiki_pages[$key]);
+    }
+    $wiki_pages[] = $new_page;
+    if (count($wiki_pages)>5) {
+      array_shift($wiki_pages);
+    }
+    $this->Session->write('Wiki_pages', $wiki_pages);
+    $this->set('wiki_pages', $wiki_pages);
+
     $version = isset($this->request->query['version']) ? $this->request->query['version'] : null;
     $content = $this->Wiki->WikiPage->content_for_version($version);
     $export = isset($this->request->query['export']) ? $this->request->query['export'] : null;

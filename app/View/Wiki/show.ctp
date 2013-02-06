@@ -90,7 +90,9 @@
 ?>
 </div>
 
-<?php /*$this->Candy->breadcrumb($page);*/ /*breadcrumb(@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:page => parent.title}}) */ ?>
+<?php
+echo $this->Wiki->render_wiki_breadcrumb($wiki_pages);
+/*$this->Candy->breadcrumb($page);*/ /*breadcrumb(@page.ancestors.reverse.collect {|parent| link_to h(parent.pretty_title), {:page => parent.title}}) */ ?>
 
 <?php if ($content['WikiContent']['version'] !== $page['WikiContent']['version']) : ?>
     <p>
