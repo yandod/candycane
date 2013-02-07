@@ -16,7 +16,13 @@
 <?php echo $this->Html->tag(
 	'option',
 	$project['name'],
-		array('value' => $this->Html->url('/projects/show/' . $project['identifier']))
+		array('value' => $this->Html->url(
+            array(
+                'controller' => 'projects',
+                'action' => 'show',
+                'project_id' => $project['identifier'])
+       )
+    )
 ) ?>
 <?php endforeach; ?>
 </select>
