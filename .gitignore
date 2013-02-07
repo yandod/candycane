@@ -18,3 +18,6 @@ nbproject
 
 ## Allow 'empty' files
 !empty
+
+## Locale files
+*.mo
