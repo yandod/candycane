@@ -1,14 +1,14 @@
 language: php
 
 php:
-  - 5.2
+#  - 5.2 # travis doesn't suppport php5.2 with open_ssl
   - 5.3
   - 5.4
   - 5.5
 
 env:
   - DB=mysql
-  - DB=pgsql
+#  - DB=pgsql
 #  - DB=sqlite
 
 before_script:
