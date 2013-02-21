@@ -1,6 +1,8 @@
 <h2><?php echo h($this->Wiki->pretty_title($page['WikiPage']['title'])); ?></h2>
 <?php echo $this->Form->create('WikiContent',
-                      array('url' =>
+                      array(
+                         'id' => 'WikiContentForm',
+                         'url' =>
                          array('controller' => 'wiki',
                                'action' => 'edit',
                                'project_id' => $main_project['Project']['identifier'],
@@ -34,7 +36,7 @@
                           'wikipage' => $page['WikiPage']['title']),
                     array('method' => 'post',
                           'update' => 'preview',
-                          'data' => $this->Js->get('#WikiContentIndexForm')->serializeForm(
+                          'data' => $this->Js->get('#WikiContentForm')->serializeForm(
 			  	array(
 			  		'inline' => true,
 			  		'isForm' => true,
