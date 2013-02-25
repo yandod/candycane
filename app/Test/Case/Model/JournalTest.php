@@ -51,11 +51,11 @@ class JournalTestCase extends CakeTestCase {
     # manager 
     $usr['admin'] = false;
 		  $usr['status'] = "2";
-		  $usr['memberships']['project_id'] = "1";
+		  $usr['memberships']['project_id'] = '1';
     $this->assertTrue($this->Journal->is_editable_by($usr));
     
     # anonymous
-		  $usr['memberships']['project_id'] = "2";
+		  $usr['memberships']['project_id'] = 2;
     $this->assertFalse($this->Journal->is_editable_by($usr));
  	}
   
@@ -71,7 +71,7 @@ class JournalTestCase extends CakeTestCase {
     $this->Journal->set($journal);
     $this->assertTrue($this->Journal->saveAll());
     
-    $journal['Journal']['notes'] = "test";
+    $journal['Journal']['notes'] = 'test';
     unset($journal['JournalDetail']);
     $this->Journal->set($journal);
     $this->assertTrue($this->Journal->saveAll());
