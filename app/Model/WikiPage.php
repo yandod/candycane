@@ -317,7 +317,11 @@ class WikiPage extends AppModel {
 #  end
 #end
 	function project() {
-		$wiki = $this->read('Wiki.*', $this->data['Wiki']['id']);
+		if (isset($this->data['Wiki'])) {
+			$wiki = $this->data;
+		} else {
+			$wiki = $this->read('Wiki.*', $this->data['WikiPage']['id']);
+		}
 		$project = $this->Wiki->find('first', array('conditions' => array('Project.id' =>  $wiki['Wiki']['project_id'])));
 
 		return $project;
