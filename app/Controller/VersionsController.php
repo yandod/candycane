@@ -51,9 +51,9 @@ class VersionsController extends AppController
         $this->Session->setFlash(__('Successful update.'),'default',array('class' => 'flash notice'));
         $this->redirect(array(
 			'controller' => 'projects',
-			'action' => 'settings',
-			'?' => 'tab=versions',
-			$this->version['Project']['identifier'],
+			'action'     => 'settings',
+			'project_id' => $this->version['Project']['identifier'],
+			'?'          => 'tab=versions',
 		));
       }
     }
@@ -75,9 +75,9 @@ class VersionsController extends AppController
 		}
 		$this->redirect(array(
 			'controller' => 'projects',
-			'action' => 'settings',
-			'?' => 'tab=versions',
-			$this->version['Project']['identifier'],
+			'action'     => 'settings',
+			'project_id' => $this->version['Project']['identifier'],
+			'?'          => 'tab=versions',
 		));
 	}
 
