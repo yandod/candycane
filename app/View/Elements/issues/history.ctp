@@ -2,7 +2,7 @@
 <?php $indice = 1; ?>
 <?php foreach($journalList as $journal): ?>
   <div id="change-<?php echo h($journal['Journal']['id']) ?>" class="journal">
-    <h4><div style="float:right;"><?php echo $this->Html->link("#$indice", array('id'=>$issue['Issue']['id'], '#'=>"note-$indice")); ?></div>
+    <h4><div style="float:right;"><?php echo $this->Html->link("#$indice", array('issue_id'=>$issue['Issue']['id'], '#'=>"note-$indice")); ?></div>
     <?php echo $this->Html->tag('a', '', array('name'=>"note-$indice"));?>
     <?php echo $this->Candy->authoring(date('Y-m-d H:i:s',strtotime($journal['Journal']['created_on'])), $journal['User'], array('label'=>__('Updated by %s %s ago'))); ?></h4>
     <?php echo $this->Candy->avatar($journal['User'], array('size' => "32")); ?>
