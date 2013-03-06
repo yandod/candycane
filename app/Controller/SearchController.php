@@ -69,7 +69,7 @@ class SearchController extends AppController {
 				$this->redirect(array(
 					'controller' => 'issues',
 					'action' => 'show',
-					'id' => $question
+					$question
 					));
 			}
 		}
