@@ -1,6 +1,7 @@
 <?php
 App::uses('QueriesComponent', 'Controller/Component');
 App::uses('Query', 'Model');
+App::uses('Project', 'Model');
 App::uses('AppController', 'Controller');
 App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
@@ -14,8 +15,19 @@ App::uses('ComponentCollection', 'Controller');
 class QueriesComponentTestController extends AppController
 {
     public $uses = array(
-        'Query'
+        'Query',
+        'Project'
     );
+
+    /**
+     * @var Project
+     */
+    public $Project;
+
+    /**
+     * @var Query;
+     */
+    public $Query;
 }
 
 class QueriesComponentTest extends CakeTestCase
@@ -49,6 +61,7 @@ class QueriesComponentTest extends CakeTestCase
         $CakeResponse = new CakeResponse();
         $this->Controller = new QueriesComponentTestController($CakeRequest, $CakeResponse);
         $this->Controller->Query = new Query();
+        $this->Controller->Project = new Project();
         $this->Component = new QueriesComponent($Collection);
         $this->Component->startup($this->Controller);
     }
@@ -361,7 +374,8 @@ class QueriesComponentTest extends CakeTestCase
             )
         );
         $this->Component->controller->current_user = array(
-            'id' => 4
+            'id' => 4,
+            'admin' => false
         );
         $this->assertEqual($this->Component->retrieve_query(),null);
         $this->assertEqual(

@@ -45,7 +45,9 @@ class QueriesComponent extends Component
 		$this->query_filter_cond = array(
 			'Issue.project_id' => $self->_project['Project']['id']
 		);
-	}
+	} else {
+        $this->query_filter_cond = $self->Project->get_visible_by_condition($self->current_user);
+    }
     foreach ($this->show_filters as $field => $options) {
         if (!isset($self->request->data['Filter']['operators_' . $field])) {
             continue;
