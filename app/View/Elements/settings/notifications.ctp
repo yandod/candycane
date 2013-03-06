@@ -22,7 +22,11 @@
 <?php echo $this->Form->input(
 	'mail_transport',
 	array(
-		'options' => array('Mail' => __('PHP Mail'), 'Smtp' => __('SMTP Server')),
+		'options' => array(
+            'Mail' => __('PHP Mail'),
+            'Smtp' => __('SMTP Server'),
+            'Debug' => __('Never send')
+        ),
 		'value' => $Settings->mail_transport,
 		'label' => false,
 		'div' => false
