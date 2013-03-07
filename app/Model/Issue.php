@@ -442,9 +442,11 @@ class Issue extends AppModel
     $conditions = array('journalized_type'=>'Issue', 'journalized_id'=>$this->data['Issue']['id']);
 
     $order = 'ASC';
-    $user_pref = $current_user['UserPreference']['pref'];
-    if (isset($user_pref['comments_sorting']) && $user_pref['comments_sorting'] === 'desc') {
-      $order = 'DESC';
+    if (isset($current_user['UserPreference'])) {
+      $user_pref = $current_user['UserPreference']['pref'];
+      if (isset($user_pref['comments_sorting']) && $user_pref['comments_sorting'] === 'desc') {
+        $order = 'DESC';
+      }
     }
 
     $journal_list = $Journal->find('all', array(
