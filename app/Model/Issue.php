@@ -438,8 +438,20 @@ class Issue extends AppModel
   }
   function findAllJournal($current_user) {
     $Journal = & ClassRegistry::init('Journal');
+
     $conditions = array('journalized_type'=>'Issue', 'journalized_id'=>$this->data['Issue']['id']);
-    $journal_list = $Journal->find('all', array('conditions'=>$conditions,'recursive'=>1, 'order'=>"Journal.created_on ASC"));
+
+    $order = 'ASC';
+    $user_pref = $current_user['UserPreference']['pref'];
+    if (isset($user_pref['comments_sorting']) && $user_pref['comments_sorting'] === 'desc') {
+      $order = 'DESC';
+    }
+
+    $journal_list = $Journal->find('all', array(
+      'conditions' => $conditions,
+      'recursive'  => 1,
+      'order'      => "Journal.created_on $order"
+    ));
     if(!empty($journal_list) && !empty($current_user['wants_comments_in_reverse_order'])) {
       $journal_list = array_reverse($journal_list);
     }
