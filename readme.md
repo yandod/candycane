@@ -20,6 +20,15 @@ Continuous Integration is running on here: [https://travis-ci.org/yandod/candyca
 4. The step-by-step installer will appear.
 5. Just use it!
 
+## Updating to latest version ##
+
+You need to copy these file and directories into extracted latest codes.
+Currently we don't make database schema change.
+
+- app/Config/database.php
+- app/files
+- app/Plugin
+
 
 ## Notes ##
 
