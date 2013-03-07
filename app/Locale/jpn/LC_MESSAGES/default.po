@@ -1972,7 +1972,7 @@ msgstr "プロジェクト"
 
 # field_comments_sorting
 msgid "Display comments"
-msgstr "コメントを表示"
+msgstr "コメントの表示順"
 
 # field_comments
 msgid "Comment"
