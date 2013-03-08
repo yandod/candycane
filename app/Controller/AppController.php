@@ -236,11 +236,7 @@ class AppController extends Controller {
 		if (!$this->current_user || !$this->current_user['logged']) {
 			$this->redirect(
 				'/account/login?back_url=' . 
-				urlencode(
-					'http://' . 
-					env('HTTP_HOST') . 
-					env('REQUEST_URI')
-				)
+				urlencode(Router::url(env('REQUEST_URI'), true))
 			);
 			#      redirect_to :controller => "account", :action => "login", :back_url => url_for(params)
 			return false;
