@@ -30,7 +30,8 @@
 <%= wikitoolbar_for 'project_description' %>
  */ ?>
 <?php
-foreach ($available_custom_fields as $field):
+if (isset($available_custom_fields)):
+  foreach ($available_custom_fields as $field):
 ?>
 <p>
 <?php
@@ -38,7 +39,8 @@ foreach ($available_custom_fields as $field):
   echo $this->CustomField->custom_field_tag($field['CustomField']['name'],$field);
 ?></p>
 <?php
-endforeach;
+  endforeach;
+endif;
 #<% @project.custom_field_values.each do |value| %>
 #	<p><%= custom_field_tag_with_label :project, value %></p>
 #<% end %>
