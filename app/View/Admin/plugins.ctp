@@ -46,7 +46,11 @@ if( $currentuser[ 'admin' ] )
         <td class="configure"><?php
 			if ($plugin['installed']) {
 				if ($plugin['version'] > $plugin['installed']) {
-					echo __('Upgrade');
+					echo $this->Html->link(__('Upgrade'),array(
+						'controller' => 'admin',
+						'action' => 'upgradePlugin',
+						$plugin['id']
+					));
 				} elseif (empty($plugin['url'])) {
 					echo __('Local Plugin');
 				} else {
