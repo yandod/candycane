@@ -918,7 +918,7 @@ msgstr "最小値 - 最大値の長さ"
 
 # general_fmt_datetime_short
 msgid "%%b %%d, %%I:%%M %%p"
-msgstr "%%b %%d, %%H:%%M %%p"
+msgstr "%%b %%d, %%I:%%M %%p"
 
 # label_list
 msgid "List"
@@ -2230,7 +2230,7 @@ msgstr "メッセージ"
 
 # general_fmt_time
 msgid "%I:%M %p"
-msgstr "%H:%M %p"
+msgstr "%I:%M %p"
 
 # text_tip_task_begin_day
 msgid "task beginning this day"
@@ -2394,7 +2394,7 @@ msgstr "プラグイン"
 
 # general_fmt_datetime
 msgid "%%m/%%d/%%Y %%I:%%M %%p"
-msgstr "%%Y年%%m月%%d日 %%H:%%M %%p"
+msgstr "%%Y年%%m月%%d日 %%I:%%M %%p"
 
 # label_custom_field
 msgid "Custom field"

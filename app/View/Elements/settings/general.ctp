@@ -44,7 +44,7 @@
 <p><label><?php echo __('Date format') ?></label>
 <?php echo $this->Form->select(
 	'date_format',
-	array_map('date',$Settings->DATE_FORMATS),
+	array_combine($Settings->DATE_FORMATS, array_map('strftime', $Settings->DATE_FORMATS)),
 	array(
 		'value' => 	$Settings->date_format,
 		'empty' => 	__("Based on user's language")
@@ -54,7 +54,7 @@
 <p><label><?php echo __('Time format') ?></label>
 <?php echo $this->Form->select(
 	'time_format',
-	array_map('date',$Settings->TIME_FORMATS),
+	array_combine($Settings->TIME_FORMATS, array_map('strftime', $Settings->TIME_FORMATS)),
 	array(
 		'value' => $Settings->time_format,
 		'empty' => __("Based on user's language")
