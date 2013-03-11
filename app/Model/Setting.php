@@ -4,20 +4,20 @@ class Setting extends AppModel
   var $name = 'Setting' ;
   
   var $DATE_FORMATS = array(
-	'Y-m-d',
-	'd/m/Y',
-	'd.m.Y',
-	'd-m-Y',
-	'm/d/Y',
-	'd M Y',
-	'd F Y',
-	'M d, Y',
-	'F d, Y'
+	'%Y-%m-%d',
+	'%d/%m/%Y',
+	'%d.%m.%Y',
+	'%d-%m-%Y',
+	'%m/%d/%Y',
+	'%d %b %Y',
+	'%d %B %Y',
+	'%b %d, %Y',
+	'%B %d, %Y'
   );
     
   var $TIME_FORMATS = array(
-    'H:i',
-    'h:i A'
+    '%H:%M',
+    '%I:%M %p'
     );
 
   var $USER_FORMATS = array(
