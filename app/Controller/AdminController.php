@@ -143,6 +143,19 @@ class AdminController extends AppController {
 		$this->redirect('plugins');
 	}
 
+	public function upgradePlugin($id) {
+		$pluginContainer = ClassRegistry::getObject('PluginContainer');
+		$pluginContainer->fetchEntry();
+		if ($pluginContainer->upgrade($id)) {
+			$this->Session->setFlash(
+				sprintf(__('Upgrade plugin: %s'), $id),
+				'default',
+				array('class' => 'flash flash_notice')
+			);
+		}
+		$this->redirect('plugins');
+	}
+
 	public function uninstallPlugin($id){
 		$pluginContainer = ClassRegistry::getObject('PluginContainer');
 		$pluginContainer->fetchEntry();

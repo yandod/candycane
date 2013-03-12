@@ -133,6 +133,10 @@ class PluginContainer extends Object {
 		return false;
 	}
 
+	public function upgrade($id) {
+		return $this->uninstall($id) && $this->install($id);
+	}
+
 	public function uninstall($id) {
 		$entry = $this->getEntry($id);
 		if ($entry && !empty($entry['url'])) {
