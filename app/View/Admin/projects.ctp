@@ -91,7 +91,7 @@ if( $currentuser[ 'admin' ] )
 	 <td><?php echo nl2br($project['Project']['short_description']); ?></td>
 	 <td align="center"> </td>
 	 <td align="center"><?php if ($project['Project']['is_public'] == TRUE) { echo $this->Html->image('true.png'); } ?></td>
-	 <td align="center"><?php echo $project['Project']['created_on']; ?></td>
+	 <td align="center"><?php echo $this->Candy->format_time($project['Project']['created_on']); ?></td>
 	 <td align="center" style="width:10%">
 	 <small>
 	 <?php
