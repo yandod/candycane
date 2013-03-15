@@ -5,7 +5,7 @@
 			$this->Html->image('toggle_check.png'),
 			array(),
 			array(
-				'onclick' => 'toggleIssuesSelection(Element.strtoupper(this, "form")); return false;',
+				'onclick' => "toggleIssuesSelection(Element.up(this, 'table')); return false;",
 				'title' => __('Check all') . '/' . __('Uncheck all'),
 				'escape' => false
 			)
