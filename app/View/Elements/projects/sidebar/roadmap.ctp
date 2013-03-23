@@ -1,7 +1,7 @@
 <?php echo $this->Form->create('Project', array('url'=>array(
 	'controller' => 'projects',
 	'action' => 'roadmap',
-	'0' => $main_project['Project']['identifier'],
+	'project_id' => $main_project['Project']['identifier'],
 ), 'type'=>'get')) ?>
 <h3><?php echo __('Roadmap') ?></h3>
 <?php foreach($trackers as $tracker): ?>
