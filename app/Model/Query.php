@@ -1,4 +1,7 @@
 <?php
+
+App::Import('vendor', 'georgious-cakephp-yaml-migrations-and-fixtures/spyc/spyc');
+
 class Query extends AppModel
 {
   var $name = 'Query';
