@@ -13,7 +13,7 @@ class WatcherTest extends CakeTestCase {
   var $issue;
 
   function startTest() {
-    $this->loadFixtures('Issue', 'User', 'Watcher');
+    $this->loadFixtures('Issue', 'User', 'UserPreference','Watcher', 'Token', 'Member', 'IssueStatus', 'IssueCategory', 'Tracker', 'TimeEntry', 'Changeset', 'ChangesetsIssue', 'CustomValue', 'CustomField', 'Version', 'Enumeration', 'Project');
     $this->Issue =& ClassRegistry::init('Issue');
     $User =& ClassRegistry::init('User');
     $this->user = $User->read(null, 1);

@@ -11,7 +11,7 @@ class TimeEntryTest extends CakeTestCase {
   );
 
   function startTest() {
-    $this->loadFixtures('Issue', 'User', 'Project', 'TimeEntry', 'EnabledModule');
+    $this->loadFixtures('Issue', 'User', 'Project', 'TimeEntry', 'EnabledModule', 'Wiki', 'IssueCategory', 'Tracker', 'ProjectsTracker', 'Member', 'Changeset', 'ChangesetsIssue', 'Token', 'UserPreference', 'CustomField', 'CustomFieldsProject', 'CustomValue', 'Version', 'Enumeration', 'IssueStatus');
     $this->TimeEntry =& ClassRegistry::init('TimeEntry');
   }
 
