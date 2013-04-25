@@ -26,7 +26,7 @@ class FetcherComponentTest extends CakeTestCase {
     $this->loadFixtures('Project', 'Version', 'User', 'Role', 'Member', 'Issue', 'Journal', 'JournalDetail', 
               'Tracker', 'ProjectsTracker', 'IssueStatus', 'EnabledModule', 'IssueCategory', 'TimeEntry', 
               'Enumeration', 'CustomValue', 'CustomField', 'News', 'Comment', 'Document', 'CustomFieldsProject',
-			  'Changeset','ChangesetsIssue','Token','UserPreference','Watcher','Attachment'
+			  'Changeset','ChangesetsIssue','Token','UserPreference','Watcher','Attachment', 'Wiki'
               );
     $this->Project =& ClassRegistry::init('Project');
     $this->Project->read(null, 1);

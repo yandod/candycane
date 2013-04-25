@@ -17,7 +17,7 @@ class ProjectTest extends CakeTestCase {
   }
 
   function test_findMainProject() {
-    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'EnabledModule','CustomFieldsProject');
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'EnabledModule','CustomFieldsProject', 'Wiki', 'ProjectsTracker', 'Member', 'CustomField', 'CustomValue');
     $project = $this->Project->findMainProject('ecookbook');
     
     $this->assertEqual('eCookbook', $project['Project']['name']);
