@@ -50,7 +50,7 @@ class ProjectTestCase extends CakeTestCase {
     {
         $data = $this->Project->findById(1);
         $this->assertEqual($data['Project']['name'],'eCookbook');
-        $this->assertFalse($this->Project->findById(100));
+        $this->assertEquals($this->Project->findById(100), array());
 	}
 /**
  * testFindByIdentifier method
@@ -61,7 +61,7 @@ class ProjectTestCase extends CakeTestCase {
     {
         $data = $this->Project->findByIdentifier('onlinestore');
         $this->assertEqual($data['Project']['name'],'OnlineStore');
-        $this->assertFalse($this->Project->findByIdentifier('onlinestore2'));
+        $this->assertEquals($this->Project->findByIdentifier('onlinestore2'), array());
 	}
 /**
  * testFindSubprojects method
