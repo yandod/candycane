@@ -41,28 +41,32 @@ class EnumerationTestCase extends CakeTestCase
      * testGetValues method
      *
      * @return void
+     * @todo order test
      */
     public function testGetValues()
     {
         $option = 'IPRI';
         $order = 'ASC';
         $data = $this->Enumeration->get_values($option, $order);
+        $this->assertEqual(1, $data[0]['Enumeration']['position']);
+        $this->assertEqual('IPRI', $data[0]['Enumeration']['opt']);
         $extractData = Set::extract("{n}.Enumeration.opt", $data);
-        $this->assertEqual('IPRI', $extractData[0]);
         $this->assertEqual(1, count(array_unique($extractData)));
 
         $option = 'DCAT';
         $order = '';
         $data = $this->Enumeration->get_values($option, $order);
+        $this->assertEqual(1, $data[0]['Enumeration']['position']);
+        $this->assertEqual('DCAT', $data[0]['Enumeration']['opt']);
         $extractData = Set::extract("{n}.Enumeration.opt", $data);
-        $this->assertEqual('DCAT', $extractData[0]);
         $this->assertEqual(1, count(array_unique($extractData)));
 
         $option = 'ACTI';
         $order = 'DESC';
         $data = $this->Enumeration->get_values($option, $order);
+        $this->assertEqual(3, $data[0]['Enumeration']['position']);
+        $this->assertEqual('ACTI', $data[0]['Enumeration']['opt']);
         $extractData = Set::extract("{n}.Enumeration.opt", $data);
-        $this->assertEqual('ACTI', $extractData[0]);
         $this->assertEqual(1, count(array_unique($extractData)));
     }
 
@@ -73,7 +77,13 @@ class EnumerationTestCase extends CakeTestCase
      */
     public function testDefaultValue()
     {
+        $isTrueOption = 'IPRI';
+        $data = $this->Enumeration->default_value($isTrueOption);
+        $this->assertTrue($data['Enumeration']['is_default']);
 
+        $isFalseOption = 'DCAT';
+        $data = $this->Enumeration->default_value($isFalseOption);
+        $this->assertFalse($data);
     }
 
     /**
