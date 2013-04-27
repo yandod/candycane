@@ -42,30 +42,34 @@ class NewsTestCase extends CakeTestCase {
  * @return void
  */
 	public function testLatest() {
-		$user2 = $this->User->findById(2);
+		$user = $this->User->findById(7);
+
+		//ログインをエミュレート
+		$user['logged'] = true;
+		$user['memberships'] = array(array('Project' => array('id' => 6)));
 
 		//デフォルト５件返ってくる
-		$result = $this->News->latest($user2);
+		$result = $this->News->latest($user);
 		$this->assertEqual(count($result), 5);
-		//自分が所属していないプロジェクト(6)がヒットしていない
+		//自分が所属していないプロジェクト(7)がヒットしていない
 		foreach ($result as $rows) {
-			$this->assertNotEqual($rows['News']['project_id'], "6", "id:".$rows['News']['id']);
+			$this->assertNotEqual($rows['News']['project_id'], "7", "id:".$rows['News']['id']);
 		}
 
 		//デフォルト指定件数返ってくる
-		$result = $this->News->latest($user2, 2);
+		$result = $this->News->latest($user, 2);
 		$this->assertEqual(count($result), 2);
-		//自分が所属していないプロジェクト(6)がヒットしていない
+		//自分が所属していないプロジェクト(7)がヒットしていない
 		foreach ($result as $rows) {
-			$this->assertNotEqual($rows['News']['project_id'], "6", "id:".$rows['News']['id']);
+			$this->assertNotEqual($rows['News']['project_id'], "7", "id:".$rows['News']['id']);
 		}
 
 		//デフォルト５件以上返ってくる
-		$result = $this->News->latest($user2, 10);
+		$result = $this->News->latest($user, 10);
 		$this->assertTrue(count($result) > 5, "count:".count($result));
-		//自分が所属していないプロジェクト(6)がヒットしていない
+		//自分が所属していないプロジェクト(7)がヒットしていない
 		foreach ($result as $rows) {
-			$this->assertNotEqual($rows['News']['project_id'], "6", "id:".$rows['News']['id']);
+			$this->assertNotEqual($rows['News']['project_id'], "7", "id:".$rows['News']['id']);
 		}
 	}
 }
