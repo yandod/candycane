@@ -1,0 +1,15 @@
+{
+    "name": "yandod/candycane",
+    "description": "CandyCane is a issue tracking system. The original implementation on which it is based, is Redmine",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yusuke Ando",
+            "email": "yandod@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+
+    }
+}
