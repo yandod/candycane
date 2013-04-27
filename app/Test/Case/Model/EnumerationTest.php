@@ -12,7 +12,7 @@ class EnumerationTestCase extends CakeTestCase
      *
      * @var array
      */
-    public $fixtures = array('app.enumeration', 'app.tracker', 'app.time_entry', 'app.changeset', 'app.changesets_issue');
+    public $fixtures = array('app.enumeration', 'app.tracker', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.issue', 'app.watcher', 'app.custom_value', 'app.custom_field');
 
     /**
      * setUp method
@@ -118,9 +118,29 @@ class EnumerationTestCase extends CakeTestCase
      */
     public function testDestroy()
     {
-        $this->markTestIncomplete(
-            'このテストは、まだ実装されていません。'
-        );
+        $reassign_to = 5;
+        $data = $this->Enumeration->find('all');
+        $row = $data[3];
+        $enumerationId = $row['Enumeration']['id'];
+
+        $model = ClassRegistry::init($this->Enumeration->OPTIONS[$row['Enumeration']['opt']]['model']);
+
+        // reassign前
+        $foreignKeyColumnName = $this->Enumeration->OPTIONS[$row['Enumeration']['opt']]['foreign_key'];
+        $modelData = $model->find('all', array('conditions' => array(
+            $foreignKeyColumnName => $enumerationId
+        )));
+        $this->assertEqual($enumerationId, $modelData[0][$model->name]['priority_id']);
+
+        // destroy
+        $this->Enumeration->destroy($row);
+
+        // reassign後
+        $modelData = $model->find('all', array('conditions' => array(
+            $foreignKeyColumnName => $enumerationId
+        )));
+        $this->assertEqual(0, count($modelData));
+
     }
 
     /**
