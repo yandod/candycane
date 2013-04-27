@@ -12,7 +12,7 @@ env:
 #  - DB=sqlite
 
 before_script:
-  - curl -s http://getcomposer.org/installer | php   - php composer.phar install --dev --no-interaction
+  - curl -s http://getcomposer.org/installer | php composer.phar install --dev --no-interaction
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test2;'; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test3;'; fi"
@@ -110,4 +110,4 @@ script:
   - cd ./app; ./Console/cake test app All --stderr
 
 after_script:
-    - php vendor/bin/coveralls
+  - php vendor/bin/coveralls
