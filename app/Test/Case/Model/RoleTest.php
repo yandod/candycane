@@ -47,5 +47,37 @@ class RoleTest extends CakeTestCase {
     $this->assertEqual(0, count($results));
   }
 
+  function testConvertPermissions() {
+    $permissions = array(
+      'select_project_modules',
+      'edit_project',
+    );
+    
+    $result = $this->Role->convert_permissions($permissions);
+    $expected = <<<EOT
+---
+- :select_project_modules
+- :edit_project
+
+EOT;
+    $this->assertEqual($result, $expected);
+    
+  }
+
+  function testFindAllGivable() {
+    $result = $this->Role->find_all_givable();
+    $this->assertEqual(count($result), 3);
+    
+    $this->assertEqual($result[0]['Role']['id'], 1);
+    $this->assertEqual($result[0]['Role']['name'], 'Manager');
+    $this->assertEqual($result[1]['Role']['id'], 2);
+    $this->assertEqual($result[1]['Role']['name'], 'Developer');
+    $this->assertEqual($result[2]['Role']['id'], 3);
+    $this->assertEqual($result[2]['Role']['name'], 'Reporter');
+  }
+
+  public function testIsAllowedTo() {
+    $this->assertFalse($this->Role->is_allowed_to($this->Role->non_member(), array('action'=>"edit", 'controller'=>"project")));
+  }
 }
 ?>
