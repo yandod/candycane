@@ -426,6 +426,46 @@ class IssueTest extends CakeTestCase {
     $this->assertEqual(7, $default);
   }
 
+  function testFindRelations() {
+      $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'ChangesetsIssue', 'Watcher','CustomValue','CustomField','IssueRelation');
+      // create 2 issues
+      $priorities = $this->Issue->Priority->get_values('IPRI');
+      $data = array(
+          'project_id' => 1, 
+          'tracker_id' => 1, 
+          'author_id' => 1, 
+          'status_id' => 1, 
+          'priority_id' => $priorities[0]['Priority']['id'], 
+          'subject' => 'Relation test', 
+          'description' => 'IssueTest#testFindRelations',
+          );
+      $this->Issue->create();
+      $this->assertNotEmpty($this->Issue->save($data));
+      $issue1 = $this->Issue->getLastInsertID();
+      $this->Issue->create();
+      $this->assertNotEmpty($this->Issue->save($data));
+      $issue2 = $this->Issue->getLastInsertID();
 
+      $issueRelation = ClassRegistry::init('IssueRelation');
+      $issueRelation->create();
+      $result = $issueRelation->save(array(
+                                         'issue_from_id' => $issue2,
+                                         'issue_to_id' => $issue1,
+                                         'relation_type' => ISSUERELATION_TYPE_RELATES,
+                                         ));
+      $this->assertNotEqual($result, false);
+
+      $issue = $this->Issue->findById($issue1);
+      $this->assertNotEmpty($issue);
+      $relation = $issueRelation->findRelations($issue);
+      $this->assertNotEmpty($relation);
+      $relitem = $relation[0];
+      $this->assertEqual($relitem['IssueFrom']['Issue']['id'], $issue2);
+      $this->assertEqual($relitem['IssueTo']['Issue']['id'], $issue1);
+      $this->assertEqual($relitem['IssueRelation']['issue_from_id'], $issue2);
+      $this->assertEqual($relitem['IssueRelation']['issue_to_id'], $issue1);
+      $this->assertEqual($relitem['IssueRelation']['relation_type'],
+                         ISSUERELATION_TYPE_RELATES);
+      
+  }
 }
-?>
