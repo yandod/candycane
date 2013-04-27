@@ -1,24 +1,24 @@
 <?php
 /**
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.3
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-
-App::uses('Set', 'Utility');
+App::uses('Hash', 'Utility');
 
 /**
  * A single Route used by the Router to connect requests to
  * parameter maps.
  *
- * Not normally created as a standalone.  Use Router::connect() to create
+ * Not normally created as a standalone. Use Router::connect() to create
  * Routes for your application.
  *
  * @package Cake.Routing.Route
@@ -70,7 +70,7 @@ class CakeRoute {
 	protected $_compiledRoute = null;
 
 /**
- * HTTP header shortcut map.  Used for evaluating header-based route expressions.
+ * HTTP header shortcut map. Used for evaluating header-based route expressions.
  *
  * @var array
  */
@@ -103,7 +103,9 @@ class CakeRoute {
 	}
 
 /**
- * Compiles the route's regular expression.  Modifies defaults property so all necessary keys are set
+ * Compiles the route's regular expression.
+ *
+ * Modifies defaults property so all necessary keys are set
  * and populates $this->names with the named routing elements.
  *
  * @return array Returns a string regular expression of the compiled route.
@@ -117,8 +119,10 @@ class CakeRoute {
 	}
 
 /**
- * Builds a route regular expression.  Uses the template, defaults and options
- * properties to compile a regular expression that can be used to parse request strings.
+ * Builds a route regular expression.
+ *
+ * Uses the template, defaults and options properties to compile a
+ * regular expression that can be used to parse request strings.
  *
  * @return void
  */
@@ -154,7 +158,8 @@ class CakeRoute {
 		if (preg_match('#\/\*\*$#', $route)) {
 			$parsed = preg_replace('#/\\\\\*\\\\\*$#', '(?:/(?P<_trailing_>.*))?', $parsed);
 			$this->_greedy = true;
-		} elseif (preg_match('#\/\*$#', $route)) {
+		}
+		if (preg_match('#\/\*$#', $route)) {
 			$parsed = preg_replace('#/\\\\\*$#', '(?:/(?P<_args_>.*))?', $parsed);
 			$this->_greedy = true;
 		}
@@ -163,7 +168,7 @@ class CakeRoute {
 		$this->_compiledRoute = '#^' . $parsed . '[/]*$#';
 		$this->keys = $names;
 
-		//remove defaults that are also keys. They can cause match failures
+		// Remove defaults that are also keys. They can cause match failures
 		foreach ($this->keys as $key) {
 			unset($this->defaults[$key]);
 		}
@@ -171,6 +176,7 @@ class CakeRoute {
 
 /**
  * Checks to see if the given URL can be parsed by this route.
+ *
  * If the route can be parsed an array of parameters will be returned; if not
  * false will be returned. String urls are parsed if they match a routes regular expression.
  *
@@ -181,7 +187,7 @@ class CakeRoute {
 		if (!$this->compiled()) {
 			$this->compile();
 		}
-		if (!preg_match($this->_compiledRoute, $url, $route)) {
+		if (!preg_match($this->_compiledRoute, urldecode($url), $route)) {
 			return false;
 		}
 		foreach ($this->defaults as $key => $val) {
@@ -219,7 +225,7 @@ class CakeRoute {
 			if (isset($route[$key])) {
 				continue;
 			}
-			if (is_integer($key)) {
+			if (is_int($key)) {
 				$route['pass'][] = $value;
 				continue;
 			}
@@ -260,7 +266,7 @@ class CakeRoute {
  * Parse passed and Named parameters into a list of passed args, and a hash of named parameters.
  * The local and global configuration for named parameters will be used.
  *
- * @param string $args A string with the passed & named params.  eg. /1/page:2
+ * @param string $args A string with the passed & named params. eg. /1/page:2
  * @param string $context The current route context, which should contain controller/action keys.
  * @return array Array of ($pass, $named)
  */
@@ -323,8 +329,10 @@ class CakeRoute {
 	}
 
 /**
- * Return true if a given named $param's $val matches a given $rule depending on $context. Currently implemented
- * rule types are controller, action and match that can be combined with each other.
+ * Check if a named parameter matches the current rules.
+ *
+ * Return true if a given named $param's $val matches a given $rule depending on $context.
+ * Currently implemented rule types are controller, action and match that can be combined with each other.
  *
  * @param string $val The value of the named parameter
  * @param array $rule The rule(s) to apply, can also be a match string
@@ -378,8 +386,10 @@ class CakeRoute {
 	}
 
 /**
- * Attempt to match a url array.  If the url matches the route parameters and settings, then
- * return a generated string url.  If the url doesn't match the route parameters, false will be returned.
+ * Check if a url array matches this route instance.
+ *
+ * If the url matches the route parameters and settings, then
+ * return a generated string url. If the url doesn't match the route parameters, false will be returned.
  * This method handles the reverse routing or conversion of url arrays into string urls.
  *
  * @param array $url An array of parameters to check matching with.
@@ -471,15 +481,20 @@ class CakeRoute {
 	}
 
 /**
- * Converts a matching route array into a url string. Composes the string url using the template
+ * Converts a matching route array into a url string.
+ *
+ * Composes the string url using the template
  * used to create the route.
  *
  * @param array $params The params to convert to a string url.
  * @return string Composed route string.
  */
 	protected function _writeUrl($params) {
-		if (isset($params['prefix'], $params['action'])) {
-			$params['action'] = str_replace($params['prefix'] . '_', '', $params['action']);
+		if (isset($params['prefix'])) {
+			$prefixed = $params['prefix'] . '_';
+		}
+		if (isset($prefixed, $params['action']) && strpos($params['action'], $prefixed) === 0) {
+			$params['action'] = substr($params['action'], strlen($prefixed) * -1);
 			unset($params['prefix']);
 		}
 
@@ -494,9 +509,9 @@ class CakeRoute {
 			$named = array();
 			foreach ($params['named'] as $key => $value) {
 				if (is_array($value)) {
-					$flat = Set::flatten($value, '][');
+					$flat = Hash::flatten($value, '%5D%5B');
 					foreach ($flat as $namedKey => $namedValue) {
-						$named[] = $key . "[$namedKey]" . $separator . rawurlencode($namedValue);
+						$named[] = $key . "%5B{$namedKey}%5D" . $separator . rawurlencode($namedValue);
 					}
 				} else {
 					$named[] = $key . $separator . rawurlencode($value);

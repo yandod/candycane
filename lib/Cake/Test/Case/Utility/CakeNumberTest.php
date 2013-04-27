@@ -4,14 +4,15 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.View.Helper
  * @since         CakePHP(tm) v 1.2.0.4206
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -69,6 +70,104 @@ class CakeNumberTest extends CakeTestCase {
 
 		$result = $this->Number->format($value, '-');
 		$expected = '100-100-100';
+		$this->assertEquals($expected, $result);
+
+		$value = 0.00001;
+		$result = $this->Number->format($value, array('places' => 1));
+		$expected = '$0.0';
+		$this->assertEquals($expected, $result);
+
+		$value = -0.00001;
+		$result = $this->Number->format($value, array('places' => 1));
+		$expected = '$0.0';
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * testFormatDelta method
+ *
+ * @return void
+ */
+	public function testFormatDelta() {
+		$value = '100100100';
+
+		$result = $this->Number->formatDelta($value);
+		$expected = '+100,100,100.00';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Number->formatDelta($value, array('before' => '', 'after' => ''));
+		$expected = '+100,100,100.00';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Number->formatDelta($value, array('before' => '[', 'after' => ']'));
+		$expected = '[+100,100,100.00]';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Number->formatDelta(-$value, array('before' => '[', 'after' => ']'));
+		$expected = '[-100,100,100.00]';
+		$this->assertEquals($expected, $result);
+
+		$value = 0;
+		$result = $this->Number->formatDelta($value, array('places' => 1, 'before' => '[', 'after' => ']'));
+		$expected = '[0.0]';
+		$this->assertEquals($expected, $result);
+
+		$value = 0.0001;
+		$result = $this->Number->formatDelta($value, array('places' => 1, 'before' => '[', 'after' => ']'));
+		$expected = '[0.0]';
+		$this->assertEquals($expected, $result);
+
+		$value = 9876.1234;
+		$result = $this->Number->formatDelta($value, array('places' => 1, 'decimals' => ',', 'thousands' => '.'));
+		$expected = '+9.876,1';
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * testMultibyteFormat
+ *
+ * @return void
+ */
+	public function testMultibyteFormat() {
+		$value = '5199100.0006';
+		$result = $this->Number->format($value, array(
+			'thousands'	=> '&nbsp;',
+			'decimals'	=> '&amp;',
+			'places'	=> 3,
+			'escape'	=> false,
+			'before'	=> '',
+		));
+		$expected = '5&nbsp;199&nbsp;100&amp;001';
+		$this->assertEquals($expected, $result);
+
+		$value = 1000.45;
+		$result = $this->Number->format($value, array(
+			'thousands'	=> ',,',
+			'decimals'	=> '.a',
+			'escape'	=> false,
+		));
+		$expected = '$1,,000.a45';
+		$this->assertEquals($expected, $result);
+
+		$value = 519919827593784.00;
+		$this->Number->addFormat('RUR', array(
+			'thousands'		=> 'ø€ƒ‡™',
+			'decimals'		=> '(§.§)',
+			'escape'		=> false,
+			'wholeSymbol'	=> '€',
+			'wholePosition'	=> 'after',
+		));
+		$result = $this->Number->currency($value, 'RUR');
+		$expected = '519ø€ƒ‡™919ø€ƒ‡™827ø€ƒ‡™593ø€ƒ‡™784(§.§)00€';
+		$this->assertEquals($expected, $result);
+
+		$value = '13371337.1337';
+		$result = CakeNumber::format($value, array(
+			'thousands'	=> '- |-| /-\ >< () |2 -',
+			'decimals'	=> '- £€€† -',
+			'before'	=> ''
+		));
+		$expected = '13- |-| /-\ &gt;&lt; () |2 -371- |-| /-\ &gt;&lt; () |2 -337- £€€† -13';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -155,6 +254,18 @@ class CakeNumberTest extends CakeTestCase {
 		$result = $this->Number->currency(0.5, null, array('fractionSymbol' => false, 'fractionPosition' => 'before', 'wholeSymbol' => '$'));
 		$expected = '$0.50';
 		$this->assertEquals($expected, $result);
+
+		$result = $this->Number->currency(0, 'GBP');
+		$expected = '&#163;0.00';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Number->currency(0.00000, 'GBP');
+		$expected = '&#163;0.00';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Number->currency('0.00000', 'GBP');
+		$expected = '&#163;0.00';
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -180,7 +291,40 @@ class CakeNumberTest extends CakeTestCase {
 		$this->Number->addFormat('Other2', array('before' => '$ ', 'after' => false));
 		$result = $this->Number->currency(0.22, 'Other2');
 		$expected = '$ 0.22';
-		$this->assertEquals($expected,$result);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * Test default currency
+ *
+ * @return void
+ */
+	public function testDefaultCurrency() {
+		$result = $this->Number->defaultCurrency();
+		$this->assertEquals('USD', $result);
+		$this->Number->addFormat('NOK', array('before' => 'Kr. '));
+
+		$this->Number->defaultCurrency('NOK');
+		$result = $this->Number->defaultCurrency();
+		$this->assertEquals('NOK', $result);
+
+		$result = $this->Number->currency(1000);
+		$expected = 'Kr. 1,000.00';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Number->currency(2000);
+		$expected = 'Kr. 2,000.00';
+		$this->assertEquals($expected, $result);
+		$this->Number->defaultCurrency('EUR');
+		$result = $this->Number->currency(1000);
+		$expected = '&#8364;1.000,00';
+		$this->assertEquals($expected, $result);
+
+		$result = $this->Number->currency(2000);
+		$expected = '&#8364;2.000,00';
+		$this->assertEquals($expected, $result);
+
+		$this->Number->defaultCurrency('USD');
 	}
 
 /**
@@ -437,6 +581,22 @@ class CakeNumberTest extends CakeTestCase {
 	}
 
 /**
+ * test toReadableSize() with locales
+ *
+ * @return void
+ */
+	public function testReadableSizeLocalized() {
+		$restore = setlocale(LC_NUMERIC, 0);
+		setlocale(LC_NUMERIC, 'de_DE');
+		$result = $this->Number->toReadableSize(1321205);
+		$this->assertRegExp('/1[,.]26 MB/', $result);
+
+		$result = $this->Number->toReadableSize(1024 * 1024 * 1024 * 512);
+		$this->assertRegExp('/512[,.]00 GB/', $result);
+		setlocale(LC_NUMERIC, $restore);
+	}
+
+/**
  * testToPercentage method
  *
  * @return void
@@ -457,6 +617,54 @@ class CakeNumberTest extends CakeTestCase {
 		$result = $this->Number->toPercentage(0, 4);
 		$expected = '0.0000%';
 		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * testFromReadableSize
+ *
+ * @dataProvider filesizes
+ * @return void
+ */
+	public function testFromReadableSize($params, $expected) {
+		$result = $this->Number->fromReadableSize($params['size'], $params['default']);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * testFromReadableSize
+ *
+ * @expectedException CakeException
+ * @return void
+ */
+	public function testFromReadableSizeException() {
+		$this->Number->fromReadableSize('bogus', false);
+	}
+
+/**
+ * filesizes dataprovider
+ *
+ * @return array
+ */
+	public function filesizes() {
+		return array(
+			array(array('size' => '512B', 'default' => false), 512),
+			array(array('size' => '1KB', 'default' => false), 1024),
+			array(array('size' => '1.5KB', 'default' => false), 1536),
+			array(array('size' => '1MB', 'default' => false), 1048576),
+			array(array('size' => '1mb', 'default' => false), 1048576),
+			array(array('size' => '1.5MB', 'default' => false), 1572864),
+			array(array('size' => '1GB', 'default' => false), 1073741824),
+			array(array('size' => '1.5GB', 'default' => false), 1610612736),
+			array(array('size' => '1K', 'default' => false), 1024),
+			array(array('size' => '1.5K', 'default' => false), 1536),
+			array(array('size' => '1M', 'default' => false), 1048576),
+			array(array('size' => '1m', 'default' => false), 1048576),
+			array(array('size' => '1.5M', 'default' => false), 1572864),
+			array(array('size' => '1G', 'default' => false), 1073741824),
+			array(array('size' => '1.5G', 'default' => false), 1610612736),
+			array(array('size' => '512', 'default' => 'Unknown type'), 512),
+			array(array('size' => '2VB', 'default' => 'Unknown type'), 'Unknown type')
+		);
 	}
 
 }

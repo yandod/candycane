@@ -4,14 +4,15 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.View
  * @since         CakePHP(tm) v 1.2.0.4206
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -159,9 +160,19 @@ class HelperTestPostsTag extends Model {
 class TestHelper extends Helper {
 
 /**
+ * Settings for this helper.
+ *
+ * @var array
+ */
+	public $settings = array(
+		'key1' => 'val1',
+		'key2' => array('key2.1' => 'val2.1', 'key2.2' => 'val2.2')
+	);
+
+/**
  * Helpers for this helper.
  *
- * @var string
+ * @var array
  */
 	public $helpers = array('Html', 'TestPlugin.OtherHelper');
 
@@ -193,6 +204,8 @@ class HelperTest extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
+
 		ClassRegistry::flush();
 		Router::reload();
 		$null = null;
@@ -215,9 +228,11 @@ class HelperTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
+		Configure::delete('Asset');
+
 		CakePlugin::unload();
 		unset($this->Helper, $this->View);
-		ClassRegistry::flush();
 	}
 
 /**
@@ -258,6 +273,24 @@ class HelperTest extends CakeTestCase {
 				'min'
 			)
 		);
+	}
+
+/**
+ * Test settings merging
+ *
+ * @return void
+ */
+	public function testSettingsMerging() {
+		$Helper = new TestHelper($this->View, array(
+			'key3' => 'val3',
+			'key2' => array('key2.2' => 'newval')
+		));
+		$expected = array(
+			'key1' => 'val1',
+			'key2' => array('key2.1' => 'val2.1', 'key2.2' => 'newval'),
+			'key3' => 'val3'
+		);
+		$this->assertEquals($expected, $Helper->settings);
 	}
 
 /**
@@ -524,7 +557,7 @@ class HelperTest extends CakeTestCase {
 	}
 
 /**
- * Ensure HTML escaping of url params.  So link addresses are valid and not exploited
+ * Ensure HTML escaping of url params. So link addresses are valid and not exploited
  *
  * @return void
  */
@@ -565,9 +598,7 @@ class HelperTest extends CakeTestCase {
  * @return void
  */
 	public function testAssetTimestamp() {
-		$_timestamp = Configure::read('Asset.timestamp');
-		$_debug = Configure::read('debug');
-
+		Configure::write('Foo.bar', 'test');
 		Configure::write('Asset.timestamp', false);
 		$result = $this->Helper->assetTimestamp(CSS_URL . 'cake.generic.css');
 		$this->assertEquals(CSS_URL . 'cake.generic.css', $result);
@@ -593,9 +624,6 @@ class HelperTest extends CakeTestCase {
 		$this->Helper->request->webroot = '/some/dir/';
 		$result = $this->Helper->assetTimestamp('/some/dir/' . CSS_URL . 'cake.generic.css');
 		$this->assertRegExp('/' . preg_quote(CSS_URL . 'cake.generic.css?', '/') . '[0-9]+/', $result);
-
-		Configure::write('debug', $_debug);
-		Configure::write('Asset.timestamp', $_timestamp);
 	}
 
 /**
@@ -605,8 +633,6 @@ class HelperTest extends CakeTestCase {
  */
 	public function testAssetUrl() {
 		$this->Helper->webroot = '';
-		$_timestamp = Configure::read('Asset.timestamp');
-
 		$result = $this->Helper->assetUrl(array(
 				'controller' => 'js',
 				'action' => 'post',
@@ -623,24 +649,44 @@ class HelperTest extends CakeTestCase {
 		$this->assertEquals(FULL_BASE_URL . '/foo.jpg', $result);
 
 		$result = $this->Helper->assetUrl('style', array('ext' => '.css'));
-		$this->assertEqual('style.css', $result);
+		$this->assertEquals('style.css', $result);
 
+		$result = $this->Helper->assetUrl('dir/sub dir/my image', array('ext' => '.jpg'));
+		$this->assertEquals('dir/sub%20dir/my%20image.jpg', $result);
+
+		$result = $this->Helper->assetUrl('foo.jpg?one=two&three=four');
+		$this->assertEquals('foo.jpg?one=two&amp;three=four', $result);
+	}
+
+/**
+ * Test assetUrl with plugins.
+ *
+ * @return void
+ */
+	public function testAssetUrlPlugin() {
+		$this->Helper->webroot = '';
 		CakePlugin::load('TestPlugin');
 
 		$result = $this->Helper->assetUrl('TestPlugin.style', array('ext' => '.css'));
-		$this->assertEqual('test_plugin/style.css', $result);
+		$this->assertEquals('test_plugin/style.css', $result);
 
 		$result = $this->Helper->assetUrl('TestPlugin.style', array('ext' => '.css', 'plugin' => false));
-		$this->assertEqual('TestPlugin.style.css', $result);
+		$this->assertEquals('TestPlugin.style.css', $result);
 
 		CakePlugin::unload('TestPlugin');
+	}
 
+/**
+ * test assetUrl and Asset.timestamp = force
+ *
+ * @return void
+ */
+	public function testAssetUrlTimestampForce() {
+		$this->Helper->webroot = '';
 		Configure::write('Asset.timestamp', 'force');
 
 		$result = $this->Helper->assetUrl('cake.generic.css', array('pathPrefix' => CSS_URL));
 		$this->assertRegExp('/' . preg_quote(CSS_URL . 'cake.generic.css?', '/') . '[0-9]+/', $result);
-
-		Configure::write('Asset.timestamp', $_timestamp);
 	}
 
 /**
@@ -649,7 +695,6 @@ class HelperTest extends CakeTestCase {
  * @return void
  */
 	public function testAssetTimestampPluginsAndThemes() {
-		$timestamp = Configure::read('Asset.timestamp');
 		Configure::write('Asset.timestamp', 'force');
 		App::build(array(
 			'View' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'View' . DS),
@@ -667,9 +712,6 @@ class HelperTest extends CakeTestCase {
 
 		$result = $this->Helper->assetTimestamp('/theme/test_theme/js/non_existant.js');
 		$this->assertRegExp('#/theme/test_theme/js/non_existant.js\?$#', $result, 'No error on missing file');
-
-		App::build();
-		Configure::write('Asset.timestamp', $timestamp);
 	}
 
 /**

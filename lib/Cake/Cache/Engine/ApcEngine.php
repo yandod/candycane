@@ -6,12 +6,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Cache.Engine
  * @since         CakePHP(tm) v 1.2.0.4933
@@ -26,6 +27,14 @@
 class ApcEngine extends CacheEngine {
 
 /**
+ * Contains the compiled group names
+ * (prefixed with the global configuration prefix)
+ *
+ * @var array
+ */
+	protected $_compiledGroupNames = array();
+
+/**
  * Initialize the Cache Engine
  *
  * Called automatically by the cache frontend
@@ -36,7 +45,11 @@ class ApcEngine extends CacheEngine {
  * @see CacheEngine::__defaults
  */
 	public function init($settings = array()) {
-		parent::init(array_merge(array('engine' => 'Apc', 'prefix' => Inflector::slug(APP_DIR) . '_'), $settings));
+		if (!isset($settings['prefix'])) {
+			$settings['prefix'] = Inflector::slug(APP_DIR) . '_';
+		}
+		$settings += array('engine' => 'Apc');
+		parent::init($settings);
 		return function_exists('apc_dec');
 	}
 
@@ -49,9 +62,8 @@ class ApcEngine extends CacheEngine {
  * @return boolean True if the data was successfully cached, false on failure
  */
 	public function write($key, $value, $duration) {
-		if ($duration == 0) {
-			$expires = 0;
-		} else {
+		$expires = 0;
+		if ($duration) {
 			$expires = time() + $duration;
 		}
 		apc_store($key . '_expires', $expires, $duration);
@@ -106,10 +118,10 @@ class ApcEngine extends CacheEngine {
 	}
 
 /**
- * Delete all keys from the cache.  This will clear every cache config using APC.
+ * Delete all keys from the cache. This will clear every cache config using APC.
  *
  * @param boolean $check If true, nothing will be cleared, as entries are removed
- *    from APC as they expired.  This flag is really only used by FileEngine.
+ *    from APC as they expired. This flag is really only used by FileEngine.
  * @return boolean True Returns true.
  */
 	public function clear($check) {
@@ -125,6 +137,50 @@ class ApcEngine extends CacheEngine {
 			}
 		}
 		return true;
+	}
+
+/**
+ * Returns the `group value` for each of the configured groups
+ * If the group initial value was not found, then it initializes
+ * the group accordingly.
+ *
+ * @return array
+ */
+	public function groups() {
+		if (empty($this->_compiledGroupNames)) {
+			foreach ($this->settings['groups'] as $group) {
+				$this->_compiledGroupNames[] = $this->settings['prefix'] . $group;
+			}
+		}
+
+		$groups = apc_fetch($this->_compiledGroupNames);
+		if (count($groups) !== count($this->settings['groups'])) {
+			foreach ($this->_compiledGroupNames as $group) {
+				if (!isset($groups[$group])) {
+					apc_store($group, 1);
+					$groups[$group] = 1;
+				}
+			}
+			ksort($groups);
+		}
+
+		$result = array();
+		$groups = array_values($groups);
+		foreach ($this->settings['groups'] as $i => $group) {
+			$result[] = $group . $groups[$i];
+		}
+		return $result;
+	}
+
+/**
+ * Increments the group value to simulate deletion of all keys under a group
+ * old values will remain in storage until they expire.
+ *
+ * @return boolean success
+ */
+	public function clearGroup($group) {
+		apc_inc($this->settings['prefix'] . $group, 1, $success);
+		return $success;
 	}
 
 }

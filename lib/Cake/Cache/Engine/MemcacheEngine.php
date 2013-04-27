@@ -6,12 +6,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Cache.Engine
  * @since         CakePHP(tm) v 1.2.0.4933
@@ -19,13 +20,21 @@
  */
 
 /**
- * Memcache storage engine for cache.  Memcache has some limitations in the amount of
- * control you have over expire times far in the future.  See MemcacheEngine::write() for
+ * Memcache storage engine for cache. Memcache has some limitations in the amount of
+ * control you have over expire times far in the future. See MemcacheEngine::write() for
  * more information.
  *
  * @package       Cake.Cache.Engine
  */
 class MemcacheEngine extends CacheEngine {
+
+/**
+ * Contains the compiled group names
+ * (prefixed with the global configuration prefix)
+ *
+ * @var array
+ */
+	protected $_compiledGroupNames = array();
 
 /**
  * Memcache wrapper.
@@ -58,19 +67,21 @@ class MemcacheEngine extends CacheEngine {
 		if (!class_exists('Memcache')) {
 			return false;
 		}
-		parent::init(array_merge(array(
+		if (!isset($settings['prefix'])) {
+			$settings['prefix'] = Inflector::slug(APP_DIR) . '_';
+		}
+		$settings += array(
 			'engine' => 'Memcache',
-			'prefix' => Inflector::slug(APP_DIR) . '_',
 			'servers' => array('127.0.0.1'),
 			'compress' => false,
 			'persistent' => true
-			), $settings)
 		);
+		parent::init($settings);
 
 		if ($this->settings['compress']) {
 			$this->settings['compress'] = MEMCACHE_COMPRESSED;
 		}
-		if (!is_array($this->settings['servers'])) {
+		if (is_string($this->settings['servers'])) {
 			$this->settings['servers'] = array($this->settings['servers']);
 		}
 		if (!isset($this->_Memcache)) {
@@ -88,17 +99,17 @@ class MemcacheEngine extends CacheEngine {
 	}
 
 /**
- * Parses the server address into the host/port.  Handles both IPv6 and IPv4
+ * Parses the server address into the host/port. Handles both IPv6 and IPv4
  * addresses and Unix sockets
  *
  * @param string $server The server address string.
  * @return array Array containing host, port
  */
 	protected function _parseServerString($server) {
-		if ($server[0] == 'u') {
+		if ($server[0] === 'u') {
 			return array($server, 0);
 		}
-		if (substr($server, 0, 1) == '[') {
+		if (substr($server, 0, 1) === '[') {
 			$position = strpos($server, ']:');
 			if ($position !== false) {
 				$position++;
@@ -116,7 +127,7 @@ class MemcacheEngine extends CacheEngine {
 	}
 
 /**
- * Write data for key into cache.  When using memcache as your cache engine
+ * Write data for key into cache. When using memcache as your cache engine
  * remember that the Memcache pecl extension does not support cache expiry times greater
  * than 30 days in the future. Any duration greater than 30 days will be treated as never expiring.
  *
@@ -235,4 +246,47 @@ class MemcacheEngine extends CacheEngine {
 		return true;
 	}
 
+/**
+ * Returns the `group value` for each of the configured groups
+ * If the group initial value was not found, then it initializes
+ * the group accordingly.
+ *
+ * @return array
+ */
+	public function groups() {
+		if (empty($this->_compiledGroupNames)) {
+			foreach ($this->settings['groups'] as $group) {
+				$this->_compiledGroupNames[] = $this->settings['prefix'] . $group;
+			}
+		}
+
+		$groups = $this->_Memcache->get($this->_compiledGroupNames);
+		if (count($groups) !== count($this->settings['groups'])) {
+			foreach ($this->_compiledGroupNames as $group) {
+				if (!isset($groups[$group])) {
+					$this->_Memcache->set($group, 1, false, 0);
+					$groups[$group] = 1;
+				}
+			}
+			ksort($groups);
+		}
+
+		$result = array();
+		$groups = array_values($groups);
+		foreach ($this->settings['groups'] as $i => $group) {
+			$result[] = $group . $groups[$i];
+		}
+
+		return $result;
+	}
+
+/**
+ * Increments the group value to simulate deletion of all keys under a group
+ * old values will remain in storage until they expire.
+ *
+ * @return boolean success
+ */
+	public function clearGroup($group) {
+		return (bool)$this->_Memcache->increment($this->settings['prefix'] . $group);
+	}
 }

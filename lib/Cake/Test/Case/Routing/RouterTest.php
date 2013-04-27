@@ -4,14 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  *	Licensed under The Open Group Test Suite License
  *	Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Routing
  * @since         CakePHP(tm) v 1.2.0.4206
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -57,7 +57,7 @@ class RouterTest extends CakeTestCase {
  * @return void
  */
 	public function testFullBaseURL() {
-		$skip = PHP_SAPI == 'cli';
+		$skip = PHP_SAPI === 'cli';
 		if ($skip) {
 			$this->markTestSkipped('Cannot validate base urls in CLI');
 		}
@@ -111,7 +111,7 @@ class RouterTest extends CakeTestCase {
 
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$result = Router::parse('/posts/add');
-		$this->assertEquals(array(), $result);
+		$this->assertSame(array(), $result);
 
 		Router::reload();
 		$resources = Router::mapResources('Posts', array('id' => '[a-z0-9_]+'));
@@ -452,6 +452,30 @@ class RouterTest extends CakeTestCase {
 	}
 
 /**
+ * Test that catch all routes work with a variety of falsey inputs.
+ *
+ * @return void
+ */
+	public function testUrlCatchAllRoute() {
+		Router::connect('/*', array('controller' => 'categories', 'action' => 'index'));
+		$result = Router::url(array('controller' => 'categories', 'action' => 'index', '0'));
+		$this->assertEquals('/0', $result);
+
+		$expected = array(
+			'plugin' => null,
+			'controller' => 'categories',
+			'action' => 'index',
+			'pass' => array('0'),
+			'named' => array()
+		);
+		$result = Router::parse('/0');
+		$this->assertEquals($expected, $result);
+
+		$result = Router::parse('0');
+		$this->assertEquals($expected, $result);
+	}
+
+/**
  * Tests using arrays in named parameters
  *
  * @return void
@@ -460,7 +484,7 @@ class RouterTest extends CakeTestCase {
 		$result = Router::url(array('controller' => 'tests', 'pages' => array(
 			1, 2, 3
 		)));
-		$expected = '/tests/index/pages[0]:1/pages[1]:2/pages[2]:3';
+		$expected = '/tests/index/pages%5B0%5D:1/pages%5B1%5D:2/pages%5B2%5D:3';
 		$this->assertEquals($expected, $result);
 
 		$result = Router::url(array('controller' => 'tests',
@@ -472,7 +496,7 @@ class RouterTest extends CakeTestCase {
 				'three'
 			)
 		));
-		$expected = '/tests/index/pages[param1][0]:one/pages[param1][1]:two/pages[0]:three';
+		$expected = '/tests/index/pages%5Bparam1%5D%5B0%5D:one/pages%5Bparam1%5D%5B1%5D:two/pages%5B0%5D:three';
 		$this->assertEquals($expected, $result);
 
 		$result = Router::url(array('controller' => 'tests',
@@ -484,7 +508,7 @@ class RouterTest extends CakeTestCase {
 				'three'
 			)
 		));
-		$expected = '/tests/index/pages[param1][one]:1/pages[param1][two]:2/pages[0]:three';
+		$expected = '/tests/index/pages%5Bparam1%5D%5Bone%5D:1/pages%5Bparam1%5D%5Btwo%5D:2/pages%5B0%5D:three';
 		$this->assertEquals($expected, $result);
 
 		$result = Router::url(array('controller' => 'tests',
@@ -496,14 +520,14 @@ class RouterTest extends CakeTestCase {
 				'cool'
 			)
 		));
-		$expected = '/tests/index/super[nested][array]:awesome/super[nested][something]:else/super[0]:cool';
+		$expected = '/tests/index/super%5Bnested%5D%5Barray%5D:awesome/super%5Bnested%5D%5Bsomething%5D:else/super%5B0%5D:cool';
 		$this->assertEquals($expected, $result);
 
 		$result = Router::url(array('controller' => 'tests', 'namedParam' => array(
 			'keyed' => 'is an array',
 			'test'
 		)));
-		$expected = '/tests/index/namedParam[keyed]:is%20an%20array/namedParam[0]:test';
+		$expected = '/tests/index/namedParam%5Bkeyed%5D:is%20an%20array/namedParam%5B0%5D:test';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -511,7 +535,7 @@ class RouterTest extends CakeTestCase {
  * Test generation of routes with query string parameters.
  *
  * @return void
- **/
+ */
 	public function testUrlGenerationWithQueryStrings() {
 		$result = Router::url(array('controller' => 'posts', 'action' => 'index', '0', '?' => 'var=test&var2=test2'));
 		$expected = '/posts/index/0?var=test&var2=test2';
@@ -527,7 +551,7 @@ class RouterTest extends CakeTestCase {
 		$this->assertEquals('/posts/index/0', $result);
 
 		$result = Router::url(array('controller' => 'posts', '0', '?' => 'var=test&var2=test2', '#' => 'unencoded string %'));
-		$expected = '/posts/index/0?var=test&var2=test2#unencoded+string+%25';
+		$expected = '/posts/index/0?var=test&var2=test2#unencoded string %';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -535,7 +559,7 @@ class RouterTest extends CakeTestCase {
  * test that regex validation of keyed route params is working.
  *
  * @return void
- **/
+ */
 	public function testUrlGenerationWithRegexQualifiedParams() {
 		Router::connect(
 			':language/galleries',
@@ -1235,15 +1259,46 @@ class RouterTest extends CakeTestCase {
 	}
 
 /**
- * testExtensionParsingSetting method
+ * testParseExtensions method
  *
  * @return void
  */
-	public function testExtensionParsingSetting() {
+	public function testParseExtensions() {
 		$this->assertEquals(array(), Router::extensions());
 
 		Router::parseExtensions('rss');
-		$this->assertEquals(Router::extensions(), array('rss'));
+		$this->assertEquals(array('rss'), Router::extensions());
+	}
+
+/**
+ * testSetExtensions method
+ *
+ * @return void
+ */
+	public function testSetExtensions() {
+		Router::setExtensions(array('rss'));
+		$this->assertEquals(array('rss'), Router::extensions());
+
+		require CAKE . 'Config' . DS . 'routes.php';
+		$result = Router::parse('/posts.rss');
+		$this->assertFalse(isset($result['ext']));
+
+		Router::parseExtensions();
+		$result = Router::parse('/posts.rss');
+		$this->assertEquals('rss', $result['ext']);
+
+		$result = Router::parse('/posts.xml');
+		$this->assertFalse(isset($result['ext']));
+
+		Router::setExtensions(array('xml'));
+		$result = Router::extensions();
+		$this->assertEquals(array('rss', 'xml'), $result);
+
+		$result = Router::parse('/posts.xml');
+		$this->assertEquals('xml', $result['ext']);
+
+		$result = Router::setExtensions(array('pdf'), false);
+		$this->assertEquals(array('pdf'), $result);
 	}
 
 /**
@@ -1260,7 +1315,7 @@ class RouterTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 
 		$result = Router::parse('/posts/view/1.rss');
-		$expected = array('plugin' => null, 'controller' => 'posts', 'action' => 'view', 'pass' => array('1'), 'named' => array(), 'ext' => 'rss', 'named' => array());
+		$expected = array('plugin' => null, 'controller' => 'posts', 'action' => 'view', 'pass' => array('1'), 'named' => array(), 'ext' => 'rss');
 		$this->assertEquals($expected, $result);
 
 		$result = Router::parse('/posts/view/1.rss?query=test');
@@ -1483,7 +1538,6 @@ class RouterTest extends CakeTestCase {
  * test url generation with legacy (1.2) style prefix routes.
  *
  * @return void
- * @todo Remove tests related to legacy style routes.
  * @see testUrlGenerationWithAutoPrefixes
  */
 	public function testUrlGenerationWithLegacyPrefixes() {
@@ -1580,6 +1634,10 @@ class RouterTest extends CakeTestCase {
 
 		$result = Router::url(array('controller' => 'images', 'action' => 'add', 'protected' => true));
 		$expected = '/protected/images/add';
+		$this->assertEquals($expected, $result);
+
+		$result = Router::url(array('controller' => 'images', 'action' => 'add_protected_test', 'protected' => true));
+		$expected = '/protected/images/add_protected_test';
 		$this->assertEquals($expected, $result);
 
 		$result = Router::url(array('action' => 'edit', 1));
@@ -1848,7 +1906,7 @@ class RouterTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 
 		$result = Router::parse('/blog/foobar');
-		$this->assertEquals(array(), $result);
+		$this->assertSame(array(), $result);
 
 		$result = Router::url(array('controller' => 'blog_posts', 'action' => 'foo'));
 		$this->assertEquals('/blog_posts/foo', $result);
@@ -2058,7 +2116,7 @@ class RouterTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 
 		$result = Router::parse('/badness/test/test_action');
-		$this->assertEquals(array(), $result);
+		$this->assertSame(array(), $result);
 
 		Router::reload();
 		Router::connect('/:locale/:controller/:action/*', array(), array('locale' => 'dan|eng'));
@@ -2157,7 +2215,8 @@ class RouterTest extends CakeTestCase {
 
 		$expected = array(
 			'plugin' => null, 'controller' => false, 'action' => false,
-			'param1' => '1', 'param2' => '2'
+			'named' => array(), 'pass' => array(),
+			'param1' => '1', 'param2' => '2',
 		);
 		$this->assertEquals(Router::getParams(), $expected);
 		$this->assertEquals(Router::getParam('controller'), false);
@@ -2168,7 +2227,10 @@ class RouterTest extends CakeTestCase {
 
 		$params = array('controller' => 'pages', 'action' => 'display');
 		Router::setRequestInfo(array($params, $paths));
-		$expected = array('plugin' => null, 'controller' => 'pages', 'action' => 'display');
+		$expected = array(
+			'plugin' => null, 'controller' => 'pages', 'action' => 'display',
+			'named' => array(), 'pass' => array(),
+		);
 		$this->assertEquals(Router::getParams(), $expected);
 		$this->assertEquals(Router::getParams(true), $expected);
 	}
@@ -2228,7 +2290,7 @@ class RouterTest extends CakeTestCase {
  * @return void
  */
 	public function testUsingCustomRouteClass() {
-		$mock = $this->getMock('CakeRoute', array(), array(), 'MockConnectedRoute', false);
+		$this->getMock('CakeRoute', array(), array(), 'MockConnectedRoute', false);
 		$routes = Router::connect(
 			'/:slug',
 			array('controller' => 'posts', 'action' => 'view'),
@@ -2244,6 +2306,26 @@ class RouterTest extends CakeTestCase {
 	}
 
 /**
+ * test using custom route class in PluginDot notation
+ */
+	public function testUsingCustomRouteClassPluginDotSyntax() {
+		App::build(array(
+			'Plugin' => array(
+				CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS
+			)
+		));
+		CakePlugin::load('TestPlugin');
+		App::uses('TestRoute', 'TestPlugin.Routing/Route');
+		$routes = Router::connect(
+			'/:slug',
+			array('controller' => 'posts', 'action' => 'view'),
+			array('routeClass' => 'TestPlugin.TestRoute', 'slug' => '[a-z_-]+')
+		);
+		$this->assertInstanceOf('TestRoute', $routes[0]);
+		CakePlugin::unload('TestPlugin');
+	}
+
+/**
  * test that route classes must extend CakeRoute
  *
  * @expectedException RouterException
@@ -2256,9 +2338,13 @@ class RouterTest extends CakeTestCase {
 /**
  * test reversing parameter arrays back into strings.
  *
+ * Mark the router as initialized so it doesn't auto-load routes
+ *
  * @return void
  */
 	public function testRouterReverse() {
+		Router::$initialized = true;
+
 		$params = array(
 			'controller' => 'posts',
 			'action' => 'view',
@@ -2445,6 +2531,21 @@ class RouterTest extends CakeTestCase {
 
 		$url = '://example.com';
 		$this->assertEquals($url, Router::url($url));
+
+		$url = 'javascript:void(0)';
+		$this->assertEquals($url, Router::url($url));
+
+		$url = 'tel:012345-678';
+		$this->assertEquals($url, Router::url($url));
+
+		$url = 'sms:012345-678';
+		$this->assertEquals($url, Router::url($url));
+
+		$url = '#here';
+		$this->assertEquals($url, Router::url($url));
+		$url = 'posts/index#here';
+		$expected = FULL_BASE_URL . '/posts/index#here';
+		$this->assertEquals($expected, Router::url($url, true));
 	}
 
 /**
@@ -2479,23 +2580,23 @@ class RouterTest extends CakeTestCase {
  */
 	public function testResourceMap() {
 		$default = Router::resourceMap();
-		$exepcted = array(
+		$expected = array(
 			array('action' => 'index',	'method' => 'GET',		'id' => false),
 			array('action' => 'view',	'method' => 'GET',		'id' => true),
 			array('action' => 'add',	'method' => 'POST',		'id' => false),
-			array('action' => 'edit',	'method' => 'PUT', 		'id' => true),
+			array('action' => 'edit',	'method' => 'PUT',		'id' => true),
 			array('action' => 'delete',	'method' => 'DELETE',	'id' => true),
-			array('action' => 'edit',	'method' => 'POST', 	'id' => true)
+			array('action' => 'edit',	'method' => 'POST',		'id' => true)
 		);
-		$this->assertEquals($default, $exepcted);
+		$this->assertEquals($default, $expected);
 
 		$custom = array(
 			array('action' => 'index',	'method' => 'GET',		'id' => false),
 			array('action' => 'view',	'method' => 'GET',		'id' => true),
 			array('action' => 'add',	'method' => 'POST',		'id' => false),
-			array('action' => 'edit',	'method' => 'PUT', 		'id' => true),
+			array('action' => 'edit',	'method' => 'PUT',		'id' => true),
 			array('action' => 'delete',	'method' => 'DELETE',	'id' => true),
-			array('action' => 'update',	'method' => 'POST', 	'id' => true)
+			array('action' => 'update',	'method' => 'POST',		'id' => true)
 		);
 		Router::resourceMap($custom);
 		$this->assertEquals(Router::resourceMap(), $custom);
@@ -2547,8 +2648,8 @@ class RouterTest extends CakeTestCase {
 		$routeClass = 'TestDefaultRouteClass';
 		Router::defaultRouteClass($routeClass);
 
-		$this->assertEqual($routeClass, Router::defaultRouteClass());
-		$this->assertEqual($routeClass, Router::defaultRouteClass(null));
+		$this->assertEquals($routeClass, Router::defaultRouteClass());
+		$this->assertEquals($routeClass, Router::defaultRouteClass(null));
 	}
 
 /**
@@ -2582,4 +2683,49 @@ class RouterTest extends CakeTestCase {
 		Router::defaultRouteClass('NonExistentClass');
 	}
 
+/**
+ * Tests generating well-formed querystrings
+ *
+ * @return void
+ */
+	public function testQueryString() {
+		$result = Router::queryString(array('var' => 'foo bar'));
+		$expected = '?var=foo+bar';
+		$this->assertEquals($expected, $result);
+
+		$result = Router::queryString(false, array('some' => 'param', 'foo' => 'bar'));
+		$expected = '?some=param&foo=bar';
+		$this->assertEquals($expected, $result);
+
+		$existing = array('apple' => 'red', 'pear' => 'green');
+		$result = Router::queryString($existing, array('some' => 'param', 'foo' => 'bar'));
+		$expected = '?apple=red&pear=green&some=param&foo=bar';
+		$this->assertEquals($expected, $result);
+
+		$existing = 'apple=red&pear=green';
+		$result = Router::queryString($existing, array('some' => 'param', 'foo' => 'bar'));
+		$expected = '?apple=red&pear=green&some=param&foo=bar';
+		$this->assertEquals($expected, $result);
+
+		$existing = '?apple=red&pear=green';
+		$result = Router::queryString($existing, array('some' => 'param', 'foo' => 'bar'));
+		$expected = '?apple=red&pear=green&some=param&foo=bar';
+		$this->assertEquals($expected, $result);
+
+		$result = Router::queryString('apple=red&pear=green');
+		$expected = '?apple=red&pear=green';
+		$this->assertEquals($expected, $result);
+
+		$result = Router::queryString('foo=bar', array('php' => 'nut', 'jose' => 'zap'), true);
+		$expected = '?foo=bar&amp;php=nut&amp;jose=zap';
+		$this->assertEquals($expected, $result);
+
+		$result = Router::queryString('foo=bar&amp;', array('php' => 'nut', 'jose' => 'zap'), true);
+		$expected = '?foo=bar&amp;php=nut&amp;jose=zap';
+		$this->assertEquals($expected, $result);
+
+		$result = Router::queryString('foo=bar&', array('php' => 'nut', 'jose' => 'zap'));
+		$expected = '?foo=bar&php=nut&jose=zap';
+		$this->assertEquals($expected, $result);
+	}
 }

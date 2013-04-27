@@ -7,12 +7,13 @@
  * PHP version 5
  *
  * CakePHP : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc.
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright	  Copyright 2005-2012, Cake Software Foundation, Inc.
+ * @copyright	  Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link		  http://cakephp.org CakePHP Project
  * @package		  Cake.Test.Case.Event
  * @since		  CakePHP v 2.1
@@ -53,7 +54,7 @@ class CakeEventTestListener {
 /**
  * Auxiliary function to help in stopPropagation testing
  *
- * @param CakeEvent $event 
+ * @param CakeEvent $event
  * @return void
  */
 	public function stopListener($event) {
@@ -234,6 +235,10 @@ class CakeEventManagerTest extends CakeTestCase {
  * @return void
  */
 	public function testDispatchReturnValue() {
+		$this->skipIf(
+			version_compare(PHPUnit_Runner_Version::id(), '3.7', '<'),
+			'These tests fail in PHPUnit 3.6'
+		);
 		$manager = new CakeEventManager;
 		$listener = $this->getMock('CakeEventTestListener');
 		$anotherListener = $this->getMock('CakeEventTestListener');
@@ -241,11 +246,12 @@ class CakeEventManagerTest extends CakeTestCase {
 		$manager->attach(array($anotherListener, 'listenerFunction'), 'fake.event');
 		$event = new CakeEvent('fake.event');
 
-		$firstStep = clone $event;
 		$listener->expects($this->at(0))->method('listenerFunction')
-			->with($firstStep)
+			->with($event)
 			->will($this->returnValue('something special'));
-		$anotherListener->expects($this->at(0))->method('listenerFunction')->with($event);
+		$anotherListener->expects($this->at(0))
+			->method('listenerFunction')
+			->with($event);
 		$manager->dispatch($event);
 		$this->assertEquals('something special', $event->result);
 	}
@@ -256,6 +262,11 @@ class CakeEventManagerTest extends CakeTestCase {
  * @return void
  */
 	public function testDispatchFalseStopsEvent() {
+		$this->skipIf(
+			version_compare(PHPUnit_Runner_Version::id(), '3.7', '<'),
+			'These tests fail in PHPUnit 3.6'
+		);
+
 		$manager = new CakeEventManager;
 		$listener = $this->getMock('CakeEventTestListener');
 		$anotherListener = $this->getMock('CakeEventTestListener');
@@ -263,11 +274,11 @@ class CakeEventManagerTest extends CakeTestCase {
 		$manager->attach(array($anotherListener, 'listenerFunction'), 'fake.event');
 		$event = new CakeEvent('fake.event');
 
-		$originalEvent = clone $event;
 		$listener->expects($this->at(0))->method('listenerFunction')
-			->with($originalEvent)
+			->with($event)
 			->will($this->returnValue(false));
-		$anotherListener->expects($this->never())->method('listenerFunction');
+		$anotherListener->expects($this->never())
+			->method('listenerFunction');
 		$manager->dispatch($event);
 		$this->assertTrue($event->isStopped());
 	}

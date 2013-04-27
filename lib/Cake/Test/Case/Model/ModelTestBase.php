@@ -4,14 +4,15 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.4206
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -51,7 +52,7 @@ abstract class BaseModelTest extends CakeTestCase {
 		'core.category', 'core.category_thread', 'core.user', 'core.my_category', 'core.my_product',
 		'core.my_user', 'core.my_categories_my_users', 'core.my_categories_my_products',
 		'core.article', 'core.featured', 'core.article_featureds_tags', 'core.article_featured',
-		'core.articles', 'core.numeric_article', 'core.tag', 'core.articles_tag', 'core.comment',
+		'core.numeric_article', 'core.tag', 'core.articles_tag', 'core.comment',
 		'core.attachment', 'core.apple', 'core.sample', 'core.another_article', 'core.item',
 		'core.advertisement', 'core.home', 'core.post', 'core.author', 'core.bid', 'core.portfolio',
 		'core.product', 'core.project', 'core.thread', 'core.message', 'core.items_portfolio',

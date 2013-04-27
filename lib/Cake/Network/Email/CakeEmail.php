@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Network.Email
  * @since         CakePHP(tm) v 2.0.0
@@ -33,6 +34,7 @@ App::import('I18n', 'Multibyte');
  * @package       Cake.Network.Email
  */
 class CakeEmail {
+
 /**
  * Default X-Mailer
  *
@@ -85,7 +87,7 @@ class CakeEmail {
 /**
  * The sender email
  *
- * @var array();
+ * @var array
  */
 	protected $_sender = array();
 
@@ -136,9 +138,17 @@ class CakeEmail {
 /**
  * Message ID
  *
- * @var mixed True to generate, False to ignore, String with value
+ * @var boolean|string True to generate, False to ignore, String with value
  */
 	protected $_messageId = true;
+
+/**
+ * Domain for messageId generation.
+ * Needs to be manually set for CLI mailing as env('HTTP_HOST') is empty
+ *
+ * @var string
+ */
+	protected $_domain = null;
 
 /**
  * The subject of the email
@@ -182,6 +192,13 @@ class CakeEmail {
  * @var array
  */
 	protected $_viewVars = array();
+
+/**
+ * Theme for the View
+ *
+ * @var array
+ */
+	protected $_theme = null;
 
 /**
  * Helpers to be used in the render
@@ -280,7 +297,7 @@ class CakeEmail {
 /**
  * Configuration to transport
  *
- * @var mixed
+ * @var string|array
  */
 	protected $_config = array();
 
@@ -292,8 +309,17 @@ class CakeEmail {
 	protected $_charset8bit = array('UTF-8', 'SHIFT_JIS');
 
 /**
+ * Define Content-Type charset name
+ *
+ * @var array
+ */
+	protected $_contentTypeCharset = array(
+		'ISO-2022-JP-MS' => 'ISO-2022-JP'
+	);
+
+/**
  * Constructor
- * @param mixed $config Array of configs, or string to load configs from email.php
+ * @param array|string $config Array of configs, or string to load configs from email.php
  *
  */
 	public function __construct($config = null) {
@@ -301,6 +327,11 @@ class CakeEmail {
 		if ($this->_appCharset !== null) {
 			$this->charset = $this->_appCharset;
 		}
+		$this->_domain = preg_replace('/\:\d+$/', '', env('HTTP_HOST'));
+		if (empty($this->_domain)) {
+			$this->_domain = php_uname('n');
+		}
+
 		if ($config) {
 			$this->config($config);
 		}
@@ -312,9 +343,9 @@ class CakeEmail {
 /**
  * From
  *
- * @param mixed $email
+ * @param string|array $email
  * @param string $name
- * @return mixed
+ * @return array|CakeEmail
  * @throws SocketException
  */
 	public function from($email = null, $name = null) {
@@ -327,9 +358,9 @@ class CakeEmail {
 /**
  * Sender
  *
- * @param mixed $email
+ * @param string|array $email
  * @param string $name
- * @return mixed
+ * @return array|CakeEmail
  * @throws SocketException
  */
 	public function sender($email = null, $name = null) {
@@ -342,9 +373,9 @@ class CakeEmail {
 /**
  * Reply-To
  *
- * @param mixed $email
+ * @param string|array $email
  * @param string $name
- * @return mixed
+ * @return array|CakeEmail
  * @throws SocketException
  */
 	public function replyTo($email = null, $name = null) {
@@ -357,9 +388,9 @@ class CakeEmail {
 /**
  * Read Receipt (Disposition-Notification-To header)
  *
- * @param mixed $email
+ * @param string|array $email
  * @param string $name
- * @return mixed
+ * @return array|CakeEmail
  * @throws SocketException
  */
 	public function readReceipt($email = null, $name = null) {
@@ -372,9 +403,9 @@ class CakeEmail {
 /**
  * Return Path
  *
- * @param mixed $email
+ * @param string|array $email
  * @param string $name
- * @return mixed
+ * @return array|CakeEmail
  * @throws SocketException
  */
 	public function returnPath($email = null, $name = null) {
@@ -387,9 +418,9 @@ class CakeEmail {
 /**
  * To
  *
- * @param mixed $email Null to get, String with email, Array with email as key, name as value or email as value (without name)
+ * @param string|array $email Null to get, String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
- * @return mixed
+ * @return array|CakeEmail
  */
 	public function to($email = null, $name = null) {
 		if ($email === null) {
@@ -401,7 +432,7 @@ class CakeEmail {
 /**
  * Add To
  *
- * @param mixed $email String with email, Array with email as key, name as value or email as value (without name)
+ * @param string|array $email String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
  * @return CakeEmail $this
  */
@@ -412,9 +443,9 @@ class CakeEmail {
 /**
  * Cc
  *
- * @param mixed $email String with email, Array with email as key, name as value or email as value (without name)
+ * @param string|array $email String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
- * @return mixed
+ * @return array|CakeEmail
  */
 	public function cc($email = null, $name = null) {
 		if ($email === null) {
@@ -426,7 +457,7 @@ class CakeEmail {
 /**
  * Add Cc
  *
- * @param mixed $email String with email, Array with email as key, name as value or email as value (without name)
+ * @param string|array $email String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
  * @return CakeEmail $this
  */
@@ -437,9 +468,9 @@ class CakeEmail {
 /**
  * Bcc
  *
- * @param mixed $email String with email, Array with email as key, name as value or email as value (without name)
+ * @param string|array $email String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
- * @return mixed
+ * @return array|CakeEmail
  */
 	public function bcc($email = null, $name = null) {
 		if ($email === null) {
@@ -451,7 +482,7 @@ class CakeEmail {
 /**
  * Add Bcc
  *
- * @param mixed $email String with email, Array with email as key, name as value or email as value (without name)
+ * @param string|array $email String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
  * @return CakeEmail $this
  */
@@ -460,11 +491,41 @@ class CakeEmail {
 	}
 
 /**
+ * Charset setter/getter
+ *
+ * @param string $charset
+ * @return string $this->charset
+ */
+	public function charset($charset = null) {
+		if ($charset === null) {
+			return $this->charset;
+		}
+		$this->charset = $charset;
+		if (empty($this->headerCharset)) {
+			$this->headerCharset = $charset;
+		}
+		return $this->charset;
+	}
+
+/**
+ * HeaderCharset setter/getter
+ *
+ * @param string $charset
+ * @return string $this->charset
+ */
+	public function headerCharset($charset = null) {
+		if ($charset === null) {
+			return $this->headerCharset;
+		}
+		return $this->headerCharset = $charset;
+	}
+
+/**
  * Set email
  *
  * @param string $varName
- * @param mixed $email
- * @param mixed $name
+ * @param string|array $email
+ * @param string $name
  * @return CakeEmail $this
  * @throws SocketException
  */
@@ -497,7 +558,7 @@ class CakeEmail {
  * Set only 1 email
  *
  * @param string $varName
- * @param mixed $email
+ * @param string|array $email
  * @param string $name
  * @param string $throwMessage
  * @return CakeEmail $this
@@ -517,8 +578,8 @@ class CakeEmail {
  * Add email
  *
  * @param string $varName
- * @param mixed $email
- * @param mixed $name
+ * @param string|array $email
+ * @param string $name
  * @return CakeEmail $this
  * @throws SocketException
  */
@@ -550,8 +611,8 @@ class CakeEmail {
 /**
  * Get/Set Subject.
  *
- * @param null|string $subject
- * @return mixed
+ * @param string $subject
+ * @return string|CakeEmail
  */
 	public function subject($subject = null) {
 		if ($subject === null) {
@@ -652,7 +713,7 @@ class CakeEmail {
 		}
 		if ($this->_messageId !== false) {
 			if ($this->_messageId === true) {
-				$headers['Message-ID'] = '<' . str_replace('-', '', String::UUID()) . '@' . env('HTTP_HOST') . '>';
+				$headers['Message-ID'] = '<' . str_replace('-', '', String::UUID()) . '@' . $this->_domain . '>';
 			} else {
 				$headers['Message-ID'] = $this->_messageId;
 			}
@@ -666,9 +727,9 @@ class CakeEmail {
 		if (!empty($this->_attachments) || $this->_emailFormat === 'both') {
 			$headers['Content-Type'] = 'multipart/mixed; boundary="' . $this->_boundary . '"';
 		} elseif ($this->_emailFormat === 'text') {
-			$headers['Content-Type'] = 'text/plain; charset=' . $this->charset;
+			$headers['Content-Type'] = 'text/plain; charset=' . $this->_getContentTypeCharset();
 		} elseif ($this->_emailFormat === 'html') {
-			$headers['Content-Type'] = 'text/html; charset=' . $this->charset;
+			$headers['Content-Type'] = 'text/html; charset=' . $this->_getContentTypeCharset();
 		}
 		$headers['Content-Transfer-Encoding'] = $this->_getContentTransferEncoding();
 
@@ -699,9 +760,9 @@ class CakeEmail {
 /**
  * Template and layout
  *
- * @param mixed $template Template name or null to not use
- * @param mixed $layout Layout name or null to not use
- * @return mixed
+ * @param boolean|string $template Template name or null to not use
+ * @param boolean|string $layout Layout name or null to not use
+ * @return array|CakeEmail
  */
 	public function template($template = false, $layout = false) {
 		if ($template === false) {
@@ -721,7 +782,7 @@ class CakeEmail {
  * View class for render
  *
  * @param string $viewClass
- * @return mixed
+ * @return string|CakeEmail
  */
 	public function viewRender($viewClass = null) {
 		if ($viewClass === null) {
@@ -735,7 +796,7 @@ class CakeEmail {
  * Variables to be set on render
  *
  * @param array $viewVars
- * @return mixed
+ * @return array|CakeEmail
  */
 	public function viewVars($viewVars = null) {
 		if ($viewVars === null) {
@@ -746,10 +807,24 @@ class CakeEmail {
 	}
 
 /**
+ * Theme to use when rendering
+ *
+ * @param string $theme
+ * @return string|CakeEmail
+ */
+	public function theme($theme = null) {
+		if ($theme === null) {
+			return $this->_theme;
+		}
+		$this->_theme = $theme;
+		return $this;
+	}
+
+/**
  * Helpers to be used in render
  *
  * @param array $helpers
- * @return mixed
+ * @return array|CakeEmail
  */
 	public function helpers($helpers = null) {
 		if ($helpers === null) {
@@ -763,7 +838,7 @@ class CakeEmail {
  * Email format
  *
  * @param string $format
- * @return mixed
+ * @return string|CakeEmail
  * @throws SocketException
  */
 	public function emailFormat($format = null) {
@@ -781,7 +856,7 @@ class CakeEmail {
  * Transport name
  *
  * @param string $name
- * @return mixed
+ * @return string|CakeEmail
  */
 	public function transport($name = null) {
 		if ($name === null) {
@@ -817,8 +892,8 @@ class CakeEmail {
 /**
  * Message-ID
  *
- * @param mixed $message True to generate a new Message-ID, False to ignore (not send in email), String to set as Message-ID
- * @return mixed
+ * @param boolean|string $message True to generate a new Message-ID, False to ignore (not send in email), String to set as Message-ID
+ * @return boolean|string|CakeEmail
  * @throws SocketException
  */
 	public function messageId($message = null) {
@@ -833,6 +908,20 @@ class CakeEmail {
 			}
 			$this->_messageId = $message;
 		}
+		return $this;
+	}
+
+/**
+ * Domain as top level (the part after @)
+ *
+ * @param string $domain Manually set the domain for CLI mailing
+ * @return string|CakeEmail
+ */
+	public function domain($domain = null) {
+		if ($domain === null) {
+			return $this->_domain;
+		}
+		$this->_domain = $domain;
 		return $this;
 	}
 
@@ -859,15 +948,19 @@ class CakeEmail {
  * $email->attachments(array('custom_name.png' => array(
  *		'file' => 'path/to/file',
  *		'mimetype' => 'image/png',
- *		'contentId' => 'abc123'
+ *		'contentId' => 'abc123',
+ *		'contentDisposition' => false
  * ));
  * }}}
  *
  * The `contentId` key allows you to specify an inline attachment. In your email text, you
  * can use `<img src="cid:abc123" />` to display the image inline.
  *
- * @param mixed $attachments String with the filename or array with filenames
- * @return mixed Either the array of attachments when getting or $this when setting.
+ * The `contentDisposition` key allows you to disable the `Content-Disposition` header, this can improve
+ * attachment compatibility with outlook email clients.
+ *
+ * @param string|array $attachments String with the filename or array with filenames
+ * @return array|CakeEmail Either the array of attachments when getting or $this when setting.
  * @throws SocketException
  */
 	public function attachments($attachments = null) {
@@ -901,9 +994,10 @@ class CakeEmail {
 /**
  * Add attachments
  *
- * @param mixed $attachments String with the filename or array with filenames
+ * @param string|array $attachments String with the filename or array with filenames
  * @return CakeEmail $this
  * @throws SocketException
+ * @see CakeEmail::attachments()
  */
 	public function addAttachments($attachments) {
 		$current = $this->_attachments;
@@ -915,8 +1009,8 @@ class CakeEmail {
 /**
  * Get generated message (used by transport classes)
  *
- * @param mixed $type Use MESSAGE_* constants or null to return the full message as array
- * @return mixed String if have type, array if type is null
+ * @param string $type Use MESSAGE_* constants or null to return the full message as array
+ * @return string|array String if have type, array if type is null
  */
 	public function message($type = null) {
 		switch ($type) {
@@ -931,8 +1025,8 @@ class CakeEmail {
 /**
  * Configuration to use when send email
  *
- * @param mixed $config String with configuration name (from email.php), array with config or null to return current config
- * @return mixed
+ * @param string|array $config String with configuration name (from email.php), array with config or null to return current config
+ * @return string|array|CakeEmail
  */
 	public function config($config = null) {
 		if ($config === null) {
@@ -948,8 +1042,8 @@ class CakeEmail {
 
 /**
  * Send an email using the specified content, template and layout
- * 
- * @param mixed $content String with message or array with messages
+ *
+ * @param string|array $content String with message or array with messages
  * @return array
  * @throws SocketException
  */
@@ -983,10 +1077,10 @@ class CakeEmail {
 /**
  * Static method to fast create an instance of CakeEmail
  *
- * @param mixed $to Address to send (see CakeEmail::to()). If null, will try to use 'to' from transport config
- * @param mixed $subject String of subject or null to use 'subject' from transport config
- * @param mixed $message String with message or array with variables to be used in render
- * @param mixed $transportConfig String to use config from EmailConfig or array with configs
+ * @param string|array $to Address to send (see CakeEmail::to()). If null, will try to use 'to' from transport config
+ * @param string $subject String of subject or null to use 'subject' from transport config
+ * @param string|array $message String with message or array with variables to be used in render
+ * @param string|array $transportConfig String to use config from EmailConfig or array with configs
  * @param boolean $send Send the email or just return the instance pre-configured
  * @return CakeEmail Instance of CakeEmail
  * @throws SocketException
@@ -1017,7 +1111,6 @@ class CakeEmail {
 /**
  * Apply the config to an instance
  *
- * @param CakeEmail $obj CakeEmail
  * @param array $config
  * @return void
  * @throws ConfigureException When configuration file cannot be found, or is missing
@@ -1046,8 +1139,8 @@ class CakeEmail {
 		}
 		$simpleMethods = array(
 			'from', 'sender', 'to', 'replyTo', 'readReceipt', 'returnPath', 'cc', 'bcc',
-			'messageId', 'subject', 'viewRender', 'viewVars', 'attachments',
-			'transport', 'emailFormat'
+			'messageId', 'domain', 'subject', 'viewRender', 'viewVars', 'attachments',
+			'transport', 'emailFormat', 'theme', 'helpers'
 		);
 		foreach ($simpleMethods as $method) {
 			if (isset($config[$method])) {
@@ -1092,6 +1185,7 @@ class CakeEmail {
 		$this->_template = '';
 		$this->_viewRender = 'View';
 		$this->_viewVars = array();
+		$this->_theme = null;
 		$this->_helpers = array('Html');
 		$this->_textMessage = '';
 		$this->_htmlMessage = '';
@@ -1099,6 +1193,8 @@ class CakeEmail {
 		$this->_emailFormat = 'text';
 		$this->_transportName = 'Mail';
 		$this->_transportClass = null;
+		$this->charset = 'utf-8';
+		$this->headerCharset = null;
 		$this->_attachments = array();
 		$this->_config = array();
 		return $this;
@@ -1115,6 +1211,9 @@ class CakeEmail {
 		if ($internalEncoding) {
 			$restore = mb_internal_encoding();
 			mb_internal_encoding($this->_appCharset);
+		}
+		if (empty($this->headerCharset)) {
+			$this->headerCharset = $this->charset;
 		}
 		$return = mb_encode_mimeheader($text, $this->headerCharset, 'B');
 		if ($internalEncoding) {
@@ -1144,7 +1243,7 @@ class CakeEmail {
  * @param string $message Message to wrap
  * @return array Wrapped message
  */
-	protected function _wrap($message) {
+	protected function _wrap($message, $wrapLength = CakeEmail::LINE_LENGTH_MUST) {
 		$message = str_replace(array("\r\n", "\r"), "\n", $message);
 		$lines = explode("\n", $message);
 		$formatted = array();
@@ -1154,11 +1253,11 @@ class CakeEmail {
 				$formatted[] = '';
 				continue;
 			}
-			if ($line[0] === '.') {
-				$line = '.' . $line;
-			}
 			if (!preg_match('/\<[a-z]/i', $line)) {
-				$formatted = array_merge($formatted, explode("\n", wordwrap($line, self::LINE_LENGTH_SHOULD, "\n")));
+				$formatted = array_merge(
+					$formatted,
+					explode("\n", wordwrap($line, $wrapLength, "\n"))
+				);
 				continue;
 			}
 
@@ -1171,7 +1270,7 @@ class CakeEmail {
 					$tag .= $char;
 					if ($char === '>') {
 						$tagLength = strlen($tag);
-						if ($tagLength + $tmpLineLength < self::LINE_LENGTH_SHOULD) {
+						if ($tagLength + $tmpLineLength < $wrapLength) {
 							$tmpLine .= $tag;
 							$tmpLineLength += $tagLength;
 						} else {
@@ -1180,7 +1279,7 @@ class CakeEmail {
 								$tmpLine = '';
 								$tmpLineLength = 0;
 							}
-							if ($tagLength > self::LINE_LENGTH_SHOULD) {
+							if ($tagLength > $wrapLength) {
 								$formatted[] = $tag;
 							} else {
 								$tmpLine = $tag;
@@ -1197,14 +1296,14 @@ class CakeEmail {
 					$tag = '<';
 					continue;
 				}
-				if ($char === ' ' && $tmpLineLength >= self::LINE_LENGTH_SHOULD) {
+				if ($char === ' ' && $tmpLineLength >= $wrapLength) {
 					$formatted[] = $tmpLine;
 					$tmpLineLength = 0;
 					continue;
 				}
 				$tmpLine .= $char;
 				$tmpLineLength++;
-				if ($tmpLineLength === self::LINE_LENGTH_SHOULD) {
+				if ($tmpLineLength === $wrapLength) {
 					$nextChar = $line[$i + 1];
 					if ($nextChar === ' ' || $nextChar === '<') {
 						$formatted[] = trim($tmpLine);
@@ -1247,7 +1346,7 @@ class CakeEmail {
 /**
  * Attach non-embedded files by adding file contents inside boundaries.
  *
- * @param string $boundary Boundary to use. If null, will default to $this->_boundary 
+ * @param string $boundary Boundary to use. If null, will default to $this->_boundary
  * @return array An array of lines to add to the message
  */
 	protected function _attachFiles($boundary = null) {
@@ -1265,7 +1364,12 @@ class CakeEmail {
 			$msg[] = '--' . $boundary;
 			$msg[] = 'Content-Type: ' . $fileInfo['mimetype'];
 			$msg[] = 'Content-Transfer-Encoding: base64';
-			$msg[] = 'Content-Disposition: attachment; filename="' . $filename . '"';
+			if (
+				!isset($fileInfo['contentDisposition']) ||
+				$fileInfo['contentDisposition']
+			) {
+				$msg[] = 'Content-Disposition: attachment; filename="' . $filename . '"';
+			}
 			$msg[] = '';
 			$msg[] = $data;
 			$msg[] = '';
@@ -1290,7 +1394,7 @@ class CakeEmail {
 /**
  * Attach inline/embedded files to the message.
  *
- * @param string $boundary Boundary to use. If null, will default to $this->_boundary 
+ * @param string $boundary Boundary to use. If null, will default to $this->_boundary
  * @return array An array of lines to add to the message
  */
 	protected function _attachInlineFiles($boundary = null) {
@@ -1320,7 +1424,7 @@ class CakeEmail {
 /**
  * Render the body of the email.
  *
- * @param string $content Content to render
+ * @param array $content Content to render
  * @return array Email body ready to be sent
  */
 	protected function _render($content) {
@@ -1329,7 +1433,7 @@ class CakeEmail {
 
 		$msg = array();
 
-		$contentIds = array_filter((array)Set::classicExtract($this->_attachments, '{s}.contentId'));
+		$contentIds = array_filter((array)Hash::extract($this->_attachments, '{s}.contentId'));
 		$hasInlineAttachments = count($contentIds) > 0;
 		$hasAttachments = !empty($this->_attachments);
 		$hasMultipleTypes = count($rendered) > 1;
@@ -1353,7 +1457,7 @@ class CakeEmail {
 		if (isset($rendered['text'])) {
 			if ($textBoundary !== $boundary || $hasAttachments) {
 				$msg[] = '--' . $textBoundary;
-				$msg[] = 'Content-Type: text/plain; charset=' . $this->charset;
+				$msg[] = 'Content-Type: text/plain; charset=' . $this->_getContentTypeCharset();
 				$msg[] = 'Content-Transfer-Encoding: ' . $this->_getContentTransferEncoding();
 				$msg[] = '';
 			}
@@ -1366,7 +1470,7 @@ class CakeEmail {
 		if (isset($rendered['html'])) {
 			if ($textBoundary !== $boundary || $hasAttachments) {
 				$msg[] = '--' . $textBoundary;
-				$msg[] = 'Content-Type: text/html; charset=' . $this->charset;
+				$msg[] = 'Content-Type: text/html; charset=' . $this->_getContentTypeCharset();
 				$msg[] = 'Content-Transfer-Encoding: ' . $this->_getContentTransferEncoding();
 				$msg[] = '';
 			}
@@ -1404,11 +1508,11 @@ class CakeEmail {
 /**
  * Gets the text body types that are in this email message
  *
- * @return array Array of types.  Valid types are 'text' and 'html'
+ * @return array Array of types. Valid types are 'text' and 'html'
  */
 	protected function _getTypes() {
 		$types = array($this->_emailFormat);
-		if ($this->_emailFormat == 'both') {
+		if ($this->_emailFormat === 'both') {
 			$types = array('html', 'text');
 		}
 		return $types;
@@ -1449,6 +1553,9 @@ class CakeEmail {
 		} elseif ($layoutPlugin) {
 			$View->plugin = $layoutPlugin;
 		}
+		if ($this->_theme) {
+			$View->theme = $this->_theme;
+		}
 
 		foreach ($types as $type) {
 			$View->set('content', $content);
@@ -1473,6 +1580,23 @@ class CakeEmail {
 			return '8bit';
 		}
 		return '7bit';
+	}
+
+/**
+ * Return charset value for Content-Type.
+ *
+ * Checks fallback/compatibility types which include workarounds
+ * for legacy japanese character sets.
+ *
+ * @return string
+ */
+	protected function _getContentTypeCharset() {
+		$charset = strtoupper($this->charset);
+		if (array_key_exists($charset, $this->_contentTypeCharset)) {
+			return strtoupper($this->_contentTypeCharset[$charset]);
+		} else {
+			return strtoupper($this->charset);
+		}
 	}
 
 }

@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Controller.Component
  * @since         CakePHP(tm) v 0.10.0.1232
@@ -21,8 +22,8 @@ App::uses('Component', 'Controller');
 App::uses('CakeSession', 'Model/Datasource');
 
 /**
- * The CakePHP SessionComponent provides a way to persist client data between 
- * page requests. It acts as a wrapper for the `$_SESSION` as well as providing 
+ * The CakePHP SessionComponent provides a way to persist client data between
+ * page requests. It acts as a wrapper for the `$_SESSION` as well as providing
  * convenience methods for several `$_SESSION` related functions.
  *
  * @package       Cake.Controller.Component
@@ -162,15 +163,19 @@ class SessionComponent extends Component {
 	}
 
 /**
- * Returns Session id
+ * Get/Set the session id.
  *
- * If $id is passed in a beforeFilter, the Session will be started
- * with the specified id
+ * When fetching the session id, the session will be started
+ * if it has not already been started. When setting the session id,
+ * the session will not be started.
  *
- * @param string $id
- * @return string
+ * @param string $id Id to use (optional)
+ * @return string The current session id.
  */
 	public function id($id = null) {
+		if (empty($id)) {
+			CakeSession::start();
+		}
 		return CakeSession::id($id);
 	}
 

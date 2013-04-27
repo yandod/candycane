@@ -7,12 +7,13 @@
  * PHP version 5
  *
  * CakePHP : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc.
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP Project
  * @package       Cake.Test.Case.TestSuite
  * @since         CakePHP v 2.0
@@ -32,11 +33,11 @@ require_once dirname(dirname(__FILE__)) . DS . 'Model' . DS . 'models.php';
  * @package       Cake.Test.Case.TestSuite
  */
 if (!class_exists('AppController', false)) {
-	/**
-	 * AppController class
-	 *
-	 * @package       Cake.Test.Case.TestSuite
-	 */
+/**
+ * AppController class
+ *
+ * @package       Cake.Test.Case.TestSuite
+ */
 	class AppController extends Controller {
 
 	/**
@@ -276,7 +277,7 @@ class ControllerTestCaseTest extends CakeTestCase {
  * @return void
  */
 	public function testTestActionWithPlugin() {
-		$Controller = $this->Case->generate('TestPlugin.Tests');
+		$this->Case->generate('TestPlugin.Tests');
 		$this->Case->testAction('/test_plugin/tests/index');
 		$this->assertEquals('It is a variable', $this->Case->controller->viewVars['test_value']);
 	}
@@ -312,7 +313,7 @@ class ControllerTestCaseTest extends CakeTestCase {
 		include CAKE . 'Test' . DS . 'test_app' . DS . 'Config' . DS . 'routes.php';
 
 		$this->Case->loadRoutes = false;
-		$result = $this->Case->testAction('/tests_apps/missing_action.json', array('return' => 'view'));
+		$this->Case->testAction('/tests_apps/missing_action.json', array('return' => 'view'));
 	}
 
 /**
@@ -520,7 +521,7 @@ class ControllerTestCaseTest extends CakeTestCase {
  * @return void
  */
 	public function testTestActionWithMultipleRedirect() {
-		$Controller = $this->Case->generate('TestsApps');
+		$this->Case->generate('TestsApps');
 
 		$options = array('method' => 'get');
 		$this->Case->testAction('/tests_apps/redirect_to', $options);
@@ -540,6 +541,25 @@ class ControllerTestCaseTest extends CakeTestCase {
 		$this->Case->testAction('/tests_apps/index', $options);
 		$this->assertSame($this->Case->controller->response, $this->Case->controller->RequestHandler->response);
 		$this->assertSame($this->Case->controller->request, $this->Case->controller->RequestHandler->request);
+	}
+
+/**
+ * Test that testAction() doesn't destroy data in GET & POST
+ *
+ * @return void
+ */
+	public function testRestoreGetPost() {
+		$restored = array('new' => 'value');
+
+		$_GET = $restored;
+		$_POST = $restored;
+
+		$this->Case->generate('TestsApps');
+		$options = array('method' => 'get');
+		$this->Case->testAction('/tests_apps/index', $options);
+
+		$this->assertEquals($restored, $_GET);
+		$this->assertEquals($restored, $_POST);
 	}
 
 }

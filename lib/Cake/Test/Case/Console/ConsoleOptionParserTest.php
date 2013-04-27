@@ -4,14 +4,15 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc.
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Console
  * @since         CakePHP(tm) v 2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -76,6 +77,18 @@ class ConsoleOptionParserTest extends CakeTestCase {
 		));
 		$result = $parser->parse(array('--test', 'value'));
 		$this->assertEquals(array('test' => 'value', 'help' => false), $result[0], 'Long parameter did not parse out');
+	}
+
+/**
+ * test adding an option with a zero value
+ *
+ * @return void
+ */
+	public function testAddOptionZero() {
+		$parser = new ConsoleOptionParser('test', false);
+		$parser->addOption('count', array());
+		$result = $parser->parse(array('--count', '0'));
+		$this->assertEquals(array('count' => '0', 'help' => false), $result[0], 'Zero parameter did not parse out');
 	}
 
 /**
@@ -247,7 +260,7 @@ class ConsoleOptionParserTest extends CakeTestCase {
 		$parser = new ConsoleOptionParser('test', false);
 		$parser->addOption('no-commit', array('boolean' => true));
 
-		$result = $parser->parse(array('--fail', 'other'));
+		$parser->parse(array('--fail', 'other'));
 	}
 
 /**
@@ -259,7 +272,7 @@ class ConsoleOptionParserTest extends CakeTestCase {
 		$parser = new ConsoleOptionParser('test', false);
 		$parser->addOption('no-commit', array('boolean' => true));
 
-		$result = $parser->parse(array('-f'));
+		$parser->parse(array('-f'));
 	}
 
 /**
@@ -314,8 +327,27 @@ class ConsoleOptionParserTest extends CakeTestCase {
 		$parser = new ConsoleOptionParser('test', false);
 		$parser->addArgument(new ConsoleInputArgument('test'));
 		$result = $parser->arguments();
-		$this->assertEquals(1, count($result));
+		$this->assertCount(1, $result);
 		$this->assertEquals('test', $result[0]->name());
+	}
+
+/**
+ * Test adding arguments out of order.
+ *
+ * @return void
+ */
+	public function testAddArgumentOutOfOrder() {
+		$parser = new ConsoleOptionParser('test', false);
+		$parser->addArgument('name', array('index' => 1, 'help' => 'first argument'))
+			->addArgument('bag', array('index' => 2, 'help' => 'second argument'))
+			->addArgument('other', array('index' => 0, 'help' => 'Zeroth argument'));
+
+		$result = $parser->arguments();
+		$this->assertCount(3, $result);
+		$this->assertEquals('other', $result[0]->name());
+		$this->assertEquals('name', $result[1]->name());
+		$this->assertEquals('bag', $result[2]->name());
+		$this->assertSame(array(0, 1, 2), array_keys($result));
 	}
 
 /**
@@ -496,7 +528,7 @@ cake mycommand method [-h] [--connection]
 --connection      Db connection.
 
 TEXT;
-		$this->assertEquals($expected, $result, 'Help is not correct.');
+		$this->assertTextEquals($expected, $result, 'Help is not correct.');
 	}
 
 /**

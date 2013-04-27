@@ -4,13 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.TestSuite
  * @since         CakePHP(tm) v 1.3
@@ -55,7 +56,7 @@ class CakeTestSuiteDispatcher {
 	protected $_baseUrl;
 
 /**
- * Base dir of the request.  Used for accessing assets.
+ * Base dir of the request. Used for accessing assets.
  *
  * @var string
  */
@@ -117,7 +118,7 @@ class CakeTestSuiteDispatcher {
 	}
 
 /**
- * Checks that PHPUnit is installed.  Will exit if it doesn't
+ * Checks that PHPUnit is installed. Will exit if it doesn't
  *
  * @return void
  */
@@ -136,24 +137,18 @@ class CakeTestSuiteDispatcher {
  * @return boolean true if found, false otherwise
  */
 	public function loadTestFramework() {
-		$found = $path = null;
-
-		if (@include 'PHPUnit' . DS . 'Autoload.php') {
-			$found = true;
+		if (class_exists('PHPUnit_Framework_TestCase')) {
+			return true;
 		}
-
-		if (!$found) {
-			foreach (App::path('vendors') as $vendor) {
-				if (is_dir($vendor . 'PHPUnit')) {
-					$path = $vendor;
-				}
-			}
-
-			if ($path && ini_set('include_path', $path . PATH_SEPARATOR . ini_get('include_path'))) {
-				$found = include 'PHPUnit' . DS . 'Autoload.php';
+		foreach (App::path('vendors') as $vendor) {
+			$vendor = rtrim($vendor, DS);
+			if (is_dir($vendor . DS . 'PHPUnit')) {
+				ini_set('include_path', $vendor . PATH_SEPARATOR . ini_get('include_path'));
+				break;
 			}
 		}
-		return $found;
+		include 'PHPUnit' . DS . 'Autoload.php';
+		return class_exists('PHPUnit_Framework_TestCase');
 	}
 
 /**
@@ -247,14 +242,40 @@ class CakeTestSuiteDispatcher {
 		restore_error_handler();
 
 		try {
+			self::time();
 			$command = new CakeTestSuiteCommand('CakeTestLoader', $commandArgs);
-			$result = $command->run($options);
+			$command->run($options);
 		} catch (MissingConnectionException $exception) {
 			ob_end_clean();
 			$baseDir = $this->_baseDir;
 			include CAKE . 'TestSuite' . DS . 'templates' . DS . 'missing_connection.php';
 			exit();
 		}
+	}
+
+/**
+ * Sets a static timestamp
+ *
+ * @param boolean $reset to set new static timestamp.
+ * @return integer timestamp
+ */
+	public static function time($reset = false) {
+		static $now;
+		if ($reset || !$now) {
+			$now = time();
+		}
+		return $now;
+	}
+
+/**
+ * Returns formatted date string using static time
+ * This method is being used as formatter for created, modified and updated fields in Model::save()
+ *
+ * @param string $format format to be used.
+ * @return string formatted date
+ */
+	public static function date($format) {
+		return date($format, self::time());
 	}
 
 }

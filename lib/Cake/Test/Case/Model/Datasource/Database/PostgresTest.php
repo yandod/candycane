@@ -307,6 +307,10 @@ class PostgresTest extends CakeTestCase {
 		$this->assertEquals('string', $this->Dbo2->column('character varying'));
 		$this->assertEquals('time', $this->Dbo2->column('time without time zone'));
 		$this->assertEquals('datetime', $this->Dbo2->column('timestamp without time zone'));
+
+		$result = $this->Dbo2->column('bigint');
+		$expected = 'biginteger';
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -347,8 +351,8 @@ class PostgresTest extends CakeTestCase {
  * @return void
  */
 	public function testLocalizedFloats() {
-		$restore = setlocale(LC_ALL, 0);
-		setlocale(LC_ALL, 'de_DE');
+		$restore = setlocale(LC_NUMERIC, 0);
+		setlocale(LC_NUMERIC, 'de_DE');
 
 		$result = $this->db->value(3.141593, 'float');
 		$this->assertEquals("3.141593", $result);
@@ -356,7 +360,7 @@ class PostgresTest extends CakeTestCase {
 		$result = $this->db->value(3.14);
 		$this->assertEquals("3.140000", $result);
 
-		setlocale(LC_ALL, $restore);
+		setlocale(LC_NUMERIC, $restore);
 	}
 
 /**
@@ -483,6 +487,18 @@ class PostgresTest extends CakeTestCase {
 	}
 
 /**
+ * Tests passing PostgreSQL regular expression operators when building queries
+ *
+ * @return void
+ */
+	public function testRegexpOperatorConditionsParsing() {
+		$this->assertSame(' WHERE "name" ~ \'[a-z_]+\'', $this->Dbo->conditions(array('name ~' => '[a-z_]+')));
+		$this->assertSame(' WHERE "name" ~* \'[a-z_]+\'', $this->Dbo->conditions(array('name ~*' => '[a-z_]+')));
+		$this->assertSame(' WHERE "name" !~ \'[a-z_]+\'', $this->Dbo->conditions(array('name !~' => '[a-z_]+')));
+		$this->assertSame(' WHERE "name" !~* \'[a-z_]+\'', $this->Dbo->conditions(array('name !~*' => '[a-z_]+')));
+	}
+
+/**
  * Tests the syntax of generated schema indexes
  *
  * @return void
@@ -530,23 +546,26 @@ class PostgresTest extends CakeTestCase {
 			id serial NOT NULL,
 			"varchar" character varying(40) NOT NULL,
 			"full_length" character varying NOT NULL,
+			"huge_int" bigint NOT NULL,
 			"timestamp" timestamp without time zone,
 			"date" date,
 			CONSTRAINT test_data_types_pkey PRIMARY KEY (id)
 		)');
 
-		$model = new Model(array('name' => 'DatatypeTest', 'ds' => 'test'));
 		$schema = new CakeSchema(array('connection' => 'test'));
 		$result = $schema->read(array(
 			'connection' => 'test',
 			'models' => array('DatatypeTest')
 		));
-		$schema->tables = array('datatype_tests' => $result['tables']['missing']['datatype_tests']);
+		$schema->tables = array(
+			'datatype_tests' => $result['tables']['missing']['datatype_tests']
+		);
 		$result = $db1->createSchema($schema, 'datatype_tests');
 
 		$this->assertNotRegExp('/timestamp DEFAULT/', $result);
 		$this->assertRegExp('/\"full_length\"\s*text\s.*,/', $result);
-		$this->assertRegExp('/timestamp\s*,/', $result);
+		$this->assertContains('timestamp ,', $result);
+		$this->assertContains('"huge_int" bigint NOT NULL,', $result);
 
 		$db1->query('DROP TABLE ' . $db1->fullTableName('datatype_tests'));
 
@@ -733,6 +752,25 @@ class PostgresTest extends CakeTestCase {
 	}
 
 /**
+ * Test the alterSchema  RENAME statements
+ *
+ * @return void
+ */
+	public function testAlterSchemaRenameTo() {
+		$query = $this->Dbo->alterSchema(array(
+			'posts' => array(
+				'change' => array(
+					'title' => array('name' => 'subject', 'type' => 'string', 'null' => false)
+				)
+			)
+		));
+		$this->assertContains('RENAME "title" TO "subject";', $query);
+		$this->assertContains('ALTER COLUMN "subject" TYPE', $query);
+		$this->assertNotContains(";\n\tALTER COLUMN \"subject\" TYPE", $query);
+		$this->assertNotContains('ALTER COLUMN "title" TYPE "subject"', $query);
+	}
+
+/**
  * Test it is possible to use virtual field with postgresql
  *
  * @return void
@@ -784,7 +822,7 @@ class PostgresTest extends CakeTestCase {
 	}
 
 /**
- * Test it is possible to do a SELECT COUNT(DISTINCT Model.field) 
+ * Test it is possible to do a SELECT COUNT(DISTINCT Model.field)
  * query in postgres and it gets correctly quoted
  *
  * @return void
@@ -907,6 +945,62 @@ class PostgresTest extends CakeTestCase {
 		$this->Dbo->expects($this->at(0))->method('execute')
 			->with("DELETE FROM \"$schema\".\"tbl_articles\"");
 		$this->Dbo->truncate('articles');
+	}
+
+/**
+ * Test nested transaction
+ *
+ * @return void
+ */
+	public function testNestedTransaction() {
+		$this->Dbo->useNestedTransactions = true;
+		$this->skipIf($this->Dbo->nestedTransactionSupported() === false, 'The Postgres server do not support nested transaction');
+
+		$this->loadFixtures('Article');
+		$model = new Article();
+		$model->hasOne = $model->hasMany = $model->belongsTo = $model->hasAndBelongsToMany = array();
+		$model->cacheQueries = false;
+		$this->Dbo->cacheMethods = false;
+
+		$this->assertTrue($this->Dbo->begin());
+		$this->assertNotEmpty($model->read(null, 1));
+
+		$this->assertTrue($this->Dbo->begin());
+		$this->assertTrue($model->delete(1));
+		$this->assertEmpty($model->read(null, 1));
+		$this->assertTrue($this->Dbo->rollback());
+		$this->assertNotEmpty($model->read(null, 1));
+
+		$this->assertTrue($this->Dbo->begin());
+		$this->assertTrue($model->delete(1));
+		$this->assertEmpty($model->read(null, 1));
+		$this->assertTrue($this->Dbo->commit());
+		$this->assertEmpty($model->read(null, 1));
+
+		$this->assertTrue($this->Dbo->rollback());
+		$this->assertNotEmpty($model->read(null, 1));
+	}
+
+	public function testResetSequence() {
+		$model = new Article();
+
+		$table = $this->Dbo->fullTableName($model, false);
+		$fields = array(
+			'id', 'user_id', 'title', 'body', 'published',
+		);
+		$values = array(
+			array(1, 1, 'test', 'first post', false),
+			array(2, 1, 'test 2', 'second post post', false),
+		);
+		$this->Dbo->insertMulti($table, $fields, $values);
+		$sequence = $this->Dbo->getSequence($table);
+		$result = $this->Dbo->rawQuery("SELECT nextval('$sequence')");
+		$original = $result->fetch(PDO::FETCH_ASSOC);
+
+		$this->assertTrue($this->Dbo->resetSequence($table, 'id'));
+		$result = $this->Dbo->rawQuery("SELECT currval('$sequence')");
+		$new = $result->fetch(PDO::FETCH_ASSOC);
+		$this->assertTrue($new['currval'] > $original['nextval'], 'Sequence did not update');
 	}
 
 }

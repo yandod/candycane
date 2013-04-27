@@ -4,13 +4,14 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Model.Datasource.Session
  * @since         CakePHP(tm) v 2.0
@@ -96,7 +97,7 @@ class DatabaseSessionTest extends CakeTestCase {
  */
 	public function testConstructionSettings() {
 		ClassRegistry::flush();
-		$storage = new DatabaseSession();
+		new DatabaseSession();
 
 		$session = ClassRegistry::getObject('session');
 		$this->assertInstanceOf('SessionTestModel', $session);
@@ -125,10 +126,14 @@ class DatabaseSessionTest extends CakeTestCase {
 			'Session' => array(
 				'id' => 'foo',
 				'data' => 'Some value',
-				'expires' => time() + (Configure::read('Session.timeout') * 60)
 			)
 		);
+		$expires = $result['Session']['expires'];
+		unset($result['Session']['expires']);
 		$this->assertEquals($expected, $result);
+
+		$expected = time() + (Configure::read('Session.timeout') * 60);
+		$this->assertWithinMargin($expires, $expected, 1);
 	}
 
 /**

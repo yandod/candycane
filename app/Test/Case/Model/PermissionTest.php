@@ -11,7 +11,7 @@ class PermissionTestCase extends CakeTestCase {
  *
  * @var array
  */
-	public $fixtures = array('app.permission');
+	public $fixtures = array();
 
 /**
  * setUp method

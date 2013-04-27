@@ -1,18 +1,14 @@
 <?php
 /**
- * SecurityTest file
- *
- * PHP 5
- *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
- * @package       Cake.Test.Case.Utility
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @since         CakePHP(tm) v 1.2.0.5432
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
@@ -68,6 +64,45 @@ class SecurityTest extends CakeTestCase {
 	}
 
 /**
+ * testHashInvalidSalt method
+ *
+ * @expectedException PHPUnit_Framework_Error
+ * @return void
+ */
+	public function testHashInvalidSalt() {
+		Security::hash('someKey', 'blowfish', true);
+	}
+
+/**
+ * testHashAnotherInvalidSalt
+ *
+ * @expectedException PHPUnit_Framework_Error
+ * @return void
+ */
+	public function testHashAnotherInvalidSalt() {
+		Security::hash('someKey', 'blowfish', '$1$lksdjoijfaoijs');
+	}
+
+/**
+ * testHashYetAnotherInvalidSalt
+ *
+ * @expectedException PHPUnit_Framework_Error
+ * @return void
+ */
+	public function testHashYetAnotherInvalidSalt() {
+		Security::hash('someKey', 'blowfish', '$2a$10$123');
+	}
+
+/**
+ * testHashInvalidCost method
+ *
+ * @expectedException PHPUnit_Framework_Error
+ * @return void
+ */
+	public function testHashInvalidCost() {
+		Security::setCost(1000);
+	}
+/**
  * testHash method
  *
  * @return void
@@ -116,6 +151,50 @@ class SecurityTest extends CakeTestCase {
 	}
 
 /**
+ * Test that hash() works with blowfish.
+ *
+ * @return void
+ */
+	public function testHashBlowfish() {
+		Security::setCost(10);
+		$test = Security::hash('password', 'blowfish');
+		$this->skipIf(strpos($test, '$2a$') === false, 'Blowfish hashes are incorrect.');
+
+		$_hashType = Security::$hashType;
+
+		$key = 'someKey';
+		$hashType = 'blowfish';
+		Security::setHash($hashType);
+
+		$this->assertSame(Security::$hashType, $hashType);
+		$this->assertSame(strlen(Security::hash($key, null, false)), 60);
+
+		$password = $submittedPassword = $key;
+		$storedPassword = Security::hash($password);
+
+		$hashedPassword = Security::hash($submittedPassword, null, $storedPassword);
+		$this->assertSame($storedPassword, $hashedPassword);
+
+		$submittedPassword = 'someOtherKey';
+		$hashedPassword = Security::hash($submittedPassword, null, $storedPassword);
+		$this->assertNotSame($storedPassword, $hashedPassword);
+
+		$expected = sha1('customsaltsomevalue');
+		$result = Security::hash('somevalue', 'sha1', 'customsalt');
+		$this->assertSame($expected, $result);
+
+		$oldSalt = Configure::read('Security.salt');
+		Configure::write('Security.salt', 'customsalt');
+
+		$expected = sha1('customsaltsomevalue');
+		$result = Security::hash('somevalue', 'sha1', true);
+		$this->assertSame($expected, $result);
+
+		Configure::write('Security.salt', $oldSalt);
+		Security::setHash($_hashType);
+	}
+
+/**
  * testCipher method
  *
  * @return void
@@ -155,6 +234,71 @@ class SecurityTest extends CakeTestCase {
 	public function testCipherEmptyKey() {
 		$txt = 'some_text';
 		$key = '';
-		$result = Security::cipher($txt, $key);
+		Security::cipher($txt, $key);
 	}
+
+/**
+ * testRijndael method
+ *
+ * @return void
+ */
+	public function testRijndael() {
+		$this->skipIf(!function_exists('mcrypt_encrypt'));
+		$txt = 'The quick brown fox jumped over the lazy dog.';
+		$key = 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi';
+
+		$result = Security::rijndael($txt, $key, 'encrypt');
+		$this->assertEquals($txt, Security::rijndael($result, $key, 'decrypt'));
+
+		$result = Security::rijndael($key, $txt, 'encrypt');
+		$this->assertEquals($key, Security::rijndael($result, $txt, 'decrypt'));
+
+		$result = Security::rijndael('', $key, 'encrypt');
+		$this->assertEquals('', Security::rijndael($result, $key, 'decrypt'));
+
+		$key = 'this is my key of over 32 chars, yes it is';
+		$result = Security::rijndael($txt, $key, 'encrypt');
+		$this->assertEquals($txt, Security::rijndael($result, $key, 'decrypt'));
+	}
+
+/**
+ * Test that rijndael() can still decrypt values with a fixed iv.
+ *
+ * @return
+ */
+	public function testRijndaelBackwardCompatibility() {
+		$this->skipIf(!function_exists('mcrypt_encrypt'));
+
+		$txt = 'The quick brown fox jumped over the lazy dog.';
+		$key = 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi';
+
+		// Encrypted before random iv
+		$value = base64_decode('1WPjnq96LMzLGwNgmudHF+cAIqVUN5DaUZEpf5tm1EzSgt5iYY9o3d66iRI/fKJLTlTVGsa8HzW0jDNitmVXoQ==');
+		$this->assertEquals($txt, Security::rijndael($value, $key, 'decrypt'));
+	}
+
+/**
+ * testRijndaelInvalidOperation method
+ *
+ * @expectedException PHPUnit_Framework_Error
+ * @return void
+ */
+	public function testRijndaelInvalidOperation() {
+		$txt = 'The quick brown fox jumped over the lazy dog.';
+		$key = 'DYhG93b0qyJfIxfs2guVoUubWwvniR2G0FgaC9mi';
+		Security::rijndael($txt, $key, 'foo');
+	}
+
+/**
+ * testRijndaelInvalidKey method
+ *
+ * @expectedException PHPUnit_Framework_Error
+ * @return void
+ */
+	public function testRijndaelInvalidKey() {
+		$txt = 'The quick brown fox jumped over the lazy dog.';
+		$key = 'too small';
+		Security::rijndael($txt, $key, 'encrypt');
+	}
+
 }

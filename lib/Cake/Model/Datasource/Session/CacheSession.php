@@ -1,16 +1,17 @@
 <?php
 /**
- * Cache Session save handler.  Allows saving session information into Cache.
+ * Cache Session save handler. Allows saving session information into Cache.
  *
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model.Datasource.Session
  * @since         CakePHP(tm) v 2.0
@@ -43,17 +44,13 @@ class CacheSession implements CakeSessionHandlerInterface {
  * @return boolean Success
  */
 	public function close() {
-		$probability = mt_rand(1, 150);
-		if ($probability <= 3) {
-			Cache::gc();
-		}
 		return true;
 	}
 
 /**
  * Method used to read from a database session.
  *
- * @param mixed $id The key of the value to read
+ * @param string $id The key of the value to read
  * @return mixed The value of the key or false if it does not exist
  */
 	public function read($id) {
@@ -74,7 +71,7 @@ class CacheSession implements CakeSessionHandlerInterface {
 /**
  * Method called on the destruction of a database session.
  *
- * @param integer $id ID that uniquely identifies session in database
+ * @param integer $id ID that uniquely identifies session in cache
  * @return boolean True for successful delete, false otherwise.
  */
 	public function destroy($id) {
@@ -82,22 +79,13 @@ class CacheSession implements CakeSessionHandlerInterface {
 	}
 
 /**
- * Helper function called on gc for database sessions.
+ * Helper function called on gc for cache sessions.
  *
  * @param integer $expires Timestamp (defaults to current time)
  * @return boolean Success
  */
 	public function gc($expires = null) {
-		return Cache::gc();
-	}
-
-/**
- * Closes the session before the objects handling it become unavailable
- *
- * @return void
- */
-	public function __destruct() {
-		session_write_close();
+		return Cache::gc(Configure::read('Session.handler.config'), $expires);
 	}
 
 }

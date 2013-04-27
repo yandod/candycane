@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 0.2.9
@@ -110,9 +111,7 @@ class File {
 	public function create() {
 		$dir = $this->Folder->pwd();
 		if (is_dir($dir) && is_writable($dir) && !$this->exists()) {
-			$old = umask(0);
 			if (touch($this->path)) {
-				umask($old);
 				return true;
 			}
 		}
@@ -131,7 +130,6 @@ class File {
 		if (!$force && is_resource($this->handle)) {
 			return true;
 		}
-		clearstatcache();
 		if ($this->exists() === false) {
 			if ($this->create() === false) {
 				return false;
@@ -185,7 +183,7 @@ class File {
 /**
  * Sets or gets the offset for the currently opened file.
  *
- * @param mixed $offset The $offset in bytes to seek. If set to false then the current offset is returned.
+ * @param integer|boolean $offset The $offset in bytes to seek. If set to false then the current offset is returned.
  * @param integer $seek PHP Constant SEEK_SET | SEEK_CUR | SEEK_END determining what the $offset is relative to
  * @return mixed True on success, false on failure (set mode), false on failure or integer offset on success (get mode)
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::offset
@@ -202,8 +200,8 @@ class File {
 	}
 
 /**
- * Prepares a ascii string for writing.  Converts line endings to the
- * correct terminator for the current platform.  If windows "\r\n" will be used
+ * Prepares a ascii string for writing. Converts line endings to the
+ * correct terminator for the current platform. If windows "\r\n" will be used
  * all other platforms will use "\n"
  *
  * @param string $data Data to prepare for writing.
@@ -213,7 +211,7 @@ class File {
  */
 	public static function prepare($data, $forceWindows = false) {
 		$lineBreak = "\n";
-		if (DIRECTORY_SEPARATOR == '\\' || $forceWindows === true) {
+		if (DIRECTORY_SEPARATOR === '\\' || $forceWindows === true) {
 			$lineBreak = "\r\n";
 		}
 		return strtr($data, array("\r\n" => $lineBreak, "\n" => $lineBreak, "\r" => $lineBreak));
@@ -279,7 +277,6 @@ class File {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::delete
  */
 	public function delete() {
-		clearstatcache();
 		if (is_resource($this->handle)) {
 			fclose($this->handle);
 			$this->handle = null;
@@ -304,7 +301,7 @@ class File {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::info
  */
 	public function info() {
-		if ($this->info == null) {
+		if (!$this->info) {
 			$this->info = pathinfo($this->path);
 		}
 		if (!isset($this->info['filename'])) {
@@ -326,7 +323,7 @@ class File {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::ext
  */
 	public function ext() {
-		if ($this->info == null) {
+		if (!$this->info) {
 			$this->info();
 		}
 		if (isset($this->info['extension'])) {
@@ -342,7 +339,7 @@ class File {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::name
  */
 	public function name() {
-		if ($this->info == null) {
+		if (!$this->info) {
 			$this->info();
 		}
 		if (isset($this->info['extension'])) {
@@ -368,13 +365,13 @@ class File {
 		if (!$ext) {
 			$ext = $this->ext();
 		}
-		return preg_replace( "/(?:[^\w\.-]+)/", "_", basename($name, $ext));
+		return preg_replace("/(?:[^\w\.-]+)/", "_", basename($name, $ext));
 	}
 
 /**
  * Get md5 Checksum of file with previous check of Filesize
  *
- * @param mixed $maxsize in MB or true to force
+ * @param integer|boolean $maxsize in MB or true to force
  * @return string md5 Checksum {@link http://php.net/md5_file See md5_file()}
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::md5
  */
@@ -411,6 +408,11 @@ class File {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::exists
  */
 	public function exists() {
+		if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+			clearstatcache(true, $this->path);
+		} else {
+			clearstatcache();
+		}
 		return (file_exists($this->path) && is_file($this->path));
 	}
 
@@ -528,7 +530,7 @@ class File {
  * @return Folder Current folder
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::Folder
  */
-	public function &folder() {
+	public function folder() {
 		return $this->Folder;
 	}
 
@@ -548,7 +550,7 @@ class File {
 	}
 
 /**
- * Get the mime type of the file.  Uses the finfo extension if 
+ * Get the mime type of the file. Uses the finfo extension if
  * its available, otherwise falls back to mime_content_type
  *
  * @return false|string The mimetype of the file, or false if reading fails.

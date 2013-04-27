@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Routing.Route
  * @since         CakePHP(tm) v 2.0
@@ -24,7 +25,7 @@ App::uses('Router', 'Routing');
  * Test case for CakeRoute
  *
  * @package       Cake.Test.Case.Routing.Route
- **/
+ */
 class CakeRouteTest extends CakeTestCase {
 
 /**
@@ -41,7 +42,7 @@ class CakeRouteTest extends CakeTestCase {
  * Test the construction of a CakeRoute
  *
  * @return void
- **/
+ */
 	public function testConstruction() {
 		$route = new CakeRoute('/:controller/:action/:id', array(), array('id' => '[0-9]+'));
 
@@ -55,7 +56,7 @@ class CakeRouteTest extends CakeTestCase {
  * test Route compiling.
  *
  * @return void
- **/
+ */
 	public function testBasicRouteCompiling() {
 		$route = new CakeRoute('/', array('controller' => 'pages', 'action' => 'display', 'home'));
 		$result = $route->compile();
@@ -107,7 +108,7 @@ class CakeRouteTest extends CakeTestCase {
  * test compiling routes with keys that have patterns
  *
  * @return void
- **/
+ */
 	public function testRouteCompilingWithParamPatterns() {
 		$route = new CakeRoute(
 			'/:controller/:action/:id',
@@ -235,7 +236,7 @@ class CakeRouteTest extends CakeTestCase {
  * test that routes match their pattern.
  *
  * @return void
- **/
+ */
 	public function testMatchBasic() {
 		$route = new CakeRoute('/:controller/:action/:id', array('plugin' => null));
 		$result = $route->match(array('controller' => 'posts', 'action' => 'view', 'plugin' => null));
@@ -298,6 +299,16 @@ class CakeRouteTest extends CakeTestCase {
 		$url = array('controller' => 'subscribe', 'admin' => true, 'action' => 'edit', 1);
 		$result = $route->match($url);
 		$expected = '/admin/subscriptions/edit/1';
+		$this->assertEquals($expected, $result);
+
+		$url = array(
+			'controller' => 'subscribe',
+			'admin' => true,
+			'action' => 'edit_admin_e',
+			1
+		);
+		$result = $route->match($url);
+		$expected = '/admin/subscriptions/edit_admin_e/1';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -788,7 +799,7 @@ class CakeRouteTest extends CakeTestCase {
 			)
 		);
 		$result = $route->match($url);
-		$expected = '/posts/index/filter[0]:one/filter[model]:value';
+		$expected = '/posts/index/filter%5B0%5D:one/filter%5Bmodel%5D:value';
 		$this->assertEquals($expected, $result);
 
 		$url = array(
@@ -803,7 +814,7 @@ class CakeRouteTest extends CakeTestCase {
 			)
 		);
 		$result = $route->match($url);
-		$expected = '/posts/index/filter[0]:one/filter[model][0]:two/filter[model][order]:field';
+		$expected = '/posts/index/filter%5B0%5D:one/filter%5Bmodel%5D%5B0%5D:two/filter%5Bmodel%5D%5Border%5D:field';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -859,7 +870,7 @@ class CakeRouteTest extends CakeTestCase {
  * @return void
  */
 	public function testParseTrailingUTF8() {
-		$route = new CakeRoute( '/category/**', array('controller' => 'categories','action' => 'index'));
+		$route = new CakeRoute('/category/**', array('controller' => 'categories','action' => 'index'));
 		$result = $route->parse('/category/%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84');
 		$expected = array(
 			'controller' => 'categories',
@@ -870,4 +881,27 @@ class CakeRouteTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
+/**
+ * test that utf-8 patterns work for :section
+ *
+ * @return void
+ */
+	public function testUTF8PatternOnSection() {
+		$route = new CakeRoute(
+			'/:section',
+			array('plugin' => 'blogs', 'controller' => 'posts' , 'action' => 'index' ),
+			array(
+				'persist' => array('section'),
+				'section' => 'آموزش|weblog'
+			)
+		);
+
+		$result = $route->parse('/%D8%A2%D9%85%D9%88%D8%B2%D8%B4');
+		$expected = array('section' => 'آموزش', 'plugin' => 'blogs', 'controller' => 'posts', 'action' => 'index', 'pass' => array(), 'named' => array());
+		$this->assertEquals($expected, $result);
+
+		$result = $route->parse('/weblog');
+		$expected = array('section' => 'weblog', 'plugin' => 'blogs', 'controller' => 'posts', 'action' => 'index', 'pass' => array(), 'named' => array());
+		$this->assertEquals($expected, $result);
+	}
 }

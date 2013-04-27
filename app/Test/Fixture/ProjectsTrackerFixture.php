@@ -2,6 +2,7 @@
 class ProjectsTrackerFixture extends CakeTestFixture {
   var $name = 'ProjectsTracker';
   var $fields = array(
+      'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
       'project_id' => array('type' => 'integer', 'null' => false, 'default' => '0', 'key' => 'primary'),
       'tracker_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
       'indexes' => array('projects_trackers_project_id' => array('column' => 'project_id', 'unique' => 0))

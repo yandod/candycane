@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Controller.Component.Auth
  * @since         CakePHP(tm) v 2.0
@@ -100,6 +101,43 @@ class FormAuthenticateTest extends CakeTestCase {
 	}
 
 /**
+ * test authenticate password is false method
+ *
+ * @return void
+ */
+	public function testAuthenticatePasswordIsFalse() {
+		$request = new CakeRequest('posts/index', false);
+		$request->data = array(
+			'User' => array(
+				'user' => 'mariano',
+				'password' => null
+		));
+		$this->assertFalse($this->auth->authenticate($request, $this->response));
+	}
+
+/**
+ * test authenticate field is not string
+ *
+ * @return void
+ */
+	public function testAuthenticateFieldsAreNotString() {
+		$request = new CakeRequest('posts/index', false);
+		$request->data = array(
+			'User' => array(
+				'user' => array('mariano', 'phpnut'),
+				'password' => 'my password'
+		));
+		$this->assertFalse($this->auth->authenticate($request, $this->response));
+
+		$request->data = array(
+			'User' => array(
+				'user' => 'mariano',
+				'password' => array('password1', 'password2')
+		));
+		$this->assertFalse($this->auth->authenticate($request, $this->response));
+	}
+
+/**
  * test the authenticate method
  *
  * @return void
@@ -163,7 +201,6 @@ class FormAuthenticateTest extends CakeTestCase {
 		), App::RESET);
 		CakePlugin::load('TestPlugin');
 
-		$ts = date('Y-m-d H:i:s');
 		$PluginModel = ClassRegistry::init('TestPlugin.TestPluginAuthUser');
 		$user['id'] = 1;
 		$user['username'] = 'gwoo';
@@ -185,7 +222,7 @@ class FormAuthenticateTest extends CakeTestCase {
 			'username' => 'gwoo',
 			'created' => '2007-03-17 01:16:23'
 		);
-		$this->assertTrue($result['updated'] >= $ts);
+		$this->assertEquals(self::date(), $result['updated']);
 		unset($result['updated']);
 		$this->assertEquals($expected, $result);
 		CakePlugin::unload();
