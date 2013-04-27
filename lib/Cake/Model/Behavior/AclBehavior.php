@@ -7,18 +7,21 @@
  * PHP 5
  *
  * CakePHP :  Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc.
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP Project
  * @package       Cake.Model.Behavior
  * @since         CakePHP v 1.2.0.4487
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+App::uses('ModelBehavior', 'Model');
 App::uses('AclNode', 'Model');
+App::uses('Hash', 'Utility');
 
 /**
  * ACL behavior
@@ -69,7 +72,7 @@ class AclBehavior extends ModelBehavior {
  * Retrieves the Aro/Aco node for this model
  *
  * @param Model $model
- * @param mixed $ref
+ * @param string|array|Model $ref Array with 'model' and 'foreign_key', model object, or string value
  * @param string $type Only needed when Acl is set up as 'both', specify 'Aro' or 'Aco' to get the correct node
  * @return array
  * @link http://book.cakephp.org/2.0/en/core-libraries/behaviors/acl.html#node
@@ -131,7 +134,7 @@ class AclBehavior extends ModelBehavior {
 			$types = array($types);
 		}
 		foreach ($types as $type) {
-			$node = Set::extract($this->node($model, null, $type), "0.{$type}.id");
+			$node = Hash::extract($this->node($model, null, $type), "0.{$type}.id");
 			if (!empty($node)) {
 				$model->{$type}->delete($node);
 			}

@@ -98,7 +98,7 @@ class EnumerationTestCase extends CakeTestCase
 
         $isFalseOption = 'DCAT';
         $data = $this->Enumeration->default_value($isFalseOption);
-        $this->assertFalse($data);
+        $this->assertEquals($data, array());
     }
 
     /**
@@ -173,7 +173,7 @@ class EnumerationTestCase extends CakeTestCase
         $this->Enumeration->delete($enumerationId);
 
         // 削除後
-        $this->assertFalse($this->Enumeration->findById($enumerationId));
+        $this->assertEquals($this->Enumeration->findById($enumerationId), array());
     }
 
 }

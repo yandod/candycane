@@ -344,8 +344,8 @@ class IssueTest extends CakeTestCase {
     $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail', 'ChangesetsIssue', 'Watcher');
     $this->Issue->read(null, 1);
     $this->Issue->delete();
-    $this->assertFalse($this->Issue->read(null, 1));
-    $this->assertFalse($this->Issue->TimeEntry->findByIssueId(1));
+    $this->assertEquals($this->Issue->read(null, 1), array());
+    $this->assertEquals($this->Issue->TimeEntry->findByIssueId(1), array());
   }
 
   function test_overdue() {

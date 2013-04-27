@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Controller.Component.Acl
  * @since         CakePHP(tm) v 2.1
@@ -18,14 +19,21 @@
  */
 
 /**
- * PhpAcl implements an access control system using a plain PHP configuration file. 
+ * PhpAcl implements an access control system using a plain PHP configuration file.
  * An example file can be found in app/Config/acl.php
  *
  * @package Cake.Controller.Component.Acl
  */
 class PhpAcl extends Object implements AclInterface {
 
+/**
+ * Constant for deny
+ */
 	const DENY = false;
+
+/**
+ * Constant for allow
+ */
 	const ALLOW = true;
 
 /**
@@ -46,7 +54,7 @@ class PhpAcl extends Object implements AclInterface {
 
 /**
  * Aco Object
- * 
+ *
  * @var PhpAco
  */
 	public $Aco = null;
@@ -65,8 +73,8 @@ class PhpAcl extends Object implements AclInterface {
 
 /**
  * Initialize method
- * 
- * @param AclComponent $Component Component instance 
+ *
+ * @param AclComponent $Component Component instance
  * @return void
  */
 	public function initialize(Component $Component) {
@@ -157,7 +165,7 @@ class PhpAcl extends Object implements AclInterface {
 		$allow = $this->options['policy'];
 		$prioritizedAros = $this->Aro->roles($aro);
 
-		if ($action && $action != "*") {
+		if ($action && $action !== "*") {
 			$aco .= '/' . $action;
 		}
 
@@ -167,14 +175,14 @@ class PhpAcl extends Object implements AclInterface {
 			return $allow;
 		}
 
-		foreach ($path as $depth => $node) {
+		foreach ($path as $node) {
 			foreach ($prioritizedAros as $aros) {
 				if (!empty($node['allow'])) {
-					$allow = $allow || count(array_intersect($node['allow'], $aros)) > 0;
+					$allow = $allow || count(array_intersect($node['allow'], $aros));
 				}
 
 				if (!empty($node['deny'])) {
-					$allow = $allow && count(array_intersect($node['deny'], $aros)) == 0;
+					$allow = $allow && !count(array_intersect($node['deny'], $aros));
 				}
 			}
 		}
@@ -199,13 +207,18 @@ class PhpAco {
 
 /**
  * map modifiers for ACO paths to their respective PCRE pattern
- * 
+ *
  * @var array
  */
 	public static $modifiers = array(
 		'*' => '.*',
 	);
 
+/**
+ * Constructor
+ *
+ * @param array $rules Rules array
+ */
 	public function __construct(array $rules = array()) {
 		foreach (array('allow', 'deny') as $type) {
 			if (empty($rules[$type])) {
@@ -219,6 +232,7 @@ class PhpAco {
 /**
  * return path to the requested ACO with allow and deny rules attached on each level
  *
+ * @param string $aco ACO string
  * @return array
  */
 	public function path($aco) {
@@ -263,7 +277,11 @@ class PhpAco {
 /**
  * allow/deny ARO access to ARO
  *
- * @return void 
+ * @param string $aro ARO string
+ * @param string $aco ACO string
+ * @param string $action Action string
+ * @param string $type access type
+ * @return void
  */
 	public function access($aro, $aco, $action, $type = 'deny') {
 		$aco = $this->resolve($aco);
@@ -273,7 +291,7 @@ class PhpAco {
 
 		foreach ($aco as $i => $node) {
 			if (!isset($tree[$node])) {
-				$tree[$node]  = array(
+				$tree[$node] = array(
 					'children' => array(),
 				);
 			}
@@ -303,7 +321,7 @@ class PhpAco {
 			return array_map('strtolower', $aco);
 		}
 
-		// strip multiple occurences of '/'
+		// strip multiple occurrences of '/'
 		$aco = preg_replace('#/+#', '/', $aco);
 		// make case insensitive
 		$aco = ltrim(strtolower($aco), '/');
@@ -315,13 +333,10 @@ class PhpAco {
  *
  * @param array $allow ACO allow rules
  * @param array $deny ACO deny rules
- * @return void 
+ * @return void
  */
 	public function build(array $allow, array $deny = array()) {
-		$stack = array();
 		$this->_tree = array();
-		$tree = array();
-		$root = &$tree;
 
 		foreach ($allow as $dotPath => $aros) {
 			if (is_string($aros)) {
@@ -349,22 +364,20 @@ class PhpAco {
 class PhpAro {
 
 /**
- * role to resolve to when a provided ARO is not listed in 
+ * role to resolve to when a provided ARO is not listed in
  * the internal tree
- *
- * @var string
  */
 	const DEFAULT_ROLE = 'Role/default';
 
 /**
  * map external identifiers. E.g. if
  *
- * array('User' => array('username' => 'jeff', 'role' => 'editor')) 
+ * array('User' => array('username' => 'jeff', 'role' => 'editor'))
  *
- * is passed as an ARO to one of the methods of AclComponent, PhpAcl 
+ * is passed as an ARO to one of the methods of AclComponent, PhpAcl
  * will check if it can be resolved to an User or a Role defined in the
- * configuration file. 
- * 
+ * configuration file.
+ *
  * @var array
  * @see app/Config/acl.php
  */
@@ -375,7 +388,7 @@ class PhpAro {
 
 /**
  * aliases to map
- * 
+ *
  * @var array
  */
 	public $aliases = array();
@@ -387,6 +400,13 @@ class PhpAro {
  */
 	protected $_tree = array();
 
+/**
+ * Constructor
+ *
+ * @param array $aro
+ * @param array $map
+ * @param array $aliases
+ */
 	public function __construct(array $aro = array(), array $map = array(), array $aliases = array()) {
 		if (!empty($map)) {
 			$this->map = $map;
@@ -400,10 +420,10 @@ class PhpAro {
  * From the perspective of the given ARO, walk down the tree and
  * collect all inherited AROs levelwise such that AROs from different
  * branches with equal distance to the requested ARO will be collected at the same
- * index. The resulting array will contain a prioritized list of (list of) roles ordered from 
+ * index. The resulting array will contain a prioritized list of (list of) roles ordered from
  * the most distant AROs to the requested one itself.
- * 
- * @param mixed $aro An ARO identifier
+ *
+ * @param string|array $aro An ARO identifier
  * @return array prioritized AROs
  */
 	public function roles($aro) {
@@ -427,9 +447,9 @@ class PhpAro {
 
 /**
  * resolve an ARO identifier to an internal ARO string using
- * the internal mapping information. 
+ * the internal mapping information.
  *
- * @param mixed $aro ARO identifier (User.jeff, array('User' => ...), etc)
+ * @param string|array $aro ARO identifier (User.jeff, array('User' => ...), etc)
  * @return string internal aro string (e.g. User/jeff, Role/default)
  */
 	public function resolve($aro) {
@@ -494,7 +514,7 @@ class PhpAro {
 					// detect cycles
 					$roles = $this->roles($dependency);
 
-					if (in_array($role, Set::flatten($roles))) {
+					if (in_array($role, Hash::flatten($roles))) {
 						$path = '';
 
 						foreach ($roles as $roleDependencies) {
@@ -521,7 +541,7 @@ class PhpAro {
  * @param array $alias alias from => to (e.g. Role/13 -> Role/editor)
  * @return void
  */
-	public  function addAlias(array $alias) {
+	public function addAlias(array $alias) {
 		$this->aliases = array_merge($this->aliases, $alias);
 	}
 
@@ -529,7 +549,7 @@ class PhpAro {
  * build an ARO tree structure for internal processing
  *
  * @param array $aros array of AROs as key and their inherited AROs as values
- * @return void 
+ * @return void
  */
 	public function build(array $aros) {
 		$this->_tree = array();

@@ -204,7 +204,7 @@ class User extends AppModel {
   function rss_key($user_id) {
     $token = $this->RssToken->find('first', array('conditions'=>array('action'=>'feeds', 'user_id'=>$user_id), 'fields'=>array('value')));
     // TODO �Ȃ�������쐬����B
-    return $token['RssToken']['value'];
+    return Hash::get($token, 'RssToken.value');
   }
 #  
 #  # Return an array of project ids for which the user has explicitly turned mail notifications on

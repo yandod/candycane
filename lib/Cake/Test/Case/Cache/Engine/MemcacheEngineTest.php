@@ -4,14 +4,15 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Cache.Engine
  * @since         CakePHP(tm) v 1.2.0.5434
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -51,6 +52,7 @@ class MemcacheEngineTest extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
 		$this->skipIf(!class_exists('Memcache'), 'Memcache is not installed or configured properly.');
 
 		$this->_cacheDisable = Configure::read('Cache.disable');
@@ -68,8 +70,11 @@ class MemcacheEngineTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
 		Configure::write('Cache.disable', $this->_cacheDisable);
 		Cache::drop('memcache');
+		Cache::drop('memcache_groups');
+		Cache::drop('memcache_helper');
 		Cache::config('default');
 	}
 
@@ -89,7 +94,7 @@ class MemcacheEngineTest extends CakeTestCase {
 			'persistent' => true,
 			'compress' => false,
 			'engine' => 'Memcache',
-			'persistent' => true,
+			'groups' => array()
 		);
 		$this->assertEquals($expecting, $settings);
 	}
@@ -106,9 +111,11 @@ class MemcacheEngineTest extends CakeTestCase {
 
 		foreach ($servers as $server) {
 			list($host, $port) = explode(':', $server);
+			//@codingStandardsIgnoreStart
 			if (!@$Memcache->connect($host, $port)) {
 				$available = false;
 			}
+			//@codingStandardsIgnoreEnd
 		}
 
 		$this->skipIf(!$available, 'Need memcache servers at ' . implode(', ', $servers) . ' to run this test.');
@@ -116,7 +123,6 @@ class MemcacheEngineTest extends CakeTestCase {
 		$Memcache = new MemcacheEngine();
 		$Memcache->init(array('engine' => 'Memcache', 'servers' => $servers));
 
-		$servers = array_keys($Memcache->__Memcache->getExtendedStats());
 		$settings = $Memcache->settings();
 		$this->assertEquals($settings['servers'], $servers);
 		Cache::drop('dual_server');
@@ -225,12 +231,11 @@ class MemcacheEngineTest extends CakeTestCase {
 		$result = Cache::write('other_test', $data, 'memcache');
 		$this->assertTrue($result);
 
-		sleep(2);
+		sleep(3);
 		$result = Cache::read('other_test', 'memcache');
 		$this->assertFalse($result);
 
 		Cache::config('memcache', array('duration' => '+1 second'));
-		sleep(2);
 
 		$result = Cache::read('other_test', 'memcache');
 		$this->assertFalse($result);
@@ -376,7 +381,7 @@ class MemcacheEngineTest extends CakeTestCase {
 		Cache::config('memcache', array('duration' => 0));
 		$result = Cache::write('test_key', 'written!', 'memcache');
 
-		$this->assertTrue('Could not write with duration 0', $result);
+		$this->assertTrue($result);
 		$result = Cache::read('test_key', 'memcache');
 		$this->assertEquals('written!', $result);
 	}
@@ -400,4 +405,75 @@ class MemcacheEngineTest extends CakeTestCase {
 		$memcache->write('key', $value, 50 * DAY);
 	}
 
+/**
+ * Tests that configuring groups for stored keys return the correct values when read/written
+ * Shows that altering the group value is equivalent to deleting all keys under the same
+ * group
+ *
+ * @return void
+ */
+	public function testGroupReadWrite() {
+		Cache::config('memcache_groups', array(
+			'engine' => 'Memcache',
+			'duration' => 3600,
+			'groups' => array('group_a', 'group_b'),
+			'prefix' => 'test_'
+		));
+		Cache::config('memcache_helper', array(
+			'engine' => 'Memcache',
+			'duration' => 3600,
+			'prefix' => 'test_'
+		));
+		$this->assertTrue(Cache::write('test_groups', 'value', 'memcache_groups'));
+		$this->assertEquals('value', Cache::read('test_groups', 'memcache_groups'));
+
+		Cache::increment('group_a', 1, 'memcache_helper');
+		$this->assertFalse(Cache::read('test_groups', 'memcache_groups'));
+		$this->assertTrue(Cache::write('test_groups', 'value2', 'memcache_groups'));
+		$this->assertEquals('value2', Cache::read('test_groups', 'memcache_groups'));
+
+		Cache::increment('group_b', 1, 'memcache_helper');
+		$this->assertFalse(Cache::read('test_groups', 'memcache_groups'));
+		$this->assertTrue(Cache::write('test_groups', 'value3', 'memcache_groups'));
+		$this->assertEquals('value3', Cache::read('test_groups', 'memcache_groups'));
+	}
+
+/**
+ * Tests that deleteing from a groups-enabled config is possible
+ *
+ * @return void
+ */
+	public function testGroupDelete() {
+		Cache::config('memcache_groups', array(
+			'engine' => 'Memcache',
+			'duration' => 3600,
+			'groups' => array('group_a', 'group_b')
+		));
+		$this->assertTrue(Cache::write('test_groups', 'value', 'memcache_groups'));
+		$this->assertEquals('value', Cache::read('test_groups', 'memcache_groups'));
+		$this->assertTrue(Cache::delete('test_groups', 'memcache_groups'));
+
+		$this->assertFalse(Cache::read('test_groups', 'memcache_groups'));
+	}
+
+/**
+ * Test clearing a cache group
+ *
+ * @return void
+ */
+	public function testGroupClear() {
+		Cache::config('memcache_groups', array(
+			'engine' => 'Memcache',
+			'duration' => 3600,
+			'groups' => array('group_a', 'group_b')
+		));
+
+		$this->assertTrue(Cache::write('test_groups', 'value', 'memcache_groups'));
+		$this->assertTrue(Cache::clearGroup('group_a', 'memcache_groups'));
+		$this->assertFalse(Cache::read('test_groups', 'memcache_groups'));
+
+		$this->assertTrue(Cache::write('test_groups', 'value2', 'memcache_groups'));
+		$this->assertTrue(Cache::clearGroup('group_b', 'memcache_groups'));
+		$this->assertFalse(Cache::read('test_groups', 'memcache_groups'));
+	}
 }
