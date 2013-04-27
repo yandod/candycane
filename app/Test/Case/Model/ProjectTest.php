@@ -68,9 +68,15 @@ class ProjectTestCase extends CakeTestCase {
  *
  * @return void
  */
-	public function testFindSubprojects() {
+	public function testFindSubprojects()
+    {
+        $data = $this->Project->findSubprojects(1);
+        $this->assertCount(3,$data);
 
-	}
+        $data = $this->Project->findSubprojects(5);
+        $this->assertCount(0,$data);
+
+    }
 /**
  * testFindMainProject method
  *
