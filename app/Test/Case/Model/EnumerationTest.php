@@ -12,7 +12,23 @@ class EnumerationTestCase extends CakeTestCase
      *
      * @var array
      */
-    public $fixtures = array('app.enumeration', 'app.tracker', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.issue', 'app.watcher', 'app.custom_value', 'app.custom_field');
+    public $fixtures = array(
+        'app.version',
+        'app.user',
+        'app.project',
+        'app.document',
+        'app.issue_category',
+        'app.issue_status',
+        'app.enumeration',
+        'app.tracker',
+        'app.time_entry',
+        'app.changeset',
+        'app.changesets_issue',
+        'app.issue',
+        'app.watcher',
+        'app.custom_value',
+        'app.custom_field',
+    );
 
     /**
      * setUp method
@@ -93,7 +109,7 @@ class EnumerationTestCase extends CakeTestCase
     public function testObjectsCount()
     {
         $data = $this->Enumeration->find('all');
-        $this->assertEqual(0, $this->Enumeration->objects_count($data[0]));
+        $this->assertEqual(1, $this->Enumeration->objects_count($data[0]));
         $this->assertEqual(3, $this->Enumeration->objects_count($data[8]));
         $this->assertEqual(1, $this->Enumeration->objects_count($data[9]));
     }
@@ -106,7 +122,7 @@ class EnumerationTestCase extends CakeTestCase
     public function testInUse()
     {
         $data = $this->Enumeration->find('all');
-        $this->assertFalse($this->Enumeration->in_use($data[0]));
+        $this->assertTrue($this->Enumeration->in_use($data[0]));
         $this->assertTrue($this->Enumeration->in_use($data[8]));
         $this->assertTrue($this->Enumeration->in_use($data[9]));
     }
