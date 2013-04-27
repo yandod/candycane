@@ -98,17 +98,69 @@ class ProjectTestCase extends CakeTestCase {
  *
  * @return void
  */
-	public function testLatest() {
+	public function testLatest()
+    {
+        $data = $this->Project->latest(
+            array(
+                'logged' => false
+            )
+        );
+        $this->assertCount(3, $data);
+        foreach ($data as $row) {
+            $this->assertEqual($row['Project']['is_public'], 1);
+        }
 
-	}
+        $data = $this->Project->latest(
+            array(
+                'admin' => true
+            )
+        );
+        $this->assertCount(5, $data);
+        $this->assertEqual(Set::extract('{n}.Project.is_public',$data),array(true,false,true,false,true));
+
+    }
 /**
  * testVisibleBy method
  *
  * @return void
  */
-	public function testVisibleBy() {
+	public function testVisibleBy()
+    {
+        $data = $this->Project->visible_by(array('admin' => 1));
+        $this->assertEqual($data,array('Project.status' => 1));
 
-	}
+        $data = $this->Project->visible_by(array('admin' => false));
+        $this->assertEqual($data,array(
+            'Project.status' => 1,
+            'Project.is_public' => true
+        ));
+
+
+        $memberships = array(
+            array('Project' => array('id' => 3)),
+            array('Project' => array('id' => 4)),
+            array('Project' => array('id' => 5)),
+        );
+
+        $data = $this->Project->visible_by(array(
+            'admin' => false,
+            'memberships' => $memberships
+        ));
+        $this->assertEqual($data,array(
+            'Project.status' => 1,
+            array(
+                0 => array(
+                    'Project.id' => array(
+                        3,4,5
+                    ),
+                ),
+                'or' => array(
+                    'Project.is_public' => true
+                )
+            )
+        ));
+
+    }
 /**
  * testGetVisibleByCondition method
  *
