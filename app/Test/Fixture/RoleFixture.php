@@ -19,6 +19,8 @@ class RoleFixture extends CakeTestFixture {
 - :manage_categories
 - :add_issues
 - :edit_issues
+- :edit_issue_notes
+- :edit_own_issue_notes
 - :manage_issue_relations
 - :add_issue_notes
 - :move_issues
