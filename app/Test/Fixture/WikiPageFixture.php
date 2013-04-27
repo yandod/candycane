@@ -9,5 +9,6 @@ class WikiPageFixture extends CakeTestFixture {
     array('created_on'=>'2007-03-08 00:18:07 +01:00', 'title'=>'Page_with_an_inline_image', 'id'=>4, 'wiki_id'=>1, 'protected'=>false, 'parent_id'=>1),
     array('created_on'=>'2007-03-08 00:18:07 +01:00', 'title'=>'Child_1', 'id'=>5, 'wiki_id'=>1, 'protected'=>false, 'parent_id'=>2),
     array('created_on'=>'2007-03-08 00:18:07 +01:00', 'title'=>'Child_2', 'id'=>6, 'wiki_id'=>1, 'protected'=>false, 'parent_id'=>2),
+    array('created_on'=>'2007-03-08 00:18:07 +01:00', 'title'=>'日本語ページ', 'id'=>7, 'wiki_id'=>1, 'protected'=>false, 'parent_id'=>2)
   );
 }

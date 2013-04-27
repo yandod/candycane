@@ -21,3 +21,6 @@ nbproject
 
 ## Locale files
 *.mo
+
+## Composer
+composer.phar

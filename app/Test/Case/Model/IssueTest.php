@@ -8,7 +8,8 @@ class IssueTest extends CakeTestCase {
       'app.enabled_module', 'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
       'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.custom_fields_project', 'app.watcher', 'app.issue_relation',
       'app.journal', 'app.journal_detail', 'app.workflow',
-      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow'
+      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow',
+      'app.setting',
       );
 
   function startTest() {
@@ -312,7 +313,7 @@ class IssueTest extends CakeTestCase {
   }
 
   function test_move_to_another_project_with_same_category() {
-    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail', 'ChangesetsIssue', 'Watcher');
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail', 'ChangesetsIssue', 'Watcher', 'Setting');
     $Setting =& ClassRegistry::init('Setting');
     $this->Issue->read(null, 1);
     $this->assertTrue($this->Issue->move_to($Setting, $this->Issue->data, 2));
@@ -325,7 +326,7 @@ class IssueTest extends CakeTestCase {
   }
 
   function test_move_to_another_project_without_same_category() {
-    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail', 'ChangesetsIssue', 'Watcher');
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail', 'ChangesetsIssue', 'Watcher', 'Setting');
     $Setting =& ClassRegistry::init('Setting');
     $this->Issue->read(null, 2);
     $this->assertTrue($this->Issue->move_to($Setting, $this->Issue->data, 2));
@@ -426,6 +427,46 @@ class IssueTest extends CakeTestCase {
     $this->assertEqual(7, $default);
   }
 
+  function testFindRelations() {
+      $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'ChangesetsIssue', 'Watcher','CustomValue','CustomField','IssueRelation');
+      // create 2 issues
+      $priorities = $this->Issue->Priority->get_values('IPRI');
+      $data = array(
+          'project_id' => 1, 
+          'tracker_id' => 1, 
+          'author_id' => 1, 
+          'status_id' => 1, 
+          'priority_id' => $priorities[0]['Priority']['id'], 
+          'subject' => 'Relation test', 
+          'description' => 'IssueTest#testFindRelations',
+          );
+      $this->Issue->create();
+      $this->assertNotEmpty($this->Issue->save($data));
+      $issue1 = $this->Issue->getLastInsertID();
+      $this->Issue->create();
+      $this->assertNotEmpty($this->Issue->save($data));
+      $issue2 = $this->Issue->getLastInsertID();
 
+      $issueRelation = ClassRegistry::init('IssueRelation');
+      $issueRelation->create();
+      $result = $issueRelation->save(array(
+                                         'issue_from_id' => $issue2,
+                                         'issue_to_id' => $issue1,
+                                         'relation_type' => ISSUERELATION_TYPE_RELATES,
+                                         ));
+      $this->assertNotEqual($result, false);
+
+      $issue = $this->Issue->findById($issue1);
+      $this->assertNotEmpty($issue);
+      $relation = $issueRelation->findRelations($issue);
+      $this->assertNotEmpty($relation);
+      $relitem = $relation[0];
+      $this->assertEqual($relitem['IssueFrom']['Issue']['id'], $issue2);
+      $this->assertEqual($relitem['IssueTo']['Issue']['id'], $issue1);
+      $this->assertEqual($relitem['IssueRelation']['issue_from_id'], $issue2);
+      $this->assertEqual($relitem['IssueRelation']['issue_to_id'], $issue1);
+      $this->assertEqual($relitem['IssueRelation']['relation_type'],
+                         ISSUERELATION_TYPE_RELATES);
+      
+  }
 }
-?>
