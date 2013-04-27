@@ -109,7 +109,7 @@ before_script:
   - mysql cakephp_test < app/Config/sql/mysql.sql
 script:
   - mkdir -p build/logs
-  - cd ./app; ./Console/cake test app All --stderr --coverage-clover ../build/logs/coverage.xml --configuration ../phpunit.xml.dist
+  - cd ./app; ./Console/cake test app All --stderr --coverage-clover ../build/logs/clover.xml --configuration ../phpunit.xml.dist
 
 after_script:
   - php vendor/bin/coveralls
