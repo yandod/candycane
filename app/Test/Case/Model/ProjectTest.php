@@ -130,9 +130,59 @@ class ProjectTestCase extends CakeTestCase {
  *
  * @return void
  */
-	public function testAllowedToConditionString() {
+	public function testAllowedToConditionString()
+    {
+        $data = $this->Project->allowed_to_condition_string(
+            array(
+                'admin' => true
+            ),
+            ':hoge'
+        );
+        $this->assertEqual($data,'Project.status=1');
 
-	}
+        $data = $this->Project->allowed_to_condition_string(
+            array(
+                'admin' => false,
+                'logged' => true,
+                'memberships' => array(
+                    array(
+                        'Project' => array(
+                            array('Project' => array('id' => 3))
+                        )
+                    )
+                )
+            ),
+            ':hoge'
+        );
+        $this->assertEqual($data,'((Project.status=1) AND (1=0 OR Project.id IN (3)))');
+
+        $data = $this->Project->allowed_to_condition_string(
+            array(
+                'admin' => false,
+                'logged' => true,
+                'memberships' => array(
+                    array(
+                        'Project' => array(
+                            array('Project' => array('id' => 3))
+                        )
+                    ),
+                    array(
+                        'Project' => array(
+                            array('Project' => array('id' => 4))
+                        )
+                    ),
+                    array(
+                        'Project' => array(
+                            array('Project' => array('id' => 5))
+                        )
+                    ),
+                )
+            ),
+            ':hoge'
+        );
+        $this->assertEqual($data,'((Project.status=1) AND (1=0 OR Project.id IN (3,4,5)))');
+
+    }
 /**
  * testProjectCondition method
  *
