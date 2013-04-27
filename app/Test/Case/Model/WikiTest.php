@@ -50,9 +50,6 @@ class WikiTestCase extends CakeTestCase {
         $data = $this->Wiki->findByProjectId(1);
         $this->assertEqual($data['Wiki']['id'], 1);
 
-        var_dump($data);
-        exit;
-
         foreach ($data['WikiPage'] as $row) {
             $this->assertEqual($row['wiki_id'], 1);
         }
