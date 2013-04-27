@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="vendor/autoload.php">
+    <filter>
+        <blacklist>
+            <directory suffix=".php">../lib</directory>
+            <directory suffix=".php">../app/Vendor/georgious-cakephp-yaml-migrations-and-fixtures</directory>
+            <directory suffix=".php">../app/Test</directory>
+            <directory suffix=".php">../app/Vendor/pclzip-2-8-2</directory>
+        </blacklist>
+    </filter>
+</phpunit>

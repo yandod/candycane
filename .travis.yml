@@ -12,6 +12,8 @@ env:
 #  - DB=sqlite
 
 before_script:
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev --no-interaction
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test2;'; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test3;'; fi"
@@ -106,4 +108,8 @@ before_script:
     }" > app/Config/database.php
   - mysql cakephp_test < app/Config/sql/mysql.sql
 script:
-  - cd ./app; ./Console/cake test app All --stderr
+  - mkdir -p build/logs
+  - cd ./app; ./Console/cake test app All --stderr --coverage-clover ../build/logs/clover.xml --configuration ../phpunit.xml.dist
+
+after_script:
+  - php vendor/bin/coveralls

@@ -60,8 +60,8 @@ class QueriesComponentTest extends CakeTestCase
         $CakeRequest = new CakeRequest();
         $CakeResponse = new CakeResponse();
         $this->Controller = new QueriesComponentTestController($CakeRequest, $CakeResponse);
-        $this->Controller->Query = new Query();
-        $this->Controller->Project = new Project();
+        $this->Controller->Query = ClassRegistry::init('Query');
+        $this->Controller->Project = ClassRegistry::init('Project');
         $this->Component = new QueriesComponent($Collection);
         $this->Component->startup($this->Controller);
     }
@@ -129,7 +129,6 @@ class QueriesComponentTest extends CakeTestCase
         
         //get parameter for query_id = 1
         $this->assertEqual($this->Component->retrieve_query(1),null);
-        return;
         $this->assertEqual(
             $this->Controller->request->data,
             array(

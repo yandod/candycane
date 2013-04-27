@@ -29,7 +29,7 @@ class Query extends AppModel
   var $available_filters;
   var $filters = array();
   
-  function __construct()
+  public function __construct($id = false, $table = null, $ds = null)
   {
     if (!$this->operators) {
       $this->operators = array(
@@ -74,7 +74,7 @@ class Query extends AppModel
         ),
       );
     }
-    parent::__construct();
+    parent::__construct($id, $table, $ds);
   }
   
   function available_filters($project = array(), $currentuser = array())

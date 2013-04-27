@@ -7,11 +7,11 @@ class TimeEntryTest extends CakeTestCase {
       'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
       'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
       'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.custom_fields_project', 'app.watcher', 'app.enabled_module',
-      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow'
+      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow', 'app.setting'
   );
 
   function startTest() {
-    $this->loadFixtures('Issue', 'User', 'Project', 'TimeEntry', 'EnabledModule', 'Wiki', 'IssueCategory', 'Tracker', 'ProjectsTracker', 'Member', 'Changeset', 'ChangesetsIssue', 'Token', 'UserPreference', 'CustomField', 'CustomFieldsProject', 'CustomValue', 'Version', 'Enumeration', 'IssueStatus');
+    $this->loadFixtures('Issue', 'User', 'Project', 'TimeEntry', 'EnabledModule', 'Wiki', 'IssueCategory', 'Tracker', 'ProjectsTracker', 'Member', 'Changeset', 'ChangesetsIssue', 'Token', 'UserPreference', 'CustomField', 'CustomFieldsProject', 'CustomValue', 'Version', 'Enumeration', 'IssueStatus', 'Setting');
     $this->TimeEntry =& ClassRegistry::init('TimeEntry');
   }
 
