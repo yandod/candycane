@@ -44,6 +44,26 @@ class EnumerationTestCase extends CakeTestCase
      */
     public function testGetValues()
     {
+        $option = 'IPRI';
+        $order = 'ASC';
+        $data = $this->Enumeration->get_values($option, $order);
+        $extractData = Set::extract("{n}.Enumeration.opt", $data);
+        $this->assertEqual('IPRI', $extractData[0]);
+        $this->assertEqual(1, count(array_unique($extractData)));
+
+        $option = 'DCAT';
+        $order = '';
+        $data = $this->Enumeration->get_values($option, $order);
+        $extractData = Set::extract("{n}.Enumeration.opt", $data);
+        $this->assertEqual('DCAT', $extractData[0]);
+        $this->assertEqual(1, count(array_unique($extractData)));
+
+        $option = 'ACTI';
+        $order = 'DESC';
+        $data = $this->Enumeration->get_values($option, $order);
+        $extractData = Set::extract("{n}.Enumeration.opt", $data);
+        $this->assertEqual('ACTI', $extractData[0]);
+        $this->assertEqual(1, count(array_unique($extractData)));
     }
 
     /**
