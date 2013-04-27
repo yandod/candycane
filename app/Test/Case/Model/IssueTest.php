@@ -8,7 +8,8 @@ class IssueTest extends CakeTestCase {
       'app.enabled_module', 'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
       'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.custom_fields_project', 'app.watcher', 'app.issue_relation',
       'app.journal', 'app.journal_detail', 'app.workflow',
-      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow'
+      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow',
+      'app.setting',
       );
 
   function startTest() {
@@ -312,7 +313,7 @@ class IssueTest extends CakeTestCase {
   }
 
   function test_move_to_another_project_with_same_category() {
-    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail', 'ChangesetsIssue', 'Watcher');
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail', 'ChangesetsIssue', 'Watcher', 'Setting');
     $Setting =& ClassRegistry::init('Setting');
     $this->Issue->read(null, 1);
     $this->assertTrue($this->Issue->move_to($Setting, $this->Issue->data, 2));
@@ -325,7 +326,7 @@ class IssueTest extends CakeTestCase {
   }
 
   function test_move_to_another_project_without_same_category() {
-    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail', 'ChangesetsIssue', 'Watcher');
+    $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'IssueRelation', 'Journal', 'JournalDetail', 'ChangesetsIssue', 'Watcher', 'Setting');
     $Setting =& ClassRegistry::init('Setting');
     $this->Issue->read(null, 2);
     $this->assertTrue($this->Issue->move_to($Setting, $this->Issue->data, 2));
