@@ -12,7 +12,7 @@ env:
 #  - DB=sqlite
 
 before_script:
-  - curl -s http://getcomposer.org/installer |
+  - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --dev --no-interaction
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test;'; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'CREATE DATABASE cakephp_test2;'; fi"
