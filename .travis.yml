@@ -110,6 +110,7 @@ before_script:
 script:
   - mkdir -p build/logs
   - cd ./app; ./Console/cake test app All --stderr --coverage-clover ../build/logs/clover.xml --configuration ../phpunit.xml.dist
+  - cd ../
 
 after_script:
   - php vendor/bin/coveralls
