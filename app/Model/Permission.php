@@ -152,59 +152,53 @@ class Permission extends AppModel
   // from role.php
   function setable_permissions_name($builtin = null)
   {
-    $tmp = array();
-    foreach ($this->permissions as $module => $perms) {
-      foreach ($perms as $p) {
-        if ($p['public'] != true) {
-          switch ($builtin) {
-          case 1:
-            if ($p['require'] != 'member') { $tmp[] = ':' . $p['name']; }
-            break;
-          case 2:
-            if (($p['require'] != 'loggedin')&&($p['require'] != 'member')) { $tmp[] = ':' . $p['name']; }
-            break;
-          default:
-            $tmp[] = ':' . $p['name'];
-          }
-          
-        }
-      }
-    }
-    return $tmp;
+	return $this->get_setable_permissions($builtin, 'name');
   }
 
   // from role.php
   function setable_permissions($builtin = null)
   {
-    $tmp = array();
-    foreach ($this->permissions as $module => $perms) {
-      foreach ($perms as $p) {
-        if ($p['public'] != true) {
-          if (($builtin == 1) && ($p['require'] != 'member')) {
-            continue;
-          }
-          if (($builtin == 2) && ($p['require'] != 'loggedin')) {
-            continue;
-          }
-          $tmp[$module][ $p['name'] ] = $this->permissions[$module][ $p['name'] ];
-        }
-      }
-    }
-    return $tmp;
+	return $this->get_setable_permissions($builtin);
   }
 
+	public function get_setable_permissions($builtin = null, $get_type = 'all'){
+		$tmp = array();
+		foreach ($this->permissions as $module => $perms) {
+			foreach ($perms as $p) {
+				$_add_flag = false;
+				if ($p['public'] != true) {
+					switch ($builtin) {
+						case 1:
+							if ($p['require'] != 'member') {
+								$_add_flag = true;
+							}
+							break;
+						case 2:
+							if (($p['require'] != 'loggedin')&&($p['require'] != 'member')) {
+								$_add_flag = true;
+							}
+							break;
+						default:
+							$_add_flag = true;
+					}
 
-  function non_member_permissions() {
-    $tmp = array();
-    foreach ($this->permissions as $module => $perms) {
-      foreach ($perms as $p) {
-        if ($p['require'] == 'member') {
-          $tmp[$module][ $p['name'] ] = $this->permissions[$module][ $p['name'] ];
-        }
-      }
-    }
-    return $tmp;
-  }
+				}
+				if($_add_flag){
+					switch($get_type){
+						case 'name':
+							$tmp[] = ':' . $p['name'];
+							break;
+						default:
+							$tmp[$module][ $p['name'] ] = $this->permissions[$module][ $p['name'] ];
+							break;
+					}
+				}
+
+			}
+		}
+		return $tmp;
+	}
+
 
   function non_public_permissions() {
     $tmp = array();

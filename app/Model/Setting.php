@@ -180,9 +180,8 @@ class Setting extends AppModel
 #    setting = find_by_name(name)
 #    setting ||= new(:name => name, :value => @@available_settings[name]['default']) if @@available_settings.has_key? name
 #  end
-  function __construct()
-  {
-    parent::__construct();
+  public function __construct($id = false, $table = null, $ds = null) {
+    parent::__construct($id, $table, $ds);
     $var = include APP . 'Config' . DS.DS.'settings.php';
 	App::import('Vendor', 'georgious-cakephp-yaml-migrations-and-fixtures/spyc/spyc');
     foreach ($var as $k => $v) {
