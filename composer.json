@@ -11,5 +11,8 @@
     "minimum-stability": "stable",
     "require": {
 
+    },
+    "require-dev": {
+        "satooshi/php-coveralls": "dev-master"
     }
 }
