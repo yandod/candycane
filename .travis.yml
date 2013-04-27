@@ -108,7 +108,8 @@ before_script:
     }" > app/Config/database.php
   - mysql cakephp_test < app/Config/sql/mysql.sql
 script:
-  - cd ./app; ./Console/cake test app All --stderr
+  - mkdir -p build/logs
+  - cd ./app; ./Console/cake test app All --stderr --coverage-clover ../build/logs/coverage.xml --configuration ../phpunit.xml.dist
 
 after_script:
   - php vendor/bin/coveralls
