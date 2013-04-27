@@ -1,4 +1,4 @@
-<?php 
+<?php
 class ProjectFixture extends CakeTestFixture {
   var $name = 'Project';
   var $fields = array(
@@ -30,6 +30,12 @@ class ProjectFixture extends CakeTestFixture {
           'homepage'=>"", 'is_public'=>true, 'identifier'=>"subproject2", 'parent_id'=>1),
     array('created_on'=>"2006-07-19 19:15:51 +02:00", 'name'=>"Private child of eCookbook", 'updated_on'=>"2006-07-19 19:17:07 +02:00",
           'projects_count'=>0, 'id'=>5, 'description'=>"This is a private subproject of a public project", 'status' => 1,
-          'homepage'=>"", 'is_public'=>false, 'identifier'=>"private_child", 'parent_id'=>1)
+          'homepage'=>"", 'is_public'=>false, 'identifier'=>"private_child", 'parent_id'=>1),
+    array('created_on'=>"2013-04-27 13:30:0 +09:00", 'name'=>"Project hidden from Fetcher", 'updated_on'=>"2013-04-27 13:30:0 +09:00",
+          'projects_count'=>0, 'id'=>6, 'description'=>"This is for test about the visiblity of the news.", 'status' => 1,
+          'homepage'=>"", 'is_public'=>false, 'identifier'=>"hiddenFromFetcher", 'parent_id'=>null),
+    array('created_on'=>"2013-04-27 13:30:0 +09:00", 'name'=>"No member project", 'updated_on'=>"2013-04-27 13:30:0 +09:00",
+          'projects_count'=>0, 'id'=>7, 'description'=>"This is for test about no members.", 'status' => 1,
+          'homepage'=>"", 'is_public'=>false, 'identifier'=>"nomembers", 'parent_id'=>null),
   );
 }

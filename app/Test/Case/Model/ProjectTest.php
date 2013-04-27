@@ -116,7 +116,7 @@ class ProjectTestCase extends CakeTestCase {
             )
         );
         $this->assertCount(5, $data);
-        $this->assertEqual(Set::extract('{n}.Project.is_public',$data),array(true,false,true,false,true));
+        $this->assertEqual(Set::extract('{n}.Project.is_public',$data),array(false,false,true,false,true));
 
     }
 /**
