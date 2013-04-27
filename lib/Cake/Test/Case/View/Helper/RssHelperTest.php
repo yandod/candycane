@@ -4,14 +4,15 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.View.Helper
  * @since         CakePHP(tm) v 1.2.0.4206
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -607,7 +608,12 @@ class RssHelperTest extends CakeTestCase {
 		$File = new File($tmpFile, true);
 
 		$this->assertTrue($File->write('123'), 'Could not write to ' . $tmpFile);
-		clearstatcache(true, $tmpFile);
+
+		if (50300 <= PHP_VERSION_ID) {
+			clearstatcache(true, $tmpFile);
+		} else {
+			clearstatcache();
+		}
 
 		$item = array(
 			'title' => array(
@@ -637,6 +643,12 @@ class RssHelperTest extends CakeTestCase {
 			)
 		);
 		$result = $this->Rss->item(null, $item);
+		if (!function_exists('mime_content_type')) {
+			$type = null;
+		} else {
+			$type = mime_content_type($tmpFile);
+		}
+
 		$expected = array(
 			'<item',
 			'<title',
@@ -651,7 +663,7 @@ class RssHelperTest extends CakeTestCase {
 			'enclosure' => array(
 				'url' => $this->Rss->url('/tests/cakephp.file.test.tmp', true),
 				'length' => filesize($tmpFile),
-				'type' => 'text/plain'
+				'type' => $type
 			),
 			'<pubDate',
 			date('r', strtotime('2008-05-31 12:00:00')),
@@ -667,6 +679,9 @@ class RssHelperTest extends CakeTestCase {
 			'/category',
 			'/item'
 		);
+		if ($type === null) {
+			unset($expected['enclosure']['type']);
+		}
 		$this->assertTags($result, $expected);
 
 		$File->delete();
@@ -705,4 +720,62 @@ class RssHelperTest extends CakeTestCase {
 		$this->assertTags($result, $expected);
 	}
 
+	public function testElementNamespaceWithoutPrefix() {
+		$item = array(
+				'creator' => 'Alex',
+			);
+		$attributes = array(
+				'namespace' => 'http://link.com'
+		);
+		$result = $this->Rss->item($attributes, $item);
+		$expected = array(
+			'item' => array(
+					'xmlns' => 'http://link.com'
+			),
+			'creator' => array(
+					'xmlns' => 'http://link.com'
+			),
+			'Alex',
+			'/creator',
+			'/item'
+		);
+		$this->assertTags($result, $expected, true);
+	}
+
+	public function testElementNamespaceWithPrefix() {
+		$item = array(
+				'title' => 'Title',
+				'dc:creator' => 'Alex',
+				'xy:description' => 'descriptive words'
+			);
+		$attributes = array(
+				'namespace' => array(
+						'prefix' => 'dc',
+						'url' => 'http://link.com'
+				)
+		);
+		$result = $this->Rss->item($attributes, $item);
+		$expected = array(
+			'item' => array(
+					'xmlns:dc' => 'http://link.com'
+			),
+			'title' => array(
+					'xmlns:dc' => 'http://link.com'
+			),
+			'Title',
+			'/title',
+			'dc:creator' => array(
+					'xmlns:dc' => 'http://link.com'
+			),
+			'Alex',
+			'/dc:creator',
+			'description' => array(
+					'xmlns:dc' => 'http://link.com'
+			),
+			'descriptive words',
+			'/description',
+			'/item'
+		);
+		$this->assertTags($result, $expected, true);
+	}
 }

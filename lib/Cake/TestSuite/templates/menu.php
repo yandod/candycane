@@ -1,17 +1,19 @@
 <?php
+// @codingStandardsIgnoreFile
 /**
  * Short description for file.
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.TestSuite.templates
  * @since         CakePHP(tm) v 1.2.0.4433
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -22,28 +24,28 @@
 	<li>
 		<span style="font-size: 18px">App</span>
 		<ul>
-			<li><a href='<?php echo $cases;?>'>Tests</a></li>
+			<li><a href='<?php echo $cases; ?>'>Tests</a></li>
 		</ul>
 	</li>
 <?php if (!empty($plugins)): ?>
 	<li style="padding-top: 10px">
 		<span style="font-size: 18px">Plugins</span>
-	<?php foreach ($plugins as $plugin): ?>
+	<?php foreach ($plugins as $plugin) : ?>
 			<ul>
 				<li style="padding-top: 10px">
-					<span  style="font-size: 18px"><?php echo $plugin;?></span>
+					<span  style="font-size: 18px"><?php echo $plugin; ?></span>
 					<ul>
-						<li><a href='<?php echo $cases;?>&amp;plugin=<?php echo $plugin; ?>'>Tests</a></li>
+						<li><?php printf('<a href="%s&amp;plugin=%s">Tests</a>', $cases, $plugin); ?></li>
 					</ul>
 				</li>
 			</ul>
 	<?php endforeach; ?>
 	</li>
-<?php endif;?>
+<?php endif; ?>
 	<li style="padding-top: 10px">
 		<span style="font-size: 18px">Core</span>
 		<ul>
-			<li><a href='<?php echo $cases;?>&amp;core=true'>Tests</a></li>
+			<li><a href='<?php echo $cases; ?>&amp;core=true'>Tests</a></li>
 		</ul>
 	</li>
 </ul>

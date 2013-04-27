@@ -4,14 +4,15 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Cache.Engine
  * @since         CakePHP(tm) v 1.2.0.5434
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -32,6 +33,7 @@ class ApcEngineTest extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
 		$this->skipIf(!function_exists('apc_store'), 'Apc is not installed or configured properly.');
 
 		$this->_cacheDisable = Configure::read('Cache.disable');
@@ -45,8 +47,10 @@ class ApcEngineTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
 		Configure::write('Cache.disable', $this->_cacheDisable);
 		Cache::drop('apc');
+		Cache::drop('apc_groups');
 		Cache::config('default');
 	}
 
@@ -197,5 +201,74 @@ class ApcEngineTest extends CakeTestCase {
 		$this->assertFalse(Cache::read('some_value', 'apc'));
 		$this->assertEquals('survive', apc_fetch('not_cake'));
 		apc_delete('not_cake');
+	}
+
+/**
+ * Tests that configuring groups for stored keys return the correct values when read/written
+ * Shows that altering the group value is equivalent to deleting all keys under the same
+ * group
+ *
+ * @return void
+ */
+	public function testGroupsReadWrite() {
+		Cache::config('apc_groups', array(
+			'engine' => 'Apc',
+			'duration' => 0,
+			'groups' => array('group_a', 'group_b'),
+			'prefix' => 'test_'
+		));
+		$this->assertTrue(Cache::write('test_groups', 'value', 'apc_groups'));
+		$this->assertEquals('value', Cache::read('test_groups', 'apc_groups'));
+
+		apc_inc('test_group_a');
+		$this->assertFalse(Cache::read('test_groups', 'apc_groups'));
+		$this->assertTrue(Cache::write('test_groups', 'value2', 'apc_groups'));
+		$this->assertEquals('value2', Cache::read('test_groups', 'apc_groups'));
+
+		apc_inc('test_group_b');
+		$this->assertFalse(Cache::read('test_groups', 'apc_groups'));
+		$this->assertTrue(Cache::write('test_groups', 'value3', 'apc_groups'));
+		$this->assertEquals('value3', Cache::read('test_groups', 'apc_groups'));
+	}
+
+/**
+ * Tests that deleteing from a groups-enabled config is possible
+ *
+ * @return void
+ */
+	public function testGroupDelete() {
+		Cache::config('apc_groups', array(
+			'engine' => 'Apc',
+			'duration' => 0,
+			'groups' => array('group_a', 'group_b'),
+			'prefix' => 'test_'
+		));
+		$this->assertTrue(Cache::write('test_groups', 'value', 'apc_groups'));
+		$this->assertEquals('value', Cache::read('test_groups', 'apc_groups'));
+		$this->assertTrue(Cache::delete('test_groups', 'apc_groups'));
+
+		$this->assertFalse(Cache::read('test_groups', 'apc_groups'));
+	}
+
+/**
+ * Test clearing a cache group
+ *
+ * @return void
+ */
+	public function testGroupClear() {
+		Cache::config('apc_groups', array(
+			'engine' => 'Apc',
+			'duration' => 0,
+			'groups' => array('group_a', 'group_b'),
+			'prefix' => 'test_'
+		));
+
+		$this->assertTrue(Cache::write('test_groups', 'value', 'apc_groups'));
+		$this->assertTrue(Cache::clearGroup('group_a', 'apc_groups'));
+		$this->assertFalse(Cache::read('test_groups', 'apc_groups'));
+
+		$this->assertTrue(Cache::write('test_groups', 'value2', 'apc_groups'));
+		$this->assertTrue(Cache::clearGroup('group_b', 'apc_groups'));
+		$this->assertFalse(Cache::read('test_groups', 'apc_groups'));
 	}
 }

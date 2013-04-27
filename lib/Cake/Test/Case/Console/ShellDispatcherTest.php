@@ -4,14 +4,15 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc.
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc.
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Console
  * @since         CakePHP(tm) v 1.2.0.5432
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -76,7 +77,7 @@ class TestShellDispatcher extends ShellDispatcher {
 /**
  * getShell
  *
- * @param mixed $shell
+ * @param string $shell
  * @return mixed
  */
 	public function getShell($shell) {
@@ -86,7 +87,7 @@ class TestShellDispatcher extends ShellDispatcher {
 /**
  * _getShell
  *
- * @param mixed $plugin
+ * @param string $plugin
  * @return mixed
  */
 	protected function _getShell($shell) {
@@ -437,7 +438,7 @@ class ShellDispatcherTest extends CakeTestCase {
  */
 	public function testDispatchShellWithMain() {
 		$Dispatcher = new TestShellDispatcher();
-		$Mock = $this->getMock('Shell', array(), array(&$Dispatcher), 'MockWithMainShell');
+		$Mock = $this->getMock('Shell', array(), array(), 'MockWithMainShell');
 
 		$Mock->expects($this->once())->method('initialize');
 		$Mock->expects($this->once())->method('loadTasks');
@@ -460,9 +461,9 @@ class ShellDispatcherTest extends CakeTestCase {
  */
 	public function testDispatchShellWithoutMain() {
 		$Dispatcher = new TestShellDispatcher();
-		$Shell = $this->getMock('Shell', array(), array(&$Dispatcher), 'MockWithoutMainShell');
+		$Shell = $this->getMock('Shell', array(), array(), 'MockWithoutMainShell');
 
-		$Shell = new MockWithoutMainShell($Dispatcher);
+		$Shell = new MockWithoutMainShell();
 		$this->mockObjects[] = $Shell;
 
 		$Shell->expects($this->once())->method('initialize');
@@ -564,7 +565,7 @@ class ShellDispatcherTest extends CakeTestCase {
 		$this->assertEquals('a', $Dispatcher->shiftArgs());
 		$this->assertSame($Dispatcher->args, array('b' => 'c', 'd'));
 
-		$Dispatcher->args = array(0 => 'a',  2 => 'b', 30 => 'c');
+		$Dispatcher->args = array(0 => 'a', 2 => 'b', 30 => 'c');
 		$this->assertEquals('a', $Dispatcher->shiftArgs());
 		$this->assertSame($Dispatcher->args, array(0 => 'b', 1 => 'c'));
 

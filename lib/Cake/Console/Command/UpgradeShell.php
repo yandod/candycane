@@ -5,12 +5,13 @@
  * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Console.Command
  * @since         CakePHP(tm) v 2.0
@@ -137,10 +138,12 @@ class UpgradeShell extends AppShell {
 			list($plugins) = $Folder->read();
 			foreach ($plugins as $plugin) {
 				chdir($cwd . DS . 'plugins' . DS . $plugin);
+				$this->out(__d('cake_console', 'Upgrading locations for plugin %s', $plugin));
 				$this->locations();
 			}
 			$this->_files = array();
 			chdir($cwd);
+			$this->out(__d('cake_console', 'Upgrading locations for app directory'));
 		}
 		$moves = array(
 			'config' => 'Config',
@@ -234,7 +237,8 @@ class UpgradeShell extends AppShell {
 		$helpers = array_merge($pluginHelpers, $helpers);
 		foreach ($helpers as $helper) {
 			$helper = preg_replace('/Helper$/', '', $helper);
-			$oldHelper = strtolower(substr($helper, 0, 1)) . substr($helper, 1);
+			$oldHelper = $helper;
+			$oldHelper{0} = strtolower($oldHelper{0});
 			$patterns[] = array(
 				"\${$oldHelper} to \$this->{$helper}",
 				"/\\\${$oldHelper}->/",
@@ -631,8 +635,8 @@ class UpgradeShell extends AppShell {
  * Find all php files in the folder (honoring recursive) and determine where cake expects the file to be
  * If the file is not exactly where cake expects it - move it.
  *
- * @param mixed $path
- * @param mixed $options array(recursive, checkFolder)
+ * @param string $path
+ * @param array $options array(recursive, checkFolder)
  * @return void
  */
 	protected function _movePhpFiles($path, $options) {

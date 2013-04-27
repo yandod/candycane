@@ -4,14 +4,15 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/view/1196/Testing>
- * Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
  * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright 2005-2012, Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/view/1196/Testing CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.4206
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
@@ -19,6 +20,7 @@
 
 require_once dirname(__FILE__) . DS . 'ModelTestBase.php';
 App::uses('DboSource', 'Model/Datasource');
+App::uses('DboMock', 'Model/Datasource');
 
 /**
  * DboMock class
@@ -208,11 +210,11 @@ class ModelIntegrationTest extends BaseModelTest {
 	public function testDynamicBehaviorAttachment() {
 		$this->loadFixtures('Apple', 'Sample', 'Author');
 		$TestModel = new Apple();
-		$this->assertEquals(array(), $TestModel->Behaviors->attached());
+		$this->assertEquals(array(), $TestModel->Behaviors->loaded());
 
 		$TestModel->Behaviors->attach('Tree', array('left' => 'left_field', 'right' => 'right_field'));
 		$this->assertTrue(is_object($TestModel->Behaviors->Tree));
-		$this->assertEquals(array('Tree'), $TestModel->Behaviors->attached());
+		$this->assertEquals(array('Tree'), $TestModel->Behaviors->loaded());
 
 		$expected = array(
 			'parent' => 'parent_id',
@@ -227,10 +229,10 @@ class ModelIntegrationTest extends BaseModelTest {
 
 		$TestModel->Behaviors->attach('Tree', array('enabled' => false));
 		$this->assertEquals($expected, $TestModel->Behaviors->Tree->settings['Apple']);
-		$this->assertEquals(array('Tree'), $TestModel->Behaviors->attached());
+		$this->assertEquals(array('Tree'), $TestModel->Behaviors->loaded());
 
 		$TestModel->Behaviors->detach('Tree');
-		$this->assertEquals(array(), $TestModel->Behaviors->attached());
+		$this->assertEquals(array(), $TestModel->Behaviors->loaded());
 		$this->assertFalse(isset($TestModel->Behaviors->Tree));
 	}
 
@@ -274,7 +276,7 @@ class ModelIntegrationTest extends BaseModelTest {
 	}
 
 /**
- * Tests cross database joins.  Requires $test and $test2 to both be set in DATABASE_CONFIG
+ * Tests cross database joins. Requires $test and $test2 to both be set in DATABASE_CONFIG
  * NOTE: When testing on MySQL, you must set 'persistent' => false on *both* database connections,
  * or one connection will step on the other.
  */
@@ -284,7 +286,7 @@ class ModelIntegrationTest extends BaseModelTest {
 		$skip = (!isset($config['test']) || !isset($config['test2']));
 		if ($skip) {
 			$this->markTestSkipped('Primary and secondary test databases not configured, skipping cross-database
-				join tests.  To run theses tests defined $test and $test2 in your database configuration.'
+				join tests. To run theses tests defined $test and $test2 in your database configuration.'
 			);
 		}
 
@@ -456,7 +458,7 @@ class ModelIntegrationTest extends BaseModelTest {
 		$result = $TestModel->find('all');
 		$this->assertEquals($expected, $result);
 
-		$result = Set::extract($TestModel->User->find('all'), '{n}.User.id');
+		$result = Hash::extract($TestModel->User->find('all'), '{n}.User.id');
 		$this->assertEquals(array('1', '2', '3', '4'), $result);
 		$this->assertEquals($expected, $TestModel->find('all'));
 
@@ -815,7 +817,7 @@ class ModelIntegrationTest extends BaseModelTest {
 		$this->skipIf($this->db instanceof Sqlite, 'This test is not compatible with Sqlite.');
 		$this->skipIf(
 			!isset($config['test']) || !isset($config['test2']) || !isset($config['test_database_three']),
-			'Primary, secondary, and tertiary test databases not configured, skipping test.  To run this test define $test, $test2, and $test_database_three in your database configuration.'
+			'Primary, secondary, and tertiary test databases not configured, skipping test. To run this test define $test, $test2, and $test_database_three in your database configuration.'
 		);
 
 		$this->loadFixtures('Player', 'Guild', 'GuildsPlayer', 'Armor', 'ArmorsPlayer');
@@ -836,14 +838,14 @@ class ModelIntegrationTest extends BaseModelTest {
 
 		$players = $Player->find('all');
 		$this->assertEquals(4 , count($players));
-		$playersGuilds = Set::extract('/Guild/GuildsPlayer', $players);
+		$playersGuilds = Hash::extract($players, '{n}.Guild.{n}.GuildsPlayer');
 		$this->assertEquals(3 , count($playersGuilds));
-		$playersArmors = Set::extract('/Armor/ArmorsPlayer', $players);
+		$playersArmors = Hash::extract($players, '{n}.Armor.{n}.ArmorsPlayer');
 		$this->assertEquals(3 , count($playersArmors));
 		unset($players);
 
 		$larry = $Player->findByName('larry');
-		$larrysArmor = Set::extract('/Armor/ArmorsPlayer', $larry);
+		$larrysArmor = Hash::extract($larry, 'Armor.{n}.ArmorsPlayer');
 		$this->assertEquals(1 , count($larrysArmor));
 
 		$larry['Guild']['Guild'] = array(1, 3); // larry joins another guild
@@ -852,21 +854,18 @@ class ModelIntegrationTest extends BaseModelTest {
 		unset($larry);
 
 		$larry = $Player->findByName('larry');
-		$larrysGuild = Set::extract('/Guild/GuildsPlayer', $larry);
+		$larrysGuild = Hash::extract($larry, 'Guild.{n}.GuildsPlayer');
 		$this->assertEquals(2 , count($larrysGuild));
-		$larrysArmor = Set::extract('/Armor/ArmorsPlayer', $larry);
+		$larrysArmor = Hash::extract($larry, 'Armor.{n}.ArmorsPlayer');
 		$this->assertEquals(2 , count($larrysArmor));
-
-		$larrysArmorsPlayersIds = Set::extract('/Armor/ArmorsPlayer/id', $larry);
 
 		$Player->ArmorsPlayer->id = 3;
 		$Player->ArmorsPlayer->saveField('broken', true); // larry's cloak broke
 
 		$larry = $Player->findByName('larry');
-		$larrysArmor = Set::extract('/Armor/ArmorsPlayer', $larry);
-		$larrysCloak = Set::extract('/ArmorsPlayer[armor_id=3]', $larrysArmor);
+		$larrysCloak = Hash::extract($larry, 'Armor.{n}.ArmorsPlayer[armor_id=3]', $larry);
 		$this->assertNotEmpty($larrysCloak);
-		$this->assertTrue($larrysCloak[0]['ArmorsPlayer']['broken']); // still broken
+		$this->assertTrue($larrysCloak[0]['broken']); // still broken
 	}
 
 /**
@@ -898,13 +897,27 @@ class ModelIntegrationTest extends BaseModelTest {
 		$this->assertEquals($columns, array_keys($result));
 
 		$types = array('integer', 'integer', 'string', 'text', 'string', 'datetime', 'datetime');
-		$this->assertEquals(Set::extract(array_values($result), '{n}.type'), $types);
+		$this->assertEquals(Hash::extract(array_values($result), '{n}.type'), $types);
 
 		$result = $Post->schema('body');
 		$this->assertEquals('text', $result['type']);
 		$this->assertNull($Post->schema('foo'));
 
 		$this->assertEquals($Post->getColumnTypes(), array_combine($columns, $types));
+	}
+
+/**
+ * Check schema() on a model with useTable = false;
+ *
+ * @return void
+ */
+	public function testSchemaUseTableFalse() {
+		$model = new TheVoid();
+		$result = $model->schema();
+		$this->assertNull($result);
+
+		$result = $model->create();
+		$this->assertEmpty($result);
 	}
 
 /**
@@ -1428,7 +1441,7 @@ class ModelIntegrationTest extends BaseModelTest {
 
 		$assocTypes = array('hasMany', 'hasOne', 'belongsTo', 'hasAndBelongsToMany');
 		foreach ($assocTypes as $type) {
-			 $this->assertEquals($Article->getAssociated($type), array_keys($Article->{$type}));
+			$this->assertEquals($Article->getAssociated($type), array_keys($Article->{$type}));
 		}
 
 		$Article->bindModel(array('hasMany' => array('Category')));
@@ -1668,6 +1681,14 @@ class ModelIntegrationTest extends BaseModelTest {
 		$result = $TestModel->alias;
 		$expected = 'AnotherTest';
 		$this->assertEquals($expected, $result);
+
+		$TestModel = ClassRegistry::init('Test');
+		$expected = null;
+		$this->assertEquals($expected, $TestModel->plugin);
+
+		$TestModel = ClassRegistry::init('TestPlugin.TestPluginComment');
+		$expected = 'TestPlugin';
+		$this->assertEquals($expected, $TestModel->plugin);
 	}
 
 /**
@@ -1867,7 +1888,6 @@ class ModelIntegrationTest extends BaseModelTest {
 				'doomed' => true
 		))));
 
-		$ts = date('Y-m-d H:i:s');
 		$TestModel->save();
 
 		$TestModel->hasAndBelongsToMany['SomethingElse']['order'] = 'SomethingElse.id ASC';
@@ -1921,7 +1941,7 @@ class ModelIntegrationTest extends BaseModelTest {
 					)
 				)
 			);
-		$this->assertTrue($result['Something']['updated'] >= $ts);
+		$this->assertEquals(self::date(), $result['Something']['updated']);
 		unset($result['Something']['updated']);
 		$this->assertEquals($expected, $result);
 	}
@@ -2347,7 +2367,7 @@ class ModelIntegrationTest extends BaseModelTest {
 		$config = ConnectionManager::enumConnectionObjects();
 		$this->skipIf($this->db instanceof Sqlite, 'This test is not compatible with Sqlite.');
 		$this->skipIf(!isset($config['test']) || !isset($config['test2']),
-			'Primary and secondary test databases not configured, skipping cross-database join tests.  To run these tests define $test and $test2 in your database configuration.'
+			'Primary and secondary test databases not configured, skipping cross-database join tests. To run these tests define $test and $test2 in your database configuration.'
 			);
 
 		$this->loadFixtures('Player', 'Guild', 'GuildsPlayer');
@@ -2377,7 +2397,7 @@ class ModelIntegrationTest extends BaseModelTest {
 		$this->skipIf($this->db instanceof Sqlite, 'This test is not compatible with Sqlite.');
 		$this->skipIf(
 			!isset($config['test']) || !isset($config['test2']) || !isset($config['test_database_three']),
-			'Primary, secondary, and tertiary test databases not configured, skipping test.  To run this test define $test, $test2, and $test_database_three in your database configuration.'
+			'Primary, secondary, and tertiary test databases not configured, skipping test. To run this test define $test, $test2, and $test_database_three in your database configuration.'
 			);
 
 		$this->loadFixtures('Player', 'Guild', 'GuildsPlayer', 'Armor', 'ArmorsPlayer');
@@ -2418,7 +2438,7 @@ class ModelIntegrationTest extends BaseModelTest {
  * does not trigger any calls on any datasource
  *
  * @return void
- **/
+ */
 	public function testSchemaNoDB() {
 		$model = $this->getMock('Article', array('getDataSource'));
 		$model->useTable = false;
