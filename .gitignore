@@ -12,6 +12,7 @@ vendors/simpletest
 .cache
 .project
 .settings
+.buildpath
 nbproject
 .idea
 .DS_Store
@@ -24,3 +25,8 @@ nbproject
 
 ## Composer
 composer.phar
+composer.lock
+vendor
+
+## build artifacts
+build
