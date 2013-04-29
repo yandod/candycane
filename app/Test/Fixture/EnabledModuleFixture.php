@@ -1,4 +1,4 @@
-<?php 
+<?php
 class EnabledModuleFixture extends CakeTestFixture {
   var $name = 'EnabledModule';
   var $fields = array(
@@ -21,6 +21,8 @@ class EnabledModuleFixture extends CakeTestFixture {
     array('name'=>'issue_tracking', 'project_id'=>2,'id'=>11),
     array('name'=>'time_tracking',  'project_id'=>3,'id'=>12),
     array('name'=>'issue_tracking', 'project_id'=>3,'id'=>13),
-    array('name'=>'issue_tracking', 'project_id'=>5,'id'=>14)
+    array('name'=>'issue_tracking', 'project_id'=>5,'id'=>14),
+    array('name'=>'news',           'project_id'=>6,'id'=>15),
+    array('name'=>'news',           'project_id'=>7,'id'=>16),
   );
 }
