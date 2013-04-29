@@ -2,10 +2,12 @@
 <phpunit bootstrap="vendor/autoload.php">
     <filter>
         <blacklist>
-            <directory suffix=".php">../lib</directory>
-            <directory suffix=".php">../app/Vendor/georgious-cakephp-yaml-migrations-and-fixtures</directory>
-            <directory suffix=".php">../app/Test</directory>
-            <directory suffix=".php">../app/Vendor/pclzip-2-8-2</directory>
+            <directory suffix=".php">app/Config</directory>
+            <directory suffix=".php">app/Test</directory>
+            <directory suffix=".php">app/Vendor/georgious-cakephp-yaml-migrations-and-fixtures</directory>
+            <directory suffix=".php">app/Vendor/pclzip-2-8-2</directory>
+            <directory suffix=".php">lib</directory>
+            <directory suffix=".php">vendor</directory>
         </blacklist>
     </filter>
 </phpunit>
