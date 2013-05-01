@@ -1,5 +1,5 @@
 <div class="install form">
-    <h2><?php echo $this->pageTitle; ?></h2>
+    <h2><?php echo $pageTitle; ?></h2>
     <p><?php echo __('Creating database conection setting. please type valid configuration for your database server.') ?></p>
     <?php
         echo $this->Form->create('Install', array('url' => array('plugin' => 'cc_install', 'controller' => 'cc_install', 'action' => 'database')));
