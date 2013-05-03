@@ -1,5 +1,5 @@
 <div class="install">
-    <h2><?php echo $this->pageTitle; ?></h2>
+    <h2><?php echo $pageTitle; ?></h2>
 
     <p>
         Welcome page: <?php echo $this->Html->link(Router::url('/', true), Router::url('/', true)); ?><br />
