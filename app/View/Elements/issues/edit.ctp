@@ -8,10 +8,10 @@
       <small>(<?php echo $this->Html->link(__('More'), '#', array('onclick'=> 'Effect.toggle("issue_descr_fields", "appear", {duration:0.3}); return false;')); ?>)</small>
       <?php endif; ?>
     </legend>
-    <?php 
+    <?php
     if($this->Candy->authorize_for('edit_issues')) {
       echo $this->element('issues/form', compact(
-        'statuses', 'priorities', 'assignableUsers', 'issueCategories', 
+        'statuses', 'priorities', 'assignableUsers', 'issueCategories',
         'fixedVersions', 'customFieldValues'));
     } else {
       // render 'form_update'
@@ -24,18 +24,18 @@
     <div class="splitcontentleft">
       <p>
         <?php echo $this->Form->label('TimeEntry.hours', __('Spent time')); ?>
-        <?php echo $this->Form->input('TimeEntry.hours', array('div'=>false, 'label'=>false, 'size'=>6, 'type'=>'text'));__('Hours'); ?> 
+        <?php echo $this->Form->input('TimeEntry.hours', array('div'=>false, 'label'=>false, 'size'=>6, 'type'=>'text', 'required' => false));__('Hours'); ?>
       </p>
     </div>
     <div class="splitcontentright">
       <p>
         <?php echo $this->Form->label('TimeEntry.activity_id', __('Activity')); ?>
-        <?php echo $this->Form->input('TimeEntry.activity_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$time_entry_activities, 'empty'=>'--- '.__('Please Select').' ---')); ?> 
+        <?php echo $this->Form->input('TimeEntry.activity_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'required' => false, 'options'=>$time_entry_activities, 'empty'=>'--- '.__('Please Select').' ---')); ?>
       </p>
     </div>
     <p>
       <?php echo $this->Form->label('TimeEntry.comments', __('Comment')); ?>
-      <?php echo $this->Form->input('TimeEntry.comments', array('div'=>false, 'label'=>false, 'size'=>60, 'type'=>'text', 'id'=>"time_entry_comments"));?> 
+      <?php echo $this->Form->input('TimeEntry.comments', array('div'=>false, 'label'=>false, 'size'=>60, 'type'=>'text', 'id'=>"time_entry_comments"));?>
     </p>
     <?php foreach($time_entry_custom_fields as $value): ?>
       <p><?php echo $this->CustomField->custom_field_tag_with_label('time_entry', $value); ?></p>
