@@ -39,7 +39,7 @@ Currently some features which are present in Redmine are not supported by CandyC
 - Forum
 - Documents
 
-CandyCane is using CakePHP v2.1.
+CandyCane is using CakePHP v2.3.
 
 
 ## Contributors
