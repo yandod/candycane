@@ -2729,13 +2729,13 @@ msgid "Install candycane"
 msgstr "candycane インストール"
 
 msgid "PDO extension is loaded."
-msgstr "PDO拡張モジュールはロードされています。"
+msgstr "PDO拡張モジュールがロードされています。"
 
 msgid "PDO extension is NOT loaded."
-msgstr "PDO拡張モジュールはロードされていません。"
+msgstr "PDO拡張モジュールがロードされていません。"
 
 msgid "Your tmp directory is writable."
-msgstr "tmpディレクトリは書込み可能です。"
+msgstr "tmpディレクトリが書込み可能です。"
 
 msgid "Your tmp directory is NOT writable."
 msgstr "tmpディレクトリが書込み不可能です。"
@@ -2759,10 +2759,10 @@ msgid "Your Plugin directory is NOT writable."
 msgstr "Pluginディレクトリが書き込み不可能です。"
 
 msgid "Your routing  is working well."
-msgstr "ルーティングは機能しています。"
+msgstr "ルーティングが機能しています。"
 
 msgid "Your routing is NOT working well."
-msgstr "ルーティングは機能していません。"
+msgstr "ルーティングが機能していません。"
 
 msgid "Please activate mod_rewrite and .htaccess."
 msgstr "mod_rewriteと.htaccessを有効化してください。"
