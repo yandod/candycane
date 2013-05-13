@@ -2740,11 +2740,11 @@ msgstr "tmpディレクトリは書込み可能です。"
 msgid "Your tmp directory is NOT writable."
 msgstr "tmpディレクトリが書込み不可能です。"
 
-msgid "Your config directory is writable."
-msgstr "configディレクトリが書込み可能です。"
+msgid "Your Config directory is writable."
+msgstr "Configディレクトリが書込み可能です。"
 
-msgid "Your config directory is NOT writable."
-msgstr "configディレクトリが書込み不可能です。"
+msgid "Your Config directory is NOT writable."
+msgstr "Configディレクトリが書込み不可能です。"
 
 msgid "Your files directory is writable."
 msgstr "filesディレクトリが書込み可能です。"
