@@ -1,5 +1,5 @@
 <span id="attachments_fields">
-<?php 
+<?php
 echo $this->Form->input(
 	'attachments_file.1',
 		array(
@@ -18,7 +18,8 @@ echo $this->Form->input(
 		'name' => 'attachments_description[1]',
 		'size' => 60,
 		'div' => false,
-		'label' => false
+		'label' => false,
+		'required' => false
 	)
 ); ?>
   <em><?php echo __('Optional description'); ?></em>
