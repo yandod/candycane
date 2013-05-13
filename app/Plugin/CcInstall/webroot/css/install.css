@@ -15,6 +15,9 @@
 .install #footer { background: none; color: #444; text-align: center; padding: 5px }
 .install #footer a { color: #444; }
 
+.success { background-color: #4FA39C; padding: 5px; -moz-border-radius: 10px; -webkit-border-radius: 10px; }
+.error { background-color: #D65752; padding: 5px; -moz-border-radius: 10px; -webkit-border-radius: 10px; }
+
 body {
 	background-image: url('../img/bear.png');
 	background-repeat: no-repeat;
