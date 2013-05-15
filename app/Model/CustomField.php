@@ -31,7 +31,7 @@ class CustomField extends AppModel
 
     public function validate_possible_values($data)
     {
-        if ($data['field_format'] == "list") {
+        if ($this->data[$this->name]['field_format'] === 'list') {
             if (empty($data['possible_values']) || !is_array($data['possible_values'])) {
                 return false;
             }

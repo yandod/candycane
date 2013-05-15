@@ -55,14 +55,16 @@ class CustomFieldTestCase extends CakeTestCase
      */
     public function testValidatePossibleValues()
     {
+        $this->CustomField->set('field_format', 'list');
+
         $this->assertTrue($this->CustomField->validate_possible_values(array(
-            'field_format' => 'list', 'possible_values' => array(1),
+            'possible_values' => array(1),
         )));
         $this->assertFalse($this->CustomField->validate_possible_values(array(
-            'field_format' => 'list', 'possible_values' => null,
+            'possible_values' => null,
         )));
         $this->assertFalse($this->CustomField->validate_possible_values(array(
-            'field_format' => 'list', 'possible_values' => array(),
+            'possible_values' => array(),
         )));
     }
 
