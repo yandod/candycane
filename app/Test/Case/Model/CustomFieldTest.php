@@ -69,6 +69,24 @@ class CustomFieldTestCase extends CakeTestCase
     }
 
     /**
+     * testValidateDefaultValue method
+     *
+     * @return void
+     */
+    public function testValidateDefaultValue()
+    {
+        $this->CustomField->set(array(
+            'default_value' => 1,
+            'field_format' => 'int',
+            'min_length' => 0,
+            'max_length' => 0,
+            'custom_field_id' => 1,
+        ));
+
+        $this->assertTrue($this->CustomField->validate_default_value(array('default_value' => 1)));
+    }
+
+    /**
      * testGroupBy method
      *
      * @return void
