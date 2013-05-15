@@ -45,7 +45,7 @@ class CustomField extends AppModel
         if (empty($this->data[$this->name]['default_value'])) {
             return true;
         }
-        $CustomValue = & ClassRegistry::init('CustomValue');
+        $CustomValue = ClassRegistry::init('CustomValue');
         $CustomValue->set(array('CustomValue' => array('value' => $this->data[$this->name]['default_value']), $this->name => $this->data[$this->name]));
 
         if ($CustomValue->validates()) {
