@@ -1,16 +1,17 @@
 <?php
 App::uses('PluginContainer', 'Vendor');
+
 class PluginContainerTest extends CakeTestCase {
 
 	public $autoFixtures = false;
 
 	protected $pluginContainer = null;
 
-	public function startTest(){
+	public function setUp() {
 		$this->pluginContainer = new PluginContainer();
 	}
 
-	public function test_getEntries(){
+	public function test_getEntries() {
 		$exp = array(
 			'cc_octoland' => array(
 			'id' => 'cc_octoland',
@@ -27,7 +28,17 @@ class PluginContainerTest extends CakeTestCase {
 		$this->assertEqual($ret, $exp, "check entries.");
 	}
 
+	public function test_fetchEntry() {
+	}
+
 	public function test_addEntry() {
+		$entry = array();
+		$this->assertFalse($this->pluginContainer->addEntry($entry));
+
+		$entry = array(
+			'id' => 1,
+		);
+		$this->assertTrue($this->pluginContainer->addEntry($entry));
 	}
 
 	public function test_getEntry() {
@@ -83,6 +94,9 @@ class PluginContainerTest extends CakeTestCase {
 		$result = $this->pluginContainer->install('cc_octoland');
 		$this->assertTrue($result);
 		$this->assertTrue(file_exists(APP.'Plugin/CcOctoland/init.php'));
+
+		$result = $this->pluginContainer->install('dummy');
+		$this->assertFalse($result);
 	}
 
 	public function test_installed() {
@@ -100,10 +114,20 @@ class PluginContainerTest extends CakeTestCase {
 		$this->assertEqual($entry['installed'], '10.8.7');
 	}
 
+	public function test_upgrade() {
+		$result = $this->pluginContainer->upgrade('cc_octoland');
+		$this->assertTrue($result);
+
+		$result = $this->pluginContainer->upgrade('dummy');
+		$this->assertFalse($result);
+	}
+
 	public function test_uninstall() {
 		$result = $this->pluginContainer->uninstall('cc_octoland');
 		$this->assertTrue($result);
 		$this->assertFalse(file_exists(APP.'Plugin/CcOctoland/init.php'));
-	}
 
+		$result = $this->pluginContainer->uninstall('dummy');
+		$this->assertFalse($result);
+	}
 }
