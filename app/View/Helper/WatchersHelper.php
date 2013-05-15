@@ -30,7 +30,7 @@ class WatchersHelper extends AppHelper
   }
 
   function watcher_link($object, $user) {
-    $watched_by = $this->requestAction(array('controller'=>'issues', 'action'=>'watched_by'), compact('object'));
+    $watched_by = $this->requestAction(array('controller'=>'issues', 'action'=>'watched_by'));
     if(!($user && $user['logged'])) {
       return '';
     }
