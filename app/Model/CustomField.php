@@ -31,7 +31,7 @@ class CustomField extends AppModel
 
     public function validate_possible_values($data)
     {
-        if ($data['field_format'] == "list") {
+        if ($this->data[$this->name]['field_format'] === 'list') {
             if (empty($data['possible_values']) || !is_array($data['possible_values'])) {
                 return false;
             }
@@ -45,7 +45,7 @@ class CustomField extends AppModel
         if (empty($this->data[$this->name]['default_value'])) {
             return true;
         }
-        $CustomValue = & ClassRegistry::init('CustomValue');
+        $CustomValue = ClassRegistry::init('CustomValue');
         $CustomValue->set(array('CustomValue' => array('value' => $this->data[$this->name]['default_value']), $this->name => $this->data[$this->name]));
 
         if ($CustomValue->validates()) {

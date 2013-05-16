@@ -58,10 +58,16 @@ class CustomValue extends AppModel
   }
   
   function validate_value_regexp($data) {
-    $custom_field = $this->CustomField->read(null, $this->data[$this->name]['custom_field_id']);
-    $custom_field = $custom_field['CustomField'];
-    if (!empty($custom_field['regexp'])) {
-      return preg_match("/{$custom_field['regexp']}/u", $this->data[$this->name]['value']);
+    if (isset($this->data[$this->name]['custom_field_id']) && !empty($this->data[$this->name]['custom_field_id'])) {
+      $backup = $this->CustomField->data;
+
+      $custom_field = $this->CustomField->read(null, $this->data[$this->name]['custom_field_id']);
+      $custom_field = $custom_field['CustomField'];
+
+      $this->CustomField->data = $backup;
+      if (!empty($custom_field['regexp'])) {
+        return preg_match("/{$custom_field['regexp']}/u", $this->data[$this->name]['value']);
+      }
     }
     return true;
   }
