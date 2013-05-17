@@ -371,7 +371,7 @@ class ProjectsController extends AppController
         #      end
         #    end
 
-        $fields = array('name', 'description', 'homepage', 'is_public');
+        $fields = array('name', 'description', 'homepage', 'is_public', 'parent_id');
         $this->request->data['Tracker']['Tracker'] = array_filter($this->request->data['Project']['Tracker']);
         if (
             isset($this->request->data['Project']['issue_custom_field_ids']) &&
