@@ -20,7 +20,7 @@
   <?php echo $this->Form->input('hours', array('type'=>'text', 'size' => 6, 'div'=>false, 'label'=>false)); ?>
 </p>
 <p>
-  <?php echo $this->Form->label('comments', __('Comment')); ?>
+  <?php echo $this->Form->label('comments', __('Comment').'<span class="required"> *</span>'); ?>
   <?php echo $this->Form->input('comments', array('type'=>'text', 'size' =>100, 'div'=>false, 'label'=>false)); ?>
 </p>
 <p>
