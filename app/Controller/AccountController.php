@@ -230,7 +230,8 @@ class AccountController extends AppController
             if (
                 $this->request->data['back_url'][0] == '/' ||
                 Router::url($this->request->data['back_url'], true) ==
-                Router::url($this->request->action, true)
+                Router::url($this->request->action, true) ||
+                parse_url($this->request->data['back_url'], PHP_URL_HOST) != env('HTTP_HOST')
             ) {
                 $this->request->data['back_url'] = '/';
             }
