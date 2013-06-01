@@ -55,4 +55,8 @@ if( $currentuser[ 'admin' ] )
 	); ?>
 <?php endforeach; ?>
 
+<?php
+  echo $this->Js->writeBuffer();
+?>
+
 <?php $this->Candy->html_title(__('User')); ?>
