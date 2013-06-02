@@ -42,14 +42,14 @@ if (isset($next_version[$first_version_value])) {
 <?php foreach ($versions as $ver) : /*@versions.each do |ver|*/ ?>
 <tr class="<?php echo $this->Candy->cycle("odd", "even"); ?>">
    <td class="id">
-   <?php e($this->Html->link($ver['WikiContentVersion']['version'],
+   <?php echo($this->Html->link($ver['WikiContentVersion']['version'],
                        array('action' => 'index',
                              'project_id' => $main_project['Project']['identifier'],
                              'wikipage'   => $page['WikiPage']['title'],
                              '?version='. $ver['WikiContentVersion']['version']))); ?></td>
 <td class="checkbox"><?php
    if ($show_diff && ($line_num < sizeof($versions))) {
-     e($this->Form->input('version',
+     echo($this->Form->input('version',
                     array('type'=>'radio',
                           'options' => array($ver['WikiContentVersion']['version'] => null),
                           'value' => $first_version_value,
@@ -61,7 +61,7 @@ if (isset($next_version[$first_version_value])) {
    } ?></td>
 <td class="checkbox"><?php
    if ($show_diff && ($line_num > 1)) {
-     e($this->Form->input('version_from',
+     echo($this->Form->input('version_from',
                     array('type'=>'radio',
                           'options' => array($ver['WikiContentVersion']['version'] => null),
                           'value' => $second_version_value,
