@@ -112,6 +112,15 @@ class CandyHelper extends AppHelper {
 			}
 			$title = join(' - ', $title);
 			$str = $view->pageTitle = $title;
+		} elseif (is_string($str)) {
+			$title[] = $str;
+			if (! empty($project)) {
+				$title[] = $project['Project']['name'];
+			}
+			$Settings =& ClassRegistry::getObject('Setting');
+			$title[] = $Settings->app_title;
+			$title = join(' - ', $title);
+			$str = $view->pageTitle = $title;
 		} elseif(is_array($str)) {
 			$str = join(' - ', $str);
 		}
