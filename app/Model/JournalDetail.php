@@ -1,4 +1,5 @@
 <?php
+
 ## redMine - project management software
 ## Copyright (C) 2006  Jean-Philippe Lang
 ##
@@ -24,6 +25,7 @@
 #    self.old_value = old_value[0..254] if old_value && old_value.is_a?(String)
 #  end
 #end
-class JournalDetail extends AppModel {
-	var $name="JournalDetail";
+class JournalDetail extends AppModel
+{
+    var $name = "JournalDetail";
 }

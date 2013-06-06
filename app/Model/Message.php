@@ -1,6 +1,8 @@
 <?php
-class Message extends AppModel {
-  var $useTable = false;
+
+class Message extends AppModel
+{
+    var $useTable = false;
 }
 #class Message < ActiveRecord::Base
 #  belongs_to :board

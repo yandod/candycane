@@ -1,27 +1,28 @@
 <?php
+
 class ProjectCustomField extends CustomField
 {
-  var $name = 'ProjectCustomField';
-  var $alias = 'ProjectCustomField';
-  var $useTable = 'custom_fields';
-  var $belongsTo = array();
-  var $hasMany = array();
-  var $hasAndBelongsToMany = array();
+    var $name = 'ProjectCustomField';
+    var $alias = 'ProjectCustomField';
+    var $useTable = 'custom_fields';
+    var $belongsTo = array();
+    var $hasMany = array();
+    var $hasAndBelongsToMany = array();
 
-  function beforeFind(&$queryData)
-  {
-    $ret = parent::beforeFind($queryData);
-    if (is_array($ret)) {
-      $queryData = $ret;
+    function beforeFind(&$queryData)
+    {
+        $ret = parent::beforeFind($queryData);
+        if (is_array($ret)) {
+            $queryData = $ret;
+        }
+
+        if ($queryData['conditions'] == null) {
+            $queryData['conditions'] = array();
+        }
+        $queryData['conditions'][$this->name . '.type'] = $this->name;
+
+        return $queryData;
     }
-
-    if ($queryData['conditions'] == null) {
-      $queryData['conditions'] = array();
-    }
-    $queryData['conditions'][$this->name.'.type'] = $this->name;
-
-    return $queryData;
-  }
 
 }
 
