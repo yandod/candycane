@@ -1,15 +1,16 @@
 <?php
-class Comment extends AppModel {
 
-  var $name = 'Comment';
+class Comment extends AppModel
+{
+    var $name = 'Comment';
 
-	var $belongsTo = array(
-		'Author' => array(
-			'className' => 'User',
-			'foreginKey' => 'author_id',
-		),
-	);
-  var $actsAs = array('Polymorphic');
+    var $belongsTo = array(
+        'Author' => array(
+            'className'  => 'User',
+            'foreginKey' => 'author_id',
+        ),
+    );
+    var $actsAs = array('Polymorphic');
 }
 ## redMine - project management software
 ## Copyright (C) 2006  Jean-Philippe Lang

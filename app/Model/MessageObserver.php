@@ -1,6 +1,8 @@
 <?php
-class MessageObserver extends AppModel {
-  var $useTable = false;
+
+class MessageObserver extends AppModel
+{
+    var $useTable = false;
 }
 #class MessageObserver < ActiveRecord::Observer
 #  def after_create(message)

@@ -1,6 +1,8 @@
 <?php
-class Repository extends AppModel {
-  
+
+class Repository extends AppModel
+{
+
 }
 #class Repository < ActiveRecord::Base
 #  belongs_to :project
