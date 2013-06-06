@@ -986,7 +986,7 @@ msgstr "ニュースへのコメント"
 
 # notice_account_invalid_creditentials
 msgid "Invalid user or password"
-msgstr "ユーザ名もしくはパスワードが無効"
+msgstr "ユーザ名もしくはパスワードが無効です"
 
 # label_board
 msgid "Forum"
