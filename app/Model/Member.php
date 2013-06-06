@@ -1,4 +1,5 @@
 <?php
+
 #class Member < ActiveRecord::Base
 #
 #  validates_presence_of :role, :user, :project
@@ -23,5 +24,5 @@
 #end
 class Member extends AppModel
 {
-  var $belongsTo = array('Project', 'Role', 'User');
+    var $belongsTo = array('Project', 'Role', 'User');
 }

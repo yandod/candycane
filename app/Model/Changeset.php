@@ -1,4 +1,5 @@
 <?php
+
 ## Redmine - project management software
 ## Copyright (C) 2006-2008  Jean-Philippe Lang
 ##
@@ -154,6 +155,7 @@
 #    str
 #  end
 #end
-class Changeset extends AppModel {
-	var $name="Changeset";
+class Changeset extends AppModel
+{
+    var $name = "Changeset";
 }
