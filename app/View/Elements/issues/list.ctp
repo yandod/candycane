@@ -19,12 +19,14 @@
                 -->
             </th>
             <?php
-                // var_dump($this->Paginator->sortKey());
+                $url_param = $this->Paginator->params['url_param'];
+                unset($url_param[0]);
+
                 $sort_mark = '';
                 if ($this->Paginator->sortKey() == 'id' || $this->Paginator->sortKey() == 'Issue.id') {
                     $sort_mark = '&nbsp;'.$this->Html->image('sort_'.$this->Paginator->sortDir().'.png', array('alt' => "Sort_desc"));
                 }
-                echo $this->Html->tag('th', $this->Paginator->sort('Issue.id', '#', array('url' => $this->Paginator->params['url_param'])).$sort_mark);
+                echo $this->Html->tag('th', $this->Paginator->sort('Issue.id', '#', array('url' => $url_param)).$sort_mark);
                 foreach ($this->Queries->columns($query) as $column):
                     $sort_mark = '';
                     if ($this->Paginator->sortKey() == $this->QueryColumn->sortable($column)) {
@@ -34,7 +36,7 @@
                         $this->Paginator->sort($this->QueryColumn->sortable($column), __($column),  array(
                             'direction' => $this->QueryColumn->default_order($column),
                             'update' => 'content',
-                            'url' => $this->Paginator->params['url_param']
+                            'url' => $url_param
                         )).$sort_mark : h(__($column))
                     );
                 endforeach;
