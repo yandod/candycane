@@ -67,7 +67,6 @@ class AdminController extends AppController
             array(
                 'recursive' => 0,
                 'conditions' => $condition,
-                'limit' => 10,
             )
         );
 
