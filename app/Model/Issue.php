@@ -459,21 +459,35 @@ class Issue extends AppModel
     }
     return $journal_list;
   }
-  function findStatusList($role_for_project, $tracker_id=false) {
-    if(!$tracker_id) {
-      $tracker_id = $this->data['Issue']['tracker_id'];
-    }
-    $default_status = $this->Status->findDefault();
-    if(empty($default_status)) {
-      return false;
-    }
-    $allowed_statuses = $this->Status->find_new_statuses_allowed_to(key($default_status), $role_for_project, $tracker_id);
-    $statuses = $default_status;
-    foreach($allowed_statuses as $id => $value) {
-      $statuses[$id] = $value;
-    }
-    return $statuses;
+
+  function findStatusList($role_for_project, $tracker_id = false) {
+      if (!$tracker_id) {
+          $tracker_id = $this->data['Issue']['tracker_id'];
+      }
+
+      $default_status = null;
+      if ($this->id === null) {
+          $default_status = $this->Status->findDefault();
+      } else {
+          $default_status = $this->Status->find('list', array(
+              'conditions' => array('id' => $this->data['Issue']['status_id']),
+              'limit' => 1,
+          ));
+      }
+      if (empty($default_status)) {
+          return false;
+      }
+
+      $allowed_statuses = $this->Status->find_new_statuses_allowed_to(key($default_status), $role_for_project, $tracker_id);
+      $statuses = $default_status;
+      foreach ($allowed_statuses as $id => $value) {
+          $statuses[$id] = $value;
+      }
+      ksort($statuses);
+
+      return $statuses;
   }
+
   function findPriorities(&$default_set) {
     $priority_datas = $this->Priority->get_values('IPRI');
     $priorities = array();

@@ -73,75 +73,77 @@
 // 他に作っている人がいたら消していいです
 class IssueStatus extends AppModel
 {
-  var $name = 'IssueStatus';
-  var $actsAs = array('List');
-  var $validate = array(
-    'name' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
-      'validates_uniqueness_of'=>array('rule'=>array('isUnique')),
-      'validates_length_of'=>array('rule'=>array('maxLength', 30)),
-    ),
-  );
+    var $name = 'IssueStatus';
+    var $actsAs = array('List');
+    var $validate = array(
+        'name' => array(
+            'validates_presence_of'=>array('rule'=>array('notEmpty')),
+            'validates_uniqueness_of'=>array('rule'=>array('isUnique')),
+            'validates_length_of'=>array('rule'=>array('maxLength', 30)),
+        ),
+    );
 
-  # Returns the default status for new issues
-  function findDefault() {
-    return $this->find('list', array('conditions' => array("is_default"=>true), 'limit'=>1));
-  }
-  /**
-   * Same thing as above but uses a database query
-   * More efficient than the previous method if called just once
-   * @param default_status_id : [default_status] + default_status.find_new_statuses_allowed_to
-   * @param role_id : current_user['memberships']['role_id']
-   * @param tracker_id : selected tracker id
-   */
-  function find_new_statuses_allowed_to($default_status_id, $role_id, $tracker_id) {
-    $workflow = & ClassRegistry::init('Workflow');
-    $workflow->bindModel(array('belongsTo'=>array('Status'=>array('className'=>'IssueStatus', 'foreignKey'=>'new_status_id', 'order'=>'position'))), false);
-    $conditions = array();
-    if(!empty($role_id) && !empty($tracker_id)) {
-      $conditions["old_status_id"] = $default_status_id;
-      $conditions["role_id"] = $role_id;
-      $conditions["tracker_id"] = $tracker_id;
+    # Returns the default status for new issues
+    function findDefault() {
+        return $this->find('list', array('conditions' => array("is_default"=>true), 'limit'=>1));
     }
-    $group = array('new_status_id', 'Status.id', 'Status.name');
-    $fields = array('Status.id', 'Status.name', 'Workflow.new_status_id');
-    $recursive = 0;
 
-    $new_statuses = $workflow->find('all', compact('conditions', 'order', 'group', 'fields', 'recursive'));
-    $list = array();
-    foreach($new_statuses as $new_status) {
-      $list[$new_status['Status']['id']] = $new_status['Status']['name'];
-    }
-    return $list;
-  }
-  function is_new_status_allowed_to($status_id, $role_id, $tracker_id) {
-    $workflow = & ClassRegistry::init('Workflow');
-    $workflow->bindModel(array('belongsTo'=>array('Status'=>array('className'=>'IssueStatus', 'foreignKey'=>'new_status_id', 'order'=>'position'))), false);
-    
-    if($status_id && $role_id && $tracker_id) {
-      return $workflow->hasAny(array('new_status_id' => $status_id, 'role_id' => $role_id, 'tracker_id' => $tracker_id));
-    }
-    return false;
-  }
-  function beforeDelete($cascade = true) {
-    return $this->check_integrity();
-  }
-  function afterSave($created) {
-    if(!empty($this->data[$this->alias]['is_default'])) {
-      if($created) {
-        $id = $this->getLastInsertID();
-      } else {
-        $id = $this->id;
-      }
-      $this->updateAll(array('is_default'=>0), array($this->alias.'.id !='=>$id));
-    }
-  }
+    /**
+     * Same thing as above but uses a database query
+     * More efficient than the previous method if called just once
+     * @param default_status_id : [default_status] + default_status.find_new_statuses_allowed_to
+     * @param role_id : current_user['memberships']['role_id']
+     * @param tracker_id : selected tracker id
+     */
+    function find_new_statuses_allowed_to($default_status_id, $role_id, $tracker_id) {
+        $workflow = & ClassRegistry::init('Workflow');
+        $workflow->bindModel(array('belongsTo'=>array('Status'=>array('className'=>'IssueStatus', 'foreignKey'=>'new_status_id', 'order'=>'position'))), false);
+        $conditions = array();
+        if(!empty($role_id) && !empty($tracker_id)) {
+            $conditions["old_status_id"] = $default_status_id;
+            $conditions["role_id"] = $role_id;
+            $conditions["tracker_id"] = $tracker_id;
+        }
+        $group = array('new_status_id', 'Status.id', 'Status.name');
+        $fields = array('Status.id', 'Status.name', 'Workflow.new_status_id');
+        $recursive = 0;
 
-#private
-  function check_integrity() {
-    $Issue =& ClassRegistry::init('Issue');
-    return !$Issue->hasAny(array("status_id"=>$this->id));
-  }
+        $new_statuses = $workflow->find('all', compact('conditions', 'order', 'group', 'fields', 'recursive'));
+        $list = array();
+        foreach($new_statuses as $new_status) {
+            $list[$new_status['Status']['id']] = $new_status['Status']['name'];
+        }
+        return $list;
+    }
+
+    function is_new_status_allowed_to($status_id, $role_id, $tracker_id) {
+        $workflow = & ClassRegistry::init('Workflow');
+        $workflow->bindModel(array('belongsTo'=>array('Status'=>array('className'=>'IssueStatus', 'foreignKey'=>'new_status_id', 'order'=>'position'))), false);
+
+        if($status_id && $role_id && $tracker_id) {
+            return $workflow->hasAny(array('new_status_id' => $status_id, 'role_id' => $role_id, 'tracker_id' => $tracker_id));
+        }
+        return false;
+    }
+    function beforeDelete($cascade = true) {
+        return $this->check_integrity();
+    }
+    function afterSave($created) {
+        if(!empty($this->data[$this->alias]['is_default'])) {
+            if($created) {
+                $id = $this->getLastInsertID();
+            } else {
+                $id = $this->id;
+            }
+            $this->updateAll(array('is_default'=>0), array($this->alias.'.id !='=>$id));
+        }
+    }
+
+    #private
+    function check_integrity() {
+        $Issue =& ClassRegistry::init('Issue');
+        return !$Issue->hasAny(array("status_id"=>$this->id));
+    }
 
 }
 
