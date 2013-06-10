@@ -152,7 +152,10 @@ class CandyHelper extends AppHelper {
 			$view = $this->_View;
 			$project = $view->viewVars['main_project'];
 		}
-		return $this->requestAction(
+        $project['Project']['short_description'] = '';
+        $project['Project']['description'] = '';
+
+  		return $this->requestAction(
 			array(
 				'controller' => 'users',
 				'action' => 'allowed_to'
