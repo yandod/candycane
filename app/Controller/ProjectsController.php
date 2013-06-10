@@ -281,12 +281,11 @@ class ProjectsController extends AppController
             $cond_open['Issue.tracker_id'] = $tracker['id'];
             $open_issues_by_tracker = $this->Issue->find('count', array(
                 'conditions' => $cond_open,
-                'group' => 'tracker_id',
             ));
+
             $cond_all['Issue.tracker_id'] = $tracker['id'];
             $total_issues_by_tracker = $this->Issue->find('count', array(
                 'conditions' => $cond_all,
-                'group' => 'tracker_id',
             ));
 
             $tracker['open_issues_by_tracker'] = intval($open_issues_by_tracker);
