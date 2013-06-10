@@ -1,47 +1,5 @@
 <?php
-/**
- * Admin Controller
- *
- * @package candycane
- * @subpackage candycane.controllers
- */
-#  helper :sort
-#  include SortHelper 
-#
-#  def index
-#    @no_configuration_data = Redmine::DefaultData::Loader::no_data?
-#  end
-# 
 
-#  def plugins
-#    @plugins = Redmine::Plugin.all
-#  end
-#  
-#  # Loads the default configuration
-#  # (roles, trackers, statuses, workflow, enumerations)
-#  def default_configuration
-#    if request.post?
-#      begin
-#        Redmine::DefaultData::Loader::load(params[:lang])
-#        flash[:notice] = l(:notice_default_data_loaded)
-#      rescue Exception => e
-#        flash[:error] = l(:error_can_t_load_default_data, e.message)
-#      end
-#    end
-#    redirect_to :action => 'index'
-#  end
-#  
-#  
-#  def info
-#    @db_adapter_name = ActiveRecord::Base.connection.adapter_name
-#    @flags = {
-#      :default_admin_changed => User.find(:first, :conditions => ["login=? and hashed_password=?", 'admin', User.hash_password('admin')]).nil?,
-#      :file_repository_writable => File.writable?(Attachment.storage_path),
-#      :plugin_assets_writable => File.writable?(Engines.public_directory),
-#      :rmagick_available => Object.const_defined?(:Magick)
-#    }
-#  end  
-#end
 class AdminController extends AppController
 {
     var $name = 'Admin';
@@ -52,7 +10,6 @@ class AdminController extends AppController
     /**
      * beforeFilter
      *
-     * # before_filter :require_admin
      */
     public function beforeFilter()
     {
@@ -60,7 +17,7 @@ class AdminController extends AppController
         $this->require_admin();
     }
 
-    function index()
+    public function index()
     {
     }
 
@@ -68,7 +25,7 @@ class AdminController extends AppController
      * projects
      *
      */
-    function projects()
+    public function projects()
     {
         $this->Sort->sort_init('name', 'asc');
         $this->Sort->sort_update(
@@ -105,28 +62,15 @@ class AdminController extends AppController
 
         $this->set('name', $name);
 
-#    @project_count = Project.count(:conditions => c.conditions)
-#    @project_pages = Paginator.new self, @project_count,
-#               per_page_option,
-#               params['page']                
-#    @projects = Project.find :all, :order => sort_clause,
-#                        :conditions => c.conditions,
-#           :limit  =>  @project_pages.items_per_page,
-#           :offset =>  @project_pages.current.offset
-#
-
         // @todo fix limit count
         $projects = $this->Project->find('all',
             array(
                 'recursive' => 0,
                 'conditions' => $condition,
-                'limit' => 10,
             )
         );
 
         $this->set('projects', $projects);
-#    render :action => "projects", :layout => false if request.xhr?
-
     }
 
     public function plugins()
