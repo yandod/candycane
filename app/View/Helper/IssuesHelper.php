@@ -61,83 +61,85 @@ class IssuesHelper extends AppHelper
 #    @sidebar_queries
 #  end
 #
-  public function show_detail($detail, $no_html=false) {
-    $result = $this->requestAction(array('controller'=>'issues', 'action'=>'detail_values'), compact('detail'));
-    // $label, $value, $old_value, $field_format, $attachment
-    extract($result);
-    switch($detail['property']) {
-    case 'attr' :
-      $label = __($detail['prop_key']);
-      switch($detail['prop_key']) {
-      case 'due_date' :
-      case 'start_date' :
-        if(!empty($detail['value'])) $value = $this->Candy->format_date($detail['value']);
-        if(!empty($detail['old_value'])) $old_value = $this->Candy->format_date($detail['old_value']);
-        break;
-      case 'estimated_hours' :
-        if($detail['value'] != '') $value = ($detail['value'] ==0 ? 0 : "%0.02f" % $detail['value']);
-        if($detail['old_value'] != '') $old_value = ($detail['old_value'] == 0 ? 0 : "%0.02f" % $detail['old_value']);
-        break;
-      }
-      break;
-    case 'cf' :
-      if(!empty($field_format)) {
-        $value = $this->CustomField->format_value($detail['value'], $field_format);
-        $old_value = $this->CustomField->format_value($detail['old_value'], $field_format);
-      }
-      break;
-    case 'attachment' :
-      $label = __('File');
-      break;
-    }
-    // TODO : For plugin, call_hook 
-    // call_hook(:helper_issues_show_detail_after_setting, {:detail => detail, :label => label, :value => value, :old_value => old_value })
-
-    if(empty($label)) $label = $detail['prop_key'];
-    if(empty($value)) $value = $detail['value'];
-    if(empty($old_value)) $old_value = $detail['old_value'];
-    
-    if(!empty($label)) $label = $this->Candy->label_text($label);
-    if(!$no_html) {
-      $label = $this->Html->tag('strong', $label);
-      if(!empty($detail['old_value'])) $old_value = $this->Html->tag("i", h($old_value));
-      if(!empty($detail['old_value']) && (!$detail['value'] || empty($detail['value']))) $old_value = $this->Html->tag("strike", $old_value); 
-      if($detail['property'] == 'attachment' && ($value != '') && !empty($attachment)) {
-        # Link to the attachment if it has not been removed
-        $value = $this->Candy->link_to_attachment($attachment);
-      } else {
-        if(!empty($value)) $value = $this->Html->tag("i", h($value));
-      }
-    }
-    
-    $out = '';
-    if($detail['value'] != '') {
-      switch($detail['property']) {
-      case 'attr' :
-      case 'cf' :
-        if($detail['old_value'] != '') {
-          $out = $label." ".sprintf(__('changed from %s to %s'), $old_value, $value);
-        } else {
-          $out = $label." ".sprintf(__('set to %s'), $value);
+    public function show_detail($detail, $no_html = false)
+    {
+        $result = $this->requestAction(array('controller'=>'issues', 'action'=>'detail_values'), compact('detail'));
+        // $label, $value, $old_value, $field_format, $attachment
+        extract($result);
+        switch($detail['property']) {
+            case 'attr' :
+                $label = __($detail['prop_key']);
+                switch($detail['prop_key']) {
+                    case 'due_date' :
+                    case 'start_date' :
+                        if(!empty($detail['value'])) $value = $this->Candy->format_date($detail['value']);
+                        if(!empty($detail['old_value'])) $old_value = $this->Candy->format_date($detail['old_value']);
+                        break;
+                    case 'estimated_hours' :
+                        if($detail['value'] != '') $value = ($detail['value'] ==0 ? 0 : "%0.02f" % $detail['value']);
+                        if($detail['old_value'] != '') $old_value = ($detail['old_value'] == 0 ? 0 : "%0.02f" % $detail['old_value']);
+                        break;
+                }
+                break;
+            case 'cf' :
+                if(!empty($field_format)) {
+                    $value = $this->CustomField->format_value($detail['value'], $field_format);
+                    $old_value = $this->CustomField->format_value($detail['old_value'], $field_format);
+                }
+                break;
+            case 'attachment' :
+                $label = __('File');
+                break;
         }
-        break;
-      case 'attachment' :
-        $out = "$label $value ".__('added');
-        break;
-      }
-    } else {
-      switch($detail['property']) {
-      case 'attr' :
-      case 'cf' :
-        $out = $label." ".__('deleted')." ($old_value)";
-        break;
-      case 'attachment' :
-        $out = "$label $old_value ".__('deleted');
-        break;
-      }
+        // TODO : For plugin, call_hook
+        // call_hook(:helper_issues_show_detail_after_setting, {:detail => detail, :label => label, :value => value, :old_value => old_value })
+
+        if(empty($label)) $label = $detail['prop_key'];
+        if(empty($value)) $value = $detail['value'];
+        if(empty($old_value)) $old_value = $detail['old_value'];
+
+        if(!empty($label)) $label = $this->Candy->label_text($label);
+        if(!$no_html) {
+            $label = $this->Html->tag('strong', $label);
+            if(!empty($detail['old_value'])) $old_value = $this->Html->tag("i", h($old_value));
+            if(!empty($detail['old_value']) && (!$detail['value'] || empty($detail['value']))) $old_value = $this->Html->tag("strike", $old_value); 
+            if($detail['property'] == 'attachment' && ($value != '') && !empty($attachment)) {
+                # Link to the attachment if it has not been removed
+                $value = $this->Candy->link_to_attachment($attachment);
+            } else {
+                if(!empty($value)) $value = $this->Html->tag("i", h($value));
+            }
+        }
+
+        $out = '';
+        if($detail['value'] != '') {
+            switch($detail['property']) {
+                case 'attr' :
+                case 'cf' :
+                    if($detail['old_value'] != '') {
+                        $out = $label." ".sprintf(__('changed from %s to %s'), $old_value, $value);
+                    } else {
+                        $out = $label." ".sprintf(__('set to %s'), $value);
+                    }
+                    break;
+                case 'attachment' :
+                    $out = "$label $value ".__('added');
+                    break;
+            }
+        } else {
+            switch($detail['property']) {
+                case 'attr' :
+                case 'cf' :
+                    $out = $label." ".__('deleted')." ($old_value)";
+                    break;
+                case 'attachment' :
+                    $out = "$label $old_value ".__('deleted');
+                    break;
+            }
+        }
+        return $out;
     }
-    return $out;
-  }
+
   function relation_issue($issue, $relation) {
     return ($relation['IssueRelation']['issue_from_id'] == $issue['Issue']['id']) ? $relation['IssueFrom'] : $relation['IssueTo'];
   }
