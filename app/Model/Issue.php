@@ -466,7 +466,7 @@ class Issue extends AppModel
       }
 
       $default_status = null;
-      if ($this->id === null) {
+      if (!$this->id) {
           $default_status = $this->Status->findDefault();
       } else {
           $default_status = $this->Status->find('list', array(
