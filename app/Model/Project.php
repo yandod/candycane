@@ -550,8 +550,11 @@ class Project extends AppModel {
     $fields = array('User.*');
     $users = $this->Member->find('all', compact('conditions', 'recursive', 'order', 'fields'));
     $list = array();
+    // @FIXME
+    App::uses('CandyHelper', 'View/Helper');
+    $candy = new CandyHelper(new View());
     foreach($users as $user) {
-      $list[$user['User']['id']] = $user['User']['firstname'].' '.$user['User']['lastname'];
+      $list[$user['User']['id']] = $candy->format_username($user['User']);
     }
     return $list;
   }

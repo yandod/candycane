@@ -12,7 +12,7 @@ class UserTestCase extends CakeTestCase {
  *
  * @var array
  */
-    public $fixtures = array('app.user', 'app.token', 'app.user_preference', 'app.member', 'app.project', 'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect', 'app.issue_category', 'app.version', 'app.issue', 'app.issue_status', 'app.enumeration', 'app.tracker', 'app.workflow', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.enabled_module', 'app.projects_tracker', 'app.custom_field', 'app.custom_fields_project', 'app.role');
+    public $fixtures = array('app.user', 'app.token', 'app.user_preference', 'app.member', 'app.project', 'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect', 'app.issue_category', 'app.version', 'app.issue', 'app.issue_status', 'app.enumeration', 'app.tracker', 'app.workflow', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.enabled_module', 'app.projects_tracker', 'app.custom_field', 'app.custom_fields_project', 'app.role', 'app.setting');
 
 /**
  * setUp method
@@ -61,10 +61,13 @@ class UserTestCase extends CakeTestCase {
  * @return void
  */
     public function testName() {
+        ClassRegistry::init('Setting');
+
         $data = array(
             'User' => array(
                 'firstname' => 'foo',
                 'lastname' => 'bar',
+                'login' => 'baz',
             ),
         );
 
@@ -72,9 +75,9 @@ class UserTestCase extends CakeTestCase {
         $this->assertEqual('foo bar', $results);
 
         // @TODO fix formatter
-        $formatter = 'formatter';
+        $formatter = 'lastname_coma_firstname';
         $results = $this->User->name($data, $formatter);
-        $this->assertEqual('foo bar', $results);
+        $this->assertEqual('bar, foo', $results);
     }
 /**
  * testNameFields method
@@ -185,10 +188,13 @@ class UserTestCase extends CakeTestCase {
  * @return void
  */
     public function testToString() {
+        ClassRegistry::init('Setting');
+
         $data = array(
             'User' => array(
                 'firstname' => 'foo',
                 'lastname' => 'bar',
+                'login' => 'baz',
             ),
         );
         $results = $this->User->to_string($data);

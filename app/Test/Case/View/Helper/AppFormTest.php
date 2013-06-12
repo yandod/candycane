@@ -20,7 +20,7 @@ class AppFormTest extends CakeTestCase {
       'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
       'app.enabled_module', 'app.issue_category', 'app.time_entry', 'app.changeset', 'app.changesets_issue', 'app.attachment',
       'app.projects_tracker', 'app.custom_value', 'app.custom_field', 'app.watcher','app.custom_fields_project',
-      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow'
+      'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow', 'app.setting',
   );
 
   function setUp() {
@@ -289,7 +289,9 @@ class AppFormTest extends CakeTestCase {
   }
 
   function test_format_criteria_value_member() {
-    $this->loadFixtures('User','Token','UserPreference','Member');
+    $this->loadFixtures('User','Token','UserPreference','Member', 'Setting');
+    ClassRegistry::init('Setting');
+
     $locale = Configure::write('Config.language', 'en');
     $available_criterias = array(
       'member'   => array('sql' => "TimeEntry.user_id",

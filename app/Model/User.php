@@ -147,17 +147,16 @@ class User extends AppModel {
 #  
   function name($user, $formatter = null)
   {
-    // @FIXME
+      // @FIXME
+      App::uses('CandyHelper', 'View/Helper');
+      $candy = new CandyHelper(new View());
 
-    if ($formatter != null) {
-    } else {
-    }
-    $alias = 'User';
-    if(array_key_exists($this->alias, $user)) {
-      $alias = $this->alias;
-    }
+      $alias = 'User';
+      if(array_key_exists($this->alias, $user)) {
+          $alias = $this->alias;
+      }
 
-    return $user[$alias]['firstname']. ' '.$user[$alias]['lastname'];
+      return $candy->format_username($user[$alias], $formatter);
   }
   function name_fields() {
     return array('firstname', 'lastname');
