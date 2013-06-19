@@ -95,7 +95,11 @@ class QueriesController extends AppController
             $this->Query->save($query);
             if (empty($this->Query->validationErrors)) {
                 $this->Session->setFlash(__('Successful creation.'), 'default', array('class' => 'flash flash_notice'));
-                $this->redirect(array('controller' => 'issues', 'action' => 'index', 'project_id' => $this->request->params['project_id']));
+                $project_id = $this->request->params['project_id'];
+                if (empty($project_id)) {
+                    $project_id = null;
+                }
+                $this->redirect(array('controller' => 'issues', 'action' => 'index', 'project_id' => $project_id));
             }
             return;
         } elseif (isset($this->request->params['query_id'])) {
