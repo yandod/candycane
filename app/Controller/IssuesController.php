@@ -275,6 +275,12 @@ class IssuesController extends AppController
 
         switch ($this->_get_param('format')) {
             case 'pdf':
+                App::import('vendor', 'tcpdf/tcpdf');
+                if (!class_exists('TCPDF')) {
+                    $this->Session->setFlash(__('Missing TCPDF library, please install on your server.'), 'default', array('class' => 'flash flash_error'));
+                    $this->render('missing_tcpdf');
+                    return;
+                }
                 $this->layout = 'pdf';
                 $this->helpers = array('Candy', 'CustomField', 'Issues', 'Number', 'Tcpdf' => array());
                 $this->render('issue_to_pdf');
