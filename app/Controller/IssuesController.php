@@ -973,6 +973,15 @@ class IssuesController extends AppController
         $this->set('back', $this->referer());
     }
 
+    public function update_form()
+    {
+        $statuses = $this->Issue->findStatusList($this->User->role_for_project($this->current_user, $this->_project), $this->request->data['Issue']['tracker_id']);
+        $this->set(compact('statuses'));
+        $this->_set_edit_form_values();
+
+        $this->layout = 'ajax';
+    }
+
 #  def context_menu
 #    @issues = Issue.find_all_by_id(params[:ids], :include => :project)
 #    if (@issues.size == 1)
