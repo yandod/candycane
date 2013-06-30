@@ -1,9 +1,4 @@
 <?php
-if (!PHP5) {
-  App::import('vendor', 'tcpdf_php4/tcpdf');
-} else {
-  App::import('vendor', 'tcpdf/tcpdf');
-}
 class TcpdfHelper extends TCPDF {
   var $helpers = array();
   var $font_for_content = 'arialunicid0';
@@ -18,8 +13,8 @@ class TcpdfHelper extends TCPDF {
       'unicode'       => true,
       'encoding'      => "UTF-8",
     );
-    $options =  (is_array($options)) ? am($defaults, $options) : $defaults;
-    extract(am($defaults, $options));
+    $options =  (is_array($options)) ? array_merge($defaults, $options) : $defaults;
+    extract(array_merge($defaults, $options));
     parent::__construct($orientation, $unit, $format, $unicode, $encoding);
   }
   
@@ -28,6 +23,12 @@ class TcpdfHelper extends TCPDF {
     $this->SetCreator($Settings->app_title);
     $this->SetFont($this->font_for_content);
   }
+
+  function beforeRenderFile()
+  {
+
+  }
+
   function SetFontStyle($style, $size) {
     $this->SetFont($this->font_for_content, $style, $size);
   }
@@ -43,4 +44,3 @@ class TcpdfHelper extends TCPDF {
     $this->Cell(0, 5, $this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, 0, 'C');
   }  
 }
-?>

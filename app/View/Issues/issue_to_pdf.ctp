@@ -1,4 +1,5 @@
 <?php
+Configure::write('debug', 0);
 $this->Tcpdf->SetTitle($issue['Project']['name'].' - #'.$issue['Tracker']['name'].' '.$issue['Issue']['id']);
 $this->Tcpdf->AliasNbPages();
 $this->Tcpdf->footer_date = $this->Candy->format_date(date('Y-m-d'));
@@ -93,6 +94,9 @@ if(!empty($issue['Changeset']) && $this->Candy->authorize_for(':view_changesets'
 $this->Tcpdf->SetFontStyle('B',9);
 $this->Tcpdf->Cell(190,5, __('History'), "B");
 $this->Tcpdf->Ln();
+if (!isset($journalList) || !is_array($journalList)) {
+    $journalList = array();
+}
 foreach($journalList as $journal) {
   $this->Tcpdf->SetFontStyle('B',8);
   $this->Tcpdf->Cell(190,5, $this->Candy->format_time($journal['Journal']['created_on'])." - ".$this->Candy->format_username($journal['User']));
@@ -109,6 +113,7 @@ foreach($journalList as $journal) {
   $this->Tcpdf->Ln();
 }
 
+
 if(!empty($attachments)) {
   $this->Tcpdf->SetFontStyle('B',9);
   $this->Tcpdf->Cell(190,5, __('Files'), "B");
@@ -123,4 +128,3 @@ if(!empty($attachments)) {
   }
 }
 $this->Tcpdf->Output($main_project['Project']['identifier'].'-'.$issue['Issue']['id'].'.pdf', "D");
-?>
