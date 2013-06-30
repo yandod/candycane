@@ -4,8 +4,8 @@ class IssueStatusFixture extends CakeTestFixture {
   var $fields = array(
       'id' => array('type' => 'integer', 'null' => false, 'default' => NULL, 'key' => 'primary'),
       'name' => array('type' => 'string', 'null' => false, 'length' => 30),
-      'is_closed' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-      'is_default' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
+      'is_closed' => array('type' => 'boolean', 'null' => false, 'default' => false),
+      'is_default' => array('type' => 'boolean', 'null' => false, 'default' => false),
       'position' => array('type' => 'integer', 'null' => true, 'default' => '1'),
       'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1))
   );

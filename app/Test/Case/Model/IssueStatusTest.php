@@ -34,7 +34,7 @@ class IssueStatusTest extends CakeTestCase {
     $this->IssueStatus->set(array('name' => "Test Status"));
     $this->assertNotEmpty($this->IssueStatus->save());
     $this->IssueStatus->read(null, $this->IssueStatus->getLastInsertID());
-    $this->assertFalse($this->IssueStatus->data['IssueStatus']['is_default']);
+    $this->assertEquals('0',$this->IssueStatus->data['IssueStatus']['is_default']);
   }
 
   function test_destroy() {
@@ -70,14 +70,14 @@ class IssueStatusTest extends CakeTestCase {
   function test_change_default() {
     $this->loadFixtures('IssueStatus');
     $this->IssueStatus->read(null, 2);
-    $this->assertFalse($this->IssueStatus->data['IssueStatus']['is_default']);
+    $this->assertEquals('0',$this->IssueStatus->data['IssueStatus']['is_default']);
     $this->IssueStatus->data['IssueStatus']['is_default'] = true;
     $this->assertNotEmpty($this->IssueStatus->save());
     $this->IssueStatus->read(null, 2);
 
-    $this->assertTrue($this->IssueStatus->data['IssueStatus']['is_default']);
+    $this->assertEquals('1',$this->IssueStatus->data['IssueStatus']['is_default']);
     $this->IssueStatus->read(null, 1);
-    $this->assertFalse($this->IssueStatus->data['IssueStatus']['is_default']);
+    $this->assertEquals('0',$this->IssueStatus->data['IssueStatus']['is_default']);
   }
 
   function test_reorder_should_not_clear_default_status() {
@@ -86,8 +86,7 @@ class IssueStatusTest extends CakeTestCase {
     $this->IssueStatus->read(null, key($status));
     $this->IssueStatus->move_to_bottom();
     $this->IssueStatus->read(null, key($status));
-    $this->assertTrue($this->IssueStatus->data['IssueStatus']['is_default']);
+    $this->assertEquals('1',$this->IssueStatus->data['IssueStatus']['is_default']);
   }
 
 }
-?>

@@ -94,7 +94,7 @@ class EnumerationTestCase extends CakeTestCase
     {
         $isTrueOption = 'IPRI';
         $data = $this->Enumeration->default_value($isTrueOption);
-        $this->assertTrue($data['Enumeration']['is_default']);
+        $this->assertEquals(1,$data['Enumeration']['is_default']);
 
         $isFalseOption = 'DCAT';
         $data = $this->Enumeration->default_value($isFalseOption);
