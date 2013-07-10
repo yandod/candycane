@@ -306,17 +306,7 @@ class ProjectsController extends AppController
         $this->set('news', $news);
 
         $this->TimeEntry->_customFieldAfterFindDisable = true;
-        $time_entries = $this->TimeEntry->find_visible_by($this->current_user, $this->request->data);
-        $total_hours = 0;
-        foreach ($time_entries as $time_entry) {
-            // @TODO 足さなくていいのか？
-            $sum = 0;
-            $entries = $this->TimeEntry->find('all', array('conditions' => $cond));
-            foreach ($entries as $entry) {
-                $sum += $entry['TimeEntry']['hours'];
-            }
-            $total_hours = $sum;
-        }
+        $total_hours = $this->TimeEntry->sum('hours',$cond);
         $this->set('total_hours', $total_hours);
 
         #    TimeEntry.visible_by(User.current) do
