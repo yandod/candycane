@@ -21,6 +21,19 @@ You can view a live demo of CandyCane, as well as the bug tracking for CandyCane
 4. The step-by-step installer will appear.
 5. Just use it!
 
+## Development setup ##
+
+1. Install Vagrant adn VirtualBox.
+2. Download candycane box
+	`vagrant box add candycane {url}`
+3. just type `vagrant up`
+4. ssh into vm
+	`vagrant ssh`
+5. cd to app
+	`cd /vagrant_data/app`
+6. run test
+	`./Console/cake test app All`
+
 ## Updating to latest version ##
 
 You need to copy these file and directories into extracted latest codes.
