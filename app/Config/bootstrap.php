@@ -3,7 +3,9 @@ define('CANDYCANE_VERSION', '0.9.2');
 Configure::write('app_title', 'Candycane');
 setlocale(LC_CTYPE,'C');
 
-include_once '../../vendor/autoload.php';;
+if ( file_exists('../../vendor/autoload.php')) {
+    include_once '../../vendor/autoload.php';
+}
 App::import('Vendor','candycane/MenuContainer');
 App::import('Vendor','candycane/HookContainer');
 App::import('Vendor','candycane/PluginContainer');
