@@ -7,7 +7,9 @@ You can view a live demo of CandyCane, as well as the bug tracking for CandyCane
 * Continuous Integration is running on here: [https://travis-ci.org/yandod/candycane](https://travis-ci.org/yandod/candycane)
 [![Build Status](https://travis-ci.org/yandod/candycane.png?branch=master)](https://travis-ci.org/yandod/candycane)
 * Coverage report is genrated at Coverall [![Coverage Status](https://coveralls.io/repos/yandod/candycane/badge.png?branch=master)](https://coveralls.io/r/yandod/candycane)
-
+* versioneye <a href="#dialog_dependency_badge" id="show_dep_badge_window" role="button" data-toggle="modal">
+    <img id="dependency_badge" src="https://www.versioneye.com/user/projects/51f0855e632bac469f03892f/badge.png" alt="Pin It">
+  </a>
 
 ## Installation ##
 
