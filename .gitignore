@@ -25,7 +25,6 @@ nbproject
 
 ## Composer
 composer.phar
-composer.lock
 vendor
 
 ## build artifacts
