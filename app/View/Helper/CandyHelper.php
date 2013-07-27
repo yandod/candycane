@@ -1303,7 +1303,7 @@ function breadcrumb($args)
 			'eng' => 'English',
 			'esp' => 'Español',
 			//fi 'Finnish (Suomi)'
-			'fre' => 'Français',
+			'fra' => 'Français',
 			//he 'Hebrew (עברית)'
 			//hu 'Magyar'
 			//it 'Italiano'
@@ -1315,7 +1315,7 @@ function breadcrumb($args)
 			//pl 'Polski'
 			'bra' => 'Português(Brasil)',
 			//pt 'Português'
-			'rum' => 'Română',
+			'ron' => 'Română',
 			'rus' => 'Russian (Русский)',
 			//sk 'Slovensky'
 			//sr 'Srpski'
