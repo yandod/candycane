@@ -219,6 +219,7 @@ class UserTestCase extends CakeTestCase {
                 'mail'      => '',
                 'login'     => '',
                 'status'    => 0,
+                'admin' => false
             ),
         );
         $this->assertEqual($expected, $results);
