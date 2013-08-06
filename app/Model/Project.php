@@ -331,7 +331,7 @@ class Project extends AppModel {
       $emName = $perm['project_module'];
 
 			$ds = $this->getDataSource();
-      $base_statement[] = array("EXISTS (SELECT em.id FROM {$enabledModuleTable} em WHERE em.name='{$emName}' AND em.project_id = {$ds->startQuote}{$projectTable}{$ds->endQuote}.{$ds->startQuote}id{$ds->endQuote})" => true);
+      $base_statement[] = array("EXISTS (SELECT em.id FROM {$enabledModuleTable} em WHERE em.name='{$emName}' AND em.project_id = {$ds->startQuote}{$projectTable}{$ds->endQuote}.{$ds->startQuote}id{$ds->endQuote})");
     }
     if(!empty($options['project'])) {
       $project_statement = array();
