@@ -112,7 +112,7 @@ class MenuManagerComponent extends Component
     $this->menu_items = $menu_data;
   }
 	function _getProjectMenu(){
-		$menuContainer = ClassRegistry::getObject('MenuContainer');
+		$menuContainer = ClassRegistry::init('MenuContainer');
 		return $menuContainer->getProjectMenu();
   }
   function _getApplicationMenu()
