@@ -111,7 +111,7 @@ class NewsTestCase extends CakeTestCase
 
         //make sure all project is public.
         foreach ($result as $rows) {
-            $this->assertTrue($rows['Project']['is_public']);
+            $this->assertEqual($rows['Project']['is_public'], 1);
         }
 
         //test as admin user.

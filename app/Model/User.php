@@ -418,6 +418,7 @@ class User extends AppModel {
     if (empty($anonymous_user)) {
       $anonymous_user = array(
           'User'=>array(
+              'id' => '',
               'lastname' => 'Anonymous',
               'firstname' => '',
               'mail' => '',

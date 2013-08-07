@@ -214,6 +214,7 @@ class UserTestCase extends CakeTestCase {
         $results = $this->User->anonymous();
         $expected = array(
             'User' => array(
+                'id' => '',
                 'lastname'  => 'Anonymous',
                 'firstname' => '',
                 'mail'      => '',
