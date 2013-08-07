@@ -125,7 +125,7 @@ class NewsTestCase extends CakeTestCase
 
         //make sure results contains public and private..
         $public_map = Hash::extract($result, "{n}.Project.is_public");
-        $this->assertEqual(array(true, false, false, false, false, false, false, true), $public_map);
+        $this->assertEqual( $public_map, array(1, 0, 0, 0, 0, 0, 0, 1));
 
     }
 }
