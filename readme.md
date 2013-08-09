@@ -23,7 +23,7 @@ You can view a live demo of CandyCane, as well as the bug tracking for CandyCane
 
 ## Development setup ##
 
-1. Install Vagrant adn VirtualBox.
+1. Install Vagrant and VirtualBox.
 2. Download candycane box
 	`vagrant box add candycane {url}`
 3. just type `vagrant up`
