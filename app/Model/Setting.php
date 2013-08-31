@@ -182,7 +182,7 @@ class Setting extends AppModel
 #  end
   public function __construct($id = false, $table = null, $ds = null) {
     parent::__construct($id, $table, $ds);
-    $var = include APP . 'Config' . DS.DS.'settings.php';
+    $var = include APP . 'Config' . DS . 'settings.php';
 	App::import('Vendor', 'georgious-cakephp-yaml-migrations-and-fixtures/spyc/spyc');
     foreach ($var as $k => $v) {
     	$this->{$k} = $v;
