@@ -36,6 +36,7 @@ class IssueTest extends CakeTestCase {
     $this->assertNotEmpty($this->Issue->save());
     $this->Issue->read(null, $this->Issue->getLastInsertID());
     $this->assertEqual(1.5, $this->Issue->data['Issue']['estimated_hours']);
+    $this->assertNotEmpty($this->Issue->data['Issue']['created_on']);
   }
   function test_create_minimal() {
     $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'ChangesetsIssue', 'Watcher');
@@ -52,7 +53,27 @@ class IssueTest extends CakeTestCase {
     $this->assertNull($this->Issue->data['Issue']['description']);
   }
 
-  function test_create_with_required_custom_field() {
+    function test_create_extra() {
+        $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'ChangesetsIssue', 'Watcher');
+        $priorities = $this->Issue->Priority->get_values('IPRI');
+        $this->Issue->create();
+        $this->Issue->set(array(
+                'project_id' => 1,
+                'tracker_id' => 1,
+                'author_id' => 3,
+                'status_id' => 1,
+                'priority_id' => $priorities[0]['Priority']['id'],
+                'subject' => 'test_create',
+                'posttofacebook' => '1'
+            ));
+        $this->assertNotEmpty($this->Issue->save());
+        $this->Issue->read(null, $this->Issue->getLastInsertID());
+        $this->assertNull($this->Issue->data['Issue']['description']);
+        $this->assertNotEmpty($this->Issue->data['Issue']['created_on']);
+
+    }
+
+    function test_create_with_required_custom_field() {
     $this->loadFixtures('Issue', 'Project', 'Tracker', 'IssueStatus', 'User', 'Version', 'Enumeration', 'IssueCategory', 'TimeEntry', 'Changeset', 'CustomField', 'CustomValue', 'CustomFieldsProject', 'ChangesetsIssue', 'Watcher');
     $IssueCustomField = & ClassRegistry::init('CustomField');
     $field = $IssueCustomField->findByName('Database');
