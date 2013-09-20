@@ -156,15 +156,43 @@ class IssuesController extends AppController
     {
         if (!isset($this->request->query['query_id'])) {
             $this->request->query['query_id'] = 0;
-        }
-        $this->Queries->retrieve_query($this->request->query['query_id']);
+        }    
+
+        $qid = $this->request->query['query_id'];
+        $reqquery = $this->request->query;
+
+        $this->Queries->retrieve_query($qid);
         $limit = $this->_per_page_option();
         if (empty($this->request->params['named']['sort'])) {
             $this->request->params['named']['sort'] = 'Issue.id';
             $this->request->params['named']['direction'] = 'desc';
         }
+
+        $conds = $this->Queries->query_filter_cond;
+        if(isset($this->request->query['set_filter'])){
+            unset($reqquery['query_id']);
+            unset($reqquery['set_filter']);
+            if(isset($reqquery['status_id']) && $reqquery['status_id']){
+                $stat = $reqquery['status_id'];
+                switch($stat) {
+                    case '*':
+                        unset($reqquery['status_id']);
+                        break;
+                    case 'c':
+                        $reqquery['status_id'] = '5';
+                        break;
+                    case 'o':
+                    default:
+                        $reqquery['status_id'] = array('1','2','3','4');
+                        break;
+                }
+            }
+            $conds = array_merge($conds, $reqquery);
+        }
+
+
         $this->paginate = array('Issue' => array(
-            'conditions' => $this->Queries->query_filter_cond,
+            'conditions' => $conds,
             'limit' => $limit,
         ));
         $this->sidebar_queries();
