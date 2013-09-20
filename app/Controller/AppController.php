@@ -239,12 +239,11 @@ class AppController extends Controller
      */
     public function require_login()
     {
-        if (!$this->current_user || !$this->current_user['logged']) {
+        if (!$this->current_user || !$this->current_user['logged']) {         
             $this->redirect(
                 '/account/login?back_url=' .
-                    urlencode(Router::url($this->request->here(false), true))
+                    urlencode("http://".$_SERVER['HTTP_HOST'].env('REQUEST_URI'))
             );
-            #      redirect_to :controller => "account", :action => "login", :back_url => url_for(params)
             return false;
         }
 
