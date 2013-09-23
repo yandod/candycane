@@ -147,6 +147,10 @@ class QueriesComponent extends Component
         
         if (isset($self->request->query['values']) && is_array($self->request->query['values']) ) {
             $temp = array();
+			if (!empty($self->request->query['set_filter'])) {
+				
+				$temp['set_filter'] = $self->request->query['set_filter'];
+			}
             foreach ($self->request->query['values'] as $criteria_name => $criteria_val) {
                 //$self->params['form']['fields'][$criteria_name] = $criteria_name;
                 //$self->params['form']['operators'][$criteria_name] = '=';
