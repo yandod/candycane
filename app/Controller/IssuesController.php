@@ -5,6 +5,7 @@
  *
  * @package candycane
  * @subpackage candycane.controllers
+ * @property Issue $Issue
  */
 class IssuesController extends AppController
 {
@@ -173,6 +174,7 @@ class IssuesController extends AppController
         } else {
             $this->set('query', $this->Query->data);
         }
+        $this->Issue->unbindModel(array('hasMany' => array('TimeEntry')), false);
         $this->set('issue_list', $this->paginate('Issue'));
         $this->set('params', $this->request->params);
         if ($this->RequestHandler->isAjax()) {
@@ -226,14 +228,14 @@ class IssuesController extends AppController
      */
     public function changes()
     {
-        Configure::write('debug', 0);
+        Configure::write('debug', 2);
         $journals = $this->Issue->findRssJournal();
         $atom_title = $this->_project['Project']['name'];
         $rss_token = $this->User->rss_key($this->current_user['id']);
         $this->set(compact('journals', 'atom_title', 'rss_token'));
         $this->layout = 'rss/atom';
-        $this->helpers = array('Candy', 'Issues', 'Xml', 'Time');
-        $this->render('changes');
+        $this->helpers = array('Candy', 'Issues', 'Time');
+        return $this->render('changes');
     }
 
     /**
@@ -317,7 +319,7 @@ class IssuesController extends AppController
         if (empty($this->request->params['requested'])) {
             throw new NotFoundException();
         }
-        return $this->Issue->watched_by(array('User' => $this->current_user), $this->request->params['object']);
+        return $this->Issue->watched_by(array('User' => $this->current_user), $this->Issue->data);
     }
 
     /**
