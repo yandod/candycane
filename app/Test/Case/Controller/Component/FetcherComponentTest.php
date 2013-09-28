@@ -28,7 +28,7 @@ class FetcherComponentTest extends CakeTestCase {
               'Enumeration', 'CustomValue', 'CustomField', 'News', 'Comment', 'Document', 'CustomFieldsProject',
 			  'Changeset','ChangesetsIssue','Token','UserPreference','Watcher','Attachment', 'Wiki'
               );
-    $this->Project =& ClassRegistry::init('Project');
+    $this->Project = ClassRegistry::init('Project');
     $this->Project->read(null, 1);
 	$Collection = new ComponentCollection();
 	$CakeRequest = new CakeRequest();
@@ -40,7 +40,7 @@ class FetcherComponentTest extends CakeTestCase {
   }
 
   public function test_activity_without_subprojects() {
-    $User =& ClassRegistry::init('User');
+    $User = ClassRegistry::init('User');
     $user = $User->read(null, 6);  // User.anonymous
     $this->Component->fetch($user['User'], array('project' => $this->Project->data));
     $events = $this->Component->events(date('Y-m-d', strtotime('-30 day')), date('Y-m-d', strtotime('+1 day')));
@@ -68,7 +68,7 @@ class FetcherComponentTest extends CakeTestCase {
   }
 
   public function test_activity_with_subprojects() {
-    $User =& ClassRegistry::init('User');
+    $User = ClassRegistry::init('User');
     $user = $User->read(null, 6);  // User.anonymous
     $this->Component->fetch($user['User'], array('project' => $this->Project->data, 'with_subprojects' => 1));
     $events = $this->Component->events(date('Y-m-d', strtotime('-30 day')), date('Y-m-d', strtotime('+1 day')));
@@ -89,7 +89,7 @@ class FetcherComponentTest extends CakeTestCase {
   }
 
   public function test_global_activity_anonymous() {
-    $User =& ClassRegistry::init('User');
+    $User = ClassRegistry::init('User');
     $user = $User->read(null, 6);  // User.anonymous
     $this->Component->fetch($user['User']);
     $events = $this->Component->events(date('Y-m-d', strtotime('-30 day')), date('Y-m-d', strtotime('+1 day')));
@@ -118,7 +118,7 @@ class FetcherComponentTest extends CakeTestCase {
   }
 
   public function test_global_activity_logged_user() {
-    $User =& ClassRegistry::init('User');
+    $User = ClassRegistry::init('User');
     $user = $User->find_by_id_logged(2);  // manager
     $this->Component->fetch($user);
     $events = $this->Component->events(date('Y-m-d', strtotime('-30 day')), date('Y-m-d', strtotime('+1 day')));
@@ -148,7 +148,7 @@ class FetcherComponentTest extends CakeTestCase {
   }
 
   public function test_user_activity() {
-    $User =& ClassRegistry::init('User');
+    $User = ClassRegistry::init('User');
     $user = $User->find_by_id_logged(2);  // manager
     $anonymous = $User->read(null, 6);  // User.anonymous
     $this->Component->fetch($anonymous['User'], array('author'=>$user));
@@ -161,7 +161,7 @@ class FetcherComponentTest extends CakeTestCase {
 
   public function test_news_and_files_activity() {
     $this->loadFixtures('Attachment');
-    $User =& ClassRegistry::init('User');
+    $User = ClassRegistry::init('User');
     $user = $User->find_by_id_logged(2);  // manager
     $this->Component->fetch($user);
     $events = $this->Component->events(date('Y-m-d', strtotime('2006-07-19 0:0:0')), date('Y-m-d', strtotime('2006-07-20 0:0:0')));
@@ -179,7 +179,7 @@ class FetcherComponentTest extends CakeTestCase {
 
   public function test_documents_activity() {
     $this->loadFixtures('Attachment');
-    $User =& ClassRegistry::init('User');
+    $User = ClassRegistry::init('User');
     $user = $User->find_by_id_logged(2);  // manager
     $this->Component->fetch($user);
     $events = $this->Component->events(date('Y-m-d', strtotime('2007-01-27 0:0:0')), date('Y-m-d', strtotime('2007-01-28 0:0:0')));
