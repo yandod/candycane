@@ -273,7 +273,7 @@ class AccountController extends AppController
 
         $this->set('user', $user);
         #@custom_values = @user.custom_values
-        $this->Fetcher->fetch($this->current_user, array('author' => $user['User']['id']));
+        $this->Fetcher->fetch($this->current_user, array('author' => $user['User']));
         $events = $this->Fetcher->events(null, null, array('limit' => 10));
         $events_by_day_data = $this->Event->group_by($events, 'event_date');
         $this->set('events_by_day_data', $events_by_day_data);
