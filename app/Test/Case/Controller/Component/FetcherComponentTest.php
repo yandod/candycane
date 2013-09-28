@@ -8,8 +8,8 @@ App::uses('ComponentCollection', 'Controller');
 class FetcherComponentTestController extends Controller {}
 
 class FetcherComponentTest extends CakeTestCase {
-  var $autoFixtures = false;
-  var $fixtures = array(
+  public $autoFixtures = false;
+  public $fixtures = array(
     'app.issue', 'app.project', 'app.tracker', 'app.issue_status', 'app.user', 'app.version',
     'app.enumeration', 'app.issue_category', 'app.token', 'app.member', 'app.role', 'app.user_preference',
 	'app.custom_fields_project',
@@ -18,11 +18,11 @@ class FetcherComponentTest extends CakeTestCase {
     'app.news', 'app.comment', 'app.document',
     'app.wiki', 'app.wiki_page', 'app.wiki_content', 'app.wiki_content_version', 'app.wiki_redirect','app.workflow'
   );
-  var $Controller = null;
-  var $Component = null;
-  var $Project = null;
+  public $Controller = null;
+  public $Component = null;
+  public $Project = null;
 
-  function startTest() {
+  public function startTest() {
     $this->loadFixtures('Project', 'Version', 'User', 'Role', 'Member', 'Issue', 'Journal', 'JournalDetail', 
               'Tracker', 'ProjectsTracker', 'IssueStatus', 'EnabledModule', 'IssueCategory', 'TimeEntry', 
               'Enumeration', 'CustomValue', 'CustomField', 'News', 'Comment', 'Document', 'CustomFieldsProject',
@@ -39,7 +39,7 @@ class FetcherComponentTest extends CakeTestCase {
     $this->Component->initialize($this->Controller);
   }
 
-  function test_activity_without_subprojects() {
+  public function test_activity_without_subprojects() {
     $User =& ClassRegistry::init('User');
     $user = $User->read(null, 6);  // User.anonymous
     $this->Component->fetch($user['User'], array('project' => $this->Project->data));
@@ -67,7 +67,7 @@ class FetcherComponentTest extends CakeTestCase {
     
   }
 
-  function test_activity_with_subprojects() {
+  public function test_activity_with_subprojects() {
     $User =& ClassRegistry::init('User');
     $user = $User->read(null, 6);  // User.anonymous
     $this->Component->fetch($user['User'], array('project' => $this->Project->data, 'with_subprojects' => 1));
@@ -88,7 +88,7 @@ class FetcherComponentTest extends CakeTestCase {
     $this->assertEqual(7, $events[4]['id']);
   }
 
-  function test_global_activity_anonymous() {
+  public function test_global_activity_anonymous() {
     $User =& ClassRegistry::init('User');
     $user = $User->read(null, 6);  // User.anonymous
     $this->Component->fetch($user['User']);
@@ -117,7 +117,7 @@ class FetcherComponentTest extends CakeTestCase {
     # Issue of a private project
   }
 
-  function test_global_activity_logged_user() {
+  public function test_global_activity_logged_user() {
     $User =& ClassRegistry::init('User');
     $user = $User->find_by_id_logged(2);  // manager
     $this->Component->fetch($user);
@@ -147,7 +147,7 @@ class FetcherComponentTest extends CakeTestCase {
     $this->assertEqual(7, $events[6]['id']);
   }
 
-  function test_user_activity() {
+  public function test_user_activity() {
     $User =& ClassRegistry::init('User');
     $user = $User->find_by_id_logged(2);  // manager
     $anonymous = $User->read(null, 6);  // User.anonymous
@@ -159,7 +159,7 @@ class FetcherComponentTest extends CakeTestCase {
     $this->assertEqual(array('2'=>count($events)), array_count_values(Set::extract('{n}.author.id', $events)));
   }
 
-  function test_news_and_files_activity() {
+  public function test_news_and_files_activity() {
     $this->loadFixtures('Attachment');
     $User =& ClassRegistry::init('User');
     $user = $User->find_by_id_logged(2);  // manager
@@ -177,7 +177,7 @@ class FetcherComponentTest extends CakeTestCase {
     //$this->assertEqual(array('controller'=>'issues', 'action'=>'show',3), $events[2]['url']);
   }
 
-  function test_documents_activity() {
+  public function test_documents_activity() {
     $this->loadFixtures('Attachment');
     $User =& ClassRegistry::init('User');
     $user = $User->find_by_id_logged(2);  // manager
