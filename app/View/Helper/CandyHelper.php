@@ -665,6 +665,7 @@ class CandyHelper extends AppHelper {
         unset($get_param[$paginator_param]);
       }
     }
+	unset($url_param[0]);
     $url_param['?'] = !empty($url_param['?']) ? am($url_param['?'], $get_param) : $get_param;
     $html = '';
     if ($paging['prevPage']) {
