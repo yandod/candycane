@@ -1,0 +1,2621 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright 2013 <admin@brun.if.ua>
+# No version information was available in the source files.
+# Igor Bronovskyy <admin@brun.if.ua>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: candycane 0.9.3\n"
+"POT-Creation-Date: 2013-10-03 12:03+0900\n"
+"PO-Revision-Date: 2013-10-05 13:58+0300\n"
+"Last-Translator: Igor Bronovskyy <admin@brun.if.ua>\n"
+"Language-Team: українська <admin@brun.if.ua>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.6\n"
+"Language: Українська\n"
+"X-Poedit-Language: Українська\n"
+"X-Poedit-Country: Україна\n"
+"Report-Msgid-Bugs-To: admin@brun.if.ua\n"
+
+# label_time_tracking
+msgid "Time tracking"
+msgstr "часу Облік"
+
+# label_comment_plural
+msgid "Comments"
+msgstr "Коментарі"
+
+# label_role
+msgid "Role"
+msgstr "Роль"
+
+# label_auth_source_new
+msgid "New authentication mode"
+msgstr "Новий режим аутентифікації"
+
+# button_add
+msgid "Add"
+msgstr "Додати"
+
+# field_start_page
+msgid "Start page"
+msgstr "Початкова сторінка"
+
+# activerecord_error_circular_dependency
+msgid "This relation would create a circular dependency"
+msgstr "Такий зв’язок призведе до циклічної залежності"
+
+# button_quote
+msgid "Quote"
+msgstr "Цитувати"
+
+# label_not_contains
+msgid "doesn't contain"
+msgstr "не містить"
+
+# field_mail
+msgid "Email"
+msgstr "Email"
+
+# label_personalize_page
+msgid "Personalize this page"
+msgstr "Персоналізувати дану сторінку"
+
+# permission_view_files
+msgid "View files"
+msgstr "Перегляд файлів"
+
+# label_months_from
+msgid "months from"
+msgstr "місяць(ів) від"
+
+# activerecord_error_invalid
+msgid "is invalid"
+msgstr "невірне значення"
+
+# mail_body_account_information_external
+msgid "You can use your \"%s\" account to log in."
+msgstr "Ви можете використовувати Ваш \"%s\" обліковий запис для входу."
+
+# permission_edit_issues
+msgid "Edit issues"
+msgstr "Редагування здачі"
+
+# label_my_account
+msgid "My account"
+msgstr "Мій обліковий запис"
+
+# label_environment
+msgid "Environment"
+msgstr "Середовище"
+
+# field_value
+msgid "Value"
+msgstr "Значення"
+
+# text_caracters_maximum
+msgid "%d characters maximum."
+msgstr "Максимум %d символів(а)."
+
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "Повинно бути не менше %d символів."
+
+# label_my_projects
+msgid "My projects"
+msgstr "Мої проекти"
+
+# label_issue_status_new
+msgid "New status"
+msgstr "Новий статус"
+
+# button_submit
+msgid "Submit"
+msgstr "Надіслати"
+
+# label_attribute_plural
+msgid "Attributes"
+msgstr "Атрибути"
+
+# label_total
+msgid "Total"
+msgstr "Всього"
+
+# text_issue_category_destroy_question
+msgid ""
+"Some issues (%d) are assigned to this category. What do you want to do ?"
+msgstr ""
+"Декілька задач (%d) призначені до даної категорії. Що Ви бажаєте зробити?"
+
+# button_create
+msgid "Create"
+msgstr "Створити"
+
+# label_downloads_abbr
+msgid "D/L"
+msgstr "Завантажень"
+
+# label_integer
+msgid "Integer"
+msgstr "Цілий"
+
+# activerecord_error_not_same_project
+msgid "doesn't belong to the same project"
+msgstr "не відноситься до жодного проекту"
+
+# field_assigned_to
+msgid "Assigned to"
+msgstr "Призначено до"
+
+# field_is_filter
+msgid "Used as a filter"
+msgstr "Використовується в якості фільтра"
+
+# label_previous
+msgid "Previous"
+msgstr "Попередній"
+
+# field_created_on
+msgid "Created"
+msgstr "Створений"
+
+# field_mail_notification
+msgid "Email notifications"
+msgstr "Повідомлення через email"
+
+# general_text_no
+msgid "'no'"
+msgstr "'Ні'"
+
+# field_attr_mail
+msgid "Email attribute"
+msgstr "Поштові атрибути"
+
+# label_current_status
+msgid "Current status"
+msgstr "Поточний статус"
+
+# label_last_updates_plural
+msgid "%d last updated"
+msgstr "%d останнє оновлення"
+
+# permission_edit_own_time_entries
+msgid "Edit own time logs"
+msgstr "Редагування власного обліку часу"
+
+# label_public_projects
+msgid "Public projects"
+msgstr "Загальні проекти"
+
+# label_index_by_date
+msgid "Index by date"
+msgstr "Індекс по даті"
+
+# setting_default_language
+msgid "Default language"
+msgstr "Базова мова"
+
+# field_tracker
+msgid "Tracker"
+msgstr "Трекер"
+
+# field_author
+msgid "Author"
+msgstr "Автор"
+
+# setting_enabled_scm
+msgid "Enabled SCM"
+msgstr "Дозволені SCM"
+
+# button_change_password
+msgid "Change password"
+msgstr "Змінити пароль"
+
+# label_roadmap_no_issues
+msgid "No issues for this version"
+msgstr "Немає задач для даної версії"
+
+# general_text_yes
+msgid "'yes'"
+msgstr "'Так'"
+
+# text_tip_task_begin_end_day
+msgid "task beginning and ending this day"
+msgstr "задача починається і закінчується в цей день"
+
+# label_chronological_order
+msgid "In chronological order"
+msgstr "В хронологічному порядку"
+
+# activerecord_error_exclusion
+msgid "is reserved"
+msgstr "зарезервовано"
+
+# permission_manage_public_queries
+msgid "Manage public queries"
+msgstr "Керування загальними запитами"
+
+# default_activity_development
+msgid "Development"
+msgstr "Розробка"
+
+# text_tip_task_end_day
+msgid "task ending this day"
+msgstr "дата завершення задачі"
+
+# button_rename
+msgid "Rename"
+msgstr "Перейменувати"
+
+# label_feed_plural
+msgid "Feeds"
+msgstr "Подачі"
+
+# field_url
+msgid "URL"
+msgstr "URL"
+
+# label_relation_new
+msgid "New relation"
+msgstr "Нові зв’язки"
+
+# label_added
+msgid "added"
+msgstr "додано"
+
+# permission_add_issues
+msgid "Add issues"
+msgstr "Додати задачі"
+
+# label_float
+msgid "Float"
+msgstr "З плаваючою точкою"
+
+# text_comma_separated
+msgid "Multiple values allowed (comma separated)."
+msgstr "Дозволено декілька значень (через кому)."
+
+# label_add_another_file
+msgid "Add another file"
+msgstr "Додати інший файл"
+
+# label_feeds_access_key_created_on
+msgid "RSS access key created %s ago"
+msgstr "Ключ доступу RSS створений %s назад"
+
+# label_issue_status_plural
+msgid "Issue statuses"
+msgstr "Статуси задачі"
+
+# label_issue_added
+msgid "Issue added"
+msgstr "Задача додана"
+
+# notice_account_updated
+msgid "Account was successfully updated."
+msgstr "Обліковий запис учпішно оновлений."
+
+# permission_edit_own_messages
+msgid "Edit own messages"
+msgstr "Редагувати власні повідомлення"
+
+# field_base_dn
+msgid "Base DN"
+msgstr "Базовий DN"
+
+# field_time_zone
+msgid "Time zone"
+msgstr "Часовий пояс"
+
+# default_priority_normal
+msgid "Normal"
+msgstr "Нормальний"
+
+# button_configure
+msgid "Configure"
+msgstr "Параметри"
+
+# label_incoming_emails
+msgid "Incoming emails"
+msgstr "Вхідні повідомлення"
+
+# label_sort_lower
+msgid "Move down"
+msgstr "Пересунути вниз"
+
+# label_export_to
+msgid "'Also available in:'"
+msgstr "'Також доступний в:'"
+
+# notice_successful_delete
+msgid "Successful deletion."
+msgstr "Видалено успішно."
+
+# notice_file_not_found
+msgid "The page you were trying to access doesn't exist or has been removed."
+msgstr "Сторінка, яку Ви намагаєтесь відкрити не існує або видалена."
+
+# general_text_No
+msgid "'No'"
+msgstr "'Ні'"
+
+# default_issue_status_feedback
+msgid "Feedback"
+msgstr "Зворотній зв’язок"
+
+# button_copy
+msgid "Copy"
+msgstr "Копіювати"
+
+# label_this_month
+msgid "this month"
+msgstr "цей місяць"
+
+# label_role_plural
+msgid "Roles"
+msgstr "Ролі"
+
+# label_permissions_report
+msgid "Permissions report"
+msgstr "Звіт про права доступу"
+
+# general_fmt_age
+msgid "%d yr"
+msgstr "%d р."
+
+# label_add_note
+msgid "Add a note"
+msgstr "Додати примітку"
+
+# label_message_new
+msgid "New message"
+msgstr "Нове повідомлення"
+
+# label_less_than_ago
+msgid "less than days ago"
+msgstr "менше, чим днів назад"
+
+# field_project
+msgid "Project"
+msgstr "Проект"
+
+# field_summary
+msgid "Summary"
+msgstr "Резюме"
+
+# notice_no_issue_selected
+msgid "\"No issue is selected! Please, check the issues you want to edit.\""
+msgstr ""
+"\"Не вибражно жодної задачі! Будь-ласка, відмітьте задачі, які ви хочите "
+"відредагувати.\""
+
+# label_document
+msgid "Document"
+msgstr "Документ"
+
+# project_module_boards
+msgid "Boards"
+msgstr "Дошки"
+
+# setting_emails_footer
+msgid "Emails footer"
+msgstr "Примітка до листів"
+
+# activerecord_error_not_a_date
+msgid "is not a valid date"
+msgstr "дата недійсна"
+
+# label_role_new
+msgid "New role"
+msgstr "Нова роль"
+
+# label_date
+msgid "Date"
+msgstr "Дата"
+
+# label_date_to
+msgid "To"
+msgstr "по"
+
+# label_wiki
+msgid "Wiki"
+msgstr "Вікі"
+
+# label_report
+msgid "Report"
+msgstr "Звіт"
+
+# permission_log_time
+msgid "Log spent time"
+msgstr "Звіт затраченого часу"
+
+# button_apply
+msgid "Apply"
+msgstr "Застосувати"
+
+# button_check_all
+msgid "Check all"
+msgstr "Відмітити все"
+
+# label_display_per_page
+msgid "'Per page"
+msgstr "'На сторінку"
+
+# label_renamed
+msgid "renamed"
+msgstr "перейменовано"
+
+# label_in_less_than
+msgid "in less than"
+msgstr "менше ніж"
+
+# setting_app_subtitle
+msgid "Application subtitle"
+msgstr "Підзаголовок програми"
+
+# general_csv_encoding
+msgid "ISO-8859-1"
+msgstr "UTF-8"
+
+# activerecord_error_accepted
+msgid "must be accepted"
+msgstr "необхідно прийняти"
+
+# general_fmt_date
+msgid "%%m/%%d/%%Y"
+msgstr "%%d.%%m.%%Y"
+
+# default_issue_status_rejected
+msgid "Rejected"
+msgstr "Відхилити"
+
+# button_rollback
+msgid "Rollback to this version"
+msgstr "Повернутись до цієї версії"
+
+# label_generate_key
+msgid "Generate a key"
+msgstr "Згенерувати ключ"
+
+# label_relation_delete
+msgid "Delete relation"
+msgstr "Видалити зв’язок"
+
+# activerecord_error_inclusion
+msgid "is not included in the list"
+msgstr "не включений в список"
+
+# setting_cross_project_issue_relations
+msgid "Allow cross-project issue relations"
+msgstr "Дозволити пересікання задач по проектам"
+
+# permission_view_changesets
+msgid "View changesets"
+msgstr "Переглянути набір змін"
+
+# label_download_plural
+msgid "%d Downloads"
+msgstr "%d завантажувань"
+
+# text_project_identifier_info
+msgid ""
+"'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once "
+"saved, the identifier can not be changed.'"
+msgstr ""
+"'Дозволені маленькі букви (a-z), цифри та дефіс.<br />Збережений "
+"ідентифікатор не може бути змінений.'"
+
+# label_sort_higher
+msgid "Move up"
+msgstr "Пересунути вгору"
+
+# field_parent
+msgid "Subproject of"
+msgstr "Підпроект до"
+
+# permission_delete_own_messages
+msgid "Delete own messages"
+msgstr "Видалення власних повідомлень"
+
+# label_new
+msgid "New"
+msgstr "Новий"
+
+# field_regexp
+msgid "Regular expression"
+msgstr "Регулярний вираз"
+
+# text_regexp_info
+msgid "eg. ^[A-Z0-9]+$"
+msgstr "напр. ^[A-Z0-9]+$"
+
+# button_unlock
+msgid "Unlock"
+msgstr "Розблокувати"
+
+# label_blocks
+msgid "blocks"
+msgstr "блокувати"
+
+# label_default_columns
+msgid "Default columns"
+msgstr "Базові колонки"
+
+# label_send_information
+msgid "Send account information to the user"
+msgstr "Відправити користувачу інформацію облікового запису"
+
+# label_issue_updated
+msgid "Issue updated"
+msgstr "Задача оновлена"
+
+# notice_account_wrong_password
+msgid "Wrong password"
+msgstr "Невірний пароль"
+
+# label_document_plural
+msgid "Documents"
+msgstr "Документи"
+
+# label_registration_activation_by_email
+msgid "account activation by email"
+msgstr "активація облікових записів по пошті"
+
+# label_more_than_ago
+msgid "more than days ago"
+msgstr "більше, ніж днів назад"
+
+# permission_view_time_entries
+msgid "View spent time"
+msgstr "Переглянути затрачений час"
+
+# label_member
+msgid "Member"
+msgstr "Учасник"
+
+# label_user_mail_no_self_notified
+msgid "\"I don't want to be notified of changes that I make myself\""
+msgstr "\"Не повідомляти про зміни, які я зробив(ла) сам(а)\""
+
+# label_loading
+msgid "Loading..."
+msgstr "Завантаження..."
+
+# label_user_plural
+msgid "Users"
+msgstr "Користувачі"
+
+# field_field_format
+msgid "Format"
+msgstr "Формат"
+
+# label_planning
+msgid "Planning"
+msgstr "Планування"
+
+# button_lock
+msgid "Lock"
+msgstr "Заблокувати"
+
+# label_f_hour
+msgid "%.2f hour"
+msgstr "%.2f годин"
+
+# label_filter_plural
+msgid "Filters"
+msgstr "Фільтри"
+
+# notice_successful_connection
+msgid "Successful connection."
+msgstr "Вдале з’єднання."
+
+# default_issue_status_resolved
+msgid "Resolved"
+msgstr "Вирішувати"
+
+# label_change_plural
+msgid "Changes"
+msgstr "Зміни"
+
+# setting_sequential_project_identifiers
+msgid "Generate sequential project identifiers"
+msgstr "Генерувати наступні ідентифікатори проекту"
+
+# setting_plain_text_mail
+msgid "plain text mail (no HTML)"
+msgstr "простий текс (без HTML)"
+
+# setting_activity_days_default
+msgid "Days displayed on project activity"
+msgstr "Кількість днів в активності проекту"
+
+# project_module_issue_tracking
+msgid "Issue tracking"
+msgstr "Стежити за задачею"
+
+# field_host
+msgid "Host"
+msgstr "Комп’ютер"
+
+# setting_per_page_options
+msgid "Objects per page options"
+msgstr "Об’єктів на сторінці параметрів"
+
+# field_parent_title
+msgid "Parent page"
+msgstr "Батьківська сторінка"
+
+# permission_manage_versions
+msgid "Manage versions"
+msgstr "Управління версіями"
+
+# status_active
+msgid "active"
+msgstr "активний"
+
+# label_theme
+msgid "Theme"
+msgstr "Вигляд"
+
+# label_duplicates
+msgid "duplicates"
+msgstr "дублювати"
+
+# permission_manage_wiki
+msgid "Manage wiki"
+msgstr "Управління вікі"
+
+# label_query_plural
+msgid "Custom queries"
+msgstr "Збережені запити"
+
+# label_enumeration_new
+msgid "New value"
+msgstr "Нове значення"
+
+# label_disabled
+msgid "disabled"
+msgstr "відключено"
+
+# label_version_plural
+msgid "Versions"
+msgstr "Версії"
+
+# enumeration_activities
+msgid "Activities (time tracking)"
+msgstr "Активність (облік часу)"
+
+# label_date_from
+msgid "From"
+msgstr "З"
+
+# label_attribute
+msgid "Attribute"
+msgstr "Атрибут"
+
+# field_hours
+msgid "Hours"
+msgstr "годин"
+
+# setting_mail_from
+msgid "Emission email address"
+msgstr "email адрес для поширення"
+
+# mail_body_register
+msgid "'To activate your account, click on the following link:'"
+msgstr "'Для активації облікового запису перейдіть за посиланням:'"
+
+# field_min_length
+msgid "Minimum length"
+msgstr "Мінімальна довжина"
+
+# label_latest_revision
+msgid "Latest revision"
+msgstr "Остання редакція"
+
+# setting_welcome_text
+msgid "Welcome text"
+msgstr "Текст привітання"
+
+# field_due_date
+msgid "Due date"
+msgstr "Дата виконання"
+
+# notice_account_password_updated
+msgid "Password was successfully updated."
+msgstr "Пароль успішно оновлений."
+
+# label_issue
+msgid "Issue"
+msgstr "Задача"
+
+# button_delete
+msgid "Delete"
+msgstr "Видалити"
+
+# label_follows
+msgid "follows"
+msgstr "наслідувати"
+
+# label_revision
+msgid "Revision"
+msgstr "Редакція"
+
+# field_name
+msgid "Name"
+msgstr "Ім’я"
+
+# mail_subject_account_activation_request
+msgid "%s account activation request"
+msgstr "Запит на активацію облікового запиту %s"
+
+# mail_body_account_activation_request
+msgid "'A new user (%s) has registered. The account is pending your approval:'"
+msgstr ""
+"'Зареєстрований новий користувач (%s). Обліковий запит очікує Вашого "
+"підтвердження:'"
+
+# label_user_new
+msgid "New user"
+msgstr "Новий користувач"
+
+# text_tracker_no_workflow
+msgid "No workflow defined for this tracker"
+msgstr "Не визначена робоча область для цього трекера"
+
+# button_unarchive
+msgid "Unarchive"
+msgstr "Розархівувати"
+
+# label_message_last
+msgid "Last message"
+msgstr "Останнє повідомлення"
+
+# label_deleted
+msgid "deleted"
+msgstr "видалено"
+
+# field_onthefly
+msgid "On-the-fly user creation"
+msgstr "Створення користувача \"на льоту\""
+
+# permission_manage_categories
+msgid "Manage issue categories"
+msgstr "Управління категоріями задач"
+
+# enumeration_issue_priorities
+msgid "Issue priorities"
+msgstr "Пріоритети задач"
+
+# label_view_revisions
+msgid "View revisions"
+msgstr "Переглянути редакції"
+
+# permission_protect_wiki_pages
+msgid "Protect wiki pages"
+msgstr "Захистити сторінки вікі"
+
+# field_language
+msgid "Language"
+msgstr "Мова"
+
+# text_issues_ref_in_commit_messages
+msgid "Referencing and fixing issues in commit messages"
+msgstr "Рекомендації та виправлення задач в повідомленнях, що надсилаються"
+
+# text_unallowed_characters
+msgid "Unallowed characters"
+msgstr "Недозволеня символи"
+
+# label_last_n_days
+msgid "last %d days"
+msgstr "останніх %d днів"
+
+# label_all_time
+msgid "all time"
+msgstr "весь час"
+
+# label_login
+msgid "Sign in"
+msgstr "Увійти"
+
+# field_status
+msgid "Status"
+msgstr "Статус"
+
+# label_nobody
+msgid "nobody"
+msgstr "ніхто"
+
+# label_permissions
+msgid "Permissions"
+msgstr "Дозволи"
+
+# field_attr_lastname
+msgid "Lastname attribute"
+msgstr "Фамілія"
+
+# label_overview
+msgid "Overview"
+msgstr "Огляд"
+
+# label_board_plural
+msgid "Forums"
+msgstr "Форуми"
+
+# notice_default_data_loaded
+msgid "Default configuration successfully loaded."
+msgstr "Типова конфігурація успішно завантажена."
+
+# mail_subject_register
+msgid "Your %s account activation"
+msgstr "Активація облікового запису %s"
+
+# label_history
+msgid "History"
+msgstr "Історія"
+
+# label_registered_on
+msgid "Registered on"
+msgstr "Зареєстрований(а)"
+
+# text_destroy_time_entries_question
+msgid ""
+"%.02f hours were reported on the issues you are about to delete. What do you "
+"want to do ?"
+msgstr "Ви збираєтесь видалити %.02f годин, які прикріплені до цієї задачі."
+
+# label_default
+msgid "Default"
+msgstr "Типово"
+
+# text_email_delivery_not_configured
+msgid ""
+"\"Email delivery is not configured, and notifications are disabled.\n"
+"Configure your SMTP server in config/email.yml and restart the application "
+"to enable them.\""
+msgstr ""
+"\"Параметри роботи з поштовим сервером не налаштовані і функція повідомлень "
+"через пошту не активована.\n"
+"Налаштувати параметри для Вашого SMTP сервера можна в файлі config/email."
+"yml. Для застосувань змін перезавантажте додаток.\""
+
+# label_min_max_length
+msgid "Min - Max length"
+msgstr "Мінімальна - Максимальна довжина"
+
+# general_fmt_datetime_short
+msgid "%%b %%d, %%I:%%M %%p"
+msgstr "%%d %%b, %%H:%%M"
+
+# label_list
+msgid "List"
+msgstr "Список"
+
+# label_changes_details
+msgid "Details of all changes"
+msgstr "Деталі про всі зміни"
+
+# field_start_date
+msgid "Start"
+msgstr "Початок"
+
+# field_password_confirmation
+msgid "Confirmation"
+msgstr "Підтвердження"
+
+# label_logged_as
+msgid "Logged in as"
+msgstr "Увійшли як"
+
+# error_issue_not_found_in_project
+msgid "'The issue was not found or does not belong to this project'"
+msgstr "'Задача не знайдена чи не міститься у цьому проекті'"
+
+# field_updated_on
+msgid "Updated"
+msgstr "Оновлено"
+
+# label_roadmap_overdue
+msgid "%s late"
+msgstr "%s пізніше"
+
+# label_user
+msgid "User"
+msgstr "Користувач"
+
+# default_priority_urgent
+msgid "Urgent"
+msgstr "Терміновий"
+
+# text_file_repository_writable
+msgid "Attachments directory writable"
+msgstr "Сховище з доступом на запис"
+
+# button_watch
+msgid "Watch"
+msgstr "Слідкувати"
+
+# button_uncheck_all
+msgid "Uncheck all"
+msgstr "Відмінити все"
+
+# permission_comment_news
+msgid "Comment news"
+msgstr "Коментування новин"
+
+# notice_account_invalid_creditentials
+msgid "Invalid user or password"
+msgstr "Невірне ім’я чи пароль користувача"
+
+# label_board
+msgid "Forum"
+msgstr "Форум"
+
+# label_view_diff
+msgid "View differences"
+msgstr "Подивитись розбіжності"
+
+# activerecord_error_taken
+msgid "has already been taken"
+msgstr "вже використовується"
+
+# label_sort_lowest
+msgid "Move to bottom"
+msgstr "Пересунути вниз"
+
+# activerecord_error_wrong_length
+msgid "is the wrong length"
+msgstr "невірна довжина"
+
+# mail_body_lost_password
+msgid "'To change your password, click on the following link:'"
+msgstr "'Для зміни пароля перейдіть за посиланням:'"
+
+# label_attachment_delete
+msgid "Delete file"
+msgstr "Видалити файл"
+
+# text_workflow_edit
+msgid "Select a role and a tracker to edit the workflow"
+msgstr "Виберіть роль і трекер для редагування робочої області"
+
+# text_project_destroy_confirmation
+msgid "Are you sure you want to delete this project and related data ?"
+msgstr "Ви впевнені, що бажаєте видалити проект і пов’зязану інформацію?"
+
+# label_in
+msgid "in"
+msgstr "в"
+
+# warning_attachments_not_saved
+msgid "\"%d file(s) could not be saved.\""
+msgstr "\"%d файл(и) не можуть бути збережені.\""
+
+# label_tracker_new
+msgid "New tracker"
+msgstr "Новий трекер"
+
+# field_firstname
+msgid "Firstname"
+msgstr "Ім’я"
+
+# label_member_plural
+msgid "Members"
+msgstr "Учасник"
+
+# project_module_repository
+msgid "Repository"
+msgstr "Сховище"
+
+# setting_autofetch_changesets
+msgid "Autofetch commits"
+msgstr "Автоматично відслідковувати зміни сховища"
+
+# permission_delete_messages
+msgid "Delete messages"
+msgstr "Видалити повідомлення"
+
+# text_length_between
+msgid "Length between %d and %d characters."
+msgstr "Довжина між %d та %d символів."
+
+# status_registered
+msgid "registered"
+msgstr "зареєстрований"
+
+# label_not_equals
+msgid "is not"
+msgstr "не є"
+
+# default_role_reporter
+msgid "Reporter"
+msgstr "Генератор звітів"
+
+# button_change
+msgid "Change"
+msgstr "Зміни"
+
+# field_lastname
+msgid "Lastname"
+msgstr "Фамілія"
+
+# button_clear
+msgid "Clear"
+msgstr "Очистити"
+
+# label_this_year
+msgid "this year"
+msgstr "цей рік"
+
+# general_first_day_of_week
+msgid "'7'"
+msgstr "'1'"
+
+# label_internal
+msgid "Internal"
+msgstr "Внутрішній"
+
+# label_my_page
+msgid "My page"
+msgstr "Моя сторінка"
+
+# permission_select_project_modules
+msgid "Select project modules"
+msgstr "Вибір модулів проекту"
+
+# permission_manage_documents
+msgid "Manage documents"
+msgstr "Керування документами"
+
+# label_result_plural
+msgid "Results"
+msgstr "Результати"
+
+# permission_edit_wiki_pages
+msgid "Edit wiki pages"
+msgstr "Редагування вікі сторінок"
+
+# field_filesize
+msgid "Size"
+msgstr "Розмір"
+
+# label_last_changes
+msgid "last %d changes"
+msgstr "останніх %d змін"
+
+# error_scm_not_found
+msgid "\"The entry or revision was not found in the repository.\""
+msgstr "\"Вхід чи ревізія не знайдені у сховищі.\""
+
+# general_fmt_age_plural
+msgid "%d yrs"
+msgstr "%d років"
+
+# permission_add_issue_watchers
+msgid "Add watchers"
+msgstr "Додати спостерігачів"
+
+# label_month
+msgid "Month"
+msgstr "Місяць"
+
+# label_details
+msgid "Details"
+msgstr "Деталі"
+
+# text_assign_time_entries_to_project
+msgid "Assign reported hours to the project"
+msgstr "Приєднати до проекту час звіту"
+
+# button_view
+msgid "View"
+msgstr "Перегляд"
+
+# button_save
+msgid "Save"
+msgstr "Зберегти"
+
+# label_no_change_option
+msgid "(No change)"
+msgstr "(Немає змін)"
+
+# permission_view_gantt
+msgid "View gantt chart"
+msgstr "Перегляд діаграми Ганта"
+
+# notice_not_authorized
+msgid "You are not authorized to access this page."
+msgstr "У Вас немає превілеїв для перегляду даної сторінки."
+
+# project_module_files
+msgid "Files"
+msgstr "Файли"
+
+# button_cancel
+msgid "Cancel"
+msgstr "Відхилити"
+
+# label_news
+msgid "News"
+msgstr "Новини"
+
+# label_module_plural
+msgid "Modules"
+msgstr "Модулі"
+
+# label_start_to_end
+msgid "start to end"
+msgstr "з початку до кінця"
+
+# label_associated_revisions
+msgid "Associated revisions"
+msgstr "Зв’язані редакції"
+
+# label_date_range
+msgid "Date range"
+msgstr "Межі дат"
+
+# label_version
+msgid "Version"
+msgstr "Версія"
+
+# gui_validation_error_plural
+msgid "%d errors"
+msgstr "%d помилок"
+
+# permission_move_issues
+msgid "Move issues"
+msgstr "Пересунути задачі"
+
+# notice_account_register_done
+msgid ""
+"Account was successfully created. To activate your account, click on the "
+"link that was emailed to you."
+msgstr ""
+"Обліковий запис успішно створений. Для активації облікового запису перейдіть "
+"за посиланням, яке надіслано Вам на пошту."
+
+# label_bulk_edit_selected_issues
+msgid "Bulk edit selected issues"
+msgstr "Редагувати вибрані задачі"
+
+# label_information
+msgid "Information"
+msgstr "Інформація"
+
+# text_enumeration_category_reassign_to
+msgid "'Reassign them to this value:'"
+msgstr "'Назначити їм наступні значення:'"
+
+# setting_attachment_max_size
+msgid "Attachment max. size"
+msgstr "Максимальний розмір вкладення"
+
+# default_issue_status_closed
+msgid "Closed"
+msgstr "Закритий"
+
+# label_f_hour_plural
+msgid "%.2f hours"
+msgstr "%.2f годин"
+
+# field_is_closed
+msgid "Issue closed"
+msgstr "Задача закрита"
+
+# notice_account_unknown_email
+msgid "Unknown user."
+msgstr "Невідомий користувач."
+
+# field_title
+msgid "Title"
+msgstr "Заголовок"
+
+# field_new_password
+msgid "New password"
+msgstr "Новий пароль"
+
+# label_user_activity
+msgid "\"%s's activity\""
+msgstr "\"Активність користувача %s\""
+
+# label_per_page
+msgid "Per page"
+msgstr "На сторінку"
+
+# notice_account_lost_email_sent
+msgid ""
+"An email with instructions to choose a new password has been sent to you."
+msgstr "Вам на пошту надіслана інструкція по зміні пароля на новий."
+
+# permission_manage_issue_relations
+msgid "Manage issue relations"
+msgstr "Керування зв’язками задач"
+
+# label_this_week
+msgid "this week"
+msgstr "на цьому тижні"
+
+# label_change_log
+msgid "Change log"
+msgstr "Журнал змін"
+
+# field_assignable
+msgid "Issues can be assigned to this role"
+msgstr "Задача може бути призначена цій ролі"
+
+# label_settings
+msgid "Settings"
+msgstr "Налаштування"
+
+# label_end_to_start
+msgid "end to start"
+msgstr "з кінця до початку"
+
+# label_options
+msgid "Options"
+msgstr "Параметри"
+
+# label_index_by_title
+msgid "Index by title"
+msgstr "Індекс по назві"
+
+# label_project_all
+msgid "All Projects"
+msgstr "Всі проекти"
+
+# label_issue_view_all
+msgid "View all issues"
+msgstr "Переглянути всі задачі"
+
+# label_issue_category_plural
+msgid "Issue categories"
+msgstr "Категорії задач"
+
+# label_please_login
+msgid "Please log in"
+msgstr "Будь-ласка, увійдіть"
+
+# label_issue_watchers
+msgid "Watchers"
+msgstr "Спостерігачі"
+
+# label_jump_to_a_project
+msgid "Jump to a project..."
+msgstr "Перейти до проекту..."
+
+# label_board_new
+msgid "New forum"
+msgstr "Новий форум"
+
+# label_contains
+msgid "contains"
+msgstr "містить"
+
+# label_sort_by
+msgid "Sort by %s"
+msgstr "Сорувати по %s"
+
+# label_related_issues
+msgid "Related issues"
+msgstr "Зв’язані задачі"
+
+# notice_account_activated
+msgid "Your account has been activated. You can now log in."
+msgstr "Ваш обліковий запис активовано. Тепер Ви можете увійти."
+
+# permission_delete_wiki_pages
+msgid "Delete wiki pages"
+msgstr "Видалення сторінок вікі"
+
+# activerecord_error_too_long
+msgid "is too long"
+msgstr "дуже довго"
+
+# label_custom_field_plural
+msgid "Custom fields"
+msgstr "Інші поля"
+
+# notice_unable_delete_version
+msgid "Unable to delete version."
+msgstr "Неможливо видалити версію."
+
+# field_subject
+msgid "Subject"
+msgstr "Тема"
+
+# field_attr_firstname
+msgid "Firstname attribute"
+msgstr "Ім’я атрибут"
+
+# field_subproject
+msgid "Subproject"
+msgstr "Підпроект"
+
+# notice_can_t_change_password
+msgid ""
+"This account uses an external authentication source. Impossible to change "
+"the password."
+msgstr ""
+"Для даного облікового запису використовується зовнішня аутентифікація. "
+"Неможливо змінити пароль."
+
+# activerecord_error_greater_than_start_date
+msgid "must be greater than start date"
+msgstr "повинна бути пізніше, а ніж дата початку"
+
+# label_read
+msgid "Read..."
+msgstr "Читання..."
+
+# label_language_based
+msgid "Based on user's language"
+msgstr "На основі мови користувача"
+
+# label_gantt
+msgid "Gantt"
+msgstr "Діаграма Ганта"
+
+# permission_manage_boards
+msgid "Manage boards"
+msgstr "Керування дошкою"
+
+# label_max_size
+msgid "Maximum size"
+msgstr "Максимальний розмір"
+
+# field_fixed_version
+msgid "Target version"
+msgstr "Вибрана версія"
+
+# activerecord_error_not_a_number
+msgid "is not a number"
+msgstr "не являється числом"
+
+# setting_wiki_compression
+msgid "Wiki history compression"
+msgstr "Стиснення історії вікі"
+
+# text_are_you_sure
+msgid "Are you sure ?"
+msgstr "Ви впевнені?"
+
+# text_min_max_length_info
+msgid "0 means no restriction"
+msgstr "0 означає без обмежень"
+
+# label_version_new
+msgid "New version"
+msgstr "Нова версія"
+
+# label_help
+msgid "Help"
+msgstr "Допомога"
+
+# label_auth_source_plural
+msgid "Authentication modes"
+msgstr "Режим аутентифікації"
+
+# default_issue_status_assigned
+msgid "Assigned"
+msgstr "Призначений"
+
+# label_show_completed_versions
+msgid "Show completed versions"
+msgstr "Показати завершенні версії"
+
+# setting_app_title
+msgid "Application title"
+msgstr "Назва додатку"
+
+# text_issues_destroy_confirmation
+msgid "'Are you sure you want to delete the selected issue(s) ?'"
+msgstr "'Ви впевнені, що хочете видалити вибрані задачі(у)?'"
+
+# field_downloads
+msgid "Downloads"
+msgstr "Завантаження"
+
+# label_text
+msgid "Long text"
+msgstr "Довгий текст"
+
+# field_admin
+msgid "Administrator"
+msgstr "Адміністатор"
+
+# field_category
+msgid "Category"
+msgstr "Категорія"
+
+# field_homepage
+msgid "Homepage"
+msgstr "Домашня сторінка"
+
+# notice_failed_to_save_issues
+msgid "\"Failed to save %d issue(s) on %d selected"
+msgstr "\"Не вдалось зберегти %d пункт(ів) з %d відмічених"
+
+# label_registration_automatic_activation
+msgid "automatic account activation"
+msgstr "автоматична активація облікових записів"
+
+# label_last_week
+msgid "last week"
+msgstr "остання неділя"
+
+# setting_host_name
+msgid "Host name and path"
+msgstr "Ім’я хоста та шлях"
+
+# mail_body_reminder
+msgid "\"%d issue(s) that are assigned to you are due in the next %d days:\""
+msgstr "\"%d призначених для вас задач на наступні %d дні:\""
+
+# label_open_issues_plural
+msgid "open"
+msgstr "відкрито"
+
+# label_ldap_authentication
+msgid "LDAP authentication"
+msgstr "Аутентифікація з допомогою LDAP"
+
+# label_sort_highest
+msgid "Move to top"
+msgstr "Пересунути вгору"
+
+# label_duplicated_by
+msgid "duplicated by"
+msgstr "дублюється"
+
+# label_day_plural
+msgid "days"
+msgstr "днів"
+
+# field_done_ratio
+msgid "%% Done"
+msgstr "Завершено %%"
+
+# general_lang_name
+msgid "'English'"
+msgstr "'Ukrainian (Українська)'"
+
+# general_text_Yes
+msgid "'Yes'"
+msgstr "'Так'"
+
+# label_last_updates
+msgid "Last updated"
+msgstr "Останнє оновлення"
+
+# permission_delete_wiki_pages_attachments
+msgid "Delete attachments"
+msgstr "Видалення приєднаних файлів"
+
+# permission_view_wiki_edits
+msgid "View wiki history"
+msgstr "Перегляд історії вікі"
+
+# setting_protocol
+msgid "Protocol"
+msgstr "Протокол"
+
+# setting_display_subprojects_issues
+msgid "Display subprojects issues on main projects by default"
+msgstr "Показувати задачі підпроектів в головному проекті (типово)"
+
+# default_role_manager
+msgid "Manager"
+msgstr "Менеджер"
+
+# label_stay_logged_in
+msgid "Stay logged in"
+msgstr "Залишитись у системі"
+
+# label_filter_add
+msgid "Add filter"
+msgstr "Додати фільтр"
+
+# label_last_login
+msgid "Last connection"
+msgstr "Останнє під’єднання"
+
+# text_enumeration_destroy_question
+msgid "'%d objects are assigned to this value.'"
+msgstr "'%d об’єкт(а) зв’язані з цим значенням.'"
+
+# label_file_added
+msgid "File added"
+msgstr "Файл доданий"
+
+# label_wiki_edit
+msgid "Wiki edit"
+msgstr "Редагувати вікі"
+
+# label_latest_revision_plural
+msgid "Latest revisions"
+msgstr "Останні редакції"
+
+# label_document_added
+msgid "Document added"
+msgstr "Документ доданий"
+
+# label_news_new
+msgid "Add news"
+msgstr "Додати новину"
+
+# field_is_in_roadmap
+msgid "Issues displayed in roadmap"
+msgstr "Задачі, які відображаються в оперативному плані"
+
+# label_tracker_plural
+msgid "Trackers"
+msgstr "Трекери"
+
+# notice_account_pending
+msgid "\"Your account was created and is now pending administrator approval.\""
+msgstr ""
+"\"Ваш обліковий запис вже створений і очікує підтвердження адміністратора.\""
+
+# default_doc_category_tech
+msgid "Technical documentation"
+msgstr "Технічна документація"
+
+# text_issue_updated
+msgid "Issue %s has been updated by %s."
+msgstr "Задача %s була оновлена (%s)."
+
+# notice_successful_create
+msgid "Successful creation."
+msgstr "Успішно створено."
+
+# permission_add_messages
+msgid "Post messages"
+msgstr "Відправити повідомлення"
+
+# error_scm_command_failed
+msgid "\"An error occurred when trying to access the repository"
+msgstr "\"Помилка доступу до сховища"
+
+# label_optional_description
+msgid "Optional description"
+msgstr "Пояснення (опціонально)"
+
+# label_diff_inline
+msgid "inline"
+msgstr "в рядок"
+
+# field_notes
+msgid "Notes"
+msgstr "Примітка"
+
+# setting_default_projects_public
+msgid "New projects are public by default"
+msgstr "Нові проекти будуть загальнодоступні"
+
+# setting_commit_fix_keywords
+msgid "Fixing keywords"
+msgstr "Призначення ключових слів"
+
+# notice_locking_conflict
+msgid "Data has been updated by another user."
+msgstr "Дані оновлені іншим користувачем."
+
+# button_archive
+msgid "Archive"
+msgstr "Архівувати"
+
+# label_modification
+msgid "%d change"
+msgstr "%d зміна"
+
+# setting_autologin
+msgid "Autologin"
+msgstr "Автоматичний вхід"
+
+# button_move
+msgid "Move"
+msgstr "Пересунути"
+
+# label_more
+msgid "More"
+msgstr "Більше"
+
+# field_account
+msgid "Account"
+msgstr "Обліковий запис"
+
+# setting_user_format
+msgid "Users display format"
+msgstr "Формат відображення імені"
+
+# notice_successful_update
+msgid "Successful update."
+msgstr "Успішне оновлення."
+
+# field_default_value
+msgid "Default value"
+msgstr "Типове значення"
+
+# button_log_time
+msgid "Log time"
+msgstr "Журнал часу"
+
+# label_message_posted
+msgid "Message added"
+msgstr "Повідомлення додано"
+
+# setting_date_format
+msgid "Date format"
+msgstr "Формат дати"
+
+# permission_view_messages
+msgid "View messages"
+msgstr "Переглянути повідомлення"
+
+# setting_issue_list_default_columns
+msgid "Default columns displayed on the issue list"
+msgstr "Типові колонки, які показуються в списку задач"
+
+# field_description
+msgid "Description"
+msgstr "Пояснення"
+
+# label_custom_field_new
+msgid "New custom field"
+msgstr "Нове поле"
+
+# label_enumerations
+msgid "Enumerations"
+msgstr "Нумерування"
+
+# default_activity_design
+msgid "Design"
+msgstr "Проектування"
+
+# label_registration_manual_activation
+msgid "manual account activation"
+msgstr "ручна активація облікових записів"
+
+# label_wiki_edit_plural
+msgid "Wiki edits"
+msgstr "Редагування вікі"
+
+# label_all_words
+msgid "All words"
+msgstr "Всі слова"
+
+# label_yesterday
+msgid "yesterday"
+msgstr "вчора"
+
+# label_comment_delete
+msgid "Delete comments"
+msgstr "Видалити коментарі"
+
+# field_activity
+msgid "Activity"
+msgstr "Діяльність"
+
+# text_user_mail_option
+msgid ""
+"\"For unselected projects, you will only receive notifications about things "
+"you watch or you're involved in (eg. issues you're the author or assignee).\""
+msgstr ""
+"\"Для невибраних проектів, Ви будете отримувати повідомлення тільки про те в "
+"які переглядаєте або в яких приймаєте участь. (наприклад, питання, автором "
+"яких являєтесь чи питання, які призначені Вам).\""
+
+# button_create_and_continue
+msgid "Create and continue"
+msgstr "Створити і продовжити"
+
+# label_revision_plural
+msgid "Revisions"
+msgstr "Редакції"
+
+# general_day_names
+msgid "Monday,Tuesday,Wednesday,Thursday,Friday,Saturday,Sunday"
+msgstr "Понеділок,Вівторок,Середа,Четвер,П’ятниця,Субота,Неділя"
+
+# permission_manage_files
+msgid "Manage files"
+msgstr "Керування файлами"
+
+# field_port
+msgid "Port"
+msgstr "Порт"
+
+# activerecord_error_confirmation
+msgid "doesn't match confirmation"
+msgstr "помилка підтвердження"
+
+# field_searchable
+msgid "Searchable"
+msgstr "Доступно для пошуку"
+
+# label_updated_time_by
+msgid "Updated by %s %s ago"
+msgstr "Оновлено %s %s назад"
+
+# label_year
+msgid "Year"
+msgstr "Рік"
+
+# label_end_to_end
+msgid "end to end"
+msgstr "з кінця до кінця"
+
+# label_precedes
+msgid "precedes"
+msgstr "передує"
+
+# label_equals
+msgid "is"
+msgstr "є"
+
+# permission_edit_issue_notes
+msgid "Edit notes"
+msgstr "Редагувати примітки"
+
+# field_delay
+msgid "Delay"
+msgstr "Відкласти"
+
+# button_unwatch
+msgid "Unwatch"
+msgstr "Не слідкувати"
+
+# label_roadmap_due_in
+msgid "Due in %s"
+msgstr "Очікує %s"
+
+# label_last_month
+msgid "last month"
+msgstr "останній місяць"
+
+# setting_time_format
+msgid "Time format"
+msgstr "Формат часу"
+
+# permission_manage_news
+msgid "Manage news"
+msgstr "Керування новинами"
+
+# text_destroy_time_entries
+msgid "Delete reported hours"
+msgstr "Видалити затрачений час"
+
+# label_relates_to
+msgid "related to"
+msgstr "зв’язаний з"
+
+# field_login
+msgid "Login"
+msgstr "Логін"
+
+# mail_subject_lost_password
+msgid "Your %s password"
+msgstr "Ваш %s пароль"
+
+# button_update
+msgid "Update"
+msgstr "Оновити"
+
+# label_age
+msgid "Age"
+msgstr "Вік"
+
+# notice_feeds_access_key_reseted
+msgid "Your RSS access key was reset."
+msgstr "Ваш ключ доступу RSS був скинутий."
+
+# setting_sys_api_enabled
+msgid "Enable WS for repository management"
+msgstr "Дозволити WS для керування сховищем"
+
+# field_redirect_existing_links
+msgid "Redirect existing links"
+msgstr "Перенаправити існуючі посилання"
+
+# label_no_data
+msgid "No data to display"
+msgstr "Немає даних для відображення"
+
+# gui_validation_error
+msgid "1 error"
+msgstr "1 помилка"
+
+# text_default_administrator_account_changed
+msgid "Default administrator account changed"
+msgstr "Типовий обліковий запис адміністратора змінено"
+
+# status_locked
+msgid "locked"
+msgstr "закрито"
+
+# button_reply
+msgid "Reply"
+msgstr "Відповісти"
+
+# label_calendar
+msgid "Calendar"
+msgstr "Календар"
+
+# field_attr_login
+msgid "Login attribute"
+msgstr "Атрибут входу"
+
+# activerecord_error_too_short
+msgid "is too short"
+msgstr "надто коротке"
+
+# setting_self_registration
+msgid "Self-registration"
+msgstr "Само-реєстрація"
+
+# permission_view_calendar
+msgid "View calender"
+msgstr "Переглянути календар"
+
+# enumeration_doc_categories
+msgid "Document categories"
+msgstr "Категорії документів"
+
+# default_tracker_support
+msgid "Support"
+msgstr "Підтримка"
+
+# label_wiki_page
+msgid "Wiki page"
+msgstr "Сторінка вікі"
+
+# setting_gravatar_enabled
+msgid "Use Gravatar user icons"
+msgstr "Використовувати Gravatar як зображення користувача"
+
+# permission_manage_members
+msgid "Manage members"
+msgstr "Керувати учасниками"
+
+# text_journal_changed
+msgid "changed from %s to %s"
+msgstr "зміноно з %s на %s"
+
+# label_wiki_page_plural
+msgid "Wiki pages"
+msgstr "Сторінки вікі"
+
+# setting_bcc_recipients
+msgid "Blind carbon copy recipients (bcc)"
+msgstr "Викортстовувати приховані списки (bcc)"
+
+# label_used_by
+msgid "Used by"
+msgstr "Використовується"
+
+# text_diff_truncated
+msgid ""
+"'... This diff was truncated because it exceeds the maximum size that can be "
+"displayed.'"
+msgstr ""
+"'... Цей diff обмежений, оскільки перевищує максимальний розмір, який може "
+"показуватись.'"
+
+# label_commits_per_author
+msgid "Commits per author"
+msgstr "Змін на автора"
+
+# activerecord_error_blank
+msgid "can't be blank"
+msgstr "не може бути порожнім"
+
+# label_project_plural
+msgid "Projects"
+msgstr "Проекти"
+
+# field_comments_sorting
+msgid "Display comments"
+msgstr "Показати коментарі"
+
+# field_comments
+msgid "Comment"
+msgstr "Коментар"
+
+# text_user_wrote
+msgid "'%s wrote:'"
+msgstr "'%s написав(ла):'"
+
+# text_plugin_assets_writable
+msgid "Plugin assets directory writable"
+msgstr "Додаток очікує запис в директорію"
+
+# text_select_project_modules
+msgid "'Select modules to enable for this project:'"
+msgstr "'Виберіть модулі, які буде використовувати даний проект:'"
+
+# text_journal_set_to
+msgid "set to %s"
+msgstr "змінити на %s"
+
+# label_copy_workflow_from
+msgid "Copy workflow from"
+msgstr "Скопіювати робочий простір з"
+
+# label_modification_plural
+msgid "%d changes"
+msgstr "%d змін"
+
+# field_possible_values
+msgid "Possible values"
+msgstr "Допустимі значення"
+
+# setting_login_required
+msgid "Authentication required"
+msgstr "Необхідна аутентифікація"
+
+# setting_mail_handler_api_enabled
+msgid "Enable WS for incoming emails"
+msgstr "Вкючити WS для всхідних повідомлень"
+
+# field_is_in_chlog
+msgid "Issues displayed in changelog"
+msgstr "Задачі показуються в журналі змін"
+
+# label_issue_new
+msgid "New issue"
+msgstr "Нова задача"
+
+# button_sort
+msgid "Sort"
+msgstr "Сортувати"
+
+# permission_edit_messages
+msgid "Edit messages"
+msgstr "Редагувати повідомлення"
+
+# setting_issues_export_limit
+msgid "Issues export limit"
+msgstr "Обмежити експорт задач"
+
+# text_select_mail_notifications
+msgid "Select actions for which email notifications should be sent."
+msgstr ""
+"Виберіть дію, на якубудуть відправлятись повідомлення на електронну пошту."
+
+# label_and_its_subprojects
+msgid "%s and its subprojects"
+msgstr "%s і всі підпроекти"
+
+# permission_delete_issues
+msgid "Delete issues"
+msgstr "Видалення задач"
+
+# field_hide_mail
+msgid "Hide my email address"
+msgstr "Приховати мій email"
+
+# text_reassign_time_entries
+msgid "'Reassign reported hours to this issue:'"
+msgstr "'Перенести витрачений час на наступну задачу:'"
+
+# text_issue_category_reassign_to
+msgid "Reassign issues to this category"
+msgstr "Переназначити задачі для даної категорії"
+
+# notice_email_error
+msgid "An error occurred while sending mail (%s)"
+msgstr "Сталась помилка під час надсилання листа (%s)"
+
+# label_member_new
+msgid "New member"
+msgstr "Новий учасник"
+
+# default_priority_immediate
+msgid "Immediate"
+msgstr "Терміновий"
+
+# label_reverse_chronological_order
+msgid "In reverse chronological order"
+msgstr "В зворотньому порядку"
+
+# label_ago
+msgid "days ago"
+msgstr "днів назад"
+
+# permission_view_issue_watchers
+msgid "View watchers list"
+msgstr "Переглянути список спостерігачів"
+
+# permission_manage_repository
+msgid "Manage repository"
+msgstr "Керування сховищем"
+
+# label_all
+msgid "all"
+msgstr "всі"
+
+# label_boolean
+msgid "Boolean"
+msgstr "Логічний"
+
+# default_tracker_bug
+msgid "Bug"
+msgstr "Помилка"
+
+# text_issue_added
+msgid "Issue %s has been reported by %s."
+msgstr "По задачі %s створений звіт (%s)."
+
+# label_on
+msgid "'on'"
+msgstr "з"
+
+# label_scm
+msgid "SCM"
+msgstr "Тип сховища"
+
+# label_general
+msgid "General"
+msgstr "Загальне"
+
+# activerecord_error_empty
+msgid "can't be empty"
+msgstr "не може бути порожнім"
+
+# field_filename
+msgid "File"
+msgstr "Файл"
+
+# label_comment_add
+msgid "Add a comment"
+msgstr "Залишити коментар"
+
+# label_comment_added
+msgid "Comment added"
+msgstr "Коментар доданий"
+
+# mail_subject_reminder
+msgid "\"%d issue(s) due in the next days\""
+msgstr "\"%d задач(а) призначених на наступні дні\""
+
+# label_issue_category
+msgid "Issue category"
+msgstr "Категорія задач"
+
+# permission_commit_access
+msgid "Commit access"
+msgstr "Дозвіл фіксації"
+
+# label_workflow
+msgid "Workflow"
+msgstr "Робочий простір"
+
+# label_report_plural
+msgid "Reports"
+msgstr "Звіт"
+
+# label_assigned_to_me_issues
+msgid "Issues assigned to me"
+msgstr "Задачі призначені мені"
+
+# label_query_new
+msgid "New query"
+msgstr "Новий запит"
+
+# field_max_length
+msgid "Maximum length"
+msgstr "Максимальна довжина"
+
+# setting_mail_handler_api_key
+msgid "API key"
+msgstr "API ключ"
+
+# text_issue_category_destroy_assignments
+msgid "Remove category assignments"
+msgstr "Видалити призначення категорії"
+
+# button_test
+msgid "Test"
+msgstr "Перевірити"
+
+# label_user_mail_option_selected
+msgid "\"For any event on the selected projects only...\""
+msgstr "\"Для всіх подій тільки в вибраному проекті...\""
+
+# label_start_to_start
+msgid "start to start"
+msgstr "з початку до початку"
+
+# label_watched_issues
+msgid "Watched issues"
+msgstr "Задачі переглядаються"
+
+# label_spent_time
+msgid "Spent time"
+msgstr "Потрачений час"
+
+# label_register
+msgid "Register"
+msgstr "Реєстрація"
+
+# label_none
+msgid "none"
+msgstr "немає"
+
+# error_scm_annotate
+msgid "\"The entry does not exist or can not be annotated.\""
+msgstr "\"Дані відсутні чи не можуть бути прокоментовані.\""
+
+# setting_text_formatting
+msgid "Text formatting"
+msgstr "Форматування тексту"
+
+# default_priority_high
+msgid "High"
+msgstr "Високий"
+
+# default_tracker_feature
+msgid "Feature"
+msgstr "Особливість"
+
+# label_search_titles_only
+msgid "Search titles only"
+msgstr "Шукати тільки в назвах"
+
+# label_message_plural
+msgid "Messages"
+msgstr "Повідомлення"
+
+# general_fmt_time
+msgid "%%I:%%M %%p"
+msgstr "%%H:%%M"
+
+# text_tip_task_begin_day
+msgid "task beginning this day"
+msgstr "дата початку завдання"
+
+# label_reply_plural
+msgid "Replies"
+msgstr "Відповіді"
+
+# label_roadmap
+msgid "Roadmap"
+msgstr "Оперативний план"
+
+# permission_browse_repository
+msgid "Browse repository"
+msgstr "Переглянути сховище"
+
+# label_change_view_all
+msgid "View all changes"
+msgstr "Переглянути всі зміни"
+
+# field_priority
+msgid "Priority"
+msgstr "Пріоритет"
+
+# label_logout
+msgid "Sign out"
+msgstr "Вийти"
+
+# notice_email_sent
+msgid "An email was sent to %s"
+msgstr "Відправити повідомлення %s"
+
+# permission_view_documents
+msgid "View documents"
+msgstr "Переглянути документи"
+
+# label_auth_source
+msgid "Authentication mode"
+msgstr "Режим аутентифікації"
+
+# button_annotate
+msgid "Annotate"
+msgstr "Відмітити"
+
+# label_change_properties
+msgid "Change properties"
+msgstr "Змінити властивості"
+
+# label_next
+msgid "Next"
+msgstr "Наступний"
+
+# label_commits_per_month
+msgid "Commits per month"
+msgstr "Змін у місяць"
+
+# permission_edit_project
+msgid "Edit project"
+msgstr "Редагувати проект"
+
+# permission_add_issue_notes
+msgid "Add notes"
+msgstr "Додати примітку"
+
+# permission_save_queries
+msgid "Save queries"
+msgstr "Зберегти запит"
+
+# label_project_latest
+msgid "Latest projects"
+msgstr "Останні проекти"
+
+# text_no_configuration_data
+msgid ""
+"\"Roles, trackers, issue statuses and workflow have not been configured "
+"yet.\n"
+"It is highly recommended to load the default configuration. You will be able "
+"to modify it once loaded.\""
+msgstr ""
+"\"Ролі, трекери, статуси та оперативний план не були налаштовані.\n"
+"Терміново рекомендуємо завантажити типову конфігурацію. Ви зможете її "
+"пізніше змінити.\""
+
+# label_copied
+msgid "copied"
+msgstr "скопійовано"
+
+# field_type
+msgid "Type"
+msgstr "Тип"
+
+# label_change_status
+msgid "Change status"
+msgstr "Змінити статус"
+
+# text_wiki_destroy_confirmation
+msgid "Are you sure you want to delete this wiki and all its content ?"
+msgstr "Ви впевнена, що бажаєте видалити дану вікі і весь її вміст?"
+
+# label_preferences
+msgid "Preferences"
+msgstr "Параметри"
+
+# label_send_test_email
+msgid "Send a test email"
+msgstr "Надіслати тестовий email"
+
+# field_identifier
+msgid "Identifier"
+msgstr "Ідентифікатор"
+
+# label_closed_issues
+msgid "closed"
+msgstr "закрито"
+
+# label_preview
+msgid "Preview"
+msgstr "Переглянути"
+
+# label_search
+msgid "Search"
+msgstr "Пошук"
+
+# label_browse
+msgid "Browse"
+msgstr "Огляд"
+
+# label_password_lost
+msgid "Lost password"
+msgstr "Втрачений пароль"
+
+# label_project_new
+msgid "New project"
+msgstr "Новий проект"
+
+# label_issue_category_new
+msgid "New category"
+msgstr "Нова категорія"
+
+# label_news_added
+msgid "News added"
+msgstr "Новина додана"
+
+# field_issue_to_id
+msgid "Related issue"
+msgstr "Зв’язані задачі"
+
+# default_priority_low
+msgid "Low"
+msgstr "Низький"
+
+# label_plugins
+msgid "Plugins"
+msgstr "Модулі"
+
+# general_fmt_datetime
+msgid "%%m/%%d/%%Y %%I:%%M %%p"
+msgstr "%%d.%%m.%%Y %%I:%%M %%p"
+
+# label_custom_field
+msgid "Custom field"
+msgstr "Налаштоване поле"
+
+# label_news_view_all
+msgid "View all news"
+msgstr "Переглянути всі новини"
+
+# label_home
+msgid "Home"
+msgstr "Домашня сторінка"
+
+# label_download
+msgid "%d Download"
+msgstr "%d завантаження"
+
+# field_password
+msgid "Password"
+msgstr "Пароль"
+
+# label_reported_issues
+msgid "Reported issues"
+msgstr "Створення задач"
+
+# button_download
+msgid "Download"
+msgstr "Завантажити"
+
+# label_today
+msgid "today"
+msgstr "сьогодні"
+
+# field_is_for_all
+msgid "For all projects"
+msgstr "Для всіх проектів"
+
+# label_document_new
+msgid "New document"
+msgstr "Новий документ"
+
+# label_issue_plural
+msgid "Issues"
+msgstr "Ззадачі"
+
+# label_query
+msgid "Custom query"
+msgstr "Інший запит"
+
+# label_issue_status
+msgid "Issue status"
+msgstr "Статуси задачі"
+
+# permission_view_wiki_pages
+msgid "View wiki"
+msgstr "Переглянути вікі"
+
+# default_role_developper
+msgid "Developer"
+msgstr "Розробник"
+
+# label_updated_time
+msgid "Updated %s ago"
+msgstr "Оновлено %s назад"
+
+# label_modified
+msgid "modified"
+msgstr "змінено"
+
+# label_overall_activity
+msgid "Overall activity"
+msgstr "Загальна активність"
+
+# setting_commit_ref_keywords
+msgid "Referencing keywords"
+msgstr "Рекомендовані ключові слова"
+
+# text_load_default_configuration
+msgid "Load the default configuration"
+msgstr "Завантажити базову конфігурацію"
+
+# label_added_time_by
+msgid "Added by %s %s ago"
+msgstr "Додано %s %s назад"
+
+# label_me
+msgid "me"
+msgstr "мені"
+
+# mail_body_account_information
+msgid "Your account information"
+msgstr "Інформація про Ваш обліковий запис"
+
+# label_string
+msgid "Text"
+msgstr "Текст"
+
+# general_csv_separator
+msgid "','"
+msgstr "','"
+
+# label_administration
+msgid "Administration"
+msgstr "Керування"
+
+# text_repository_usernames_mapping
+msgid ""
+"\"Select or update the Redmine user mapped to each username found in the "
+"repository log.\n"
+"Users with the same Redmine and repository username or email are "
+"automatically mapped.\""
+msgstr ""
+"\"Оберіть і оновіть користувача Relmine, зв'язаного з іменами в журналі "
+"сховища.\n"
+"Користувачі з однаковими іменами чи email у Redmine і сховищі зв'язуються "
+"автоматично.\""
+
+# text_subprojects_destroy_warning
+msgid "'Its subproject(s)"
+msgstr "'Підпроекти"
+
+# button_back
+msgid "Back"
+msgstr "Назад"
+
+# label_changeset_plural
+msgid "Changesets"
+msgstr "Сховище"
+
+# label_week
+msgid "Week"
+msgstr "Тиждень"
+
+# label_applied_status
+msgid "Applied status"
+msgstr "Застосований статус"
+
+# label_example
+msgid "Example"
+msgstr "Приклад"
+
+# setting_commit_logs_encoding
+msgid "Commit messages encoding"
+msgstr "Кодування коментарів у сховищі"
+
+# button_edit
+msgid "Edit"
+msgstr "Редагувати"
+
+# label_blocked_by
+msgid "blocked by"
+msgstr "заблоковано"
+
+# label_in_more_than
+msgid "in more than"
+msgstr "більше ніж"
+
+# setting_repositories_encodings
+msgid "Repositories encodings"
+msgstr "Кодування репозиторію"
+
+# label_current_version
+msgid "Current version"
+msgstr "Поточна версія"
+
+# label_repository_plural
+msgid "Repositories"
+msgstr "Сховища"
+
+# field_is_public
+msgid "Public"
+msgstr "Загальнодоступний"
+
+# label_attachment_new
+msgid "New file"
+msgstr "Новий файл"
+
+# permission_rename_wiki_pages
+msgid "Rename wiki pages"
+msgstr "Перейменування вікі сторінок"
+
+# label_new_statuses_allowed
+msgid "New statuses allowed"
+msgstr "Нові статуси дозволені"
+
+# setting_feeds_limit
+msgid "Feed content limit"
+msgstr "Обмеження кількості матеріалу у RSS стрічці"
+
+# label_statistics
+msgid "Statistics"
+msgstr "Статистика"
+
+# field_is_required
+msgid "Required"
+msgstr "Необхідний"
+
+# error_can_t_load_default_data
+msgid "\"Default configuration could not be loaded"
+msgstr "\"Типова конфігурація не може бути завантажена"
+
+# button_reset
+msgid "Reset"
+msgstr "Скинути"
+
+# setting_diff_max_lines_displayed
+msgid "Max number of diff lines displayed"
+msgstr "Максимальна кількість рядків для diff"
+
+# field_estimated_hours
+msgid "Estimated time"
+msgstr "Оцінений час"
+
+# text_rmagick_available
+msgid "RMagick available (optional)"
+msgstr "RMagick дозволено (необов'язково)"
+
+# button_activate
+msgid "Activate"
+msgstr "Активувати"
+
+# label_user_mail_option_all
+msgid "\"For any event on all my projects\""
+msgstr "\"Про всі події в моїх проектах\""
+
+# field_column_names
+msgid "Columns"
+msgstr "Колонки"
+
+# label_subproject_plural
+msgid "Subprojects"
+msgstr "Підпроекти"
+
+# default_doc_category_user
+msgid "User documentation"
+msgstr "Документація користувача"
+
+# label_user_mail_option_none
+msgid "\"Only for things I watch or I'm involved in\""
+msgstr "\"Тільки про ті події, які я відслідковую або приймаю участь\""
+
+# label_topic_plural
+msgid "Topics"
+msgstr "Теми"
+
+# label_news_latest
+msgid "Latest news"
+msgstr "Останні новини"
+
+# label_role_and_permissions
+msgid "Roles and permissions"
+msgstr "Ролі і дозволи"
+
+# text_status_changed_by_changeset
+msgid "Applied in changeset %s."
+msgstr "Застосовано в %s редакції."
+
+# label_diff_side_by_side
+msgid "side by side"
+msgstr "поряд"
+
+# permission_edit_time_entries
+msgid "Edit time logs"
+msgstr "Редагування журналу часу"
+
+# permission_edit_own_issue_notes
+msgid "Edit own notes"
+msgstr "Редагувати власні помітки"
+
+# general_csv_decimal_separator
+msgid "'.'"
+msgstr "'.'"
+
+# label_authentication
+msgid "Authentication"
+msgstr "Аутентифікація"
+
+# label_issues_by
+msgid "Issues by %s"
+msgstr "Сортувати через %s"
+
+msgid "CandyCane version"
+msgstr "Версія CandyCane"
+
+msgid "database driver"
+msgstr "драйвери бази даних"
