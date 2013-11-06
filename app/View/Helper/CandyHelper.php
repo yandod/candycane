@@ -1470,7 +1470,24 @@ function breadcrumb($args)
         $options['default'] = htmlspecialchars($options['default'], ENT_QUOTES);
       }
 
-      $url = "http://www.gravatar.com/avatar.php?gravatar_id=${email_hash}";
+
+      #overwrite gravatar with webroot avatar from webroot/img/users/...
+      // $dir=$this->webroot . 'img/users/' . $user['id']; // doesn't work, false webroot, need:
+      // first look for local image in img\users\[userid].jpg
+      $dir = WWW_ROOT . 'img\users\\'.$user['id'];
+	if(file_exists($dir.'.jpg')){
+		$newdir = 'users/'.$user['id'].'.jpg';
+	} else if(file_exists($dir.'.jpeg')){
+		$newdir = 'users/'.$user['id'].'.jpeg';
+	} else if(file_exists($dir.'.JPG')){
+		$newdir = 'users/'.$user['id'].'.JPG';
+	} else if(file_exists($dir.'.JPEG')){
+		$newdir = 'users/'.$user['id'].'.JPEG';
+	}
+	
+	// if no local image is found, use gravatar image
+	$url = "http://www.gravatar.com/avatar.php?gravatar_id=${email_hash}";
+		
 
       foreach (array('rating', 'size', 'default') as $opt) {
         if (!empty($opt)) {
@@ -1485,7 +1502,10 @@ function breadcrumb($args)
         $options[$opt] = htmlspecialchars($options[$opt], ENT_QUOTES);
       }
       // TODO: replace with helper 
-      return "<img class=\"{$options['class']}\" alt=\"{$options['alt']}\" width=\"{$options['size']}\" height=\"{$options['size']}\" src=\"{$url}\" />"      
+      if(isset($newdir) && $newdir != "")
+      	return $this->Html->image("users/".$user['id'].".jpg", array('class'=>'gravatar','width'=>$options['size'], 'height'=>$options['size']));
+      else
+      	return "<img class=\"{$options['class']}\" alt=\"{$options['alt']}\" width=\"{$options['size']}\" height=\"{$options['size']}\" src=\"{$url}\" />"      
 ;    }
   }
   function truncate($text, $length, $ending = '...', $exact = true) {
