@@ -12,9 +12,9 @@
 ))?>
 <?php echo $this->Html->scriptBlock("Field.focus('search-input')")?>
 <?php echo $this->Search->project_select_tag(
-	$scope,
-	$currentuser,
-	isset($main_project) ? $main_project : null
+        $scope,
+        $currentuser,
+        isset($main_project) ? $main_project : null
   ) ?>
 <label for="all_words"><?php echo $this->Form->checkbox('all_words',array(
   'name' => 'all_words',
@@ -41,26 +41,38 @@
 
 <?php if (isset($results) && is_array($results) && count($results)): ?>
     <div id="search-results-counts">
-	<?php if(count($scope_types) > 1) {
-		echo $this->Search->render_results_by_type($results_by_type,$this->request);
-	}?>
+        <?php if(count($scope_types) > 1) {
+                echo $this->Search->render_results_by_type($results_by_type,$this->request);
+        }?>
     </div>
     
     <h3><?php echo __('Results') ?> (<?php echo array_sum(array_map('count',$results_by_type))?>)</h3>
     <dl id="search-results">
       <?php foreach ($results as $e): ?>
         <dt class="<?php echo $e['type']?>"><?php if(empty($main_project) || (!empty($main_project) && $main_project['Project']['id'] != $e['project']['id'])) {
-		  echo $this->Html->tag('span', h($e['project']['name']), array('class' => 'project'));
-		} ?> <?php
+                  echo $this->Html->tag('span', h($e['project']['name']), array('class' => 'project'));
+                } ?> <?php
  //<%= link_to highlight_tokens(truncate(e.event_title, 255), @tokens), e.event_url  
-echo $this->Html->link(
-	$this->Text->highlight(
-		h($this->Candy->format_activity_title($e['title'])),
-		$question
-	),
-	$e['url'],
-	array('escape' => false)
-); ?></dt>
+if($e['url']['controller'] == 'projects') {
+  echo $this->Html->link(
+  $this->Text->highlight(
+    h($this->Candy->format_activity_title($e['title'])),
+    $question
+  ),
+  array('controller'=>$e['url']['controller'], 'action'=>$e['url']['action'], 'project_id'=>$e['Project']['identifier']),
+  array('escape' => false)
+);
+} else {
+  echo $this->Html->link(
+          $this->Text->highlight(
+                  h($this->Candy->format_activity_title($e['title'])),
+                  $question
+          ),
+          $e['url'],
+          array('escape' => false)
+  );
+}
+?></dt>
         <dd><span class="description"><?php
   //<%= highlight_tokens(e.event_description, @tokens)
   echo $this->Text->highlight($e['description'],$question); ?></span>
@@ -83,4 +95,3 @@ echo $this->Html->link(
                    }, :href => url_for(params.merge(:previous => nil, :offset => @pagination_next_date.strftime("%Y%m%d%H%M%S"))) %>
 <?php endif; ?>
 </center></p>
-
