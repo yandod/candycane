@@ -14,8 +14,7 @@
 	array(
 		'action'=>'destroy',
 		'url' => array(
-			'action'=>'destroy',
-			$main_project['Project']['identifier']
+			'project_id' => $main_project['Project']['identifier']
 		)
 	)
 ); ?>

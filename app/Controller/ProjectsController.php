@@ -451,6 +451,7 @@ class ProjectsController extends AppController
                 foreach ($subprojects as $row) {
                     $this->Project->delete($row['Project']['id']);
                 }
+                $this->Session->setFlash(__('Successful deletion.'), 'default', array('class' => 'flash flash_notice'));
                 $this->redirect(array('controller' => 'admin', 'action' => 'projects'));
             } else {
                 // Nothing
