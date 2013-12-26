@@ -124,7 +124,7 @@ class CcInstallController extends CcInstallAppController {
                 $content = str_replace('{default_password}', $this->data['Install']['password'], $content);
                 $content = str_replace('{default_database}', $this->data['Install']['database'], $content);
                 // The database import script does not support prefixes at this point
-                $content = str_replace('{default_prefix}', ''/*$this->data['Install']['prefix']*/, $content);
+                $content = str_replace('{default_prefix}', $this->data['Install']['prefix'], $content);
                 
                 if($file->write($content) ) {
                     $this->redirect(array('action' => 'data'));
@@ -156,10 +156,31 @@ class CcInstallController extends CcInstallAppController {
             } else {
 				list(,$database) = explode('/', $db->config['datasource']);
 				
-                $this->__executeSQLScript($db, APP . 'Config' . DS.'sql'.DS.strtolower($database).'.sql');
-                $this->__updateData(); //translate names
-                $this->redirect(array('action' => 'finish'));
-                exit();
+                // rename database.php.install
+                copy(APP . 'Config' . DS.'sql'.DS.strtolower($database).'.sql.install', APP . 'Config' . DS.'sql'.DS.strtolower($database).'.sql');				
+				
+                // open sql script file
+                App::uses('File', 'Utility');
+                $file = new File(APP . 'Config' . DS.'sql'.DS.strtolower($database).'.sql', true);
+                $content = $file->read();
+                
+				$fields = get_class_vars('DATABASE_CONFIG');
+
+				$table_prefix = $fields['default']['prefix'];
+				
+                // write to sql script file
+                $content = str_replace('{prefix}', $table_prefix, $content);
+                
+                if($file->write($content) ) {
+					$this->__executeSQLScript($db, APP . 'Config' . DS.'sql'.DS.strtolower($database).'.sql');
+					$this->__updateData(); //translate names
+					$this->redirect(array('action' => 'finish'));
+					exit();					
+                } else {
+                    $this->Session->setFlash(__('Could not write' . strtolower($database).'.sql' . ' file.'));
+                }				
+				
+
             }
         }
     }
@@ -202,6 +223,7 @@ class CcInstallController extends CcInstallAppController {
                 $db->query($statement);
             }
         }
+        Cache::clear(false, '_cake_model_');
     }
 
     function __updateData(){
