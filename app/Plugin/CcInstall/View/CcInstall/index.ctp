@@ -74,7 +74,7 @@
         // }
 
         if ($check) {
-            echo '<p id="next-success" style="display:none">' . $this->Html->link(__('Click here to begin installation'), array('action' => 'database')) . '</p>';
+            echo '<p id="next-success" style="display:none">' . $this->Html->link(__('Click here to begin installation'), array('action' => 'database'), array('id' => 'next-link')) . '</p>';
         } else {
             echo '<p id="next-error">' . __('Installation cannot continue as minimum requirements are not met.');
 			echo '<textarea cols="60" rows="6">'.$cmd.'</textarea></p>';

@@ -77,24 +77,24 @@ class CcInstallController extends CcInstallAppController {
  */
     function database() {
         $this->set('pageTitle', __('Step 1: Database'));
-        if (!empty($this->data)) {
+        if (!empty($this->request->data)) {
 			$check = false;
 
             // split host information
-            $hostinfo =  explode(':', $this->data['Install']['host'], 2);
+            $hostinfo =  explode(':', $this->request->data['Install']['host'], 2);
             $host = $hostinfo[0];
             $port = '';
             if (count($hostinfo) >= 2) {
                 $port = $hostinfo[1];
             }
 
-			if ($this->data['Install']['datasource'] === 'mysql' && 
-				mysql_connect($this->data['Install']['host'], $this->data['Install']['login'], $this->data['Install']['password']) &&
-                mysql_select_db($this->data['Install']['database'])) {
+			if ($this->request->data['Install']['datasource'] === 'mysql' &&
+				mysql_connect($this->request->data['Install']['host'], $this->request->data['Install']['login'], $this->request->data['Install']['password']) &&
+                mysql_select_db($this->request->data['Install']['database'])) {
 				$check = true ;
-			} else if ($this->data['Install']['datasource'] === 'postgres') {
+			} else if ($this->request->data['Install']['datasource'] === 'postgres') {
 				$port = (empty($port))?'5432':$port;
-				if (pg_connect("host={$host} port={$port} dbname={$this->data['Install']['database']} user={$this->data['Install']['login']} password={$this->data['Install']['password']}") ) {
+				if (pg_connect("host={$host} port={$port} dbname={$this->request->data['Install']['database']} user={$this->request->data['Install']['login']} password={$this->request->data['Install']['password']}") ) {
 					$check = true ;
 				}
 			}
@@ -109,17 +109,17 @@ class CcInstallController extends CcInstallAppController {
                 $file = new File(APP.'Config'.DS.'database.php', true);
                 $content = $file->read();
                 
-				$driver = 'Database/'.ucfirst($this->data['Install']['datasource']);
+				$driver = 'Database/'.ucfirst($this->request->data['Install']['datasource']);
 				
                 // write database.php file
                 $content = str_replace('{default_datasource}', $driver, $content);
                 $content = str_replace('{default_host}', $host, $content);
                 $content = str_replace('{default_port}', $port, $content);
-                $content = str_replace('{default_login}', $this->data['Install']['login'], $content);
-                $content = str_replace('{default_password}', $this->data['Install']['password'], $content);
-                $content = str_replace('{default_database}', $this->data['Install']['database'], $content);
+                $content = str_replace('{default_login}', $this->request->data['Install']['login'], $content);
+                $content = str_replace('{default_password}', $this->request->data['Install']['password'], $content);
+                $content = str_replace('{default_database}', $this->request->data['Install']['database'], $content);
                 // The database import script does not support prefixes at this point
-                $content = str_replace('{default_prefix}', ''/*$this->data['Install']['prefix']*/, $content);
+                $content = str_replace('{default_prefix}', ''/*$this->request->data['Install']['prefix']*/, $content);
                 
                 if($file->write($content) ) {
                     $this->redirect(array('action' => 'data'));

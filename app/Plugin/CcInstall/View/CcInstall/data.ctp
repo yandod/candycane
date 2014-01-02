@@ -7,6 +7,8 @@
             'controller' => 'cc_install',
             'action' => 'data',
             'run' => 1,
-        ));
+        ),array(
+             'id' => 'run-link'
+            ));
     ?>
 </div>

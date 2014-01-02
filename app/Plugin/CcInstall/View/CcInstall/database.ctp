@@ -9,6 +9,7 @@
         echo $this->Form->input('Install.password', array('label' => 'Password'));
         echo $this->Form->input('Install.database', array('label' => __('Exsisting database name'), 'value' => 'candycane'));
         echo $this->Form->input('Install.prefix', array('label' => __('Prefix for table name.(if you need)'), 'value' => '', 'disabled' => 'disabled'));
-        echo $this->Form->end(__('Build database'));
+        echo $this->Form->submit(__('Build database'),array('id' => 'database-submit'));
+        echo $this->Form->end();
     ?>
 </div>
