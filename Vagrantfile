@@ -14,11 +14,15 @@ Vagrant.configure("2") do |config|
     cookbook 'apt'
     cookbook 'php5_ppa', '~> 0.1.1'
     cookbook 'omusubi', git: "https://github.com/yandod/omusubi.git"
+    cookbook 'java'
+    cookbook 'selenium-grid', git: "https://github.com/yandod/selenium-grid.git"
   EOS
   config.vm.provision :chef_solo do |chef|
     chef.add_recipe "apt"
     chef.add_recipe "php5_ppa::from_ondrej"
     chef.add_recipe "omusubi"
+    chef.add_recipe "java"
+    chef.add_recipe "selenium-grid"
     versions = {};
     # if you would use php5.3 family with fast boot,  comment out lines bellow.
     versions['php5'] = '5.5.*'
