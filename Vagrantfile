@@ -35,6 +35,7 @@ Vagrant.configure("2") do |config|
  
   config.vm.provision :shell, :inline => <<-EOS
     mysql -u root --execute  "create database if not exists #{app_name}"
+    mysql -u root --execute  "create database if not exists test_#{app_name}"
     #cd /vagrant_data; composer update
     #cd /vagrant_data/app; yes | ./Console/cake schema update
   EOS
