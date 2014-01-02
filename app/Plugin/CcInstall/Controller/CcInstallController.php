@@ -61,14 +61,9 @@ class CcInstallController extends CcInstallAppController {
 			'plugin' => 'cc_install',
 			'controller' => 'cc_install',
 			'action' => 'route'
-			),
-			true
+			)
 		);
-		if(isset($_SERVER['AUTH_TYPE']) && $_SERVER['AUTH_TYPE'] === 'Basic'){
-			$url = str_replace('://', '://' . $_SERVER['PHP_AUTH_USER'] . ':' . $_SERVER['PHP_AUTH_PW'] . '@', $url);
-		}
-		$file = json_decode(file_get_contents($url),true);
-		$this->set('file',$file);
+		$this->set('route_url',$url);
     }
 
 	function route() {

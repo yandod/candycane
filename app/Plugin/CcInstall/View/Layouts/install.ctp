@@ -9,6 +9,7 @@
         ));
         echo $scripts_for_layout;
     ?>
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 </head>
 
 <body>

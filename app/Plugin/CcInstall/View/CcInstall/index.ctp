@@ -47,15 +47,22 @@
 			$cmd .= 'chmod -R 777 '.APP.'Plugin';
         }
 
-		// routing
-		if (isset($file['status']) && $file['status'] === 'OK') {
-            echo '<p class="success">' . __('Your routing  is working well.').'</p>';
+        // allow_url_fopen
+        $allow_url_fopen = ini_get('allow_url_fopen');
+        if ($allow_url_fopen === '1') {
+            echo '<p class="success">' . __('Your allow_url_fopen  is working well.').'</p>';
         } else {
             $check = false;
-            echo '<p class="error">' . __('Your routing is NOT working well.').'</p>';
-			echo '<p class="error">' . __('Please activate mod_rewrite and .htaccess.').'</p>';
-			echo '<p class="error">' . __('Or uncomment "//Configure::write(\'App.baseUrl\', env(\'SCRIPT_NAME\'));" in app/Config/core.php and remove all .htaccess.').'</p>';
+            echo '<p class="error">' . __('Your allow_url_fopen is NOT working well.').'<br/>';
+            echo __('Please enable allow_url_fopen on php.ini').'<br/>';
+            echo __('Or you can not install plugin from remote.').'</p>';
         }
+
+		// routing
+        echo '<p class="success" id="routing-success" style="display:none">' . __('Your routing  is working well.').'</p>';
+        echo '<p class="error" id="routing-error">' . __('Your routing is NOT working well.').'<br/>';
+        echo __('Please activate mod_rewrite and .htaccess.').'<br/>';
+        echo __('Or uncomment "//Configure::write(\'App.baseUrl\', env(\'SCRIPT_NAME\'));" in app/Config/core.php and remove all .htaccess.').'</p>';
 
 
         // php version
@@ -67,10 +74,27 @@
         // }
 
         if ($check) {
-            echo '<p>' . $this->Html->link(__('Click here to begin installation'), array('action' => 'database')) . '</p>';
+            echo '<p id="next-success" style="display:none">' . $this->Html->link(__('Click here to begin installation'), array('action' => 'database')) . '</p>';
         } else {
-            echo '<p>' . __('Installation cannot continue as minimum requirements are not met.') . '</p>';
-			echo '<textarea cols="60" rows="6">'.$cmd.'</textarea>';
+            echo '<p id="next-error">' . __('Installation cannot continue as minimum requirements are not met.');
+			echo '<textarea cols="60" rows="6">'.$cmd.'</textarea></p>';
         }
     ?>
 </div>
+<script>
+    $(function(){
+        // Document is ready
+        $.getJSON("<?php echo $route_url;?>", function(json){
+            if (json.status =='OK') {
+            $('#routing-error').hide();
+            $('#routing-success').show();
+
+            <?php if ($check ==true):?>
+                $('#next-error').hide();
+                $('#next-success').show();
+            <?php endif; ?>
+            }
+        });
+
+    });
+</script>
