@@ -116,6 +116,7 @@ script:
   - mkdir -p build/logs
   - cd ./app; ./Console/cake test app All --stderr --coverage-clover ../build/logs/clover.xml --configuration ../phpunit.xml.dist
   - cd ../
+  - './app/Console/cake server'
   - 'mysql -e "drop database if exists test_candycane;create database test_candycane;"; phpunit app/Test/Case/Selenium/InstallerTest.php'
 
 after_script:
