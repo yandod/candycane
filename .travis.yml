@@ -14,7 +14,8 @@ env:
 before_install:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
-  - "java -jar selenium/selenium-server-standalone-2.39.0.jar"
+  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
+  - "java -jar selenium-server-standalone-2.39.0.jar &"
 before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --dev --no-interaction
