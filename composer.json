@@ -13,6 +13,8 @@
         "ensepar/tcpdf": "5.0.003"
     },
     "require-dev": {
-        "satooshi/php-coveralls": "dev-master"
+        "phpunit/phpunit": "*",
+        "satooshi/php-coveralls": "dev-master",
+        "phpunit/phpunit-selenium": "*"
     }
 }
