@@ -11,6 +11,10 @@ env:
 #  - DB=pgsql
 #  - DB=sqlite
 
+before_install:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - "java -jar selenium/selenium-server-standalone-2.39.0.jar"
 before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install --dev --no-interaction
@@ -111,6 +115,7 @@ script:
   - mkdir -p build/logs
   - cd ./app; ./Console/cake test app All --stderr --coverage-clover ../build/logs/clover.xml --configuration ../phpunit.xml.dist
   - cd ../
+  - 'mysql -e "drop database if exists test_candycane;create database test_candycane;"; ./vendor/bin/phpunit app/Test/Case/Selenium/InstallerTest.php'
 
 after_script:
   - php vendor/bin/coveralls -v
