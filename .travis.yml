@@ -23,21 +23,21 @@ before_script:
   - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   - mkdir build
-  - echo "<VirtualHost *:80>
-    DocumentRoot %TRAVIS_BUILD_DIR%/app/webroot
-    <Directory "%TRAVIS_BUILD_DIR%/app/webroot">
-      Options FollowSymLinks MultiViews ExecCGI
-      AllowOverride All
-      Order deny,allow
-      Allow from all
-    </Directory>
-    <IfModule mod_fastcgi.c>
-      AddHandler php5-fcgi .php
-      Action php5-fcgi /php5-fcgi
-      Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi
-      FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -pass-header Authorization
-    </IfModule>
-    </VirtualHost>" > build/travis-ci-apache
+  - echo "<VirtualHost *:80>\n
+    DocumentRoot %TRAVIS_BUILD_DIR%/app/webroot\n
+    <Directory "%TRAVIS_BUILD_DIR%/app/webroot">\n
+      Options FollowSymLinks MultiViews ExecCGI\n
+      AllowOverride All\n
+      Order deny,allow\n
+      Allow from all\n
+    </Directory>\n
+    <IfModule mod_fastcgi.c>\n
+      AddHandler php5-fcgi .php\n
+      Action php5-fcgi /php5-fcgi\n
+      Alias /php5-fcgi /usr/lib/cgi-bin/php5-fcgi\n
+      FastCgiExternalServer /usr/lib/cgi-bin/php5-fcgi -host 127.0.0.1:9000 -pass-header Authorization\n
+    </IfModule>\n
+    </VirtualHost>\n" > build/travis-ci-apache
   - sudo cp -f build/travis-ci-apache /etc/apache2/sites-available/default
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
   - sudo service apache2 restart
