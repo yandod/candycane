@@ -10,9 +10,9 @@
  */
 class InstallerTest extends PHPUnit_Extensions_Selenium2TestCase
 {
-    protected $captureScreenshotOnFailure = TRUE;
-    protected $screenshotPath = '/tmp/';
-    protected $screenshotUrl = 'http://localhost/screenshots';
+    //protected $captureScreenshotOnFailure = TRUE;
+    //protected $screenshotPath = '/tmp/';
+    //protected $screenshotUrl = 'http://localhost/screenshots';
 
     protected function setUp()
     {
@@ -24,9 +24,8 @@ class InstallerTest extends PHPUnit_Extensions_Selenium2TestCase
 
     public function testInstallMySQL()
     {
-        $this->url('/cc_install/cc_install/');
+        $this->url('http://127.0.0.1/cc_install/cc_install/');
         $this->assertEquals('Installation: Welcome - CandyCane', $this->title());
-
         $link = $this->byId('next-link');
         $this->moveto($link);
         $this->click();
@@ -45,9 +44,9 @@ class InstallerTest extends PHPUnit_Extensions_Selenium2TestCase
         $link = $this->byId('run-link');
         $this->moveto($link);
         $this->click();
-        $this->timeouts()->implicitWait(1500);
+        $this->timeouts()->implicitWait(3000);
 
-        $this->url('/account/login');
+        $this->url('http://127.0.0.1/account/login');
         $input = $this->byName('data[User][username]');
         $input->clear();
         $input->value('admin');
@@ -56,19 +55,20 @@ class InstallerTest extends PHPUnit_Extensions_Selenium2TestCase
         $input->value('admin');
         $button = $this->byName('login');
         $this->moveto($button);
-        $this->click();
-        //$this->byId('UserLoginForm')->submit();
-
+        $this->byId('UserLoginForm')->submit();
         $this->timeouts()->implicitWait(1000);
 
-        //$link = $this->byClassName('administration');
-        //$link = $this->byLinkText('Administration');
-        //$this->moveto($link);
-        //$this->click();
+        $this->url('http://127.0.0.1/');
+        $link = $this->byClassName('administration');
+        $this->moveto($link);
+        $this->click();
 
-        //$this->assertEquals('/admin', $this->url());
+        $this->assertEquals('http://127.0.0.1/admin', $this->url());
 
-
+        $link = $this->byLinkText('Settings');
+        $this->moveto($link);
+        $this->click();
+        $this->assertEquals('http://127.0.0.1/settings', $this->url());
 
 
 
