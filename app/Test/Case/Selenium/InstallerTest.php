@@ -70,10 +70,18 @@ class InstallerTest extends PHPUnit_Extensions_Selenium2TestCase
         $this->click();
         $this->assertEquals('http://127.0.0.1/settings', $this->url());
 
+        $link = $this->byId('tab-notifications');
+        $this->moveto($link);
+        $this->click();
+        $this->timeouts()->implicitWait(100);
 
-
-
-
+        $input = $this->byId('SettingMailFrom');
+        $this->assertEquals('candycane@example.com',$input->value());
+        $input->clear();
+        $input->value('candycane-autotest@example.com');
+        $this->select($this->byId('SettingMailTransport'))->selectOptionByValue("Debug");
+        $input = $this->byXPath('//form[@action="/settings/edit?tab=notifications"]')->submit();
+        $this->timeouts()->implicitWait(1000);
 
     }
 }
