@@ -45,7 +45,7 @@ before_script:
             </IfModule>
 
             # [...]
-          </VirtualHost>' > build/travis-ci-apache'
+          </VirtualHost>' > build/travis-ci-apache
   - sudo cp -f build/travis-ci-apache /etc/apache2/sites-available/default
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
   - sudo service apache2 restart
