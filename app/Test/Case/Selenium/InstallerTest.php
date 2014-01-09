@@ -80,8 +80,8 @@ class InstallerTest extends PHPUnit_Extensions_Selenium2TestCase
         $input->clear();
         $input->value('candycane-autotest@example.com');
         $this->select($this->byId('SettingMailTransport'))->selectOptionByValue("Debug");
-        $input = $this->byXPath('//form[@action="/settings/edit?tab=notifications"]')->submit();
+        $this->byXPath('//form[@action="/settings/edit?tab=notifications"]')->submit();
         $this->timeouts()->implicitWait(1000);
-
+        $this->assertEquals('Successful update.',$this->byId('flashMessage')->text());
     }
 }
