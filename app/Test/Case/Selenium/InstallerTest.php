@@ -18,7 +18,8 @@ class InstallerTest extends PHPUnit_Extensions_Selenium2TestCase
     {
         $this->setHost('127.0.0.1');
         $this->setBrowser('firefox');
-        $this->setBrowserUrl('http://127.0.0.1:80/');
+        $this->setBrowserUrl('http://127.0.0.1/');
+        //$this->setPort(80);
     }
 
     public function testInstallMySQL()
