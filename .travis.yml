@@ -24,8 +24,8 @@ before_script:
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   - mkdir build
   - echo "<VirtualHost *:80>
-    DocumentRoot %TRAVIS_BUILD_DIR%
-    <Directory "%TRAVIS_BUILD_DIR%">
+    DocumentRoot %TRAVIS_BUILD_DIR%/app/webroot
+    <Directory "%TRAVIS_BUILD_DIR%/app/webroot">
       Options FollowSymLinks MultiViews ExecCGI
       AllowOverride All
       Order deny,allow
