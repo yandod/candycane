@@ -32,9 +32,10 @@ class InstallerTest extends PHPUnit_Extensions_Selenium2TestCase
 
         $this->assertEquals('Installation: Welcome - CandyCane', $this->title());
 
-        $this->timeouts()->implicitWait(2000);
+        $this->timeouts()->implicitWait(3000);
         $this->waitUntil(function($testCase){
-            return $testCase->byId('next-link')->text();
+            $str = $testCase->byId('next-link')->text();
+            return !empty($str);
          },100000);
 
 

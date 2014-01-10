@@ -7,9 +7,9 @@
         echo $this->Html->css(array(
             '/cc_install/css/install',
         ));
+        echo $this->Html->script(array('/cc_install/js/jquery-1.10.2.min.js'));
         echo $scripts_for_layout;
     ?>
-    <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 </head>
 
 <body>
