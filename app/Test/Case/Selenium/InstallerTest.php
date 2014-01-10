@@ -25,10 +25,24 @@ class InstallerTest extends PHPUnit_Extensions_Selenium2TestCase
     public function testInstallMySQL()
     {
         $this->url('http://127.0.0.1/cc_install/cc_install/');
+
+        $this->waitUntil(function($testCase){
+            return $testCase->title();
+        });
+
         $this->assertEquals('Installation: Welcome - CandyCane', $this->title());
+
+        $this->timeouts()->implicitWait(2000);
+        $this->waitUntil(function($testCase){
+            return $testCase->byId('next-link')->text();
+         },100000);
+
+
         $link = $this->byId('next-link');
+        $this->assertEquals('Click here to begin installation', $link->text());
         $this->moveto($link);
         $this->click();
+
         $this->assertEquals('Step 1: Database - CandyCane', $this->title());
 
         $this->select($this->byId('InstallDatasource'))->selectOptionByValue("mysql");
@@ -38,13 +52,18 @@ class InstallerTest extends PHPUnit_Extensions_Selenium2TestCase
         $form = $this->byId('InstallDatabaseForm');
         $form->submit();
 
-        $this->timeouts()->implicitWait(1500);
+        $this->waitUntil(function($testCase){
+            return $testCase->title();
+        });
         $this->assertEquals('Step 2: Run SQL - CandyCane', $this->title());
 
         $link = $this->byId('run-link');
         $this->moveto($link);
         $this->click();
-        $this->timeouts()->implicitWait(3000);
+        $this->waitUntil(function($testCase){
+            return $testCase->title();
+        });
+        $this->assertEquals('Installation completed successfully - CandyCane', $this->title());
 
         $this->url('http://127.0.0.1/account/login');
         $input = $this->byName('data[User][username]');
