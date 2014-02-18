@@ -386,7 +386,11 @@ class IssuesController extends AppController
 
             if (empty($this->Issue->validationErrors)) {
                 if (!empty($this->request->params['form'])) {
-                    $this->Issue->attach_files($this->request->params['form'], $this->current_user);
+                    $attachments = array_merge(
+                        $this->request->params['form'],
+                        array('attachments_description' => $this->request->data['attachments_description'])
+                    );
+                    $this->Issue->attach_files($attachments, $this->current_user);
                 }
 
                 $event = new CakeEvent(
