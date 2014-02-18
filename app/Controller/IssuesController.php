@@ -385,8 +385,8 @@ class IssuesController extends AppController
             }
 
             if (empty($this->Issue->validationErrors)) {
-                if (!empty($this->request->params['form'])) {
-                    $this->Issue->attach_files($this->request->params['form'], $this->current_user);
+                if (!empty($this->request->data['Attachments'])) {
+                    $this->Issue->attach_files($this->request->data['Attachments'], $this->current_user);
                 }
 
                 $event = new CakeEvent(
@@ -515,8 +515,8 @@ class IssuesController extends AppController
                 # Log spend time
                 $save_data['TimeEntry'] = array($this->Issue->TimeEntry->data['TimeEntry']);
             }
-            if (!empty($this->request->params['form'])) {
-                $attachments = $this->Issue->attach_files($this->request->params['form'], $this->current_user);
+            if (!empty($this->request->data['Attachments'])) {
+                $attachments = $this->Issue->attach_files($this->request->data['Attachments'], $this->current_user);
                 if (!empty($attachments['unsaved'])) {
                     $this->Session->setFlash(sprintf(__("%d file(s) could not be saved."), count($attachments['unsaved'])), 'default', array('class' => 'flash flash_warning'));
                 }

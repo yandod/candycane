@@ -124,22 +124,21 @@ class AttachableBehavior extends ModelBehavior {
     if (!empty($attachments) && is_array($attachments)) {
       $this->__initAttachment();
       extract($attachments);
-      extract($attachments_file);
-      $num = count($name);
-      for ($i = 1; $i <= $num; $i++) {
-        if ($size[$i] <= 0) {
+      foreach ($attachments_file as $i => $file) {
+        extract($file);
+        if ($size <= 0) {
           continue;
         }
         $attachment = $this->Attachment->create();
         $data = array(
           'container_id' => $Model->id, 
           'container_type' => $Model->name, 
-          'filename' => $name[$i], 
-          'filesize' => $size[$i],
-          'content_type' => $type[$i],
+          'filename' => $name, 
+          'filesize' => $size,
+          'content_type' => $type,
           'description' => trim($attachments_description[$i]),
           'author_id' => $current_user['id'],
-          'temp_file' => $tmp_name[$i],
+          'temp_file' => $tmp_name,
         );
         $result = $this->Attachment->save($data);
         $data['id'] = $this->Attachment->getLastInsertID();
