@@ -30,11 +30,11 @@ function addFileField() {
     fileFieldCount++;
     var f = document.createElement("input");
     f.type = "file";
-    f.name = "attachments_file[" + fileFieldCount + "]";
+    f.name = "data[Attachments][attachments_file][" + fileFieldCount + "]";
     f.size = 30;
     var d = document.createElement("input");
     d.type = "text";
-    d.name = "attachments_description[" + fileFieldCount + "]";
+    d.name = "data[Attachments][attachments_description][" + fileFieldCount + "]";
     d.size = 60;
     
     p = document.getElementById("attachments_fields");

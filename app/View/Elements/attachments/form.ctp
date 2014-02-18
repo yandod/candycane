@@ -1,21 +1,19 @@
 <span id="attachments_fields">
 <?php
 echo $this->Form->input(
-	'attachments_file.1',
-		array(
-			'name' => 'attachments_file[1]',
-			'type' => 'file',
-			'size' => 30,
-			'div' => false,
-			'label' => false
-		)
-	);
+	'Attachments.attachments_file.1',
+	array(
+		'type' => 'file',
+		'size' => 30,
+		'div' => false,
+		'label' => false
+	)
+);
 
 echo $this->Form->input(
-	'attachments_description.1.',
+	'Attachments.attachments_description.1',
 	array(
 		'type' => 'text',
-		'name' => 'attachments_description[1]',
 		'size' => 60,
 		'div' => false,
 		'label' => false,
