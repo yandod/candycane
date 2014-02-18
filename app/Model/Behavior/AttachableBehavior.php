@@ -84,34 +84,22 @@ class AttachableBehavior extends ModelBehavior {
 
             [attachments_file] => Array
                 (
-                    [name] => Array
+                    [1] => Array
                         (
-                            [1] => pokenjp_katakana_logo_20090.jpg
-                            [2] => 000313_m.jpg
+                            [name] => pokenjp_katakana_logo_20090.jpg
+                            [type] => image/jpeg
+                            [tmp_name] => /tmp/phpls7W9G
+                            [error] => 0
+                            [size] => 13956
                         )
 
-                    [type] => Array
+                    [2] => Array
                         (
-                            [1] => image/jpeg
-                            [2] => image/jpeg
-                        )
-
-                    [tmp_name] => Array
-                        (
-                            [1] => C:\xampp\tmp\php633.tmp
-                            [2] => C:\xampp\tmp\php634.tmp
-                        )
-
-                    [error] => Array
-                        (
-                            [1] => 0
-                            [2] => 0
-                        )
-
-                    [size] => Array
-                        (
-                            [1] => 13956
-                            [2] => 996530
+                            [name] => 000313_m.jpg
+                            [type] => image/jpeg
+                            [tmp_name] => /tmp/phpr3xunv
+                            [error] => 0
+                            [size] => 996530
                         )
 
                 )
