@@ -66,7 +66,7 @@ class MimeType {
  */
 	public function __construct() {
 		foreach ($this->MIME_TYPES as $type => $exts) {
-			foreach (split(',', $exts) as $ext) {
+			foreach (explode(',', $exts) as $ext) {
 				$this->EXTENSIONS[trim($ext)] = $type;
 			}
 		}
@@ -99,7 +99,7 @@ class MimeType {
 	public function main_mimetype_of($name) {
 		$mimetype = $this->of($name);
 		if ($mimetype) {
-			return array_shift(split('/', $mimetype));
+			return array_shift(explode('/', $mimetype));
 		}
 		return null;
 	}
