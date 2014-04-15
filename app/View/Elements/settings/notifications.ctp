@@ -73,7 +73,8 @@
 		'value' => $Settings->mail_password,
 		'size' => 60,
 		'label' => false,
-		'div' => false
+		'div' => false,
+    'type' => 'password'
 	)
 );?></p>
 
