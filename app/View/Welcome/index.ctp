@@ -19,7 +19,7 @@
 		<ul>
 		<?php foreach ($projects as $project): ?>
 			<li>
-			<?php echo $this->Html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'show', 'project_id' => $project['Project']['identifier'])) ?>(<?php echo $this->Candy->format_time($project['Project']['created_on'])?>)
+			<?php echo $this->Html->link($project['Project']['name'], array('controller' => 'projects', 'action' => 'show', 'project_id' => $project['Project']['identifier'])) ?> (<?php echo $this->Candy->format_time($project['Project']['created_on'])?>)
 <!--  			<%= textilizable project.short_description, :project => project %> -->
 				<?php echo $this->Candy->textilizable($project['Project']['description']) ?>
 			</li>
