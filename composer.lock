@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "790158ee7b6f710b8cf0df3ec5c012ff",
+    "hash": "0b6c5cc1620f6c4fbd5bf6872961dfde",
     "packages": [
         {
             "name": "ensepar/tcpdf",
