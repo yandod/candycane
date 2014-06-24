@@ -1,6 +1,6 @@
 <h2><?php echo __('Spent time') ?></h2>
 
-<?php echo $this->Form->create('TimeEntry', array('url'=>'/projects/'.$main_project['Project']['identifier'].'/timelog/edit', 'class'=>'tabular')); ?>
+<?php echo $this->Form->create('TimeEntry', array('url'=>'/projects/'.$main_project['Project']['identifier'].'/timelog/edit/' . (isset($this->request->params['url_param']['id']) ? $this->request->params['url_param']['id'] : ''), 'class'=>'tabular')); ?>
   <?php echo $this->element('error_explanation'); ?>
   <?php echo $this->Candy->back_url_hidden_field_tag(); ?>
 
