@@ -108,9 +108,9 @@ class CcInstallController extends CcInstallAppController {
                 App::uses('File', 'Utility');
                 $file = new File(APP.'Config'.DS.'database.php', true);
                 $content = $file->read();
-                
+
 				$driver = 'Database/'.ucfirst($this->request->data['Install']['datasource']);
-				
+
                 // write database.php file
                 $content = str_replace('{default_datasource}', $driver, $content);
                 $content = str_replace('{default_host}', $host, $content);
@@ -119,7 +119,7 @@ class CcInstallController extends CcInstallAppController {
                 $content = str_replace('{default_password}', $this->request->data['Install']['password'], $content);
                 $content = str_replace('{default_database}', $this->request->data['Install']['database'], $content);
                 // The database import script does not support prefixes at this point
-                $content = str_replace('{default_prefix}', ''/*$this->request->data['Install']['prefix']*/, $content);
+                $content = str_replace('{default_prefix}', $this->data['Install']['prefix'], $content);
                 
                 if($file->write($content) ) {
                     $this->redirect(array('action' => 'data'));
@@ -150,11 +150,32 @@ class CcInstallController extends CcInstallAppController {
                 $this->Session->setFlash(__('Could not connect to database.'));
             } else {
 				list(,$database) = explode('/', $db->config['datasource']);
-				
-                $this->__executeSQLScript($db, APP . 'Config' . DS.'sql'.DS.strtolower($database).'.sql');
-                $this->__updateData(); //translate names
-                $this->redirect(array('action' => 'finish'));
-                exit();
+
+                // rename database.php.install
+                copy(APP . 'Config' . DS.'sql'.DS.strtolower($database).'.sql.install', APP . 'Config' . DS.'sql'.DS.strtolower($database).'.sql');
+
+                // open sql script file
+                App::uses('File', 'Utility');
+                $file = new File(APP . 'Config' . DS.'sql'.DS.strtolower($database).'.sql', true);
+                $content = $file->read();
+
+				$fields = get_class_vars('DATABASE_CONFIG');
+
+				$table_prefix = $fields['default']['prefix'];
+
+                // write to sql script file
+                $content = str_replace('{prefix}', $table_prefix, $content);
+
+                if($file->write($content) ) {
+					$this->__executeSQLScript($db, APP . 'Config' . DS.'sql'.DS.strtolower($database).'.sql');
+					$this->__updateData(); //translate names
+					$this->redirect(array('action' => 'finish'));
+					exit();
+                } else {
+                    $this->Session->setFlash(__('Could not write' . strtolower($database).'.sql' . ' file.'));
+                }
+
+
             }
         }
     }
@@ -197,6 +218,7 @@ class CcInstallController extends CcInstallAppController {
                 $db->query($statement);
             }
         }
+        Cache::clear(false, '_cake_model_');
     }
 
     function __updateData(){
@@ -210,7 +232,7 @@ class CcInstallController extends CcInstallAppController {
                 6 => __('Urgent'),
                 7 => __('Immediate'),
                 8 => __('Design'),
-                9 => __('Development')                
+                9 => __('Development')
             ),
             'IssueStatus' => array(
                 1 => __('New'),
@@ -218,17 +240,17 @@ class CcInstallController extends CcInstallAppController {
                 3 => __('Resolved'),
                 4 => __('Feedback'),
                 5 => __('Closed'),
-                6 => __('Rejected')                
+                6 => __('Rejected')
             ),
             'Role' => array(
                 3 => __('Manager'),
                 4 => __('Developer'),
-                5 => __('Reporter')                
+                5 => __('Reporter')
             ),
             'Tracker' => array(
                 1 => __('Bug'),
                 2 => __('Feature'),
-                3 => __('Support')                
+                3 => __('Support')
             )
         );
         foreach ($data as $model_name => $map) {
@@ -237,9 +259,9 @@ class CcInstallController extends CcInstallAppController {
             foreach ($map as $id => $name) {
                 $obj->id = $id;
                 $obj->saveField('name',$name);
-            }            
+            }
         }
-        
+
     }
 }
 ?>
