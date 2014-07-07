@@ -15,7 +15,7 @@
 <?php if(empty($main_project) || (!empty($main_project) && $main_project['Project']['id'] != $event['project']['id'])) {
   echo $this->Html->tag('span', h($event['project']['name']), array('class' => 'project'));
 } ?>
-<?php echo $this->Html->link($this->Candy->format_activity_title($event['title']), $event['url']) ?></dt>
+<?php echo $this->Html->link($this->Candy->format_activity_title($event['title']), $event['url'], array('escape' => false)) ?></dt>
 <dd><span class="description"><?php echo $this->Candy->format_activity_title($event['description']) ?></span>
 <span class="author"><?php if(!empty($event['author'])) { echo $this->Candy->link_to_user($event['author']); } ?></span></dd>
 <?php endforeach ?>
