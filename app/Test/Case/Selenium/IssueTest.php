@@ -61,7 +61,8 @@ class IssueTest extends PHPUnit_Extensions_Selenium2TestCase {
         $this->moveto($link);
         $this->click();
         $input = $this->byId('IssueRelationIssueToId');
-        $current_id = array_pop(explode('/',$this->url())) - 1;
+        $pieces = explode('/',$this->url());
+        $current_id = array_pop($pieces) - 1;
         $input->value($current_id);
         $this->byId('new-relation-form')->submit();
         $this->timeouts()->implicitWait(800);
