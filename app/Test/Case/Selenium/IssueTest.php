@@ -80,4 +80,4 @@ class IssueTest extends PHPUnit_Extensions_Selenium2TestCase {
         file_put_contents('app/tmp/logs/screenshot.png',$this->currentScreenshot());
         throw $e;
     }
-} 
+}
