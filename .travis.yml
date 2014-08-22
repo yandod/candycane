@@ -123,7 +123,7 @@ script:
   - cd ../
   #- 'sudo `which php` ./app/Console/cake.php server &'
   - 'mysql -e "drop database if exists test_candycane;create database test_candycane;"; phpunit app/Test/Case/Selenium/InstallerTest.php'
-  - phpunit app/Test/Case/Selenium/IssueTest.php'
+  - phpunit app/Test/Case/Selenium/IssueTest.php
 
 after_script:
   - php vendor/bin/coveralls -v
