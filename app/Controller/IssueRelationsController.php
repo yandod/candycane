@@ -50,20 +50,16 @@ class IssueRelationsController extends AppController
 
     function destroy($relation_id)
     {
-        if ($this->RequestHandler->isAjax()) {
+        if ($this->request->is('ajax')) {
             Configure::write('debug', 0);
         }
+
         $relation = $this->IssueRelation->read(null, $relation_id);
-        if ($this->RequestHandler->isPost() && $relation) {
+        if ($relation) {
             $this->IssueRelation->delete();
         }
-        if ($this->RequestHandler->isAjax()) {
-            $issue_relations = $this->IssueRelation->findRelations($this->_issue);
-            $this->set(compact('issue_relations'));
-            $this->layout = 'ajax';
-        } else {
-            $this->redirect(array('controller' => 'issues', 'action' => 'show', 'id' => $this->_issue['Issue']['id']));
-        }
+
+        $this->redirect(array('controller' => 'issues', 'action' => 'show', $this->_issue['Issue']['id']));
     }
 
 #private
