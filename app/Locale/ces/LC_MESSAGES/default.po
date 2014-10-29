@@ -24,7 +24,7 @@ msgstr "Chcete podrobný výstup?"
 
 #: Console/Command/CcPluginShell.php:145
 msgid "Created: %s in %s"
-msgstr "Vytvořeno: %s na %s"
+msgstr "Vytvořeno: %s v %s"
 
 #: Controller/AccountController.php:77;144
 msgid "Your account has been activated. You can now log in."
@@ -382,11 +382,11 @@ msgstr "autor"
 
 #: Model/Query.php:593
 msgid "assigned_to"
-msgstr "assigned_to"
+msgstr "přiděleno komu"
 
 #: Model/Query.php:599
 msgid "updated_on"
-msgstr "updated_on"
+msgstr "aktualizováno"
 
 #: Model/Query.php:605
 msgid "category"
@@ -398,11 +398,11 @@ msgstr "pevná verze"
 
 #: Model/Query.php:617
 msgid "start_date"
-msgstr "počáteční_datum"
+msgstr "počáteční datum"
 
 #: Model/Query.php:623
 msgid "due_date"
-msgstr "due_date"
+msgstr "datum dokončení"
 
 #: Model/Query.php:629
 msgid "estimated_hours"
@@ -410,11 +410,11 @@ msgstr "Odhadovaný čas"
 
 #: Model/Query.php:635
 msgid "done_ratio"
-msgstr "provádí poměr"
+msgstr "podíl dokončení"
 
 #: Model/Query.php:641
 msgid "created_on"
-msgstr "created_on"
+msgstr "vytvořeno"
 
 #: Model/TimeEntry.php:46
 #: View/Helper/QueriesHelper.php:70
@@ -506,11 +506,11 @@ msgstr "Nový"
 
 #: Plugin/CcInstall/Controller/CcInstallController.php:219
 msgid "Assigned"
-msgstr "Přiřazeno"
+msgstr "Přiřazený"
 
 #: Plugin/CcInstall/Controller/CcInstallController.php:220
 msgid "Resolved"
-msgstr "Vyřešeno"
+msgstr "Vyřešený"
 
 #: Plugin/CcInstall/Controller/CcInstallController.php:221
 msgid "Feedback"
@@ -520,11 +520,11 @@ msgstr "Zpětná vazba"
 #: View/Elements/reports/_details.ctp:28
 #: View/Elements/reports/_simple.ctp:19
 msgid "Closed"
-msgstr "Zavřeno"
+msgstr "Uzavřený"
 
 #: Plugin/CcInstall/Controller/CcInstallController.php:223
 msgid "Rejected"
-msgstr "Zamítnuto"
+msgstr "Zamítnutý"
 
 #: Plugin/CcInstall/Controller/CcInstallController.php:226
 msgid "Manager"
@@ -544,7 +544,7 @@ msgstr "Chyba"
 
 #: Plugin/CcInstall/Controller/CcInstallController.php:232
 msgid "Feature"
-msgstr "Vlastnost"
+msgstr "Požadavek"
 
 #: Plugin/CcInstall/Controller/CcInstallController.php:233
 msgid "Support"
@@ -1438,19 +1438,19 @@ msgstr "Sledování"
 
 #: View/Elements/issues/history.ctp:7
 msgid "Updated by %s %s ago"
-msgstr "Aktualizoval %s %s před"
+msgstr "Aktualizoval %s před %s"
 
 #: View/Elements/issues/list.ctp:9
 #: View/Helper/CandyHelper.php:1531
 #: View/Roles/report.ctp:20;40
 msgid "Check all"
-msgstr "Zkontrolujte, zda všechny"
+msgstr "Vybrat vše"
 
 #: View/Elements/issues/list.ctp:9
 #: View/Helper/CandyHelper.php:1533
 #: View/Roles/report.ctp:20;40
 msgid "Uncheck all"
-msgstr "Zrušte všechny"
+msgstr "Zrušit výběr"
 
 #: View/Elements/issues/relations.ctp:4;64
 #: View/Elements/projects/settings/members.ctp:115
@@ -1586,7 +1586,7 @@ msgstr "Vytvořte RSS přístupový klíč"
 
 #: View/Elements/my/sidebar.ctp:13
 msgid "API access key"
-msgstr "Přístup k API klíč"
+msgstr "API klíč"
 
 #: View/Elements/my/sidebar.ctp:16
 msgid "Show"
@@ -1594,7 +1594,7 @@ msgstr "Show"
 
 #: View/Elements/my/sidebar.ctp:22
 msgid "Create API access key"
-msgstr "Vytvořte API přístupový klíč"
+msgstr "Vytvořit API klíč"
 
 #: View/Elements/projects/form.ctp:15
 #: View/Projects/show.ctp:21
@@ -1626,7 +1626,7 @@ msgstr "Role"
 #: View/Elements/projects/settings/members.ctp:37
 #: View/Elements/users/memberships.ctp:33
 msgid "Change"
-msgstr "Změna"
+msgstr "Změnit"
 
 #: View/Elements/projects/settings/members.ctp:101
 msgid "New member"
@@ -1634,7 +1634,7 @@ msgstr "Nový člen"
 
 #: View/Elements/projects/settings/modules.ctp:9
 msgid "Select modules to enable for this project:"
-msgstr "Vyberte moduly povolen pro tento projekt:"
+msgstr "Povolte moduly pro tento projekt:"
 
 #: View/Elements/projects/settings/versions.ctp:4
 #: View/Projects/add_file.ctp:11
@@ -1717,7 +1717,7 @@ msgstr "Výchozí sloupce"
 #: View/Timelog/report.ctp:81;95;108
 #: View/Timelog/report_csv.ctp:8;15
 msgid "Total"
-msgstr "Celkový"
+msgstr "Celkem"
 
 #: View/Elements/roles/form.ctp:8
 msgid "Issues can be assigned to this role"
@@ -1835,11 +1835,11 @@ msgstr "Wiki komprese historie"
 
 #: View/Elements/settings/general.ctp:164
 msgid "Feed content limit"
-msgstr "Krmivo mezní hodnotu obsahu"
+msgstr "Feed limit"
 
 #: View/Elements/settings/general.ctp:175
 msgid "Max number of diff lines displayed"
-msgstr "Maximální počet diff řádků zobrazených"
+msgstr "Maximální počet zobrazených diff řádků"
 
 #: View/Elements/settings/general.ctp:186
 msgid "Use Gravatar user icons"
@@ -1929,7 +1929,7 @@ msgstr "Od"
 #: View/Elements/timelog/date_range.ctp:35
 #: View/Projects/activity.ctp:2;41;55
 msgid "To"
-msgstr "Na"
+msgstr "Do"
 
 #: View/Elements/timelog/date_range.ctp:68
 #: View/Reports/issue_report_details.ctp:2
@@ -2074,7 +2074,7 @@ msgstr "1 den"
 #: View/Helper/CandyHelper.php:1574
 #: View/Helper/IssuesHelper.php:161
 msgid "%d days"
-msgstr "%d dní"
+msgstr "%d dny"
 
 #: View/Helper/CustomFieldHelper.php:181
 msgid "No"
@@ -2187,7 +2187,7 @@ msgstr "tento rok"
 #: View/Helper/TimelogHelper.php:116
 #: View/Issues/index.ctp:13
 msgid "Clear"
-msgstr "Jasný"
+msgstr "Vymazat"
 
 #: View/Helper/UsersHelper.php:31
 #: View/Wiki/show.ctp:31
@@ -2438,7 +2438,7 @@ msgstr "Úvodní stránka"
 
 #: View/Projects/show.ctp:42
 msgid "'on'"
-msgstr "'na'"
+msgstr "/"
 
 #: View/Projects/show.ctp:71
 #: View/Welcome/index.ctp:8
@@ -2722,3 +2722,55 @@ msgstr "minLength"
 #: Model/User.php:validation for field password
 msgid "validates_confirmation_of"
 msgstr "validates_confirmation_of"
+
+# label_issue_status_plural
+msgid "Issue statuses"
+msgstr "Statusy úkolů"
+
+# label_issue_added
+msgid "Issue added"
+msgstr "Úkol přidán"
+
+# label_file_added
+msgid "File added"
+msgstr "Soubor přidán"
+
+# label_document_added
+msgid "Document added"
+msgstr "Dokument přidán"
+
+# label_message_posted
+msgid "Message added"
+msgstr "Zpráva přidána"
+
+# text_issue_added
+msgid "Issue %s has been reported by %s."
+msgstr "Úkol %s přidal %s."
+
+# label_comment_added
+msgid "Comment added"
+msgstr "Komentář přidán"
+
+# label_news_added
+msgid "News added"
+msgstr "Novinka přidána"
+
+# label_added_time_by
+msgid "Added by %s %s ago"
+msgstr "Přidal %s před %s"
+
+# text_length_between
+msgid "Length between %d and %d characters."
+msgstr "Délka od %d do %d znaků."
+
+# text_caracters_maximum
+msgid "%d characters maximum."
+msgstr "Maximálně %d znaků."
+
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "Musí mít minimálně %d znaků dlouhý."
+
+# field_identifier
+msgid "Identifier"
+msgstr "Identifikátor"
