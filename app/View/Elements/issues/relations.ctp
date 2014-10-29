@@ -29,7 +29,7 @@ if($this->Candy->authorize_for(array('controller'=>'issue_relations', 'action'=>
 <td>
   <?php if($this->Candy->authorize_for(array('controller'=>'issue_relations', 'action'=>'destroy'))) {
     echo $this->Js->link($this->Html->image('delete.png'), 
-      array('controller'=>'issue_relations', 'action'=>'destroy', 'issue_id'=>$issue['Issue']['id'], 'id'=>$relation['IssueRelation']['id']),
+      array('controller'=>'issue_relations', 'action'=>'destroy', 'issue_id'=>$issue['Issue']['id'], $relation['IssueRelation']['id']),
       array('method'=>'post', 'title'=> __('Delete relation'), 'update'=>'relations', 'escape' => false));
   }?>
 </td>

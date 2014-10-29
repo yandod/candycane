@@ -173,12 +173,12 @@ class TimelogController extends AppController
         }
     }
 
-    function edit()
+    function edit($id = false)
     {
         if (!$this->TimeEntry->is_editable_by($this->current_user, $this->_project)) {
             throw new NotFoundException();
         }
-        if (empty($this->TimeEntry->data)) {
+        if (empty($this->TimeEntry->data)) { 
             $this->TimeEntry->create();
             $this->TimeEntry->set(array(
                 'project_id' => $this->_project['Project']['id'],
@@ -188,6 +188,7 @@ class TimelogController extends AppController
             ));
         }
         if (!empty($this->request->data)) {
+            $this->TimeEntry->id = $id;
             $this->TimeEntry->set($this->request->data);
             if ($this->TimeEntry->save()) {
                 $this->Session->setFlash(__('Successful update.'), 'default', array('class' => 'flash flash_notice'));
