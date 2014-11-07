@@ -55,7 +55,7 @@ echo $this->Form->end();
   }
 ?>
 </span>
-<span><?php echo $this->Html->link('CSV', array('?'=>array_merge(array('format' => 'csv'), $this->request->query)), array('class' => 'csv')); ?></span>
+<span><?php echo $this->Html->link('CSV', array('?'=>array_merge(array('format' => 'csv','project_id'=>$main_project['Project']['identifier']), $this->request->query)), array('class' => 'csv')); ?></span>
 </p>
 <?php endif; ?>
 
