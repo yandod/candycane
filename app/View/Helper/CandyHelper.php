@@ -101,9 +101,9 @@ class CandyHelper extends AppHelper {
         $project = isset($view->viewVars['main_project']) ? $view->viewVars['main_project'] : null;
 
         if (is_array($str)) {
-            $view->pageTitle = implode(' - ', $str);
+            $str = implode(' - ', $str);
         } else {
-            $view->pageTitle = $str;
+            $str = $str;
         }
 
         if (!is_array($str)) {
@@ -120,8 +120,6 @@ class CandyHelper extends AppHelper {
         }
 
         $view->set('title_for_layout',$str);
-
-        return $view->pageTitle;
     }
 
 #require 'coderay'
