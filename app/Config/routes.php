@@ -5,7 +5,7 @@
     App::import('Controller', 'Projects');
     $methods = get_class_methods('ProjectsController');
     $projects_actions = implode('|', $methods);
-    $project_id = '(?!('.$projects_actions.'))[-a-z0-9_]+';
+    $project_id = '(?<!'.$projects_actions.')[-a-z0-9_]+';
 
 /**
  * Here, we are connecting '/' (base path) to controller called 'Pages',
