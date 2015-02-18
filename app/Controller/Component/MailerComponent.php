@@ -21,9 +21,15 @@ class MailerComponent extends Component {
 			mb_internal_encoding("UTF-8");
 		}
 
+		//tmp crash fix
+		$email = "candycane@example.com";
+		if (Validation::email($this->Controller->Setting->mail_from)) {
+			$email = $this->Controller->Setting->mail_from;
+		}
+
 		$this->Email = new CakeEmail(array(
 			'transport' => $this->Controller->Setting->mail_transport,
-			'from' => $this->Controller->Setting->mail_from,
+			'from' => $email,
 			'host' => $this->Controller->Setting->mail_host,
 			'port' => $this->Controller->Setting->mail_port,
 			'username' => $this->Controller->Setting->mail_username,
