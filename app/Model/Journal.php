@@ -127,7 +127,7 @@ class Journal extends AppModel {
   
   function __construct($id = false, $table = null, $ds = null) {
     foreach($this->actsAs['ActivityProvider']['find_options']['joins'] as $index=>$join) {
-      $this->actsAs['ActivityProvider']['find_options']['joins'][$index]['table'] = $this->fullTableName($join['alias']);
+      $this->actsAs['ActivityProvider']['find_options']['joins'][$index]['table'] = $this->tableName($join['alias']);
     }
     parent::__construct($id, $table, $ds);
 		$this->Project = ClassRegistry::init('Project');

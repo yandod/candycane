@@ -97,7 +97,7 @@ class Attachment extends AppModel {
  */
 	function __construct($id = false, $table = null, $ds = null) {
 		foreach($this->actsAs['ActivityProvider']['find_options']['joins'] as $index => $join) {
-			$this->actsAs['ActivityProvider']['find_options']['joins'][$index]['table'] = $this->fullTableName($join['alias']);
+			$this->actsAs['ActivityProvider']['find_options']['joins'][$index]['table'] = $this->tableName($join['alias']);
 		}
 		parent::__construct($id, $table, $ds);
 
@@ -111,13 +111,13 @@ class Attachment extends AppModel {
 				'joins' => array(
 					array(
 						'type' => 'LEFT',
-						'table' => $this->fullTableName('Document'),
+						'table' => $this->tableName('Document'),
 						'alias' => 'Document',
 						'conditions' => 'Attachment.container_type=\'Document\' AND Document.id = Attachment.container_id',
 					),
 					array(
 						'type' => 'LEFT',
-						'table' => $this->fullTableName('Project'),
+						'table' => $this->tableName('Project'),
 						'alias' => 'Project',
 						'conditions' => 'Project.id=Document.project_id',
 					),

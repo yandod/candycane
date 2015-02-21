@@ -184,6 +184,19 @@ class AppModel extends Model {
 	}
 
 /**
+ * Gets table name including prefix
+ * 
+ * @param $alias string with the table alias
+ * @return string unquoted table name
+ */
+        public function tableName($alias) {  
+		$db =& ConnectionManager::getDataSource($this->useDbConfig);
+		$model =& $this;
+                $model =& ClassRegistry::init($alias);
+                return "{$db->config['prefix']}{$model->table}";
+	}
+        
+/**
  * Quoted date
  *
  * @param string $date Date
