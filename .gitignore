@@ -7,7 +7,6 @@ app/Config/email.php
 ## Simpletest
 vendors/simpletest
 
-
 ## IDE files and folders
 .cache
 .project
