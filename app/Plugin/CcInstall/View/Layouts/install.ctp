@@ -16,7 +16,7 @@
 
     <div id="wrapper" class="install">
         <div id="header">
-            <h1><?php echo __('Install CandyCane'); ?></h1>
+            <h1><?php echo __('Install CandyCane <span>v0.9.4</span>'); ?></h1>
         </div>
 
         <?php echo $this->Session->flash() ?>
@@ -31,7 +31,7 @@
         </div>
 
         <div id="footer">
-			<?php echo __('CandyCane Installer') ?>
+			<?php echo __('CandyCane v0.9.4 Installer') ?>
 		</div>
 
     </div>

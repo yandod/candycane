@@ -1,26 +1,153 @@
-.install h1 { padding: 0px 0px 0px 20px;  }
+*, *::before, *::after {
+    box-sizing: border-box;
+}
 
-#install { margin: 0px auto; width: 500px; padding: 50px 0px 0px 0px; }
-#install h2 { border-bottom: 0px; margin: 20px 0px 20px 0px; }
-#install .forgot { float: right; }
-#install input[type=text],
-#install input[type=password] { width: 95%; }
+@import url(http://fonts.googleapis.com/css?family=Quicksand:400,300,700|Roboto:400,500);
 
-#install .install { margin: 30px 0px 0px 0px; padding: 0px 20px 20px 20px; background: #fff; border: 1px solid #e5e5e5; }
-#install .install { -moz-box-shadow: rgba(200,200,200,1) 0 4px 18px; -webkit-box-shadow: rgba(200,200,200,1) 0 4px 18px; }
-#install .install { -moz-border-radius: 10px; -webkit-border-radius: 10px; }
+html, html a {
+	text-rendering: optimizeLegibility;
+	text-rendering: geometricPrecision;
+	font-smooth: always;
 
-.install #header {  }
-.install #main { min-height: 350px; }
-.install #footer { background: none; color: #444; text-align: center; padding: 5px }
-.install #footer a { color: #444; }
-
-.success { background-color: #4FA39C; padding: 5px; -moz-border-radius: 10px; -webkit-border-radius: 10px; }
-.error { background-color: #D65752; padding: 5px; -moz-border-radius: 10px; -webkit-border-radius: 10px; }
+	font-smoothing: antialiased;
+	-moz-font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
+	-webkit-font-smoothing: subpixel-antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
 
 body {
-	background-image: url('../img/bear.png');
-	background-repeat: no-repeat;
-	background-position: right bottom;
-
+    background-color: #eef0ee;
+    background-size: cover;
+    font-family: "Roboto",sans-serif;
+    font-size: 13px;
+}
+h1, h2, h3, h4 {
+    font-family: "Quicksand",sans-serif;
+    font-weight: 400;
+}
+a {
+    background: none repeat scroll 0 0 #5cb85c;
+    border: 1px solid #4cae4c;
+    color: #fff;
+    display: block;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s ease-out 0s;
+    width: 100%;
+}
+a:hover {
+    background: none repeat scroll 0 0 #449d44;
+    border-color: #398439;
+}
+a:active {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+    outline: 0 none;
+}
+.install h1 {
+    background: none repeat scroll 0 0 #ffffff;
+    border: 1px solid #e6e7e5;
+    color: #333;
+    font-family: "Quicksand",sans-serif;
+    font-size: 31px;
+    font-weight: 400;
+    margin: 60px auto 0;
+    padding: 15px 0;
+    text-align: center;
+    width: 500px;
+}
+.install h1 span {
+    color: #262626;
+}
+#install {
+    margin: 0 auto;
+    padding: 0;
+    width: 500px;
+}
+#install h2 {
+    border-bottom: 0 none;
+    margin: 20px 0;
+}
+#install .forgot {
+    float: right;
+}
+#install input[type="text"], #install input[type="password"] {
+    border: 1px solid #e6e7e5;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    width: 100%;
+}
+#install .install {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: none repeat scroll 0 0 #f7f8f6;
+    border-color: -moz-use-text-color #e6e7e5 #e6e7e5;
+    border-image: none;
+    border-right: 1px solid #e6e7e5;
+    border-style: none solid solid;
+    border-width: 0 1px 1px;
+    overflow: hidden;
+    padding: 0 20px 20px;
+}
+.install #header {
+}
+.install #main {
+    min-height: 350px;
+}
+.install #footer {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #333;
+    font-weight: 400;
+    padding: 10px;
+    text-align: center;
+}
+.install #footer a {
+    color: #444;
+}
+.success, .error {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background-color: #ffffff;
+    border-color: #5cb85c;
+    border-image: none;
+    border-style: solid;
+    border-width: 1px 1px 1px 5px;
+    color: #535353;
+    padding: 10px 15px;
+}
+.error {
+    border-color: #d65752;
+}
+.message {
+    color: #c0392b;
+    font-size: 16px;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+.submit > input {
+    background: none repeat scroll 0 0 #5cb85c;
+    border: 1px solid #4cae4c;
+    color: #fff;
+    cursor: pointer;
+    padding: 6px 12px;
+    transition: all 0.2s ease-out 0s;
+    width: 100%;
+}
+.submit > input:hover {
+    background: none repeat scroll 0 0 #449d44;
+    border: 1px solid #398439;
+}
+.submit > input:active {
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.125) inset;
+}
+select {
+    border: 1px solid #e6e7e5;
+    cursor: pointer;
+    margin: 0 0 10px 10px;
+    padding: 5px 10px;
 }
