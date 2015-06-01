@@ -35,3 +35,4 @@ if( $currentuser[ 'admin' ] )
  */ ?>
 <?php echo $this->Form->end() ?>
 
+<script type="text/javascript" src="/js/project_add_title.js"></script>

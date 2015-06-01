@@ -111,7 +111,7 @@ class Project extends AppModel {
 		$this->validate = array(
 			'identifier' => array(
 				'length' => array(
-					'rule' => '/[a-z0-9\-]{2,20}/',
+					'rule' => '/^[a-z0-9\-]{2,20}+$/',
 					'message' => __('Identifier must be between 2 and 20 characters, containing only letters, numbers and dashes.'),
 				),
 			)
