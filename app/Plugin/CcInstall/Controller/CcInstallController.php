@@ -97,7 +97,11 @@ class CcInstallController extends CcInstallAppController {
 				if (pg_connect("host={$host} port={$port} dbname={$this->request->data['Install']['database']} user={$this->request->data['Install']['login']} password={$this->request->data['Install']['password']}") ) {
 					$check = true ;
 				}
-			}
+			} else if ($this->request->data['Install']['datasource'] === 'sqlite') {
+                if (!empty($this->request->data['Install']['filename'])){
+                    $check = true;
+                }
+            }
 
             // test database connection
             if ($check===true) {
@@ -117,7 +121,14 @@ class CcInstallController extends CcInstallAppController {
                 $content = str_replace('{default_port}', $port, $content);
                 $content = str_replace('{default_login}', $this->request->data['Install']['login'], $content);
                 $content = str_replace('{default_password}', $this->request->data['Install']['password'], $content);
-                $content = str_replace('{default_database}', $this->request->data['Install']['database'], $content);
+
+
+                if ($this->request->data['Install']['datasource'] == 'sqlite'){
+                    $content = str_replace('{default_database}', $this->request->data['Install']['filename'], $content);    
+                } else {
+                    $content = str_replace('{default_database}', $this->request->data['Install']['database'], $content);    
+                }
+
                 // The database import script does not support prefixes at this point
                 $content = str_replace('{default_prefix}', $this->data['Install']['prefix'], $content);
                 
