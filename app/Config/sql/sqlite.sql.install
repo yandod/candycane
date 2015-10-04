@@ -1,11 +1,3 @@
--- Adapted SQL from mysql.sql.install file
--- from Candycane project. 
--- Updated: 2015-10-01
--- Author: Fabiano Araujo
--- https://github.com/fabianofa/
-
-
-
 -- phpMyAdmin SQL Dump
 -- version 3.1.1
 -- http://www.phpmyadmin.net
@@ -17,22 +9,28 @@
 
 
 --
+-- データベース: `redmine_development`
+--
+
+-- --------------------------------------------------------
+
+--
 -- テーブルの構造 `attachments`
 --
 
 CREATE TABLE IF NOT EXISTS `attachments` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `container_id` integer NOT NULL DEFAULT '0',
-  `container_type` text  NOT NULL DEFAULT '',
-  `filename` text  NOT NULL DEFAULT '',
-  `disk_filename` text  NOT NULL DEFAULT '',
-  `filesize` integer NOT NULL DEFAULT '0',
-  `content_type` text  DEFAULT '',
-  `digest` text  NOT NULL DEFAULT '',
-  `downloads` integer NOT NULL DEFAULT '0',
-  `author_id` integer NOT NULL DEFAULT '0',
-  `created_on` text DEFAULT NULL,
-  `description` text  DEFAULT NULL
+  `container_id` integer(11) NOT NULL DEFAULT '0',
+  `container_type` varchar(30) NOT NULL DEFAULT '',
+  `filename` varchar(255) NOT NULL DEFAULT '',
+  `disk_filename` varchar(255) NOT NULL DEFAULT '',
+  `filesize` integer(11) NOT NULL DEFAULT '0',
+  `content_type` varchar(255) DEFAULT '',
+  `digest` varchar(40) NOT NULL DEFAULT '',
+  `downloads` integer(11) NOT NULL DEFAULT '0',
+  `author_id` integer(11) NOT NULL DEFAULT '0',
+  `created_on` datetime DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL
 );
 
 --
@@ -48,19 +46,19 @@ CREATE TABLE IF NOT EXISTS `attachments` (
 
 CREATE TABLE IF NOT EXISTS `auth_sources` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `type` text  NOT NULL DEFAULT '',
-  `name` text  NOT NULL DEFAULT '',
-  `host` text  DEFAULT NULL,
-  `port` integer DEFAULT NULL,
-  `account` text  DEFAULT NULL,
-  `account_password` text  DEFAULT NULL,
-  `base_dn` text  DEFAULT NULL,
-  `attr_login` text  DEFAULT NULL,
-  `attr_firstname` text  DEFAULT NULL,
-  `attr_lastname` text  DEFAULT NULL,
-  `attr_mail` text  DEFAULT NULL,
-  `onthefly_register` integer NOT NULL DEFAULT '0',
-  `tls` integer NOT NULL DEFAULT '0'
+  `type` varchar(30) NOT NULL DEFAULT '',
+  `name` varchar(60) NOT NULL DEFAULT '',
+  `host` varchar(60) DEFAULT NULL,
+  `port` integer(11) DEFAULT NULL,
+  `account` varchar(255) DEFAULT NULL,
+  `account_password` varchar(60) DEFAULT NULL,
+  `base_dn` varchar(255) DEFAULT NULL,
+  `attr_login` varchar(30) DEFAULT NULL,
+  `attr_firstname` varchar(30) DEFAULT NULL,
+  `attr_lastname` varchar(30) DEFAULT NULL,
+  `attr_mail` varchar(30) DEFAULT NULL,
+  `onthefly_register` tinyinteger(1) NOT NULL DEFAULT '0',
+  `tls` tinyinteger(1) NOT NULL DEFAULT '0'
 );
 
 --
@@ -76,13 +74,13 @@ CREATE TABLE IF NOT EXISTS `auth_sources` (
 
 CREATE TABLE IF NOT EXISTS `boards` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `project_id` integer NOT NULL,
-  `name` text  NOT NULL DEFAULT '',
-  `description` text  DEFAULT NULL,
-  `position` integer DEFAULT '1',
-  `topics_count` integer NOT NULL DEFAULT '0',
-  `messages_count` integer NOT NULL DEFAULT '0',
-  `last_message_id` integer DEFAULT NULL
+  `project_id` integer(11) NOT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) DEFAULT NULL,
+  `position` integer(11) DEFAULT '1',
+  `topics_count` integer(11) NOT NULL DEFAULT '0',
+  `messages_count` integer(11) NOT NULL DEFAULT '0',
+  `last_message_id` integer(11) DEFAULT NULL
 );
 
 --
@@ -98,13 +96,13 @@ CREATE TABLE IF NOT EXISTS `boards` (
 
 CREATE TABLE IF NOT EXISTS `changes` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `changeset_id` integer NOT NULL,
-  `action` text  NOT NULL DEFAULT '',
-  `path` text  NOT NULL DEFAULT '',
-  `from_path` text  DEFAULT NULL,
-  `from_revision` text  DEFAULT NULL,
-  `revision` text  DEFAULT NULL,
-  `branch` text  DEFAULT NULL
+  `changeset_id` integer(11) NOT NULL,
+  `action` varchar(1) NOT NULL DEFAULT '',
+  `path` varchar(255) NOT NULL DEFAULT '',
+  `from_path` varchar(255) DEFAULT NULL,
+  `from_revision` varchar(255) DEFAULT NULL,
+  `revision` varchar(255) DEFAULT NULL,
+  `branch` varchar(255) DEFAULT NULL
 );
 
 --
@@ -120,14 +118,15 @@ CREATE TABLE IF NOT EXISTS `changes` (
 
 CREATE TABLE IF NOT EXISTS `changesets` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `repository_id` integer NOT NULL,
-  `revision` text  NOT NULL,
-  `committer` text  DEFAULT NULL,
-  `committed_on` text NOT NULL,
-  `comments` text ,
+  `repository_id` integer(11) NOT NULL,
+  `revision` varchar(255) NOT NULL,
+  `committer` varchar(255) DEFAULT NULL,
+  `committed_on` datetime NOT NULL,
+  `comments` text 
   `commit_date` date DEFAULT NULL,
-  `scmid` text  DEFAULT NULL,
-  `user_id` integer DEFAULT NULL
+  `scmid` varchar(255) DEFAULT NULL,
+  `user_id` integer(11) DEFAULT NULL,
+  UNIQUE (`repository_id`,`revision`)
 );
 
 --
@@ -142,8 +141,9 @@ CREATE TABLE IF NOT EXISTS `changesets` (
 --
 
 CREATE TABLE IF NOT EXISTS `changesets_issues` (
-  `changeset_id` integer NOT NULL,
-  `issue_id` integer NOT NULL
+  `changeset_id` integer(11) NOT NULL,
+  `issue_id` integer(11) NOT NULL,
+  UNIQUE (`changeset_id`,`issue_id`)
 );
 
 --
@@ -159,13 +159,12 @@ CREATE TABLE IF NOT EXISTS `changesets_issues` (
 
 CREATE TABLE IF NOT EXISTS `comments` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `commented_type` text  NOT NULL DEFAULT '',
-  `commented_id` integer NOT NULL DEFAULT '0',
-  `author_id` integer NOT NULL DEFAULT '0',
-  `comments` text ,
-  `created_on` text NOT NULL,
-  `updated_on` text NOT NULL
-  
+  `commented_type` varchar(30) NOT NULL DEFAULT '',
+  `commented_id` integer(11) NOT NULL DEFAULT '0',
+  `author_id` integer(11) NOT NULL DEFAULT '0',
+  `comments` text 
+  `created_on` datetime NOT NULL,
+  `updated_on` datetime NOT NULL
 );
 
 --
@@ -181,20 +180,19 @@ CREATE TABLE IF NOT EXISTS `comments` (
 
 CREATE TABLE IF NOT EXISTS `custom_fields` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `type` text  NOT NULL DEFAULT '',
-  `name` text  NOT NULL DEFAULT '',
-  `field_format` text  NOT NULL DEFAULT '',
-  `possible_values` text ,
-  `regexp` text  DEFAULT '',
-  `min_length` integer NOT NULL DEFAULT '0',
-  `max_length` integer NOT NULL DEFAULT '0',
-  `is_required` integer NOT NULL DEFAULT '0',
-  `is_for_all` integer NOT NULL DEFAULT '0',
-  `is_filter` integer NOT NULL DEFAULT '0',
-  `position` integer DEFAULT '1',
-  `searchable` integer DEFAULT '0',
+  `type` varchar(30) NOT NULL DEFAULT '',
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `field_format` varchar(30) NOT NULL DEFAULT '',
+  `possible_values` text 
+  `regexp` varchar(255) DEFAULT '',
+  `min_length` integer(11) NOT NULL DEFAULT '0',
+  `max_length` integer(11) NOT NULL DEFAULT '0',
+  `is_required` tinyinteger(1) NOT NULL DEFAULT '0',
+  `is_for_all` tinyinteger(1) NOT NULL DEFAULT '0',
+  `is_filter` tinyinteger(1) NOT NULL DEFAULT '0',
+  `position` integer(11) DEFAULT '1',
+  `searchable` tinyinteger(1) DEFAULT '0',
   `default_value` text 
-  
 );
 
 --
@@ -209,8 +207,8 @@ CREATE TABLE IF NOT EXISTS `custom_fields` (
 --
 
 CREATE TABLE IF NOT EXISTS `custom_fields_projects` (
-  `custom_field_id` integer NOT NULL DEFAULT '0',
-  `project_id` integer NOT NULL DEFAULT '0'
+  `custom_field_id` integer(11) NOT NULL DEFAULT '0',
+  `project_id` integer(11) NOT NULL DEFAULT '0'
 );
 
 --
@@ -225,8 +223,8 @@ CREATE TABLE IF NOT EXISTS `custom_fields_projects` (
 --
 
 CREATE TABLE IF NOT EXISTS `custom_fields_trackers` (
-  `custom_field_id` integer NOT NULL DEFAULT '0',
-  `tracker_id` integer NOT NULL DEFAULT '0'
+  `custom_field_id` integer(11) NOT NULL DEFAULT '0',
+  `tracker_id` integer(11) NOT NULL DEFAULT '0'
 );
 
 --
@@ -242,9 +240,9 @@ CREATE TABLE IF NOT EXISTS `custom_fields_trackers` (
 
 CREATE TABLE IF NOT EXISTS `custom_values` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `customized_type` text  NOT NULL DEFAULT '',
-  `customized_id` integer NOT NULL DEFAULT '0',
-  `custom_field_id` integer NOT NULL DEFAULT '0',
+  `customized_type` varchar(30) NOT NULL DEFAULT '',
+  `customized_id` integer(11) NOT NULL DEFAULT '0',
+  `custom_field_id` integer(11) NOT NULL DEFAULT '0',
   `value` text 
 );
 
@@ -261,11 +259,11 @@ CREATE TABLE IF NOT EXISTS `custom_values` (
 
 CREATE TABLE IF NOT EXISTS `documents` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `project_id` integer NOT NULL DEFAULT '0',
-  `category_id` integer NOT NULL DEFAULT '0',
-  `title` text  NOT NULL DEFAULT '',
-  `description` text ,
-  `created_on` text DEFAULT NULL
+  `project_id` integer(11) NOT NULL DEFAULT '0',
+  `category_id` integer(11) NOT NULL DEFAULT '0',
+  `title` varchar(60) NOT NULL DEFAULT '',
+  `description` text 
+  `created_on` datetime DEFAULT NULL
 );
 
 --
@@ -281,15 +279,15 @@ CREATE TABLE IF NOT EXISTS `documents` (
 
 CREATE TABLE IF NOT EXISTS `enabled_modules` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `project_id` integer DEFAULT NULL,
-  `name` text  NOT NULL
+  `project_id` integer(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL
 );
 
 --
 -- テーブルのデータをダンプしています `enabled_modules`
 --
 
-INSERT INTO `enabled_modules` (`id`, `project_id`, `name`) VALUES
+INSERT INTO  `enabled_modules` (`id`, `project_id`, `name`) VALUES
 (1, 1, 'issue_tracking'),
 (2, 1, 'time_tracking'),
 (3, 1, 'news'),
@@ -307,18 +305,17 @@ INSERT INTO `enabled_modules` (`id`, `project_id`, `name`) VALUES
 
 CREATE TABLE IF NOT EXISTS `enumerations` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `opt` text  NOT NULL DEFAULT '',
-  `name` text  NOT NULL DEFAULT '',
-  `position` integer DEFAULT '1',
-  `is_default` integer NOT NULL DEFAULT '0'
-  
+  `opt` varchar(4) NOT NULL DEFAULT '',
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `position` integer(11) DEFAULT '1',
+  `is_default` tinyinteger(1) NOT NULL DEFAULT '0'
 );
 
 --
 -- テーブルのデータをダンプしています `enumerations`
 --
 
-INSERT INTO `enumerations` (`id`, `opt`, `name`, `position`, `is_default`) VALUES
+INSERT INTO  `enumerations` (`id`, `opt`, `name`, `position`, `is_default`) VALUES
 (1, 'DCAT', 'User documentation', 1, 0),
 (2, 'DCAT', 'Technical documentation', 2, 0),
 (3, 'IPRI', 'Low', 1, 0),
@@ -337,30 +334,30 @@ INSERT INTO `enumerations` (`id`, `opt`, `name`, `position`, `is_default`) VALUE
 
 CREATE TABLE IF NOT EXISTS `issues` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `tracker_id` integer NOT NULL DEFAULT '0',
-  `project_id` integer NOT NULL DEFAULT '0',
-  `subject` text  NOT NULL DEFAULT '',
-  `description` text ,
+  `tracker_id` integer(11) NOT NULL DEFAULT '0',
+  `project_id` integer(11) NOT NULL DEFAULT '0',
+  `subject` varchar(255) NOT NULL DEFAULT '',
+  `description` text,
   `due_date` date DEFAULT NULL,
-  `category_id` integer DEFAULT NULL,
-  `status_id` integer NOT NULL DEFAULT '0',
-  `assigned_to_id` integer DEFAULT NULL,
-  `priority_id` integer NOT NULL DEFAULT '0',
-  `fixed_version_id` integer DEFAULT NULL,
-  `author_id` integer NOT NULL DEFAULT '0',
-  `lock_version` integer NOT NULL DEFAULT '0',
-  `created_on` text DEFAULT NULL,
-  `updated_on` text DEFAULT NULL,
+  `category_id` integer(11) DEFAULT NULL,
+  `status_id` integer(11) NOT NULL DEFAULT '0',
+  `assigned_to_id` integer(11) DEFAULT NULL,
+  `priority_id` integer(11) NOT NULL DEFAULT '0',
+  `fixed_version_id` integer(11) DEFAULT NULL,
+  `author_id` integer(11) NOT NULL DEFAULT '0',
+  `lock_version` integer(11) NOT NULL DEFAULT '0',
+  `created_on` datetime DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
   `start_date` date DEFAULT NULL,
-  `done_ratio` integer NOT NULL DEFAULT '0',
-  `estimated_hours` numeric DEFAULT NULL
+  `done_ratio` integer(11) NOT NULL DEFAULT '0',
+  `estimated_hours` float DEFAULT NULL
 );
 
 --
 -- テーブルのデータをダンプしています `issues`
 --
 
-INSERT INTO `issues` (`id`, `tracker_id`, `project_id`, `subject`, `description`, `due_date`, `category_id`, `status_id`, `assigned_to_id`, `priority_id`, `fixed_version_id`, `author_id`, `lock_version`, `created_on`, `updated_on`, `start_date`, `done_ratio`, `estimated_hours`) VALUES
+INSERT INTO  `issues` (`id`, `tracker_id`, `project_id`, `subject`, `description`, `due_date`, `category_id`, `status_id`, `assigned_to_id`, `priority_id`, `fixed_version_id`, `author_id`, `lock_version`, `created_on`, `updated_on`, `start_date`, `done_ratio`, `estimated_hours`) VALUES
 (1, 1, 1, 'Sample Ticket', 'Hello candycane users.', NULL, NULL, 1, NULL, 4, NULL, 3, 0, '2009-03-14 10:32:00', '2009-03-14 10:32:00', '2009-03-14', 0, NULL);
 
 -- --------------------------------------------------------
@@ -371,9 +368,9 @@ INSERT INTO `issues` (`id`, `tracker_id`, `project_id`, `subject`, `description`
 
 CREATE TABLE IF NOT EXISTS `issue_categories` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `project_id` integer NOT NULL DEFAULT '0',
-  `name` text  NOT NULL DEFAULT '',
-  `assigned_to_id` integer DEFAULT NULL
+  `project_id` integer(11) NOT NULL DEFAULT '0',
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `assigned_to_id` integer(11) DEFAULT NULL
 );
 
 --
@@ -389,11 +386,10 @@ CREATE TABLE IF NOT EXISTS `issue_categories` (
 
 CREATE TABLE IF NOT EXISTS `issue_relations` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `issue_from_id` integer NOT NULL,
-  `issue_to_id` integer NOT NULL,
-  `relation_type` text  NOT NULL DEFAULT '',
-  `delay` integer DEFAULT NULL
-  
+  `issue_from_id` integer(11) NOT NULL,
+  `issue_to_id` integer(11) NOT NULL,
+  `relation_type` varchar(255) NOT NULL DEFAULT '',
+  `delay` integer(11) DEFAULT NULL
 );
 
 --
@@ -409,18 +405,17 @@ CREATE TABLE IF NOT EXISTS `issue_relations` (
 
 CREATE TABLE IF NOT EXISTS `issue_statuses` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `name` text  NOT NULL DEFAULT '',
-  `is_closed` integer NOT NULL DEFAULT '0',
-  `is_default` integer NOT NULL DEFAULT '0',
-  `position` integer DEFAULT '1'
-  
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `is_closed` tinyinteger(1) NOT NULL DEFAULT '0',
+  `is_default` tinyinteger(1) NOT NULL DEFAULT '0',
+  `position` integer(11) DEFAULT '1'
 );
 
 --
 -- テーブルのデータをダンプしています `issue_statuses`
 --
 
-INSERT INTO `issue_statuses` (`id`, `name`, `is_closed`, `is_default`, `position`) VALUES
+INSERT INTO  `issue_statuses` (`id`, `name`, `is_closed`, `is_default`, `position`) VALUES
 (1, 'New', 0, 1, 1),
 (2, 'Assigned', 0, 0, 2),
 (3, 'Resolved', 0, 0, 3),
@@ -436,11 +431,11 @@ INSERT INTO `issue_statuses` (`id`, `name`, `is_closed`, `is_default`, `position
 
 CREATE TABLE IF NOT EXISTS `journals` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `journalized_id` integer NOT NULL DEFAULT '0',
-  `journalized_type` text  NOT NULL DEFAULT '',
-  `user_id` integer NOT NULL DEFAULT '0',
-  `notes` text ,
-  `created_on` text NOT NULL
+  `journalized_id` integer(11) NOT NULL DEFAULT '0',
+  `journalized_type` varchar(30) NOT NULL DEFAULT '',
+  `user_id` integer(11) NOT NULL DEFAULT '0',
+  `notes` text 
+  `created_on` datetime NOT NULL
 );
 
 --
@@ -456,11 +451,11 @@ CREATE TABLE IF NOT EXISTS `journals` (
 
 CREATE TABLE IF NOT EXISTS `journal_details` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `journal_id` integer NOT NULL DEFAULT '0',
-  `property` text  NOT NULL DEFAULT '',
-  `prop_key` text  NOT NULL DEFAULT '',
-  `old_value` text  DEFAULT NULL,
-  `value` text  DEFAULT NULL
+  `journal_id` integer(11) NOT NULL DEFAULT '0',
+  `property` varchar(30) NOT NULL DEFAULT '',
+  `prop_key` varchar(30) NOT NULL DEFAULT '',
+  `old_value` varchar(255) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL
 );
 
 --
@@ -476,12 +471,11 @@ CREATE TABLE IF NOT EXISTS `journal_details` (
 
 CREATE TABLE IF NOT EXISTS `members` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `user_id` integer NOT NULL DEFAULT '0',
-  `project_id` integer NOT NULL DEFAULT '0',
-  `role_id` integer NOT NULL DEFAULT '0',
-  `created_on` text DEFAULT NULL,
-  `mail_notification` integer NOT NULL DEFAULT '0'
-  
+  `user_id` integer(11) NOT NULL DEFAULT '0',
+  `project_id` integer(11) NOT NULL DEFAULT '0',
+  `role_id` integer(11) NOT NULL DEFAULT '0',
+  `created_on` datetime DEFAULT NULL,
+  `mail_notification` tinyinteger(1) NOT NULL DEFAULT '0'
 );
 
 --
@@ -497,17 +491,17 @@ CREATE TABLE IF NOT EXISTS `members` (
 
 CREATE TABLE IF NOT EXISTS `messages` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `board_id` integer NOT NULL,
-  `parent_id` integer DEFAULT NULL,
-  `subject` text  NOT NULL DEFAULT '',
-  `content` text ,
-  `author_id` integer DEFAULT NULL,
-  `replies_count` integer NOT NULL DEFAULT '0',
-  `last_reply_id` integer DEFAULT NULL,
-  `created_on` text NOT NULL,
-  `updated_on` text NOT NULL,
-  `locked` integer DEFAULT '0',
-  `sticky` integer DEFAULT '0'
+  `board_id` integer(11) NOT NULL,
+  `parent_id` integer(11) DEFAULT NULL,
+  `subject` varchar(255) NOT NULL DEFAULT '',
+  `content` text 
+  `author_id` integer(11) DEFAULT NULL,
+  `replies_count` integer(11) NOT NULL DEFAULT '0',
+  `last_reply_id` integer(11) DEFAULT NULL,
+  `created_on` datetime NOT NULL,
+  `updated_on` datetime NOT NULL,
+  `locked` tinyinteger(1) DEFAULT '0',
+  `sticky` integer(11) DEFAULT '0'
 );
 
 --
@@ -523,20 +517,20 @@ CREATE TABLE IF NOT EXISTS `messages` (
 
 CREATE TABLE IF NOT EXISTS `news` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `project_id` integer DEFAULT NULL,
-  `title` text  NOT NULL DEFAULT '',
-  `summary` text  DEFAULT '',
-  `description` text ,
-  `author_id` integer NOT NULL DEFAULT '0',
-  `created_on` text DEFAULT NULL,
-  `comments_count` integer NOT NULL DEFAULT '0'
+  `project_id` integer(11) DEFAULT NULL,
+  `title` varchar(60) NOT NULL DEFAULT '',
+  `summary` varchar(255) DEFAULT '',
+  `description` text,
+  `author_id` integer(11) NOT NULL DEFAULT '0',
+  `created_on` datetime DEFAULT NULL,
+  `comments_count` integer(11) NOT NULL DEFAULT '0'
 );
 
 --
 -- テーブルのデータをダンプしています `news`
 --
 
-INSERT INTO `news` (`id`, `project_id`, `title`, `summary`, `description`, `author_id`, `created_on`, `comments_count`) VALUES
+INSERT INTO  `news` (`id`, `project_id`, `title`, `summary`, `description`, `author_id`, `created_on`, `comments_count`) VALUES
 (1, 1, 'Sample News', 'Working fine.', 'Worked\r\n*YEAH!!*', 3, '2009-03-20 23:25:45', 0);
 
 -- --------------------------------------------------------
@@ -546,8 +540,8 @@ INSERT INTO `news` (`id`, `project_id`, `title`, `summary`, `description`, `auth
 --
 
 CREATE TABLE IF NOT EXISTS `plugin_schema_info` (
-  `plugin_name` text  DEFAULT NULL,
-  `version` integer DEFAULT NULL
+  `plugin_name` varchar(255) DEFAULT NULL,
+  `version` integer(11) DEFAULT NULL
 );
 
 --
@@ -563,24 +557,23 @@ CREATE TABLE IF NOT EXISTS `plugin_schema_info` (
 
 CREATE TABLE IF NOT EXISTS `projects` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `name` text  NOT NULL DEFAULT '',
-  `description` text ,
-  `homepage` text  DEFAULT '',
-  `is_public` integer NOT NULL DEFAULT '1',
-  `parent_id` integer DEFAULT NULL,
-  `projects_count` integer DEFAULT '0',
-  `created_on` text DEFAULT NULL,
-  `updated_on` text DEFAULT NULL,
-  `identifier` text  DEFAULT NULL,
-  `status` integer NOT NULL DEFAULT '1'
-  
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `description` text,
+  `homepage` varchar(255) DEFAULT '',
+  `is_public` tinyinteger(1) NOT NULL DEFAULT '1',
+  `parent_id` integer(11) DEFAULT NULL,
+  `projects_count` integer(11) DEFAULT '0',
+  `created_on` datetime DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  `identifier` varchar(20) DEFAULT NULL,
+  `status` integer(11) NOT NULL DEFAULT '1'
 );
 
 --
 -- テーブルのデータをダンプしています `projects`
 --
 
-INSERT INTO `projects` (`id`, `name`, `description`, `homepage`, `is_public`, `parent_id`, `projects_count`, `created_on`, `updated_on`, `identifier`, `status`) VALUES
+INSERT INTO  `projects` (`id`, `name`, `description`, `homepage`, `is_public`, `parent_id`, `projects_count`, `created_on`, `updated_on`, `identifier`, `status`) VALUES
 (1, 'Sample Project', 'Candycane rocks!', '', 1, NULL, 0, '2009-03-04 23:09:49', '2009-03-04 23:09:49', 'sampleproject', 1);
 
 -- --------------------------------------------------------
@@ -590,15 +583,15 @@ INSERT INTO `projects` (`id`, `name`, `description`, `homepage`, `is_public`, `p
 --
 
 CREATE TABLE IF NOT EXISTS `projects_trackers` (
-  `project_id` integer NOT NULL DEFAULT '0',
-  `tracker_id` integer NOT NULL DEFAULT '0'
+  `project_id` integer(11) NOT NULL DEFAULT '0',
+  `tracker_id` integer(11) NOT NULL DEFAULT '0'
 );
 
 --
 -- テーブルのデータをダンプしています `projects_trackers`
 --
 
-INSERT INTO `projects_trackers` (`project_id`, `tracker_id`) VALUES
+INSERT INTO  `projects_trackers` (`project_id`, `tracker_id`) VALUES
 (1, 1),
 (1, 2),
 (1, 3);
@@ -611,13 +604,12 @@ INSERT INTO `projects_trackers` (`project_id`, `tracker_id`) VALUES
 
 CREATE TABLE IF NOT EXISTS `queries` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `project_id` integer DEFAULT NULL,
-  `name` text  NOT NULL DEFAULT '',
-  `filters` text ,
-  `user_id` integer NOT NULL DEFAULT '0',
-  `is_public` integer NOT NULL DEFAULT '0',
+  `project_id` integer(11) DEFAULT NULL,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `filters` text 
+  `user_id` integer(11) NOT NULL DEFAULT '0',
+  `is_public` tinyinteger(1) NOT NULL DEFAULT '0',
   `column_names` text 
-  
 );
 
 --
@@ -633,13 +625,12 @@ CREATE TABLE IF NOT EXISTS `queries` (
 
 CREATE TABLE IF NOT EXISTS `repositories` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `project_id` integer NOT NULL DEFAULT '0',
-  `url` text  NOT NULL DEFAULT '',
-  `login` text  DEFAULT '',
-  `password` text  DEFAULT '',
-  `root_url` text  DEFAULT '',
-  `type` text  DEFAULT NULL
-  
+  `project_id` integer(11) NOT NULL DEFAULT '0',
+  `url` varchar(255) NOT NULL DEFAULT '',
+  `login` varchar(60) DEFAULT '',
+  `password` varchar(60) DEFAULT '',
+  `root_url` varchar(255) DEFAULT '',
+  `type` varchar(255) DEFAULT NULL
 );
 
 --
@@ -655,12 +646,11 @@ CREATE TABLE IF NOT EXISTS `repositories` (
 
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `name` text  NOT NULL DEFAULT '',
-  `position` integer DEFAULT '1',
-  `assignable` integer DEFAULT '1',
-  `builtin` integer NOT NULL DEFAULT '0',
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `position` integer(11) DEFAULT '1',
+  `assignable` tinyinteger(1) DEFAULT '1',
+  `builtin` integer(11) NOT NULL DEFAULT '0',
   `permissions` text 
-  
 );
 
 --
@@ -681,7 +671,8 @@ INSERT INTO `roles` (`id`, `name`, `position`, `assignable`, `builtin`, `permiss
 --
 
 CREATE TABLE IF NOT EXISTS `schema_migrations` (
-  `version` text  NOT NULL
+  `version` varchar(255) NOT NULL,
+  UNIQUE (`version`)
 );
 
 --
@@ -799,10 +790,9 @@ INSERT INTO `schema_migrations` (`version`) VALUES
 
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `name` text  NOT NULL DEFAULT '',
-  `value` text ,
-  `updated_on` text DEFAULT NULL
-  
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `value` text 
+  `updated_on` datetime DEFAULT NULL
 );
 
 --
@@ -818,18 +808,18 @@ CREATE TABLE IF NOT EXISTS `settings` (
 
 CREATE TABLE IF NOT EXISTS `time_entries` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `project_id` integer NOT NULL,
-  `user_id` integer NOT NULL,
-  `issue_id` integer DEFAULT NULL,
-  `hours` numeric NOT NULL,
-  `comments` text  DEFAULT NULL,
-  `activity_id` integer NOT NULL,
+  `project_id` integer(11) NOT NULL,
+  `user_id` integer(11) NOT NULL,
+  `issue_id` integer(11) DEFAULT NULL,
+  `hours` float NOT NULL,
+  `comments` varchar(255) DEFAULT NULL,
+  `activity_id` integer(11) NOT NULL,
   `spent_on` date NOT NULL,
-  `tyear` integer NOT NULL,
-  `tmonth` integer NOT NULL,
-  `tweek` integer NOT NULL,
-  `created_on` text NOT NULL,
-  `updated_on` text NOT NULL
+  `tyear` integer(11) NOT NULL,
+  `tmonth` integer(11) NOT NULL,
+  `tweek` integer(11) NOT NULL,
+  `created_on` datetime NOT NULL,
+  `updated_on` datetime NOT NULL
 );
 
 --
@@ -845,18 +835,17 @@ CREATE TABLE IF NOT EXISTS `time_entries` (
 
 CREATE TABLE IF NOT EXISTS `tokens` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `user_id` integer NOT NULL DEFAULT '0',
-  `action` text  NOT NULL DEFAULT '',
-  `value` text  NOT NULL DEFAULT '',
-  `created_on` text NOT NULL
-  
+  `user_id` integer(11) NOT NULL DEFAULT '0',
+  `action` varchar(30) NOT NULL DEFAULT '',
+  `value` varchar(40) NOT NULL DEFAULT '',
+  `created_on` datetime NOT NULL
 );
 
 --
 -- テーブルのデータをダンプしています `tokens`
 --
 
-INSERT INTO `tokens` (`id`, `user_id`, `action`, `value`, `created_on`) VALUES
+INSERT INTO  `tokens` (`id`, `user_id`, `action`, `value`, `created_on`) VALUES
 (1, 1, 'feeds', 'D7ukdhHJXK7MTwDELqToVcTHPczo4rbCsLTim0pv', '2009-03-04 23:03:11'),
 (2, 1, 'feeds', 'rV5I24UQkA7AImh0FOYM84eNSpDbsOpTFCRcMort', '2009-03-04 23:03:11'),
 (3, 3, 'feeds', 'Zi1s5C1vyA8TAzMXm2hAAIOD8CveWiT3LSI763Ie', '2009-03-04 23:08:46'),
@@ -870,18 +859,17 @@ INSERT INTO `tokens` (`id`, `user_id`, `action`, `value`, `created_on`) VALUES
 
 CREATE TABLE IF NOT EXISTS `trackers` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `name` text  NOT NULL DEFAULT '',
-  `is_in_chlog` integer NOT NULL DEFAULT '0',
-  `position` integer DEFAULT '1',
-  `is_in_roadmap` integer NOT NULL DEFAULT '1'
-  
+  `name` varchar(30) NOT NULL DEFAULT '',
+  `is_in_chlog` tinyinteger(1) NOT NULL DEFAULT '0',
+  `position` integer(11) DEFAULT '1',
+  `is_in_roadmap` tinyinteger(1) NOT NULL DEFAULT '1'
 );
 
 --
 -- テーブルのデータをダンプしています `trackers`
 --
 
-INSERT INTO `trackers` (`id`, `name`, `is_in_chlog`, `position`, `is_in_roadmap`) VALUES
+INSERT INTO  `trackers` (`id`, `name`, `is_in_chlog`, `position`, `is_in_roadmap`) VALUES
 (1, 'Bug', 1, 1, 0),
 (2, 'Feature', 1, 2, 1),
 (3, 'Support', 0, 3, 0);
@@ -894,28 +882,27 @@ INSERT INTO `trackers` (`id`, `name`, `is_in_chlog`, `position`, `is_in_roadmap`
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `login` text  NOT NULL DEFAULT '',
-  `hashed_password` text  NOT NULL DEFAULT '',
-  `firstname` text  NOT NULL DEFAULT '',
-  `lastname` text  NOT NULL DEFAULT '',
-  `mail` text  NOT NULL DEFAULT '',
-  `mail_notification` integer NOT NULL DEFAULT '1',
-  `admin` integer NOT NULL DEFAULT '0',
-  `status` integer NOT NULL DEFAULT '1',
-  `last_login_on` text DEFAULT NULL,
-  `language` text  DEFAULT '',
-  `auth_source_id` integer DEFAULT NULL,
-  `created_on` text DEFAULT NULL,
-  `updated_on` text DEFAULT NULL,
-  `type` text  DEFAULT NULL
-  
+  `login` varchar(30) NOT NULL DEFAULT '',
+  `hashed_password` varchar(40) NOT NULL DEFAULT '',
+  `firstname` varchar(30) NOT NULL DEFAULT '',
+  `lastname` varchar(30) NOT NULL DEFAULT '',
+  `mail` varchar(60) NOT NULL DEFAULT '',
+  `mail_notification` tinyinteger(1) NOT NULL DEFAULT '1',
+  `admin` tinyinteger(1) NOT NULL DEFAULT '0',
+  `status` integer(11) NOT NULL DEFAULT '1',
+  `last_login_on` datetime DEFAULT NULL,
+  `language` varchar(5) DEFAULT '',
+  `auth_source_id` integer(11) DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  `type` varchar(255) DEFAULT NULL
 );
 
 --
 -- テーブルのデータをダンプしています `users`
 --
 
-INSERT INTO `users` (`id`, `login`, `hashed_password`, `firstname`, `lastname`, `mail`, `mail_notification`, `admin`, `status`, `last_login_on`, `language`, `auth_source_id`, `created_on`, `updated_on`, `type`) VALUES
+INSERT INTO  `users` (`id`, `login`, `hashed_password`, `firstname`, `lastname`, `mail`, `mail_notification`, `admin`, `status`, `last_login_on`, `language`, `auth_source_id`, `created_on`, `updated_on`, `type`) VALUES
 (1, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'Redmine', 'Admin', 'admin@example.net', 1, 1, 1, '2009-03-04 23:06:50', 'eng', NULL, '2009-03-04 23:00:57', '2009-03-04 23:06:50', 'User'),
 (2, '', '', '', 'Anonymous', '', 0, 0, 0, NULL, '', NULL, '2009-03-04 23:02:30', '2009-03-04 23:02:30', 'AnonymousUser'),
 (3, 'testuser', 'AWESOME', 'yusuke', 'ando', 'test@example.com', 0, 1, 1, '2009-03-20 23:24:42', 'jpn', NULL, '2009-03-04 23:06:32', '2009-03-20 23:24:42', NULL);
@@ -928,18 +915,17 @@ INSERT INTO `users` (`id`, `login`, `hashed_password`, `firstname`, `lastname`, 
 
 CREATE TABLE IF NOT EXISTS `user_preferences` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `user_id` integer NOT NULL DEFAULT '0',
-  `others` text ,
-  `hide_mail` integer DEFAULT '0',
-  `time_zone` text  DEFAULT NULL
-  
+  `user_id` integer(11) NOT NULL DEFAULT '0',
+  `others` text, 
+  `hide_mail` tinyinteger(1) DEFAULT '0',
+  `time_zone` varchar(255) DEFAULT NULL
 );
 
 --
 -- テーブルのデータをダンプしています `user_preferences`
 --
 
-INSERT INTO `user_preferences` (`id`, `user_id`, `others`, `hide_mail`, `time_zone`) VALUES
+INSERT INTO  `user_preferences` (`id`, `user_id`, `others`, `hide_mail`, `time_zone`) VALUES
 (1, 1, '--- {}\n\n', 0, NULL),
 (2, 2, '--- {}\n\n', 0, NULL),
 (3, 3, '--- {}\n\n', 0, NULL);
@@ -952,13 +938,13 @@ INSERT INTO `user_preferences` (`id`, `user_id`, `others`, `hide_mail`, `time_zo
 
 CREATE TABLE IF NOT EXISTS `versions` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `project_id` integer NOT NULL DEFAULT '0',
-  `name` text  NOT NULL DEFAULT '',
-  `description` text  DEFAULT '',
+  `project_id` integer(11) NOT NULL DEFAULT '0',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `description` varchar(255) DEFAULT '',
   `effective_date` date DEFAULT NULL,
-  `created_on` text DEFAULT NULL,
-  `updated_on` text DEFAULT NULL,
-  `wiki_page_title` text  DEFAULT NULL
+  `created_on` datetime DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  `wiki_page_title` varchar(255) DEFAULT NULL
 );
 
 --
@@ -974,10 +960,9 @@ CREATE TABLE IF NOT EXISTS `versions` (
 
 CREATE TABLE IF NOT EXISTS `watchers` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `watchable_type` text  NOT NULL DEFAULT '',
-  `watchable_id` integer NOT NULL DEFAULT '0',
-  `user_id` integer DEFAULT NULL
-  
+  `watchable_type` varchar(255) NOT NULL DEFAULT '',
+  `watchable_id` integer(11) NOT NULL DEFAULT '0',
+  `user_id` integer(11) DEFAULT NULL
 );
 
 --
@@ -993,9 +978,9 @@ CREATE TABLE IF NOT EXISTS `watchers` (
 
 CREATE TABLE IF NOT EXISTS `wikis` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `project_id` integer NOT NULL,
-  `start_page` text  NOT NULL,
-  `status` integer NOT NULL DEFAULT '1'
+  `project_id` integer(11) NOT NULL,
+  `start_page` varchar(255) NOT NULL,
+  `status` integer(11) NOT NULL DEFAULT '1'
 );
 
 --
@@ -1011,12 +996,12 @@ CREATE TABLE IF NOT EXISTS `wikis` (
 
 CREATE TABLE IF NOT EXISTS `wiki_contents` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `page_id` integer NOT NULL,
-  `author_id` integer DEFAULT NULL,
-  `text` text ,
-  `comments` text  DEFAULT '',
-  `updated_on` text NOT NULL,
-  `version` integer NOT NULL
+  `page_id` integer(11) NOT NULL,
+  `author_id` integer(11) DEFAULT NULL,
+  `text` text 
+  `comments` varchar(255) DEFAULT '',
+  `updated_on` datetime NOT NULL,
+  `version` integer(11) NOT NULL
 );
 
 --
@@ -1032,14 +1017,14 @@ CREATE TABLE IF NOT EXISTS `wiki_contents` (
 
 CREATE TABLE IF NOT EXISTS `wiki_content_versions` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `wiki_content_id` integer NOT NULL,
-  `page_id` integer NOT NULL,
-  `author_id` integer DEFAULT NULL,
+  `wiki_content_id` integer(11) NOT NULL,
+  `page_id` integer(11) NOT NULL,
+  `author_id` integer(11) DEFAULT NULL,
   `data` blob,
-  `compression` text  DEFAULT '',
-  `comments` text  DEFAULT '',
-  `updated_on` text NOT NULL,
-  `version` integer NOT NULL
+  `compression` varchar(6) DEFAULT '',
+  `comments` varchar(255) DEFAULT '',
+  `updated_on` datetime NOT NULL,
+  `version` integer(11) NOT NULL
 );
 
 --
@@ -1055,11 +1040,11 @@ CREATE TABLE IF NOT EXISTS `wiki_content_versions` (
 
 CREATE TABLE IF NOT EXISTS `wiki_pages` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `wiki_id` integer NOT NULL,
-  `title` text  NOT NULL,
-  `created_on` text NOT NULL,
-  `protected` integer NOT NULL DEFAULT '0',
-  `parent_id` integer DEFAULT NULL
+  `wiki_id` integer(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `created_on` datetime NOT NULL,
+  `protected` tinyinteger(1) NOT NULL DEFAULT '0',
+  `parent_id` integer(11) DEFAULT NULL
 );
 
 --
@@ -1075,10 +1060,10 @@ CREATE TABLE IF NOT EXISTS `wiki_pages` (
 
 CREATE TABLE IF NOT EXISTS `wiki_redirects` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `wiki_id` integer NOT NULL,
-  `title` text  DEFAULT NULL,
-  `redirects_to` text  DEFAULT NULL,
-  `created_on` text NOT NULL
+  `wiki_id` integer(11) NOT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `redirects_to` varchar(255) DEFAULT NULL,
+  `created_on` datetime NOT NULL
 );
 
 --
@@ -1094,17 +1079,17 @@ CREATE TABLE IF NOT EXISTS `wiki_redirects` (
 
 CREATE TABLE IF NOT EXISTS `workflows` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
-  `tracker_id` integer NOT NULL DEFAULT '0',
-  `old_status_id` integer NOT NULL DEFAULT '0',
-  `new_status_id` integer NOT NULL DEFAULT '0',
-  `role_id` integer NOT NULL DEFAULT '0'
+  `tracker_id` integer(11) NOT NULL DEFAULT '0',
+  `old_status_id` integer(11) NOT NULL DEFAULT '0',
+  `new_status_id` integer(11) NOT NULL DEFAULT '0',
+  `role_id` integer(11) NOT NULL DEFAULT '0'
 );
 
 --
 -- テーブルのデータをダンプしています `workflows`
 --
 
-INSERT INTO `workflows` (`id`, `tracker_id`, `old_status_id`, `new_status_id`, `role_id`) VALUES
+INSERT INTO  `workflows` (`id`, `tracker_id`, `old_status_id`, `new_status_id`, `role_id`) VALUES
 (1, 1, 1, 2, 3),
 (2, 1, 1, 3, 3),
 (3, 1, 1, 4, 3),
