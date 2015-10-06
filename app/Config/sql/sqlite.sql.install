@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `changesets` (
   `revision` varchar(255) NOT NULL,
   `committer` varchar(255) DEFAULT NULL,
   `committed_on` datetime NOT NULL,
-  `comments` text 
+  `comments` text,
   `commit_date` date DEFAULT NULL,
   `scmid` varchar(255) DEFAULT NULL,
   `user_id` integer(11) DEFAULT NULL,
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `commented_type` varchar(30) NOT NULL DEFAULT '',
   `commented_id` integer(11) NOT NULL DEFAULT '0',
   `author_id` integer(11) NOT NULL DEFAULT '0',
-  `comments` text 
+  `comments` text,
   `created_on` datetime NOT NULL,
   `updated_on` datetime NOT NULL
 );
@@ -183,7 +183,7 @@ CREATE TABLE IF NOT EXISTS `custom_fields` (
   `type` varchar(30) NOT NULL DEFAULT '',
   `name` varchar(30) NOT NULL DEFAULT '',
   `field_format` varchar(30) NOT NULL DEFAULT '',
-  `possible_values` text 
+  `possible_values` text,
   `regexp` varchar(255) DEFAULT '',
   `min_length` integer(11) NOT NULL DEFAULT '0',
   `max_length` integer(11) NOT NULL DEFAULT '0',
@@ -262,7 +262,7 @@ CREATE TABLE IF NOT EXISTS `documents` (
   `project_id` integer(11) NOT NULL DEFAULT '0',
   `category_id` integer(11) NOT NULL DEFAULT '0',
   `title` varchar(60) NOT NULL DEFAULT '',
-  `description` text 
+  `description` text,
   `created_on` datetime DEFAULT NULL
 );
 
@@ -434,7 +434,7 @@ CREATE TABLE IF NOT EXISTS `journals` (
   `journalized_id` integer(11) NOT NULL DEFAULT '0',
   `journalized_type` varchar(30) NOT NULL DEFAULT '',
   `user_id` integer(11) NOT NULL DEFAULT '0',
-  `notes` text 
+  `notes` text,
   `created_on` datetime NOT NULL
 );
 
@@ -494,7 +494,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `board_id` integer(11) NOT NULL,
   `parent_id` integer(11) DEFAULT NULL,
   `subject` varchar(255) NOT NULL DEFAULT '',
-  `content` text 
+  `content` text ,
   `author_id` integer(11) DEFAULT NULL,
   `replies_count` integer(11) NOT NULL DEFAULT '0',
   `last_reply_id` integer(11) DEFAULT NULL,
@@ -606,7 +606,7 @@ CREATE TABLE IF NOT EXISTS `queries` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
   `project_id` integer(11) DEFAULT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `filters` text 
+  `filters` text,
   `user_id` integer(11) NOT NULL DEFAULT '0',
   `is_public` tinyinteger(1) NOT NULL DEFAULT '0',
   `column_names` text 
@@ -791,7 +791,7 @@ INSERT INTO `schema_migrations` (`version`) VALUES
 CREATE TABLE IF NOT EXISTS `settings` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
   `name` varchar(30) NOT NULL DEFAULT '',
-  `value` text 
+  `value` text, 
   `updated_on` datetime DEFAULT NULL
 );
 
@@ -998,7 +998,7 @@ CREATE TABLE IF NOT EXISTS `wiki_contents` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
   `page_id` integer(11) NOT NULL,
   `author_id` integer(11) DEFAULT NULL,
-  `text` text 
+  `text` text,
   `comments` varchar(255) DEFAULT '',
   `updated_on` datetime NOT NULL,
   `version` integer(11) NOT NULL
