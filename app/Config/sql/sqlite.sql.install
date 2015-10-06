@@ -606,7 +606,7 @@ CREATE TABLE IF NOT EXISTS `queries` (
   `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT,
   `project_id` integer(11) DEFAULT NULL,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `filters` text 
+  `filters` text,
   `user_id` integer(11) NOT NULL DEFAULT '0',
   `is_public` tinyinteger(1) NOT NULL DEFAULT '0',
   `column_names` text 
