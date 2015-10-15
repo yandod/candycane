@@ -4,8 +4,6 @@
  *
  * Enables a model object to act as a node-based tree.
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -17,11 +15,11 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Fixture
  * @since         CakePHP(tm) v 1.2.0.5331
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
- * Number Tree Test Fixture
+ * Class NumberTreeFixture
  *
  * Generates a tree of data for use testing the tree behavior
  *
@@ -30,22 +28,16 @@
 class NumberTreeFixture extends CakeTestFixture {
 
 /**
- * name property
- *
- * @var string 'NumberTree'
- */
-	public $name = 'NumberTree';
-
-/**
  * fields property
  *
  * @var array
  */
 	public $fields = array(
-		'id'	=> array('type' => 'integer','key' => 'primary'),
-		'name'	=> array('type' => 'string','null' => false),
+		'id'	=> array('type' => 'integer', 'key' => 'primary'),
+		'name'	=> array('type' => 'string', 'null' => false),
 		'parent_id' => 'integer',
-		'lft'	=> array('type' => 'integer','null' => false),
-		'rght'	=> array('type' => 'integer','null' => false)
+		'lft'	=> array('type' => 'integer', 'null' => false),
+		'rght'	=> array('type' => 'integer', 'null' => false),
+		'level'	=> array('type' => 'integer', 'null' => true)
 	);
 }

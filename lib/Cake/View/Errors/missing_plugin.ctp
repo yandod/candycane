@@ -1,8 +1,5 @@
 <?php
 /**
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -14,26 +11,26 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View.Errors
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 ?>
 <h2><?php echo __d('cake_dev', 'Missing Plugin'); ?></h2>
 <p class="error">
 	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
-	<?php echo __d('cake_dev', 'The application is trying to load a file from the %s plugin', '<em>' . $plugin . '</em>'); ?>
+	<?php echo __d('cake_dev', 'The application is trying to load a file from the %s plugin', '<em>' . h($plugin) . '</em>'); ?>
 </p>
 <p class="error">
 	<strong><?php echo __d('cake_dev', 'Error'); ?>: </strong>
-	<?php echo __d('cake_dev', 'Make sure your plugin %s is in the ' . APP_DIR . DS . 'Plugin directory and was loaded', $plugin); ?>
+	<?php echo __d('cake_dev', 'Make sure your plugin %s is in the %s directory and was loaded', $plugin, APP_DIR . DS . 'Plugin'); ?>
 </p>
 <pre>
 &lt;?php
-CakePlugin::load('<?php echo $plugin?>');
+CakePlugin::load('<?php echo h($plugin); ?>');
 
 </pre>
 <p class="notice">
 	<strong><?php echo __d('cake_dev', 'Loading all plugins'); ?>: </strong>
-	<?php echo __d('cake_dev', 'If you wish to load all plugins at once, use the following line in your ' . APP_DIR . DS . 'Config' . DS . 'bootstrap.php file'); ?>
+	<?php echo __d('cake_dev', 'If you wish to load all plugins at once, use the following line in your %s file', APP_DIR . DS . 'Config' . DS . 'bootstrap.php'); ?>
 </p>
 <pre>
 CakePlugin::loadAll();
@@ -43,4 +40,6 @@ CakePlugin::loadAll();
 	<?php echo __d('cake_dev', 'If you want to customize this error message, create %s', APP_DIR . DS . 'View' . DS . 'Errors' . DS . 'missing_plugin.ctp'); ?>
 </p>
 
-<?php echo $this->element('exception_stack_trace'); ?>
+<?php
+echo $this->element('exception_stack_trace');
+?>

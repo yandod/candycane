@@ -1,7 +1,5 @@
 <?php
 /**
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -11,7 +9,7 @@
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('BaseAuthorize', 'Controller/Component/Auth');
@@ -20,14 +18,14 @@ App::uses('BaseAuthorize', 'Controller/Component/Auth');
  * An authorization adapter for AuthComponent. Provides the ability to authorize using a controller callback.
  * Your controller's isAuthorized() method should return a boolean to indicate whether or not the user is authorized.
  *
- * {{{
+ * ```
  *	public function isAuthorized($user) {
  *		if (!empty($this->request->params['admin'])) {
  *			return $user['role'] === 'admin';
  *		}
  *		return !empty($user);
  *	}
- * }}}
+ * ```
  *
  * the above is simple implementation that would only authorize users of the 'admin' role to access
  * admin routing.
@@ -48,7 +46,7 @@ class ControllerAuthorize extends BaseAuthorize {
 	public function controller(Controller $controller = null) {
 		if ($controller) {
 			if (!method_exists($controller, 'isAuthorized')) {
-				throw new CakeException(__d('cake_dev', '$controller does not implement an isAuthorized() method.'));
+				throw new CakeException(__d('cake_dev', '$controller does not implement an %s method.', 'isAuthorized()'));
 			}
 		}
 		return parent::controller($controller);
@@ -58,8 +56,8 @@ class ControllerAuthorize extends BaseAuthorize {
  * Checks user authorization using a controller callback.
  *
  * @param array $user Active user data
- * @param CakeRequest $request
- * @return boolean
+ * @param CakeRequest $request Request instance.
+ * @return bool
  */
 	public function authorize($user, CakeRequest $request) {
 		return (bool)$this->_Controller->isAuthorized($user);

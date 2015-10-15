@@ -2,9 +2,6 @@
 /**
  * BakeShell Test Case
  *
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -16,7 +13,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Console.Command
  * @since         CakePHP(tm) v 1.3
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('ConsoleOutput', 'Console');
@@ -31,9 +28,6 @@ App::uses('Controller', 'Controller');
 
 if (!class_exists('UsersController')) {
 	class UsersController extends Controller {
-
-		public $name = 'Users';
-
 	}
 }
 

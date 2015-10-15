@@ -2,8 +2,6 @@
 /**
  * built-in Server Shell
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -14,7 +12,7 @@
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 2.3.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('AppShell', 'Console/Command');
@@ -28,11 +26,15 @@ class ServerShell extends AppShell {
 
 /**
  * Default ServerHost
+ *
+ * @var string
  */
 	const DEFAULT_HOST = 'localhost';
 
 /**
  * Default ListenPort
+ *
+ * @var int
  */
 	const DEFAULT_PORT = 80;
 
@@ -63,8 +65,8 @@ class ServerShell extends AppShell {
  * @return void
  */
 	public function initialize() {
-		$this->_host = self::DEFAULT_HOST;
-		$this->_port = self::DEFAULT_PORT;
+		$this->_host = static::DEFAULT_HOST;
+		$this->_port = static::DEFAULT_PORT;
 		$this->_documentRoot = WWW_ROOT;
 	}
 
@@ -89,8 +91,8 @@ class ServerShell extends AppShell {
 			$this->_documentRoot = $this->params['document_root'];
 		}
 
-		// for windows
-		if (substr($this->_documentRoot, -1, 1) == DIRECTORY_SEPARATOR) {
+		// for Windows
+		if (substr($this->_documentRoot, -1, 1) === DIRECTORY_SEPARATOR) {
 			$this->_documentRoot = substr($this->_documentRoot, 0, strlen($this->_documentRoot) - 1);
 		}
 		if (preg_match("/^([a-z]:)[\\\]+(.+)$/i", $this->_documentRoot, $m)) {
@@ -122,46 +124,42 @@ class ServerShell extends AppShell {
  */
 	public function main() {
 		if (version_compare(PHP_VERSION, '5.4.0') < 0) {
-			$this->out(__d('cake_console', '<warning>This command is available on PHP5.4 or above</warning>'));
+			$this->out(__d('cake_console', '<warning>This command is available on %s or above</warning>', 'PHP5.4'));
 			return;
 		}
 
 		$command = sprintf("php -S %s:%d -t %s %s",
 			$this->_host,
 			$this->_port,
-			$this->_documentRoot,
-			WWW_ROOT . '/index.php'
+			escapeshellarg($this->_documentRoot),
+			escapeshellarg($this->_documentRoot . '/index.php')
 		);
 
-		$port = ($this->_port == self::DEFAULT_PORT) ? '' : ':' . $this->_port;
+		$port = ($this->_port == static::DEFAULT_PORT) ? '' : ':' . $this->_port;
 		$this->out(__d('cake_console', 'built-in server is running in http://%s%s/', $this->_host, $port));
 		system($command);
 	}
 
 /**
- * Get and configure the optionparser.
+ * Gets the option parser instance and configures it.
  *
  * @return ConsoleOptionParser
  */
 	public function getOptionParser() {
 		$parser = parent::getOptionParser();
 
-		$parser->addOption('host', array(
-			'short' => 'H',
-			'help' => __d('cake_console', 'ServerHost')
-		));
-		$parser->addOption('port', array(
-			'short' => 'p',
-			'help' => __d('cake_console', 'ListenPort')
-		));
-		$parser->addOption('document_root', array(
-			'short' => 'd',
-			'help' => __d('cake_console', 'DocumentRoot')
-		));
-
 		$parser->description(array(
 			__d('cake_console', 'PHP Built-in Server for CakePHP'),
-			__d('cake_console', '<warning>[WARN] Don\'t use this at the production environment</warning>'),
+			__d('cake_console', '<warning>[WARN] Don\'t use this at the production environment</warning>')
+		))->addOption('host', array(
+			'short' => 'H',
+			'help' => __d('cake_console', 'ServerHost')
+		))->addOption('port', array(
+			'short' => 'p',
+			'help' => __d('cake_console', 'ListenPort')
+		))->addOption('document_root', array(
+			'short' => 'd',
+			'help' => __d('cake_console', 'DocumentRoot')
 		));
 
 		return $parser;

@@ -2,8 +2,6 @@
 /**
  * AclNodeTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,8 +13,9 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.4206
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('DbAcl', 'Controller/Component/Acl');
 App::uses('AclNode', 'Model');
 
@@ -30,14 +29,14 @@ class DbAclNodeTestBase extends AclNode {
 /**
  * useDbConfig property
  *
- * @var string 'test'
+ * @var string
  */
 	public $useDbConfig = 'test';
 
 /**
  * cacheSources property
  *
- * @var bool false
+ * @var bool
  */
 	public $cacheSources = false;
 }
@@ -50,16 +49,9 @@ class DbAclNodeTestBase extends AclNode {
 class DbAroTest extends DbAclNodeTestBase {
 
 /**
- * name property
- *
- * @var string 'DbAroTest'
- */
-	public $name = 'DbAroTest';
-
-/**
  * useTable property
  *
- * @var string 'aros'
+ * @var string
  */
 	public $useTable = 'aros';
 
@@ -79,16 +71,9 @@ class DbAroTest extends DbAclNodeTestBase {
 class DbAcoTest extends DbAclNodeTestBase {
 
 /**
- * name property
- *
- * @var string 'DbAcoTest'
- */
-	public $name = 'DbAcoTest';
-
-/**
  * useTable property
  *
- * @var string 'acos'
+ * @var string
  */
 	public $useTable = 'acos';
 
@@ -108,23 +93,16 @@ class DbAcoTest extends DbAclNodeTestBase {
 class DbPermissionTest extends CakeTestModel {
 
 /**
- * name property
- *
- * @var string 'DbPermissionTest'
- */
-	public $name = 'DbPermissionTest';
-
-/**
  * useTable property
  *
- * @var string 'aros_acos'
+ * @var string
  */
 	public $useTable = 'aros_acos';
 
 /**
  * cacheQueries property
  *
- * @var bool false
+ * @var bool
  */
 	public $cacheQueries = false;
 
@@ -144,16 +122,9 @@ class DbPermissionTest extends CakeTestModel {
 class DbAcoActionTest extends CakeTestModel {
 
 /**
- * name property
- *
- * @var string 'DbAcoActionTest'
- */
-	public $name = 'DbAcoActionTest';
-
-/**
  * useTable property
  *
- * @var string 'aco_actions'
+ * @var string
  */
 	public $useTable = 'aco_actions';
 
@@ -175,14 +146,14 @@ class DbAroUserTest extends CakeTestModel {
 /**
  * name property
  *
- * @var string 'AuthUser'
+ * @var string
  */
 	public $name = 'AuthUser';
 
 /**
  * useTable property
  *
- * @var string 'auth_users'
+ * @var string
  */
 	public $useTable = 'auth_users';
 
@@ -210,9 +181,7 @@ class DbAroUserTest extends CakeTestModel {
 class TestDbAcl extends DbAcl {
 
 /**
- * construct method
- *
- * @return void
+ * Constructor
  */
 	public function __construct() {
 		$this->Aro = new DbAroTest();

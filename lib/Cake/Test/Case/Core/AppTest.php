@@ -2,8 +2,6 @@
 /**
  * AppTest file.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,7 +13,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Core
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
@@ -97,7 +95,7 @@ class AppTest extends CakeTestCase {
 	}
 
 /**
- * tests that it is possible to set up paths using the cake 1.3 notation for them (models, behaviors, controllers...)
+ * tests that it is possible to set up paths using the CakePHP 1.3 notation for them (models, behaviors, controllers...)
  *
  * @return void
  */
@@ -364,6 +362,8 @@ class AppTest extends CakeTestCase {
 
 /**
  * Make sure that .svn and friends are excluded from App::objects('plugin')
+ *
+ * @return void
  */
 	public function testListObjectsIgnoreDotDirectories() {
 		$path = CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS;
@@ -427,27 +427,6 @@ class AppTest extends CakeTestCase {
 		$this->assertTrue(in_array('Comment', $result));
 		$this->assertTrue(in_array('Post', $result));
 
-		App::build();
-	}
-
-/**
- * test that pluginPath can find paths for plugins.
- *
- * @return void
- */
-	public function testPluginPath() {
-		App::build(array(
-			'plugins' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
-		));
-		CakePlugin::load(array('TestPlugin', 'TestPluginTwo'));
-
-		$path = App::pluginPath('TestPlugin');
-		$expected = CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS . 'TestPlugin' . DS;
-		$this->assertEquals($expected, $path);
-
-		$path = App::pluginPath('TestPluginTwo');
-		$expected = CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS . 'TestPluginTwo' . DS;
-		$this->assertEquals($expected, $path);
 		App::build();
 	}
 
@@ -597,7 +576,7 @@ class AppTest extends CakeTestCase {
  * test that building helper paths actually works.
  *
  * @return void
- * @link http://cakephp.lighthouseapp.com/projects/42648/tickets/410
+ * @link https://cakephp.lighthouseapp.com/projects/42648/tickets/410
  */
 	public function testImportingHelpersFromAlternatePaths() {
 		$this->assertFalse(class_exists('BananaHelper', false), 'BananaHelper exists, cannot test importing it.');
@@ -795,6 +774,7 @@ class AppTest extends CakeTestCase {
  * Tests that the automatic class loader will also find in "libs" folder for both
  * app and plugins if it does not find the class in other configured paths
  *
+ * @return void
  */
 	public function testLoadClassInLibs() {
 		App::build(array(
@@ -813,7 +793,7 @@ class AppTest extends CakeTestCase {
 	}
 
 /**
- * Tests that  App::location() returns the defined path for a class
+ * Tests that App::location() returns the defined path for a class
  *
  * @return void
  */

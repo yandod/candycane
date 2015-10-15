@@ -2,8 +2,6 @@
 /**
  * CakeRequest Test case file.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,7 +13,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Routing.Route
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('CakeRoute', 'Routing/Route');
@@ -120,7 +118,7 @@ class CakeRouteTest extends CakeTestCase {
 		$this->assertRegExp($result, '/posts/view/518098');
 		$this->assertNotRegExp($result, '/posts/edit/name-of-post');
 		$this->assertNotRegExp($result, '/posts/edit/4/other:param');
-		$this->assertEquals(array('controller', 'action', 'id'), $route->keys);
+		$this->assertEquals(array('id', 'controller', 'action'), $route->keys);
 
 		$route = new CakeRoute(
 			'/:lang/:controller/:action/:id',
@@ -132,7 +130,7 @@ class CakeRouteTest extends CakeTestCase {
 		$this->assertRegExp($result, '/cze/articles/view/1');
 		$this->assertNotRegExp($result, '/language/articles/view/2');
 		$this->assertNotRegExp($result, '/eng/articles/view/name-of-article');
-		$this->assertEquals(array('lang', 'controller', 'action', 'id'), $route->keys);
+		$this->assertEquals(array('lang', 'id', 'controller', 'action'), $route->keys);
 
 		foreach (array(':', '@', ';', '$', '-') as $delim) {
 			$route = new CakeRoute('/posts/:id' . $delim . ':title');
@@ -143,7 +141,7 @@ class CakeRouteTest extends CakeTestCase {
 			$this->assertNotRegExp($result, '/posts/11!nameofarticle');
 			$this->assertNotRegExp($result, '/posts/11');
 
-			$this->assertEquals(array('id', 'title'), $route->keys);
+			$this->assertEquals(array('title', 'id'), $route->keys);
 		}
 
 		$route = new CakeRoute(
@@ -157,7 +155,7 @@ class CakeRouteTest extends CakeTestCase {
 		$this->assertNotRegExp($result, '/posts/hey_now:nameofarticle');
 		$this->assertNotRegExp($result, '/posts/:nameofarticle/2009');
 		$this->assertNotRegExp($result, '/posts/:nameofarticle/01');
-		$this->assertEquals(array('id', 'title', 'year'), $route->keys);
+		$this->assertEquals(array('year', 'title', 'id'), $route->keys);
 
 		$route = new CakeRoute(
 			'/posts/:url_title-(uuid::id)',
@@ -206,7 +204,7 @@ class CakeRouteTest extends CakeTestCase {
 
 		$this->assertRegExp($result, '/some_extra/page/this_is_the_slug');
 		$this->assertRegExp($result, '/page/this_is_the_slug');
-		$this->assertEquals(array('extra', 'slug'), $route->keys);
+		$this->assertEquals(array('slug', 'extra'), $route->keys);
 		$this->assertEquals(array('extra' => '[a-z1-9_]*', 'slug' => '[a-z1-9_]+', 'action' => 'view'), $route->options);
 		$expected = array(
 			'controller' => 'pages',
@@ -309,6 +307,11 @@ class CakeRouteTest extends CakeTestCase {
 		);
 		$result = $route->match($url);
 		$expected = '/admin/subscriptions/edit_admin_e/1';
+		$this->assertEquals($expected, $result);
+
+		$url = array('controller' => 'subscribe', 'admin' => true, 'action' => 'admin_edit', 1);
+		$result = $route->match($url);
+		$expected = '/admin/subscriptions/edit/1';
 		$this->assertEquals($expected, $result);
 	}
 
@@ -482,6 +485,40 @@ class CakeRouteTest extends CakeTestCase {
 		$result = $route->persistParams($url, $params);
 		$this->assertEquals('en', $result['lang']);
 		$this->assertEquals('red', $result['color']);
+	}
+
+/**
+ * test persist with a non array value
+ *
+ * @return void
+ */
+	public function testPersistParamsNonArray() {
+		$url = array('controller' => 'posts', 'action' => 'index');
+		$params = array('lang' => 'en', 'color' => 'blue');
+
+		$route = new CakeRoute(
+			'/:lang/:color/blog/:action',
+			array('controller' => 'posts')
+			// No persist options
+		);
+		$result = $route->persistParams($url, $params);
+		$this->assertEquals($url, $result);
+
+		$route = new CakeRoute(
+			'/:lang/:color/blog/:action',
+			array('controller' => 'posts'),
+			array('persist' => false)
+		);
+		$result = $route->persistParams($url, $params);
+		$this->assertEquals($url, $result);
+
+		$route = new CakeRoute(
+			'/:lang/:color/blog/:action',
+			array('controller' => 'posts'),
+			array('persist' => 'derp')
+		);
+		$result = $route->persistParams($url, $params);
+		$this->assertEquals($url, $result);
 	}
 
 /**
@@ -819,6 +856,41 @@ class CakeRouteTest extends CakeTestCase {
 	}
 
 /**
+ * Test matching of parameters where one parameter name starts with another parameter name
+ *
+ * @return void
+ */
+	public function testMatchSimilarParameters() {
+		$route = new CakeRoute('/:thisParam/:thisParamIsLonger');
+
+		$url = array(
+			'thisParamIsLonger' => 'bar',
+			'thisParam' => 'foo',
+		);
+
+		$result = $route->match($url);
+		$expected = '/foo/bar';
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * Test match() with trailing ** style routes.
+ *
+ * @return void
+ */
+	public function testMatchTrailing() {
+		$route = new CakeRoute('/pages/**', array('controller' => 'pages', 'action' => 'display'));
+		$id = 'test/ spaces/漢字/la†în';
+		$result = $route->match(array(
+			'controller' => 'pages',
+			'action' => 'display',
+			$id
+		));
+		$expected = '/pages/test/%20spaces/%E6%BC%A2%E5%AD%97/la%E2%80%A0%C3%AEn';
+		$this->assertEquals($expected, $result);
+	}
+
+/**
  * test restructuring args with pass key
  *
  * @return void
@@ -870,7 +942,7 @@ class CakeRouteTest extends CakeTestCase {
  * @return void
  */
 	public function testParseTrailingUTF8() {
-		$route = new CakeRoute('/category/**', array('controller' => 'categories','action' => 'index'));
+		$route = new CakeRoute('/category/**', array('controller' => 'categories', 'action' => 'index'));
 		$result = $route->parse('/category/%D9%85%D9%88%D8%A8%D8%A7%DB%8C%D9%84');
 		$expected = array(
 			'controller' => 'categories',
@@ -889,7 +961,7 @@ class CakeRouteTest extends CakeTestCase {
 	public function testUTF8PatternOnSection() {
 		$route = new CakeRoute(
 			'/:section',
-			array('plugin' => 'blogs', 'controller' => 'posts' , 'action' => 'index' ),
+			array('plugin' => 'blogs', 'controller' => 'posts', 'action' => 'index'),
 			array(
 				'persist' => array('section'),
 				'section' => 'آموزش|weblog'
@@ -904,4 +976,35 @@ class CakeRouteTest extends CakeTestCase {
 		$expected = array('section' => 'weblog', 'plugin' => 'blogs', 'controller' => 'posts', 'action' => 'index', 'pass' => array(), 'named' => array());
 		$this->assertEquals($expected, $result);
 	}
+
+/**
+ * Test for __set_state magic method on CakeRoute
+ *
+ * @return void
+ */
+	public function testSetState() {
+		$route = CakeRoute::__set_state(array(
+			'keys' => array(),
+			'options' => array(),
+			'defaults' => array(
+				'controller' => 'pages',
+				'action' => 'display',
+				'home',
+			),
+			'template' => '/',
+			'_greedy' => false,
+			'_compiledRoute' => null,
+			'_headerMap' => array (
+				'type' => 'content_type',
+				'method' => 'request_method',
+				'server' => 'server_name',
+			),
+		));
+		$this->assertInstanceOf('CakeRoute', $route);
+		$this->assertSame('/', $route->match(array('controller' => 'pages', 'action' => 'display', 'home')));
+		$this->assertFalse($route->match(array('controller' => 'pages', 'action' => 'display', 'about')));
+		$expected = array('controller' => 'pages', 'action' => 'display', 'pass' => array('home'), 'named' => array());
+		$this->assertEquals($expected, $route->parse('/'));
+	}
+
 }

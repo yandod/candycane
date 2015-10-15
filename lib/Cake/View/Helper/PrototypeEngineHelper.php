@@ -2,10 +2,8 @@
 /**
  * Prototype Engine Helper for JsHelper
  *
- * Provides Prototype specific Javascript for JsHelper. Requires at least
+ * Provides Prototype specific JavaScript for JsHelper. Requires at least
  * Prototype 1.6
- *
- * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -18,7 +16,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View.Helper
  * @since         CakePHP(tm) v 1.3
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('JsBaseEngineHelper', 'View/Helper');
@@ -26,7 +24,7 @@ App::uses('JsBaseEngineHelper', 'View/Helper');
 /**
  * Prototype Engine Helper for JsHelper
  *
- * Provides Prototype specific Javascript for JsHelper. Requires at least
+ * Provides Prototype specific JavaScript for JsHelper. Requires at least
  * Prototype 1.6
  *
  * @package       Cake.View.Helper
@@ -36,7 +34,7 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
 /**
  * Is the current selection a multiple selection? or is it just a single element.
  *
- * @var boolean
+ * @var bool
  */
 	protected $_multiple = false;
 
@@ -116,7 +114,7 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
  * Create javascript selector for a CSS rule
  *
  * @param string $selector The selector that is targeted
- * @return PrototypeEngineHelper instance of $this. Allows chained methods.
+ * @return $this
  */
 	public function get($selector) {
 		$this->_multiple = false;
@@ -142,13 +140,13 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
  * - `stop` - Whether you want the event to stopped. (defaults true)
  *
  * @param string $type Type of event to bind to the current 946 id
- * @param string $callback The Javascript function you wish to trigger or the function literal
+ * @param string $callback The JavaScript function you wish to trigger or the function literal
  * @param array $options Options for the event.
  * @return string completed event handler
  */
 	public function event($type, $callback, $options = array()) {
 		$defaults = array('wrap' => true, 'stop' => true);
-		$options = array_merge($defaults, $options);
+		$options += $defaults;
 
 		$function = 'function (event) {%s}';
 		if ($options['wrap'] && $options['stop']) {
@@ -212,17 +210,17 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
 			case 'hide':
 			case 'show':
 				$effect = $this->selection . '.' . $name . '();';
-			break;
+				break;
 			case 'slideIn':
 			case 'slideOut':
 				$name = ($name === 'slideIn') ? 'slideDown' : 'slideUp';
 				$effect = 'Effect.' . $name . '(' . $this->selection . $optionString . ');';
-			break;
+				break;
 			case 'fadeIn':
 			case 'fadeOut':
 				$name = ($name === 'fadeIn') ? 'appear' : 'fade';
 				$effect = $this->selection . '.' . $name . '(' . substr($optionString, 2) . ');';
-			break;
+				break;
 		}
 		return $effect;
 	}
@@ -230,8 +228,8 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
 /**
  * Create an Ajax or Ajax.Updater call.
  *
- * @param string|array $url
- * @param array $options
+ * @param string|array $url URL.
+ * @param array $options Options list.
  * @return string The completed ajax call.
  */
 	public function request($url, $options = array()) {
@@ -356,7 +354,7 @@ class PrototypeEngineHelper extends JsBaseEngineHelper {
  * @see JsBaseEngineHelper::serializeForm()
  */
 	public function serializeForm($options = array()) {
-		$options = array_merge(array('isForm' => false, 'inline' => false), $options);
+		$options += array('isForm' => false, 'inline' => false);
 		$selection = $this->selection;
 		if (!$options['isForm']) {
 			$selection = '$(' . $this->selection . '.form)';

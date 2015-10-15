@@ -4,8 +4,6 @@
  *
  * Implementation of a Cake Shell to show CakePHP core method signatures.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -16,7 +14,7 @@
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.5012
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('AppShell', 'Console/Command');
@@ -100,7 +98,7 @@ class ApiShell extends AppShell {
 			if (isset($this->params['method'])) {
 				if (!isset($parsed[$this->params['method']])) {
 					$this->err(__d('cake_console', '%s::%s() could not be found', $class, $this->params['method']));
-					$this->_stop();
+					return $this->_stop();
 				}
 				$method = $parsed[$this->params['method']];
 				$this->out($class . '::' . $method['method'] . $method['parameters']);
@@ -139,20 +137,24 @@ class ApiShell extends AppShell {
 	}
 
 /**
- * Get and configure the optionparser.
+ * Gets the option parser instance and configures it.
  *
  * @return ConsoleOptionParser
  */
 	public function getOptionParser() {
 		$parser = parent::getOptionParser();
-		$parser->addArgument('type', array(
+
+		$parser->description(
+			__d('cake_console', 'Lookup doc block comments for classes in CakePHP.')
+		)->addArgument('type', array(
 			'help' => __d('cake_console', 'Either a full path or type of class (model, behavior, controller, component, view, helper)')
 		))->addArgument('className', array(
 			'help' => __d('cake_console', 'A CakePHP core class name (e.g: Component, HtmlHelper).')
 		))->addOption('method', array(
 			'short' => 'm',
 			'help' => __d('cake_console', 'The specific method you want help on.')
-		))->description(__d('cake_console', 'Lookup doc block comments for classes in CakePHP.'));
+		));
+
 		return $parser;
 	}
 

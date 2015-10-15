@@ -1,7 +1,5 @@
 <?php
 /**
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -12,8 +10,9 @@
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v2.1
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 /**
  * ViewBlock implements the concept of Blocks or Slots in the View layer.
  * Slots or blocks are combined with extending views and layouts to afford slots
@@ -27,14 +26,14 @@ class ViewBlock {
 /**
  * Append content
  *
- * @constant APPEND
+ * @var string
  */
 	const APPEND = 'append';
 
 /**
  * Prepend content
  *
- * @constant PREPEND
+ * @var string
  */
 	const PREPEND = 'prepend';
 
@@ -55,7 +54,7 @@ class ViewBlock {
 /**
  * Should the currently captured content be discarded on ViewBlock::end()
  *
- * @var boolean
+ * @var bool
  * @see ViewBlock::end()
  * @see ViewBlock::startIfEmpty()
  */
@@ -71,9 +70,13 @@ class ViewBlock {
  * using View::get();
  *
  * @param string $name The name of the block to capture for.
+ * @throws CakeException When starting a block twice
  * @return void
  */
 	public function start($name) {
+		if (in_array($name, $this->_active)) {
+			throw new CakeException(__d('cake', "A view block with the name '%s' is already/still open.", $name));
+		}
 		$this->_active[] = $name;
 		ob_start();
 	}
@@ -130,17 +133,13 @@ class ViewBlock {
  * of the new capturing context will be added to the existing block context.
  *
  * @param string $name Name of the block
- * @param string $value The content for the block
+ * @param mixed $value The content for the block
  * @param string $mode If ViewBlock::APPEND content will be appended to existing content.
  *   If ViewBlock::PREPEND it will be prepended.
  * @return void
- * @throws CakeException when you use non-string values.
  */
 	public function concat($name, $value = null, $mode = ViewBlock::APPEND) {
 		if (isset($value)) {
-			if (!is_string($value)) {
-				throw new CakeException(__d('cake_dev', '$value must be a string.'));
-			}
 			if (!isset($this->_blocks[$name])) {
 				$this->_blocks[$name] = '';
 			}
@@ -165,8 +164,7 @@ class ViewBlock {
  * @param string $name Name of the block
  * @param string $value The content for the block.
  * @return void
- * @throws CakeException when you use non-string values.
- * @deprecated As of 2.3 use ViewBlock::concat() instead.
+ * @deprecated 3.0.0 As of 2.3 use ViewBlock::concat() instead.
  */
 	public function append($name, $value = null) {
 		$this->concat($name, $value);
@@ -177,15 +175,11 @@ class ViewBlock {
  * existing content.
  *
  * @param string $name Name of the block
- * @param string $value The content for the block.
+ * @param mixed $value The content for the block.
  * @return void
- * @throws CakeException when you use non-string values.
  */
 	public function set($name, $value) {
-		if (!is_string($value)) {
-			throw new CakeException(__d('cake_dev', 'Blocks can only contain strings.'));
-		}
-		$this->_blocks[$name] = $value;
+		$this->_blocks[$name] = (string)$value;
 	}
 
 /**
@@ -200,6 +194,16 @@ class ViewBlock {
 			return $default;
 		}
 		return $this->_blocks[$name];
+	}
+
+/**
+ * Check if a block exists
+ *
+ * @param string $name Name of the block
+ * @return bool
+ */
+	public function exists($name) {
+		return isset($this->_blocks[$name]);
 	}
 
 /**

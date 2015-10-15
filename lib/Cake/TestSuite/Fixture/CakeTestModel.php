@@ -11,7 +11,7 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.TestSuite.Fixture
  * @since         CakePHP(tm) v 1.2.0.4667
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Model', 'Model');
@@ -32,36 +32,23 @@ class CakeTestModel extends Model {
  * incorrect order when no order has been defined in the finds.
  * Postgres can return the results in any order it considers appropriate if none is specified
  *
- * @param array $queryData
- * @return array $queryData
+ * @param int|string|array $id Set this ID for this model on startup, can also be an array of options, see above.
+ * @param string $table Name of database table to use.
+ * @param string $ds DataSource connection name.
  */
-	public function beforeFind($queryData) {
-		$pk = $this->primaryKey;
-		$aliasedPk = $this->alias . '.' . $this->primaryKey;
-		switch (true) {
-			case !$pk:
-			case !$this->useTable:
-			case !$this->schema('id'):
-			case !empty($queryData['order'][0]):
-			case !empty($queryData['group']):
-			case
-				(is_string($queryData['fields']) && !($queryData['fields'] == $pk || $queryData['fields'] == $aliasedPk)) ||
-				(is_array($queryData['fields']) && !(array_key_exists($pk, $queryData['fields']) || array_key_exists($aliasedPk, $queryData['fields']))):
-			break;
-			default:
-				$queryData['order'] = array($this->alias . '.' . $this->primaryKey => 'ASC');
-			break;
-		}
-		return $queryData;
+	public function __construct($id = false, $table = null, $ds = null) {
+		parent::__construct($id, $table, $ds);
+		$this->order = array($this->alias . '.' . $this->primaryKey => 'ASC');
 	}
+
 /**
  * Overriding save() to set CakeTestSuiteDispatcher::date() as formatter for created, modified and updated fields
  *
- * @param array $data
- * @param boolean|array $validate
- * @param array $fieldList
+ * @param array $data Data to save
+ * @param bool|array $validate Validate or options.
+ * @param array $fieldList Whitelist of fields
+ * @return mixed
  */
-
 	public function save($data = null, $validate = true, $fieldList = array()) {
 		$db = $this->getDataSource();
 		$db->columns['datetime']['formatter'] = 'CakeTestSuiteDispatcher::date';

@@ -2,8 +2,6 @@
 /**
  * Abstract send email
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,7 +13,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Network.Email
  * @since         CakePHP(tm) v 2.0.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
@@ -35,7 +33,7 @@ abstract class AbstractTransport {
 /**
  * Send mail
  *
- * @param CakeEmail $email
+ * @param CakeEmail $email CakeEmail instance.
  * @return array
  */
 	abstract public function send(CakeEmail $email);
@@ -43,12 +41,12 @@ abstract class AbstractTransport {
 /**
  * Set the config
  *
- * @param array $config
+ * @param array $config Configuration options.
  * @return array Returns configs
  */
 	public function config($config = null) {
 		if (is_array($config)) {
-			$this->_config = $config;
+			$this->_config = $config + $this->_config;
 		}
 		return $this->_config;
 	}
@@ -57,7 +55,7 @@ abstract class AbstractTransport {
  * Help to convert headers in string
  *
  * @param array $headers Headers in format key => value
- * @param string $eol
+ * @param string $eol End of line string.
  * @return string
  */
 	protected function _headersToString($headers, $eol = "\r\n") {

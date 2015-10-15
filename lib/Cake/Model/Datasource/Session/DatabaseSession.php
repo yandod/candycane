@@ -2,8 +2,6 @@
 /**
  * Database Session save handler. Allows saving session information into a model.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,7 +13,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model.Datasource.Session
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('CakeSessionHandlerInterface', 'Model/Datasource/Session');
@@ -45,7 +43,6 @@ class DatabaseSession implements CakeSessionHandlerInterface {
 /**
  * Constructor. Looks at Session configuration information and
  * sets up the session model.
- *
  */
 	public function __construct() {
 		$modelName = Configure::read('Session.handler.model');
@@ -69,7 +66,7 @@ class DatabaseSession implements CakeSessionHandlerInterface {
 /**
  * Method called on open of a database session.
  *
- * @return boolean Success
+ * @return bool Success
  */
 	public function open() {
 		return true;
@@ -78,7 +75,7 @@ class DatabaseSession implements CakeSessionHandlerInterface {
 /**
  * Method called on close of a database session.
  *
- * @return boolean Success
+ * @return bool Success
  */
 	public function close() {
 		return true;
@@ -87,7 +84,7 @@ class DatabaseSession implements CakeSessionHandlerInterface {
 /**
  * Method used to read from a database session.
  *
- * @param integer|string $id The key of the value to read
+ * @param int|string $id The key of the value to read
  * @return mixed The value of the key or false if it does not exist
  */
 	public function read($id) {
@@ -105,9 +102,12 @@ class DatabaseSession implements CakeSessionHandlerInterface {
 /**
  * Helper function called on write for database sessions.
  *
- * @param integer $id ID that uniquely identifies session in database
+ * Will retry, once, if the save triggers a PDOException which
+ * can happen if a race condition is encountered
+ *
+ * @param int $id ID that uniquely identifies session in database
  * @param mixed $data The value of the data to be saved.
- * @return boolean True for successful write, false otherwise.
+ * @return bool True for successful write, false otherwise.
  */
 	public function write($id, $data) {
 		if (!$id) {
@@ -116,14 +116,24 @@ class DatabaseSession implements CakeSessionHandlerInterface {
 		$expires = time() + $this->_timeout;
 		$record = compact('id', 'data', 'expires');
 		$record[$this->_model->primaryKey] = $id;
-		return $this->_model->save($record);
+
+		$options = array(
+			'validate' => false,
+			'callbacks' => false,
+			'counterCache' => false
+		);
+		try {
+			return $this->_model->save($record, $options);
+		} catch (PDOException $e) {
+			return $this->_model->save($record, $options);
+		}
 	}
 
 /**
  * Method called on the destruction of a database session.
  *
- * @param integer $id ID that uniquely identifies session in database
- * @return boolean True for successful delete, false otherwise.
+ * @param int $id ID that uniquely identifies session in database
+ * @return bool True for successful delete, false otherwise.
  */
 	public function destroy($id) {
 		return $this->_model->delete($id);
@@ -132,8 +142,8 @@ class DatabaseSession implements CakeSessionHandlerInterface {
 /**
  * Helper function called on gc for database sessions.
  *
- * @param integer $expires Timestamp (defaults to current time)
- * @return boolean Success
+ * @param int $expires Timestamp (defaults to current time)
+ * @return bool Success
  */
 	public function gc($expires = null) {
 		if (!$expires) {

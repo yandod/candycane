@@ -8,8 +8,6 @@
  * @see http://www.unicode.org/Public/UNIDATA/CaseFolding.txt
  * @see http://www.unicode.org/reports/tr21/tr21-5.html
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -21,7 +19,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Config.unicode.casefolding
  * @since         CakePHP(tm) v 1.2.0.6833
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 /**

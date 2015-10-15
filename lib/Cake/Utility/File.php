@@ -2,8 +2,6 @@
 /**
  * Convenience class for reading, writing and appending to files.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,7 +13,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Utility
  * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Folder', 'Utility');
@@ -28,7 +26,7 @@ App::uses('Folder', 'Utility');
 class File {
 
 /**
- * Folder object of the File
+ * Folder object of the file
  *
  * @var Folder
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::$Folder
@@ -36,7 +34,7 @@ class File {
 	public $Folder = null;
 
 /**
- * Filename
+ * File name
  *
  * @var string
  * http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::$name
@@ -62,7 +60,7 @@ class File {
 /**
  * Enable locking for file reading and writing
  *
- * @var boolean
+ * @var bool
  * http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::$lock
  */
 	public $lock = null;
@@ -72,7 +70,7 @@ class File {
  *
  * Current file's absolute path
  *
- * @var mixed null
+ * @var mixed
  * http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::$path
  */
 	public $path = null;
@@ -81,8 +79,8 @@ class File {
  * Constructor
  *
  * @param string $path Path to file
- * @param boolean $create Create file if it does not exist (if true)
- * @param integer $mode Mode to apply to the folder holding the file
+ * @param bool $create Create file if it does not exist (if true)
+ * @param int $mode Mode to apply to the folder holding the file
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File
  */
 	public function __construct($path, $create = false, $mode = 0755) {
@@ -96,16 +94,15 @@ class File {
 
 /**
  * Closes the current file if it is opened
- *
  */
 	public function __destruct() {
 		$this->close();
 	}
 
 /**
- * Creates the File.
+ * Creates the file.
  *
- * @return boolean Success
+ * @return bool Success
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::create
  */
 	public function create() {
@@ -122,8 +119,8 @@ class File {
  * Opens the current file with a given $mode
  *
  * @param string $mode A valid 'fopen' mode string (r|w|a ...)
- * @param boolean $force If true then the file will be re-opened even if its already opened, otherwise it won't
- * @return boolean True on success, false on failure
+ * @param bool $force If true then the file will be re-opened even if its already opened, otherwise it won't
+ * @return bool True on success, false on failure
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::open
  */
 	public function open($mode = 'r', $force = false) {
@@ -144,11 +141,11 @@ class File {
 	}
 
 /**
- * Return the contents of this File as a string.
+ * Return the contents of this file as a string.
  *
  * @param string $bytes where to start
  * @param string $mode A `fread` compatible mode.
- * @param boolean $force If true then the file will be re-opened even if its already opened, otherwise it won't
+ * @param bool $force If true then the file will be re-opened even if its already opened, otherwise it won't
  * @return mixed string on success, false on failure
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::read
  */
@@ -183,8 +180,8 @@ class File {
 /**
  * Sets or gets the offset for the currently opened file.
  *
- * @param integer|boolean $offset The $offset in bytes to seek. If set to false then the current offset is returned.
- * @param integer $seek PHP Constant SEEK_SET | SEEK_CUR | SEEK_END determining what the $offset is relative to
+ * @param int|bool $offset The $offset in bytes to seek. If set to false then the current offset is returned.
+ * @param int $seek PHP Constant SEEK_SET | SEEK_CUR | SEEK_END determining what the $offset is relative to
  * @return mixed True on success, false on failure (set mode), false on failure or integer offset on success (get mode)
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::offset
  */
@@ -200,12 +197,12 @@ class File {
 	}
 
 /**
- * Prepares a ascii string for writing. Converts line endings to the
- * correct terminator for the current platform. If windows "\r\n" will be used
+ * Prepares an ASCII string for writing. Converts line endings to the
+ * correct terminator for the current platform. If Windows, "\r\n" will be used,
  * all other platforms will use "\n"
  *
  * @param string $data Data to prepare for writing.
- * @param boolean $forceWindows
+ * @param bool $forceWindows If true forces usage Windows newline string.
  * @return string The with converted line endings.
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::prepare
  */
@@ -218,12 +215,12 @@ class File {
 	}
 
 /**
- * Write given data to this File.
+ * Write given data to this file.
  *
  * @param string $data Data to write to this File.
  * @param string $mode Mode of writing. {@link http://php.net/fwrite See fwrite()}.
- * @param string $force force the file to open
- * @return boolean Success
+ * @param string $force Force the file to open
+ * @return bool Success
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::write
  */
 	public function write($data, $mode = 'w', $force = false) {
@@ -246,11 +243,11 @@ class File {
 	}
 
 /**
- * Append given data string to this File.
+ * Append given data string to this file.
  *
  * @param string $data Data to write
- * @param string $force force the file to open
- * @return boolean Success
+ * @param string $force Force the file to open
+ * @return bool Success
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::append
  */
 	public function append($data, $force = false) {
@@ -260,7 +257,7 @@ class File {
 /**
  * Closes the current file if it is opened.
  *
- * @return boolean True if closing was successful or file was already closed, otherwise false
+ * @return bool True if closing was successful or file was already closed, otherwise false
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::close
  */
 	public function close() {
@@ -271,9 +268,9 @@ class File {
 	}
 
 /**
- * Deletes the File.
+ * Deletes the file.
  *
- * @return boolean Success
+ * @return bool Success
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::delete
  */
 	public function delete() {
@@ -288,7 +285,7 @@ class File {
 	}
 
 /**
- * Returns the File info as an array with the following keys:
+ * Returns the file info as an array with the following keys:
  *
  * - dirname
  * - basename
@@ -317,9 +314,9 @@ class File {
 	}
 
 /**
- * Returns the File extension.
+ * Returns the file extension.
  *
- * @return string The File extension
+ * @return string The file extension
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::ext
  */
 	public function ext() {
@@ -333,9 +330,9 @@ class File {
 	}
 
 /**
- * Returns the File name without extension.
+ * Returns the file name without extension.
  *
- * @return string The File name without extension.
+ * @return string The file name without extension.
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::name
  */
 	public function name() {
@@ -351,11 +348,11 @@ class File {
 	}
 
 /**
- * makes filename safe for saving
+ * Makes file name safe for saving
  *
  * @param string $name The name of the file to make safe if different from $this->name
  * @param string $ext The name of the extension to make safe if different from $this->ext
- * @return string $ext the extension of the file
+ * @return string ext The extension of the file
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::safe
  */
 	public function safe($name = null, $ext = null) {
@@ -371,8 +368,8 @@ class File {
 /**
  * Get md5 Checksum of file with previous check of Filesize
  *
- * @param integer|boolean $maxsize in MB or true to force
- * @return string md5 Checksum {@link http://php.net/md5_file See md5_file()}
+ * @param int|bool $maxsize in MB or true to force
+ * @return string|false md5 Checksum {@link http://php.net/md5_file See md5_file()}, or false in case of an error
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::md5
  */
 	public function md5($maxsize = 5) {
@@ -389,37 +386,36 @@ class File {
 	}
 
 /**
- * Returns the full path of the File.
+ * Returns the full path of the file.
  *
- * @return string Full path to file
+ * @return string Full path to the file
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::pwd
  */
 	public function pwd() {
-		if (is_null($this->path)) {
-			$this->path = $this->Folder->slashTerm($this->Folder->pwd()) . $this->name;
+		if ($this->path === null) {
+			$dir = $this->Folder->pwd();
+			if (is_dir($dir)) {
+				$this->path = $this->Folder->slashTerm($dir) . $this->name;
+			}
 		}
 		return $this->path;
 	}
 
 /**
- * Returns true if the File exists.
+ * Returns true if the file exists.
  *
- * @return boolean true if it exists, false otherwise
+ * @return bool True if it exists, false otherwise
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::exists
  */
 	public function exists() {
-		if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
-			clearstatcache(true, $this->path);
-		} else {
-			clearstatcache();
-		}
+		$this->clearStatCache();
 		return (file_exists($this->path) && is_file($this->path));
 	}
 
 /**
- * Returns the "chmod" (permissions) of the File.
+ * Returns the "chmod" (permissions) of the file.
  *
- * @return string Permissions for the file
+ * @return string|false Permissions for the file, or false in case of an error
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::perms
  */
 	public function perms() {
@@ -430,9 +426,9 @@ class File {
 	}
 
 /**
- * Returns the Filesize
+ * Returns the file size
  *
- * @return integer size of the file in bytes, or false in case of an error
+ * @return int|false Size of the file in bytes, or false in case of an error
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::size
  */
 	public function size() {
@@ -443,9 +439,9 @@ class File {
 	}
 
 /**
- * Returns true if the File is writable.
+ * Returns true if the file is writable.
  *
- * @return boolean true if its writable, false otherwise
+ * @return bool True if it's writable, false otherwise
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::writable
  */
 	public function writable() {
@@ -455,7 +451,7 @@ class File {
 /**
  * Returns true if the File is executable.
  *
- * @return boolean true if its executable, false otherwise
+ * @return bool True if it's executable, false otherwise
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::executable
  */
 	public function executable() {
@@ -463,9 +459,9 @@ class File {
 	}
 
 /**
- * Returns true if the File is readable.
+ * Returns true if the file is readable.
  *
- * @return boolean true if file is readable, false otherwise
+ * @return bool True if file is readable, false otherwise
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::readable
  */
 	public function readable() {
@@ -473,9 +469,9 @@ class File {
 	}
 
 /**
- * Returns the File's owner.
+ * Returns the file's owner.
  *
- * @return integer the Fileowner
+ * @return int|false The file owner, or false in case of an error
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::owner
  */
 	public function owner() {
@@ -486,9 +482,9 @@ class File {
 	}
 
 /**
- * Returns the File's group.
+ * Returns the file's group.
  *
- * @return integer the Filegroup
+ * @return int|false The file group, or false in case of an error
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::group
  */
 	public function group() {
@@ -501,7 +497,7 @@ class File {
 /**
  * Returns last access time.
  *
- * @return integer timestamp Timestamp of last access time
+ * @return int|false Timestamp of last access time, or false in case of an error
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::lastAccess
  */
 	public function lastAccess() {
@@ -514,7 +510,7 @@ class File {
 /**
  * Returns last modified time.
  *
- * @return integer timestamp Timestamp of last modification
+ * @return int|false Timestamp of last modification, or false in case of an error
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::lastChange
  */
 	public function lastChange() {
@@ -537,9 +533,9 @@ class File {
 /**
  * Copy the File to $dest
  *
- * @param string $dest destination for the copy
- * @param boolean $overwrite Overwrite $dest if exists
- * @return boolean Success
+ * @param string $dest Destination for the copy
+ * @param bool $overwrite Overwrite $dest if exists
+ * @return bool Success
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::copy
  */
 	public function copy($dest, $overwrite = true) {
@@ -561,12 +557,62 @@ class File {
 		}
 		if (function_exists('finfo_open')) {
 			$finfo = finfo_open(FILEINFO_MIME);
-			list($type, $charset) = explode(';', finfo_file($finfo, $this->pwd()));
+			$finfo = finfo_file($finfo, $this->pwd());
+			if (!$finfo) {
+				return false;
+			}
+			list($type) = explode(';', $finfo);
 			return $type;
-		} elseif (function_exists('mime_content_type')) {
+		}
+		if (function_exists('mime_content_type')) {
 			return mime_content_type($this->pwd());
 		}
 		return false;
+	}
+
+/**
+ * Clear PHP's internal stat cache
+ *
+ * For 5.3 onwards it's possible to clear cache for just a single file. Passing true
+ * will clear all the stat cache.
+ *
+ * @param bool $all Clear all cache or not
+ * @return void
+ */
+	public function clearStatCache($all = false) {
+		if ($all === false && version_compare(PHP_VERSION, '5.3.0') >= 0) {
+			return clearstatcache(true, $this->path);
+		}
+
+		return clearstatcache();
+	}
+
+/**
+ * Searches for a given text and replaces the text if found.
+ *
+ * @param string|array $search Text(s) to search for.
+ * @param string|array $replace Text(s) to replace with.
+ * @return bool Success
+ */
+	public function replaceText($search, $replace) {
+		if (!$this->open('r+')) {
+			return false;
+		}
+
+		if ($this->lock !== null) {
+			if (flock($this->handle, LOCK_EX) === false) {
+				return false;
+			}
+		}
+
+		$replaced = $this->write(str_replace($search, $replace, $this->read()), 'w', true);
+
+		if ($this->lock !== null) {
+			flock($this->handle, LOCK_UN);
+		}
+		$this->close();
+
+		return $replaced;
 	}
 
 }

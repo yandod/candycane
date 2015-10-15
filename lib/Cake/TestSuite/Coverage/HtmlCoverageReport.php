@@ -1,7 +1,5 @@
 <?php
 /**
- * Generates code coverage reports in HTML from data obtained from PHPUnit
- *
  * PHP5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
@@ -15,7 +13,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.TestSuite.Coverage
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('BaseCoverageReport', 'TestSuite/Coverage');
@@ -28,9 +26,23 @@ App::uses('BaseCoverageReport', 'TestSuite/Coverage');
 class HtmlCoverageReport extends BaseCoverageReport {
 
 /**
- * Generates report html to display.
+ * Holds the total number of processed rows.
  *
- * @return string compiled html report.
+ * @var int
+ */
+	protected $_total = 0;
+
+/**
+ * Holds the total number of covered rows.
+ *
+ * @var int
+ */
+	protected $_covered = 0;
+
+/**
+ * Generates report HTML to display.
+ *
+ * @return string Compiled HTML report.
  */
 	public function report() {
 		$pathFilter = $this->getPathFilter();
@@ -48,6 +60,12 @@ HTML;
 			$fileData = file($file);
 			$output .= $this->generateDiff($file, $fileData, $coverageData);
 		}
+
+		$percentCovered = 100;
+		if ($this->_total > 0) {
+			$percentCovered = round(100 * $this->_covered / $this->_total, 2);
+		}
+		$output .= '<div class="total">Overall coverage: <span class="coverage">' . $percentCovered . '%</span></div>';
 		return $output;
 	}
 
@@ -69,6 +87,8 @@ HTML;
 		$diff = array();
 
 		list($covered, $total) = $this->_calculateCoveredLines($fileLines, $coverageData);
+		$this->_covered += $covered;
+		$this->_total += $total;
 
 		//shift line numbers forward one;
 		array_unshift($fileLines, ' ');
@@ -105,9 +125,9 @@ HTML;
 	}
 
 /**
- * Guess the classname the test was for based on the test case filename.
+ * Guess the class name the test was for based on the test case filename.
  *
- * @param ReflectionClass $testReflection.
+ * @param ReflectionClass $testReflection The class to reflect
  * @return string Possible test subject name.
  */
 	protected function _guessSubjectName($testReflection) {
@@ -121,13 +141,13 @@ HTML;
 	}
 
 /**
- * Renders the html for a single line in the html diff.
+ * Renders the HTML for a single line in the HTML diff.
  *
- * @param string $line
- * @param integer $linenumber
- * @param string $class
- * @param array $coveringTests
- * @return void
+ * @param string $line The line content.
+ * @param int $linenumber The line number
+ * @param string $class The classname to use.
+ * @param array $coveringTests The tests covering the line.
+ * @return string
  */
 	protected function _paintLine($line, $linenumber, $class, $coveringTests) {
 		$coveredBy = '';
@@ -150,7 +170,7 @@ HTML;
 /**
  * generate some javascript for the coverage report.
  *
- * @return void
+ * @return string
  */
 	public function coverageScript() {
 		return <<<HTML
@@ -175,23 +195,24 @@ HTML;
 /**
  * Generate an HTML snippet for coverage headers
  *
- * @param string $filename
- * @param string $percent
- * @return void
+ * @param string $filename The file name being covered
+ * @param string $percent The percentage covered
+ * @return string
  */
 	public function coverageHeader($filename, $percent) {
+		$hash = md5($filename);
 		$filename = basename($filename);
-		list($file, $ext) = explode('.', $filename);
+		list($file) = explode('.', $filename);
 		$display = in_array($file, $this->_testNames) ? 'block' : 'none';
 		$primary = $display === 'block' ? 'primary' : '';
 		return <<<HTML
 	<div class="coverage-container $primary" style="display:$display;">
 	<h4>
-		<a href="#coverage-$filename" onclick="coverage_show_hide('coverage-$filename');">
+		<a href="#coverage-$filename-$hash" onclick="coverage_show_hide('coverage-$filename-$hash');">
 			$filename Code coverage: $percent%
 		</a>
 	</h4>
-	<div class="code-coverage-results" id="coverage-$filename" style="display:none;">
+	<div class="code-coverage-results" id="coverage-$filename-$hash" style="display:none;">
 	<pre>
 HTML;
 	}

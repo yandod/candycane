@@ -26,3 +26,16 @@ __('Hot features!'
 		. ' Just look at the name...It\'s Cake'
 	. "\n - Active, Friendly Community:"
 		. ' Join us #cakephp on IRC. We\'d love to help you get started');
+
+// Category
+echo __c('You have a new message (category: LC_NUMERIC).', 4);
+// LC_TIME is skipped.
+echo __c('You have a new message (category: LC_TIME).', 5);
+
+// Context
+echo __('letter');
+echo __x('A', 'letter');
+echo __x('B', 'letter');
+echo __x('A', 'letter');
+echo __n('%d letter', '%d letters', $count);
+echo __xn('A', '%d letter', '%d letters', $count);

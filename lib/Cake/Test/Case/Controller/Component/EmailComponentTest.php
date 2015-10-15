@@ -4,8 +4,6 @@
  *
  * Series of tests for email component.
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -17,8 +15,9 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Controller.Component
  * @since         CakePHP(tm) v 1.2.0.5347
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('Controller', 'Controller');
 App::uses('EmailComponent', 'Controller/Component');
 App::uses('AbstractTransport', 'Network/Email');
@@ -59,7 +58,7 @@ class DebugCompTransport extends AbstractTransport {
  * Send mail
  *
  * @params object $email CakeEmail
- * @return boolean
+ * @return bool
  */
 	public function send(CakeEmail $email) {
 		$email->addHeaders(array('Date' => EmailComponentTest::$sentDate));
@@ -78,7 +77,7 @@ class DebugCompTransport extends AbstractTransport {
 		$last .= sprintf("%s\n\n%s", 'Message:', $message);
 		$last .= '</pre>';
 
-		self::$lastEmail = $last;
+		static::$lastEmail = $last;
 
 		return true;
 	}
@@ -93,16 +92,9 @@ class DebugCompTransport extends AbstractTransport {
 class EmailTestController extends Controller {
 
 /**
- * name property
- *
- * @var string 'EmailTest'
- */
-	public $name = 'EmailTest';
-
-/**
  * uses property
  *
- * @var mixed null
+ * @var mixed
  */
 	public $uses = null;
 
@@ -132,7 +124,7 @@ class EmailComponentTest extends CakeTestCase {
 /**
  * name property
  *
- * @var string 'Email'
+ * @var string
  */
 	public $name = 'Email';
 
@@ -157,7 +149,7 @@ class EmailComponentTest extends CakeTestCase {
 		$this->Controller->Components->init($this->Controller);
 		$this->Controller->EmailTest->initialize($this->Controller, array());
 
-		self::$sentDate = date(DATE_RFC2822);
+		static::$sentDate = date(DATE_RFC2822);
 
 		App::build(array(
 			'View' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'View' . DS)
@@ -178,7 +170,7 @@ class EmailComponentTest extends CakeTestCase {
 		$this->Controller->EmailTest->delivery = 'DebugComp';
 		$this->Controller->EmailTest->messageId = false;
 
-		$date = self::$sentDate;
+		$date = static::$sentDate;
 		$message = <<<MSGBLOC
 <pre>To: postmaster@example.com
 From: noreply@example.com
@@ -199,14 +191,14 @@ This is the body of the message
 MSGBLOC;
 
 		$this->Controller->EmailTest->sendAs = 'text';
-		$expect = str_replace('{CONTENTTYPE}', 'text/plain; charset=UTF-8', $message);
+		$expected = str_replace('{CONTENTTYPE}', 'text/plain; charset=UTF-8', $message);
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message'));
-		$this->assertTextEquals(DebugCompTransport::$lastEmail, $expect);
+		$this->assertTextEquals($expected, DebugCompTransport::$lastEmail);
 
 		$this->Controller->EmailTest->sendAs = 'html';
-		$expect = str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $message);
+		$expected = str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $message);
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message'));
-		$this->assertTextEquals(DebugCompTransport::$lastEmail, $expect);
+		$this->assertTextEquals($expected, DebugCompTransport::$lastEmail);
 	}
 
 /**
@@ -225,7 +217,7 @@ MSGBLOC;
 		$this->Controller->EmailTest->delivery = 'DebugComp';
 		$this->Controller->EmailTest->messageId = false;
 
-		$date = self::$sentDate;
+		$date = static::$sentDate;
 		$header = <<<HEADBLOC
 To: postmaster@example.com
 From: noreply@example.com
@@ -270,37 +262,34 @@ TEXTBLOC;
 HTMLBLOC;
 
 		$this->Controller->EmailTest->sendAs = 'text';
-		$expect = '<pre>' . str_replace('{CONTENTTYPE}', 'text/plain; charset=UTF-8', $header) . $text . "\n" . '</pre>';
+		$expected = '<pre>' . str_replace('{CONTENTTYPE}', 'text/plain; charset=UTF-8', $header) . $text . "\n" . '</pre>';
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message'));
-		$this->assertTextEquals(DebugCompTransport::$lastEmail, $expect);
+		$this->assertTextEquals($expected, DebugCompTransport::$lastEmail);
 
 		$this->Controller->EmailTest->sendAs = 'html';
-		$expect = '<pre>' . str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $header) . $html . "\n" . '</pre>';
+		$expected = '<pre>' . str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $header) . $html . "\n" . '</pre>';
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message'));
-		$this->assertTextEquals(DebugCompTransport::$lastEmail, $expect);
+		$this->assertTextEquals($expected, DebugCompTransport::$lastEmail);
 
 		$this->Controller->EmailTest->sendAs = 'both';
-		$expect = str_replace('{CONTENTTYPE}', 'multipart/mixed; boundary="{boundary}"', $header);
-		$expect .= "--{boundary}\n" .
-			'Content-Type: multipart/alternative; boundary="alt-{boundary}"' . "\n\n" .
-			'--alt-{boundary}' . "\n" .
+		$expected = str_replace('{CONTENTTYPE}', 'multipart/alternative; boundary="{boundary}"', $header);
+		$expected .= "--{boundary}\n" .
 			'Content-Type: text/plain; charset=UTF-8' . "\n" .
 			'Content-Transfer-Encoding: 8bit' . "\n\n" .
 			$text .
 			"\n\n" .
-			'--alt-{boundary}' . "\n" .
+			'--{boundary}' . "\n" .
 			'Content-Type: text/html; charset=UTF-8' . "\n" .
 			'Content-Transfer-Encoding: 8bit' . "\n\n" .
 			$html .
-			"\n\n" .
-			'--alt-{boundary}--' . "\n\n\n" .
+			"\n\n\n" .
 			'--{boundary}--' . "\n";
 
-		$expect = '<pre>' . $expect . '</pre>';
+		$expected = '<pre>' . $expected . '</pre>';
 
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message'));
 		$this->assertTextEquals(
-			$expect,
+			$expected,
 			preg_replace('/[a-z0-9]{32}/i', '{boundary}', DebugCompTransport::$lastEmail)
 		);
 
@@ -321,9 +310,9 @@ HTMLBLOC;
 HTMLBLOC;
 
 		$this->Controller->EmailTest->sendAs = 'html';
-		$expect = '<pre>' . str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $header) . $html . '</pre>';
+		$expected = '<pre>' . str_replace('{CONTENTTYPE}', 'text/html; charset=UTF-8', $header) . $html . '</pre>';
 		$this->assertTrue($this->Controller->EmailTest->send('This is the body of the message', 'default', 'thin'));
-		$this->assertTextEquals(DebugCompTransport::$lastEmail, $expect);
+		$this->assertTextEquals($expected, DebugCompTransport::$lastEmail);
 	}
 
 /**
@@ -351,6 +340,32 @@ HTMLBLOC;
 	}
 
 /**
+ * test send with null properties
+ *
+ * @return void
+ */
+	public function testSendNullProperties() {
+		$this->Controller->EmailTest->to = 'test@example.com';
+		$this->Controller->EmailTest->from = 'test@example.com';
+		$this->Controller->EmailTest->subject = null;
+		$this->Controller->EmailTest->replyTo = null;
+		$this->Controller->EmailTest->messageId = null;
+		$this->Controller->EmailTest->template = null;
+
+		$this->Controller->EmailTest->delivery = 'DebugComp';
+		$this->assertTrue($this->Controller->EmailTest->send(null));
+		$result = DebugCompTransport::$lastEmail;
+
+		$this->assertRegExp('/To: test@example.com\n/', $result);
+		$this->assertRegExp('/Subject: \n/', $result);
+		$this->assertRegExp('/From: test@example.com\n/', $result);
+		$this->assertRegExp('/Date: ' . preg_quote(static::$sentDate) . '\n/', $result);
+		$this->assertRegExp('/X-Mailer: CakePHP Email Component\n/', $result);
+		$this->assertRegExp('/Content-Type: text\/plain; charset=UTF-8\n/', $result);
+		$this->assertRegExp('/Content-Transfer-Encoding: 8bitMessage:\n/', $result);
+	}
+
+/**
  * testSendDebug method
  *
  * @return void
@@ -374,7 +389,7 @@ HTMLBLOC;
 		$this->assertRegExp('/From: noreply@example.com\n/', $result);
 		$this->assertRegExp('/Cc: cc@example.com\n/', $result);
 		$this->assertRegExp('/Bcc: bcc@example.com\n/', $result);
-		$this->assertRegExp('/Date: ' . preg_quote(self::$sentDate) . '\n/', $result);
+		$this->assertRegExp('/Date: ' . preg_quote(static::$sentDate) . '\n/', $result);
 		$this->assertRegExp('/X-Mailer: CakePHP Email Component\n/', $result);
 		$this->assertRegExp('/Content-Type: text\/plain; charset=UTF-8\n/', $result);
 		$this->assertRegExp('/Content-Transfer-Encoding: 8bitMessage:\n/', $result);
@@ -403,7 +418,7 @@ HTMLBLOC;
 		$this->assertRegExp('/Subject: Cake Debug Test\n/', $result);
 		$this->assertRegExp('/Reply-To: noreply@example.com\n/', $result);
 		$this->assertRegExp('/From: noreply@example.com\n/', $result);
-		$this->assertRegExp('/Date: ' . preg_quote(self::$sentDate) . '\n/', $result);
+		$this->assertRegExp('/Date: ' . preg_quote(static::$sentDate) . '\n/', $result);
 		$this->assertRegExp('/X-Mailer: CakePHP Email Component\n/', $result);
 		$this->assertRegExp('/Content-Type: text\/plain; charset=UTF-8\n/', $result);
 		$this->assertRegExp('/Content-Transfer-Encoding: 8bitMessage:\n/', $result);
@@ -574,7 +589,7 @@ HTMLBLOC;
 		$this->Controller->EmailTest->to = 'postmaster@example.com';
 		$this->Controller->EmailTest->from = 'noreply@example.com';
 		$this->Controller->EmailTest->subject = 'Cake Debug Test';
-		$this->Controller->EmailTest->date = self::$sentDate = 'Today!';
+		$this->Controller->EmailTest->date = static::$sentDate = 'Today!';
 		$this->Controller->EmailTest->template = null;
 		$this->Controller->EmailTest->delivery = 'DebugComp';
 
@@ -871,6 +886,8 @@ HTMLBLOC;
 
 /**
  * Make sure from/to are not double encoded when UTF-8 is present
+ *
+ * @return void
  */
 	public function testEncodingFrom() {
 		$this->Controller->EmailTest->to = 'Teßt <test@example.com>';

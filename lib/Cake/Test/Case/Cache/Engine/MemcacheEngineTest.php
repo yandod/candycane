@@ -2,8 +2,6 @@
 /**
  * MemcacheEngineTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,12 +13,17 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Cache.Engine
  * @since         CakePHP(tm) v 1.2.0.5434
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Cache', 'Cache');
 App::uses('MemcacheEngine', 'Cache/Engine');
 
+/**
+ * Class TestMemcacheEngine
+ *
+ * @package       Cake.Test.Case.Cache.Engine
+ */
 class TestMemcacheEngine extends MemcacheEngine {
 
 /**
@@ -156,6 +159,17 @@ class MemcacheEngineTest extends CakeTestCase {
 			)
 		));
 		$this->assertTrue($result);
+	}
+
+/**
+ * test domain starts with u
+ *
+ * @return void
+ */
+	public function testParseServerStringWithU() {
+		$Memcached = new TestMemcachedEngine();
+		$result = $Memcached->parseServerString('udomain.net:13211');
+		$this->assertEquals(array('udomain.net', '13211'), $result);
 	}
 
 /**

@@ -2,8 +2,6 @@
 /**
  * Methods to display or download any type of file
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,7 +13,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View
  * @since         CakePHP(tm) v 1.2.0.5714
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('View', 'View');
@@ -38,7 +36,7 @@ App::uses('CakeRequest', 'Network');
  *
  * ### Usage
  *
- * {{{
+ * ```
  * class ExampleController extends AppController {
  *		public function download() {
  *			$this->viewClass = 'Media';
@@ -52,10 +50,10 @@ App::uses('CakeRequest', 'Network');
  *			$this->set($params);
  *		}
  * }
- * }}}
+ * ```
  *
  * @package       Cake.View
- * @deprecated Deprecated since version 2.3, use CakeResponse::file() instead
+ * @deprecated 3.0.0 Deprecated since version 2.3, use CakeResponse::file() instead
  */
 class MediaView extends View {
 
@@ -64,10 +62,10 @@ class MediaView extends View {
  *
  * @param string $view Not used
  * @param string $layout Not used
- * @return boolean
+ * @return void
  */
 	public function render($view = null, $layout = null) {
-		$name = $download = $id = $modified = $path = $cache = $mimeType = $compress = null;
+		$name = $extension = $download = $id = $modified = $path = $cache = $mimeType = $compress = null;
 		extract($this->viewVars, EXTR_OVERWRITE);
 
 		$path = $path . $id;
@@ -88,15 +86,18 @@ class MediaView extends View {
 		}
 
 		if ($name !== null) {
-			$name .= '.' . pathinfo($id, PATHINFO_EXTENSION);
+			if (empty($extension)) {
+				$extension = pathinfo($id, PATHINFO_EXTENSION);
+			}
+			if (!empty($extension)) {
+				$name .= '.' . $extension;
+			}
 		}
 		$this->response->file($path, compact('name', 'download'));
 
 		if ($compress) {
 			$this->response->compress();
 		}
-		$this->response->send();
-		return true;
 	}
 
 }

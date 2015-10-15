@@ -4,8 +4,6 @@
  *
  * Test Case for ControllerTestCase class
  *
- * PHP version 5
- *
  * CakePHP : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -17,14 +15,13 @@
  * @link          http://cakephp.org CakePHP Project
  * @package       Cake.Test.Case.Event
  * @since         CakePHP v 2.1
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('CakeEvent', 'Event');
 
 /**
  * Tests the CakeEvent class functionality
- *
  */
 class CakeEventTest extends CakeTestCase {
 
@@ -32,6 +29,7 @@ class CakeEventTest extends CakeTestCase {
  * Tests the name() method
  *
  * @return void
+ * @triggers fake.event
  */
 	public function testName() {
 		$event = new CakeEvent('fake.event');
@@ -42,6 +40,8 @@ class CakeEventTest extends CakeTestCase {
  * Tests the subject() method
  *
  * @return void
+ * @triggers fake.event $this
+ * @triggers fake.event
  */
 	public function testSubject() {
 		$event = new CakeEvent('fake.event', $this);
@@ -55,6 +55,7 @@ class CakeEventTest extends CakeTestCase {
  * Tests the event propagation stopping property
  *
  * @return void
+ * @triggers fake.event
  */
 	public function testPropagation() {
 		$event = new CakeEvent('fake.event');
@@ -67,6 +68,7 @@ class CakeEventTest extends CakeTestCase {
  * Tests that it is possible to get/set custom data in a event
  *
  * @return void
+ * @triggers fake.event $this, array('some' => 'data')
  */
 	public function testEventData() {
 		$event = new CakeEvent('fake.event', $this, array('some' => 'data'));
@@ -77,6 +79,7 @@ class CakeEventTest extends CakeTestCase {
  * Tests that it is possible to get the name and subject directly
  *
  * @return void
+ * @triggers fake.event $this
  */
 	public function testEventDirectPropertyAccess() {
 		$event = new CakeEvent('fake.event', $this);

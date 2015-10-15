@@ -2,8 +2,6 @@
 /**
  * The ControllerTask handles creating and updating controller files.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -14,7 +12,7 @@
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('AppShell', 'Console/Command');
@@ -112,6 +110,7 @@ class ControllerTask extends BakeTask {
 			$admin = $this->Project->getPrefix();
 		}
 
+		$controllersCreated = 0;
 		foreach ($this->__tables as $table) {
 			$model = $this->_modelName($table);
 			$controller = $this->_controllerName($model);
@@ -125,7 +124,12 @@ class ControllerTask extends BakeTask {
 				if ($this->bake($controller, $actions) && $unitTestExists) {
 					$this->bakeTest($controller);
 				}
+				$controllersCreated++;
 			}
+		}
+
+		if (!$controllersCreated) {
+			$this->out(__d('cake_console', 'No Controllers were baked, Models need to exist before Controllers can be baked.'));
 		}
 	}
 
@@ -178,8 +182,13 @@ class ControllerTask extends BakeTask {
 				$components = $this->doComponents();
 
 				$wannaUseSession = $this->in(
-					__d('cake_console', "Would you like to use Session flash messages?"), array('y','n'), 'y'
+					__d('cake_console', "Would you like to use Session flash messages?"), array('y', 'n'), 'y'
 				);
+
+				if (strtolower($wannaUseSession) === 'y') {
+					array_push($components, 'Session');
+				}
+				array_unique($components);
 			}
 		} else {
 			list($wannaBakeCrud, $wannaBakeAdminCrud) = $this->_askAboutMethods();
@@ -196,7 +205,7 @@ class ControllerTask extends BakeTask {
 		$baked = false;
 		if ($this->interactive === true) {
 			$this->confirmController($controllerName, $useDynamicScaffold, $helpers, $components);
-			$looksGood = $this->in(__d('cake_console', 'Look okay?'), array('y','n'), 'y');
+			$looksGood = $this->in(__d('cake_console', 'Look okay?'), array('y', 'n'), 'y');
 
 			if (strtolower($looksGood) === 'y') {
 				$baked = $this->bake($controllerName, $actions, $helpers, $components);
@@ -216,10 +225,10 @@ class ControllerTask extends BakeTask {
 /**
  * Confirm a to be baked controller with the user
  *
- * @param string $controllerName
- * @param string $useDynamicScaffold
- * @param array $helpers
- * @param array $components
+ * @param string $controllerName The name of the controller.
+ * @param string $useDynamicScaffold Whether or not to use dynamic scaffolds.
+ * @param array $helpers The list of helpers to include.
+ * @param array $components The list of components to include.
  * @return void
  */
 	public function confirmController($controllerName, $useDynamicScaffold, $helpers, $components) {
@@ -239,10 +248,10 @@ class ControllerTask extends BakeTask {
 		);
 
 		foreach ($properties as $var => $title) {
-			if (count($$var)) {
+			if (count(${$var})) {
 				$output = '';
-				$length = count($$var);
-				foreach ($$var as $i => $propElement) {
+				$length = count(${$var});
+				foreach (${$var} as $i => $propElement) {
 					if ($i != $length - 1) {
 						$output .= ucfirst($propElement) . ', ';
 					} else {
@@ -263,11 +272,11 @@ class ControllerTask extends BakeTask {
 	protected function _askAboutMethods() {
 		$wannaBakeCrud = $this->in(
 			__d('cake_console', "Would you like to create some basic class methods \n(index(), add(), view(), edit())?"),
-			array('y','n'), 'n'
+			array('y', 'n'), 'n'
 		);
 		$wannaBakeAdminCrud = $this->in(
 			__d('cake_console', "Would you like to create the basic class methods for admin routing?"),
-			array('y','n'), 'n'
+			array('y', 'n'), 'n'
 		);
 		return array($wannaBakeCrud, $wannaBakeAdminCrud);
 	}
@@ -277,7 +286,7 @@ class ControllerTask extends BakeTask {
  *
  * @param string $controllerName Controller name
  * @param string $admin Admin route to use
- * @param boolean $wannaUseSession Set to true to use sessions, false otherwise
+ * @param bool $wannaUseSession Set to true to use sessions, false otherwise
  * @return string Baked actions
  */
 	public function bakeActions($controllerName, $admin = null, $wannaUseSession = true) {
@@ -289,7 +298,7 @@ class ControllerTask extends BakeTask {
 		App::uses($modelImport, $plugin . 'Model');
 		if (!class_exists($modelImport)) {
 			$this->err(__d('cake_console', 'You must have a model for this class to build basic methods. Please try again.'));
-			$this->_stop();
+			return $this->_stop();
 		}
 
 		$modelObj = ClassRegistry::init($currentModelName);
@@ -328,6 +337,11 @@ class ControllerTask extends BakeTask {
 			'plugin' => $this->plugin,
 			'pluginPath' => empty($this->plugin) ? '' : $this->plugin . '.'
 		));
+
+		if (!in_array('Paginator', (array)$components)) {
+			$components[] = 'Paginator';
+		}
+
 		$this->Template->set(compact('controllerName', 'actions', 'helpers', 'components', 'isScaffold'));
 		$contents = $this->Template->generate('classes', 'controller');
 
@@ -370,10 +384,11 @@ class ControllerTask extends BakeTask {
  * @return array Components the user wants to use.
  */
 	public function doComponents() {
-		return $this->_doPropertyChoices(
-			__d('cake_console', "Would you like this controller to use any components?"),
+		$components = array('Paginator', 'Flash');
+		return array_merge($components, $this->_doPropertyChoices(
+			__d('cake_console', "Would you like this controller to use other components\nbesides PaginatorComponent and FlashComponent?"),
 			__d('cake_console', "Please provide a comma separated list of the component names you'd like to use.\nExample: 'Acl, Security, RequestHandler'")
-		);
+		));
 	}
 
 /**
@@ -384,7 +399,7 @@ class ControllerTask extends BakeTask {
  * @return array Array of values for property.
  */
 	protected function _doPropertyChoices($prompt, $example) {
-		$proceed = $this->in($prompt, array('y','n'), 'n');
+		$proceed = $this->in($prompt, array('y', 'n'), 'n');
 		$property = array();
 		if (strtolower($proceed) === 'y') {
 			$propertyList = $this->in($example);
@@ -401,7 +416,7 @@ class ControllerTask extends BakeTask {
  * @return array Set of controllers
  */
 	public function listAll($useDbConfig = null) {
-		if (is_null($useDbConfig)) {
+		if ($useDbConfig === null) {
 			$useDbConfig = $this->connection;
 		}
 		$this->__tables = $this->Model->getAllTables($useDbConfig);
@@ -437,14 +452,14 @@ class ControllerTask extends BakeTask {
 				return $this->_stop();
 			}
 
-			if (!$enteredController || intval($enteredController) > count($controllers)) {
+			if (!$enteredController || (int)$enteredController > count($controllers)) {
 				$this->err(__d('cake_console', "The Controller name you supplied was empty,\nor the number you selected was not an option. Please try again."));
 				$enteredController = '';
 			}
 		}
 
-		if (intval($enteredController) > 0 && intval($enteredController) <= count($controllers)) {
-			$controllerName = $controllers[intval($enteredController) - 1];
+		if ((int)$enteredController > 0 && (int)$enteredController <= count($controllers)) {
+			$controllerName = $controllers[(int)$enteredController - 1];
 		} else {
 			$controllerName = Inflector::camelize($enteredController);
 		}
@@ -452,31 +467,42 @@ class ControllerTask extends BakeTask {
 	}
 
 /**
- * get the option parser.
+ * Gets the option parser instance and configures it.
  *
- * @return void
+ * @return ConsoleOptionParser
  */
 	public function getOptionParser() {
 		$parser = parent::getOptionParser();
-		return $parser->description(
-				__d('cake_console', 'Bake a controller for a model. Using options you can bake public, admin or both.')
-			)->addArgument('name', array(
-				'help' => __d('cake_console', 'Name of the controller to bake. Can use Plugin.name to bake controllers into plugins.')
-			))->addOption('public', array(
-				'help' => __d('cake_console', 'Bake a controller with basic crud actions (index, view, add, edit, delete).'),
-				'boolean' => true
-			))->addOption('admin', array(
-				'help' => __d('cake_console', 'Bake a controller with crud actions for one of the Routing.prefixes.'),
-				'boolean' => true
-			))->addOption('plugin', array(
-				'short' => 'p',
-				'help' => __d('cake_console', 'Plugin to bake the controller into.')
-			))->addOption('connection', array(
-				'short' => 'c',
-				'help' => __d('cake_console', 'The connection the controller\'s model is on.')
-			))->addSubcommand('all', array(
-				'help' => __d('cake_console', 'Bake all controllers with CRUD methods.')
-			))->epilog(__d('cake_console', 'Omitting all arguments and options will enter into an interactive mode.'));
+
+		$parser->description(
+			__d('cake_console', 'Bake a controller for a model. Using options you can bake public, admin or both.'
+		))->addArgument('name', array(
+			'help' => __d('cake_console', 'Name of the controller to bake. Can use Plugin.name to bake controllers into plugins.')
+		))->addOption('public', array(
+			'help' => __d('cake_console', 'Bake a controller with basic crud actions (index, view, add, edit, delete).'),
+			'boolean' => true
+		))->addOption('admin', array(
+			'help' => __d('cake_console', 'Bake a controller with crud actions for one of the Routing.prefixes.'),
+			'boolean' => true
+		))->addOption('plugin', array(
+			'short' => 'p',
+			'help' => __d('cake_console', 'Plugin to bake the controller into.')
+		))->addOption('connection', array(
+			'short' => 'c',
+			'help' => __d('cake_console', 'The connection the controller\'s model is on.')
+		))->addOption('theme', array(
+			'short' => 't',
+			'help' => __d('cake_console', 'Theme to use when baking code.')
+		))->addOption('force', array(
+			'short' => 'f',
+			'help' => __d('cake_console', 'Force overwriting existing files without prompting.')
+		))->addSubcommand('all', array(
+			'help' => __d('cake_console', 'Bake all controllers with CRUD methods.')
+		))->epilog(
+			__d('cake_console', 'Omitting all arguments and options will enter into an interactive mode.')
+		);
+
+		return $parser;
 	}
 
 }

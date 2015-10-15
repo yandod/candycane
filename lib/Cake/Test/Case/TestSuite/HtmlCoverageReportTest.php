@@ -15,12 +15,17 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.TestSuite
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('HtmlCoverageReport', 'TestSuite/Coverage');
 App::uses('CakeBaseReporter', 'TestSuite/Reporter');
 
+/**
+ * Class HtmlCoverageReportTest
+ *
+ * @package       Cake.Test.Case.TestSuite
+ */
 class HtmlCoverageReportTest extends CakeTestCase {
 
 /**
@@ -114,7 +119,7 @@ class HtmlCoverageReportTest extends CakeTestCase {
 		);
 		$result = $this->Coverage->generateDiff('myfile.php', $file, $coverage);
 		$this->assertRegExp('/myfile\.php Code coverage\: \d+\.?\d*\%/', $result);
-		$this->assertRegExp('/<div class="code-coverage-results" id\="coverage\-myfile\.php"/', $result);
+		$this->assertRegExp('/<div class="code-coverage-results" id\="coverage\-myfile\.php-' . md5('myfile.php') . '"/', $result);
 		$this->assertRegExp('/<pre>/', $result);
 		foreach ($file as $i => $line) {
 			$this->assertTrue(strpos($line, $result) !== 0, 'Content is missing ' . $i);
@@ -122,7 +127,7 @@ class HtmlCoverageReportTest extends CakeTestCase {
 			if (in_array($i + 1, array(5, 9, 2))) {
 				$class = 'uncovered';
 			}
-			if ($i + 1 == 2) {
+			if ($i + 1 === 2) {
 				$class .= ' dead';
 			}
 			$this->assertTrue(strpos($class, $result) !== 0, 'Class name is wrong ' . $i);
@@ -162,7 +167,7 @@ class HtmlCoverageReportTest extends CakeTestCase {
 
 		$result = $this->Coverage->generateDiff('myfile.php', $file, $coverage);
 		$this->assertRegExp('/myfile\.php Code coverage\: \d+\.?\d*\%/', $result);
-		$this->assertRegExp('/<div class="code-coverage-results" id\="coverage\-myfile\.php"/', $result);
+		$this->assertRegExp('/<div class="code-coverage-results" id\="coverage\-myfile\.php-' . md5('myfile.php') . '"/', $result);
 		$this->assertRegExp('/<pre>/', $result);
 		foreach ($file as $i => $line) {
 			$this->assertTrue(strpos($line, $result) !== 0, 'Content is missing ' . $i);
@@ -170,7 +175,7 @@ class HtmlCoverageReportTest extends CakeTestCase {
 			if (in_array($i + 1, array(5, 9, 2))) {
 				$class = 'uncovered';
 			}
-			if ($i + 1 == 2) {
+			if ($i + 1 === 2) {
 				$class .= ' dead';
 			}
 			$this->assertTrue(strpos($class, $result) !== 0, 'Class name is wrong ' . $i);

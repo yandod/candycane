@@ -2,8 +2,6 @@
 /**
  * ExceptionRendererTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,7 +13,7 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Error
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('ExceptionRenderer', 'Error');
@@ -29,13 +27,6 @@ App::uses('Router', 'Routing');
  * @package       Cake.Test.Case.Error
  */
 class AuthBlueberryUser extends CakeTestModel {
-
-/**
- * name property
- *
- * @var string 'AuthBlueberryUser'
- */
-	public $name = 'AuthBlueberryUser';
 
 /**
  * useTable property
@@ -138,7 +129,6 @@ class MyCustomExceptionRenderer extends ExceptionRenderer {
 class MissingWidgetThingException extends NotFoundException {
 }
 
-
 /**
  * ExceptionRendererTest class
  *
@@ -155,6 +145,7 @@ class ExceptionRendererTest extends CakeTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+		Configure::write('Config.language', 'eng');
 		App::build(array(
 			'View' => array(
 				CAKE . 'Test' . DS . 'test_app' . DS . 'View' . DS
@@ -279,6 +270,8 @@ class ExceptionRendererTest extends CakeTestCase {
 
 /**
  * test that helpers in custom CakeErrorController are not lost
+ *
+ * @return void
  */
 	public function testCakeErrorHelpersNotLost() {
 		$testApp = CAKE . 'Test' . DS . 'test_app' . DS;
@@ -534,7 +527,7 @@ class ExceptionRendererTest extends CakeTestCase {
 				404
 			),
 			array(
-				new PrivateActionException(array('controller' => 'PostsController' , 'action' => '_secretSauce')),
+				new PrivateActionException(array('controller' => 'PostsController', 'action' => '_secretSauce')),
 				array(
 					'/<h2>Private Method in PostsController<\/h2>/',
 					'/<em>PostsController::<\/em><em>_secretSauce\(\)<\/em>/'
@@ -768,7 +761,74 @@ class ExceptionRendererTest extends CakeTestCase {
 		$ExceptionRenderer->render();
 		$this->assertEquals('', $ExceptionRenderer->controller->layoutPath);
 		$this->assertEquals('', $ExceptionRenderer->controller->subDir);
-		$this->assertEquals('Errors/', $ExceptionRenderer->controller->viewPath);
+		$this->assertEquals('Errors', $ExceptionRenderer->controller->viewPath);
+	}
+
+/**
+ * Test that missing plugin disables Controller::$plugin if the two are the same plugin.
+ *
+ * @return void
+ */
+	public function testMissingPluginRenderSafe() {
+		$exception = new NotFoundException();
+		$ExceptionRenderer = new ExceptionRenderer($exception);
+
+		$ExceptionRenderer->controller = $this->getMock('Controller', array('render'));
+		$ExceptionRenderer->controller->plugin = 'TestPlugin';
+		$ExceptionRenderer->controller->request = $this->getMock('CakeRequest');
+
+		$exception = new MissingPluginException(array('plugin' => 'TestPlugin'));
+		$ExceptionRenderer->controller->expects($this->once())
+			->method('render')
+			->with('error400')
+			->will($this->throwException($exception));
+
+		$response = $this->getMock('CakeResponse');
+		$response->expects($this->once())
+			->method('body')
+			->with($this->logicalAnd(
+				$this->logicalNot($this->stringContains('test plugin error500')),
+				$this->stringContains('Not Found')
+			));
+
+		$ExceptionRenderer->controller->response = $response;
+		$ExceptionRenderer->render();
+	}
+
+/**
+ * Test that missing plugin doesn't disable Controller::$plugin if the two aren't the same plugin.
+ *
+ * @return void
+ */
+	public function testMissingPluginRenderSafeWithPlugin() {
+		App::build(array(
+			'Plugin' => array(CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS)
+		), App::RESET);
+		CakePlugin::load('TestPlugin');
+		$exception = new NotFoundException();
+		$ExceptionRenderer = new ExceptionRenderer($exception);
+
+		$ExceptionRenderer->controller = $this->getMock('Controller', array('render'));
+		$ExceptionRenderer->controller->plugin = 'TestPlugin';
+		$ExceptionRenderer->controller->request = $this->getMock('CakeRequest');
+
+		$exception = new MissingPluginException(array('plugin' => 'TestPluginTwo'));
+		$ExceptionRenderer->controller->expects($this->once())
+			->method('render')
+			->with('error400')
+			->will($this->throwException($exception));
+
+		$response = $this->getMock('CakeResponse');
+		$response->expects($this->once())
+			->method('body')
+			->with($this->logicalAnd(
+				$this->stringContains('test plugin error500'),
+				$this->stringContains('Not Found')
+			));
+
+		$ExceptionRenderer->controller->response = $response;
+		$ExceptionRenderer->render();
+		CakePlugin::unload();
 	}
 
 /**

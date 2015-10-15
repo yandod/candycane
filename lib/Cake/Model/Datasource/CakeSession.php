@@ -1,13 +1,11 @@
 <?php
 /**
- * Session class for Cake.
+ * Session class for CakePHP.
  *
- * Cake abstracts the handling of sessions.
+ * CakePHP abstracts the handling of sessions.
  * There are several convenient methods to access session information.
  * This class is the implementation of those methods.
  * They are mostly used by the Session Component.
- *
- * PHP 5
  *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
@@ -20,16 +18,16 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model.Datasource
  * @since         CakePHP(tm) v .0.10.0.1222
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Hash', 'Utility');
 App::uses('Security', 'Utility');
 
 /**
- * Session class for Cake.
+ * Session class for CakePHP.
  *
- * Cake abstracts the handling of sessions. There are several convenient methods to access session information.
+ * CakePHP abstracts the handling of sessions. There are several convenient methods to access session information.
  * This class is the implementation of those methods. They are mostly used by the Session Component.
  *
  * @package       Cake.Model.Datasource
@@ -39,7 +37,7 @@ class CakeSession {
 /**
  * True if the Session is still valid
  *
- * @var boolean
+ * @var bool
  */
 	public static $valid = false;
 
@@ -67,28 +65,28 @@ class CakeSession {
 /**
  * Error number of last occurred error
  *
- * @var integer
+ * @var int
  */
 	public static $lastError = null;
 
 /**
  * Start time for this session.
  *
- * @var integer
+ * @var int
  */
 	public static $time = false;
 
 /**
  * Cookie lifetime
  *
- * @var integer
+ * @var int
  */
 	public static $cookieLifeTime;
 
 /**
  * Time when this session becomes invalid.
  *
- * @var integer
+ * @var int
  */
 	public static $sessionTime = false;
 
@@ -109,7 +107,7 @@ class CakeSession {
 /**
  * Session timeout multiplier factor
  *
- * @var integer
+ * @var int
  */
 	public static $timeout = null;
 
@@ -117,39 +115,57 @@ class CakeSession {
  * Number of requests that can occur during a session time without the session being renewed.
  * This feature is only used when config value `Session.autoRegenerate` is set to true.
  *
- * @var integer
+ * @var int
  * @see CakeSession::_checkValid()
  */
 	public static $requestCountdown = 10;
 
 /**
+ * Whether or not the init function in this class was already called
+ *
+ * @var bool
+ */
+	protected static $_initialized = false;
+
+/**
+ * Session cookie name
+ *
+ * @var string
+ */
+	protected static $_cookieName = null;
+
+/**
  * Pseudo constructor.
  *
- * @param string $base The base path for the Session
+ * @param string|null $base The base path for the Session
  * @return void
  */
 	public static function init($base = null) {
-		self::$time = time();
+		static::$time = time();
 
-		$checkAgent = Configure::read('Session.checkAgent');
-		if (($checkAgent === true || $checkAgent === null) && env('HTTP_USER_AGENT')) {
-			self::$_userAgent = md5(env('HTTP_USER_AGENT') . Configure::read('Security.salt'));
+		if (env('HTTP_USER_AGENT')) {
+			static::$_userAgent = md5(env('HTTP_USER_AGENT') . Configure::read('Security.salt'));
 		}
-		self::_setPath($base);
-		self::_setHost(env('HTTP_HOST'));
 
-		register_shutdown_function('session_write_close');
+		static::_setPath($base);
+		static::_setHost(env('HTTP_HOST'));
+
+		if (!static::$_initialized) {
+			register_shutdown_function('session_write_close');
+		}
+
+		static::$_initialized = true;
 	}
 
 /**
  * Setup the Path variable
  *
- * @param string $base base path
+ * @param string|null $base base path
  * @return void
  */
 	protected static function _setPath($base = null) {
 		if (empty($base)) {
-			self::$path = '/';
+			static::$path = '/';
 			return;
 		}
 		if (strpos($base, 'index.php') !== false) {
@@ -158,7 +174,7 @@ class CakeSession {
 		if (strpos($base, '?') !== false) {
 			$base = str_replace('?', '', $base);
 		}
-		self::$path = $base;
+		static::$path = $base;
 	}
 
 /**
@@ -168,39 +184,38 @@ class CakeSession {
  * @return void
  */
 	protected static function _setHost($host) {
-		self::$host = $host;
-		if (strpos(self::$host, ':') !== false) {
-			self::$host = substr(self::$host, 0, strpos(self::$host, ':'));
+		static::$host = $host;
+		if (strpos(static::$host, ':') !== false) {
+			static::$host = substr(static::$host, 0, strpos(static::$host, ':'));
 		}
 	}
 
 /**
  * Starts the Session.
  *
- * @return boolean True if session was started
+ * @return bool True if session was started
  */
 	public static function start() {
-		if (self::started()) {
+		if (static::started()) {
 			return true;
 		}
-		self::init();
-		$id = self::id();
-		session_write_close();
-		self::_configureSession();
-		self::_startSession();
 
-		if (!$id && self::started()) {
-			self::_checkValid();
+		$id = static::id();
+		static::_startSession();
+
+		if (!$id && static::started()) {
+			static::_checkValid();
 		}
 
-		self::$error = false;
-		return self::started();
+		static::$error = false;
+		static::$valid = true;
+		return static::started();
 	}
 
 /**
  * Determine if Session has been started.
  *
- * @return boolean True if session has been started.
+ * @return bool True if session has been started.
  */
 	public static function started() {
 		return isset($_SESSION) && session_id();
@@ -210,54 +225,59 @@ class CakeSession {
  * Returns true if given variable is set in session.
  *
  * @param string $name Variable name to check for
- * @return boolean True if variable is there
+ * @return bool True if variable is there
  */
-	public static function check($name = null) {
-		if (!self::started() && !self::start()) {
+	public static function check($name) {
+		if (empty($name) || !static::_hasSession() || !static::start()) {
 			return false;
 		}
-		if (empty($name)) {
-			return false;
-		}
+
 		return Hash::get($_SESSION, $name) !== null;
 	}
 
 /**
- * Returns the Session id
+ * Returns the session id.
+ * Calling this method will not auto start the session. You might have to manually
+ * assert a started session.
  *
- * @param string $id
+ * Passing an id into it, you can also replace the session id if the session
+ * has not already been started.
+ * Note that depending on the session handler, not all characters are allowed
+ * within the session id. For example, the file session handler only allows
+ * characters in the range a-z A-Z 0-9 , (comma) and - (minus).
+ *
+ * @param string|null $id Id to replace the current session id
  * @return string Session id
  */
 	public static function id($id = null) {
 		if ($id) {
-			self::$id = $id;
-			session_id(self::$id);
+			static::$id = $id;
+			session_id(static::$id);
 		}
-		if (self::started()) {
+		if (static::started()) {
 			return session_id();
 		}
-		return self::$id;
+		return static::$id;
 	}
 
 /**
  * Removes a variable from session.
  *
  * @param string $name Session variable to remove
- * @return boolean Success
+ * @return bool Success
  */
 	public static function delete($name) {
-		if (self::check($name)) {
-			self::_overwrite($_SESSION, Hash::remove($_SESSION, $name));
-			return !self::check($name);
+		if (static::check($name)) {
+			static::_overwrite($_SESSION, Hash::remove($_SESSION, $name));
+			return !static::check($name);
 		}
-		self::_setError(2, __d('cake_dev', "%s doesn't exist", $name));
 		return false;
 	}
 
 /**
- * Used to write new data to _SESSION, since PHP doesn't like us setting the _SESSION var itself
+ * Used to write new data to _SESSION, since PHP doesn't like us setting the _SESSION var itself.
  *
- * @param array $old Set of old variables => values
+ * @param array &$old Set of old variables => values
  * @param array $new New set of variable => value
  * @return void
  */
@@ -277,14 +297,14 @@ class CakeSession {
 /**
  * Return error description for given error number.
  *
- * @param integer $errorNumber Error to set
+ * @param int $errorNumber Error to set
  * @return string Error as string
  */
 	protected static function _error($errorNumber) {
-		if (!is_array(self::$error) || !array_key_exists($errorNumber, self::$error)) {
+		if (!is_array(static::$error) || !array_key_exists($errorNumber, static::$error)) {
 			return false;
 		}
-		return self::$error[$errorNumber];
+		return static::$error[$errorNumber];
 	}
 
 /**
@@ -293,8 +313,8 @@ class CakeSession {
  * @return mixed Error description as a string, or false.
  */
 	public static function error() {
-		if (self::$lastError) {
-			return self::_error(self::$lastError);
+		if (static::$lastError) {
+			return static::_error(static::$lastError);
 		}
 		return false;
 	}
@@ -302,75 +322,75 @@ class CakeSession {
 /**
  * Returns true if session is valid.
  *
- * @return boolean Success
+ * @return bool Success
  */
 	public static function valid() {
-		if (self::read('Config')) {
-			if (self::_validAgentAndTime() && self::$error === false) {
-				self::$valid = true;
+		if (static::start() && static::read('Config')) {
+			if (static::_validAgentAndTime() && static::$error === false) {
+				static::$valid = true;
 			} else {
-				self::$valid = false;
-				self::_setError(1, 'Session Highjacking Attempted !!!');
+				static::$valid = false;
+				static::_setError(1, 'Session Highjacking Attempted !!!');
 			}
 		}
-		return self::$valid;
+		return static::$valid;
 	}
 
 /**
  * Tests that the user agent is valid and that the session hasn't 'timed out'.
- * Since timeouts are implemented in CakeSession it checks the current self::$time
+ * Since timeouts are implemented in CakeSession it checks the current static::$time
  * against the time the session is set to expire. The User agent is only checked
  * if Session.checkAgent == true.
  *
- * @return boolean
+ * @return bool
  */
 	protected static function _validAgentAndTime() {
-		$config = self::read('Config');
+		$config = static::read('Config');
 		$validAgent = (
 			Configure::read('Session.checkAgent') === false ||
-			self::$_userAgent == $config['userAgent']
+			isset($config['userAgent']) && static::$_userAgent === $config['userAgent']
 		);
-		return ($validAgent && self::$time <= $config['time']);
+		return ($validAgent && static::$time <= $config['time']);
 	}
 
 /**
- * Get / Set the userAgent
+ * Get / Set the user agent
  *
- * @param string $userAgent Set the userAgent
- * @return void
+ * @param string|null $userAgent Set the user agent
+ * @return string Current user agent.
  */
 	public static function userAgent($userAgent = null) {
 		if ($userAgent) {
-			self::$_userAgent = $userAgent;
+			static::$_userAgent = $userAgent;
 		}
-		if (empty(self::$_userAgent)) {
-			CakeSession::init(self::$path);
+		if (empty(static::$_userAgent)) {
+			CakeSession::init(static::$path);
 		}
-		return self::$_userAgent;
+		return static::$_userAgent;
 	}
 
 /**
  * Returns given session variable, or all of them, if no parameters given.
  *
- * @param string|array $name The name of the session variable (or a path as sent to Set.extract)
- * @return mixed The value of the session variable
+ * @param string|null $name The name of the session variable (or a path as sent to Set.extract)
+ * @return mixed The value of the session variable, null if session not available,
+ *   session not started, or provided name not found in the session, false on failure.
  */
 	public static function read($name = null) {
-		if (!self::started() && !self::start()) {
-			return false;
+		if (empty($name) && $name !== null) {
+			return null;
 		}
-		if (is_null($name)) {
-			return self::_returnSessionVars();
+		if (!static::_hasSession() || !static::start()) {
+			return null;
 		}
-		if (empty($name)) {
-			return false;
+		if ($name === null) {
+			return static::_returnSessionVars();
 		}
 		$result = Hash::get($_SESSION, $name);
 
 		if (isset($result)) {
 			return $result;
 		}
-		self::_setError(2, "$name doesn't exist");
 		return null;
 	}
 
@@ -383,7 +403,7 @@ class CakeSession {
 		if (!empty($_SESSION)) {
 			return $_SESSION;
 		}
-		self::_setError(2, 'No Session vars set');
+		static::_setError(2, 'No Session vars set');
 		return false;
 	}
 
@@ -392,21 +412,19 @@ class CakeSession {
  *
  * @param string|array $name Name of variable
  * @param string $value Value to write
- * @return boolean True if the write was successful, false if the write failed
+ * @return bool True if the write was successful, false if the write failed
  */
 	public static function write($name, $value = null) {
-		if (!self::started() && !self::start()) {
+		if (empty($name) || !static::start()) {
 			return false;
 		}
-		if (empty($name)) {
-			return false;
-		}
+
 		$write = $name;
 		if (!is_array($name)) {
 			$write = array($name => $value);
 		}
 		foreach ($write as $key => $val) {
-			self::_overwrite($_SESSION, Hash::insert($_SESSION, $key, $val));
+			static::_overwrite($_SESSION, Hash::insert($_SESSION, $key, $val));
 			if (Hash::get($_SESSION, $key) !== $val) {
 				return false;
 			}
@@ -415,32 +433,63 @@ class CakeSession {
 	}
 
 /**
+ * Reads and deletes a variable from session.
+ *
+ * @param string $name The key to read and remove (or a path as sent to Hash.extract).
+ * @return mixed The value of the session variable, null if session not available,
+ *   session not started, or provided name not found in the session.
+ */
+	public static function consume($name) {
+		if (empty($name)) {
+			return null;
+		}
+		$value = static::read($name);
+		if ($value !== null) {
+			static::_overwrite($_SESSION, Hash::remove($_SESSION, $name));
+		}
+		return $value;
+	}
+
+/**
  * Helper method to destroy invalid sessions.
  *
  * @return void
  */
 	public static function destroy() {
-		if (!self::started()) {
-			self::start();
+		if (!static::started()) {
+			static::_startSession();
 		}
-		session_destroy();
-		self::clear();
+
+		if (static::started()) {
+			session_destroy();
+		}
+
+		$_SESSION = null;
+		static::$id = null;
+		static::$_cookieName = null;
 	}
 
 /**
- * Clears the session, the session id, and renews the session.
+ * Clears the session.
  *
+ * Optionally also clears the session id and renews the session.
+ *
+ * @param bool $renew If the session should also be renewed. Defaults to true.
  * @return void
  */
-	public static function clear() {
+	public static function clear($renew = true) {
+		if (!$renew) {
+			$_SESSION = array();
+			return;
+		}
+
 		$_SESSION = null;
-		self::$id = null;
-		self::start();
-		self::renew();
+		static::$id = null;
+		static::renew();
 	}
 
 /**
- * Helper method to initialize a session, based on Cake core settings.
+ * Helper method to initialize a session, based on CakePHP core settings.
  *
  * Sessions can be configured with a few shortcut names as well as have any number of ini settings declared.
  *
@@ -451,7 +500,7 @@ class CakeSession {
 		$sessionConfig = Configure::read('Session');
 
 		if (isset($sessionConfig['defaults'])) {
-			$defaults = self::_defaultConfig($sessionConfig['defaults']);
+			$defaults = static::_defaultConfig($sessionConfig['defaults']);
 			if ($defaults) {
 				$sessionConfig = Hash::merge($defaults, $sessionConfig);
 			}
@@ -465,12 +514,20 @@ class CakeSession {
 		if (!isset($sessionConfig['ini']['session.cookie_lifetime'])) {
 			$sessionConfig['ini']['session.cookie_lifetime'] = $sessionConfig['cookieTimeout'] * 60;
 		}
+
 		if (!isset($sessionConfig['ini']['session.name'])) {
 			$sessionConfig['ini']['session.name'] = $sessionConfig['cookie'];
 		}
+		static::$_cookieName = $sessionConfig['ini']['session.name'];
+
 		if (!empty($sessionConfig['handler'])) {
 			$sessionConfig['ini']['session.save_handler'] = 'user';
+		} elseif (!empty($sessionConfig['session.save_path']) && Configure::read('debug')) {
+			if (!is_dir($sessionConfig['session.save_path'])) {
+				mkdir($sessionConfig['session.save_path'], 0775, true);
+			}
 		}
+
 		if (!isset($sessionConfig['ini']['session.gc_maxlifetime'])) {
 			$sessionConfig['ini']['session.gc_maxlifetime'] = $sessionConfig['timeout'] * 60;
 		}
@@ -482,10 +539,7 @@ class CakeSession {
 			if (!empty($sessionConfig['ini']) && is_array($sessionConfig['ini'])) {
 				foreach ($sessionConfig['ini'] as $setting => $value) {
 					if (ini_set($setting, $value) === false) {
-						throw new CakeSessionException(sprintf(
-							__d('cake_dev', 'Unable to configure the session, setting %s failed.'),
-							$setting
-						));
+						throw new CakeSessionException(__d('cake_dev', 'Unable to configure the session, setting %s failed.', $setting));
 					}
 				}
 			}
@@ -494,7 +548,7 @@ class CakeSession {
 			call_user_func_array('session_set_save_handler', $sessionConfig['handler']);
 		}
 		if (!empty($sessionConfig['handler']['engine'])) {
-			$handler = self::_getHandler($sessionConfig['handler']['engine']);
+			$handler = static::_getHandler($sessionConfig['handler']['engine']);
 			session_set_save_handler(
 				array($handler, 'open'),
 				array($handler, 'close'),
@@ -505,13 +559,38 @@ class CakeSession {
 			);
 		}
 		Configure::write('Session', $sessionConfig);
-		self::$sessionTime = self::$time + ($sessionConfig['timeout'] * 60);
+		static::$sessionTime = static::$time + ($sessionConfig['timeout'] * 60);
+	}
+
+/**
+ * Get session cookie name.
+ *
+ * @return string
+ */
+	protected static function _cookieName() {
+		if (static::$_cookieName !== null) {
+			return static::$_cookieName;
+		}
+
+		static::init();
+		static::_configureSession();
+
+		return static::$_cookieName = session_name();
+	}
+
+/**
+ * Returns whether a session exists
+ *
+ * @return bool
+ */
+	protected static function _hasSession() {
+		return static::started() || isset($_COOKIE[static::_cookieName()]);
 	}
 
 /**
  * Find the handler class and make sure it implements the correct interface.
  *
- * @param string $handler
+ * @param string $handler Handler name.
  * @return void
  * @throws CakeSessionException
  */
@@ -531,8 +610,8 @@ class CakeSession {
 /**
  * Get one of the prebaked default session configurations.
  *
- * @param string $name
- * @return boolean|array
+ * @param string $name Config name.
+ * @return bool|array
  */
 	protected static function _defaultConfig($name) {
 		$defaults = array(
@@ -541,7 +620,7 @@ class CakeSession {
 				'timeout' => 240,
 				'ini' => array(
 					'session.use_trans_sid' => 0,
-					'session.cookie_path' => self::$path
+					'session.cookie_path' => static::$path
 				)
 			),
 			'cake' => array(
@@ -552,8 +631,7 @@ class CakeSession {
 					'url_rewriter.tags' => '',
 					'session.serialize_handler' => 'php',
 					'session.use_cookies' => 1,
-					'session.cookie_path' => self::$path,
-					'session.auto_start' => 0,
+					'session.cookie_path' => static::$path,
 					'session.save_path' => TMP . 'sessions',
 					'session.save_handler' => 'files'
 				)
@@ -564,9 +642,8 @@ class CakeSession {
 				'ini' => array(
 					'session.use_trans_sid' => 0,
 					'url_rewriter.tags' => '',
-					'session.auto_start' => 0,
 					'session.use_cookies' => 1,
-					'session.cookie_path' => self::$path,
+					'session.cookie_path' => static::$path,
 					'session.save_handler' => 'user',
 				),
 				'handler' => array(
@@ -580,9 +657,8 @@ class CakeSession {
 				'ini' => array(
 					'session.use_trans_sid' => 0,
 					'url_rewriter.tags' => '',
-					'session.auto_start' => 0,
 					'session.use_cookies' => 1,
-					'session.cookie_path' => self::$path,
+					'session.cookie_path' => static::$path,
 					'session.save_handler' => 'user',
 					'session.serialize_handler' => 'php',
 				),
@@ -601,9 +677,13 @@ class CakeSession {
 /**
  * Helper method to start a session
  *
- * @return boolean Success
+ * @return bool Success
  */
 	protected static function _startSession() {
+		static::init();
+		session_write_close();
+		static::_configureSession();
+
 		if (headers_sent()) {
 			if (empty($_SESSION)) {
 				$_SESSION = array();
@@ -622,37 +702,43 @@ class CakeSession {
  * @return void
  */
 	protected static function _checkValid() {
-		if (!self::started() && !self::start()) {
-			self::$valid = false;
-			return false;
-		}
-		if ($config = self::read('Config')) {
+		$config = static::read('Config');
+		if ($config) {
 			$sessionConfig = Configure::read('Session');
 
-			if (self::_validAgentAndTime()) {
-				self::write('Config.time', self::$sessionTime);
+			if (static::valid()) {
+				static::write('Config.time', static::$sessionTime);
 				if (isset($sessionConfig['autoRegenerate']) && $sessionConfig['autoRegenerate'] === true) {
 					$check = $config['countdown'];
 					$check -= 1;
-					self::write('Config.countdown', $check);
+					static::write('Config.countdown', $check);
 
 					if ($check < 1) {
-						self::renew();
-						self::write('Config.countdown', self::$requestCountdown);
+						static::renew();
+						static::write('Config.countdown', static::$requestCountdown);
 					}
 				}
-				self::$valid = true;
 			} else {
-				self::destroy();
-				self::$valid = false;
-				self::_setError(1, 'Session Highjacking Attempted !!!');
+				$_SESSION = array();
+				static::destroy();
+				static::_setError(1, 'Session Highjacking Attempted !!!');
+				static::_startSession();
+				static::_writeConfig();
 			}
 		} else {
-			self::write('Config.userAgent', self::$_userAgent);
-			self::write('Config.time', self::$sessionTime);
-			self::write('Config.countdown', self::$requestCountdown);
-			self::$valid = true;
+			static::_writeConfig();
 		}
+	}
+
+/**
+ * Writes configuration variables to the session
+ *
+ * @return void
+ */
+	protected static function _writeConfig() {
+		static::write('Config.userAgent', static::$_userAgent);
+		static::write('Config.time', static::$sessionTime);
+		static::write('Config.countdown', static::$requestCountdown);
 	}
 
 /**
@@ -661,27 +747,28 @@ class CakeSession {
  * @return void
  */
 	public static function renew() {
-		if (session_id()) {
-			if (session_id() || isset($_COOKIE[session_name()])) {
-				setcookie(Configure::read('Session.cookie'), '', time() - 42000, self::$path);
-			}
-			session_regenerate_id(true);
+		if (session_id() === '') {
+			return;
 		}
+		if (isset($_COOKIE[session_name()])) {
+			setcookie(Configure::read('Session.cookie'), '', time() - 42000, static::$path);
+		}
+		session_regenerate_id(true);
 	}
 
 /**
  * Helper method to set an internal error message.
  *
- * @param integer $errorNumber Number of the error
+ * @param int $errorNumber Number of the error
  * @param string $errorMessage Description of the error
  * @return void
  */
 	protected static function _setError($errorNumber, $errorMessage) {
-		if (self::$error === false) {
-			self::$error = array();
+		if (static::$error === false) {
+			static::$error = array();
 		}
-		self::$error[$errorNumber] = $errorMessage;
-		self::$lastError = $errorNumber;
+		static::$error[$errorNumber] = $errorMessage;
+		static::$lastError = $errorNumber;
 	}
 
 }

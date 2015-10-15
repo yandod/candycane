@@ -9,11 +9,12 @@
  *
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('View', 'View');
 App::uses('Xml', 'Utility');
+App::uses('Hash', 'Utility');
 
 /**
  * A view class that is used for creating XML responses.
@@ -35,10 +36,10 @@ App::uses('Xml', 'Utility');
  * You can also define `'_serialize'` as an array. This will create an additional
  * top level element named `<response>` containing all the named view variables:
  *
- * {{{
+ * ```
  * $this->set(compact('posts', 'users', 'stuff'));
  * $this->set('_serialize', array('posts', 'users'));
- * }}}
+ * ```
  *
  * The above would generate a XML object that looks like:
  *
@@ -62,7 +63,7 @@ class XmlView extends View {
 /**
  * Constructor
  *
- * @param Controller $controller
+ * @param Controller $controller Controller instance.
  */
 	public function __construct(Controller $controller = null) {
 		parent::__construct($controller);
@@ -70,6 +71,18 @@ class XmlView extends View {
 		if (isset($controller->response) && $controller->response instanceof CakeResponse) {
 			$controller->response->type('xml');
 		}
+	}
+
+/**
+ * Skip loading helpers if this is a _serialize based view.
+ *
+ * @return void
+ */
+	public function loadHelpers() {
+		if (isset($this->viewVars['_serialize'])) {
+			return;
+		}
+		parent::loadHelpers();
 	}
 
 /**
@@ -94,9 +107,13 @@ class XmlView extends View {
 	}
 
 /**
- * Serialize view vars
+ * Serialize view vars.
  *
- * @param array $serialize The viewVars that need to be serialized
+ * ### Special parameters
+ * `_xmlOptions` You can set an array of custom options for Xml::fromArray() this way, e.g.
+ *   'format' as 'attributes' instead of 'tags'.
+ *
+ * @param array $serialize The viewVars that need to be serialized.
  * @return string The serialized data
  */
 	protected function _serialize($serialize) {
@@ -104,16 +121,28 @@ class XmlView extends View {
 
 		if (is_array($serialize)) {
 			$data = array($rootNode => array());
-			foreach ($serialize as $key) {
-				$data[$rootNode][$key] = $this->viewVars[$key];
+			foreach ($serialize as $alias => $key) {
+				if (is_numeric($alias)) {
+					$alias = $key;
+				}
+				$data[$rootNode][$alias] = $this->viewVars[$key];
 			}
 		} else {
 			$data = isset($this->viewVars[$serialize]) ? $this->viewVars[$serialize] : null;
-			if (is_array($data) && Set::numeric(array_keys($data))) {
+			if (is_array($data) && Hash::numeric(array_keys($data))) {
 				$data = array($rootNode => array($serialize => $data));
 			}
 		}
-		return Xml::fromArray($data)->asXML();
+
+		$options = array();
+		if (isset($this->viewVars['_xmlOptions'])) {
+			$options = $this->viewVars['_xmlOptions'];
+		}
+		if (Configure::read('debug')) {
+			$options['pretty'] = true;
+		}
+
+		return Xml::fromArray($data, $options)->asXML();
 	}
 
 }

@@ -2,8 +2,6 @@
 /**
  * CakePluginTest file.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,14 +13,13 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Core
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('CakePlugin', 'Core');
 
 /**
  * CakePluginTest class
- *
  */
 class CakePluginTest extends CakeTestCase {
 
@@ -212,10 +209,10 @@ class CakePluginTest extends CakeTestCase {
 	public function testPath() {
 		CakePlugin::load(array('TestPlugin', 'TestPluginTwo'));
 		$expected = CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS . 'TestPlugin' . DS;
-		$this->assertEquals(CakePlugin::path('TestPlugin'), $expected);
+		$this->assertEquals($expected, CakePlugin::path('TestPlugin'));
 
 		$expected = CAKE . 'Test' . DS . 'test_app' . DS . 'Plugin' . DS . 'TestPluginTwo' . DS;
-		$this->assertEquals(CakePlugin::path('TestPluginTwo'), $expected);
+		$this->assertEquals($expected, CakePlugin::path('TestPluginTwo'));
 	}
 
 /**
@@ -255,13 +252,31 @@ class CakePluginTest extends CakeTestCase {
 	}
 
 /**
- * Tests that CakePlugin::loadAll() will load all plugins in the configured folder wit defaults
- * and overrides for a plugin
+ * Tests that CakePlugin::loadAll() will load all plugins in the configured folder with defaults
+ * and merges in global defaults.
  *
  * @return void
  */
 	public function testLoadAllWithDefaultsAndOverride() {
 		CakePlugin::loadAll(array(array('bootstrap' => true), 'TestPlugin' => array('routes' => true)));
+		CakePlugin::routes();
+
+		$expected = array('PluginJs', 'TestPlugin', 'TestPluginTwo');
+		$this->assertEquals($expected, CakePlugin::loaded());
+		$this->assertEquals('loaded js plugin bootstrap', Configure::read('CakePluginTest.js_plugin.bootstrap'));
+		$this->assertEquals('loaded plugin routes', Configure::read('CakePluginTest.test_plugin.routes'));
+		$this->assertEquals('loaded plugin bootstrap', Configure::read('CakePluginTest.test_plugin.bootstrap'));
+		$this->assertEquals('loaded plugin two bootstrap', Configure::read('CakePluginTest.test_plugin_two.bootstrap'));
+	}
+
+/**
+ * Tests that CakePlugin::loadAll() will load all plugins in the configured folder with defaults
+ * and overrides for a plugin
+ *
+ * @return void
+ */
+	public function testLoadAllWithDefaultsAndOverrideComplex() {
+		CakePlugin::loadAll(array(array('bootstrap' => true), 'TestPlugin' => array('routes' => true, 'bootstrap' => false)));
 		CakePlugin::routes();
 
 		$expected = array('PluginJs', 'TestPlugin', 'TestPluginTwo');

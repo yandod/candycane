@@ -2,8 +2,6 @@
 /**
  * TestRunner for CakePHP Test suite.
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -14,25 +12,27 @@
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-require_once 'PHPUnit/TextUI/TestRunner.php';
+
+if (!defined('__PHPUNIT_PHAR__')) {
+	require_once 'PHPUnit/TextUI/TestRunner.php';
+}
 
 App::uses('CakeFixtureManager', 'TestSuite/Fixture');
 
 /**
- * A custom test runner for Cake's use of PHPUnit.
+ * A custom test runner for CakePHP's use of PHPUnit.
  *
  * @package       Cake.TestSuite
  */
 class CakeTestRunner extends PHPUnit_TextUI_TestRunner {
 
 /**
- * Lets us pass in some options needed for cake's webrunner.
+ * Lets us pass in some options needed for CakePHP's webrunner.
  *
- * @param mixed $loader
+ * @param mixed $loader The test suite loader
  * @param array $params list of options to be used for this run
- * @return void
  */
 	public function __construct($loader, $params) {
 		parent::__construct($loader);
@@ -42,13 +42,13 @@ class CakeTestRunner extends PHPUnit_TextUI_TestRunner {
 /**
  * Actually run a suite of tests. Cake initializes fixtures here using the chosen fixture manager
  *
- * @param PHPUnit_Framework_Test $suite
- * @param array $arguments
+ * @param PHPUnit_Framework_Test $suite The test suite to run
+ * @param array $arguments The CLI arguments
  * @return void
  */
 	public function doRun(PHPUnit_Framework_Test $suite, array $arguments = array()) {
 		if (isset($arguments['printer'])) {
-			self::$versionStringPrinted = true;
+			static::$versionStringPrinted = true;
 		}
 
 		$fixture = $this->_getFixtureManager($arguments);
@@ -87,7 +87,7 @@ class CakeTestRunner extends PHPUnit_TextUI_TestRunner {
 /**
  * Get the fixture manager class specified or use the default one.
  *
- * @param array $arguments
+ * @param array $arguments The CLI arguments.
  * @return mixed instance of a fixture manager.
  * @throws RuntimeException When fixture manager class cannot be loaded.
  */

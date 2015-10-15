@@ -2,8 +2,6 @@
 /**
  * ModelValidationTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,8 +13,9 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.4206
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 require_once dirname(__FILE__) . DS . 'ModelTestBase.php';
 
 /**
@@ -25,6 +24,16 @@ require_once dirname(__FILE__) . DS . 'ModelTestBase.php';
  * @package       Cake.Test.Case.Model
  */
 class ModelValidationTest extends BaseModelTest {
+
+/**
+ * override locale to the default (eng).
+ *
+ * @return void
+ */
+	public function setUp() {
+		parent::setUp();
+		Configure::write('Config.language', 'eng');
+	}
 
 /**
  * Tests validation parameter order in custom validation methods
@@ -201,8 +210,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$TestModel->validate = array(
 			'user_id' => 'numeric',
-			'title' => array('allowEmpty' => false, 'rule' => 'notEmpty'),
-			'body' => 'notEmpty'
+			'title' => array('allowEmpty' => false, 'rule' => 'notBlank'),
+			'body' => 'notBlank'
 		);
 
 		$data = array('TestValidate' => array(
@@ -371,7 +380,7 @@ class ModelValidationTest extends BaseModelTest {
 			),
 			'title' => array(
 				'allowEmpty' => false,
-				'rule' => 'notEmpty'
+				'rule' => 'notBlank'
 		));
 
 		$data = array('TestValidate' => array(
@@ -418,7 +427,7 @@ class ModelValidationTest extends BaseModelTest {
 			),
 			'title' => array(
 				'allowEmpty' => false,
-				'rule' => 'notEmpty'
+				'rule' => 'notBlank'
 		));
 
 		$data = array('TestValidate' => array(
@@ -546,6 +555,44 @@ class ModelValidationTest extends BaseModelTest {
 	}
 
 /**
+ * test that validates() still performs correctly when useTable = false on the model.
+ *
+ * @return void
+ */
+	public function testValidatesWithNoTable() {
+		$TestModel = new TheVoid();
+		$TestModel->validate = array(
+			'title' => array(
+				'notEmpty' => array(
+					'rule' => array('notBlank'),
+					'required' => true,
+				),
+				'tooShort' => array(
+					'rule' => array('minLength', 10),
+				),
+			),
+		);
+		$data = array(
+			'TheVoid' => array(
+				'title' => 'too short',
+			),
+		);
+		$TestModel->create($data);
+		$result = $TestModel->validates();
+		$this->assertFalse($result);
+
+		$data = array(
+			'TheVoid' => array(
+				'id' => '1',
+				'title' => 'A good title',
+			),
+		);
+		$TestModel->create($data);
+		$result = $TestModel->validates();
+		$this->assertTrue($result);
+	}
+
+/**
  * test that validates() checks all the 'with' associations as well for validation
  * as this can cause partial/wrong data insertion.
  *
@@ -568,7 +615,7 @@ class ModelValidationTest extends BaseModelTest {
 		$Something = new Something();
 		$JoinThing = $Something->JoinThing;
 
-		$JoinThing->validate = array('doomed' => array('rule' => 'notEmpty'));
+		$JoinThing->validate = array('doomed' => array('rule' => 'notBlank'));
 
 		$expectedError = array('doomed' => array('This field cannot be left blank'));
 
@@ -577,7 +624,7 @@ class ModelValidationTest extends BaseModelTest {
 		$this->assertFalse($result, 'Save occurred even when with models failed. %s');
 		$this->assertEquals($expectedError, $JoinThing->validationErrors);
 		$count = $Something->find('count', array('conditions' => array('Something.id' => $data['Something']['id'])));
-		$this->assertSame($count, 0);
+		$this->assertSame(0, $count);
 
 		$data = array(
 			'Something' => array(
@@ -602,6 +649,34 @@ class ModelValidationTest extends BaseModelTest {
 	}
 
 /**
+ * Test that if a behavior modifies the model's whitelist validation gets triggered
+ * properly for those fields.
+ *
+ * @return void
+ */
+	public function testValidateWithFieldListAndBehavior() {
+		$TestModel = new ValidationTest1();
+		$TestModel->validate = array(
+			'title' => array(
+				'rule' => 'notBlank',
+			),
+			'name' => array(
+				'rule' => 'notBlank',
+		));
+		$TestModel->Behaviors->attach('ValidationRule', array('fields' => array('name')));
+
+		$data = array(
+			'title' => '',
+			'name' => '',
+		);
+		$result = $TestModel->save($data, array('fieldList' => array('title')));
+		$this->assertFalse($result);
+
+		$expected = array('title' => array('This field cannot be left blank'), 'name' => array('This field cannot be left blank'));
+		$this->assertEquals($expected, $TestModel->validationErrors);
+	}
+
+/**
  * test that saveAll and with models with validation interact well
  *
  * @return void
@@ -622,7 +697,7 @@ class ModelValidationTest extends BaseModelTest {
 		$Something = new Something();
 		$JoinThing = $Something->JoinThing;
 
-		$JoinThing->validate = array('doomed' => array('rule' => 'notEmpty'));
+		$JoinThing->validate = array('doomed' => array('rule' => 'notBlank'));
 		$expectedError = array('doomed' => array('This field cannot be left blank'));
 
 		$Something->create();
@@ -640,7 +715,7 @@ class ModelValidationTest extends BaseModelTest {
 		$this->assertEquals($expectedError, $JoinThing->validationErrors);
 
 		$count = $Something->find('count', array('conditions' => array('Something.id' => $data['Something']['id'])));
-		$this->assertSame($count, 0);
+		$this->assertSame(0, $count);
 
 		$joinRecords = $JoinThing->find('count', array(
 			'conditions' => array('JoinThing.something_id' => $data['Something']['id'])
@@ -681,11 +756,11 @@ class ModelValidationTest extends BaseModelTest {
 		$Author->create();
 		$result = $Author->saveAll($data, array('validate' => 'first'));
 		$this->assertTrue($result);
-		$this->assertFalse(is_null($Author->id));
+		$this->assertNotNull($Author->id);
 
 		$id = $Author->id;
 		$count = $Author->find('count', array('conditions' => array('Author.id' => $id)));
-		$this->assertSame($count, 1);
+		$this->assertSame(1, $count);
 
 		$count = $Post->find('count', array(
 			'conditions' => array('Post.author_id' => $id)
@@ -730,7 +805,7 @@ class ModelValidationTest extends BaseModelTest {
 					'last' => false
 				),
 				'between' => array(
-					'rule' => array('between', 5, 15),
+					'rule' => array('lengthBetween', 5, 15),
 					'message' => array('You may enter up to %s chars (minimum is %s chars)', 14, 6)
 				)
 			)
@@ -813,8 +888,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'on' => 'create'
 				)
 			)
@@ -831,8 +906,8 @@ class ModelValidationTest extends BaseModelTest {
 		unset($data['Article']['id']);
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'on' => 'update'
 				)
 			)
@@ -866,8 +941,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => 'create'
 				)
 			)
@@ -884,8 +959,8 @@ class ModelValidationTest extends BaseModelTest {
 		unset($data['Article']['id']);
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => 'update'
 				)
 			)
@@ -919,8 +994,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => 'create',
 					'on' => 'create'
 				)
@@ -932,8 +1007,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => 'update',
 					'on' => 'create'
 				)
@@ -945,8 +1020,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => 'create',
 					'on' => 'update'
 				)
@@ -958,8 +1033,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => 'update',
 					'on' => 'update'
 				)
@@ -971,8 +1046,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => 'create',
 					'on' => 'create'
 				)
@@ -986,8 +1061,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => 'update',
 					'on' => 'create'
 				)
@@ -999,8 +1074,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => 'create',
 					'on' => 'update'
 				)
@@ -1012,8 +1087,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$Article->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => 'update',
 					'on' => 'update'
 				)
@@ -1035,8 +1110,8 @@ class ModelValidationTest extends BaseModelTest {
 		$TestModel = new Article();
 		$TestModel->hasMany['Comment']['order'] = array('Comment.created' => 'ASC');
 		$TestModel->hasAndBelongsToMany = array();
-		$TestModel->Comment->Attachment->validate['attachment'] = 'notEmpty';
-		$TestModel->Comment->validate['comment'] = 'notEmpty';
+		$TestModel->Comment->Attachment->validate['attachment'] = 'notBlank';
+		$TestModel->Comment->validate['comment'] = 'notBlank';
 
 		$data = array(
 			'Article' => array('id' => 2),
@@ -1363,8 +1438,8 @@ class ModelValidationTest extends BaseModelTest {
 		$TestModel = new Article();
 		$TestModel->hasMany['Comment']['order'] = array('Comment.created' => 'ASC');
 		$TestModel->hasAndBelongsToMany = array();
-		$TestModel->Comment->Attachment->validate['attachment'] = 'notEmpty';
-		$TestModel->Comment->validate['comment'] = 'notEmpty';
+		$TestModel->Comment->Attachment->validate['attachment'] = 'notBlank';
+		$TestModel->Comment->validate['comment'] = 'notBlank';
 
 		$data = array(
 			'Article' => array('id' => 2, 'body' => ''),
@@ -1511,9 +1586,9 @@ class ModelValidationTest extends BaseModelTest {
  * @return void
  */
 	public function testValidateAssociated() {
-		$this->loadFixtures('Comment', 'Attachment');
+		$this->loadFixtures('Comment', 'Attachment', 'Article', 'User');
 		$TestModel = new Comment();
-		$TestModel->Attachment->validate = array('attachment' => 'notEmpty');
+		$TestModel->Attachment->validate = array('attachment' => 'notBlank');
 
 		$data = array(
 			'Comment' => array(
@@ -1528,7 +1603,19 @@ class ModelValidationTest extends BaseModelTest {
 		$result = $TestModel->validateAssociated($data);
 		$this->assertFalse($result);
 
-		$TestModel->validate = array('comment' => 'notEmpty');
+		$fieldList = array(
+			'Attachment' => array('comment_id')
+		);
+		$result = $TestModel->saveAll($data, array(
+			'fieldList' => $fieldList, 'validate' => 'only'
+		));
+		$this->assertTrue($result);
+		$this->assertEmpty($TestModel->validationErrors);
+		$result = $TestModel->validateAssociated($data, array('fieldList' => $fieldList));
+		$this->assertTrue($result);
+		$this->assertEmpty($TestModel->validationErrors);
+
+		$TestModel->validate = array('comment' => 'notBlank');
 		$record = array(
 			'Comment' => array(
 				'user_id' => 1,
@@ -1559,7 +1646,7 @@ class ModelValidationTest extends BaseModelTest {
 
 		$TestModel = new Article();
 		$TestModel->belongsTo = $TestModel->hasAndBelongsToMany = array();
-		$TestModel->Comment->validate = array('comment' => 'notEmpty');
+		$TestModel->Comment->validate = array('comment' => 'notBlank');
 		$data = array(
 			'Article' => array('id' => 2),
 			'Comment' => array(
@@ -1604,8 +1691,8 @@ class ModelValidationTest extends BaseModelTest {
 
 		$model = new Comment();
 		$model->deleteAll(true);
-		$model->validate = array('comment' => 'notEmpty');
-		$model->Attachment->validate = array('attachment' => 'notEmpty');
+		$model->validate = array('comment' => 'notBlank');
+		$model->Attachment->validate = array('attachment' => 'notBlank');
 		$model->Attachment->bindModel(array('belongsTo' => array('Comment')));
 		$expected = array(
 			'comment' => array('This field cannot be left blank'),
@@ -1633,7 +1720,7 @@ class ModelValidationTest extends BaseModelTest {
  */
 	public function testValidateMany() {
 		$TestModel = new Article();
-		$TestModel->validate = array('title' => 'notEmpty');
+		$TestModel->validate = array('title' => 'notBlank');
 		$data = array(
 			0 => array('title' => ''),
 			1 => array('title' => 'title 1'),
@@ -1697,7 +1784,7 @@ class ModelValidationTest extends BaseModelTest {
 		$expected = array_map('strtolower', get_class_methods('Article'));
 		$this->assertEquals($expected, array_keys($result));
 
-		$TestModel->Behaviors->attach('Containable');
+		$TestModel->Behaviors->load('Containable');
 		$newList = array(
 			'contain',
 			'resetbindings',
@@ -1707,7 +1794,7 @@ class ModelValidationTest extends BaseModelTest {
 		);
 		$this->assertEquals(array_merge($expected, $newList), array_keys($Validator->getMethods()));
 
-		$TestModel->Behaviors->detach('Containable');
+		$TestModel->Behaviors->unload('Containable');
 		$this->assertEquals($expected, array_keys($Validator->getMethods()));
 	}
 
@@ -1754,13 +1841,13 @@ class ModelValidationTest extends BaseModelTest {
 		$this->assertEquals('title', $titleValidator->field);
 		$this->assertCount(1, $titleValidator->getRules());
 		$rule = current($titleValidator->getRules());
-		$this->assertEquals('notEmpty', $rule->rule);
+		$this->assertEquals('notBlank', $rule->rule);
 
 		$titleValidator = $Validator['body'];
 		$this->assertEquals('body', $titleValidator->field);
 		$this->assertCount(1, $titleValidator->getRules());
 		$rule = current($titleValidator->getRules());
-		$this->assertEquals('notEmpty', $rule->rule);
+		$this->assertEquals('notBlank', $rule->rule);
 
 		$titleValidator = $Validator['user_id'];
 		$this->assertEquals('user_id', $titleValidator->field);
@@ -1795,7 +1882,7 @@ class ModelValidationTest extends BaseModelTest {
 
 		$set = array(
 			'numeric' => array('rule' => 'numeric', 'allowEmpty' => false),
-			'range' => array('rule' => array('between', 1, 5), 'allowEmpty' => false),
+			'between' => array('rule' => array('lengthBetween', 1, 5), 'allowEmpty' => false),
 		);
 		$Validator['other'] = $set;
 		$rules = $Validator['other'];
@@ -1804,7 +1891,7 @@ class ModelValidationTest extends BaseModelTest {
 		$validators = $rules->getRules();
 		$this->assertCount(2, $validators);
 		$this->assertEquals('numeric', $validators['numeric']->rule);
-		$this->assertEquals(array('between', 1, 5), $validators['range']->rule);
+		$this->assertEquals(array('lengthBetween', 1, 5), $validators['between']->rule);
 
 		$Validator['new'] = new CakeValidationSet('new', $set, array());
 		$rules = $Validator['new'];
@@ -1813,7 +1900,7 @@ class ModelValidationTest extends BaseModelTest {
 		$validators = $rules->getRules();
 		$this->assertCount(2, $validators);
 		$this->assertEquals('numeric', $validators['numeric']->rule);
-		$this->assertEquals(array('between', 1, 5), $validators['range']->rule);
+		$this->assertEquals(array('lengthBetween', 1, 5), $validators['between']->rule);
 	}
 
 /**
@@ -1868,7 +1955,7 @@ class ModelValidationTest extends BaseModelTest {
 
 		$set = array(
 			'numeric' => array('rule' => 'numeric', 'allowEmpty' => false),
-			'range' => array('rule' => array('between', 1, 5), 'allowEmpty' => false),
+			'range' => array('rule' => array('lengthBetween', 1, 5), 'allowEmpty' => false),
 		);
 		$Validator['other'] = $set;
 		$this->assertCount(4, $Validator);
@@ -1889,14 +1976,14 @@ class ModelValidationTest extends BaseModelTest {
 		$Validator = $TestModel->validator();
 
 		$Validator->add('other', 'numeric', array('rule' => 'numeric', 'allowEmpty' => false));
-		$Validator->add('other', 'range', array('rule' => array('between', 1, 5), 'allowEmpty' => false));
+		$Validator->add('other', 'between', array('rule' => array('lengthBetween', 1, 5), 'allowEmpty' => false));
 		$rules = $Validator['other'];
 		$this->assertEquals('other', $rules->field);
 
 		$validators = $rules->getRules();
 		$this->assertCount(2, $validators);
 		$this->assertEquals('numeric', $validators['numeric']->rule);
-		$this->assertEquals(array('between', 1, 5), $validators['range']->rule);
+		$this->assertEquals(array('lengthBetween', 1, 5), $validators['between']->rule);
 	}
 
 /**
@@ -1913,13 +2000,13 @@ class ModelValidationTest extends BaseModelTest {
 		$this->assertFalse(isset($Validator['title']));
 
 		$Validator->add('other', 'numeric', array('rule' => 'numeric', 'allowEmpty' => false));
-		$Validator->add('other', 'range', array('rule' => array('between', 1, 5), 'allowEmpty' => false));
+		$Validator->add('other', 'between', array('rule' => array('lengthBetween', 1, 5), 'allowEmpty' => false));
 		$this->assertTrue(isset($Validator['other']));
 
 		$Validator->remove('other', 'numeric');
 		$this->assertTrue(isset($Validator['other']));
 		$this->assertFalse(isset($Validator['other']['numeric']));
-		$this->assertTrue(isset($Validator['other']['range']));
+		$this->assertTrue(isset($Validator['other']['between']));
 	}
 
 /**
@@ -1947,8 +2034,8 @@ class ModelValidationTest extends BaseModelTest {
 		$model = new CustomArticle();
 		$model->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => true,
 					'allowEmpty' => false
 				)
@@ -2001,8 +2088,8 @@ class ModelValidationTest extends BaseModelTest {
 		$model = new CustomArticle();
 		$model->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => true
 				)
 			)
@@ -2029,7 +2116,7 @@ class ModelValidationTest extends BaseModelTest {
 /**
  * testValidateFirstWithDefaults method
  *
- * return @void
+ * @return void
  */
 	public function testFirstWithDefaults() {
 		$this->loadFixtures('Article', 'Tag', 'Comment', 'User', 'ArticlesTag');
@@ -2077,7 +2164,7 @@ class ModelValidationTest extends BaseModelTest {
 
 		$set = array(
 			'numeric' => array('rule' => 'numeric', 'allowEmpty' => false),
-			'range' => array('rule' => array('between', 1, 5), 'allowEmpty' => false),
+			'between' => array('rule' => array('lengthBetween', 1, 5), 'allowEmpty' => false),
 		);
 
 		$Validator->add('other', $set);
@@ -2087,11 +2174,11 @@ class ModelValidationTest extends BaseModelTest {
 		$validators = $rules->getRules();
 		$this->assertCount(2, $validators);
 		$this->assertEquals('numeric', $validators['numeric']->rule);
-		$this->assertEquals(array('between', 1, 5), $validators['range']->rule);
+		$this->assertEquals(array('lengthBetween', 1, 5), $validators['between']->rule);
 
 		$set = new CakeValidationSet('other', array(
 			'a' => array('rule' => 'numeric', 'allowEmpty' => false),
-			'b' => array('rule' => array('between', 1, 5), 'allowEmpty' => false),
+			'b' => array('rule' => array('lengthBetween', 1, 5), 'allowEmpty' => false),
 		));
 
 		$Validator->add('other', $set);
@@ -2154,8 +2241,8 @@ class ModelValidationTest extends BaseModelTest {
 		$model = new CustomArticle();
 		$model->validate = array(
 			'title' => array(
-				'notempty' => array(
-					'rule' => 'notEmpty',
+				'notBlank' => array(
+					'rule' => 'notBlank',
 					'required' => true
 				)
 			)
@@ -2245,7 +2332,7 @@ class ModelValidationTest extends BaseModelTest {
 		$this->loadFixtures('Comment', 'Article', 'User', 'Attachment');
 		$Attachment = ClassRegistry::init('Attachment');
 		$Attachment->Comment->validator()->add('comment', array(
-			array('rule' => 'notEmpty')
+			array('rule' => 'notBlank')
 		));
 		$Attachment->Comment->User->bindModel(array(
 			'hasMany' => array(
@@ -2292,7 +2379,7 @@ class ModelValidationTest extends BaseModelTest {
 				),
 			),
 		);
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
 	}
 
 /**
@@ -2304,7 +2391,7 @@ class ModelValidationTest extends BaseModelTest {
 		$this->loadFixtures('Comment', 'Article', 'User');
 		$Article = ClassRegistry::init('Article');
 		$Article->Comment->validator()->add('comment', array(
-			array('rule' => 'notEmpty')
+			array('rule' => 'notBlank')
 		));
 
 		$data = array(
@@ -2353,7 +2440,96 @@ class ModelValidationTest extends BaseModelTest {
 				),
 			),
 		);
-		$this->assertEquals($result, $expected);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * Test the isUnique method when used as a validator for multiple fields.
+ *
+ * @return void
+ */
+	public function testIsUniqueValidator() {
+		$this->loadFixtures('Article');
+		$Article = ClassRegistry::init('Article');
+		$Article->validate = array(
+			'user_id' => array(
+				'duplicate' => array(
+					'rule' => array('isUnique', array('user_id', 'title'), false)
+				)
+			)
+		);
+		$data = array(
+			'user_id' => 1,
+			'title' => 'First Article',
+		);
+		$Article->create($data);
+		$this->assertFalse($Article->validates(), 'Contains a dupe');
+
+		$data = array(
+			'user_id' => 1,
+			'title' => 'Unique Article',
+		);
+		$Article->create($data);
+		$this->assertTrue($Article->validates(), 'Should pass');
+
+		$Article->validate = array(
+			'user_id' => array(
+				'duplicate' => array(
+					'rule' => array('isUnique', array('user_id', 'title'))
+				)
+			)
+		);
+		$data = array(
+			'user_id' => 1,
+			'title' => 'Unique Article',
+		);
+		$Article->create($data);
+		$this->assertFalse($Article->validates(), 'Should fail, conditions are combined with or');
+	}
+
+/**
+ * Test backward compatibility of the isUnique method when used as a validator for a single field.
+ *
+ * @return void
+ */
+	public function testBackwardCompatIsUniqueValidator() {
+		$this->loadFixtures('Article');
+		$Article = ClassRegistry::init('Article');
+		$Article->validate = array(
+			'title' => array(
+				'duplicate' => array(
+					'rule' => 'isUnique',
+					'message' => 'Title must be unique',
+				),
+				'minLength' => array(
+					'rule' => array('minLength', 1),
+					'message' => 'Title cannot be empty',
+				),
+			)
+		);
+		$data = array(
+			'title' => 'First Article',
+		);
+		$data = $Article->create($data);
+		$this->assertFalse($Article->validates(), 'Contains a dupe');
+	}
+
+}
+
+/**
+ * Behavior for testing validation rules.
+ */
+class ValidationRuleBehavior extends ModelBehavior {
+
+	public function setup(Model $Model, $config = array()) {
+		$this->settings[$Model->alias] = $config;
+	}
+
+	public function beforeValidate(Model $Model, $options = array()) {
+		$fields = $this->settings[$Model->alias]['fields'];
+		foreach ($fields as $field) {
+			$Model->whitelist[] = $field;
+		}
 	}
 
 }

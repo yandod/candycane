@@ -7,10 +7,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link http://cakephp.org CakePHP(tm) Project
- * @since CakePHP(tm) v 2.2
- * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP(tm) Project
+ * @since         CakePHP(tm) v 2.2
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('DispatcherFilter', 'Routing');
@@ -39,7 +39,7 @@ class CacheDispatcher extends DispatcherFilter {
  */
 	public function beforeDispatch(CakeEvent $event) {
 		if (Configure::read('Cache.check') !== true) {
-			return;
+			return null;
 		}
 
 		$path = $event->data['request']->here();
@@ -60,6 +60,7 @@ class CacheDispatcher extends DispatcherFilter {
 		if (file_exists($filename)) {
 			$controller = null;
 			$view = new View($controller);
+			$view->response = $event->data['response'];
 			$result = $view->renderCache($filename, microtime(true));
 			if ($result !== false) {
 				$event->stopPropagation();

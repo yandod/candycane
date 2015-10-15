@@ -2,8 +2,6 @@
 /**
  * SessionComponentTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,8 +13,9 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Controller.Component
  * @since         CakePHP(tm) v 1.2.0.5436
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('Controller', 'Controller');
 App::uses('SessionComponent', 'Controller/Component');
 
@@ -92,7 +91,7 @@ class SessionComponentTest extends CakeTestCase {
  * @return void
  */
 	public static function setupBeforeClass() {
-		self::$_sessionBackup = Configure::read('Session');
+		static::$_sessionBackup = Configure::read('Session');
 		Configure::write('Session', array(
 			'defaults' => 'php',
 			'timeout' => 100,
@@ -106,7 +105,7 @@ class SessionComponentTest extends CakeTestCase {
  * @return void
  */
 	public static function teardownAfterClass() {
-		Configure::write('Session', self::$_sessionBackup);
+		Configure::write('Session', static::$_sessionBackup);
 	}
 
 /**
@@ -136,10 +135,6 @@ class SessionComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSessionIdConsistentAcrossRequestAction() {
-		$Session = new SessionComponent($this->ComponentCollection);
-		$Session->check('Test');
-		$this->assertTrue(isset($_SESSION));
-
 		$Object = new Object();
 		$Session = new SessionComponent($this->ComponentCollection);
 		$expected = $Session->id();
@@ -176,6 +171,7 @@ class SessionComponentTest extends CakeTestCase {
  * @return void
  */
 	public function testSessionError() {
+		CakeSession::$lastError = null;
 		$Session = new SessionComponent($this->ComponentCollection);
 		$this->assertFalse($Session->error());
 	}
@@ -274,7 +270,7 @@ class SessionComponentTest extends CakeTestCase {
 	public function testSessionId() {
 		unset($_SESSION);
 		$Session = new SessionComponent($this->ComponentCollection);
-		$Session->check('test');
+		CakeSession::start();
 		$this->assertEquals(session_id(), $Session->id());
 	}
 

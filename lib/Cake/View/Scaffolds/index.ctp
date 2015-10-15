@@ -1,8 +1,5 @@
 <?php
 /**
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -14,7 +11,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View.Scaffolds
  * @since         CakePHP(tm) v 0.10.0.1076
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 ?>
 <div class="<?php echo $pluralVar; ?> index">
@@ -29,21 +26,21 @@
 <?php
 foreach (${$pluralVar} as ${$singularVar}):
 	echo '<tr>';
-		foreach ($scaffoldFields as $_field) {
+		foreach ($scaffoldFields as $_field):
 			$isKey = false;
-			if (!empty($associations['belongsTo'])) {
-				foreach ($associations['belongsTo'] as $_alias => $_details) {
-					if ($_field === $_details['foreignKey']) {
+			if (!empty($associations['belongsTo'])):
+				foreach ($associations['belongsTo'] as $_alias => $_details):
+					if ($_field === $_details['foreignKey']):
 						$isKey = true;
 						echo '<td>' . $this->Html->link(${$singularVar}[$_alias][$_details['displayField']], array('controller' => $_details['controller'], 'action' => 'view', ${$singularVar}[$_alias][$_details['primaryKey']])) . '</td>';
 						break;
-					}
-				}
-			}
-			if ($isKey !== true) {
+					endif;
+				endforeach;
+			endif;
+			if ($isKey !== true):
 				echo '<td>' . h(${$singularVar}[$modelClass][$_field]) . '</td>';
-			}
-		}
+			endif;
+		endforeach;
 
 		echo '<td class="actions">';
 		echo $this->Html->link(__d('cake', 'View'), array('action' => 'view', ${$singularVar}[$modelClass][$primaryKey]));
@@ -51,8 +48,8 @@ foreach (${$pluralVar} as ${$singularVar}):
 		echo ' ' . $this->Form->postLink(
 			__d('cake', 'Delete'),
 			array('action' => 'delete', ${$singularVar}[$modelClass][$primaryKey]),
-			null,
-			__d('cake', 'Are you sure you want to delete').' #' . ${$singularVar}[$modelClass][$primaryKey]
+			array(),
+			__d('cake', 'Are you sure you want to delete # %s?', ${$singularVar}[$modelClass][$primaryKey])
 		);
 		echo '</td>';
 	echo '</tr>';
@@ -70,7 +67,7 @@ endforeach;
 	<?php
 		echo $this->Paginator->prev('< ' . __d('cake', 'previous'), array(), null, array('class' => 'prev disabled'));
 		echo $this->Paginator->numbers(array('separator' => ''));
-		echo $this->Paginator->next(__d('cake', 'next') .' >', array(), null, array('class' => 'next disabled'));
+		echo $this->Paginator->next(__d('cake', 'next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
 </div>

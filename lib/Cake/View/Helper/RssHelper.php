@@ -15,7 +15,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.View.Helper
  * @since         CakePHP(tm) v 1.2
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('AppHelper', 'View/Helper');
@@ -97,7 +97,7 @@ class RssHelper extends AppHelper {
  * Returns an RSS document wrapped in `<rss />` tags
  *
  * @param array $attrib `<rss />` tag attributes
- * @param string $content
+ * @param string $content Tag content.
  * @return string An RSS document
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/rss.html#RssHelper::document
  */
@@ -123,11 +123,11 @@ class RssHelper extends AppHelper {
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/rss.html#RssHelper::channel
  */
 	public function channel($attrib = array(), $elements = array(), $content = null) {
-		if (!isset($elements['title']) && !empty($this->_View->pageTitle)) {
-			$elements['title'] = $this->_View->pageTitle;
-		}
 		if (!isset($elements['link'])) {
 			$elements['link'] = '/';
+		}
+		if (!isset($elements['title'])) {
+			$elements['title'] = '';
 		}
 		if (!isset($elements['description'])) {
 			$elements['description'] = '';
@@ -208,7 +208,7 @@ class RssHelper extends AppHelper {
 			switch ($key) {
 				case 'pubDate' :
 					$val = $this->time($val);
-				break;
+					break;
 				case 'category' :
 					if (is_array($val) && !empty($val[0])) {
 						foreach ($val as $category) {
@@ -224,7 +224,7 @@ class RssHelper extends AppHelper {
 					} elseif (is_array($val) && isset($val['domain'])) {
 						$attrib['domain'] = $val['domain'];
 					}
-				break;
+					break;
 				case 'link':
 				case 'guid':
 				case 'comments':
@@ -234,7 +234,7 @@ class RssHelper extends AppHelper {
 						$val = $val['url'];
 					}
 					$val = $this->url($val, true);
-				break;
+					break;
 				case 'source':
 					if (is_array($val) && isset($val['url'])) {
 						$attrib['url'] = $this->url($val['url'], true);
@@ -243,7 +243,7 @@ class RssHelper extends AppHelper {
 						$attrib['url'] = $this->url($val[0], true);
 						$val = $val[1];
 					}
-				break;
+					break;
 				case 'enclosure':
 					if (is_string($val['url']) && is_file(WWW_ROOT . $val['url']) && file_exists(WWW_ROOT . $val['url'])) {
 						if (!isset($val['length']) && strpos($val['url'], '://') === false) {
@@ -256,11 +256,11 @@ class RssHelper extends AppHelper {
 					$val['url'] = $this->url($val['url'], true);
 					$attrib = $val;
 					$val = null;
-				break;
+					break;
 				default:
 					$attrib = $att;
 			}
-			if (!is_null($val) && $escape) {
+			if ($val !== null && $escape) {
 				$val = h($val);
 			}
 			$elements[$key] = $this->elem($key, $attrib, $val);
@@ -274,7 +274,7 @@ class RssHelper extends AppHelper {
 /**
  * Converts a time in any format to an RSS time
  *
- * @param integer|string|DateTime $time
+ * @param int|string|DateTime $time UNIX timestamp or valid time string or DateTime object.
  * @return string An RSS-formatted timestamp
  * @see TimeHelper::toRSS
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/rss.html#RssHelper::time
@@ -289,7 +289,7 @@ class RssHelper extends AppHelper {
  * @param string $name The name of the XML element
  * @param array $attrib The attributes of the XML element
  * @param string|array $content XML element content
- * @param boolean $endTag Whether the end tag of the element should be printed
+ * @param bool $endTag Whether the end tag of the element should be printed
  * @return string XML
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/rss.html#RssHelper::elem
  */

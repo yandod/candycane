@@ -2,9 +2,6 @@
 /**
  * Test for Schema database management
  *
- *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -16,7 +13,7 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.5550
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('CakeSchema', 'Model');
@@ -30,16 +27,9 @@ App::uses('CakeTestFixture', 'TestSuite/Fixture');
 class MyAppSchema extends CakeSchema {
 
 /**
- * name property
- *
- * @var string 'MyApp'
- */
-	public $name = 'MyApp';
-
-/**
  * connection property
  *
- * @var string 'test'
+ * @var string
  */
 	public $connection = 'test';
 
@@ -85,24 +75,6 @@ class MyAppSchema extends CakeSchema {
 	protected $_foo = array('bar');
 
 /**
- * setup method
- *
- * @param mixed $version
- * @return void
- */
-	public function setup($version) {
-	}
-
-/**
- * teardown method
- *
- * @param mixed $version
- * @return void
- */
-	public function teardown($version) {
-	}
-
-/**
  * getVar method
  *
  * @param string $var Name of var
@@ -127,7 +99,7 @@ class TestAppSchema extends CakeSchema {
 /**
  * name property
  *
- * @var string 'MyApp'
+ * @var string
  */
 	public $name = 'MyApp';
 
@@ -137,7 +109,7 @@ class TestAppSchema extends CakeSchema {
  * @var array
  */
 	public $comments = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => 0,'key' => 'primary'),
+		'id' => array('type' => 'integer', 'null' => false, 'default' => 0, 'key' => 'primary'),
 		'article_id' => array('type' => 'integer', 'null' => false),
 		'user_id' => array('type' => 'integer', 'null' => false),
 		'comment' => array('type' => 'text', 'null' => true, 'default' => null),
@@ -199,6 +171,7 @@ class TestAppSchema extends CakeSchema {
 	public $datatypes = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => 0, 'key' => 'primary'),
 		'float_field' => array('type' => 'float', 'null' => false, 'length' => '5,2', 'default' => ''),
+		'decimal_field' => array('type' => 'decimal', 'length' => '6,3', 'default' => '0.000'),
 		'huge_int' => array('type' => 'biginteger'),
 		'bool' => array('type' => 'boolean', 'null' => false, 'default' => false),
 		'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => true)),
@@ -233,16 +206,9 @@ class TestAppSchema extends CakeSchema {
 class SchemaPost extends CakeTestModel {
 
 /**
- * name property
- *
- * @var string 'SchemaPost'
- */
-	public $name = 'SchemaPost';
-
-/**
  * useTable property
  *
- * @var string 'posts'
+ * @var string
  */
 	public $useTable = 'posts';
 
@@ -269,16 +235,9 @@ class SchemaPost extends CakeTestModel {
 class SchemaComment extends CakeTestModel {
 
 /**
- * name property
- *
- * @var string 'SchemaComment'
- */
-	public $name = 'SchemaComment';
-
-/**
  * useTable property
  *
- * @var string 'comments'
+ * @var string
  */
 	public $useTable = 'comments';
 
@@ -298,16 +257,9 @@ class SchemaComment extends CakeTestModel {
 class SchemaTag extends CakeTestModel {
 
 /**
- * name property
- *
- * @var string 'SchemaTag'
- */
-	public $name = 'SchemaTag';
-
-/**
  * useTable property
  *
- * @var string 'tags'
+ * @var string
  */
 	public $useTable = 'tags';
 
@@ -327,16 +279,9 @@ class SchemaTag extends CakeTestModel {
 class SchemaDatatype extends CakeTestModel {
 
 /**
- * name property
- *
- * @var string 'SchemaDatatype'
- */
-	public $name = 'SchemaDatatype';
-
-/**
  * useTable property
  *
- * @var string 'datatypes'
+ * @var string
  */
 	public $useTable = 'datatypes';
 }
@@ -349,17 +294,9 @@ class SchemaDatatype extends CakeTestModel {
  * its source cache populated - I.e. if the test is run within a group
  *
  * @uses          CakeTestModel
- * @package
  * @package       Cake.Test.Case.Model
  */
 class Testdescribe extends CakeTestModel {
-
-/**
- * name property
- *
- * @var string 'Testdescribe'
- */
-	public $name = 'Testdescribe';
 }
 
 /**
@@ -370,23 +307,16 @@ class Testdescribe extends CakeTestModel {
 class SchemaCrossDatabase extends CakeTestModel {
 
 /**
- * name property
- *
- * @var string 'SchemaCrossDatabase'
- */
-	public $name = 'SchemaCrossDatabase';
-
-/**
  * useTable property
  *
- * @var string 'posts'
+ * @var string
  */
 	public $useTable = 'cross_database';
 
 /**
  * useDbConfig property
  *
- * @var string 'test2'
+ * @var string
  */
 	public $useDbConfig = 'test2';
 }
@@ -401,13 +331,14 @@ class SchemaCrossDatabaseFixture extends CakeTestFixture {
 /**
  * name property
  *
- * @var string 'CrossDatabase'
+ * @var string
  */
 	public $name = 'CrossDatabase';
 
 /**
  * table property
  *
+ * @var string
  */
 	public $table = 'cross_database';
 
@@ -438,13 +369,6 @@ class SchemaCrossDatabaseFixture extends CakeTestFixture {
  * @package       Cake.Test.Case.Model
  */
 class SchemaPrefixAuthUser extends CakeTestModel {
-
-/**
- * name property
- *
- * @var string
- */
-	public $name = 'SchemaPrefixAuthUser';
 
 /**
  * table prefix
@@ -512,25 +436,7 @@ class CakeSchemaTest extends CakeTestCase {
  */
 	public function testSchemaName() {
 		$Schema = new CakeSchema();
-		$this->assertEquals(Inflector::camelize(Inflector::slug(APP_DIR)), $Schema->name);
-
-		Configure::write('App.dir', 'Some.name.with.dots');
-		$Schema = new CakeSchema();
-		$this->assertEquals('SomeNameWithDots', $Schema->name);
-
-		Configure::write('App.dir', 'Some-name-with-dashes');
-		$Schema = new CakeSchema();
-		$this->assertEquals('SomeNameWithDashes', $Schema->name);
-
-		Configure::write('App.dir', 'Some name with spaces');
-		$Schema = new CakeSchema();
-		$this->assertEquals('SomeNameWithSpaces', $Schema->name);
-
-		Configure::write('App.dir', 'Some,name;with&weird=characters');
-		$Schema = new CakeSchema();
-		$this->assertEquals('SomeNameWithWeirdCharacters', $Schema->name);
-
-		Configure::write('App.dir', 'app');
+		$this->assertEquals('App', $Schema->name);
 	}
 
 /**
@@ -589,7 +495,6 @@ class CakeSchemaTest extends CakeTestCase {
 /**
  * testSchemaReadWithAppModel method
  *
- * @access public
  * @return void
  */
 	public function testSchemaReadWithAppModel() {
@@ -778,7 +683,7 @@ class CakeSchemaTest extends CakeTestCase {
 		);
 		$result = $this->Schema->generateTable('fields', $posts);
 		$this->assertRegExp('/public \$fields/', $result);
-		$this->assertPattern('/\'type\' \=\> \'fulltext\'/', $result);
+		$this->assertRegExp('/\'type\' \=\> \'fulltext\'/', $result);
 	}
 
 /**
@@ -865,13 +770,13 @@ class CakeSchemaTest extends CakeTestCase {
 		$compare = $New->compare($this->Schema, $tables);
 		$expected = array(
 			'ratings' => array(
-				'add' => array(
+				'create' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-					'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => null, 'after' => 'id'),
-					'model' => array('type' => 'varchar', 'null' => false, 'default' => null, 'after' => 'foreign_key'),
-					'value' => array('type' => 'float', 'null' => false, 'length' => '5,2', 'default' => null, 'after' => 'model'),
-					'created' => array('type' => 'datetime', 'null' => false, 'default' => null, 'after' => 'value'),
-					'modified' => array('type' => 'datetime', 'null' => false, 'default' => null, 'after' => 'created'),
+					'foreign_key' => array('type' => 'integer', 'null' => false, 'default' => null),
+					'model' => array('type' => 'varchar', 'null' => false, 'default' => null),
+					'value' => array('type' => 'float', 'null' => false, 'length' => '5,2', 'default' => null),
+					'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
+					'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
 					'indexes' => array('PRIMARY' => array('column' => 'id', 'unique' => 1)),
 					'tableParameters' => array('charset' => 'latin1', 'collate' => 'latin1_swedish_ci', 'engine' => 'MyISAM')
 				)

@@ -2,8 +2,6 @@
 /**
  * ModelTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,11 +13,12 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model
  * @since         CakePHP(tm) v 1.2.0.4206
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Model', 'Model');
 App::uses('AppModel', 'Model');
+
 require_once dirname(__FILE__) . DS . 'models.php';
 
 /**
@@ -32,14 +31,14 @@ abstract class BaseModelTest extends CakeTestCase {
 /**
  * autoFixtures property
  *
- * @var bool false
+ * @var bool
  */
 	public $autoFixtures = false;
 
 /**
  * Whether backup global state for each test method or not
  *
- * @var bool false
+ * @var bool
  */
 	public $backupGlobals = false;
 

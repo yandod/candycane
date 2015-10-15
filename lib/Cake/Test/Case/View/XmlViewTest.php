@@ -2,8 +2,6 @@
 /**
  * XmlViewTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,7 +13,7 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.View
  * @since         CakePHP(tm) v 2.1.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Controller', 'Controller');
@@ -29,6 +27,11 @@ App::uses('XmlView', 'View');
  * @package       Cake.Test.Case.View
  */
 class XmlViewTest extends CakeTestCase {
+
+	public function setUp() {
+		parent::setUp();
+		Configure::write('debug', 0);
+	}
 
 /**
  * testRenderWithoutView method
@@ -75,6 +78,95 @@ class XmlViewTest extends CakeTestCase {
 	}
 
 /**
+ * Test that rendering with _serialize does not load helpers
+ *
+ * @return void
+ */
+	public function testRenderSerializeNoHelpers() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+		$Controller->helpers = array('Html');
+		$Controller->set(array(
+			'_serialize' => 'tags',
+			'tags' => array('cakephp', 'framework')
+		));
+		$View = new XmlView($Controller);
+		$View->render();
+		$this->assertFalse(isset($View->Html), 'No helper loaded.');
+	}
+
+/**
+ * Test that rendering with _serialize respects XML options.
+ *
+ * @return void
+ */
+	public function testRenderSerializeWithOptions() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+		$data = array(
+			'_serialize' => array('tags'),
+			'_xmlOptions' => array('format' => 'attributes'),
+			'tags' => array(
+				'tag' => array(
+					array(
+						'id' => '1',
+						'name' => 'defect'
+					),
+					array(
+						'id' => '2',
+						'name' => 'enhancement'
+					)
+				)
+			)
+		);
+		$Controller->set($data);
+		$Controller->viewClass = 'Xml';
+		$View = new XmlView($Controller);
+		$result = $View->render();
+
+		$expected = Xml::build(array('response' => array('tags' => $data['tags'])), $data['_xmlOptions'])->asXML();
+		$this->assertSame($expected, $result);
+	}
+
+/**
+ * Test that rendering with _serialize can work with string setting.
+ *
+ * @return void
+ */
+	public function testRenderSerializeWithString() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+		$data = array(
+			'_serialize' => 'tags',
+			'_xmlOptions' => array('format' => 'attributes'),
+			'tags' => array(
+				'tags' => array(
+					'tag' => array(
+						array(
+							'id' => '1',
+							'name' => 'defect'
+						),
+						array(
+							'id' => '2',
+							'name' => 'enhancement'
+						)
+					)
+				)
+			)
+		);
+		$Controller->set($data);
+		$Controller->viewClass = 'Xml';
+		$View = new XmlView($Controller);
+		$result = $View->render();
+
+		$expected = Xml::build($data['tags'], $data['_xmlOptions'])->asXML();
+		$this->assertSame($expected, $result);
+	}
+
+/**
  * Test render with an array in _serialize
  *
  * @return void
@@ -99,6 +191,35 @@ class XmlViewTest extends CakeTestCase {
 		$output = $View->render(false);
 		$expected = array(
 			'custom_name' => array('no' => $data['no'], 'user' => $data['user'])
+		);
+		$this->assertSame(Xml::build($expected)->asXML(), $output);
+	}
+
+/**
+ * Test render with an array in _serialize and alias
+ *
+ * @return void
+ */
+	public function testRenderWithoutViewMultipleAndAlias() {
+		$Request = new CakeRequest();
+		$Response = new CakeResponse();
+		$Controller = new Controller($Request, $Response);
+		$data = array('original_name' => 'my epic name', 'user' => 'fake', 'list' => array('item1', 'item2'));
+		$Controller->set($data);
+		$Controller->set('_serialize', array('new_name' => 'original_name', 'user'));
+		$View = new XmlView($Controller);
+		$this->assertSame('application/xml', $Response->type());
+		$output = $View->render(false);
+		$expected = array(
+			'response' => array('new_name' => $data['original_name'], 'user' => $data['user'])
+		);
+		$this->assertSame(Xml::build($expected)->asXML(), $output);
+
+		$Controller->set('_rootNode', 'custom_name');
+		$View = new XmlView($Controller);
+		$output = $View->render(false);
+		$expected = array(
+			'custom_name' => array('new_name' => $data['original_name'], 'user' => $data['user'])
 		);
 		$this->assertSame(Xml::build($expected)->asXML(), $output);
 	}

@@ -2,8 +2,6 @@
 /**
  * DigestAuthenticationTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,12 +13,17 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Network.Http
  * @since         CakePHP(tm) v 2.0.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('HttpSocket', 'Network/Http');
 App::uses('DigestAuthentication', 'Network/Http');
 
+/**
+ * Class DigestHttpSocket
+ *
+ * @package       Cake.Test.Case.Network.Http
+ */
 class DigestHttpSocket extends HttpSocket {
 
 /**
@@ -58,7 +61,7 @@ class DigestAuthenticationTest extends CakeTestCase {
 /**
  * Socket property
  *
- * @var mixed null
+ * @var mixed
  */
 	public $HttpSocket = null;
 
@@ -68,6 +71,7 @@ class DigestAuthenticationTest extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
 		$this->HttpSocket = new DigestHttpSocket();
 		$this->HttpSocket->request['method'] = 'GET';
 		$this->HttpSocket->request['uri']['path'] = '/';
@@ -79,6 +83,7 @@ class DigestAuthenticationTest extends CakeTestCase {
  * @return void
  */
 	public function tearDown() {
+		parent::tearDown();
 		unset($this->HttpSocket);
 	}
 

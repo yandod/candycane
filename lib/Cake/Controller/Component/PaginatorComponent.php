@@ -2,8 +2,6 @@
 /**
  * Paginator Component
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,8 +13,9 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Controller.Component
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('Component', 'Controller');
 App::uses('Hash', 'Utility');
 
@@ -30,17 +29,17 @@ App::uses('Hash', 'Utility');
  * the default pagination behavior in general or for a specific model. General settings are used when there
  * are no specific model configuration, or the model you are paginating does not have specific settings.
  *
- * {{{
+ * ```
  *	$this->Paginator->settings = array(
  *		'limit' => 20,
  *		'maxLimit' => 100
  *	);
- * }}}
+ * ```
  *
  * The above settings will be used to paginate any model. You can configure model specific settings by
  * keying the settings with the model name.
  *
- * {{{
+ * ```
  *	$this->Paginator->settings = array(
  *		'Post' => array(
  *			'limit' => 20,
@@ -48,7 +47,7 @@ App::uses('Hash', 'Utility');
  *		),
  *		'Comment' => array( ... )
  *	);
- * }}}
+ * ```
  *
  * This would allow you to have different pagination settings for `Comment` and `Post` models.
  *
@@ -56,13 +55,13 @@ App::uses('Hash', 'Utility');
  *
  * You can paginate with any find type defined on your model using the `findType` option.
  *
- * {{{
+ * ```
  * $this->Paginator->settings = array(
  *		'Post' => array(
  *			'findType' => 'popular'
  *		)
  * );
- * }}}
+ * ```
  *
  * Would paginate using the `find('popular')` method.
  *
@@ -120,7 +119,8 @@ class PaginatorComponent extends Component {
  * @param Model|string $object Model to paginate (e.g: model instance, or 'Model', or 'Model.InnerModel')
  * @param string|array $scope Additional find conditions to use while paginating
  * @param array $whitelist List of allowed fields for ordering. This allows you to prevent ordering
- *   on non-indexed, or undesirable columns.
+ *   on non-indexed, or undesirable columns. See PaginatorComponent::validateSort() for additional details
+ *   on how the whitelisting and sort field validation works.
  * @return array Model query results
  * @throws MissingModelException
  * @throws NotFoundException
@@ -179,7 +179,7 @@ class PaginatorComponent extends Component {
 			$extra['type'] = $type;
 		}
 
-		if (intval($page) < 1) {
+		if ((int)$page < 1) {
 			$page = 1;
 		}
 		$page = $options['page'] = (int)$page;
@@ -202,6 +202,8 @@ class PaginatorComponent extends Component {
 			$count = 0;
 		} elseif ($object->hasMethod('paginateCount')) {
 			$count = $object->paginateCount($conditions, $recursive, $extra);
+		} elseif ($page === 1 && count($results) < $limit) {
+			$count = count($results);
 		} else {
 			$parameters = compact('conditions');
 			if ($recursive != $object->recursive) {
@@ -209,7 +211,7 @@ class PaginatorComponent extends Component {
 			}
 			$count = $object->find('count', array_merge($parameters, $extra));
 		}
-		$pageCount = intval(ceil($count / $limit));
+		$pageCount = (int)ceil($count / $limit);
 		$requestedPage = $page;
 		$page = max(min($page, $pageCount), 1);
 
@@ -238,8 +240,7 @@ class PaginatorComponent extends Component {
 			throw new NotFoundException();
 		}
 
-		if (
-			!in_array('Paginator', $this->Controller->helpers) &&
+		if (!in_array('Paginator', $this->Controller->helpers) &&
 			!array_key_exists('Paginator', $this->Controller->helpers)
 		) {
 			$this->Controller->helpers[] = 'Paginator';
@@ -332,15 +333,13 @@ class PaginatorComponent extends Component {
 		if (isset($this->settings[$alias])) {
 			$defaults = $this->settings[$alias];
 		}
-		if (isset($defaults['limit']) &&
-			(empty($defaults['maxLimit']) || $defaults['limit'] > $defaults['maxLimit'])
-		) {
-			$defaults['maxLimit'] = $defaults['limit'];
-		}
-		return array_merge(
-			array('page' => 1, 'limit' => 20, 'maxLimit' => 100, 'paramType' => 'named'),
-			$defaults
+		$defaults += array(
+			'page' => 1,
+			'limit' => 20,
+			'maxLimit' => 100,
+			'paramType' => 'named'
 		);
+		return $defaults;
 	}
 
 /**
@@ -351,12 +350,19 @@ class PaginatorComponent extends Component {
  * You can use the whitelist parameter to control which columns/fields are available for sorting.
  * This helps prevent users from ordering large result sets on un-indexed values.
  *
+ * Any columns listed in the sort whitelist will be implicitly trusted. You can use this to sort
+ * on synthetic columns, or columns added in custom find operations that may not exist in the schema.
+ *
  * @param Model $object The model being paginated.
  * @param array $options The pagination options being used for this request.
  * @param array $whitelist The list of columns that can be used for sorting. If empty all keys are allowed.
  * @return array An array of options with sort + direction removed and replaced with order if possible.
  */
 	public function validateSort(Model $object, array $options, array $whitelist = array()) {
+		if (empty($options['order']) && is_array($object->order)) {
+			$options['order'] = $object->order;
+		}
+
 		if (isset($options['sort'])) {
 			$direction = null;
 			if (isset($options['direction'])) {
@@ -370,24 +376,30 @@ class PaginatorComponent extends Component {
 
 		if (!empty($whitelist) && isset($options['order']) && is_array($options['order'])) {
 			$field = key($options['order']);
-			if (!in_array($field, $whitelist)) {
+			$inWhitelist = in_array($field, $whitelist, true);
+			if (!$inWhitelist) {
 				$options['order'] = null;
-				return $options;
 			}
+			return $options;
 		}
 
 		if (!empty($options['order']) && is_array($options['order'])) {
 			$order = array();
 			foreach ($options['order'] as $key => $value) {
+				if (is_int($key)) {
+					$key = $value;
+					$value = 'asc';
+				}
 				$field = $key;
 				$alias = $object->alias;
 				if (strpos($key, '.') !== false) {
 					list($alias, $field) = explode('.', $key);
 				}
+				$correctAlias = ($object->alias === $alias);
 
-				if ($object->hasField($field)) {
+				if ($correctAlias && $object->hasField($field)) {
 					$order[$object->alias . '.' . $field] = $value;
-				} elseif ($object->hasField($key, true)) {
+				} elseif ($correctAlias && $object->hasField($key, true)) {
 					$order[$field] = $value;
 				} elseif (isset($object->{$alias}) && $object->{$alias}->hasField($field, true)) {
 					$order[$alias . '.' . $field] = $value;

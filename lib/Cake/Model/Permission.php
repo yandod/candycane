@@ -1,8 +1,5 @@
 <?php
 /**
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -14,7 +11,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model
  * @since         CakePHP(tm) v 0.2.9
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('AppModel', 'Model');
@@ -27,16 +24,9 @@ App::uses('AppModel', 'Model');
 class Permission extends AppModel {
 
 /**
- * Model name
- *
- * @var string
- */
-	public $name = 'Permission';
-
-/**
  * Explicitly disable in-memory query caching
  *
- * @var boolean
+ * @var bool
  */
 	public $cacheQueries = false;
 
@@ -79,9 +69,9 @@ class Permission extends AppModel {
  * @param string $aro ARO The requesting object identifier.
  * @param string $aco ACO The controlled object identifier.
  * @param string $action Action (defaults to *)
- * @return boolean Success (true if ARO has access to action in ACO, false otherwise)
+ * @return bool Success (true if ARO has access to action in ACO, false otherwise)
  */
-	public function check($aro, $aco, $action = "*") {
+	public function check($aro, $aco, $action = '*') {
 		if (!$aro || !$aco) {
 			return false;
 		}
@@ -90,18 +80,30 @@ class Permission extends AppModel {
 		$aroPath = $this->Aro->node($aro);
 		$acoPath = $this->Aco->node($aco);
 
-		if (!$aroPath || !$acoPath) {
-			trigger_error(__d('cake_dev', "DbAcl::check() - Failed ARO/ACO node lookup in permissions check. Node references:\nAro: ") . print_r($aro, true) . "\nAco: " . print_r($aco, true), E_USER_WARNING);
+		if (!$aroPath) {
+			$this->log(__d('cake_dev',
+					"%s - Failed ARO node lookup in permissions check. Node references:\nAro: %s\nAco: %s",
+					'DbAcl::check()',
+					print_r($aro, true),
+					print_r($aco, true)),
+				E_USER_WARNING
+			);
 			return false;
 		}
 
 		if (!$acoPath) {
-			trigger_error(__d('cake_dev', "DbAcl::check() - Failed ACO node lookup in permissions check. Node references:\nAro: ") . print_r($aro, true) . "\nAco: " . print_r($aco, true), E_USER_WARNING);
+			$this->log(__d('cake_dev',
+					"%s - Failed ACO node lookup in permissions check. Node references:\nAro: %s\nAco: %s",
+					'DbAcl::check()',
+					print_r($aro, true),
+					print_r($aco, true)),
+				E_USER_WARNING
+			);
 			return false;
 		}
 
 		if ($action !== '*' && !in_array('_' . $action, $permKeys)) {
-			trigger_error(__d('cake_dev', "ACO permissions key %s does not exist in DbAcl::check()", $action), E_USER_NOTICE);
+			$this->log(__d('cake_dev', "ACO permissions key %s does not exist in %s", $action, 'DbAcl::check()'), E_USER_NOTICE);
 			return false;
 		}
 
@@ -123,33 +125,32 @@ class Permission extends AppModel {
 
 			if (empty($perms)) {
 				continue;
-			} else {
-				$perms = Hash::extract($perms, '{n}.' . $this->alias);
-				foreach ($perms as $perm) {
-					if ($action === '*') {
+			}
+			$perms = Hash::extract($perms, '{n}.' . $this->alias);
+			foreach ($perms as $perm) {
+				if ($action === '*') {
 
-						foreach ($permKeys as $key) {
-							if (!empty($perm)) {
-								if ($perm[$key] == -1) {
-									return false;
-								} elseif ($perm[$key] == 1) {
-									$inherited[$key] = 1;
-								}
+					foreach ($permKeys as $key) {
+						if (!empty($perm)) {
+							if ($perm[$key] == -1) {
+								return false;
+							} elseif ($perm[$key] == 1) {
+								$inherited[$key] = 1;
 							}
 						}
+					}
 
-						if (count($inherited) === count($permKeys)) {
+					if (count($inherited) === count($permKeys)) {
+						return true;
+					}
+				} else {
+					switch ($perm['_' . $action]) {
+						case -1:
+							return false;
+						case 0:
+							continue;
+						case 1:
 							return true;
-						}
-					} else {
-						switch ($perm['_' . $action]) {
-							case -1:
-								return false;
-							case 0:
-								continue;
-							case 1:
-								return true;
-						}
 					}
 				}
 			}
@@ -162,38 +163,38 @@ class Permission extends AppModel {
  *
  * @param string $aro ARO The requesting object identifier.
  * @param string $aco ACO The controlled object identifier.
- * @param string $actions Action (defaults to *)
- * @param integer $value Value to indicate access type (1 to give access, -1 to deny, 0 to inherit)
- * @return boolean Success
+ * @param string $actions Action (defaults to *) Invalid permissions will result in an exception
+ * @param int $value Value to indicate access type (1 to give access, -1 to deny, 0 to inherit)
+ * @return bool Success
+ * @throws AclException on Invalid permission key.
  */
-	public function allow($aro, $aco, $actions = "*", $value = 1) {
+	public function allow($aro, $aco, $actions = '*', $value = 1) {
 		$perms = $this->getAclLink($aro, $aco);
 		$permKeys = $this->getAcoKeys($this->schema());
 		$save = array();
 
 		if (!$perms) {
-			trigger_error(__d('cake_dev', 'DbAcl::allow() - Invalid node'), E_USER_WARNING);
+			$this->log(__d('cake_dev', '%s - Invalid node', 'DbAcl::allow()'), E_USER_WARNING);
 			return false;
 		}
 		if (isset($perms[0])) {
 			$save = $perms[0][$this->alias];
 		}
 
-		if ($actions === "*") {
+		if ($actions === '*') {
 			$save = array_combine($permKeys, array_pad(array(), count($permKeys), $value));
 		} else {
 			if (!is_array($actions)) {
 				$actions = array('_' . $actions);
 			}
-			if (is_array($actions)) {
-				foreach ($actions as $action) {
-					if ($action{0} !== '_') {
-						$action = '_' . $action;
-					}
-					if (in_array($action, $permKeys)) {
-						$save[$action] = $value;
-					}
+			foreach ($actions as $action) {
+				if ($action{0} !== '_') {
+					$action = '_' . $action;
 				}
+				if (!in_array($action, $permKeys, true)) {
+					throw new AclException(__d('cake_dev', 'Invalid permission key "%s"', $action));
+				}
+				$save[$action] = $value;
 			}
 		}
 		list($save['aro_id'], $save['aco_id']) = array($perms['aro'], $perms['aco']);

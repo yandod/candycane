@@ -1,8 +1,5 @@
 <?php
 /**
- *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -14,7 +11,7 @@
  * @link		  http://cakephp.org CakePHP(tm) Project
  * @package		  Cake.Routing
  * @since		  CakePHP(tm) v 2.2
- * @license		  MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('CakeEventListener', 'Event');
@@ -36,6 +33,22 @@ abstract class DispatcherFilter implements CakeEventListener {
 	public $priority = 10;
 
 /**
+ * Settings for this filter
+ *
+ * @var array
+ */
+	public $settings = array();
+
+/**
+ * Constructor.
+ *
+ * @param array $settings Configuration settings for the filter.
+ */
+	public function __construct($settings = array()) {
+		$this->settings = Hash::merge($this->settings, $settings);
+	}
+
+/**
  * Returns the list of events this filter listens to.
  * Dispatcher notifies 2 different events `Dispatcher.before` and `Dispatcher.after`.
  * By default this class will attach `preDispatch` and `postDispatch` method respectively.
@@ -54,7 +67,7 @@ abstract class DispatcherFilter implements CakeEventListener {
 /**
  * Method called before the controller is instantiated and called to serve a request.
  * If used with default priority, it will be called after the Router has parsed the
- * url and set the routing params into the request object.
+ * URL and set the routing params into the request object.
  *
  * If a CakeResponse object instance is returned, it will be served at the end of the
  * event cycle, not calling any controller as a result. This will also have the effect of
@@ -65,7 +78,7 @@ abstract class DispatcherFilter implements CakeEventListener {
  *
  * @param CakeEvent $event container object having the `request`, `response` and `additionalParams`
  *	keys in the data property.
- * @return CakeResponse|boolean
+ * @return CakeResponse|bool
  */
 	public function beforeDispatch(CakeEvent $event) {
 	}

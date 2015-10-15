@@ -2,8 +2,6 @@
 /**
  * PhpConfigReaderTest
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,10 +13,16 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Configure
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('PhpReader', 'Configure');
 
+/**
+ * Class PhpReaderTest
+ *
+ * @package       Cake.Test.Case.Configure
+ */
 class PhpReaderTest extends CakeTestCase {
 
 /**

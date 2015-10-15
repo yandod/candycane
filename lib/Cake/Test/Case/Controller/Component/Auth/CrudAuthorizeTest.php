@@ -2,8 +2,6 @@
 /**
  * CrudAuthorizeTest file
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,7 +13,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Controller.Component.Auth
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('CrudAuthorize', 'Controller/Component/Auth');
@@ -24,6 +22,11 @@ App::uses('AclComponent', 'Controller/Component');
 App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 
+/**
+ * Class CrudAuthorizeTest
+ *
+ * @package       Cake.Test.Case.Controller.Component.Auth
+ */
 class CrudAuthorizeTest extends CakeTestCase {
 
 /**
@@ -34,6 +37,7 @@ class CrudAuthorizeTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		Configure::write('Routing.prefixes', array());
+		Router::reload();
 
 		$this->Acl = $this->getMock('AclComponent', array(), array(), '', false);
 		$this->Components = $this->getMock('ComponentCollection');

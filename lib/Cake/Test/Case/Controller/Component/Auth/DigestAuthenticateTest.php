@@ -2,8 +2,6 @@
 /**
  * DigestAuthenticateTest file
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,7 +13,7 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Controller.Component.Auth
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('DigestAuthenticate', 'Controller/Component/Auth');
@@ -32,6 +30,11 @@ require_once CAKE . 'Test' . DS . 'Case' . DS . 'Model' . DS . 'models.php';
  */
 class DigestAuthenticateTest extends CakeTestCase {
 
+/**
+ * Fixtures
+ *
+ * @var array
+ */
 	public $fixtures = array('core.user', 'core.auth_user');
 
 /**
@@ -94,16 +97,17 @@ class DigestAuthenticateTest extends CakeTestCase {
 	public function testAuthenticateNoData() {
 		$request = new CakeRequest('posts/index', false);
 
-		$this->response->expects($this->once())
-			->method('header')
-			->with('WWW-Authenticate: Digest realm="localhost",qop="auth",nonce="123",opaque="123abc"');
+		$this->response->expects($this->never())
+			->method('header');
 
-		$this->assertFalse($this->auth->authenticate($request, $this->response));
+		$this->assertFalse($this->auth->getUser($request, $this->response));
 	}
 
 /**
  * test the authenticate method
  *
+ * @expectedException UnauthorizedException
+ * @expectedExceptionCode 401
  * @return void
  */
 	public function testAuthenticateWrongUsername() {
@@ -122,18 +126,7 @@ response="6629fae49393a05397450978507c4ef1",
 opaque="123abc"
 DIGEST;
 
-		$this->response->expects($this->at(0))
-			->method('header')
-			->with('WWW-Authenticate: Digest realm="localhost",qop="auth",nonce="123",opaque="123abc"');
-
-		$this->response->expects($this->at(1))
-			->method('statusCode')
-			->with(401);
-
-		$this->response->expects($this->at(2))
-			->method('send');
-
-		$this->assertFalse($this->auth->authenticate($request, $this->response));
+		$this->auth->unauthenticated($request, $this->response);
 	}
 
 /**
@@ -145,19 +138,15 @@ DIGEST;
 		$request = new CakeRequest('posts/index', false);
 		$request->addParams(array('pass' => array(), 'named' => array()));
 
-		$this->response->expects($this->at(0))
-			->method('header')
-			->with('WWW-Authenticate: Digest realm="localhost",qop="auth",nonce="123",opaque="123abc"');
+		try {
+			$this->auth->unauthenticated($request, $this->response);
+		} catch (UnauthorizedException $e) {
+		}
 
-		$this->response->expects($this->at(1))
-			->method('statusCode')
-			->with(401);
+		$this->assertNotEmpty($e);
 
-		$this->response->expects($this->at(2))
-			->method('send');
-
-		$result = $this->auth->authenticate($request, $this->response);
-		$this->assertFalse($result);
+		$expected = array('WWW-Authenticate: Digest realm="localhost",qop="auth",nonce="123",opaque="123abc"');
+		$this->assertEquals($expected, $e->responseHeader());
 	}
 
 /**
@@ -194,6 +183,8 @@ DIGEST;
 /**
  * test scope failure.
  *
+ * @expectedException UnauthorizedException
+ * @expectedExceptionCode 401
  * @return void
  */
 	public function testAuthenticateFailReChallenge() {
@@ -213,18 +204,7 @@ response="6629fae49393a05397450978507c4ef1",
 opaque="123abc"
 DIGEST;
 
-		$this->response->expects($this->at(0))
-			->method('header')
-			->with('WWW-Authenticate: Digest realm="localhost",qop="auth",nonce="123",opaque="123abc"');
-
-		$this->response->expects($this->at(1))
-			->method('statusCode')
-			->with(401);
-
-		$this->response->expects($this->at(2))
-			->method('send');
-
-		$this->assertFalse($this->auth->authenticate($request, $this->response));
+		$this->auth->unauthenticated($request, $this->response);
 	}
 
 /**
@@ -237,7 +217,7 @@ DIGEST;
 			Digest username="Mufasa",
 			realm="testrealm@host.com",
 			nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093",
-			uri="/dir/index.html",
+			uri="/dir/index.html?query=string&value=some%20value",
 			qop=auth,
 			nc=00000001,
 			cnonce="0a4f113b",
@@ -248,7 +228,7 @@ DIGEST;
 			'username' => 'Mufasa',
 			'realm' => 'testrealm@host.com',
 			'nonce' => 'dcd98b7102dd2f0e8b11d0f600bfb0c093',
-			'uri' => '/dir/index.html',
+			'uri' => '/dir/index.html?query=string&value=some%20value',
 			'qop' => 'auth',
 			'nc' => '00000001',
 			'cnonce' => '0a4f113b',
@@ -260,6 +240,29 @@ DIGEST;
 
 		$result = $this->auth->parseAuthData('');
 		$this->assertNull($result);
+	}
+
+/**
+ * Test parsing a full URI. While not part of the spec some mobile clients will do it wrong.
+ *
+ * @return void
+ */
+	public function testParseAuthDataFullUri() {
+		$digest = <<<DIGEST
+			Digest username="admin",
+			realm="192.168.0.2",
+			nonce="53a7f9b83f61b",
+			uri="http://192.168.0.2/pvcollection/sites/pull/HFD%200001.json#fragment",
+			qop=auth,
+			nc=00000001,
+			cnonce="b85ff144e496e6e18d1c73020566ea3b",
+			response="5894f5d9cd41d012bac09eeb89d2ddf2",
+			opaque="6f65e91667cf98dd13464deaf2739fde"
+DIGEST;
+
+		$expected = 'http://192.168.0.2/pvcollection/sites/pull/HFD%200001.json#fragment';
+		$result = $this->auth->parseAuthData($digest);
+		$this->assertSame($expected, $result['uri']);
 	}
 
 /**

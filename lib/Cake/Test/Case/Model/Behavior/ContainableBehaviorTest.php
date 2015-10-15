@@ -2,8 +2,6 @@
 /**
  * ContainableBehaviorTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,11 +13,12 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Model.Behavior
  * @since         CakePHP(tm) v 1.2.0.5669
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Model', 'Model');
 App::uses('AppModel', 'Model');
+
 require_once dirname(dirname(__FILE__)) . DS . 'models.php';
 
 /**
@@ -44,6 +43,7 @@ class ContainableBehaviorTest extends CakeTestCase {
 /**
  * Method executed before each test
  *
+ * @return void
  */
 	public function setUp() {
 		parent::setUp();
@@ -61,14 +61,15 @@ class ContainableBehaviorTest extends CakeTestCase {
 			'hasAndBelongsToMany' => array('Article')
 		), false);
 
-		$this->User->Behaviors->attach('Containable');
-		$this->Article->Behaviors->attach('Containable');
-		$this->Tag->Behaviors->attach('Containable');
+		$this->User->Behaviors->load('Containable');
+		$this->Article->Behaviors->load('Containable');
+		$this->Tag->Behaviors->load('Containable');
 	}
 
 /**
  * Method executed after each test
  *
+ * @return void
  */
 	public function tearDown() {
 		unset($this->Article);
@@ -162,7 +163,7 @@ class ContainableBehaviorTest extends CakeTestCase {
  * @return void
  */
 	public function testInvalidContainmentsNoNotices() {
-		$this->Article->Behaviors->attach('Containable', array('notices' => false));
+		$this->Article->Behaviors->load('Containable', array('notices' => false));
 		$this->_containments($this->Article, array('Comment', 'InvalidBinding'));
 	}
 
@@ -667,6 +668,65 @@ class ContainableBehaviorTest extends CakeTestCase {
 				'User' => array(
 					'id' => 1, 'user' => 'mariano', 'password' => '5f4dcc3b5aa765d61d8327deb882cf99',
 					'created' => '2007-03-17 01:16:23', 'updated' => '2007-03-17 01:18:31',
+					'ArticleFeatured' => array(
+						array(
+							'id' => 1, 'user_id' => 1, 'title' => 'First Article', 'body' => 'First Article Body',
+							'published' => 'Y', 'created' => '2007-03-18 10:39:23', 'updated' => '2007-03-18 10:41:31'
+						),
+						array(
+							'id' => 3, 'user_id' => 1, 'title' => 'Third Article', 'body' => 'Third Article Body',
+							'published' => 'Y', 'created' => '2007-03-18 10:43:23', 'updated' => '2007-03-18 10:45:31'
+						)
+					)
+				)
+			)
+		);
+		$this->assertEquals($expected, $result);
+
+		$this->Article->contain(array('User' => array('id', 'ArticleFeatured')));
+		$result = $this->Article->find('all', array('recursive' => 2));
+		$expected = array(
+			array(
+				'Article' => array(
+					'id' => 1, 'user_id' => 1, 'title' => 'First Article', 'body' => 'First Article Body',
+					'published' => 'Y', 'created' => '2007-03-18 10:39:23', 'updated' => '2007-03-18 10:41:31'
+				),
+				'User' => array(
+					'id' => 1,
+					'ArticleFeatured' => array(
+						array(
+							'id' => 1, 'user_id' => 1, 'title' => 'First Article', 'body' => 'First Article Body',
+							'published' => 'Y', 'created' => '2007-03-18 10:39:23', 'updated' => '2007-03-18 10:41:31'
+						),
+						array(
+							'id' => 3, 'user_id' => 1, 'title' => 'Third Article', 'body' => 'Third Article Body',
+							'published' => 'Y', 'created' => '2007-03-18 10:43:23', 'updated' => '2007-03-18 10:45:31'
+						)
+					)
+				)
+			),
+			array(
+				'Article' => array(
+					'id' => 2, 'user_id' => 3, 'title' => 'Second Article', 'body' => 'Second Article Body',
+					'published' => 'Y', 'created' => '2007-03-18 10:41:23', 'updated' => '2007-03-18 10:43:31'
+				),
+				'User' => array(
+					'id' => 3,
+					'ArticleFeatured' => array(
+						array(
+						'id' => 2, 'user_id' => 3, 'title' => 'Second Article', 'body' => 'Second Article Body',
+						'published' => 'Y', 'created' => '2007-03-18 10:41:23', 'updated' => '2007-03-18 10:43:31'
+						)
+					)
+				)
+			),
+			array(
+				'Article' => array(
+					'id' => 3, 'user_id' => 1, 'title' => 'Third Article', 'body' => 'Third Article Body',
+					'published' => 'Y', 'created' => '2007-03-18 10:43:23', 'updated' => '2007-03-18 10:45:31'
+				),
+				'User' => array(
+					'id' => 1,
 					'ArticleFeatured' => array(
 						array(
 							'id' => 1, 'user_id' => 1, 'title' => 'First Article', 'body' => 'First Article Body',
@@ -3241,7 +3301,7 @@ class ContainableBehaviorTest extends CakeTestCase {
  * @return void
  */
 	public function testOriginalAssociations() {
-		$this->Article->Comment->Behaviors->attach('Containable');
+		$this->Article->Comment->Behaviors->load('Containable');
 
 		$options = array(
 			'conditions' => array(
@@ -3330,6 +3390,7 @@ class ContainableBehaviorTest extends CakeTestCase {
 /**
  * testResetAddedAssociation method
  *
+ * @return void
  */
 	public function testResetAddedAssociation() {
 		$this->assertTrue(empty($this->Article->hasMany['ArticlesTag']));
@@ -3356,9 +3417,9 @@ class ContainableBehaviorTest extends CakeTestCase {
 		$this->JoinB = ClassRegistry::init('JoinB');
 		$this->JoinC = ClassRegistry::init('JoinC');
 
-		$this->JoinA->Behaviors->attach('Containable');
-		$this->JoinB->Behaviors->attach('Containable');
-		$this->JoinC->Behaviors->attach('Containable');
+		$this->JoinA->Behaviors->load('Containable');
+		$this->JoinB->Behaviors->load('Containable');
+		$this->JoinC->Behaviors->load('Containable');
 
 		$this->JoinA->JoinB->find('all', array('contain' => array('JoinA')));
 		$this->JoinA->bindModel(array('hasOne' => array('JoinAsJoinC' => array('joinTable' => 'as_cs'))), false);
@@ -3371,11 +3432,12 @@ class ContainableBehaviorTest extends CakeTestCase {
 /**
  * testResetAssociation method
  *
+ * @return void
  */
 	public function testResetAssociation() {
-		$this->Article->Behaviors->attach('Containable');
-		$this->Article->Comment->Behaviors->attach('Containable');
-		$this->Article->User->Behaviors->attach('Containable');
+		$this->Article->Behaviors->load('Containable');
+		$this->Article->Comment->Behaviors->load('Containable');
+		$this->Article->User->Behaviors->load('Containable');
 
 		$initialOptions = array(
 			'conditions' => array(
@@ -3402,6 +3464,7 @@ class ContainableBehaviorTest extends CakeTestCase {
 /**
  * testResetDeeperHasOneAssociations method
  *
+ * @return void
  */
 	public function testResetDeeperHasOneAssociations() {
 		$this->Article->User->unbindModel(array(
@@ -3462,6 +3525,7 @@ class ContainableBehaviorTest extends CakeTestCase {
 /**
  * testResetMultipleHabtmAssociations method
  *
+ * @return void
  */
 	public function testResetMultipleHabtmAssociations() {
 		$articleHabtm = array(
@@ -3477,7 +3541,7 @@ class ContainableBehaviorTest extends CakeTestCase {
 					'joinTable' => 'articles_tags',
 					'foreignKey' => 'article_id',
 					'associationForeignKey' => 'tag_id',
-					// LENGHT function mysql-only, using LIKE does almost the same
+					// LENGTH function mysql-only, using LIKE does almost the same
 					'conditions' => "ShortTag.tag LIKE '???'"
 				)
 			)
@@ -3552,6 +3616,8 @@ class ContainableBehaviorTest extends CakeTestCase {
 
 /**
  * test that bindModel and unbindModel work with find() calls in between.
+ *
+ * @return void
  */
 	public function testBindMultipleTimesWithFind() {
 		$binding = array(
@@ -3672,11 +3738,10 @@ class ContainableBehaviorTest extends CakeTestCase {
 		if (!is_array($Model)) {
 			$result = $Model->containments($contain);
 			return $this->_containments($result['models']);
-		} else {
-			$result = $Model;
-			foreach ($result as $i => $containment) {
-				$result[$i] = array_diff_key($containment, array('instance' => true));
-			}
+		}
+		$result = $Model;
+		foreach ($result as $i => $containment) {
+			$result[$i] = array_diff_key($containment, array('instance' => true));
 		}
 		return $result;
 	}
@@ -3696,7 +3761,7 @@ class ContainableBehaviorTest extends CakeTestCase {
 			'hasAndBelongsToMany' => array()
 		), $expected);
 		foreach ($expected as $binding => $expect) {
-			$this->assertEquals(array_keys($Model->$binding), $expect);
+			$this->assertEquals($expect, array_keys($Model->$binding));
 		}
 	}
 }

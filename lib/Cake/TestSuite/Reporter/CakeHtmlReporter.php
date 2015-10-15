@@ -2,8 +2,6 @@
 /**
  * CakeHtmlReporter
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -14,8 +12,9 @@
  * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  * @link          http://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.4433
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
 App::uses('CakeBaseReporter', 'TestSuite/Reporter');
 
 /**
@@ -59,7 +58,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
  */
 	public function paintDocumentStart() {
 		ob_start();
-		$baseDir = $this->params['baseDir'];
+		$this->params['baseDir'];
 		include CAKE . 'TestSuite' . DS . 'templates' . DS . 'header.php';
 	}
 
@@ -70,7 +69,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
  * @return void
  */
 	public function paintTestMenu() {
-		$cases = $this->baseUrl() . '?show=cases';
+		$this->baseUrl() . '?show=cases';
 		$plugins = App::objects('plugin', null, false);
 		sort($plugins);
 		include CAKE . 'TestSuite' . DS . 'templates' . DS . 'menu.php';
@@ -96,7 +95,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 			$urlExtra = '&plugin=' . $plugin;
 		}
 
-		if (1 > count($testCases)) {
+		if (count($testCases) < 1) {
 			$buffer .= "<strong>EMPTY</strong>";
 		}
 
@@ -170,7 +169,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 /**
  * Paints a code coverage report.
  *
- * @param array $coverage
+ * @param array $coverage The coverage data
  * @return void
  */
 	public function paintCoverage(array $coverage) {
@@ -200,12 +199,12 @@ class CakeHtmlReporter extends CakeBaseReporter {
 		if (!empty($this->params['case'])) {
 			$query['case'] = $this->params['case'];
 		}
-		$show = $this->_queryString($show);
-		$query = $this->_queryString($query);
+		list($show, $query) = $this->_getQueryLink();
 
 		echo "<p><a href='" . $this->baseUrl() . $show . "'>Run more tests</a> | <a href='" . $this->baseUrl() . $query . "&amp;show_passes=1'>Show Passes</a> | \n";
 		echo "<a href='" . $this->baseUrl() . $query . "&amp;debug=1'>Enable Debug Output</a> | \n";
-		echo "<a href='" . $this->baseUrl() . $query . "&amp;code_coverage=true'>Analyze Code Coverage</a></p>\n";
+		echo "<a href='" . $this->baseUrl() . $query . "&amp;code_coverage=true'>Analyze Code Coverage</a> | \n";
+		echo "<a href='" . $this->baseUrl() . $query . "&amp;code_coverage=true&amp;show_passes=1&amp;debug=1'>All options enabled</a></p>\n";
 	}
 
 /**
@@ -244,12 +243,13 @@ class CakeHtmlReporter extends CakeBaseReporter {
  *
  * @param PHPUnit_Framework_AssertionFailedError $message Failure object displayed in
  *   the context of the other tests.
- * @param mixed $test
+ * @param mixed $test The test case to paint a failure for.
  * @return void
  */
 	public function paintFail($message, $test) {
 		$trace = $this->_getStackTrace($message);
-		$testName = get_class($test) . '(' . $test->getName() . ')';
+		$className = get_class($test);
+		$testName = $className . '::' . $test->getName() . '()';
 
 		$actualMsg = $expectedMsg = null;
 		if (method_exists($message, 'getComparisonFailure')) {
@@ -265,11 +265,15 @@ class CakeHtmlReporter extends CakeBaseReporter {
 		echo "<div class='msg'><pre>" . $this->_htmlEntities($message->toString());
 
 		if ((is_string($actualMsg) && is_string($expectedMsg)) || (is_array($actualMsg) && is_array($expectedMsg))) {
-			echo "<br />" . PHPUnit_Util_Diff::diff($expectedMsg, $actualMsg);
+			echo "<br />" . $this->_htmlEntities(PHPUnit_Util_Diff::diff($expectedMsg, $actualMsg));
 		}
 
 		echo "</pre></div>\n";
 		echo "<div class='msg'>" . __d('cake_dev', 'Test case: %s', $testName) . "</div>\n";
+		if (strpos($className, "PHPUnit_") === false) {
+			list($show, $query) = $this->_getQueryLink();
+			echo "<div class='msg'><a href='" . $this->baseUrl() . $query . "&amp;filter=" . $test->getName() . "'>" . __d('cake_dev', 'Rerun only this test: %s', $testName) . "</a></div>\n";
+		}
 		echo "<div class='msg'>" . __d('cake_dev', 'Stack trace:') . '<br />' . $trace . "</div>\n";
 		echo "</li>\n";
 	}
@@ -279,7 +283,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
  * trail of the nesting test suites below the
  * top level test.
  *
- * @param PHPUnit_Framework_Test test method that just passed
+ * @param PHPUnit_Framework_Test $test Test method that just passed
  * @param float $time time spent to run the test method
  * @return void
  */
@@ -296,8 +300,8 @@ class CakeHtmlReporter extends CakeBaseReporter {
 /**
  * Paints a PHP exception.
  *
- * @param Exception $exception Exception to display.
- * @param mixed $test
+ * @param Exception $message Exception to display.
+ * @param mixed $test The test that failed.
  * @return void
  */
 	public function paintException($message, $test) {
@@ -371,13 +375,42 @@ class CakeHtmlReporter extends CakeBaseReporter {
 /**
  * A test suite started.
  *
- * @param  PHPUnit_Framework_TestSuite $suite
+ * @param PHPUnit_Framework_TestSuite $suite The test suite to start.
+ * @return void
  */
 	public function startTestSuite(PHPUnit_Framework_TestSuite $suite) {
 		if (!$this->_headerSent) {
 			echo $this->paintHeader();
 		}
 		echo '<h2>' . __d('cake_dev', 'Running  %s', $suite->getName()) . '</h2>';
+	}
+
+/**
+ * Returns the query string formatted for ouput in links
+ * 
+ * @return string
+ */
+	protected function _getQueryLink() {
+		$show = $query = array();
+		if (!empty($this->params['case'])) {
+			$show['show'] = 'cases';
+		}
+
+		if (!empty($this->params['core'])) {
+			$show['core'] = $query['core'] = 'true';
+		}
+		if (!empty($this->params['plugin'])) {
+			$show['plugin'] = $query['plugin'] = $this->params['plugin'];
+		}
+		if (!empty($this->params['case'])) {
+			$query['case'] = $this->params['case'];
+		}
+		if (!empty($this->params['filter'])) {
+			$query['filter'] = $this->params['filter'];
+		}
+		$show = $this->_queryString($show);
+		$query = $this->_queryString($query);
+		return array($show, $query);
 	}
 
 }

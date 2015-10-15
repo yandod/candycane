@@ -4,8 +4,6 @@
  *
  * Test Case for project generation shell task
  *
- * PHP 5
- *
  * CakePHP : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -17,7 +15,7 @@
  * @link          http://cakephp.org CakePHP Project
  * @package       Cake.Test.Case.Console.Command.Task
  * @since         CakePHP v 1.3.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('ShellDispatcher', 'Console');
@@ -199,7 +197,6 @@ class ProjectTaskTest extends CakeTestCase {
 			'Test' . DS . 'Case' . DS . 'View' . DS . 'Helper' => 'empty',
 			'Test' . DS . 'Fixture' => 'empty',
 			'Vendor' => 'empty',
-			'View' . DS . 'Elements' => 'empty',
 			'View' . DS . 'Scaffolds' => 'empty',
 			'tmp' . DS . 'cache' . DS . 'models' => 'empty',
 			'tmp' . DS . 'cache' . DS . 'persistent' => 'empty',

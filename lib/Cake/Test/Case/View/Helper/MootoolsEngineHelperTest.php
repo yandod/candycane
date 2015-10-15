@@ -2,8 +2,6 @@
 /**
  * MooEngineTestCase
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -11,10 +9,10 @@
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright       Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link            http://cakephp.org CakePHP Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * @link          http://cakephp.org CakePHP Project
  * @package       Cake.Test.Case.View.Helper
- * @license         MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('View', 'View');
@@ -22,6 +20,11 @@ App::uses('HtmlHelper', 'View/Helper');
 App::uses('JsHelper', 'View/Helper');
 App::uses('MootoolsEngineHelper', 'View/Helper');
 
+/**
+ * Class MootoolsEngineHelperTest
+ *
+ * @package       Cake.Test.Case.View.Helper
+ */
 class MootoolsEngineHelperTest extends CakeTestCase {
 
 /**
@@ -261,7 +264,7 @@ class MootoolsEngineHelperTest extends CakeTestCase {
 			'start' => 'onStart',
 			'drag' => 'onDrag',
 			'stop' => 'onStop',
-			'snapGrid' => array(10,10),
+			'snapGrid' => array(10, 10),
 			'wrapCallbacks' => false
 		));
 		$expected = '$("drag-me").makeDraggable({onComplete:onStop, onDrag:onDrag, onStart:onStart, snap:[10,10]});';

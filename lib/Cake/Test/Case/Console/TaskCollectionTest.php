@@ -2,8 +2,6 @@
 /**
  * TaskCollectionTest file
  *
- * PHP 5
- *
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,12 +13,23 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Console
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('TaskCollection', 'Console');
 App::uses('Shell', 'Console');
 
+/**
+ * Extended Task
+ */
+class DbConfigAliasedTask extends Shell {
+}
+
+/**
+ * Class TaskCollectionTest
+ *
+ * @package       Cake.Test.Case.Console
+ */
 class TaskCollectionTest extends CakeTestCase {
 
 /**
@@ -120,6 +129,27 @@ class TaskCollectionTest extends CakeTestCase {
 
 		$result = $this->Tasks->loaded();
 		$this->assertEquals(array('Extract'), $result, 'loaded tasks is wrong');
+	}
+
+/**
+ * Tests loading as an alias
+ *
+ * @return void
+ */
+	public function testLoadWithAlias() {
+		$result = $this->Tasks->load('DbConfig', array('className' => 'DbConfigAliased'));
+		$this->assertInstanceOf('DbConfigAliasedTask', $result);
+		$this->assertInstanceOf('DbConfigAliasedTask', $this->Tasks->DbConfig);
+
+		$result = $this->Tasks->loaded();
+		$this->assertEquals(array('DbConfig'), $result, 'loaded() results are wrong.');
+
+		$result = $this->Tasks->load('SomeTask', array('className' => 'TestPlugin.OtherTask'));
+		$this->assertInstanceOf('OtherTaskTask', $result);
+		$this->assertInstanceOf('OtherTaskTask', $this->Tasks->SomeTask);
+
+		$result = $this->Tasks->loaded();
+		$this->assertEquals(array('DbConfig', 'SomeTask'), $result, 'loaded() results are wrong.');
 	}
 
 }

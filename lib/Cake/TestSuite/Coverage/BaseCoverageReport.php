@@ -16,8 +16,11 @@
  * @link          http://cakephp.org CakePHP(tm) Project
  * @package       Cake.TestSuite.Coverage
  * @since         CakePHP(tm) v 2.0
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
+
+App::uses('Inflector', 'Utility');
+App::uses('CakePlugin', 'Core');
 
 /**
  * Abstract class for common CoverageReport methods.
@@ -61,7 +64,6 @@ abstract class BaseCoverageReport {
  *
  * @param array $coverage Array of coverage data from PHPUnit_Test_Result
  * @param CakeBaseReporter $reporter A reporter to use for the coverage report.
- * @return void
  */
 	public function __construct($coverage, CakeBaseReporter $reporter) {
 		$this->_rawCoverage = $coverage;
@@ -96,14 +98,14 @@ abstract class BaseCoverageReport {
 /**
  * Gets the base path that the files we are interested in live in.
  *
- * @return void
+ * @return string Path
  */
 	public function getPathFilter() {
 		$path = ROOT . DS;
 		if ($this->appTest) {
 			$path .= APP_DIR . DS;
 		} elseif ($this->pluginTest) {
-			$path = App::pluginPath($this->pluginTest);
+			$path = CakePlugin::path($this->pluginTest);
 		} else {
 			$path = CAKE;
 		}
@@ -135,8 +137,8 @@ abstract class BaseCoverageReport {
  * 3.5 uses -1 for uncovered, and -2 for dead.
  * 3.6 uses array() for uncovered and null for dead.
  *
- * @param array $fileLines
- * @param array $coverageData
+ * @param array $fileLines The lines in the file.
+ * @param array $coverageData The raw coverage data.
  * @return array Array of covered, total lines.
  */
 	protected function _calculateCoveredLines($fileLines, $coverageData) {

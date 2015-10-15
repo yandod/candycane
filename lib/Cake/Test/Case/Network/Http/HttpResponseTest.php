@@ -2,8 +2,6 @@
 /**
  * HttpResponseTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,9 +13,8 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Network.Http
  * @since         CakePHP(tm) v 1.2.0.4206
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-
 App::uses('HttpResponse', 'Network/Http');
 
 /**
@@ -41,7 +38,7 @@ class TestHttpResponse extends HttpResponse {
  * Convenience method for testing protected method
  *
  * @param string $body A string containing the body to decode
- * @param boolean|string $encoding Can be false in case no encoding is being used, or a string representing the encoding
+ * @param bool|string $encoding Can be false in case no encoding is being used, or a string representing the encoding
  * @return mixed Array or false
  */
 	public function decodeBody($body, $encoding = 'chunked') {
@@ -71,7 +68,7 @@ class TestHttpResponse extends HttpResponse {
 /**
  * Convenience method for testing protected method
  *
- * @param boolean $hex true to get them as HEX values, false otherwise
+ * @param bool $hex true to get them as HEX values, false otherwise
  * @return array Escape chars
  */
 	public function tokenEscapeChars($hex = true, $chars = null) {
@@ -93,6 +90,7 @@ class HttpResponseTest extends CakeTestCase {
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
 		$this->HttpResponse = new TestHttpResponse();
 	}
 
@@ -142,7 +140,7 @@ class HttpResponseTest extends CakeTestCase {
 		$this->assertEquals('Bar', $this->HttpResponse->getHeader('FOO'));
 		$this->assertEquals('value', $this->HttpResponse->getHeader('header'));
 		$this->assertEquals('text/plain', $this->HttpResponse->getHeader('Content-Type'));
-		$this->assertSame($this->HttpResponse->getHeader(0), null);
+		$this->assertNull($this->HttpResponse->getHeader(0));
 
 		$this->assertEquals('Bar', $this->HttpResponse->getHeader('foo', false));
 		$this->assertEquals('not from class', $this->HttpResponse->getHeader('foo', array('foo' => 'not from class')));
@@ -356,7 +354,7 @@ class HttpResponseTest extends CakeTestCase {
  *
  * @dataProvider invalidParseResponseDataProvider
  * @expectedException SocketException
- * return void
+ * @return void
  */
 	public function testInvalidParseResponseData($value) {
 		$this->HttpResponse->parseResponse($value);
@@ -454,12 +452,13 @@ class HttpResponseTest extends CakeTestCase {
 /**
  * testDecodeChunkedBodyError method
  *
- * @expectedException SocketException
  * @return void
  */
 	public function testDecodeChunkedBodyError() {
 		$encoded = "19\r\nThis is a chunked message\r\nE\r\n\nThat is cool\n\r\n";
-		$this->HttpResponse->decodeChunkedBody($encoded);
+		$result = $this->HttpResponse->decodeChunkedBody($encoded);
+		$expected = "This is a chunked message\nThat is cool\n";
+		$this->assertEquals($expected, $result['body']);
 	}
 
 /**
@@ -577,7 +576,7 @@ class HttpResponseTest extends CakeTestCase {
 		$this->assertEquals($expected, $this->HttpResponse['cookies']);
 
 		$this->HttpResponse->raw = "HTTP/1.1 200 OK\r\n\r\nThis is a test!";
-		$this->assertSame($this->HttpResponse['raw']['header'], null);
+		$this->assertNull($this->HttpResponse['raw']['header']);
 	}
 
 }

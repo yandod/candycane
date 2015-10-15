@@ -2,8 +2,6 @@
 /**
  * ConsoleOutputTest file
  *
- * PHP 5
- *
  * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
@@ -15,11 +13,16 @@
  * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Console
  * @since         CakePHP(tm) v 1.2.0.5432
- * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
+ * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('ConsoleOutput', 'Console');
 
+/**
+ * Class ConsoleOutputTest
+ *
+ * @package       Cake.Test.Case.Console
+ */
 class ConsoleOutputTest extends CakeTestCase {
 
 /**
@@ -226,6 +229,17 @@ class ConsoleOutputTest extends CakeTestCase {
 			->with('Bad Regular');
 
 		$this->output->write('<error>Bad</error> Regular', false);
+	}
+
+/**
+ * test plain output when php://output, as php://output is
+ * not compatible with posix_ functions.
+ *
+ * @return void
+ */
+	public function testOutputAsPlainWhenOutputStream() {
+		$output = $this->getMock('ConsoleOutput', array('_write'), array('php://output'));
+		$this->assertEquals(ConsoleOutput::PLAIN, $output->outputAs());
 	}
 
 /**
