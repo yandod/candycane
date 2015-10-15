@@ -14,7 +14,7 @@ class Query extends AppModel
   );
   var $validate = array(
     'name' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
       'validates_length_of'=>array('rule'=>array('maxLength', 255)),
     ),
     'filters' => array(

@@ -12,7 +12,7 @@ class CustomValue extends AppModel
 
   var $validate = array(
     'value' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
       'validates_invalid_of'=>array('rule'=>array('validate_value_regexp')),
       'validates_inclusion_of'=>array('rule'=>array('validate_value_range')),
       'validates_format_of'=>array('rule'=>array('validate_value_format')),

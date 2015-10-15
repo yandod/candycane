@@ -7,7 +7,7 @@ class CustomField extends AppModel
     var $actsAs = array('List');
     var $validate = array(
         'name' => array(
-            'validates_presence_of'   => array('rule' => array('notEmpty')),
+            'validates_presence_of'   => array('rule' => array('notBlank')),
             'validates_uniqueness_of' => array('rule' => array('isUnique')),
             'validates_length_of'     => array('rule' => array('maxLength', 30)),
             'validates_format_of'     => array('rule' => array('custom', '/^[\p{Ll}\p{Lm}\p{Lo}\p{Lt}\p{Lu}\p{Nd}\s\.\'\-]*$/iu')),

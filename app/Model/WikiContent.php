@@ -21,7 +21,7 @@ class WikiContent extends AppModel
                                            'foreignKey' => 'author_id'
                                            ),
                          );
-  var $validate = array('text' => 'notEmpty');
+  var $validate = array('text' => 'notBlank');
   function beforeSave(){
     if ($this->id) {
       $this->oldData = $this->find('first',array(

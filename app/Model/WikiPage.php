@@ -43,7 +43,7 @@ class WikiPage extends AppModel {
  	public $validate = array(
 		'title' => array(
 			'validates_presence_of' => array(
-				'rule' => 'notEmpty'
+				'rule' => 'notBlank'
 			),
 			'validates_format_of' => array(
 				'rule' => array('custom', '/^[^,\.\/\?\;\|\:]*$/')

@@ -40,7 +40,7 @@ class IssueRelation extends AppModel
       'validates_circular_dependency'=>array('rule'=>array('circularDependency')),
     ),
     'relation_type' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
       'validates_invalid_of'=>array('rule'=>array('inList', array(ISSUERELATION_TYPE_RELATES, ISSUERELATION_TYPE_DUPLICATES, ISSUERELATION_TYPE_BLOCKS, ISSUERELATION_TYPE_PRECEDES))),
     ),
     'delay' => array(

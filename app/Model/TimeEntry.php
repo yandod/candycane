@@ -54,24 +54,24 @@ class TimeEntry extends AppModel
 
   var $validate = array(
     'user_id' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
     ),
     'activity_id' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
     ),
     'project_id' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
     ),
     'issue_id' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
     ),
     'hours' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
       'validates_numericality_of'=>array('rule'=>array('numeric')),
       'validates_inclusion_of'=>array('rule'=>array('range', -1, 1000)),
     ),
     'spent_on' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
     ),
     'comments' => array(
       'validates_length_of'=>array('rule'=>array('maxLength', 255)),

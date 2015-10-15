@@ -48,7 +48,7 @@ class Wiki extends AppModel {
  */
 	public $validate = array(
 		'start_page' => array(
-			'validates_presence_of' => array('rule' => 'notEmpty'),
+			'validates_presence_of' => array('rule' => 'notBlank'),
 			'validates_format_of' => array('rule' => array('custom', '/^[^,\.\/\?\;\|\:]*$/'))
 		),
 	);

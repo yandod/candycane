@@ -81,23 +81,23 @@ class Issue extends AppModel
 #  
   var $validate = array(
     'subject' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
       'validates_length_of'=>array('rule'=>array('maxLength', 255)),
     ),
     'priority_id' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
     ),
     'project_id' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
     ),
     'tracker_id' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
     ),
     'author_id' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
     ),
     'status_id' => array(
-      'validates_presence_of'=>array('rule'=>array('notEmpty')),
+      'validates_presence_of'=>array('rule'=>array('notBlank')),
     ),
     'done_ratio' => array(
       'validates_inclusion_of'=>array('rule'=>array('range', -1, 101)),

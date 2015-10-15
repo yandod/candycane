@@ -20,14 +20,14 @@ class News extends AppModel
 
     public $validate = array(
         'title' => array(
-            'Required' => array('rule' => array('notEmpty'), 'required' => true),
+            'Required' => array('rule' => array('notBlank'), 'required' => true),
             'maxLength' => array('rule' => array('maxLength', 60)),
         ),
         'summary' => array(
             'maxLength' => array('rule' => array('maxLength', 255)),
         ),
         'description' => array(
-            'Required' => array('rule' => array('notEmpty'), 'required' => true),
+            'Required' => array('rule' => array('notBlank'), 'required' => true),
         ),
     );
 

@@ -99,12 +99,12 @@ class User extends AppModel {
     ),
     'firstname' => array(
       'validates_not_empty' => array(
-        'rule' => array('notEmpty')
+        'rule' => array('notBlank')
       ),
     ),
     'lastname' => array(
       'validates_not_empty' => array(
-        'rule' => array('notEmpty')
+        'rule' => array('notBlank')
       ),
     ),
     'mail' => array(
@@ -112,7 +112,7 @@ class User extends AppModel {
         'rule' => array('email', false),
       ),
       'validates_not_empty' => array(
-        'rule' => array('notEmpty'),
+        'rule' => array('notBlank'),
       )
     ),
     'username' => array(
