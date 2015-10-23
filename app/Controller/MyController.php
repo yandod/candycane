@@ -8,6 +8,7 @@ class MyController extends AppController
 {
     var $uses = array('User', 'Project');
     #  helper :issues
+    var $components = array('Security');
 
     var $BLOCKS;
     var $DEFAULT_LAYOUT;

@@ -347,7 +347,7 @@ class Query extends AppModel
 	case '<=':
 	case '>=':
 	  return array(
-		$model . '.' . $field . $operator . $values,
+		$model . '.' . $field . ' ' . $operator => $values,
 	  );
 	  break;
     case '!':
