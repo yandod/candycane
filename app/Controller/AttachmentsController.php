@@ -138,7 +138,7 @@ class AttachmentsController extends AppController
      */
     function _read_authorize()
     {
-        $this->Attachment->is_visible($this->current_user, $this->_project) ? true : $this->deny_access();
+        return $this->Attachment->is_visible($this->current_user, $this->_project) ? true : $this->deny_access();
     }
 
     /**
@@ -148,6 +148,6 @@ class AttachmentsController extends AppController
      */
     function _delete_authorize()
     {
-        $this->Attachment->is_deletable($this->current_user, $this->_project) ? true : $this->deny_access();
+        return $this->Attachment->is_deletable($this->current_user, $this->_project) ? true : $this->deny_access();
     }
 }
