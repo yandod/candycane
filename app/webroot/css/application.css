@@ -273,13 +273,8 @@ text-align: left;
 width: 270px;
 }
 
-div.checkbox input[type="checkbox"] {
-	float: left;
-}
-
 div.checkbox label {
 	margin-left: 0px;
-	float: left;
 	width: auto;
 }
 
