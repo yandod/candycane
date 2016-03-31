@@ -730,6 +730,8 @@ class IssuesController extends AppController
             $issue_ids = $this->request->params['url']['ids'];
         } elseif (!empty($this->request->data['Issue']['ids'])) {
             $issue_ids = $this->request->data['Issue']['ids'];
+        } elseif (!empty($this->request->query['ids'])) {
+            $issue_ids = $this->request->query['ids'];
         } else {
             throw new BadRequestException("Not exists issue.");
         }
