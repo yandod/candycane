@@ -570,7 +570,7 @@ class Issue extends AppModel
 #  
   function all_dependent_issues() {
     // Move to IssueRelation
-    $this->cakeError('error404');
+    throw new NotFoundException('error404');
   }
 #  
   # Returns an array of issues that duplicate this one

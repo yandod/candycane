@@ -104,14 +104,14 @@ class Role extends AppModel {
   function non_member_allowed_to($permission) {
     $non_member = $this->non_member();
     if(empty($non_member)) {
-      $this->cakeError('error', array('message'=>'Missing non-member builtin role.'));
+      throw new BadRequestException('Missing non-member builtin role.');
     }
     return $this->is_allowed_to($non_member, $permission);
   }
   function anonymous_allowed_to($permission) {
     $anonymous = $this->anonymous();
     if(empty($anonymous)) {
-      $this->cakeError('error', array('message'=>'Missing non-member builtin role.'));
+      throw new BadRequestException('Missing non-member builtin role.');
     }
     return $this->is_allowed_to($anonymous, $permission);
   }

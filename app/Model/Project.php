@@ -259,7 +259,7 @@ class Project extends AppModel {
  */
 	public function visible_by($user = false) {
 		if (empty($user)) {
-			return $this->cakeError('error', "Argument Exception.");
+			throw new InternalErrorException("Argument Exception.");
 		}
 		if (isset($user['admin']) && $user['admin']) {
 			return array('Project.status' => PROJECT_STATUS_ACTIVE);
