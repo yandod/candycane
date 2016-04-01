@@ -36,7 +36,7 @@
     ));?>
     <p>
       <?php echo $this->Form->label('tracker_id', __('Tracker').' :'); ?>
-      <?php echo $this->Form->input('tracker_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$trackers, 'empty'=>__('(No change)'))); ?></p>
+      <?php echo $this->Form->input('tracker_id', array('div'=>false, 'label'=>false, 'type'=>'select', 'options'=>$trackers, 'empty'=>__('(No change)'), 'required' => false)); ?></p>
     </p>
   </div>
 <?php echo $this->Form->end(__('Move')); ?>
