@@ -6,7 +6,7 @@
   <?php endforeach; ?>
 </ul>
 
-<?php echo $this->Form->create(array('url'=>array('action'=>'move','issue_id'=>$issue['Issue']['id']), 'id'=>'IssueMoveForm')); ?>
+<?php echo $this->Form->create(array('url'=>array('action'=>'move'), 'id'=>'IssueMoveForm')); ?>
   <div class="box tabular">
   <?php foreach($issue_datas as $issue) : ?>
     <?php echo $this->Form->hidden('ids', array('name'=>'data[Issue][ids][]', 'value'=>$issue['Issue']['id'])); ?>
@@ -19,8 +19,7 @@
     	'change',
 	$this->Js->request(
 		array(
-			'action' => 'move',
-			'issue_id' => $issue['Issue']['id']
+			'action' => 'move'
 		),
 		array(
 			'update' => 'content',
