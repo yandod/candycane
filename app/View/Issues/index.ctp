@@ -1,5 +1,5 @@
 <?php if(empty($query['Query']['id'])): ?>
-    <h2><?php  $this->Candy->html_title(__('Issues')) ?></h2>
+    <h2><?php echo $this->Candy->html_title(__('Issues')) ?></h2>
     
     <form action="<?php echo h($this->Html->url(array('controller' => 'queries', 'action' => 'add'))) ?>" method="get" id="query_form">
     <input type="hidden" name="set_filter" value="1" />
