@@ -53,14 +53,26 @@
 		  echo $this->Html->tag('span', h($e['project']['name']), array('class' => 'project'));
 		} ?> <?php
  //<%= link_to highlight_tokens(truncate(e.event_title, 255), @tokens), e.event_url  
-echo $this->Html->link(
-	$this->Text->highlight(
-		h($this->Candy->format_activity_title($e['title'])),
-		$question
-	),
-	$e['url'],
-	array('escape' => false)
-); ?></dt>
+if($e['url']['controller'] == 'projects') {
+  echo $this->Html->link(
+  $this->Text->highlight(
+    h($this->Candy->format_activity_title($e['title'])),
+    $question
+  ),
+  array('controller'=>$e['url']['controller'], 'action'=>$e['url']['action'], 'project_id'=>$e['Project']['identifier']),
+  array('escape' => false)
+);
+} else {
+  echo $this->Html->link(
+  	$this->Text->highlight(
+  		h($this->Candy->format_activity_title($e['title'])),
+  		$question
+  	),
+  	$e['url'],
+  	array('escape' => false)
+  );
+}
+?></dt>
         <dd><span class="description"><?php
   //<%= highlight_tokens(e.event_description, @tokens)
   echo $this->Text->highlight($e['description'],$question); ?></span>
