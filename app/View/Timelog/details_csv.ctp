@@ -12,8 +12,10 @@ $headers = array(
   __('Comments')
 );
 # Export custom fields
-$headers = array_merge($headers, Set::extract('{n}.CustomField.name', $customFields));
-$csv->addRow($headers);
+if (isset($customFields) && !empty($customFields)) {
+	$headers = array_merge($headers, Set::extract('{n}.CustomField.name', $customFields));
+}
+$this->csv->addRow($headers);
 
 # csv lines
 foreach($entries as $entry) {
@@ -28,11 +30,13 @@ foreach($entries as $entry) {
     $entry['TimeEntry']['hours'],
     $entry['TimeEntry']['comments']
   );
-  foreach(Set::extract('{n}.CustomField.id', $customFields) as $field_id) {
-    $fields[] = $this->CustomField->field_value($field_id, $entry['CustomValue']);
+  if (isset($customFields) && !empty($customFields)) {
+	foreach(Set::extract('{n}.CustomField.id', $customFields) as $field_id) {
+	  $fields[] = $this->CustomField->field_value($field_id, $entry['CustomValue']);
+	}
   }
-  $csv->addRow($fields);
+  $this->csv->addRow($fields);
 }
 
-echo $csv->render('timelog.csv', __('ISO-8859-1'), 'UTF-8');
+echo $this->csv->render('timelog.csv', __('ISO-8859-1'), 'UTF-8');
 ?>
