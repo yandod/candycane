@@ -209,7 +209,7 @@ class TimelogController extends AppController
             throw new NotFoundException();
         }
         if (!$this->TimeEntry->is_editable_by($this->current_user, $this->_project)) {
-            $this->cakeError('error403');
+            throw new ForbiddenException('error403');
         }
         if ($this->TimeEntry->delete()) {
             $this->Session->setFlash(__('Successful deletion.'), 'default', array('class' => 'flash flash_notice'));

@@ -381,7 +381,7 @@ class IssuesController extends AppController
             $save_data = $event->data['issue'];
 
             if (!$this->Issue->save($save_data) && empty($this->Issue->validationErrors)) {
-                return $this->cakeError('error', array('message' => 'Can not save Issue.'));
+                throw new InternalErrorException('Can not save Issue.');
             }
 
             if (empty($this->Issue->validationErrors)) {
@@ -441,7 +441,7 @@ class IssuesController extends AppController
     {
         static $UPDATABLE_ATTRS_ON_TRANSITION = array('status_id', 'assigned_to_id', 'fixed_version_id', 'done_ratio');
         if (empty($this->request->params['issue_id'])) {
-            return $this->cakeError('error', array('message' => "Not exists issue."));
+            throw new BadRequestException("Not exists issue.");
         }
         $issue = $this->_find_issue($this->request->params['issue_id']);
         if (empty($this->_project)) {
@@ -730,8 +730,10 @@ class IssuesController extends AppController
             $issue_ids = $this->request->params['url']['ids'];
         } elseif (!empty($this->request->data['Issue']['ids'])) {
             $issue_ids = $this->request->data['Issue']['ids'];
+        } elseif (!empty($this->request->query['ids'])) {
+            $issue_ids = $this->request->query['ids'];
         } else {
-            return $this->cakeError('error', array('message' => "Not exists issue."));
+            throw new BadRequestException("Not exists issue.");
         }
 
         if (!is_array($issue_ids)) {
@@ -740,7 +742,7 @@ class IssuesController extends AppController
         $allowed_projects = array();
         $issues = $this->Issue->find('all', array('conditions' => array('Issue.id' => $issue_ids)));
         if (empty($issues)) {
-            return $this->cakeError('error', array('message' => "Not exists issue."));
+            throw new NotFoundException("Not exists issue.");
         }
 
         // find projects to which the user is allowed to move the issue
@@ -756,7 +758,7 @@ class IssuesController extends AppController
             }
         }
         if (!array_key_exists($issues[0]['Issue']['project_id'], $allowed_projects)) {
-            return $this->cakeError('error', array('message' => "Permission deny."));
+            throw new UnauthorizedException("Permission deny.");
         }
         if ($this->RequestHandler->isPost() && !$this->RequestHandler->isAjax()) {
             $move_count = 0;
@@ -811,7 +813,7 @@ class IssuesController extends AppController
         } elseif (!empty($this->request->data['Issue']['ids'])) {
             $issue_ids = $this->request->data['Issue']['ids'];
         } else {
-            return $this->cakeError('error', array('message' => "Not exists issue."));
+            throw new BadRequestException("Not exists issue.");
         }
 
         if (!is_array($issue_ids)) {
@@ -819,7 +821,7 @@ class IssuesController extends AppController
         }
         $issues = $this->Issue->find('all', array('conditions' => array('Issue.id' => $issue_ids)));
         if (empty($issues)) {
-            return $this->cakeError('error', array('message' => "Not exists issue."));
+            throw new NotFoundException("Not exists issue.");
         }
 
         $this->request->params['project_id'] = $issues[0]['Project']['identifier'];
@@ -1135,7 +1137,7 @@ class IssuesController extends AppController
             $project = $projects[0];
         } else {
             // @TODO: let users bulk edit/move/destroy issues from different projects
-            $this->cakeError('Can not bulk edit/move/destroy issues from different projects');
+            throw new BadRequestException('Can not bulk edit/move/destroy issues from different projects');
         }
         return $issues;
     }
