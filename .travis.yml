@@ -17,6 +17,9 @@ before_install:
   - "sh -e /etc/init.d/xvfb start"
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
   - "java -jar selenium-server-standalone-2.39.0.jar > /tmp/selenium.log 2> /tmp/selenium.error &"
+  - "composer global require 'phpunit/phpunit=3.7.33'"
+  - "ln -s ~/.composer/vendor/phpunit/phpunit/PHPUnit app/Vendor/PHPUnit"
+
 before_script:
   - sudo apt-get update -qq
   - sudo apt-get install apache2 libapache2-mod-fastcgi
