@@ -235,4 +235,26 @@ class IssuesHelper extends AppHelper
     }
     return $spent_hours;
   }
+
+  function get_toolbar_lang($user) {
+    if ($user != NULL && isset($user['language'])) {
+      switch ($user['language']) {
+        //case 'bra': return '';
+        //case 'cat': return '';
+        //case 'chi': return '';
+        case 'deu': return 'de';
+        case 'eng': return 'en';
+        case 'esp': return 'es';
+        case 'fra': return 'fr';
+        case 'jpn': return 'ja';
+        //case 'kor': return '';
+        //case 'ron': return '';
+        case 'rus': return 'ru';
+        case 'tha': return 'th';
+        //case 'ukr': return '';
+      }
+    }
+
+    return 'en';
+  }
 }

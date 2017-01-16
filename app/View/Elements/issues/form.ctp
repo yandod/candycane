@@ -60,7 +60,10 @@
 		?>
 	</p>
 <?php endif; ?>
-<?php echo $this->Html->script(array('jstoolbar/jstoolbar','jstoolbar/textile','jstoolbar/lang/jstoolbar-ja')); ?>
+<?php
+	$toolbarLang = $this->Issues->get_toolbar_lang($currentuser);
+	echo $this->Html->script(array('jstoolbar/jstoolbar','jstoolbar/textile','jstoolbar/lang/jstoolbar-'.$toolbarLang));
+?>
 
 <script type="text/javascript">
 //<![CDATA[
