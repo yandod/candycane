@@ -95,6 +95,13 @@ class Project extends AppModel {
 		)
 	);
 
+/**
+ * Setup default sort order
+ *
+ * @var string
+ */
+	public $order = 'Project.name ASC';
+
 #protected
 #  def validate
 #    errors.add(parent_id, " must be a root project") if parent and parent.parent
