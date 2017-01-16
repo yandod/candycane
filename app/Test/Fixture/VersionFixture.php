@@ -1,4 +1,4 @@
-<?php 
+<?php
 class VersionFixture extends CakeTestFixture {
   var $name = 'Version';
   var $fields = array(
@@ -20,6 +20,12 @@ class VersionFixture extends CakeTestFixture {
     array('created_on'=>"2006-07-19 21:00:33 +02:00", 'name'=>"1.0", 'project_id'=>1,
          'updated_on'=>"2006-07-19 21:00:33 +02:00", 'id'=>2, 'description'=>"Stable release", 'effective_date'=>"+20 day"),
     array('created_on'=>"2006-07-19 21:00:33 +02:00", 'name'=>"2.0", 'project_id'=>1,
-          'updated_on'=>"2006-07-19 21:00:33 +02:00", 'id'=>3, 'description'=>"Future version", 'effective_date'=>null)
+          'updated_on'=>"2006-07-19 21:00:33 +02:00", 'id'=>3, 'description'=>"Future version", 'effective_date'=>null),
+    array('created_on'=>"2016-01-26 21:00:33 +02:00", 'name'=>"3.0", 'project_id'=>1,
+          'updated_on'=>"2016-01-26 21:00:33 +02:00", 'id'=>4, 'description'=>"Next future version", 'effective_date'=>"2016-01-27"),
+    array('created_on'=>"2016-01-26 21:00:33 +02:00", 'name'=>"2.1", 'project_id'=>1,
+          'updated_on'=>"2016-01-26 21:00:33 +02:00", 'id'=>5, 'description'=>"Bug fix version", 'effective_date'=>"2016-01-26"),
+    array('created_on'=>"2016-01-26 21:00:33 +02:00", 'name'=>"4.0", 'project_id'=>1,
+          'updated_on'=>"2016-01-26 21:00:33 +02:00", 'id'=>6, 'description'=>"Next next future version", 'effective_date'=>"2016-01-28"),
   );
 }

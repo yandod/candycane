@@ -70,11 +70,24 @@ class VersionTest extends CakeTestCase {
 	}
 
 /**
- * testSort method
+ * Tests default sorting
+ *
+ * Default order is by effective_date, so even if version 3.0 (due 2016-01-27) was added before 2.1 (2016-01-26),
+ * on the result 2.1 will be before 3.0
  *
  * @return void
  */
 	public function testSort() {
+
+		$versions = $this->Version->find("all", array(
+			"conditions" => array(
+					"Version.id" => array(4, 5, 6)
+			)
+		));
+
+		$this->assertEqual('2.1', $versions[0]['Version']['name']);
+		$this->assertEqual('3.0', $versions[1]['Version']['name']);
+		$this->assertEqual('4.0', $versions[2]['Version']['name']);
 	}
 
 }

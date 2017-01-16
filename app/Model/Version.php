@@ -17,6 +17,8 @@ class Version extends AppModel {
     ),
   );
 
+  var $order = "Version.effective_date, Version.id";
+
   function afterFind($results, $primary = false)
   {
     if (isset($results['id'])) {
@@ -44,8 +46,8 @@ class Version extends AppModel {
 		if (empty($result['effective_date'])) {
 			$result['effective_date'] = null;
 		}
-		
-		
+
+
 
     $result['start_date'] = $result['effective_date'];
     $result['due_date'] = $result['effective_date'];
@@ -104,7 +106,7 @@ class Version extends AppModel {
    } else {
      $result['closed_pourcent'] = $result['closed_issues_count'] * 100 / ($result['open_issues_count'] + $result['closed_issues_count']);
    }
-   
+
 #  def closed_pourcent
 #    if fixed_issues.count == 0
 #      0
@@ -112,7 +114,7 @@ class Version extends AppModel {
 #      closed_issues_count * 100.0 / fixed_issues.count
 #    end
 #  end
-    
+
     //effective_date && (effective_date <= Date.today) && (open_issues_count == 0)
     if (empty($result['effective_date'])) {
       $result['completed'] = false;
@@ -144,10 +146,8 @@ class Version extends AppModel {
 #  end
     return $result;
   }
- 
-  function sort($a,$b){
-      
-      return (strtotime($a['effective_date']) > strtotime($b['effective_date'])) ? -1:1;
+
+  function sort($a,$b) {
+      return (strtotime($a['effective_date']) > strtotime($b['effective_date'])) ? 1:-1;
   }
 }
-
