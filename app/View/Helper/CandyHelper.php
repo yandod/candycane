@@ -1295,7 +1295,7 @@ function breadcrumb($args)
 		$list = array(
 			//bg 'Bulgarian'
 			'cat' => 'Català',
-			//cs 'Čeština'
+			'ces' => 'Čeština',
 			//da 'Dansk'
 			'deu' => 'Deutsch',
 			'eng' => 'English',

@@ -1,0 +1,2776 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: candycane 0.9.3\n"
+"POT-Creation-Date: 2013-01-31 22:16+0100\n"
+"PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: Console/Command/CcPluginShell.php:49
+msgid "Enter the name of the plugin in CamelCase format start with \"Cc\""
+msgstr "Vložte jméno pluginu v CamelCase formátu začínající na \"Cc\""
+
+#: Console/Command/CcPluginShell.php:80
+msgid "Do you want verbose output?"
+msgstr "Chcete podrobný výstup?"
+
+#: Console/Command/CcPluginShell.php:145
+msgid "Created: %s in %s"
+msgstr "Vytvořeno: %s v %s"
+
+#: Controller/AccountController.php:77;144
+msgid "Your account has been activated. You can now log in."
+msgstr "Váš účet byl aktivován. Nyní se můžete přihlásit"
+
+#: Controller/AccountController.php:133
+msgid "Account was successfully created. To activate your account, click on the link that was emailed to you."
+msgstr "Účet byl úspěšně vytvořen. Chcete-li aktivovat svůj účet, klikněte na odkaz, který byl zaslat e-mailem na vás."
+
+#: Controller/AccountController.php:160
+msgid "Your account was created and is now pending administrator approval."
+msgstr "Váš účet byl vytvořen, nyní čeká na schválení administrátorem."
+
+#: Controller/AccountController.php:199
+msgid "Invalid user or password"
+msgstr "Neplatné uživatelské jméno nebo heslo"
+
+#: Controller/AccountController.php:319
+#: Controller/MyController.php:66
+msgid "Password was successfully updated."
+msgstr "Heslo bylo úspěšně změněno."
+
+#: Controller/AccountController.php:348
+msgid "An email with instructions to choose a new password has been sent to you."
+msgstr "E-mail s instrukcemi jak si nastavíte nové heslo bylo zasláno na tebou."
+
+#: Controller/AdminController.php:86
+#: Controller/UsersController.php:184
+#: Model/Query.php:38
+msgid "all"
+msgstr "vše"
+
+#: Controller/AdminController.php:87
+#: Controller/UsersController.php:185
+msgid "active"
+msgstr "aktivní"
+
+#: Controller/AdminController.php:141
+msgid "Installed plugin: %s"
+msgstr "Nainstalované pluginy: %s"
+
+#: Controller/AdminController.php:150
+msgid "Uninstalled plugin: %s"
+msgstr "Odinstalovat plugin: %s"
+
+#: Controller/AdminController.php:160
+msgid "An email was sent to %s"
+msgstr "E-mail byl odeslán na %s"
+
+#: Controller/AdminController.php:162
+msgid "An error occurred while sending mail (%s)"
+msgstr "Vyskytla se chyba při odesílání e-mailu (%s)"
+
+#: Controller/CustomFieldsController.php:58;88
+#: Controller/EnumerationsController.php:28;43;90
+#: Controller/IssueCategoriesController.php:9
+#: Controller/IssueStatusesController.php:142;156
+#: Controller/IssuesController.php:387;541;672;749
+#: Controller/MyController.php:194
+#: Controller/NewsController.php:186
+#: Controller/ProjectsController.php:381;411
+#: Controller/RolesController.php:151;220
+#: Controller/SettingsController.php:35
+#: Controller/TimelogController.php:187
+#: Controller/TrackersController.php:39;51
+#: Controller/UsersController.php:65
+#: Controller/VersionsController.php:51;69
+#: Controller/WikiController.php:245
+#: Controller/WorkflowsController.php:88
+msgid "Successful update."
+msgstr "Úspěšná aktualizace."
+
+#: Controller/CustomFieldsController.php:128
+#: Controller/IssueStatusesController.php:170
+#: Controller/IssuesController.php:832
+#: Controller/NewsController.php:245
+#: Controller/RolesController.php:165
+#: Controller/TimelogController.php:207
+msgid "Successful deletion."
+msgstr "Úspěšné smazání."
+
+#: Controller/CustomFieldsController.php:131
+msgid "Unable to delete custom field"
+msgstr "Nelze smazat uživatelské pole"
+
+#: Controller/IssueStatusesController.php:132;138;166
+#: Controller/RolesController.php:161
+msgid "Invalid id"
+msgstr "Neplatné id"
+
+#: Controller/IssueStatusesController.php:145;159
+#: Controller/TrackersController.php:42
+msgid "Please correct errors below."
+msgstr "Prosím opravte chyby níže."
+
+#: Controller/IssueStatusesController.php:172
+msgid "There was an error deleting with id: %1$d"
+msgstr "There was an error deleting with id: %1$d"
+
+#: Controller/IssuesController.php:252;340;436
+msgid "No default issue status is defined. Please check your configuration (Go to \"Administration -> Issue statuses\")."
+msgstr "Není definován žádný výchozí status. Zkontrolujte nastavení (Jděte na \"Administrace -> Statusy\")."
+
+#: Controller/IssuesController.php:329
+msgid "No tracker is associated to this project. Please check the Project settings."
+msgstr "Žádný tracker je spojené s tímto projektem. Zkontrolujte prosím nastavení projektu."
+
+#: Controller/IssuesController.php:503
+#: Controller/WikiController.php:402
+msgid "%d file(s) could not be saved."
+msgstr "%d soubor(y) nebyly uloženy."
+
+#: Controller/IssuesController.php:675;751;834
+msgid "\"Failed to save %d issue(s) on %d selected"
+msgstr "\"Failed to save %d issue(s) on %d selected"
+
+#: Controller/IssuesController.php:820
+msgid "'The issue was not found or does not belong to this project'"
+msgstr "'Úkol nebyl nalezen nebo nepatří k tomuto projektu'"
+
+#: Controller/MyController.php:33
+#: View/Elements/my/blocks/issuesassignedtome.ctp:1
+msgid "Issues assigned to me"
+msgstr "Úkoly přiřazené mně"
+
+#: Controller/MyController.php:56
+msgid "This account uses an external authentication source. Impossible to change the password."
+msgstr "Tento účet používá externí autentifikaci. Nelze změnit heslo."
+
+#: Controller/MyController.php:70
+msgid "Wrong password"
+msgstr "Chybné heslo"
+
+#: Controller/MyController.php:78
+msgid "Your RSS access key was reset."
+msgstr "Váš přístup k RSS klíč byl resetován."
+
+#: Controller/MyController.php:85
+msgid "Your API access key was reset."
+msgstr "Váš přístup k API klíč byl resetován."
+
+#: Controller/MyController.php:209
+msgid "\"For any event on all my projects\""
+msgstr "\"Pro všechny události všech mých projektů\""
+
+#: Controller/MyController.php:212
+msgid "\"For any event on the selected projects only...\""
+msgstr "\"Pro všechny události pro vybrané projekty ...\""
+
+#: Controller/MyController.php:214
+msgid "\"Only for things I watch or I'm involved in\""
+msgstr "\"Pouze pro věci, které sleduji, nebo do kterých jsem zapojen\""
+
+#: Controller/NewsController.php:157;220
+#: Controller/ProjectsController.php:205;499;563
+#: Controller/QueriesController.php:63;94
+#: Controller/RolesController.php:110
+#: Controller/UsersController.php:214
+msgid "Successful creation."
+msgstr "Úspěšné vytvoření."
+
+#: Controller/ProjectsController.php:814
+#: View/Account/show.ctp:47
+#: View/Elements/issues/edit.ctp:32
+#: View/Elements/projects/sidebar/activity.ctp:2
+#: View/Elements/timelog/list.ctp:6
+#: View/Projects/activity.ctp:1;88
+#: View/Timelog/details_csv.ctp:6
+#: View/Timelog/edit.ctp:27
+msgid "Activity"
+msgstr "Aktivita"
+
+#: Controller/RolesController.php:167
+msgid "This role is in use and can not be deleted."
+msgstr "Tato role se používá a nemůže být smazána."
+
+#: Controller/TimelogController.php:145
+#: View/Elements/issues/edit.ctp:26
+#: View/Elements/projects/sidebar/show.ctp:15
+#: View/Helper/CustomFieldHelper.php:38
+#: View/Issues/show.ctp:67
+#: View/Timelog/details.ctp:15;64;66;72;74;76
+#: View/Timelog/edit.ctp:1
+#: View/Timelog/report.ctp:15;139
+#: View/Versions/show.ctp:39
+msgid "Spent time"
+msgstr "Strávený čas"
+
+#: Controller/TrackersController.php:81
+msgid "This tracker contains issues and can't be deleted."
+msgstr "Tento tracker obsahuje otázky a nemůže být odstraněn."
+
+#: Controller/UsersController.php:76
+#: Vendor/candycane/SettingContainer.php:24
+msgid "General"
+msgstr "Obecný"
+
+#: Controller/UsersController.php:81
+#: Vendor/candycane/SettingContainer.php:34
+#: View/Account/show.ctp:30
+#: View/Admin/index.ctp:15
+#: View/Admin/projects.ctp:12
+#: View/Elements/admin/sidebar.ctp:4
+#: View/Helper/CustomFieldHelper.php:39
+#: View/Projects/index.ctp:18
+msgid "Projects"
+msgstr "Projekty"
+
+#: Controller/UsersController.php:186
+msgid "registered"
+msgstr "zapsaný"
+
+#: Controller/UsersController.php:187
+msgid "locked"
+msgstr "zamčený"
+
+#: Controller/VersionsController.php:74
+msgid "Unable to delete version."
+msgstr "Nelze smazat verzi."
+
+#: Controller/Component/MailerComponent.php:126
+msgid "Your %s account activation"
+msgstr "Váš %s aktivace účtu"
+
+#: Controller/Component/MailerComponent.php:156
+msgid "%s account activation request"
+msgstr "%s požadavek aktivace účtu"
+
+#: Controller/Component/MailerComponent.php:174
+msgid "Your password"
+msgstr "Vaše heslo"
+
+#: Controller/Component/MailerComponent.php:201
+#: View/News/index.ctp:40;81
+msgid "News"
+msgstr "Zprávy"
+
+#: Model/Document.php:41
+msgid "Document"
+msgstr "Dokument"
+
+#: Model/Project.php:115
+msgid "Identifier must be between 2 and 20 characters, containing only letters, numbers and dashes."
+msgstr "Identifikátor musí mít 2 až 20 znaků, a může obsahovat pouze písmena, číslice a pomlčky."
+
+#: Model/Project.php:709
+#: View/Admin/projects.ctp:32;55
+#: View/CustomFields/list.ctp:43
+#: View/Elements/roles/form.ctp:21
+#: View/Elements/timelog/list.ctp:7
+#: View/Elements/users/memberships.ctp:16
+#: View/Issues/move.ctp:15
+#: View/Timelog/details_csv.ctp:7
+msgid "Project"
+msgid_plural "Projects"
+msgstr[0] "Projekt"
+msgstr[1] "Projekty"
+
+#: Model/Query.php:33
+msgid "is"
+msgstr "je"
+
+#: Model/Query.php:34
+msgid "is not"
+msgstr "není"
+
+#: Model/Query.php:35
+#: View/Elements/reports/_details.ctp:27
+#: View/Elements/reports/_simple.ctp:18
+msgid "open"
+msgstr "otevřený"
+
+#: Model/Query.php:36
+msgid "closed"
+msgstr "zavřený"
+
+#: Model/Query.php:37
+#: View/Elements/settings/general.ctp:148;160
+#: View/Helper/TimelogHelper.php:135
+#: View/Issues/bulk_edit.ctp:39;61
+#: View/Issues/context_menu.ctp:45;79
+msgid "none"
+msgstr "žádný"
+
+#: Model/Query.php:41
+msgid "in less than"
+msgstr "méně než"
+
+#: Model/Query.php:42
+msgid "in more than"
+msgstr "ve více než"
+
+#: Model/Query.php:43
+msgid "in"
+msgstr "v"
+
+#: Model/Query.php:44
+#: View/Helper/CandyHelper.php:455
+#: View/Helper/TimelogHelper.php:90
+msgid "today"
+msgstr "dnes"
+
+#: Model/Query.php:45
+#: View/Helper/TimelogHelper.php:92
+msgid "this week"
+msgstr "tento týden"
+
+#: Model/Query.php:46
+msgid "less than days ago"
+msgstr "méně než dny"
+
+#: Model/Query.php:47
+msgid "more than days ago"
+msgstr "více než dny"
+
+#: Model/Query.php:48
+msgid "days ago"
+msgstr "dnů před"
+
+#: Model/Query.php:49
+msgid "contains"
+msgstr "obsahuje"
+
+#: Model/Query.php:50
+msgid "doesn't contain"
+msgstr "neobsahuje"
+
+#: Model/Query.php:88
+msgid "me"
+msgstr "mě"
+
+#: Model/Query.php:392
+msgid "'7'"
+msgstr "'7'"
+
+#: Model/Query.php:563
+msgid "tracker"
+msgstr "fronta"
+
+#: Model/Query.php:569
+msgid "status"
+msgstr "stav"
+
+#: Model/Query.php:575
+msgid "priority"
+msgstr "priorita"
+
+#: Model/Query.php:581
+msgid "subject"
+msgstr "předmět"
+
+#: Model/Query.php:587
+msgid "author"
+msgstr "autor"
+
+#: Model/Query.php:593
+msgid "assigned_to"
+msgstr "přiděleno komu"
+
+#: Model/Query.php:599
+msgid "updated_on"
+msgstr "aktualizováno"
+
+#: Model/Query.php:605
+msgid "category"
+msgstr "kategorie"
+
+#: Model/Query.php:611
+msgid "fixed_version"
+msgstr "pevná verze"
+
+#: Model/Query.php:617
+msgid "start_date"
+msgstr "počáteční datum"
+
+#: Model/Query.php:623
+msgid "due_date"
+msgstr "datum dokončení"
+
+#: Model/Query.php:629
+msgid "estimated_hours"
+msgstr "Odhadovaný čas"
+
+#: Model/Query.php:635
+msgid "done_ratio"
+msgstr "podíl dokončení"
+
+#: Model/Query.php:641
+msgid "created_on"
+msgstr "vytvořeno"
+
+#: Model/TimeEntry.php:46
+#: View/Helper/QueriesHelper.php:70
+#: View/Issues/show.ctp:68
+#: View/Timelog/details.ctp:41
+#: View/Timelog/report.ctp:81
+msgid "%.2f hour"
+msgstr "%.2f hodin"
+
+#: Model/WikiPage.php:92
+#: Vendor/candycane/MenuContainer.php:166
+#: View/Elements/wiki/sidebar.ctp:1
+msgid "Wiki"
+msgstr "Wiki"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:59
+msgid "Installation: Welcome"
+msgstr "Instalace: Welcome"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:81
+msgid "Step 1: Database"
+msgstr "Krok 1: Databáze"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:129
+msgid "Could not write database.php file."
+msgstr "Nelze zapisovat database.php soubor."
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:132;152
+msgid "Could not connect to database."
+msgstr "Nelze se připojit k databázi."
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:142
+msgid "Step 2: Run SQL"
+msgstr "Krok 2: Spusťte SQL"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:171
+msgid "Installation completed successfully"
+msgstr "Instalace byla úspěšně dokončena"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:177
+msgid "Installataion files deleted successfully."
+msgstr "Instalační soubory úspěšně smazána."
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:181
+msgid "Could not delete installation files."
+msgstr "Nelze odstranit instalační soubory."
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:207
+msgid "User documentation"
+msgstr "Uživatelská dokumentace"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:208
+msgid "Technical documentation"
+msgstr "Technická dokumentace"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:209
+msgid "Low"
+msgstr "Nízká"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:210
+msgid "Normal"
+msgstr "Normální"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:211
+msgid "High"
+msgstr "Vysoká"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:212
+msgid "Urgent"
+msgstr "Naléhavá"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:213
+msgid "Immediate"
+msgstr "Okamžitá"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:214
+msgid "Design"
+msgstr "Design"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:215
+msgid "Development"
+msgstr "Vývoj"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:218
+#: View/Admin/index.ctp:16;21
+#: View/Elements/admin/sidebar.ctp:5;10
+msgid "New"
+msgstr "Nový"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:219
+msgid "Assigned"
+msgstr "Přiřazený"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:220
+msgid "Resolved"
+msgstr "Vyřešený"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:221
+msgid "Feedback"
+msgstr "Zpětná vazba"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:222
+#: View/Elements/reports/_details.ctp:28
+#: View/Elements/reports/_simple.ctp:19
+msgid "Closed"
+msgstr "Uzavřený"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:223
+msgid "Rejected"
+msgstr "Zamítnutý"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:226
+msgid "Manager"
+msgstr "Manažer"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:227
+msgid "Developer"
+msgstr "Vývojář"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:228
+msgid "Reporter"
+msgstr "Reportér"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:231
+msgid "Bug"
+msgstr "Chyba"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:232
+msgid "Feature"
+msgstr "Požadavek"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:233
+msgid "Support"
+msgstr "Podpora"
+
+#: Plugin/CcInstall/View/CcInstall/data.ctp:3
+msgid "Loading initial data to database which you configured."
+msgstr "Načtení vstupních dat do databáze, které jste nakonfigurovali."
+
+#: Plugin/CcInstall/View/CcInstall/data.ctp:5
+msgid "Click here to build your database"
+msgstr "Klikněte sem pro vytvoření databáze"
+
+#: Plugin/CcInstall/View/CcInstall/database.ctp:3
+msgid "Creating database conection setting. please type valid configuration for your database server."
+msgstr "Vytvoření nastavení připojení databáze. zadejte prosím platnou konfiguraci databázového serveru."
+
+#: Plugin/CcInstall/View/CcInstall/database.ctp:10
+msgid "Exsisting database name"
+msgstr "Název existující databáze"
+
+#: Plugin/CcInstall/View/CcInstall/database.ctp:11
+msgid "Prefix for table name.(if you need)"
+msgstr "Prefix pro tabulky. (dle potřeby)"
+
+#: Plugin/CcInstall/View/CcInstall/database.ctp:12
+msgid "Build database"
+msgstr "Vytvořit databázi"
+
+#: Plugin/CcInstall/View/CcInstall/finish.ctp:14
+msgid "Delete the installation directory <strong>/app/Plugin/install</strong>."
+msgstr "Odstraňte instalační adresář / app / Plugin / install ."
+
+#: Plugin/CcInstall/View/CcInstall/finish.ctp:21
+msgid "Click here to delete installation files"
+msgstr "Klikněte zde pro odstranění instalačních souborů"
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:8
+msgid "PDO extension is loaded."
+msgstr "PDO rozšíření je načteno."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:11
+msgid "PDO extension is NOT loaded."
+msgstr "PDO rozšíření není načteno."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:16
+msgid "Your tmp directory is writable."
+msgstr "Do adresáře tmp lze zapisovat."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:19
+msgid "Your tmp directory is NOT writable."
+msgstr "Do adresáře tmp nelze zapisovat."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:25
+msgid "Your Config directory is writable."
+msgstr "Do adresáře Config lze zapisovat."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:28
+msgid "Your Config directory is NOT writable."
+msgstr "Do adresáře Config nelze zapisovat."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:34
+msgid "Your files directory is writable."
+msgstr "Do adresáře files lze zapisovat."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:37
+msgid "Your files directory is NOT writable."
+msgstr "Do adresáře files melze zapisovat."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:43
+msgid "Your Plugin directory is writable."
+msgstr "Do adresáře Plugin lze zapisovat."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:46
+msgid "Your Plugin directory is NOT writable."
+msgstr "Do adresáře Plugin nelze zapisovat."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:52
+msgid "Your routing  is working well."
+msgstr "Vaše směrování funguje dobře."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:55
+msgid "Your routing is NOT working well."
+msgstr "Vaše směrování nefunguje dobře."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:56
+msgid "Please activate mod_rewrite and .htaccess."
+msgstr "Aktivujte prosím mod_rewrite a .htaccess."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:57
+msgid "Or uncomment \"//Configure::write('App.baseUrl', env('SCRIPT_NAME'));\" in app/Config/core.php and remove all .htaccess."
+msgstr "Or uncomment \"//Configure::write('App.baseUrl', env('SCRIPT_NAME'));\" in app/Config/core.php and remove all .htaccess."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:70
+msgid "Click here to begin installation"
+msgstr "Klikněte zde pro zahájení instalace"
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:72
+msgid "Installation cannot continue as minimum requirements are not met."
+msgstr "Instalace nemůže pokračovat, protože nejsou splněny minimální požadavky."
+
+#: Plugin/CcInstall/View/Layouts/install.ctp:5
+msgid "CandyCane"
+msgstr "CandyCane"
+
+#: Plugin/CcInstall/View/Layouts/install.ctp:18
+msgid "Install CandyCane"
+msgstr "Instalace CandyCane"
+
+#: Plugin/CcInstall/View/Layouts/install.ctp:33
+msgid "CandyCane Installer"
+msgstr "CandyCane Instalátor"
+
+#: Vendor/candycane/MenuContainer.php:141
+#: View/Admin/index.ctp:57
+#: View/Admin/info.ctp:8
+#: View/Elements/admin/sidebar.ctp:46
+#: View/My/account.ctp:18
+msgid "Information"
+msgstr "Informace"
+
+#: Vendor/candycane/MenuContainer.php:146
+#: View/Projects/add.ctp:19
+msgid "Modules"
+msgstr "Moduly"
+
+#: Vendor/candycane/MenuContainer.php:151
+#: View/Projects/list_members.ctp:1
+#: View/Projects/show.ctp:55
+msgid "Members"
+msgstr "Členové"
+
+#: Vendor/candycane/MenuContainer.php:156
+#: View/Elements/projects/sidebar/changelog.ctp:10
+#: View/Elements/projects/sidebar/roadmap.ctp:16
+msgid "Versions"
+msgstr "Verze"
+
+#: Vendor/candycane/MenuContainer.php:161
+msgid "Issue categories"
+msgstr "Kategorie úkolů"
+
+#: Vendor/candycane/SettingContainer.php:29
+#: View/Elements/users/form.ctp:28
+msgid "Authentication"
+msgstr "Ověření"
+
+#: Vendor/candycane/SettingContainer.php:39
+#: View/Projects/show.ctp:37
+msgid "Issue tracking"
+msgstr "Sledování úkolů"
+
+#: Vendor/candycane/SettingContainer.php:44
+#: View/My/account.ctp:27
+msgid "Email notifications"
+msgstr "E-mailová oznámení"
+
+#: View/Account/login.ctp:10
+#: View/Account/register.ctp:12
+#: View/Elements/my/sidebar.ctp:3
+#: View/Emails/html/lost_password.ctp:4
+#: View/Emails/text/lost_password.ctp:7
+#: View/mailer/lost_password.text.plain.ctp:7
+msgid "Login"
+msgstr "Přihlášení"
+
+#: View/Account/login.ctp:17
+#: View/Account/register.ctp:17
+#: View/Elements/users/form.ctp:38
+#: View/My/password.ctp:16
+msgid "Password"
+msgstr "Heslo"
+
+#: View/Account/login.ctp:34
+#: View/Account/lost_password.ctp:1
+#: View/Account/password_recovery.ctp:1
+#: View/Elements/settings/authentication.ctp:48
+msgid "Lost password"
+msgstr "Zapomenuté heslo"
+
+#: View/Account/login.ctp:38
+#: View/Elements/account_menu.ctp:8
+msgid "Sign in"
+msgstr "Přihlásit se"
+
+#: View/Account/lost_password.ctp:6
+#: View/Account/register.ctp:39
+#: View/Account/show.ctp:12
+#: View/Elements/my/informations.ctp:10
+msgid "Email"
+msgstr "E-mail"
+
+#: View/Account/lost_password.ctp:9
+#: View/Account/register.ctp:57
+#: View/Elements/issues/edit.ctp:63
+#: View/Issues/bulk_edit.ctp:103
+#: View/Search/index.ctp:38
+msgid "Submit"
+msgstr "Odeslat"
+
+#: View/Account/password_recovery.ctp:11
+#: View/My/password.ctp:24
+msgid "New password"
+msgstr "Nové heslo"
+
+#: View/Account/password_recovery.ctp:22
+#: View/Account/register.ctp:23
+#: View/Elements/users/form.ctp:44
+#: View/My/password.ctp:34
+#: View/Projects/destroy.ctp:1
+#: View/Wikis/destroy.ctp:1
+msgid "Confirmation"
+msgstr "Potvrzení"
+
+#: View/Account/password_recovery.ctp:32
+#: View/CustomFields/edit.ctp:12
+#: View/CustomFields/new.ctp:13
+#: View/Elements/journals/notes_form.ctp:39
+#: View/Elements/projects/edit.ctp:5
+#: View/Elements/projects/settings/modules.ctp:34
+#: View/Elements/projects/settings/wiki.ctp:62
+#: View/Elements/settings/authentication.ctp:67
+#: View/Elements/settings/general.ctp:195
+#: View/Elements/settings/issues.ctp:77
+#: View/Elements/settings/notifications.ctp:125
+#: View/Elements/settings/projects.ctp:28
+#: View/Elements/users/general.ctp:3
+#: View/Enumerations/edit.ctp:12
+#: View/IssueCategories/edit.ctp:16
+#: View/IssueStatuses/edit.ctp:24
+#: View/Issues/index.ctp:19
+#: View/My/account.ctp:23
+#: View/News/show.ctp:23
+#: View/Projects/add.ctp:32
+#: View/Queries/add.ctp:8
+#: View/Queries/edit.ctp:6
+#: View/Roles/edit.ctp:13
+#: View/Roles/new.ctp:17
+#: View/Roles/report.ctp:67
+#: View/Timelog/edit.ctp:45
+#: View/Trackers/edit.ctp:24
+#: View/Versions/edit.ctp:31
+#: View/Wiki/edit.ctp:28
+#: View/Workflows/edit.ctp:83
+msgid "Save"
+msgstr "Uložit"
+
+#: View/Account/register.ctp:1
+#: View/Elements/account_menu.ctp:9
+msgid "Register"
+msgstr "Registrovat"
+
+#: View/Account/register.ctp:19
+#: View/Elements/users/form.ctp:40
+msgid "Must be at least %d characters long."
+msgstr "Musí být alespoň %d znaků dlouhé."
+
+#: View/Account/register.ctp:29
+#: View/Elements/my/informations.ctp:2
+msgid "Firstname"
+msgstr "Jméno"
+
+#: View/Account/register.ctp:34
+#: View/Elements/my/informations.ctp:6
+msgid "Lastname"
+msgstr "Příjmení"
+
+#: View/Account/register.ctp:44
+#: View/Elements/my/informations.ctp:14
+msgid "Language"
+msgstr "Jazyk"
+
+#: View/Account/show.ctp:3
+#: View/Elements/projects/settings/issue_categories.ctp:18
+#: View/Elements/projects/settings/versions.ctp:30
+#: View/Elements/timelog/list.ctp:33
+#: View/Helper/JournalsHelper.php:40
+#: View/Issues/context_menu.ctp:3;18
+#: View/Issues/index.ctp:31
+#: View/News/show.ctp:2
+#: View/Trackers/list.ctp:25
+#: View/Versions/show.ctp:7
+#: View/Wiki/show.ctp:6
+#: View/Workflows/edit.ctp:35
+#: View/Workflows/index.ctp:49
+msgid "Edit"
+msgstr "Upravit"
+
+#: View/Account/show.ctp:23
+msgid "Registered on"
+msgstr "Registrován"
+
+#: View/Account/show.ctp:26
+msgid "Last connection"
+msgstr "Poslední přístup"
+
+#: View/Account/show.ctp:57
+#: View/Elements/my/blocks/issuesreportedbyme.ctp:1
+msgid "Reported issues"
+msgstr "Nahlášené úkoly"
+
+#: View/Account/show.ctp:79
+#: View/News/index.ctp:70
+#: View/Projects/activity.ctp:64
+#: View/Wiki/show.ctp:185
+msgid "Also available in:"
+msgstr "Také k dispozici:"
+
+#: View/Admin/index.ctp:1
+#: View/Elements/admin/sidebar.ctp:1
+msgid "Administration"
+msgstr "Administrace"
+
+#: View/Admin/index.ctp:20
+#: View/Elements/admin/sidebar.ctp:9
+#: View/Helper/CustomFieldHelper.php:40
+#: View/Users/list.ctp:106
+msgid "Users"
+msgstr "Uživatelé"
+
+#: View/Admin/index.ctp:25
+#: View/Elements/admin/sidebar.ctp:14
+msgid "Roles and permissions"
+msgstr "Role a oprávnění"
+
+#: View/Admin/index.ctp:29
+#: View/Elements/admin/sidebar.ctp:18
+#: View/Elements/custom_fields/form.ctp:111
+#: View/Elements/projects/form.ctp:56
+#: View/Trackers/list.ctp:12
+msgid "Trackers"
+msgstr "Fronty"
+
+#: View/Admin/index.ctp:30
+#: View/Elements/admin/sidebar.ctp:22
+#: View/IssueStatuses/edit.ctp:8
+#: View/IssueStatuses/list.ctp:12
+msgid "Issue statuses"
+msgstr "Stavy úkolů"
+
+#: View/Admin/index.ctp:31
+#: View/Elements/admin/sidebar.ctp:26
+#: View/Workflows/edit.ctp:12
+#: View/Workflows/index.ctp:8
+msgid "Workflow"
+msgstr "Workflow"
+
+#: View/Admin/index.ctp:35
+#: View/CustomFields/edit.ctp:8
+#: View/CustomFields/list.ctp:8;67
+#: View/Elements/admin/sidebar.ctp:30
+#: View/Elements/projects/form.ctp:88
+msgid "Custom fields"
+msgstr "Vlastní pole"
+
+#: View/Admin/index.ctp:39
+#: View/Elements/admin/sidebar.ctp:34
+#: View/Enumerations/edit.ctp:8
+#: View/Enumerations/list.ctp:8
+msgid "Enumerations"
+msgstr "Seznamy"
+
+#: View/Admin/index.ctp:43
+#: View/Elements/admin/sidebar.ctp:38
+#: View/Projects/settings.ctp:1
+#: View/Settings/edit.ctp:8
+msgid "Settings"
+msgstr "Nastavení"
+
+#: View/Admin/index.ctp:53
+#: View/Admin/plugins.ctp:8
+#: View/Elements/admin/sidebar.ctp:42
+msgid "Plugins"
+msgstr "Zásuvné moduly"
+
+#: View/Admin/info.ctp:12
+msgid "CandyCane version"
+msgstr "CandyCane verze"
+
+#: View/Admin/info.ctp:16
+msgid "database driver"
+msgstr "databázový ovladač"
+
+#: View/Admin/plugins.ctp:13
+#: View/Admin/projects.ctp:56
+#: View/Elements/issues/form.ctp:35
+#: View/Elements/projects/settings/versions.ctp:6
+#: View/Issues/issue_to_pdf.ctp:69
+#: View/Issues/show.ctp:127
+#: View/Projects/add_version.ctp:21
+#: View/Versions/edit.ctp:16
+msgid "Description"
+msgstr "Popis"
+
+#: View/Admin/plugins.ctp:14
+#: View/Elements/mailer/issue_text_html.ctp:7
+#: View/Elements/mailer/issue_text_plain.ctp:3
+#: View/Issues/issue_to_pdf.ctp:24
+#: View/Reports/issue_report.ctp:33
+#: View/Wiki/history.ctp:17
+msgid "Author"
+msgstr "Autor"
+
+#: View/Admin/plugins.ctp:15
+msgid "Available"
+msgstr "Dostupný"
+
+#: View/Admin/plugins.ctp:16
+msgid "Installed"
+msgstr "Instalovaný"
+
+#: View/Admin/plugins.ctp:17
+msgid "Configure"
+msgstr "Konfigurace"
+
+#: View/Admin/plugins.ctp:25;51
+msgid "Local Plugin"
+msgstr "Místní Plugin"
+
+#: View/Admin/plugins.ctp:39
+msgid "Unknown"
+msgstr "Neznámé"
+
+#: View/Admin/plugins.ctp:49
+msgid "Upgrade"
+msgstr "Aktualizace"
+
+#: View/Admin/plugins.ctp:53
+msgid "Uninstall"
+msgstr "Odinstalovat"
+
+#: View/Admin/plugins.ctp:60
+msgid "Install"
+msgstr "Instalovat"
+
+#: View/Admin/plugins.ctp:71
+#: View/Elements/issues/list_simple.ctp:38
+#: View/Elements/projects/settings/issue_categories.ctp:47
+#: View/Elements/projects/settings/members.ctp:73
+#: View/Elements/projects/settings/versions.ctp:52
+#: View/Elements/reports/_details.ctp:7
+#: View/Elements/users/memberships.ctp:52
+#: View/Issues/index.ctp:47
+#: View/News/index.ctp:43
+#: View/Projects/activity.ctp:26
+#: View/Projects/changelog.ctp:7
+#: View/Projects/list_members.ctp:4
+#: View/Projects/roadmap.ctp:4
+#: View/Wiki/special_date_index.ctp:4
+#: View/Wiki/special_page_index.ctp:4
+#: View/Workflows/index.ctp:11
+msgid "No data to display"
+msgstr "Žádné položky"
+
+#: View/Admin/plugins.ctp:74
+msgid "Do you want to create your own plugin? Run command bellow to create your plugin."
+msgstr "Chcete vytvořit vlastní plugin? Spusťte příkaz níže vytvořit plugin."
+
+#: View/Admin/projects.ctp:9
+#: View/Elements/users/memberships.ctp:58
+#: View/Projects/add.ctp:8
+#: View/Projects/index.ctp:13
+msgid "New project"
+msgstr "Nový projekt"
+
+#: View/Admin/projects.ctp:16
+#: View/Elements/queries/form.ctp:27
+#: View/Issues/index.ctp:7
+#: View/Users/list.ctp:19;25
+msgid "Filters"
+msgstr "Filtry"
+
+#: View/Admin/projects.ctp:24
+#: View/Elements/issues/form.ctp:42
+#: View/Elements/mailer/issue_text_html.ctp:8
+#: View/Elements/mailer/issue_text_plain.ctp:4
+#: View/IssueStatuses/list.ctp:16
+#: View/Issues/bulk_edit.ctp:15
+#: View/Issues/context_menu.ctp:7
+#: View/Issues/issue_to_pdf.ctp:14
+#: View/Issues/show.ctp:53
+msgid "Status"
+msgstr "Stav"
+
+#: View/Admin/projects.ctp:34
+#: View/Elements/projects/sidebar/activity.ctp:15
+#: View/Elements/projects/sidebar/changelog.ctp:7
+#: View/Elements/projects/sidebar/roadmap.ctp:13
+#: View/Elements/timelog/date_range.ctp:53
+#: View/Enumerations/destroy.ctp:24
+#: View/IssueCategories/destroy.ctp:49
+#: View/Issues/destroy.ctp:16
+#: View/Issues/index.ctp:10
+#: View/My/password.ctp:43
+#: View/Users/list.ctp:45
+msgid "Apply"
+msgstr "Provést"
+
+#: View/Admin/projects.ctp:57
+#: View/Elements/projects/sidebar/activity.ctp:10
+#: View/Projects/index.ctp:39
+#: View/Projects/show.ctp:13
+msgid "Subprojects"
+msgstr "Podprojekty"
+
+#: View/Admin/projects.ctp:60
+#: View/Elements/projects/form.ctp:28
+#: View/Elements/queries/form.ctp:11
+msgid "Public"
+msgstr "Veřejný"
+
+#: View/Admin/projects.ctp:61
+#: View/Elements/my/sidebar.ctp:4
+#: View/Issues/issue_to_pdf.ctp:34
+msgid "Created"
+msgstr "Vytvořeno"
+
+#: View/Admin/projects.ctp:99
+msgid "Archive"
+msgstr "Archiv"
+
+#: View/Admin/projects.ctp:103
+msgid "Unarchive"
+msgstr "Vyjmout z archivu"
+
+#: View/Admin/projects.ctp:112
+#: View/CustomFields/list.ctp:54
+#: View/Elements/attachments/links.ctp:10
+#: View/Elements/projects/settings/issue_categories.ctp:32
+#: View/Elements/projects/settings/members.ctp:52
+#: View/Elements/projects/settings/versions.ctp:36
+#: View/Elements/projects/settings/wiki.ctp:47
+#: View/Elements/timelog/list.ctp:34
+#: View/Elements/users/memberships.ctp:38
+#: View/Enumerations/edit.ctp:17
+#: View/Enumerations/list.ctp:33
+#: View/IssueStatuses/list.ctp:37
+#: View/Issues/context_menu.ctp:113
+#: View/Issues/index.ctp:32
+#: View/Issues/show.ctp:38
+#: View/News/show.ctp:3;66
+#: View/Projects/destroy.ctp:23
+#: View/Roles/list.ctp:105
+#: View/Trackers/list.ctp:35
+#: View/Wiki/show.ctp:58
+#: View/Wikis/destroy.ctp:17
+msgid "Delete"
+msgstr "Vymazat"
+
+#: View/Attachments/diff.ctp:6
+#: View/Attachments/file.ctp:6
+msgid "Download"
+msgstr "Ke stažení"
+
+#: View/CustomFields/list.ctp:25
+#: View/Elements/custom_fields/form.ctp:79
+#: View/Elements/enumerations/_form.ctp:5
+#: View/Elements/queries/form.ctp:8
+#: View/IssueCategories/edit.ctp:12
+#: View/IssueStatuses/edit.ctp:13
+#: View/IssueStatuses/new.ctp:13
+#: View/Projects/add_issue_category.ctp:13
+#: View/Projects/add_version.ctp:17
+#: View/Trackers/edit.ctp:13
+#: View/Trackers/new.ctp:13
+#: View/Versions/edit.ctp:12
+msgid "Name"
+msgstr "Název"
+
+#: View/CustomFields/list.ctp:26
+#: View/Elements/custom_fields/form.ctp:83
+msgid "Format"
+msgstr "Formát"
+
+#: View/CustomFields/list.ctp:27
+#: View/Elements/custom_fields/form.ctp:122;140;146;153
+#: Model/News.php:validation for field title;validation for field description
+msgid "Required"
+msgstr "Požadovaný"
+
+#: View/CustomFields/list.ctp:29
+#: View/Elements/custom_fields/form.ctp:126
+#: View/Elements/queries/form.ctp:15
+msgid "For all projects"
+msgstr "U všech projektů"
+
+#: View/CustomFields/list.ctp:30
+msgid "Used by"
+msgstr "Používá se"
+
+#: View/CustomFields/list.ctp:32
+#: View/IssueStatuses/list.ctp:19
+#: View/Roles/list.ctp:17
+#: View/Trackers/list.ctp:18
+msgid "Sort"
+msgstr "Řazení"
+
+#: View/CustomFields/list.ctp:46
+#: View/Enumerations/list.ctp:25
+#: View/IssueStatuses/list.ctp:29
+#: View/Roles/list.ctp:37;45
+#: View/Trackers/list.ctp:27
+msgid "Move to top"
+msgstr "Přesunout na začátek"
+
+#: View/CustomFields/list.ctp:47
+#: View/Enumerations/list.ctp:26
+#: View/IssueStatuses/list.ctp:30
+#: View/Roles/list.ctp:52;60
+#: View/Trackers/list.ctp:28
+msgid "Move up"
+msgstr "Posunout nahoru"
+
+#: View/CustomFields/list.ctp:48
+#: View/Enumerations/list.ctp:27
+#: View/IssueStatuses/list.ctp:31
+#: View/Roles/list.ctp:67;75
+#: View/Trackers/list.ctp:29
+msgid "Move down"
+msgstr "Posunout dolů"
+
+#: View/CustomFields/list.ctp:49
+#: View/Enumerations/list.ctp:28
+#: View/IssueStatuses/list.ctp:32
+#: View/Roles/list.ctp:82;90
+#: View/Trackers/list.ctp:30
+msgid "Move to bottom"
+msgstr "Přesunout na konec"
+
+#: View/CustomFields/list.ctp:54
+#: View/Elements/attachments/links.ctp:11
+#: View/Elements/projects/settings/versions.ctp:43
+#: View/Elements/timelog/list.ctp:34
+#: View/Enumerations/edit.ctp:17
+#: View/Enumerations/list.ctp:33
+#: View/IssueStatuses/list.ctp:37
+#: View/Issues/index.ctp:32
+#: View/Issues/show.ctp:38
+#: View/News/show.ctp:7;66
+#: View/Projects/list_files.ctp:54
+#: View/Roles/list.ctp:105
+#: View/Trackers/list.ctp:35
+#: View/Wiki/show.ctp:64
+msgid "Are you sure ?"
+msgstr "Jste si jisti?"
+
+#: View/CustomFields/list.ctp:63
+#: View/CustomFields/new.ctp:8
+msgid "New custom field"
+msgstr "Nové vlastní pole"
+
+#: View/Elements/account_menu.ctp:3
+#: View/Elements/my/sidebar.ctp:1
+#: View/My/account.ctp:12
+msgid "My account"
+msgstr "Můj účet"
+
+#: View/Elements/account_menu.ctp:4
+msgid "Sign out"
+msgstr "Odhlásit se"
+
+#: View/Elements/diff.ctp:88
+msgid "... This diff was truncated because it exceeds the maximum size that can be displayed."
+msgstr "... Tento rozdíl byl zkrácen, protože překračuje maximální velikost, kterou lze zobrazit."
+
+#: View/Elements/error_explanation.ctp:25
+msgid "%d errors"
+msgstr "%d chyb"
+
+#: View/Elements/error_explanation.ctp:33
+msgid "[%s] : %s"
+msgstr "[%s] : %s"
+
+#: View/Elements/project_selector.ctp:3
+msgid "Jump to a project..."
+msgstr "Přejít na projekt ..."
+
+#: View/Elements/attachments/form.ctp:24
+msgid "Optional description"
+msgstr "Volitelný popis"
+
+#: View/Elements/attachments/form.ctp:27
+msgid "Add another file"
+msgstr "Přidat další soubor"
+
+#: View/Elements/attachments/form.ctp:28
+msgid "Maximum size"
+msgstr "Maximální velikost"
+
+#: View/Elements/custom_fields/form.ctp:87
+msgid "Min - Max length"
+msgstr "Min - Max délka"
+
+#: View/Elements/custom_fields/form.ctp:89
+msgid "0 means no restriction"
+msgstr "0 znamená bez omezení"
+
+#: View/Elements/custom_fields/form.ctp:92
+msgid "Regular expression"
+msgstr "Regulární výraz"
+
+#: View/Elements/custom_fields/form.ctp:93
+msgid "eg. ^[A-Z0-9]+$"
+msgstr "např. ^[A-Z0-9]+$"
+
+#: View/Elements/custom_fields/form.ctp:96
+msgid "Possible values"
+msgstr "Možné hodnoty"
+
+#: View/Elements/custom_fields/form.ctp:102
+#: View/Elements/enumerations/_form.ctp:9
+#: View/IssueStatuses/edit.ctp:20
+#: View/IssueStatuses/list.ctp:17
+#: View/IssueStatuses/new.ctp:20
+msgid "Default value"
+msgstr "Výchozí hodnota"
+
+#: View/Elements/custom_fields/form.ctp:130
+msgid "Used as a filter"
+msgstr "Používá se jako filtr"
+
+#: View/Elements/custom_fields/form.ctp:134
+msgid "Searchable"
+msgstr "Prohledávatelné"
+
+#: View/Elements/issues/edit.ctp:6
+#: View/Issues/bulk_edit.ctp:12
+msgid "Change properties"
+msgstr "Změnit údaje"
+
+#: View/Elements/issues/edit.ctp:8
+msgid "More"
+msgstr "Více"
+
+#: View/Elements/issues/edit.ctp:23
+#: View/Issues/context_menu.ctp:104
+#: View/Issues/show.ctp:23
+#: View/Timelog/details.ctp:8
+#: View/Timelog/report.ctp:8
+msgid "Log time"
+msgstr "Přidat čas"
+
+#: View/Elements/issues/edit.ctp:27
+#: View/Elements/issues/form.ctp:92
+#: View/Elements/timelog/list.ctp:10
+#: View/Timelog/details_csv.ctp:11
+#: View/Timelog/edit.ctp:19
+msgid "Hours"
+msgstr "Hodin"
+
+#: View/Elements/issues/edit.ctp:33
+#: View/Elements/watchers/watchers.ctp:48
+#: View/Helper/CustomFieldHelper.php:78
+#: View/Timelog/edit.ctp:35
+msgid "Please Select"
+msgstr "Prosím vyberte"
+
+#: View/Elements/issues/edit.ctp:37
+#: View/Elements/timelog/list.ctp:9
+#: View/Timelog/edit.ctp:23
+#: View/Wiki/edit.ctp:22
+msgid "Comment"
+msgstr "Komentář"
+
+#: View/Elements/issues/edit.ctp:46
+#: View/Issues/bulk_edit.ctp:92
+msgid "Notes"
+msgstr "Poznámky"
+
+#: View/Elements/issues/edit.ctp:51
+#: View/Elements/issues/form.ctp:155
+#: View/Elements/settings/general.ctp:141
+#: View/Issues/bulk_edit.ctp:97
+msgid "Text formatting"
+msgstr "Formátování textu"
+
+#: View/Elements/issues/edit.ctp:51
+#: View/Elements/issues/form.ctp:155
+#: View/Issues/bulk_edit.ctp:97
+msgid "Help"
+msgstr "Nápověda"
+
+#: View/Elements/issues/edit.ctp:56
+#: View/Elements/issues/form.ctp:127
+#: View/Helper/IssuesHelper.php:90
+#: View/Projects/list_files.ctp:20
+msgid "File"
+msgstr "Soubor"
+
+#: View/Elements/issues/edit.ctp:64
+#: View/Issues/new.ctp:44
+#: View/News/add.ctp:9
+#: View/News/index.ctp:12
+#: View/News/show.ctp:31
+#: View/Wiki/edit.ctp:30
+#: View/common/_preview.ctp:1
+msgid "Preview"
+msgstr "Náhled"
+
+#: View/Elements/issues/form.ctp:3
+#: View/Elements/issues/list_simple.ctp:7
+#: View/Issues/move.ctp:39
+#: View/Reports/issue_report.ctp:11
+#: View/Timelog/details_csv.ctp:9
+#: View/Trackers/edit.ctp:8
+#: View/Trackers/list.ctp:16
+#: View/Workflows/edit.ctp:26
+msgid "Tracker"
+msgstr "Fronta"
+
+#: View/Elements/issues/form.ctp:31
+#: View/Elements/issues/list_simple.ctp:8
+#: View/Issues/issue_to_pdf.ctp:63
+#: View/Timelog/details_csv.ctp:10
+msgid "Subject"
+msgstr "Předmět"
+
+#: View/Elements/issues/form.ctp:46
+#: View/Elements/mailer/issue_text_html.ctp:9
+#: View/Elements/mailer/issue_text_plain.ctp:5
+#: View/Issues/bulk_edit.ctp:26
+#: View/Issues/context_menu.ctp:25
+#: View/Issues/issue_to_pdf.ctp:18
+#: View/Issues/show.ctp:57
+#: View/Reports/issue_report.ctp:19
+msgid "Priority"
+msgstr "Priorita"
+
+#: View/Elements/issues/form.ctp:50
+#: View/Elements/projects/settings/issue_categories.ctp:5
+#: View/IssueCategories/edit.ctp:13
+#: View/Issues/bulk_edit.ctp:48
+#: View/Issues/context_menu.ctp:54
+#: View/Issues/issue_to_pdf.ctp:38
+#: View/Issues/show.ctp:61
+#: View/Projects/add_issue_category.ctp:14
+#: View/Reports/issue_report.ctp:26
+msgid "Assigned to"
+msgstr "Přiřazeno"
+
+#: View/Elements/issues/form.ctp:54
+#: View/Elements/mailer/issue_text_html.ctp:11
+#: View/Elements/mailer/issue_text_plain.ctp:7
+#: View/Issues/bulk_edit.ctp:36
+#: View/Issues/context_menu.ctp:71
+#: View/Issues/issue_to_pdf.ctp:28
+#: View/Issues/show.ctp:65
+#: View/Reports/issue_report.ctp:62
+msgid "Category"
+msgstr "Kategorie"
+
+#: View/Elements/issues/form.ctp:62;68
+#: View/Elements/projects/settings/issue_categories.ctp:53
+#: View/Projects/add_issue_category.ctp:1
+msgid "New category"
+msgstr "Nová kategorie"
+
+#: View/Elements/issues/form.ctp:74
+#: View/Issues/bulk_edit.ctp:58
+#: View/Issues/context_menu.ctp:37
+#: View/Issues/show.ctp:72
+msgid "Target version"
+msgstr "Cílová verze"
+
+#: View/Elements/issues/form.ctp:81
+msgid "Start date"
+msgstr "Začátek"
+
+#: View/Elements/issues/form.ctp:86
+#: View/Issues/bulk_edit.ctp:73
+#: View/Issues/issue_to_pdf.ctp:48
+#: View/Issues/show.ctp:58
+msgid "Due date"
+msgstr "Dokončit do"
+
+#: View/Elements/issues/form.ctp:91
+#: View/Issues/show.ctp:74
+#: View/Versions/show.ctp:29
+msgid "Estimated time"
+msgstr "Odhadovaná doba"
+
+#: View/Elements/issues/form.ctp:95
+#: View/Issues/show.ctp:62
+msgid "Done"
+msgstr "Hotovo"
+
+#: View/Elements/issues/form.ctp:134
+#: View/Elements/watchers/watchers.ctp:19
+msgid "Watchers"
+msgstr "Sledování"
+
+#: View/Elements/issues/history.ctp:7
+msgid "Updated by %s %s ago"
+msgstr "Aktualizoval %s před %s"
+
+#: View/Elements/issues/list.ctp:9
+#: View/Helper/CandyHelper.php:1531
+#: View/Roles/report.ctp:20;40
+msgid "Check all"
+msgstr "Vybrat vše"
+
+#: View/Elements/issues/list.ctp:9
+#: View/Helper/CandyHelper.php:1533
+#: View/Roles/report.ctp:20;40
+msgid "Uncheck all"
+msgstr "Zrušit výběr"
+
+#: View/Elements/issues/relations.ctp:4;64
+#: View/Elements/projects/settings/members.ctp:115
+#: View/Elements/users/memberships.ctp:71
+#: View/Elements/watchers/watchers.ctp:5;49
+#: View/News/show.ctp:85
+#: View/Projects/add_file.ctp:22
+#: View/Timelog/report.ctp:53
+#: View/Wiki/show.ctp:177
+msgid "Add"
+msgstr "Přidat"
+
+#: View/Elements/issues/relations.ctp:9
+#: View/Projects/roadmap.ctp:22
+#: View/Versions/show.ctp:66
+msgid "Related issues"
+msgstr "Související úkoly"
+
+#: View/Elements/issues/relations.ctp:33
+msgid "Delete relation"
+msgstr "Smazat vztah"
+
+#: View/Elements/issues/relations.ctp:59
+#: View/Elements/timelog/list.ctp:8
+#: View/Timelog/details_csv.ctp:8
+#: View/Timelog/edit.ctp:9
+msgid "Issue"
+msgstr "Úkol"
+
+#: View/Elements/issues/relations.ctp:62
+msgid "Delay"
+msgstr "Zpoždění"
+
+#: View/Elements/issues/relations.ctp:62
+#: View/Elements/queries/filters.ctp:117
+#: View/Elements/settings/authentication.ctp:21;22;23;24
+#: View/Elements/settings/general.ctp:115
+#: View/Helper/CandyHelper.php:511
+#: View/Timelog/report.ctp:34
+msgid "days"
+msgstr "dny"
+
+#: View/Elements/issues/relations.ctp:65
+#: View/Elements/journals/notes_form.ctp:45
+#: View/Elements/watchers/watchers.ctp:50
+#: View/Enumerations/destroy.ctp:25
+#: View/IssueCategories/destroy.ctp:51
+#: View/News/index.ctp:34
+#: View/News/show.ctp:45
+#: View/Wiki/show.ctp:178
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: View/Elements/issues/sidebar.ctp:1
+#: View/Helper/CustomFieldHelper.php:37
+#: View/Issues/index.ctp:2
+msgid "Issues"
+msgstr "Úkoly"
+
+#: View/Elements/issues/sidebar.ctp:2
+#: View/Elements/my/blocks/issuesassignedtome.ctp:23
+#: View/Elements/my/blocks/issuesreportedbyme.ctp:14
+#: View/Projects/index.ctp:14
+#: View/Projects/show.ctp:45
+msgid "View all issues"
+msgstr "Zobrazit všechny úkoly"
+
+#: View/Elements/issues/sidebar.ctp:5
+#: View/Workflows/edit.ctp:9
+msgid "Summary"
+msgstr "Shrnutí"
+
+#: View/Elements/issues/sidebar.ctp:6
+#: View/Elements/projects/sidebar/changelog.ctp:2
+#: View/Projects/changelog.ctp:4
+msgid "Change log"
+msgstr "Změna protokolu"
+
+#: View/Elements/issues/sidebar.ctp:21
+#: View/Elements/projects/sidebar/show.ctp:8
+msgid "Planning"
+msgstr "Plánování"
+
+#: View/Elements/issues/sidebar.ctp:28
+msgid "Custom queries"
+msgstr "Vlastní dotazy"
+
+#: View/Elements/mailer/issue_text_html.ctp:10
+#: View/Elements/mailer/issue_text_plain.ctp:6
+msgid "Assigned To"
+msgstr "Přiřazeno"
+
+#: View/Elements/mailer/issue_text_html.ctp:12
+#: View/Elements/mailer/issue_text_plain.ctp:8
+msgid "Fixed Version"
+msgstr "Pevná verze"
+
+#: View/Elements/my/mail_notifications.ctp:24
+msgid "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
+msgstr "\"U nevybraných projektů, budete dostávat oznámení pouze o věcech, které sledujete, nebo jste zapojeni do (např. úkoly, u kterých jste autorem nebo vám jsou přiděleny).\""
+
+#: View/Elements/my/mail_notifications.ctp:29
+msgid "\"I don't want to be notified of changes that I make myself\""
+msgstr "\"Nechci být informováni o změnách, které jsem provedl sám\""
+
+#: View/Elements/my/preferences.ctp:1
+msgid "Hide my email address"
+msgstr "Skrýt můj e-mail"
+
+#: View/Elements/my/preferences.ctp:2
+msgid "Time zone"
+msgstr "Časové pásmo"
+
+#: View/Elements/my/preferences.ctp:3
+msgid "Display comments"
+msgstr "Zobrazit komentáře"
+
+#: View/Elements/my/preferences.ctp:7
+msgid "In chronological order"
+msgstr "V chronologickém pořadí"
+
+#: View/Elements/my/preferences.ctp:8
+msgid "In reverse chronological order"
+msgstr "V obráceném chronologickém pořadí"
+
+#: View/Elements/my/sidebar.ctp:8;20
+msgid "Reset"
+msgstr "Obnovit"
+
+#: View/Elements/my/sidebar.ctp:10
+msgid "Create RSS access key"
+msgstr "Vytvořte RSS přístupový klíč"
+
+#: View/Elements/my/sidebar.ctp:13
+msgid "API access key"
+msgstr "API klíč"
+
+#: View/Elements/my/sidebar.ctp:16
+msgid "Show"
+msgstr "Show"
+
+#: View/Elements/my/sidebar.ctp:22
+msgid "Create API access key"
+msgstr "Vytvořit API klíč"
+
+#: View/Elements/projects/form.ctp:15
+#: View/Projects/show.ctp:21
+msgid "Subproject of"
+msgstr "Podprojekt"
+
+#: View/Elements/projects/form.ctp:24
+msgid "'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'"
+msgstr "'Jsou povoleny pouze malá písmena (a-z), čísla a pomlčky.<br />Po uložení již nelze identifikátor změnit'"
+
+#: View/Elements/projects/settings/issue_categories.ctp:4
+#: View/IssueCategories/edit.ctp:1
+msgid "Issue category"
+msgstr "Kategorie úkolu"
+
+#: View/Elements/projects/settings/members.ctp:10
+#: View/Timelog/details_csv.ctp:5
+#: View/Users/edit.ctp:12;58
+msgid "User"
+msgstr "Uživatel"
+
+#: View/Elements/projects/settings/members.ctp:11;107
+#: View/Roles/edit.ctp:8
+#: View/Roles/list.ctp:16
+#: View/Workflows/edit.ctp:17
+msgid "Role"
+msgstr "Role"
+
+#: View/Elements/projects/settings/members.ctp:37
+#: View/Elements/users/memberships.ctp:33
+msgid "Change"
+msgstr "Změnit"
+
+#: View/Elements/projects/settings/members.ctp:101
+msgid "New member"
+msgstr "Nový člen"
+
+#: View/Elements/projects/settings/modules.ctp:9
+msgid "Select modules to enable for this project:"
+msgstr "Povolte moduly pro tento projekt:"
+
+#: View/Elements/projects/settings/versions.ctp:4
+#: View/Projects/add_file.ctp:11
+#: View/Reports/issue_report.ctp:43
+#: View/Versions/edit.ctp:1
+#: View/Wiki/show.ctp:107
+msgid "Version"
+msgstr "Verze"
+
+#: View/Elements/projects/settings/versions.ctp:5
+#: View/Elements/timelog/list.ctp:4
+#: View/Projects/add_version.ctp:29
+#: View/Projects/list_files.ctp:21
+#: View/Timelog/details_csv.ctp:4
+#: View/Versions/edit.ctp:24
+msgid "Date"
+msgstr "Datum"
+
+#: View/Elements/projects/settings/versions.ctp:7
+#: View/Projects/add_version.ctp:25
+#: View/Versions/edit.ctp:20
+msgid "Wiki page"
+msgstr "Wiki stránky"
+
+#: View/Elements/projects/settings/versions.ctp:56
+#: View/Projects/add_version.ctp:1
+msgid "New version"
+msgstr "Nová verze"
+
+#: View/Elements/projects/settings/wiki.ctp:41
+msgid "Unallowed characters"
+msgstr "Nepovolené znaky"
+
+#: View/Elements/projects/settings/wiki.ctp:60
+#: View/Enumerations/new.ctp:12
+#: View/IssueStatuses/new.ctp:24
+#: View/Issues/new.ctp:42
+#: View/News/add.ctp:7
+#: View/News/index.ctp:10
+#: View/Projects/add_issue_category.ctp:17
+#: View/Projects/add_version.ctp:35
+#: View/Trackers/new.ctp:28
+#: View/Users/add.ctp:12
+msgid "Create"
+msgstr "Vytvořit"
+
+#: View/Elements/projects/sidebar/roadmap.ctp:6
+#: View/Projects/roadmap.ctp:1;36
+msgid "Roadmap"
+msgstr "Plán"
+
+#: View/Elements/projects/sidebar/roadmap.ctp:12
+msgid "Show completed versions"
+msgstr "Ukázat dokončené verze"
+
+#: View/Elements/projects/sidebar/show.ctp:17
+#: View/Elements/timelog/date_range.ctp:65
+#: View/Timelog/details.ctp:64;66
+#: View/Timelog/report.ctp:30
+msgid "Details"
+msgstr "Podrobnosti"
+
+#: View/Elements/projects/sidebar/show.ctp:18
+#: View/Reports/issue_report.ctp:4
+#: View/Timelog/report.ctp:139
+msgid "Report"
+msgstr "Zpráva"
+
+#: View/Elements/queries/filters.ctp:141
+msgid "Add filter"
+msgstr "Přidat filtr"
+
+#: View/Elements/queries/form.ctp:21
+msgid "Default columns"
+msgstr "Výchozí sloupce"
+
+#: View/Elements/reports/_details.ctp:29
+#: View/Elements/reports/_simple.ctp:20
+#: View/Timelog/details.ctp:41
+#: View/Timelog/report.ctp:81;95;108
+#: View/Timelog/report_csv.ctp:8;15
+msgid "Total"
+msgstr "Celkem"
+
+#: View/Elements/roles/form.ctp:8
+msgid "Issues can be assigned to this role"
+msgstr "Úkoly mohou být přiřazeny této roli"
+
+#: View/Elements/roles/form.ctp:12
+#: View/Trackers/new.ctp:24
+msgid "Copy workflow from"
+msgstr "Kopírovat workflow od"
+
+#: View/Elements/roles/form.ctp:18
+#: View/Roles/report.ctp:9
+msgid "Permissions"
+msgstr "Oprávnění"
+
+#: View/Elements/settings/authentication.ctp:11
+msgid "Authentication required"
+msgstr "Ověření požadováno"
+
+#: View/Elements/settings/authentication.ctp:17
+msgid "Autologin"
+msgstr "Automatické přihlášení"
+
+#: View/Elements/settings/authentication.ctp:20;36
+msgid "disabled"
+msgstr "zakázáno"
+
+#: View/Elements/settings/authentication.ctp:34
+msgid "Self-registration"
+msgstr "Vlastní registrace"
+
+#: View/Elements/settings/authentication.ctp:37
+msgid "account activation by email"
+msgstr "aktivace účtu prostřednictvím e-mailu"
+
+#: View/Elements/settings/authentication.ctp:38
+msgid "manual account activation"
+msgstr "manuální aktivace účtu"
+
+#: View/Elements/settings/authentication.ctp:39
+msgid "automatic account activation"
+msgstr "automatická aktivace účtu"
+
+#: View/Elements/settings/authentication.ctp:59
+msgid "LDAP authentication"
+msgstr "Ověřování LDAP"
+
+#: View/Elements/settings/general.ctp:3
+msgid "Application title"
+msgstr "Název aplikace"
+
+#: View/Elements/settings/general.ctp:13
+msgid "Welcome text"
+msgstr "Uvítací text"
+
+#: View/Elements/settings/general.ctp:25
+msgid "Theme"
+msgstr "Téma"
+
+#: View/Elements/settings/general.ctp:31
+msgid "Default"
+msgstr "Standardní"
+
+#: View/Elements/settings/general.ctp:35
+msgid "Default language"
+msgstr "Výchozí jazyk"
+
+#: View/Elements/settings/general.ctp:44
+msgid "Date format"
+msgstr "Formát data"
+
+#: View/Elements/settings/general.ctp:50;60
+msgid "Based on users language"
+msgstr "Na jazyku uživatele základě"
+
+#: View/Elements/settings/general.ctp:54
+msgid "Time format"
+msgstr "Formát času"
+
+#: View/Elements/settings/general.ctp:64
+msgid "Users display format"
+msgstr "Uživatelé formát zobrazení"
+
+#: View/Elements/settings/general.ctp:83
+msgid "Attachment max. size"
+msgstr "Příloha max. velikost"
+
+#: View/Elements/settings/general.ctp:94
+msgid "Objects per page options"
+msgstr "Objekty na možnosti stránky"
+
+#: View/Elements/settings/general.ctp:104
+msgid "Multiple values allowed (comma separated)."
+msgstr "Multiple values allowed (comma separated)."
+
+#: View/Elements/settings/general.ctp:106
+msgid "Days displayed on project activity"
+msgstr "Počet dnů zobrazených v aktivitách projektu"
+
+#: View/Elements/settings/general.ctp:117
+msgid "Host name and path"
+msgstr "Hostname a cesta"
+
+#: View/Elements/settings/general.ctp:127
+msgid "Example"
+msgstr "Příklad"
+
+#: View/Elements/settings/general.ctp:129
+msgid "Protocol"
+msgstr "Protokol"
+
+#: View/Elements/settings/general.ctp:152
+msgid "Wiki history compression"
+msgstr "Wiki komprese historie"
+
+#: View/Elements/settings/general.ctp:164
+msgid "Feed content limit"
+msgstr "Feed limit"
+
+#: View/Elements/settings/general.ctp:175
+msgid "Max number of diff lines displayed"
+msgstr "Maximální počet zobrazených diff řádků"
+
+#: View/Elements/settings/general.ctp:186
+msgid "Use Gravatar user icons"
+msgstr "Použijte Gravatar uživatelské ikony"
+
+#: View/Elements/settings/issues.ctp:12
+msgid "Allow cross-project issue relations"
+msgstr "Povolit vztahy mezi úkoly z různých projektů"
+
+#: View/Elements/settings/issues.ctp:21
+msgid "Display subprojects issues on main projects by default"
+msgstr "Zobrazit úkoly podprojektů v hlavním projektu ve výchozím nastavení"
+
+#: View/Elements/settings/issues.ctp:29
+msgid "Issues export limit"
+msgstr "Limit exportu úkolů"
+
+#: View/Elements/settings/issues.ctp:41
+msgid "Default columns displayed on the issue list"
+msgstr "Výchozí sloupce zobrazené v seznamu úkolů"
+
+#: View/Elements/settings/notifications.ctp:10
+msgid "Emission email address"
+msgstr "Odesílat emaily z adresy"
+
+#: View/Elements/settings/notifications.ctp:21
+msgid "email transport"
+msgstr "odesílat pomocí"
+
+#: View/Elements/settings/notifications.ctp:25
+msgid "PHP Mail"
+msgstr "PHP Mail"
+
+#: View/Elements/settings/notifications.ctp:25
+msgid "SMTP Server"
+msgstr "SMTP Server"
+
+#: View/Elements/settings/notifications.ctp:32
+msgid "smtp host"
+msgstr "smtp server"
+
+#: View/Elements/settings/notifications.ctp:43
+msgid "smtp port"
+msgstr "smtp port"
+
+#: View/Elements/settings/notifications.ctp:54
+msgid "smtp username"
+msgstr "smtp uživatelské jméno"
+
+#: View/Elements/settings/notifications.ctp:65
+msgid "smtp password"
+msgstr "smtp heslo"
+
+#: View/Elements/settings/notifications.ctp:76
+msgid "Blind carbon copy recipients (bcc)"
+msgstr "Příjemci jako skrytá kopie (bcc)"
+
+#: View/Elements/settings/notifications.ctp:84
+msgid "plain text mail (no HTML)"
+msgstr "prostý text v emailu (bez HTML)"
+
+#: View/Elements/settings/notifications.ctp:103
+msgid "Emails footer"
+msgstr "Patička e-mailů"
+
+#: View/Elements/settings/notifications.ctp:117
+msgid "Send a test email"
+msgstr "Odeslat zkušební e-mail"
+
+#: View/Elements/settings/projects.ctp:11
+msgid "New projects are public by default"
+msgstr "Nové projekty jsou veřejné ve výchozím nastavení"
+
+#: View/Elements/settings/projects.ctp:19
+msgid "Generate sequential project identifiers"
+msgstr "Generovat sekvenční identifikátory projektů"
+
+#: View/Elements/timelog/date_range.ctp:1
+msgid "Date range"
+msgstr "Časové období"
+
+#: View/Elements/timelog/date_range.ctp:25
+#: View/Projects/activity.ctp:2;41;55
+msgid "From"
+msgstr "Od"
+
+#: View/Elements/timelog/date_range.ctp:35
+#: View/Projects/activity.ctp:2;41;55
+msgid "To"
+msgstr "Do"
+
+#: View/Elements/timelog/date_range.ctp:68
+#: View/Reports/issue_report_details.ctp:2
+msgid "Reports"
+msgstr "Výsledky"
+
+#: View/Elements/timelog/list.ctp:5
+msgid "Member"
+msgstr "Člen"
+
+#: View/Elements/timelog/report_criteria.ctp:14;16
+#: View/Timelog/report.ctp:116;118
+msgid "%.2f"
+msgstr "%.2f"
+
+#: View/Elements/users/memberships.ctp:17;65
+#: View/Roles/list.ctp:12
+msgid "Roles"
+msgstr "Role"
+
+#: View/Elements/versions/overview.ctp:45
+msgid "No issues for this version"
+msgstr "Žádné úkoly pro tuto verzi"
+
+#: View/Elements/wiki/sidebar.ctp:4
+msgid "Start page"
+msgstr "Úvodní stránka"
+
+#: View/Elements/wiki/sidebar.ctp:12
+#: View/Wiki/special_page_index.ctp:1
+msgid "Index by title"
+msgstr "Index podle názvu"
+
+#: View/Elements/wiki/sidebar.ctp:20
+#: View/Wiki/special_date_index.ctp:1
+msgid "Index by date"
+msgstr "Index podle data"
+
+#: View/Emails/html/account_activation_request.ctp:2
+#: View/Emails/text/account_activation_request.ctp:2
+#: View/mailer/account_activation_request.text.plain.ctp:2
+msgid "A new user (%s) has registered. The account is pending your approval:"
+msgstr "A new user (%s) has registered. The account is pending your approval:"
+
+#: View/Emails/html/lost_password.ctp:1
+#: View/Emails/text/lost_password.ctp:1
+#: View/mailer/lost_password.text.plain.ctp:1
+msgid "To change your password, click on the following link:"
+msgstr "Chcete-li změnit heslo, klikněte na následující odkaz:"
+
+#: View/Emails/html/register.ctp:1
+#: View/Emails/text/register.ctp:1
+#: View/mailer/register.text.plain.ctp:1
+msgid "To activate your account, click on the following link:"
+msgstr "Chcete-li aktivovat svůj účet, klikněte na následující odkaz:"
+
+#: View/Enumerations/destroy.ctp:13
+msgid "'%d objects are assigned to this value.'"
+msgstr "'%d objektů jsou přiřazeny k této hodnotě.'"
+
+#: View/Enumerations/destroy.ctp:14
+msgid "'Reassign them to this value:'"
+msgstr "'Přiřadit k této hodnotě:'"
+
+#: View/Enumerations/list.ctp:43
+#: View/Enumerations/new.ctp:8
+msgid "New value"
+msgstr "Nová hodnota"
+
+#: View/Helper/CandyHelper.php:418
+msgid "%m/%d/%Y"
+msgstr "%m/%d/%Y"
+
+#: View/Helper/CandyHelper.php:424
+msgid "%I:%M %p"
+msgstr "%I:%M %p"
+
+#: View/Helper/CandyHelper.php:513
+msgid "%s late"
+msgstr "%s zpoždění"
+
+#: View/Helper/CandyHelper.php:515
+msgid "Due in %s"
+msgstr "Vyprší za %s"
+
+#: View/Helper/CandyHelper.php:666
+#: View/News/index.ctp:66
+#: View/Projects/activity.ctp:36
+#: View/Wiki/history.ctp:98
+#: View/Wiki/show.ctp:100
+msgid "Previous"
+msgstr "Předchozí"
+
+#: View/Helper/CandyHelper.php:675
+#: View/News/index.ctp:66
+#: View/Projects/activity.ctp:50
+#: View/Wiki/history.ctp:102
+#: View/Wiki/show.ctp:124
+msgid "Next"
+msgstr "Další"
+
+#: View/Helper/CandyHelper.php:751
+msgid "Per page "
+msgstr "Na stránku"
+
+#: View/Helper/CandyHelper.php:1550;1561
+msgid "less than a minute"
+msgstr "méně než minutu"
+
+#: View/Helper/CandyHelper.php:1550;1563
+msgid "1 minute"
+msgstr "1 minuta"
+
+#: View/Helper/CandyHelper.php:1553
+msgid "less than a second"
+msgstr "méně než sekundu"
+
+#: View/Helper/CandyHelper.php:1553;1555;1557
+msgid "less than %d seconds"
+msgstr "méně než %d sekund"
+
+#: View/Helper/CandyHelper.php:1559
+msgid "half a minute"
+msgstr "chvilička"
+
+#: View/Helper/CandyHelper.php:1566
+msgid "%d minutes"
+msgstr "%d minut"
+
+#: View/Helper/CandyHelper.php:1568;1570
+msgid "about an hour"
+msgstr "o hodinu"
+
+#: View/Helper/CandyHelper.php:1570
+msgid "about %d hours"
+msgstr "o %d hodin"
+
+#: View/Helper/CandyHelper.php:1572
+msgid "1 day"
+msgstr "1 den"
+
+#: View/Helper/CandyHelper.php:1574
+#: View/Helper/IssuesHelper.php:161
+msgid "%d days"
+msgstr "%d dny"
+
+#: View/Helper/CustomFieldHelper.php:181
+msgid "No"
+msgstr "Ne"
+
+#: View/Helper/CustomFieldHelper.php:183
+#: View/Projects/destroy.ctp:22
+msgid "Yes"
+msgstr "Ano"
+
+#: View/Helper/IssuesHelper.php:15
+msgid "related to"
+msgstr "vztahující se k"
+
+#: View/Helper/IssuesHelper.php:16
+msgid "duplicates"
+msgstr "duplikuje"
+
+#: View/Helper/IssuesHelper.php:16
+msgid "duplicated by"
+msgstr "duplicitní"
+
+#: View/Helper/IssuesHelper.php:17
+msgid "blocks"
+msgstr "blokuje"
+
+#: View/Helper/IssuesHelper.php:17
+msgid "blocked by"
+msgstr "blokován"
+
+#: View/Helper/IssuesHelper.php:18
+msgid "precedes"
+msgstr "předchází"
+
+#: View/Helper/IssuesHelper.php:18
+msgid "follows"
+msgstr "následuje"
+
+#: View/Helper/IssuesHelper.php:119
+msgid "changed from %s to %s"
+msgstr "změněno z %s na %s"
+
+#: View/Helper/IssuesHelper.php:121
+msgid "set to %s"
+msgstr "nastaveno na %s"
+
+#: View/Helper/IssuesHelper.php:125
+msgid "added"
+msgstr "přidáno"
+
+#: View/Helper/IssuesHelper.php:132;135
+msgid "deleted"
+msgstr "vypouští se"
+
+#: View/Helper/IssuesHelper.php:155
+msgid "unknow"
+msgstr "neznámé"
+
+#: View/Helper/IssuesHelper.php:163
+msgid "%d day"
+msgstr "%d den"
+
+#: View/Helper/JournalsHelper.php:19
+#: View/Issues/show.ctp:109
+msgid "Quote"
+msgstr "Citát"
+
+#: View/Helper/SearchHelper.php:30
+#: View/Helper/TimelogHelper.php:34
+msgid "All Projects"
+msgstr "Všechny projekty"
+
+#: View/Helper/SearchHelper.php:32
+#: View/Projects/index.ctp:56
+msgid "My projects"
+msgstr "Moje projekty"
+
+#: View/Helper/SortHelper.php:103
+msgid "Sort by %s"
+msgstr "Seřadit podle %s"
+
+#: View/Helper/TimelogHelper.php:89
+msgid "all time"
+msgstr "všech dob"
+
+#: View/Helper/TimelogHelper.php:91
+msgid "yesterday"
+msgstr "včera"
+
+#: View/Helper/TimelogHelper.php:93
+msgid "last week"
+msgstr "Minulý týden"
+
+#: View/Helper/TimelogHelper.php:94;97
+msgid "last %d days"
+msgstr "poslední %d dní"
+
+#: View/Helper/TimelogHelper.php:95
+msgid "this month"
+msgstr "tento měsíc"
+
+#: View/Helper/TimelogHelper.php:96
+msgid "last month"
+msgstr "poslední měsíc"
+
+#: View/Helper/TimelogHelper.php:98
+msgid "this year"
+msgstr "tento rok"
+
+#: View/Helper/TimelogHelper.php:116
+#: View/Issues/index.ctp:13
+msgid "Clear"
+msgstr "Vymazat"
+
+#: View/Helper/UsersHelper.php:31
+#: View/Wiki/show.ctp:31
+msgid "Unlock"
+msgstr "Odemknout"
+
+#: View/Helper/UsersHelper.php:47
+msgid "Activate"
+msgstr "Aktivovat"
+
+#: View/Helper/UsersHelper.php:62
+#: View/Wiki/show.ctp:17
+msgid "Lock"
+msgstr "Zámek"
+
+#: View/Helper/WatchersHelper.php:44
+msgid "Unwatch"
+msgstr "Nesledovat"
+
+#: View/Helper/WatchersHelper.php:44
+msgid "Watch"
+msgstr "Sledovat"
+
+#: View/IssueCategories/destroy.ctp:27
+msgid "Remove category assignments"
+msgstr "Odstranit kategorii přiřazení"
+
+#: View/IssueCategories/destroy.ctp:44
+msgid "Reassign issues to this category"
+msgstr "Přiřadit úkoly do této kategorie"
+
+#: View/IssueStatuses/edit.ctp:16
+#: View/IssueStatuses/list.ctp:18
+#: View/IssueStatuses/new.ctp:16
+msgid "Issue closed"
+msgstr "Úkol uzavřen"
+
+#: View/IssueStatuses/list.ctp:9
+#: View/IssueStatuses/new.ctp:8
+msgid "New status"
+msgstr "Nový stav"
+
+#: View/Issues/bulk_edit.ctp:1
+msgid "Bulk edit selected issues"
+msgstr "Hromadná úprava vybraných úkolů"
+
+#: View/Issues/bulk_edit.ctp:21;32;42;54;64;84
+#: View/Issues/move.ctp:40
+msgid "(No change)"
+msgstr "(Žádná změna)"
+
+#: View/Issues/bulk_edit.ctp:51
+#: View/Issues/context_menu.ctp:62
+msgid "nobody"
+msgstr "nikdo"
+
+#: View/Issues/bulk_edit.ctp:71
+#: View/Issues/show.ctp:54
+msgid "Start"
+msgstr "Start"
+
+#: View/Issues/bulk_edit.ctp:75
+#: View/Issues/context_menu.ctp:87
+msgid "% Done"
+msgstr "% Hotovo"
+
+#: View/Issues/context_menu.ctp:99
+#: View/Issues/show.ctp:36
+msgid "Copy"
+msgstr "Kopie"
+
+#: View/Issues/context_menu.ctp:110
+#: View/Issues/move.ctp:1;43
+#: View/Issues/show.ctp:37
+msgid "Move"
+msgstr "Přesun"
+
+#: View/Issues/context_menu.ctp:115
+msgid "'Are you sure you want to delete the selected issue(s) ?'"
+msgstr "'Jste si jistí, že chcete smazat označené úkoly?'"
+
+#: View/Issues/destroy.ctp:1
+msgid "confirmation"
+msgstr "potvrzení"
+
+#: View/Issues/destroy.ctp:8
+msgid "%.02f hours were reported on the issues you are about to delete. What do you want to do ?"
+msgstr "%.02f hodin bylo hlášeno v úkolech, které se chystáte odstranit. Co chcete dělat?"
+
+#: View/Issues/destroy.ctp:10
+msgid "Delete reported hours"
+msgstr "Smazat hlášené hodin"
+
+#: View/Issues/destroy.ctp:11
+msgid "Assign reported hours to the project"
+msgstr "Přiřadit evidované hodiny projektu"
+
+#: View/Issues/destroy.ctp:12
+msgid "Reassign reported hours to this issue:"
+msgstr "Přiřadit evidované hodiny k tomuto úkolu:"
+
+#: View/Issues/issue_to_pdf.ctp:44
+#: View/Wiki/history.ctp:16
+msgid "Updated"
+msgstr "Aktualizováno"
+
+#: View/Issues/issue_to_pdf.ctp:79
+#: View/Issues/show.ctp:160
+msgid "Associated revisions"
+msgstr "Související revize"
+
+#: View/Issues/issue_to_pdf.ctp:94
+#: View/Issues/show.ctp:167
+#: View/Wiki/history.ctp:3
+#: View/Wiki/show.ctp:84
+msgid "History"
+msgstr "Historie"
+
+#: View/Issues/issue_to_pdf.ctp:114
+#: View/Projects/add_file.ctp:20
+#: View/Projects/list_files.ctp:10;63
+msgid "Files"
+msgstr "Soubory"
+
+#: View/Issues/new.ctp:29
+msgid "New issue"
+msgstr "Nový úkol"
+
+#: View/Issues/new.ctp:43
+msgid "Create and continue"
+msgstr "Vytvořit a pokračovat"
+
+#: View/Issues/reply.ctp:2
+msgid "%s wrote:\\n>"
+msgstr "%s napsal:\\n>"
+
+#: View/Issues/show.ctp:5;178
+msgid "Update"
+msgstr "Aktualizovat"
+
+#: View/Issues/show.ctp:186
+#: View/Projects/index.ctp:61
+#: View/Timelog/details.ctp:48
+#: View/Timelog/report.ctp:124
+#: View/Wiki/special_date_index.ctp:22
+#: View/Wiki/special_page_index.ctp:20
+msgid "'Also available in:'"
+msgstr "'Také dostupné v:'"
+
+#: View/Layouts/base.ctp:24
+#: View/Themed/kuma/Layouts/base.ctp:24
+msgid "Logged in as"
+msgstr "Přihlášen jako"
+
+#: View/Layouts/base.ctp:31
+#: View/Search/index.ctp:1
+#: View/Themed/kuma/Layouts/base.ctp:31
+msgid "Search"
+msgstr "Hledání"
+
+#: View/Layouts/base.ctp:84
+#: View/Themed/kuma/Layouts/base.ctp:84
+msgid "Loading..."
+msgstr "Nahrávám ..."
+
+#: View/Layouts/base.ctp:93
+#: View/Themed/kuma/Layouts/base.ctp:93
+msgid "Report Bug"
+msgstr "Nahlásit chybu"
+
+#: View/Layouts/base.ctp:95
+#: View/Themed/kuma/Layouts/base.ctp:95
+msgid "Contributors"
+msgstr "Přispěvatelé"
+
+#: View/Layouts/base.ctp:99
+#: View/Themed/kuma/Layouts/base.ctp:99
+msgid "Discussion"
+msgstr "Diskuse"
+
+#: View/Layouts/base.ctp:106
+#: View/Themed/kuma/Layouts/base.ctp:106
+msgid "CakePHP: the rapid development php framework"
+msgstr "CakePHP: rychlý rozvoj rámce php"
+
+#: View/My/account.ctp:4
+#: View/My/password.ctp:1
+msgid "Change password"
+msgstr "Změna hesla"
+
+#: View/My/account.ctp:32
+msgid "Preferences"
+msgstr "Nastavení"
+
+#: View/My/page.ctp:2
+msgid "Personalize this page"
+msgstr "Přizpůsobit tuto stránku"
+
+#: View/My/page.ctp:6
+msgid "My page"
+msgstr "Moje stránka"
+
+#: View/News/add.ctp:1
+#: View/News/index.ctp:2;6
+msgid "Add news"
+msgstr "Přidat aktuality"
+
+#: View/News/index.ctp:55
+#: View/News/show.ctp:58
+#: View/Timelog/details_csv.ctp:12
+#: View/Wiki/history.ctp:18
+msgid "Comments"
+msgstr "Komentáře"
+
+#: View/News/show.ctp:78
+msgid "Add a comment"
+msgstr "Přidat komentář"
+
+#: View/Projects/add_file.ctp:1
+#: View/Projects/list_files.ctp:3
+#: View/Wiki/show.ctp:156
+msgid "New file"
+msgstr "Nový soubor"
+
+#: View/Projects/destroy.ctp:4
+msgid "Are you sure you want to delete this project and related data ?"
+msgstr "Jste si jisti, že chcete odstranit tento projekt a všechna související data?"
+
+#: View/Projects/index.ctp:15
+msgid "Overall activity"
+msgstr "Celková aktivita"
+
+#: View/Projects/list_files.ctp:22
+msgid "Size"
+msgstr "Velikost"
+
+#: View/Projects/list_files.ctp:23
+msgid "D/L"
+msgstr "D/L"
+
+#: View/Projects/show.ctp:4;84
+msgid "Overview"
+msgstr "Přehled"
+
+#: View/Projects/show.ctp:10
+msgid "Homepage"
+msgstr "Úvodní stránka"
+
+#: View/Projects/show.ctp:42
+msgid "'on'"
+msgstr "/"
+
+#: View/Projects/show.ctp:71
+#: View/Welcome/index.ctp:8
+msgid "Latest news"
+msgstr "Poslední novinky"
+
+#: View/Projects/show.ctp:76
+#: View/Welcome/index.ctp:10
+msgid "View all news"
+msgstr "Zobrazit všechny novinky"
+
+#: View/Queries/add.ctp:1
+msgid "New query"
+msgstr "Nový dotaz"
+
+#: View/Queries/edit.ctp:1
+msgid "Custom query"
+msgstr "Vlastní dotaz"
+
+#: View/Reports/_details.ctp:7
+msgid "label_no_data"
+msgstr "label_no_data"
+
+#: View/Reports/issue_report.ctp:54
+msgid "Subproject"
+msgstr "Subprojekt"
+
+#: View/Reports/issue_report_details.ctp:10
+msgid "Back"
+msgstr "Zpátky"
+
+#: View/Roles/list.ctp:9
+#: View/Roles/new.ctp:8
+msgid "New role"
+msgstr "Nová role"
+
+#: View/Roles/list.ctp:116
+#: View/Roles/report.ctp:1
+msgid "Permissions report"
+msgstr "Oprávnění nahlásit"
+
+#: View/Search/index.ctp:23
+msgid "All words"
+msgstr "Všechna slova"
+
+#: View/Search/index.ctp:28
+msgid "Search titles only"
+msgstr "Prohledat pouze názvy"
+
+#: View/Search/index.ctp:49
+msgid "Results"
+msgstr "Výsledky"
+
+#: View/Timelog/details_csv.ctp:37
+#: View/Timelog/report_csv.ctp:28
+msgid "ISO-8859-1"
+msgstr "ISO-8859-1"
+
+#: View/Timelog/edit.ctp:14
+msgid "Spent On"
+msgstr "Vynaložené na"
+
+#: View/Timelog/report.ctp:31
+msgid "Year"
+msgstr "Rok"
+
+#: View/Timelog/report.ctp:32
+msgid "Month"
+msgstr "Měsíc"
+
+#: View/Timelog/report.ctp:33
+msgid "Week"
+msgstr "Týden"
+
+#: View/Trackers/edit.ctp:16
+#: View/Trackers/new.ctp:16
+msgid "Issues displayed in changelog"
+msgstr "Úkoly zobrazené v changelogu"
+
+#: View/Trackers/edit.ctp:20
+#: View/Trackers/new.ctp:20
+msgid "Issues displayed in roadmap"
+msgstr "Úkoly zobrazené v plánu"
+
+#: View/Trackers/list.ctp:9
+#: View/Trackers/new.ctp:8
+msgid "New tracker"
+msgstr "Nová fronta"
+
+#: View/Trackers/list.ctp:25
+msgid "No workflow defined for this tracker"
+msgstr "Není definováno žádné workflow pro tuto frontu"
+
+#: View/Users/add.ctp:8
+#: View/Users/list.ctp:16
+msgid "New user"
+msgstr "Nový uživatel"
+
+#: View/Users/add.ctp:16
+msgid "Send account information to the user"
+msgstr "Zaslat informace o účtu uživateli"
+
+#: View/Versions/show.ctp:26
+msgid "Time tracking"
+msgstr "Doba sledování"
+
+#: View/Welcome/index.ctp:1
+msgid "Home"
+msgstr "Úvod"
+
+#: View/Welcome/index.ctp:18
+msgid "Latest projects"
+msgstr "Nejnovější projekty"
+
+#: View/Wiki/history.ctp:78
+msgid "Annotate"
+msgstr "Komentovat"
+
+#: View/Wiki/history.ctp:90
+msgid "View differences"
+msgstr "Zobrazit rozdíly"
+
+#: View/Wiki/rename.ctp:1;32
+#: View/Wiki/show.ctp:46
+msgid "Rename"
+msgstr "Přejmenovat"
+
+#: View/Wiki/rename.ctp:20
+msgid "Title"
+msgstr "Název"
+
+#: View/Wiki/rename.ctp:24
+msgid "Redirect existing links"
+msgstr "Přesměrovat stávající odkazy"
+
+#: View/Wiki/rename.ctp:29
+msgid "Parent page"
+msgstr "Rodičovská stránka"
+
+#: View/Wiki/show.ctp:72
+msgid "Rollback to this version"
+msgstr "Vrátit zpět k této verzi"
+
+#: View/Wiki/show.ctp:132
+msgid "Current version"
+msgstr "Současná verze"
+
+#: View/Wikis/destroy.ctp:4
+msgid "Are you sure you want to delete this wiki and all its content ?"
+msgstr "Jste si jisti, že chcete odstranit tuto Wiki a celý její obsah?"
+
+#: View/Workflows/edit.ctp:14
+msgid "Select a role and a tracker to edit the workflow"
+msgstr "Vyberte roli a frontu pro úpravu workflow"
+
+#: View/Workflows/edit.ctp:48
+msgid "Current status"
+msgstr "Současný stav"
+
+#: View/Workflows/edit.ctp:49
+msgid "New statuses allowed"
+msgstr "Nové stavy povolené"
+
+#: webroot/test.php:99
+msgid "Debug setting does not allow access to this url."
+msgstr "Nastavení Debug neumožňuje přístup k tomuto url."
+
+#: Model/CustomField.php:validation for field name
+#: Model/CustomValue.php:validation for field value
+#: Model/Issue.php:validation for field subject;validation for field priority_id;validation for field project_id;validation for field tracker_id;validation for field author_id;validation for field status_id
+#: Model/IssueCustomField.php:validation for field name
+#: Model/IssueRelation.php:validation for field issue_from_id;validation for field issue_to_id;validation for field relation_type
+#: Model/IssueStatus.php:validation for field name
+#: Model/ProjectCustomField.php:validation for field name
+#: Model/Query.php:validation for field name;validation for field filters
+#: Model/TimeEntry.php:validation for field user_id;validation for field activity_id;validation for field project_id;validation for field issue_id;validation for field hours;validation for field spent_on
+#: Model/Watcher.php:validation for field user_id
+#: Model/Wiki.php:validation for field start_page
+#: Model/WikiPage.php:validation for field title
+#: Model/WikiRedirect.php:validation for field title;validation for field redirects_to
+msgid "validates_presence_of"
+msgstr "validates_presence_of"
+
+#: Model/CustomField.php:validation for field name
+#: Model/IssueCustomField.php:validation for field name
+#: Model/IssueRelation.php:validation for field issue_to_id
+#: Model/IssueStatus.php:validation for field name
+#: Model/ProjectCustomField.php:validation for field name
+#: Model/Role.php:validation for field name
+#: Model/User.php:validation for field login
+#: Model/Watcher.php:validation for field user_id
+#: Model/WikiPage.php:validation for field title
+msgid "validates_uniqueness_of"
+msgstr "validates_uniqueness_of"
+
+#: Model/CustomField.php:validation for field name
+#: Model/Issue.php:validation for field subject
+#: Model/IssueCustomField.php:validation for field name
+#: Model/IssueStatus.php:validation for field name
+#: Model/ProjectCustomField.php:validation for field name
+#: Model/Query.php:validation for field name
+#: Model/Role.php:validation for field name
+#: Model/TimeEntry.php:validation for field comments
+#: Model/WikiRedirect.php:validation for field title;validation for field redirects_to
+msgid "validates_length_of"
+msgstr "validates_length_of"
+
+#: Model/CustomField.php:validation for field name
+#: Model/CustomValue.php:validation for field value
+#: Model/IssueCustomField.php:validation for field name
+#: Model/ProjectCustomField.php:validation for field name
+#: Model/Role.php:validation for field name
+#: Model/Wiki.php:validation for field start_page
+#: Model/WikiPage.php:validation for field title
+msgid "validates_format_of"
+msgstr "validates_format_of"
+
+#: Model/CustomField.php:validation for field field_format
+#: Model/CustomValue.php:validation for field value
+#: Model/Issue.php:validation for field done_ratio
+#: Model/IssueCustomField.php:validation for field field_format
+#: Model/ProjectCustomField.php:validation for field field_format
+#: Model/TimeEntry.php:validation for field hours
+msgid "validates_inclusion_of"
+msgstr "validates_inclusion_of"
+
+#: Model/CustomField.php:validation for field possible_values
+#: Model/IssueCustomField.php:validation for field possible_values
+#: Model/ProjectCustomField.php:validation for field possible_values
+#: Model/User.php:validation for field firstname;validation for field lastname;validation for field mail
+msgid "validates_not_empty"
+msgstr "ověřuje není prázdný"
+
+#: Model/CustomField.php:validation for field default_value
+#: Model/CustomValue.php:validation for field value
+#: Model/IssueCustomField.php:validation for field default_value
+#: Model/IssueRelation.php:validation for field issue_to_id;validation for field relation_type
+#: Model/ProjectCustomField.php:validation for field default_value
+#: Model/User.php:validation for field mail
+msgid "validates_invalid_of"
+msgstr "validates_invalid_of"
+
+#: Model/Issue.php:validation for field estimated_hours
+#: Model/IssueRelation.php:validation for field delay
+#: Model/TimeEntry.php:validation for field hours
+msgid "validates_numericality_of"
+msgstr "validates_numericality_of"
+
+#: Model/IssueCategory.php:validation for field name
+#: Model/Tracker.php:validation for field name
+#: Model/Version.php:validation for field name
+msgid "rule"
+msgstr "pravidlo"
+
+#: Model/IssueCategory.php:validation for field name
+#: Model/Tracker.php:validation for field name
+msgid "required"
+msgstr "vyžadováno"
+
+#: Model/IssueCategory.php:validation for field name
+#: Model/Tracker.php:validation for field name
+msgid "allowEmpty"
+msgstr "může být prázdné"
+
+#: Model/IssueRelation.php:validation for field issue_to_id
+msgid "validates_not_same_project"
+msgstr "validates_not_same_project"
+
+#: Model/IssueRelation.php:validation for field issue_to_id
+msgid "validates_circular_dependency"
+msgstr "validates_circular_dependency"
+
+#: Model/News.php:validation for field title;validation for field summary
+msgid "maxLength"
+msgstr "maxLength"
+
+#: Model/User.php:validation for field password
+msgid "minLength"
+msgstr "minLength"
+
+#: Model/User.php:validation for field password
+msgid "validates_confirmation_of"
+msgstr "validates_confirmation_of"
+
+# label_issue_status_plural
+msgid "Issue statuses"
+msgstr "Statusy úkolů"
+
+# label_issue_added
+msgid "Issue added"
+msgstr "Úkol přidán"
+
+# label_file_added
+msgid "File added"
+msgstr "Soubor přidán"
+
+# label_document_added
+msgid "Document added"
+msgstr "Dokument přidán"
+
+# label_message_posted
+msgid "Message added"
+msgstr "Zpráva přidána"
+
+# text_issue_added
+msgid "Issue %s has been reported by %s."
+msgstr "Úkol %s přidal %s."
+
+# label_comment_added
+msgid "Comment added"
+msgstr "Komentář přidán"
+
+# label_news_added
+msgid "News added"
+msgstr "Novinka přidána"
+
+# label_added_time_by
+msgid "Added by %s %s ago"
+msgstr "Přidal %s před %s"
+
+# text_length_between
+msgid "Length between %d and %d characters."
+msgstr "Délka od %d do %d znaků."
+
+# text_caracters_maximum
+msgid "%d characters maximum."
+msgstr "Maximálně %d znaků."
+
+# text_caracters_minimum
+msgid "Must be at least %d characters long."
+msgstr "Musí mít minimálně %d znaků dlouhý."
+
+# field_identifier
+msgid "Identifier"
+msgstr "Identifikátor"
