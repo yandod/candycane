@@ -1304,7 +1304,7 @@ function breadcrumb($args)
 			'fra' => 'Français',
 			//he 'Hebrew (עברית)'
 			//hu 'Magyar'
-			//it 'Italiano'
+			'ita' => 'Italiano',
 			'jpn' => 'Japanese (日本語)',
 			'kor' => 'Korean (한국어)',
 			//lt 'Lithuanian (lietuvių)'
