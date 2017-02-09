@@ -15,10 +15,22 @@ root {
     display: block;
 }
 
+#wrapper {
+    margin: 0 5px;
+    box-shadow: 0 0 10px #303030;
+    border-left: 1px solid #606060;
+    border-right: 1px solid #606060;
+}
+
 #header {
-    background: #0087BD;
+    background: #00679D;    
 }
 
 #top-menu {
-    background: #0077AD;
+    background: #00578D; 
+}
+
+#main-menu li a:hover {
+    background: #00578D;
+    color: #ffffff;
 }
