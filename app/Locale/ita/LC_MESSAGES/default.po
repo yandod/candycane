@@ -1,0 +1,2869 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: candycane 0.72\n"
+"POT-Creation-Date: 2016-09-29 17:12+0200\n"
+"PO-Revision-Date: 2016-12-08 02:20+0100\n"
+"Last-Translator: Thomas Bouchet <thomas.bouchet@sourismaline.fr>\n"
+"Language-Team: Francesco Bianco <bianco@javanile.org>\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: Console/Command/CcPluginShell.php:49
+msgid "Enter the name of the plugin in CamelCase format start with \"Cc\""
+msgstr "Entrer le nom du plugin au format CamelCase qui commence par \"Cc\""
+
+#: Console/Command/CcPluginShell.php:80
+msgid "Do you want verbose output?"
+msgstr "Souhaitez-vous une sortie verbeuse ?"
+
+#: Console/Command/CcPluginShell.php:145
+msgid "Created: %s in %s"
+msgstr "Creato: %s in %s"
+
+# notice_account_activated
+#: Controller/AccountController.php:77;144
+msgid "Your account has been activated. You can now log in."
+msgstr "Votre comtpe est activé. Vous pouvez désormais vous identifier."
+
+# notice_account_register_done
+#: Controller/AccountController.php:133
+msgid "Account was successfully created. To activate your account, click on the link that was emailed to you."
+msgstr "Account was successfully created. To activate your account, click on the link that was emailed to you."
+
+# notice_account_pending
+#: Controller/AccountController.php:160
+msgid "Your account was created and is now pending administrator approval."
+msgstr "Votre compte a été créé et attend maintenant l'approbation de l'administrateur."
+
+# notice_account_invalid_creditentials
+#: Controller/AccountController.php:199
+msgid "Invalid user or password"
+msgstr "Username o password non valida"
+
+# notice_account_password_updated
+#: Controller/AccountController.php:319 Controller/MyController.php:66
+msgid "Password was successfully updated."
+msgstr "Password was successfully updated."
+
+# notice_account_lost_email_sent
+#: Controller/AccountController.php:348
+msgid "An email with instructions to choose a new password has been sent to you."
+msgstr "An email with instructions to choose a new password has been sent to you."
+
+# label_all
+#: Controller/AdminController.php:86 Controller/UsersController.php:184
+#: Model/Query.php:38
+msgid "all"
+msgstr "tutti"
+
+# status_active
+#: Controller/AdminController.php:87 Controller/UsersController.php:185
+msgid "active"
+msgstr "attivo"
+
+#: Controller/AdminController.php:141
+msgid "Installed plugin: %s"
+msgstr "Installed plugin: %s"
+
+#: Controller/AdminController.php:150
+msgid "Uninstalled plugin: %s"
+msgstr "Plugin non installé: %s"
+
+# notice_email_sent
+#: Controller/AdminController.php:160
+msgid "An email was sent to %s"
+msgstr "Una email è stata inviata a %s"
+
+# notice_email_error
+#: Controller/AdminController.php:162
+msgid "An error occurred while sending mail (%s)"
+msgstr "Errore nell'invio dell'email (%s)."
+
+# notice_successful_update
+#: Controller/CustomFieldsController.php:58;88
+#: Controller/EnumerationsController.php:28;43;90
+#: Controller/IssueCategoriesController.php:9
+#: Controller/IssueStatusesController.php:142;156
+#: Controller/IssuesController.php:387;541;672;749
+#: Controller/MyController.php:194 Controller/NewsController.php:186
+#: Controller/ProjectsController.php:381;411
+#: Controller/RolesController.php:151;220 Controller/SettingsController.php:35
+#: Controller/TimelogController.php:187 Controller/TrackersController.php:39;51
+#: Controller/UsersController.php:65 Controller/VersionsController.php:51;69
+#: Controller/WikiController.php:245 Controller/WorkflowsController.php:88
+msgid "Successful update."
+msgstr "Aggiornamento avvenuto con successo."
+
+# notice_successful_delete
+#: Controller/CustomFieldsController.php:128
+#: Controller/IssueStatusesController.php:170
+#: Controller/IssuesController.php:832 Controller/NewsController.php:245
+#: Controller/RolesController.php:165 Controller/TimelogController.php:207
+msgid "Successful deletion."
+msgstr "Supprimé avec succès."
+
+# notice_unable_delete_version
+#: Controller/CustomFieldsController.php:131
+msgid "Unable to delete custom field"
+msgstr "Unable to delete custom field"
+
+# activerecord_error_invalid
+#: Controller/IssueStatusesController.php:132;138;166
+#: Controller/RolesController.php:161
+msgid "Invalid id"
+msgstr "Identifiant invalide"
+
+#: Controller/IssueStatusesController.php:145;159
+#: Controller/TrackersController.php:42
+msgid "Please correct errors below."
+msgstr "Merci de corriger les erreurs ci-dessous."
+
+#: Controller/IssueStatusesController.php:172
+msgid "There was an error deleting with id: %1$d"
+msgstr "Erreur lors de la suppression avec l'id: %1$d"
+
+#: Controller/IssuesController.php:252;340;436
+msgid "No default issue status is defined. Please check your configuration (Go to \"Administration -> Issue statuses\")."
+msgstr "No default issue status is defined. Please check your configuration (Go to \"Administration -> Issue statuses\")."
+
+#: Controller/IssuesController.php:329
+msgid "No tracker is associated to this project. Please check the Project settings."
+msgstr "Nessuna traccia è associata a questo progetto. Controlla le impostazioni del progetto."
+
+# warning_attachments_not_saved
+#: Controller/IssuesController.php:503 Controller/WikiController.php:402
+msgid "%d file(s) could not be saved."
+msgstr "%d fichier(s) n'a(ont) pas pu être sauvé(s)."
+
+# notice_failed_to_save_issues
+#: Controller/IssuesController.php:675;751;834
+msgid "\"Failed to save %d issue(s) on %d selected"
+msgstr "\"Failed to save %d issue(s) on %d selected"
+
+# error_issue_not_found_in_project
+#: Controller/IssuesController.php:820
+msgid "'The issue was not found or does not belong to this project'"
+msgstr "'The issue was not found or does not belong to this project'"
+
+# label_assigned_to_me_issues
+#: Controller/MyController.php:33
+#: View/Elements/my/blocks/issuesassignedtome.ctp:1
+msgid "Issues assigned to me"
+msgstr "Problemi assegnati a me"
+
+# notice_can_t_change_password
+#: Controller/MyController.php:56
+msgid "This account uses an external authentication source. Impossible to change the password."
+msgstr "This account uses an external authentication source. Impossible to change the password."
+
+# notice_account_wrong_password
+#: Controller/MyController.php:70
+msgid "Wrong password"
+msgstr "Password errata"
+
+# notice_feeds_access_key_reseted
+#: Controller/MyController.php:78
+msgid "Your RSS access key was reset."
+msgstr "Votre accès RSS a été réinitialisé."
+
+# notice_feeds_access_key_reseted
+#: Controller/MyController.php:85
+#, fuzzy
+msgid "Your API access key was reset."
+msgstr "Votre accès RSS a été réinitialisé."
+
+# label_user_mail_option_all
+#: Controller/MyController.php:209
+msgid "\"For any event on all my projects\""
+msgstr "\"Per ogni evento nei miei progetti\""
+
+# label_user_mail_option_selected
+#: Controller/MyController.php:212
+msgid "\"For any event on the selected projects only...\""
+msgstr "\"For any event on the selected projects only...\""
+
+# label_user_mail_option_none
+#: Controller/MyController.php:214
+msgid "\"Only for things I watch or I'm involved in\""
+msgstr "\"Only for things I watch or I'm involved in\""
+
+# notice_successful_create
+#: Controller/NewsController.php:157;220
+#: Controller/ProjectsController.php:205;499;563
+#: Controller/QueriesController.php:63;94 Controller/RolesController.php:110
+#: Controller/UsersController.php:214
+msgid "Successful creation."
+msgstr "Creazione avvenuta con successo."
+
+# field_activity
+#: Controller/ProjectsController.php:814 View/Account/show.ctp:47
+#: View/Elements/issues/edit.ctp:32
+#: View/Elements/projects/sidebar/activity.ctp:2
+#: View/Elements/timelog/list.ctp:6 View/Projects/activity.ctp:1;88
+#: View/Timelog/details_csv.ctp:6 View/Timelog/edit.ctp:27
+msgid "Activity"
+msgstr "Attività"
+
+#: Controller/RolesController.php:167
+msgid "This role is in use and can not be deleted."
+msgstr "This role is in use and can not be deleted."
+
+# label_spent_time
+#: Controller/TimelogController.php:145 View/Elements/issues/edit.ctp:26
+#: View/Elements/projects/sidebar/show.ctp:15
+#: View/Helper/CustomFieldHelper.php:38 View/Issues/show.ctp:67
+#: View/Timelog/details.ctp:15;64;66;72;74;76 View/Timelog/edit.ctp:1
+#: View/Timelog/report.ctp:15;139 View/Versions/show.ctp:39
+msgid "Spent time"
+msgstr "Temps passé"
+
+#: Controller/TrackersController.php:81
+msgid "This tracker contains issues and can't be deleted."
+msgstr "This tracker contains issues and can't be deleted."
+
+# label_general
+#: Controller/UsersController.php:76 Vendor/candycane/SettingContainer.php:24
+msgid "General"
+msgstr "Generale"
+
+# label_project_plural
+#: Controller/UsersController.php:81 Vendor/candycane/SettingContainer.php:34
+#: View/Account/show.ctp:30 View/Admin/index.ctp:15 View/Admin/projects.ctp:12
+#: View/Elements/admin/sidebar.ctp:4 View/Helper/CustomFieldHelper.php:39
+#: View/Projects/index.ctp:18
+msgid "Projects"
+msgstr "Progetti"
+
+# status_registered
+#: Controller/UsersController.php:186
+msgid "registered"
+msgstr "inscrit(s)"
+
+# status_locked
+#: Controller/UsersController.php:187
+msgid "locked"
+msgstr "bloqué"
+
+# notice_unable_delete_version
+#: Controller/VersionsController.php:74
+msgid "Unable to delete version."
+msgstr "Unable to delete version."
+
+# mail_subject_register
+#: Controller/Component/MailerComponent.php:126
+msgid "Your %s account activation"
+msgstr "L'activation de votre compte %s"
+
+# mail_subject_account_activation_request
+#: Controller/Component/MailerComponent.php:156
+msgid "%s account activation request"
+msgstr "%s account activation request"
+
+# mail_subject_lost_password
+#: Controller/Component/MailerComponent.php:174
+msgid "Your password"
+msgstr "La tua password"
+
+# label_news
+#: Controller/Component/MailerComponent.php:201 View/News/index.ctp:40;81
+msgid "News"
+msgstr "Notizie"
+
+# label_document
+#: Model/Document.php:41
+msgid "Document"
+msgstr "Documento"
+
+#: Model/Project.php:115
+msgid "Identifier must be between 2 and 20 characters, containing only letters, numbers and dashes."
+msgstr "Identifier must be between 2 and 20 characters, containing only letters, numbers and dashes."
+
+# field_project
+#: Model/Project.php:709 View/Admin/projects.ctp:32;55
+#: View/CustomFields/list.ctp:43 View/Elements/roles/form.ctp:21
+#: View/Elements/timelog/list.ctp:7 View/Elements/users/memberships.ctp:16
+#: View/Issues/move.ctp:15 View/Timelog/details_csv.ctp:7
+#, fuzzy
+msgid "Project"
+msgid_plural "Projects"
+msgstr[0] "Progetto"
+msgstr[1] "Progetto"
+
+# label_equals
+#: Model/Query.php:33
+msgid "is"
+msgstr "è"
+
+# label_not_equals
+#: Model/Query.php:34
+msgid "is not"
+msgstr "non è"
+
+# label_open_issues_plural
+#: Model/Query.php:35 View/Elements/reports/_details.ctp:27
+#: View/Elements/reports/_simple.ctp:18
+msgid "open"
+msgstr "aperto"
+
+# label_closed_issues
+#: Model/Query.php:36
+msgid "closed"
+msgstr "chiuso"
+
+# label_none
+#: Model/Query.php:37 View/Elements/settings/general.ctp:148;160
+#: View/Helper/TimelogHelper.php:135 View/Issues/bulk_edit.ctp:39;61
+#: View/Issues/context_menu.ctp:45;79
+msgid "none"
+msgstr "nessuno"
+
+# label_in_less_than
+#: Model/Query.php:41
+msgid "in less than"
+msgstr "in meno di"
+
+# label_in_more_than
+#: Model/Query.php:42
+msgid "in more than"
+msgstr "in più di"
+
+# label_in
+#: Model/Query.php:43
+msgid "in"
+msgstr "in"
+
+# label_today
+#: Model/Query.php:44 View/Helper/CandyHelper.php:455
+#: View/Helper/TimelogHelper.php:90
+msgid "today"
+msgstr "Oggi"
+
+# label_this_week
+#: Model/Query.php:45 View/Helper/TimelogHelper.php:92
+msgid "this week"
+msgstr "Questa settimana"
+
+# label_less_than_ago
+#: Model/Query.php:46
+msgid "less than days ago"
+msgstr "moins d'un jour"
+
+# label_more_than_ago
+#: Model/Query.php:47
+msgid "more than days ago"
+msgstr "more than days ago"
+
+# label_ago
+#: Model/Query.php:48
+msgid "days ago"
+msgstr "jours"
+
+# label_contains
+#: Model/Query.php:49
+msgid "contains"
+msgstr "contient"
+
+# label_not_contains
+#: Model/Query.php:50
+msgid "doesn't contain"
+msgstr "ne contient pas"
+
+# label_me
+#: Model/Query.php:88
+msgid "me"
+msgstr "Io"
+
+# general_first_day_of_week
+#: Model/Query.php:392
+msgid "'7'"
+msgstr "'1'"
+
+# field_tracker
+#: Model/Query.php:563
+msgid "tracker"
+msgstr " Traccia"
+
+# field_status
+#: Model/Query.php:569
+msgid "status"
+msgstr "Stato"
+
+# field_priority
+#: Model/Query.php:575
+msgid "priority"
+msgstr "Priorità"
+
+# field_subject
+#: Model/Query.php:581
+msgid "subject"
+msgstr "Oggetto"
+
+# field_author
+#: Model/Query.php:587
+msgid "author"
+msgstr "Autore"
+
+# field_assigned_to
+#: Model/Query.php:593
+msgid "assigned_to"
+msgstr "Assegnato a"
+
+# field_updated_on
+#: Model/Query.php:599
+msgid "updated_on"
+msgstr "Aggiornato il"
+
+# field_category
+#: Model/Query.php:605
+msgid "category"
+msgstr "Categoria"
+
+# label_version_new
+#: Model/Query.php:611
+msgid "fixed_version"
+msgstr "Nuova versione"
+
+# label_start_to_end
+#: Model/Query.php:617
+msgid "start_date"
+msgstr "Date de démarrage"
+
+# field_due_date
+#: Model/Query.php:623
+msgid "due_date"
+msgstr "Data di fine"
+
+#: Model/Query.php:629
+msgid "estimated_hours"
+msgstr "Ore stimate"
+
+# field_password_confirmation
+#: Model/Query.php:635
+msgid "done_ratio"
+msgstr "Avanzamento"
+
+# field_created_on
+#: Model/Query.php:641
+msgid "created_on"
+msgstr "Creato il"
+
+# label_f_hour
+#: Model/TimeEntry.php:46 View/Helper/QueriesHelper.php:70
+#: View/Issues/show.ctp:68 View/Timelog/details.ctp:41
+#: View/Timelog/report.ctp:81
+msgid "%.2f hour"
+msgstr "%.2f heure"
+
+# label_wiki
+#: Model/WikiPage.php:92 Vendor/candycane/MenuContainer.php:166
+#: View/Elements/wiki/sidebar.ctp:1
+msgid "Wiki"
+msgstr "Wiki"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:59
+msgid "Installation: Welcome"
+msgstr "Installation: Bienvenue"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:81
+msgid "Step 1: Database"
+msgstr "Étape 1: La base de données"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:129
+msgid "Could not write database.php file."
+msgstr "Impossible d'accéder au fichier database.php en écriture."
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:132;152
+msgid "Could not connect to database."
+msgstr "Could not connect to database."
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:142
+#, fuzzy
+msgid "Step 2: Run SQL"
+msgstr "Étape 2: SQL"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:171
+msgid "Installation completed successfully"
+msgstr "Installation réussie"
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:177
+msgid "Installataion files deleted successfully."
+msgstr "Fichiers d'installation supprimés avec succès."
+
+#: Plugin/CcInstall/Controller/CcInstallController.php:181
+msgid "Could not delete installation files."
+msgstr "Could not delete installation files."
+
+# default_doc_category_user
+#: Plugin/CcInstall/Controller/CcInstallController.php:207
+msgid "User documentation"
+msgstr "Documentazione utente"
+
+# default_doc_category_tech
+#: Plugin/CcInstall/Controller/CcInstallController.php:208
+msgid "Technical documentation"
+msgstr "Documentation technique"
+
+# default_priority_low
+#: Plugin/CcInstall/Controller/CcInstallController.php:209
+msgid "Low"
+msgstr "Basse"
+
+# default_priority_normal
+#: Plugin/CcInstall/Controller/CcInstallController.php:210
+msgid "Normal"
+msgstr "Normale"
+
+# default_priority_high
+#: Plugin/CcInstall/Controller/CcInstallController.php:211
+msgid "High"
+msgstr "Haute"
+
+# default_priority_urgent
+#: Plugin/CcInstall/Controller/CcInstallController.php:212
+msgid "Urgent"
+msgstr "Urgent"
+
+# default_priority_immediate
+#: Plugin/CcInstall/Controller/CcInstallController.php:213
+msgid "Immediate"
+msgstr "Immédiat"
+
+# default_activity_design
+#: Plugin/CcInstall/Controller/CcInstallController.php:214
+msgid "Design"
+msgstr "Design"
+
+# default_activity_development
+#: Plugin/CcInstall/Controller/CcInstallController.php:215
+msgid "Development"
+msgstr "Développement"
+
+# label_new
+#: Plugin/CcInstall/Controller/CcInstallController.php:218
+#: View/Admin/index.ctp:16;21 View/Elements/admin/sidebar.ctp:5;10
+msgid "New"
+msgstr "Nuovo"
+
+# default_issue_status_assigned
+#: Plugin/CcInstall/Controller/CcInstallController.php:219
+msgid "Assigned"
+msgstr "Assigné"
+
+# default_issue_status_resolved
+#: Plugin/CcInstall/Controller/CcInstallController.php:220
+msgid "Resolved"
+msgstr "Résolu"
+
+# default_issue_status_feedback
+#: Plugin/CcInstall/Controller/CcInstallController.php:221
+msgid "Feedback"
+msgstr "Retour"
+
+# default_issue_status_closed
+#: Plugin/CcInstall/Controller/CcInstallController.php:222
+#: View/Elements/reports/_details.ctp:28 View/Elements/reports/_simple.ctp:19
+msgid "Closed"
+msgstr "Fermé"
+
+# default_issue_status_rejected
+#: Plugin/CcInstall/Controller/CcInstallController.php:223
+msgid "Rejected"
+msgstr "Rejeté"
+
+# default_role_manager
+#: Plugin/CcInstall/Controller/CcInstallController.php:226
+msgid "Manager"
+msgstr "Gestionnaire"
+
+# default_role_developper
+#: Plugin/CcInstall/Controller/CcInstallController.php:227
+msgid "Developer"
+msgstr "Développeur"
+
+# default_role_reporter
+#: Plugin/CcInstall/Controller/CcInstallController.php:228
+msgid "Reporter"
+msgstr "Rapporteur"
+
+# default_tracker_bug
+#: Plugin/CcInstall/Controller/CcInstallController.php:231
+msgid "Bug"
+msgstr "Bug"
+
+# default_tracker_feature
+#: Plugin/CcInstall/Controller/CcInstallController.php:232
+msgid "Feature"
+msgstr "Funzionalità"
+
+# default_tracker_support
+#: Plugin/CcInstall/Controller/CcInstallController.php:233
+msgid "Support"
+msgstr "Supporto"
+
+#: Plugin/CcInstall/View/CcInstall/data.ctp:3
+msgid "Loading initial data to database which you configured."
+msgstr "Création des données initiales dans la base de données configurée."
+
+#: Plugin/CcInstall/View/CcInstall/data.ctp:5
+msgid "Click here to build your database"
+msgstr "Cliquer ici pour construire votre base de données"
+
+#: Plugin/CcInstall/View/CcInstall/database.ctp:3
+msgid "Creating database conection setting. please type valid configuration for your database server."
+msgstr "Creating database conection setting. please type valid configuration for your database server."
+
+#: Plugin/CcInstall/View/CcInstall/database.ctp:10
+msgid "Exsisting database name"
+msgstr "Exsisting database name"
+
+#: Plugin/CcInstall/View/CcInstall/database.ctp:11
+msgid "Prefix for table name.(if you need)"
+msgstr "Prefix for table name.(if you need)"
+
+#: Plugin/CcInstall/View/CcInstall/database.ctp:12
+msgid "Build database"
+msgstr "Construire la base de données"
+
+#: Plugin/CcInstall/View/CcInstall/finish.ctp:14
+msgid "Delete the installation directory <strong>/app/Plugin/install</strong>."
+msgstr "Delete the installation directory <strong>/app/Plugin/install</strong>."
+
+#: Plugin/CcInstall/View/CcInstall/finish.ctp:21
+msgid "Click here to delete installation files"
+msgstr "Click here to delete installation files"
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:8
+msgid "PDO extension is loaded."
+msgstr "L'extension PDO est chargée."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:11
+msgid "PDO extension is NOT loaded."
+msgstr "L'extension PDO n'est pas chargée."
+
+# text_plugin_assets_writable
+#: Plugin/CcInstall/View/CcInstall/index.ctp:16
+msgid "Your tmp directory is writable."
+msgstr "Votre répertoire tmp est accessible en écriture."
+
+# text_plugin_assets_writable
+#: Plugin/CcInstall/View/CcInstall/index.ctp:19
+msgid "Your tmp directory is NOT writable."
+msgstr "Votre répertoire tmp n'est pas accessible en écriture."
+
+# text_plugin_assets_writable
+#: Plugin/CcInstall/View/CcInstall/index.ctp:25
+msgid "Your Config directory is writable."
+msgstr "Votre répertoire Config est accessible en écriture."
+
+# text_plugin_assets_writable
+#: Plugin/CcInstall/View/CcInstall/index.ctp:28
+msgid "Your Config directory is NOT writable."
+msgstr "Votre répertoire Config n'est pas accessible en écriture."
+
+# text_plugin_assets_writable
+#: Plugin/CcInstall/View/CcInstall/index.ctp:34
+msgid "Your files directory is writable."
+msgstr "Votre répertoire files est accessible en écriture."
+
+# text_plugin_assets_writable
+#: Plugin/CcInstall/View/CcInstall/index.ctp:37
+msgid "Your files directory is NOT writable."
+msgstr "Votre répertoire files n'est pas accessible en écriture."
+
+# text_plugin_assets_writable
+#: Plugin/CcInstall/View/CcInstall/index.ctp:43
+msgid "Your Plugin directory is writable."
+msgstr "Votre répertoire Plugin est accessible en écriture."
+
+# text_plugin_assets_writable
+#: Plugin/CcInstall/View/CcInstall/index.ctp:46
+msgid "Your Plugin directory is NOT writable."
+msgstr "Votre répertoire Plugin n'est pas accessible en écriture."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:52
+msgid "Your routing  is working well."
+msgstr "Votre routage fonctionne correctement."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:55
+msgid "Your routing is NOT working well."
+msgstr "Votre routage ne fonctionne pas correctement."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:56
+msgid "Please activate mod_rewrite and .htaccess."
+msgstr "Merci d'activer mod_rewrite et la prise en compte des fichiers .htacess."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:57
+msgid "Or uncomment \"//Configure::write('App.baseUrl', env('SCRIPT_NAME'));\" in app/Config/core.php and remove all .htaccess."
+msgstr "Or uncomment \"//Configure::write('App.baseUrl', env('SCRIPT_NAME'));\" in app/Config/core.php and remove all .htaccess."
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:70
+msgid "Click here to begin installation"
+msgstr "Cliquer ici pour démarrer l'installation"
+
+#: Plugin/CcInstall/View/CcInstall/index.ctp:72
+msgid "Installation cannot continue as minimum requirements are not met."
+msgstr "L'installation ne peut continuer si les conditions minimales ne sont pas remplies."
+
+#: Plugin/CcInstall/View/Layouts/install.ctp:5
+msgid "CandyCane"
+msgstr "CandyCane"
+
+#: Plugin/CcInstall/View/Layouts/install.ctp:18
+msgid "Install CandyCane"
+msgstr "Installer CandyCane"
+
+#: Plugin/CcInstall/View/Layouts/install.ctp:33
+msgid "CandyCane Installer"
+msgstr "Installeur "
+
+# label_information
+#: Vendor/candycane/MenuContainer.php:141 View/Admin/index.ctp:57
+#: View/Admin/info.ctp:8 View/Elements/admin/sidebar.ctp:46
+#: View/My/account.ctp:18
+msgid "Information"
+msgstr "Informazioni"
+
+# label_module_plural
+#: Vendor/candycane/MenuContainer.php:146 View/Projects/add.ctp:19
+msgid "Modules"
+msgstr "Moduli"
+
+# label_member_plural
+#: Vendor/candycane/MenuContainer.php:151 View/Projects/list_members.ctp:1
+#: View/Projects/show.ctp:55
+msgid "Members"
+msgstr "Membri"
+
+# label_version_plural
+#: Vendor/candycane/MenuContainer.php:156
+#: View/Elements/projects/sidebar/changelog.ctp:10
+#: View/Elements/projects/sidebar/roadmap.ctp:16
+msgid "Versions"
+msgstr "Versioni"
+
+# label_issue_category_plural
+#: Vendor/candycane/MenuContainer.php:161
+msgid "Issue categories"
+msgstr "Categorie di problemi"
+
+# label_authentication
+#: Vendor/candycane/SettingContainer.php:29 View/Elements/users/form.ctp:28
+msgid "Authentication"
+msgstr "Autenticazione"
+
+# project_module_issue_tracking
+#: Vendor/candycane/SettingContainer.php:39 View/Projects/show.ctp:37
+msgid "Issue tracking"
+msgstr "Traccia problemi"
+
+# field_mail_notification
+#: Vendor/candycane/SettingContainer.php:44 View/My/account.ctp:27
+msgid "Email notifications"
+msgstr "Notifica per email"
+
+# field_login
+#: View/Account/login.ctp:10 View/Account/register.ctp:12
+#: View/Elements/my/sidebar.ctp:3 View/Emails/html/lost_password.ctp:4
+#: View/Emails/text/lost_password.ctp:7
+#: View/mailer/lost_password.text.plain.ctp:7
+msgid "Login"
+msgstr "Username"
+
+# field_password
+#: View/Account/login.ctp:17 View/Account/register.ctp:17
+#: View/Elements/users/form.ctp:38 View/My/password.ctp:16
+msgid "Password"
+msgstr "Password"
+
+# label_password_lost
+#: View/Account/login.ctp:34 View/Account/lost_password.ctp:1
+#: View/Account/password_recovery.ctp:1
+#: View/Elements/settings/authentication.ctp:48
+msgid "Lost password"
+msgstr "Password dimenticata?"
+
+# label_login
+#: View/Account/login.ctp:38 View/Elements/account_menu.ctp:8
+msgid "Sign in"
+msgstr "Accedi"
+
+# field_mail
+#: View/Account/lost_password.ctp:6 View/Account/register.ctp:39
+#: View/Account/show.ctp:12 View/Elements/my/informations.ctp:10
+msgid "Email"
+msgstr "Email"
+
+# button_submit
+#: View/Account/lost_password.ctp:9 View/Account/register.ctp:57
+#: View/Elements/issues/edit.ctp:63 View/Issues/bulk_edit.ctp:103
+#: View/Search/index.ctp:38
+msgid "Submit"
+msgstr "OK"
+
+# field_new_password
+#: View/Account/password_recovery.ctp:11 View/My/password.ctp:24
+msgid "New password"
+msgstr "New password"
+
+# field_password_confirmation
+#: View/Account/password_recovery.ctp:22 View/Account/register.ctp:23
+#: View/Elements/users/form.ctp:44 View/My/password.ctp:34
+#: View/Projects/destroy.ctp:1 View/Wikis/destroy.ctp:1
+msgid "Confirmation"
+msgstr "Conferma"
+
+# button_save
+#: View/Account/password_recovery.ctp:32 View/CustomFields/edit.ctp:12
+#: View/CustomFields/new.ctp:13 View/Elements/journals/notes_form.ctp:39
+#: View/Elements/projects/edit.ctp:5
+#: View/Elements/projects/settings/modules.ctp:34
+#: View/Elements/projects/settings/wiki.ctp:62
+#: View/Elements/settings/authentication.ctp:67
+#: View/Elements/settings/general.ctp:195 View/Elements/settings/issues.ctp:77
+#: View/Elements/settings/notifications.ctp:125
+#: View/Elements/settings/projects.ctp:28 View/Elements/users/general.ctp:3
+#: View/Enumerations/edit.ctp:12 View/IssueCategories/edit.ctp:16
+#: View/IssueStatuses/edit.ctp:24 View/Issues/index.ctp:19
+#: View/My/account.ctp:23 View/News/show.ctp:23 View/Projects/add.ctp:32
+#: View/Queries/add.ctp:8 View/Queries/edit.ctp:6 View/Roles/edit.ctp:13
+#: View/Roles/new.ctp:17 View/Roles/report.ctp:67 View/Timelog/edit.ctp:45
+#: View/Trackers/edit.ctp:24 View/Versions/edit.ctp:31 View/Wiki/edit.ctp:28
+#: View/Workflows/edit.ctp:83
+msgid "Save"
+msgstr "Salva"
+
+# label_register
+#: View/Account/register.ctp:1 View/Elements/account_menu.ctp:9
+msgid "Register"
+msgstr "Registrati"
+
+# text_caracters_minimum
+#: View/Account/register.ctp:19 View/Elements/users/form.ctp:40
+msgid "Must be at least %d characters long."
+msgstr "Deve essere lunga almeno %d caratteri."
+
+# field_firstname
+#: View/Account/register.ctp:29 View/Elements/my/informations.ctp:2
+msgid "Firstname"
+msgstr "Cognome"
+
+# field_lastname
+#: View/Account/register.ctp:34 View/Elements/my/informations.ctp:6
+msgid "Lastname"
+msgstr "Nome"
+
+# field_language
+#: View/Account/register.ctp:44 View/Elements/my/informations.ctp:14
+msgid "Language"
+msgstr "Langue"
+
+# button_edit
+#: View/Account/show.ctp:3
+#: View/Elements/projects/settings/issue_categories.ctp:18
+#: View/Elements/projects/settings/versions.ctp:30
+#: View/Elements/timelog/list.ctp:33 View/Helper/JournalsHelper.php:40
+#: View/Issues/context_menu.ctp:3;18 View/Issues/index.ctp:31
+#: View/News/show.ctp:2 View/Trackers/list.ctp:25 View/Versions/show.ctp:7
+#: View/Wiki/show.ctp:6 View/Workflows/edit.ctp:35 View/Workflows/index.ctp:49
+msgid "Edit"
+msgstr "Modifica"
+
+# label_registered_on
+#: View/Account/show.ctp:23
+msgid "Registered on"
+msgstr "Iscritto il"
+
+# label_last_login
+#: View/Account/show.ctp:26
+msgid "Last connection"
+msgstr "Ultima connessione"
+
+# label_reported_issues
+#: View/Account/show.ctp:57 View/Elements/my/blocks/issuesreportedbyme.ctp:1
+msgid "Reported issues"
+msgstr "Problemi riportati"
+
+# label_export_to
+#: View/Account/show.ctp:79 View/News/index.ctp:70
+#: View/Projects/activity.ctp:64 View/Wiki/show.ctp:185
+msgid "Also available in:"
+msgstr "Disponibile anche in:"
+
+# label_administration
+#: View/Admin/index.ctp:1 View/Elements/admin/sidebar.ctp:1
+msgid "Administration"
+msgstr "Amministrazione"
+
+# label_user_plural
+#: View/Admin/index.ctp:20 View/Elements/admin/sidebar.ctp:9
+#: View/Helper/CustomFieldHelper.php:40 View/Users/list.ctp:106
+msgid "Users"
+msgstr "Utenti"
+
+# label_role_and_permissions
+#: View/Admin/index.ctp:25 View/Elements/admin/sidebar.ctp:14
+msgid "Roles and permissions"
+msgstr "Ruoli e permessi"
+
+# label_tracker_plural
+#: View/Admin/index.ctp:29 View/Elements/admin/sidebar.ctp:18
+#: View/Elements/custom_fields/form.ctp:111 View/Elements/projects/form.ctp:56
+#: View/Trackers/list.ctp:12
+msgid "Trackers"
+msgstr "Tracce"
+
+# label_issue_status_plural
+#: View/Admin/index.ctp:30 View/Elements/admin/sidebar.ctp:22
+#: View/IssueStatuses/edit.ctp:8 View/IssueStatuses/list.ctp:12
+msgid "Issue statuses"
+msgstr "Stati problemi"
+
+# label_workflow
+#: View/Admin/index.ctp:31 View/Elements/admin/sidebar.ctp:26
+#: View/Workflows/edit.ctp:12 View/Workflows/index.ctp:8
+msgid "Workflow"
+msgstr "Flusso di lavoro"
+
+# label_custom_field_plural
+#: View/Admin/index.ctp:35 View/CustomFields/edit.ctp:8
+#: View/CustomFields/list.ctp:8;67 View/Elements/admin/sidebar.ctp:30
+#: View/Elements/projects/form.ctp:88
+msgid "Custom fields"
+msgstr "Campi personalizzati"
+
+# label_enumerations
+#: View/Admin/index.ctp:39 View/Elements/admin/sidebar.ctp:34
+#: View/Enumerations/edit.ctp:8 View/Enumerations/list.ctp:8
+msgid "Enumerations"
+msgstr "Nomenclatura"
+
+# label_settings
+#: View/Admin/index.ctp:43 View/Elements/admin/sidebar.ctp:38
+#: View/Projects/settings.ctp:1 View/Settings/edit.ctp:8
+msgid "Settings"
+msgstr "Impostazioni"
+
+# label_plugins
+#: View/Admin/index.ctp:53 View/Admin/plugins.ctp:8
+#: View/Elements/admin/sidebar.ctp:42
+msgid "Plugins"
+msgstr "Plugins"
+
+# permission_manage_versions
+#: View/Admin/info.ctp:12
+#, fuzzy
+msgid "CandyCane version"
+msgstr "Gérer les versions"
+
+#: View/Admin/info.ctp:16
+msgid "database driver"
+msgstr "Pilote de base de données"
+
+# field_description
+#: View/Admin/plugins.ctp:13 View/Admin/projects.ctp:56
+#: View/Elements/issues/form.ctp:35
+#: View/Elements/projects/settings/versions.ctp:6
+#: View/Issues/issue_to_pdf.ctp:69 View/Issues/show.ctp:127
+#: View/Projects/add_version.ctp:21 View/Versions/edit.ctp:16
+msgid "Description"
+msgstr "Descrizione"
+
+# field_author
+#: View/Admin/plugins.ctp:14 View/Elements/mailer/issue_text_html.ctp:7
+#: View/Elements/mailer/issue_text_plain.ctp:3 View/Issues/issue_to_pdf.ctp:24
+#: View/Reports/issue_report.ctp:33 View/Wiki/history.ctp:17
+msgid "Author"
+msgstr "Auteur"
+
+# label_export_to
+#: View/Admin/plugins.ctp:15
+msgid "Available"
+msgstr "Disponible"
+
+#: View/Admin/plugins.ctp:16
+msgid "Installed"
+msgstr "Installé"
+
+# button_configure
+#: View/Admin/plugins.ctp:17
+msgid "Configure"
+msgstr "Configurer"
+
+# label_plugins
+#: View/Admin/plugins.ctp:25;51
+msgid "Local Plugin"
+msgstr "Plugin local"
+
+# notice_account_unknown_email
+#: View/Admin/plugins.ctp:39
+msgid "Unknown"
+msgstr "Inconnu"
+
+# button_update
+#: View/Admin/plugins.ctp:49
+msgid "Upgrade"
+msgstr "Aggiorna"
+
+#: View/Admin/plugins.ctp:53
+msgid "Uninstall"
+msgstr "Disinstalla"
+
+# label_internal
+#: View/Admin/plugins.ctp:60
+msgid "Install"
+msgstr "Installa"
+
+# label_no_data
+#: View/Admin/plugins.ctp:71 View/Elements/issues/list_simple.ctp:38
+#: View/Elements/projects/settings/issue_categories.ctp:47
+#: View/Elements/projects/settings/members.ctp:73
+#: View/Elements/projects/settings/versions.ctp:52
+#: View/Elements/reports/_details.ctp:7 View/Elements/users/memberships.ctp:52
+#: View/Issues/index.ctp:47 View/News/index.ctp:43
+#: View/Projects/activity.ctp:26 View/Projects/changelog.ctp:7
+#: View/Projects/list_members.ctp:4 View/Projects/roadmap.ctp:4
+#: View/Wiki/special_date_index.ctp:4 View/Wiki/special_page_index.ctp:4
+#: View/Workflows/index.ctp:11
+msgid "No data to display"
+msgstr "Nessun dato da visualizzare"
+
+#: View/Admin/plugins.ctp:74
+msgid "Do you want to create your own plugin? Run command bellow to create your plugin."
+msgstr "Voulez-vous créer votre propre plugin ? Lancer la commande ci-dessous pour créer votre plugin."
+
+# label_project_new
+#: View/Admin/projects.ctp:9 View/Elements/users/memberships.ctp:58
+#: View/Projects/add.ctp:8 View/Projects/index.ctp:13
+msgid "New project"
+msgstr "Nuovo progetto"
+
+# label_filter_plural
+#: View/Admin/projects.ctp:16 View/Elements/queries/form.ctp:27
+#: View/Issues/index.ctp:7 View/Users/list.ctp:19;25
+msgid "Filters"
+msgstr "Filtri"
+
+# field_status
+#: View/Admin/projects.ctp:24 View/Elements/issues/form.ctp:42
+#: View/Elements/mailer/issue_text_html.ctp:8
+#: View/Elements/mailer/issue_text_plain.ctp:4 View/IssueStatuses/list.ctp:16
+#: View/Issues/bulk_edit.ctp:15 View/Issues/context_menu.ctp:7
+#: View/Issues/issue_to_pdf.ctp:14 View/Issues/show.ctp:53
+msgid "Status"
+msgstr "Stato"
+
+# button_apply
+#: View/Admin/projects.ctp:34 View/Elements/projects/sidebar/activity.ctp:15
+#: View/Elements/projects/sidebar/changelog.ctp:7
+#: View/Elements/projects/sidebar/roadmap.ctp:13
+#: View/Elements/timelog/date_range.ctp:53 View/Enumerations/destroy.ctp:24
+#: View/IssueCategories/destroy.ctp:49 View/Issues/destroy.ctp:16
+#: View/Issues/index.ctp:10 View/My/password.ctp:43 View/Users/list.ctp:45
+msgid "Apply"
+msgstr "Applica"
+
+# label_subproject_plural
+#: View/Admin/projects.ctp:57 View/Elements/projects/sidebar/activity.ctp:10
+#: View/Projects/index.ctp:39 View/Projects/show.ctp:13
+msgid "Subprojects"
+msgstr "Sottoprogetti"
+
+# field_is_public
+#: View/Admin/projects.ctp:60 View/Elements/projects/form.ctp:28
+#: View/Elements/queries/form.ctp:11
+msgid "Public"
+msgstr "Pubblico"
+
+# field_created_on
+#: View/Admin/projects.ctp:61 View/Elements/my/sidebar.ctp:4
+#: View/Issues/issue_to_pdf.ctp:34
+msgid "Created"
+msgstr "Créé le"
+
+# button_archive
+#: View/Admin/projects.ctp:99
+msgid "Archive"
+msgstr "Archivia"
+
+# button_unarchive
+#: View/Admin/projects.ctp:103
+msgid "Unarchive"
+msgstr "Désarchiver"
+
+# button_delete
+#: View/Admin/projects.ctp:112 View/CustomFields/list.ctp:54
+#: View/Elements/attachments/links.ctp:10
+#: View/Elements/projects/settings/issue_categories.ctp:32
+#: View/Elements/projects/settings/members.ctp:52
+#: View/Elements/projects/settings/versions.ctp:36
+#: View/Elements/projects/settings/wiki.ctp:47
+#: View/Elements/timelog/list.ctp:34 View/Elements/users/memberships.ctp:38
+#: View/Enumerations/edit.ctp:17 View/Enumerations/list.ctp:33
+#: View/IssueStatuses/list.ctp:37 View/Issues/context_menu.ctp:113
+#: View/Issues/index.ctp:32 View/Issues/show.ctp:38 View/News/show.ctp:3;66
+#: View/Projects/destroy.ctp:23 View/Roles/list.ctp:105
+#: View/Trackers/list.ctp:35 View/Wiki/show.ctp:58 View/Wikis/destroy.ctp:17
+msgid "Delete"
+msgstr "Elimina"
+
+# button_download
+#: View/Attachments/diff.ctp:6 View/Attachments/file.ctp:6
+msgid "Download"
+msgstr "Télécharger"
+
+# field_name
+#: View/CustomFields/list.ctp:25 View/Elements/custom_fields/form.ctp:79
+#: View/Elements/enumerations/_form.ctp:5 View/Elements/queries/form.ctp:8
+#: View/IssueCategories/edit.ctp:12 View/IssueStatuses/edit.ctp:13
+#: View/IssueStatuses/new.ctp:13 View/Projects/add_issue_category.ctp:13
+#: View/Projects/add_version.ctp:17 View/Trackers/edit.ctp:13
+#: View/Trackers/new.ctp:13 View/Versions/edit.ctp:12
+msgid "Name"
+msgstr "Nome"
+
+# field_field_format
+#: View/CustomFields/list.ctp:26 View/Elements/custom_fields/form.ctp:83
+msgid "Format"
+msgstr "Format"
+
+# field_is_required
+#: View/CustomFields/list.ctp:27
+#: View/Elements/custom_fields/form.ctp:122;140;146;153
+#: Model/News.php:validation for field title;validation description
+msgid "Required"
+msgstr "Obligatoire"
+
+# field_is_for_all
+#: View/CustomFields/list.ctp:29 View/Elements/custom_fields/form.ctp:126
+#: View/Elements/queries/form.ctp:15
+msgid "For all projects"
+msgstr "Per tutti i progetti"
+
+# label_used_by
+#: View/CustomFields/list.ctp:30
+msgid "Used by"
+msgstr "Utilisé par"
+
+# button_sort
+#: View/CustomFields/list.ctp:32 View/IssueStatuses/list.ctp:19
+#: View/Roles/list.ctp:17 View/Trackers/list.ctp:18
+msgid "Sort"
+msgstr "Ordina"
+
+# label_sort_highest
+#: View/CustomFields/list.ctp:46 View/Enumerations/list.ctp:25
+#: View/IssueStatuses/list.ctp:29 View/Roles/list.ctp:37;45
+#: View/Trackers/list.ctp:27
+msgid "Move to top"
+msgstr "Sposta in alto"
+
+# label_sort_higher
+#: View/CustomFields/list.ctp:47 View/Enumerations/list.ctp:26
+#: View/IssueStatuses/list.ctp:30 View/Roles/list.ctp:52;60
+#: View/Trackers/list.ctp:28
+msgid "Move up"
+msgstr "Monter"
+
+# label_sort_lower
+#: View/CustomFields/list.ctp:48 View/Enumerations/list.ctp:27
+#: View/IssueStatuses/list.ctp:31 View/Roles/list.ctp:67;75
+#: View/Trackers/list.ctp:29
+msgid "Move down"
+msgstr "Descendre"
+
+# label_sort_lowest
+#: View/CustomFields/list.ctp:49 View/Enumerations/list.ctp:28
+#: View/IssueStatuses/list.ctp:32 View/Roles/list.ctp:82;90
+#: View/Trackers/list.ctp:30
+msgid "Move to bottom"
+msgstr "Sposta in basso"
+
+# text_are_you_sure
+#: View/CustomFields/list.ctp:54 View/Elements/attachments/links.ctp:11
+#: View/Elements/projects/settings/versions.ctp:43
+#: View/Elements/timelog/list.ctp:34 View/Enumerations/edit.ctp:17
+#: View/Enumerations/list.ctp:33 View/IssueStatuses/list.ctp:37
+#: View/Issues/index.ctp:32 View/Issues/show.ctp:38 View/News/show.ctp:7;66
+#: View/Projects/list_files.ctp:54 View/Roles/list.ctp:105
+#: View/Trackers/list.ctp:35 View/Wiki/show.ctp:64
+msgid "Are you sure ?"
+msgstr "Êtes-vous sûr ?"
+
+# label_custom_field_new
+#: View/CustomFields/list.ctp:63 View/CustomFields/new.ctp:8
+msgid "New custom field"
+msgstr "Nouveau champ personnalisé"
+
+# label_my_account
+#: View/Elements/account_menu.ctp:3 View/Elements/my/sidebar.ctp:1
+#: View/My/account.ctp:12
+msgid "My account"
+msgstr "Il mio account"
+
+# label_logout
+#: View/Elements/account_menu.ctp:4
+msgid "Sign out"
+msgstr "Disconnetti"
+
+# text_diff_truncated
+#: View/Elements/diff.ctp:88
+msgid "... This diff was truncated because it exceeds the maximum size that can be displayed."
+msgstr "... Le diff a été tronqué car il dépasse la longueur maximale pouvant être affichée."
+
+# gui_validation_error_plural
+#: View/Elements/error_explanation.ctp:25
+msgid "%d errors"
+msgstr "%d erreurs"
+
+#: View/Elements/error_explanation.ctp:33
+msgid "[%s] : %s"
+msgstr "[%s] : %s"
+
+# label_jump_to_a_project
+#: View/Elements/project_selector.ctp:3
+msgid "Jump to a project..."
+msgstr "Vai al progetto..."
+
+# label_optional_description
+#: View/Elements/attachments/form.ctp:24
+msgid "Optional description"
+msgstr "Descrizione (opzionale)"
+
+# label_add_another_file
+#: View/Elements/attachments/form.ctp:27
+msgid "Add another file"
+msgstr "Aggiungi un altro file"
+
+# label_max_size
+#: View/Elements/attachments/form.ctp:28
+msgid "Maximum size"
+msgstr "Taille maximale"
+
+# label_min_max_length
+#: View/Elements/custom_fields/form.ctp:87
+msgid "Min - Max length"
+msgstr "Longueur min - max"
+
+# text_min_max_length_info
+#: View/Elements/custom_fields/form.ctp:89
+msgid "0 means no restriction"
+msgstr "0 signifie aucune limite"
+
+# field_regexp
+#: View/Elements/custom_fields/form.ctp:92
+msgid "Regular expression"
+msgstr "Expression régulière"
+
+# text_regexp_info
+#: View/Elements/custom_fields/form.ctp:93
+msgid "eg. ^[A-Z0-9]+$"
+msgstr "cad. ^[A-Z0-9]+$"
+
+# field_possible_values
+#: View/Elements/custom_fields/form.ctp:96
+msgid "Possible values"
+msgstr "Valeurs possibles"
+
+# field_default_value
+#: View/Elements/custom_fields/form.ctp:102
+#: View/Elements/enumerations/_form.ctp:9 View/IssueStatuses/edit.ctp:20
+#: View/IssueStatuses/list.ctp:17 View/IssueStatuses/new.ctp:20
+msgid "Default value"
+msgstr "Valore di default"
+
+# field_is_filter
+#: View/Elements/custom_fields/form.ctp:130
+msgid "Used as a filter"
+msgstr "Utilisé en tant que filtre"
+
+# field_searchable
+#: View/Elements/custom_fields/form.ctp:134
+msgid "Searchable"
+msgstr "Recherchable"
+
+# label_change_properties
+#: View/Elements/issues/edit.ctp:6 View/Issues/bulk_edit.ctp:12
+msgid "Change properties"
+msgstr "Cambia proprietà"
+
+# label_more
+#: View/Elements/issues/edit.ctp:8
+msgid "More"
+msgstr "Plus"
+
+# button_log_time
+#: View/Elements/issues/edit.ctp:23 View/Issues/context_menu.ctp:104
+#: View/Issues/show.ctp:23 View/Timelog/details.ctp:8 View/Timelog/report.ctp:8
+msgid "Log time"
+msgstr "Temps passé"
+
+# field_hours
+#: View/Elements/issues/edit.ctp:27 View/Elements/issues/form.ctp:92
+#: View/Elements/timelog/list.ctp:10 View/Timelog/details_csv.ctp:11
+#: View/Timelog/edit.ctp:19
+msgid "Hours"
+msgstr "Heures"
+
+# label_please_login
+#: View/Elements/issues/edit.ctp:33 View/Elements/watchers/watchers.ctp:48
+#: View/Helper/CustomFieldHelper.php:78 View/Timelog/edit.ctp:35
+msgid "Please Select"
+msgstr "Merci de sélectionner"
+
+# field_comments
+#: View/Elements/issues/edit.ctp:37 View/Elements/timelog/list.ctp:9
+#: View/Timelog/edit.ctp:23 View/Wiki/edit.ctp:22
+msgid "Comment"
+msgstr "Commentaire"
+
+# field_notes
+#: View/Elements/issues/edit.ctp:46 View/Issues/bulk_edit.ctp:92
+msgid "Notes"
+msgstr "Notes"
+
+# setting_text_formatting
+#: View/Elements/issues/edit.ctp:51 View/Elements/issues/form.ctp:155
+#: View/Elements/settings/general.ctp:141 View/Issues/bulk_edit.ctp:97
+msgid "Text formatting"
+msgstr "Formato testo"
+
+# label_help
+#: View/Elements/issues/edit.ctp:51 View/Elements/issues/form.ctp:155
+#: View/Issues/bulk_edit.ctp:97
+msgid "Help"
+msgstr "Guida"
+
+# field_filename
+#: View/Elements/issues/edit.ctp:56 View/Elements/issues/form.ctp:127
+#: View/Helper/IssuesHelper.php:90 View/Projects/list_files.ctp:20
+msgid "File"
+msgstr "File"
+
+# label_preview
+#: View/Elements/issues/edit.ctp:64 View/Issues/new.ctp:44 View/News/add.ctp:9
+#: View/News/index.ctp:12 View/News/show.ctp:31 View/Wiki/edit.ctp:30
+#: View/common/_preview.ctp:1
+msgid "Preview"
+msgstr "Anteprima"
+
+# field_tracker
+#: View/Elements/issues/form.ctp:3 View/Elements/issues/list_simple.ctp:7
+#: View/Issues/move.ctp:39 View/Reports/issue_report.ctp:11
+#: View/Timelog/details_csv.ctp:9 View/Trackers/edit.ctp:8
+#: View/Trackers/list.ctp:16 View/Workflows/edit.ctp:26
+msgid "Tracker"
+msgstr "Traccia"
+
+# field_subject
+#: View/Elements/issues/form.ctp:31 View/Elements/issues/list_simple.ctp:8
+#: View/Issues/issue_to_pdf.ctp:63 View/Timelog/details_csv.ctp:10
+msgid "Subject"
+msgstr "Oggetto"
+
+# field_priority
+#: View/Elements/issues/form.ctp:46 View/Elements/mailer/issue_text_html.ctp:9
+#: View/Elements/mailer/issue_text_plain.ctp:5 View/Issues/bulk_edit.ctp:26
+#: View/Issues/context_menu.ctp:25 View/Issues/issue_to_pdf.ctp:18
+#: View/Issues/show.ctp:57 View/Reports/issue_report.ctp:19
+msgid "Priority"
+msgstr "Priorità"
+
+# field_assigned_to
+#: View/Elements/issues/form.ctp:50
+#: View/Elements/projects/settings/issue_categories.ctp:5
+#: View/IssueCategories/edit.ctp:13 View/Issues/bulk_edit.ctp:48
+#: View/Issues/context_menu.ctp:54 View/Issues/issue_to_pdf.ctp:38
+#: View/Issues/show.ctp:61 View/Projects/add_issue_category.ctp:14
+#: View/Reports/issue_report.ctp:26
+msgid "Assigned to"
+msgstr "Assegnato a"
+
+# field_category
+#: View/Elements/issues/form.ctp:54 View/Elements/mailer/issue_text_html.ctp:11
+#: View/Elements/mailer/issue_text_plain.ctp:7 View/Issues/bulk_edit.ctp:36
+#: View/Issues/context_menu.ctp:71 View/Issues/issue_to_pdf.ctp:28
+#: View/Issues/show.ctp:65 View/Reports/issue_report.ctp:62
+msgid "Category"
+msgstr "Catégorie"
+
+# label_issue_category_new
+#: View/Elements/issues/form.ctp:62;68
+#: View/Elements/projects/settings/issue_categories.ctp:53
+#: View/Projects/add_issue_category.ctp:1
+msgid "New category"
+msgstr "Nuova categoria"
+
+# field_fixed_version
+#: View/Elements/issues/form.ctp:74 View/Issues/bulk_edit.ctp:58
+#: View/Issues/context_menu.ctp:37 View/Issues/show.ctp:72
+msgid "Target version"
+msgstr "Versione obiettivo"
+
+# field_start_page
+#: View/Elements/issues/form.ctp:81
+msgid "Start date"
+msgstr "Data inizio"
+
+# field_due_date
+#: View/Elements/issues/form.ctp:86 View/Issues/bulk_edit.ctp:73
+#: View/Issues/issue_to_pdf.ctp:48 View/Issues/show.ctp:58
+msgid "Due date"
+msgstr "Data di fine"
+
+# field_estimated_hours
+#: View/Elements/issues/form.ctp:91 View/Issues/show.ctp:74
+#: View/Versions/show.ctp:29
+msgid "Estimated time"
+msgstr "Tempo stimato"
+
+# label_none
+#: View/Elements/issues/form.ctp:95 View/Issues/show.ctp:62
+msgid "Done"
+msgstr "Avanzamento"
+
+# label_issue_watchers
+#: View/Elements/issues/form.ctp:134 View/Elements/watchers/watchers.ctp:19
+msgid "Watchers"
+msgstr "Osservatori"
+
+# label_updated_time_by
+#: View/Elements/issues/history.ctp:7
+msgid "Updated by %s %s ago"
+msgstr "Mis à jour par %s il y a %s"
+
+# button_check_all
+#: View/Elements/issues/list.ctp:9 View/Helper/CandyHelper.php:1531
+#: View/Roles/report.ctp:20;40
+msgid "Check all"
+msgstr "Sélectionner tous"
+
+# button_uncheck_all
+#: View/Elements/issues/list.ctp:9 View/Helper/CandyHelper.php:1533
+#: View/Roles/report.ctp:20;40
+msgid "Uncheck all"
+msgstr "Décocher tous"
+
+# button_add
+#: View/Elements/issues/relations.ctp:4;64
+#: View/Elements/projects/settings/members.ctp:115
+#: View/Elements/users/memberships.ctp:71
+#: View/Elements/watchers/watchers.ctp:5;49 View/News/show.ctp:85
+#: View/Projects/add_file.ctp:22 View/Timelog/report.ctp:53
+#: View/Wiki/show.ctp:177
+msgid "Add"
+msgstr "Aggiungi"
+
+# label_related_issues
+#: View/Elements/issues/relations.ctp:9 View/Projects/roadmap.ctp:22
+#: View/Versions/show.ctp:66
+msgid "Related issues"
+msgstr "Problemi associati"
+
+# label_relation_delete
+#: View/Elements/issues/relations.ctp:33
+msgid "Delete relation"
+msgstr "Supprimer la relation"
+
+# label_issue
+#: View/Elements/issues/relations.ctp:59 View/Elements/timelog/list.ctp:8
+#: View/Timelog/details_csv.ctp:8 View/Timelog/edit.ctp:9
+msgid "Issue"
+msgstr "Problema"
+
+# field_delay
+#: View/Elements/issues/relations.ctp:62
+msgid "Delay"
+msgstr "Ritardo"
+
+# label_day_plural
+#: View/Elements/issues/relations.ctp:62 View/Elements/queries/filters.ctp:117
+#: View/Elements/settings/authentication.ctp:21;22;23;24
+#: View/Elements/settings/general.ctp:115 View/Helper/CandyHelper.php:511
+#: View/Timelog/report.ctp:34
+msgid "days"
+msgstr "giorni"
+
+# button_cancel
+#: View/Elements/issues/relations.ctp:65
+#: View/Elements/journals/notes_form.ctp:45
+#: View/Elements/watchers/watchers.ctp:50 View/Enumerations/destroy.ctp:25
+#: View/IssueCategories/destroy.ctp:51 View/News/index.ctp:34
+#: View/News/show.ctp:45 View/Wiki/show.ctp:178
+msgid "Cancel"
+msgstr "Annulla"
+
+# label_issue_plural
+#: View/Elements/issues/sidebar.ctp:1 View/Helper/CustomFieldHelper.php:37
+#: View/Issues/index.ctp:2
+msgid "Issues"
+msgstr "Problemi"
+
+# label_issue_view_all
+#: View/Elements/issues/sidebar.ctp:2
+#: View/Elements/my/blocks/issuesassignedtome.ctp:23
+#: View/Elements/my/blocks/issuesreportedbyme.ctp:14 View/Projects/index.ctp:14
+#: View/Projects/show.ctp:45
+msgid "View all issues"
+msgstr "Vedi tutti i problemi"
+
+# field_summary
+#: View/Elements/issues/sidebar.ctp:5 View/Workflows/edit.ctp:9
+msgid "Summary"
+msgstr "Sommario"
+
+# label_change_log
+#: View/Elements/issues/sidebar.ctp:6
+#: View/Elements/projects/sidebar/changelog.ctp:2 View/Projects/changelog.ctp:4
+msgid "Change log"
+msgstr "Registro modifiche"
+
+# label_planning
+#: View/Elements/issues/sidebar.ctp:21
+#: View/Elements/projects/sidebar/show.ctp:8
+msgid "Planning"
+msgstr "Calendario"
+
+# label_query_plural
+#: View/Elements/issues/sidebar.ctp:28
+msgid "Custom queries"
+msgstr "Filtri personalizzati"
+
+# field_assigned_to
+#: View/Elements/mailer/issue_text_html.ctp:10
+#: View/Elements/mailer/issue_text_plain.ctp:6
+msgid "Assigned To"
+msgstr "Assegnato a"
+
+# label_version
+#: View/Elements/mailer/issue_text_html.ctp:12
+#: View/Elements/mailer/issue_text_plain.ctp:8
+msgid "Fixed Version"
+msgstr "Versione"
+
+# text_user_mail_option
+#: View/Elements/my/mail_notifications.ctp:24
+msgid "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
+msgstr "\"For unselected projects, you will only receive notifications about things you watch or you're involved in (eg. issues you're the author or assignee).\""
+
+# label_user_mail_no_self_notified
+#: View/Elements/my/mail_notifications.ctp:29
+msgid "\"I don't want to be notified of changes that I make myself\""
+msgstr "\"I don't want to be notified of changes that I make myself\""
+
+# field_hide_mail
+#: View/Elements/my/preferences.ctp:1
+msgid "Hide my email address"
+msgstr "Nascondi il mio indirizzo email"
+
+# field_time_zone
+#: View/Elements/my/preferences.ctp:2
+msgid "Time zone"
+msgstr "Fuseau horaire"
+
+# field_comments_sorting
+#: View/Elements/my/preferences.ctp:3
+msgid "Display comments"
+msgstr "Afficher les commentaires"
+
+# label_chronological_order
+#: View/Elements/my/preferences.ctp:7
+msgid "In chronological order"
+msgstr "Dans l'ordre chronologique"
+
+# label_reverse_chronological_order
+#: View/Elements/my/preferences.ctp:8
+msgid "In reverse chronological order"
+msgstr "Dans l'ordre chronologique inversé"
+
+# button_reset
+#: View/Elements/my/sidebar.ctp:8;20
+msgid "Reset"
+msgstr "Remise à zéro"
+
+# notice_feeds_access_key_reseted
+#: View/Elements/my/sidebar.ctp:10
+#, fuzzy
+msgid "Create RSS access key"
+msgstr "Votre accès RSS a été réinitialisé."
+
+# setting_mail_handler_api_key
+#: View/Elements/my/sidebar.ctp:13
+#, fuzzy
+msgid "API access key"
+msgstr "Clé API"
+
+#: View/Elements/my/sidebar.ctp:16
+msgid "Show"
+msgstr "Voir"
+
+#: View/Elements/my/sidebar.ctp:22
+msgid "Create API access key"
+msgstr "Créer la clef d'accès à l'API"
+
+# field_parent
+#: View/Elements/projects/form.ctp:15 View/Projects/show.ctp:21
+msgid "Subproject of"
+msgstr "Sottoprogetto di "
+
+# text_project_identifier_info
+#: View/Elements/projects/form.ctp:24
+msgid "'Only lower case letters (a-z), numbers and dashes are allowed.<br />Once saved, the identifier can not be changed.'"
+msgstr "'Seuls les lettres minuscules (a-z), nombres et tirets sont acceptés.<br />Une fois sauvegardé, l'identifiant ne peut être modifié.'"
+
+# label_issue_category
+#: View/Elements/projects/settings/issue_categories.ctp:4
+#: View/IssueCategories/edit.ctp:1
+msgid "Issue category"
+msgstr "Catégorie de la demande"
+
+# label_user
+#: View/Elements/projects/settings/members.ctp:10
+#: View/Timelog/details_csv.ctp:5 View/Users/edit.ctp:12;58
+msgid "User"
+msgstr "Utente"
+
+# label_role
+#: View/Elements/projects/settings/members.ctp:11;107 View/Roles/edit.ctp:8
+#: View/Roles/list.ctp:16 View/Workflows/edit.ctp:17
+msgid "Role"
+msgstr "Ruolo"
+
+# button_change
+#: View/Elements/projects/settings/members.ctp:37
+#: View/Elements/users/memberships.ctp:33
+msgid "Change"
+msgstr "Cambia"
+
+# label_member_new
+#: View/Elements/projects/settings/members.ctp:101
+msgid "New member"
+msgstr "Nuovo membro"
+
+# text_select_project_modules
+#: View/Elements/projects/settings/modules.ctp:9
+#, fuzzy
+msgid "Select modules to enable for this project:"
+msgstr "'Sélectionner les modules à activer pour ce projet:'"
+
+# label_version
+#: View/Elements/projects/settings/versions.ctp:4 View/Projects/add_file.ctp:11
+#: View/Reports/issue_report.ctp:43 View/Versions/edit.ctp:1
+#: View/Wiki/show.ctp:107
+msgid "Version"
+msgstr "Version"
+
+# label_date
+#: View/Elements/projects/settings/versions.ctp:5
+#: View/Elements/timelog/list.ctp:4 View/Projects/add_version.ctp:29
+#: View/Projects/list_files.ctp:21 View/Timelog/details_csv.ctp:4
+#: View/Versions/edit.ctp:24
+msgid "Date"
+msgstr "Date"
+
+# label_wiki_page
+#: View/Elements/projects/settings/versions.ctp:7
+#: View/Projects/add_version.ctp:25 View/Versions/edit.ctp:20
+msgid "Wiki page"
+msgstr "Page wiki"
+
+# label_version_new
+#: View/Elements/projects/settings/versions.ctp:56
+#: View/Projects/add_version.ctp:1
+msgid "New version"
+msgstr "Nouvelle version"
+
+# text_unallowed_characters
+#: View/Elements/projects/settings/wiki.ctp:41
+msgid "Unallowed characters"
+msgstr "Caratteri non autorizzati"
+
+# button_create
+#: View/Elements/projects/settings/wiki.ctp:60 View/Enumerations/new.ctp:12
+#: View/IssueStatuses/new.ctp:24 View/Issues/new.ctp:42 View/News/add.ctp:7
+#: View/News/index.ctp:10 View/Projects/add_issue_category.ctp:17
+#: View/Projects/add_version.ctp:35 View/Trackers/new.ctp:28
+#: View/Users/add.ctp:12
+msgid "Create"
+msgstr "Crea"
+
+# label_roadmap
+#: View/Elements/projects/sidebar/roadmap.ctp:6 View/Projects/roadmap.ctp:1;36
+msgid "Roadmap"
+msgstr "Tabella di marcia"
+
+# label_show_completed_versions
+#: View/Elements/projects/sidebar/roadmap.ctp:12
+msgid "Show completed versions"
+msgstr "Mostra versioni complete"
+
+# label_details
+#: View/Elements/projects/sidebar/show.ctp:17
+#: View/Elements/timelog/date_range.ctp:65 View/Timelog/details.ctp:64;66
+#: View/Timelog/report.ctp:30
+msgid "Details"
+msgstr "Détails"
+
+# label_report
+#: View/Elements/projects/sidebar/show.ctp:18 View/Reports/issue_report.ctp:4
+#: View/Timelog/report.ctp:139
+msgid "Report"
+msgstr "Rapport"
+
+# label_filter_add
+#: View/Elements/queries/filters.ctp:141
+msgid "Add filter"
+msgstr "Aggiungi filtro"
+
+# label_default_columns
+#: View/Elements/queries/form.ctp:21
+msgid "Default columns"
+msgstr "Colonnes par défaut"
+
+# label_total
+#: View/Elements/reports/_details.ctp:29 View/Elements/reports/_simple.ctp:20
+#: View/Timelog/details.ctp:41 View/Timelog/report.ctp:81;95;108
+#: View/Timelog/report_csv.ctp:8;15
+msgid "Total"
+msgstr "Total"
+
+# field_assignable
+#: View/Elements/roles/form.ctp:8
+msgid "Issues can be assigned to this role"
+msgstr "Les demandes peuvent être assignées à ce rôle"
+
+# label_copy_workflow_from
+#: View/Elements/roles/form.ctp:12 View/Trackers/new.ctp:24
+msgid "Copy workflow from"
+msgstr "Copia il flusso di lavoro da"
+
+# label_permissions
+#: View/Elements/roles/form.ctp:18 View/Roles/report.ctp:9
+msgid "Permissions"
+msgstr "Permissions"
+
+# setting_login_required
+#: View/Elements/settings/authentication.ctp:11
+msgid "Authentication required"
+msgstr "Authentification requise"
+
+# setting_autologin
+#: View/Elements/settings/authentication.ctp:17
+msgid "Autologin"
+msgstr "Identification automatique"
+
+# label_disabled
+#: View/Elements/settings/authentication.ctp:20;36
+msgid "disabled"
+msgstr "désactivé"
+
+# setting_self_registration
+#: View/Elements/settings/authentication.ctp:34
+msgid "Self-registration"
+msgstr "Inscription"
+
+# label_registration_activation_by_email
+#: View/Elements/settings/authentication.ctp:37
+msgid "account activation by email"
+msgstr "activation du compte par email"
+
+# label_registration_manual_activation
+#: View/Elements/settings/authentication.ctp:38
+msgid "manual account activation"
+msgstr "activation manuelle"
+
+# label_registration_automatic_activation
+#: View/Elements/settings/authentication.ctp:39
+msgid "automatic account activation"
+msgstr "activation automatique du compte"
+
+# label_ldap_authentication
+#: View/Elements/settings/authentication.ctp:59
+msgid "LDAP authentication"
+msgstr "Authentification LDAP"
+
+# setting_app_title
+#: View/Elements/settings/general.ctp:3
+msgid "Application title"
+msgstr "Titolo dell'applicazione"
+
+# setting_welcome_text
+#: View/Elements/settings/general.ctp:13
+msgid "Welcome text"
+msgstr "Testo di benvenuto"
+
+# label_theme
+#: View/Elements/settings/general.ctp:25
+msgid "Theme"
+msgstr "Tema"
+
+# label_default
+#: View/Elements/settings/general.ctp:31
+msgid "Default"
+msgstr "Défaut"
+
+# setting_default_language
+#: View/Elements/settings/general.ctp:35
+msgid "Default language"
+msgstr "Lingua predefinita"
+
+# setting_date_format
+#: View/Elements/settings/general.ctp:44
+msgid "Date format"
+msgstr "Formato data"
+
+# label_language_based
+#: View/Elements/settings/general.ctp:50;60
+msgid "Based on user's language"
+msgstr "Basato sulla lingua dell'utente"
+
+# setting_time_format
+#: View/Elements/settings/general.ctp:54
+msgid "Time format"
+msgstr "Formato ora"
+
+# setting_user_format
+#: View/Elements/settings/general.ctp:64
+msgid "Users display format"
+msgstr "Formato nome utente"
+
+# setting_attachment_max_size
+#: View/Elements/settings/general.ctp:83
+msgid "Attachment max. size"
+msgstr "Dimensione massima allegato"
+
+# setting_per_page_options
+#: View/Elements/settings/general.ctp:94
+msgid "Objects per page options"
+msgstr "Oggetti per pagina"
+
+# text_comma_separated
+#: View/Elements/settings/general.ctp:104
+msgid "Multiple values allowed (comma separated)."
+msgstr "Plusieurs valeurs autorisées (séparées par des virgules)."
+
+# setting_activity_days_default
+#: View/Elements/settings/general.ctp:106
+msgid "Days displayed on project activity"
+msgstr "Giorni mostrati nell'attività di progetto"
+
+# setting_host_name
+#: View/Elements/settings/general.ctp:117
+msgid "Host name and path"
+msgstr "Nome host e percorso"
+
+# label_example
+#: View/Elements/settings/general.ctp:127
+msgid "Example"
+msgstr "Exemple"
+
+# setting_protocol
+#: View/Elements/settings/general.ctp:129
+msgid "Protocol"
+msgstr "Protocollo"
+
+# setting_wiki_compression
+#: View/Elements/settings/general.ctp:152
+msgid "Wiki history compression"
+msgstr "Compressione storia del wiki"
+
+# setting_feeds_limit
+#: View/Elements/settings/general.ctp:164
+msgid "Feed content limit"
+msgstr "Elementi nei feed"
+
+# setting_diff_max_lines_displayed
+#: View/Elements/settings/general.ctp:175
+msgid "Max number of diff lines displayed"
+msgstr "Numero massimo di linee nei diff"
+
+# setting_gravatar_enabled
+#: View/Elements/settings/general.ctp:186
+msgid "Use Gravatar user icons"
+msgstr "Usa Gravatar per gli utenti"
+
+# setting_cross_project_issue_relations
+#: View/Elements/settings/issues.ctp:12
+msgid "Allow cross-project issue relations"
+msgstr "Autoriser les relations inter-projets"
+
+# setting_display_subprojects_issues
+#: View/Elements/settings/issues.ctp:21
+msgid "Display subprojects issues on main projects by default"
+msgstr "Afficher les demandes des sous-projets dans le projet parent par défaut"
+
+# setting_issues_export_limit
+#: View/Elements/settings/issues.ctp:29
+msgid "Issues export limit"
+msgstr "Limite d'export des demandes"
+
+# setting_issue_list_default_columns
+#: View/Elements/settings/issues.ctp:41
+msgid "Default columns displayed on the issue list"
+msgstr "Colonnes affichées par défaut dans la liste des demandes"
+
+# setting_mail_from
+#: View/Elements/settings/notifications.ctp:10
+msgid "Emission email address"
+msgstr "Indirizzo email emittente"
+
+#: View/Elements/settings/notifications.ctp:21
+msgid "email transport"
+msgstr "Envoi d'e-mail"
+
+#: View/Elements/settings/notifications.ctp:25
+msgid "PHP Mail"
+msgstr "Mail PHP"
+
+#: View/Elements/settings/notifications.ctp:25
+msgid "SMTP Server"
+msgstr "Serveur SMTP"
+
+#: View/Elements/settings/notifications.ctp:32
+msgid "smtp host"
+msgstr "Hôte SMTP"
+
+# default_tracker_support
+#: View/Elements/settings/notifications.ctp:43
+msgid "smtp port"
+msgstr "port SMTP"
+
+#: View/Elements/settings/notifications.ctp:54
+msgid "smtp username"
+msgstr "Identifiant SMTP"
+
+# label_password_lost
+#: View/Elements/settings/notifications.ctp:65
+msgid "smtp password"
+msgstr "Mot de passe SMTP"
+
+# setting_bcc_recipients
+#: View/Elements/settings/notifications.ctp:76
+msgid "Blind carbon copy recipients (bcc)"
+msgstr "Destinataires invisibles (bcc)"
+
+# setting_plain_text_mail
+#: View/Elements/settings/notifications.ctp:84
+msgid "plain text mail (no HTML)"
+msgstr "mail en texte brut (pas de HTML)"
+
+# setting_emails_footer
+#: View/Elements/settings/notifications.ctp:103
+msgid "Emails footer"
+msgstr "Pied de l'email"
+
+# label_send_test_email
+#: View/Elements/settings/notifications.ctp:117
+msgid "Send a test email"
+msgstr "Envoyer un email test"
+
+# setting_default_projects_public
+#: View/Elements/settings/projects.ctp:11
+msgid "New projects are public by default"
+msgstr "New projects are public by default"
+
+# setting_sequential_project_identifiers
+#: View/Elements/settings/projects.ctp:19
+msgid "Generate sequential project identifiers"
+msgstr "Générer des identifiants de projet séquentiels"
+
+# label_date_range
+#: View/Elements/timelog/date_range.ctp:1
+msgid "Date range"
+msgstr "Date range"
+
+# label_date_from
+#: View/Elements/timelog/date_range.ctp:25 View/Projects/activity.ctp:2;41;55
+msgid "From"
+msgstr "Da"
+
+# label_date_to
+#: View/Elements/timelog/date_range.ctp:35 View/Projects/activity.ctp:2;41;55
+msgid "To"
+msgstr "a"
+
+# label_report_plural
+#: View/Elements/timelog/date_range.ctp:68
+#: View/Reports/issue_report_details.ctp:2
+msgid "Reports"
+msgstr "Rapports"
+
+# label_member
+#: View/Elements/timelog/list.ctp:5
+msgid "Member"
+msgstr "Membre"
+
+# label_f_hour
+#: View/Elements/timelog/report_criteria.ctp:14;16
+#: View/Timelog/report.ctp:116;118
+msgid "%.2f"
+msgstr "%.2f ore"
+
+# label_role_plural
+#: View/Elements/users/memberships.ctp:17;65 View/Roles/list.ctp:12
+msgid "Roles"
+msgstr "Rôles"
+
+# label_roadmap_no_issues
+#: View/Elements/versions/overview.ctp:45
+msgid "No issues for this version"
+msgstr "Pas de demande pour cette version"
+
+# field_start_page
+#: View/Elements/wiki/sidebar.ctp:4
+msgid "Start page"
+msgstr "Pagina iniziale"
+
+# label_index_by_title
+#: View/Elements/wiki/sidebar.ctp:12 View/Wiki/special_page_index.ctp:1
+msgid "Index by title"
+msgstr "Trier par titre"
+
+# label_index_by_date
+#: View/Elements/wiki/sidebar.ctp:20 View/Wiki/special_date_index.ctp:1
+msgid "Index by date"
+msgstr "Trier par date"
+
+# mail_body_account_activation_request
+#: View/Emails/html/account_activation_request.ctp:2
+#: View/Emails/text/account_activation_request.ctp:2
+#: View/mailer/account_activation_request.text.plain.ctp:2
+msgid "A new user (%s) has registered. The account is pending your approval:"
+msgstr "Un nouvel utilisateur (%s) s'est inscrit. L'activation du compte est en attente de validation:"
+
+# mail_body_lost_password
+#: View/Emails/html/lost_password.ctp:1 View/Emails/text/lost_password.ctp:1
+#: View/mailer/lost_password.text.plain.ctp:1
+msgid "To change your password, click on the following link:"
+msgstr "To change your password, click on the following link:"
+
+# mail_body_register
+#: View/Emails/html/register.ctp:1 View/Emails/text/register.ctp:1
+#: View/mailer/register.text.plain.ctp:1
+msgid "To activate your account, click on the following link:"
+msgstr "Pour activer votre compte, cliquez sur ce lien:"
+
+# text_enumeration_destroy_question
+#: View/Enumerations/destroy.ctp:13
+msgid "'%d objects are assigned to this value.'"
+msgstr "'%d objets sont assignés à cette valeur.'"
+
+# text_enumeration_category_reassign_to
+#: View/Enumerations/destroy.ctp:14
+msgid "'Reassign them to this value:'"
+msgstr "'Les ré-assigner à cette valeur:'"
+
+# label_enumeration_new
+#: View/Enumerations/list.ctp:43 View/Enumerations/new.ctp:8
+msgid "New value"
+msgstr "Nuovo valore"
+
+# general_fmt_date
+#: View/Helper/CandyHelper.php:418
+msgid "%m/%d/%Y"
+msgstr "%d/%m/%Y"
+
+# general_fmt_time
+#: View/Helper/CandyHelper.php:424
+msgid "%I:%M %p"
+msgstr "%H:%M"
+
+# label_roadmap_overdue
+#: View/Helper/CandyHelper.php:513
+msgid "%s late"
+msgstr "%s retard"
+
+# label_roadmap_due_in
+#: View/Helper/CandyHelper.php:515
+msgid "Due in %s"
+msgstr "Echéance dans %s "
+
+# label_previous
+#: View/Helper/CandyHelper.php:666 View/News/index.ctp:66
+#: View/Projects/activity.ctp:36 View/Wiki/history.ctp:98
+#: View/Wiki/show.ctp:100
+msgid "Previous"
+msgstr "Precedente"
+
+# label_next
+#: View/Helper/CandyHelper.php:675 View/News/index.ctp:66
+#: View/Projects/activity.ctp:50 View/Wiki/history.ctp:102
+#: View/Wiki/show.ctp:124
+msgid "Next"
+msgstr "Suivant"
+
+# label_per_page
+#: View/Helper/CandyHelper.php:751
+msgid "Per page "
+msgstr "Per pagina "
+
+# label_less_than_ago
+#: View/Helper/CandyHelper.php:1550;1561
+msgid "less than a minute"
+msgstr "moins d'une minute"
+
+#: View/Helper/CandyHelper.php:1550;1563
+msgid "1 minute"
+msgstr "1 minute"
+
+# label_less_than_ago
+#: View/Helper/CandyHelper.php:1553
+msgid "less than a second"
+msgstr "moins d'une seconde"
+
+# label_less_than_ago
+#: View/Helper/CandyHelper.php:1553;1555;1557
+msgid "less than %d seconds"
+msgstr "moins de %d secondes"
+
+#: View/Helper/CandyHelper.php:1559
+msgid "half a minute"
+msgstr "une demi-minute"
+
+# permission_add_issue_notes
+#: View/Helper/CandyHelper.php:1566
+msgid "%d minutes"
+msgstr "%d minuti"
+
+#: View/Helper/CandyHelper.php:1568;1570
+msgid "about an hour"
+msgstr "environ une heure"
+
+#: View/Helper/CandyHelper.php:1570
+msgid "about %d hours"
+msgstr "environ %d heures"
+
+# label_day_plural
+#: View/Helper/CandyHelper.php:1572
+msgid "1 day"
+msgstr "1 jour"
+
+# general_fmt_age_plural
+#: View/Helper/CandyHelper.php:1574 View/Helper/IssuesHelper.php:161
+msgid "%d days"
+msgstr "%d jours"
+
+# general_text_No
+#: View/Helper/CustomFieldHelper.php:181
+msgid "No"
+msgstr "Non"
+
+# general_text_Yes
+#: View/Helper/CustomFieldHelper.php:183 View/Projects/destroy.ctp:22
+msgid "Yes"
+msgstr "Oui"
+
+# label_relates_to
+#: View/Helper/IssuesHelper.php:15
+msgid "related to"
+msgstr "relatif à"
+
+# label_duplicates
+#: View/Helper/IssuesHelper.php:16
+msgid "duplicates"
+msgstr "dupliquer"
+
+# label_duplicated_by
+#: View/Helper/IssuesHelper.php:16
+msgid "duplicated by"
+msgstr "dupliqué par"
+
+# label_blocks
+#: View/Helper/IssuesHelper.php:17
+msgid "blocks"
+msgstr "blocs"
+
+# label_blocked_by
+#: View/Helper/IssuesHelper.php:17
+msgid "blocked by"
+msgstr "bloqué par"
+
+# label_precedes
+#: View/Helper/IssuesHelper.php:18
+msgid "precedes"
+msgstr "précédés"
+
+# label_follows
+#: View/Helper/IssuesHelper.php:18
+msgid "follows"
+msgstr "Suivis"
+
+# text_journal_changed
+#: View/Helper/IssuesHelper.php:119
+msgid "changed from %s to %s"
+msgstr "modifié de %s à %s"
+
+# text_journal_set_to
+#: View/Helper/IssuesHelper.php:121
+msgid "set to %s"
+msgstr "Mettre à %s"
+
+# label_added
+#: View/Helper/IssuesHelper.php:125
+msgid "added"
+msgstr "ajouté"
+
+# label_deleted
+#: View/Helper/IssuesHelper.php:132;135
+msgid "deleted"
+msgstr "supprimé"
+
+#: View/Helper/IssuesHelper.php:155
+msgid "unknow"
+msgstr "inconnu"
+
+# general_fmt_age
+#: View/Helper/IssuesHelper.php:163
+msgid "%d day"
+msgstr "%d jour(s)"
+
+# button_quote
+#: View/Helper/JournalsHelper.php:19 View/Issues/show.ctp:109
+msgid "Quote"
+msgstr "Citer"
+
+# label_project_all
+#: View/Helper/SearchHelper.php:30 View/Helper/TimelogHelper.php:34
+msgid "All Projects"
+msgstr "Tous les projets"
+
+# label_my_projects
+#: View/Helper/SearchHelper.php:32 View/Projects/index.ctp:56
+msgid "My projects"
+msgstr "I miei progetti"
+
+# label_sort_by
+#: View/Helper/SortHelper.php:103
+msgid "Sort by %s"
+msgstr "Trier par %s"
+
+# label_all_time
+#: View/Helper/TimelogHelper.php:89
+msgid "all time"
+msgstr "toujours"
+
+# label_yesterday
+#: View/Helper/TimelogHelper.php:91
+msgid "yesterday"
+msgstr "hier"
+
+# label_last_week
+#: View/Helper/TimelogHelper.php:93
+msgid "last week"
+msgstr "semaine dernière"
+
+# label_last_n_days
+#: View/Helper/TimelogHelper.php:94;97
+msgid "last %d days"
+msgstr "derniers %d jours"
+
+# label_this_month
+#: View/Helper/TimelogHelper.php:95
+msgid "this month"
+msgstr "ce mois"
+
+# label_last_month
+#: View/Helper/TimelogHelper.php:96
+msgid "last month"
+msgstr "mois dernier"
+
+# label_this_year
+#: View/Helper/TimelogHelper.php:98
+msgid "this year"
+msgstr "cette année"
+
+# button_clear
+#: View/Helper/TimelogHelper.php:116 View/Issues/index.ctp:13
+msgid "Clear"
+msgstr "Pulisci"
+
+# button_unlock
+#: View/Helper/UsersHelper.php:31 View/Wiki/show.ctp:31
+msgid "Unlock"
+msgstr "Débloquer"
+
+# button_activate
+#: View/Helper/UsersHelper.php:47
+msgid "Activate"
+msgstr "Activer"
+
+# button_lock
+#: View/Helper/UsersHelper.php:62 View/Wiki/show.ctp:17
+msgid "Lock"
+msgstr "Blocca"
+
+# button_unwatch
+#: View/Helper/WatchersHelper.php:44
+msgid "Unwatch"
+msgstr "Ne plus observer"
+
+# button_watch
+#: View/Helper/WatchersHelper.php:44
+msgid "Watch"
+msgstr "Osserva"
+
+# text_issue_category_destroy_assignments
+#: View/IssueCategories/destroy.ctp:27
+msgid "Remove category assignments"
+msgstr "Retirer les affectations à la catégorie"
+
+# text_issue_category_reassign_to
+#: View/IssueCategories/destroy.ctp:44
+msgid "Reassign issues to this category"
+msgstr "Réassigner les demande à cette catégorie"
+
+# field_is_closed
+#: View/IssueStatuses/edit.ctp:16 View/IssueStatuses/list.ctp:18
+#: View/IssueStatuses/new.ctp:16
+msgid "Issue closed"
+msgstr "Problema chiuso"
+
+# label_issue_status_new
+#: View/IssueStatuses/list.ctp:9 View/IssueStatuses/new.ctp:8
+msgid "New status"
+msgstr "Nuovo stato"
+
+# label_bulk_edit_selected_issues
+#: View/Issues/bulk_edit.ctp:1
+msgid "Bulk edit selected issues"
+msgstr "Bulk edit selected issues"
+
+# label_no_change_option
+#: View/Issues/bulk_edit.ctp:21;32;42;54;64;84 View/Issues/move.ctp:40
+msgid "(No change)"
+msgstr "(Aucun changement)"
+
+# label_nobody
+#: View/Issues/bulk_edit.ctp:51 View/Issues/context_menu.ctp:62
+msgid "nobody"
+msgstr "personne"
+
+# field_start_date
+#: View/Issues/bulk_edit.ctp:71 View/Issues/show.ctp:54
+msgid "Start"
+msgstr "Début"
+
+# field_done_ratio
+#: View/Issues/bulk_edit.ctp:75 View/Issues/context_menu.ctp:87
+msgid "% Done"
+msgstr "%% Effectué"
+
+# button_copy
+#: View/Issues/context_menu.ctp:99 View/Issues/show.ctp:36
+msgid "Copy"
+msgstr "Copia"
+
+# button_move
+#: View/Issues/context_menu.ctp:110 View/Issues/move.ctp:1;43
+#: View/Issues/show.ctp:37
+msgid "Move"
+msgstr "Sposta"
+
+# text_issues_destroy_confirmation
+#: View/Issues/context_menu.ctp:115
+msgid "'Are you sure you want to delete the selected issue(s) ?'"
+msgstr "'Êtes-vous sûr de vouloir supprimer le(s) demande(s) sélectionné(s)?'"
+
+# field_password_confirmation
+#: View/Issues/destroy.ctp:1
+msgid "confirmation"
+msgstr "Confirmation"
+
+# text_destroy_time_entries_question
+#: View/Issues/destroy.ctp:8
+msgid "%.02f hours were reported on the issues you are about to delete. What do you want to do ?"
+msgstr "%.02f hours were reported on the issues you are about to delete. What do you want to do ?"
+
+# text_destroy_time_entries
+#: View/Issues/destroy.ctp:10
+msgid "Delete reported hours"
+msgstr "Supprimer les heures reportées"
+
+# text_assign_time_entries_to_project
+#: View/Issues/destroy.ctp:11
+msgid "Assign reported hours to the project"
+msgstr "Assigner les heures comptabilisées au projet"
+
+# text_reassign_time_entries
+#: View/Issues/destroy.ctp:12
+msgid "Reassign reported hours to this issue:"
+msgstr "Réassigner les heures reportées sur cette demande :"
+
+# field_updated_on
+#: View/Issues/issue_to_pdf.ctp:44 View/Wiki/history.ctp:16
+msgid "Updated"
+msgstr "Mis à jour"
+
+# label_associated_revisions
+#: View/Issues/issue_to_pdf.ctp:79 View/Issues/show.ctp:160
+msgid "Associated revisions"
+msgstr "Révisions associées"
+
+# label_history
+#: View/Issues/issue_to_pdf.ctp:94 View/Issues/show.ctp:167
+#: View/Wiki/history.ctp:3 View/Wiki/show.ctp:84
+msgid "History"
+msgstr "Historique"
+
+# project_module_files
+#: View/Issues/issue_to_pdf.ctp:114 View/Projects/add_file.ctp:20
+#: View/Projects/list_files.ctp:10;63
+msgid "Files"
+msgstr "File"
+
+# label_issue_new
+#: View/Issues/new.ctp:29
+msgid "New issue"
+msgstr "Nuovo problema"
+
+# button_create_and_continue
+#: View/Issues/new.ctp:43
+msgid "Create and continue"
+msgstr "Crea e continua"
+
+# text_user_wrote
+#: View/Issues/reply.ctp:2
+msgid "%s wrote:\\n>"
+msgstr "%s a écrit:\\n"
+
+# button_update
+#: View/Issues/show.ctp:5;178
+msgid "Update"
+msgstr "Aggiorna"
+
+# label_export_to
+#: View/Issues/show.ctp:186 View/Projects/index.ctp:61
+#: View/Timelog/details.ctp:48 View/Timelog/report.ctp:124
+#: View/Wiki/special_date_index.ctp:22 View/Wiki/special_page_index.ctp:20
+msgid "'Also available in:'"
+msgstr "'Disponibile anche in:'"
+
+# label_logged_as
+#: View/Layouts/base.ctp:24 View/Themed/kuma/Layouts/base.ctp:24
+msgid "Logged in as"
+msgstr "Connesso come"
+
+# label_search
+#: View/Layouts/base.ctp:31 View/Search/index.ctp:1
+#: View/Themed/kuma/Layouts/base.ctp:31
+msgid "Search"
+msgstr "Cerca"
+
+# label_loading
+#: View/Layouts/base.ctp:84 View/Themed/kuma/Layouts/base.ctp:84
+msgid "Loading..."
+msgstr "Chargement..."
+
+# label_report
+#: View/Layouts/base.ctp:93 View/Themed/kuma/Layouts/base.ctp:93
+msgid "Report Bug"
+msgstr "Segnala un problema"
+
+# label_attribute_plural
+#: View/Layouts/base.ctp:95 View/Themed/kuma/Layouts/base.ctp:95
+msgid "Contributors"
+msgstr "Collaboratori"
+
+#: View/Layouts/base.ctp:99 View/Themed/kuma/Layouts/base.ctp:99
+msgid "Discussion"
+msgstr "Discussioni"
+
+#: View/Layouts/base.ctp:106 View/Themed/kuma/Layouts/base.ctp:106
+msgid "CakePHP: the rapid development php framework"
+msgstr "CakePHP: Le framework de développement rapide en php"
+
+# button_change_password
+#: View/My/account.ctp:4 View/My/password.ctp:1
+msgid "Change password"
+msgstr "Modifier le mot de passe"
+
+# label_preferences
+#: View/My/account.ctp:32
+msgid "Preferences"
+msgstr "Impostazioni"
+
+# label_personalize_page
+#: View/My/page.ctp:2
+msgid "Personalize this page"
+msgstr "Personalizza questa pagina"
+
+# label_my_page
+#: View/My/page.ctp:6
+msgid "My page"
+msgstr "La mia pagina"
+
+# label_news_new
+#: View/News/add.ctp:1 View/News/index.ctp:2;6
+msgid "Add news"
+msgstr "Ajouter des annonces"
+
+# label_comment_plural
+#: View/News/index.ctp:55 View/News/show.ctp:58 View/Timelog/details_csv.ctp:12
+#: View/Wiki/history.ctp:18
+msgid "Comments"
+msgstr "Commentaires"
+
+# label_comment_add
+#: View/News/show.ctp:78
+msgid "Add a comment"
+msgstr "Ajouter un commentaire"
+
+# label_attachment_new
+#: View/Projects/add_file.ctp:1 View/Projects/list_files.ctp:3
+#: View/Wiki/show.ctp:156
+msgid "New file"
+msgstr "Nouveau fichier"
+
+# text_project_destroy_confirmation
+#: View/Projects/destroy.ctp:4
+msgid "Are you sure you want to delete this project and related data ?"
+msgstr "Êtes-vous sûr de vouloir supprimer ce projet et toutes les données liées ?"
+
+# label_overall_activity
+#: View/Projects/index.ctp:15
+msgid "Overall activity"
+msgstr "Attività globale"
+
+# field_filesize
+#: View/Projects/list_files.ctp:22
+msgid "Size"
+msgstr "Taille"
+
+# label_downloads_abbr
+#: View/Projects/list_files.ctp:23
+msgid "D/L"
+msgstr "D/L"
+
+# label_overview
+#: View/Projects/show.ctp:4;84
+msgid "Overview"
+msgstr "Panoramica"
+
+# field_homepage
+#: View/Projects/show.ctp:10
+msgid "Homepage"
+msgstr "Homepage"
+
+# label_on
+#: View/Projects/show.ctp:42
+msgid "'on'"
+msgstr "su"
+
+# label_news_latest
+#: View/Projects/show.ctp:71 View/Welcome/index.ctp:8
+msgid "Latest news"
+msgstr "Dernières annonces"
+
+# label_news_view_all
+#: View/Projects/show.ctp:76 View/Welcome/index.ctp:10
+msgid "View all news"
+msgstr "Vedi tutte le notizie"
+
+# label_query_new
+#: View/Queries/add.ctp:1
+msgid "New query"
+msgstr "Nouvelle requête"
+
+# label_query
+#: View/Queries/edit.ctp:1
+msgid "Custom query"
+msgstr "Filtre personalisé"
+
+#: View/Reports/_details.ctp:7
+msgid "label_no_data"
+msgstr ""
+
+# field_subproject
+#: View/Reports/issue_report.ctp:54
+msgid "Subproject"
+msgstr "Sous-projet"
+
+# button_back
+#: View/Reports/issue_report_details.ctp:10
+msgid "Back"
+msgstr "Retour"
+
+# label_role_new
+#: View/Roles/list.ctp:9 View/Roles/new.ctp:8
+msgid "New role"
+msgstr "Nouveau rôle"
+
+# label_permissions_report
+#: View/Roles/list.ctp:116 View/Roles/report.ctp:1
+msgid "Permissions report"
+msgstr "Rapport de permissions"
+
+# label_all_words
+#: View/Search/index.ctp:23
+msgid "All words"
+msgstr "Tous les mots"
+
+# label_search_titles_only
+#: View/Search/index.ctp:28
+msgid "Search titles only"
+msgstr "Recherche dans les titres uniquement"
+
+# label_result_plural
+#: View/Search/index.ctp:49
+msgid "Results"
+msgstr "Résultats"
+
+# general_csv_encoding
+#: View/Timelog/details_csv.ctp:37 View/Timelog/report_csv.ctp:28
+msgid "ISO-8859-1"
+msgstr "ISO-8859-1"
+
+# label_spent_time
+#: View/Timelog/edit.ctp:14
+msgid "Spent On"
+msgstr "Temps passé sur"
+
+# label_year
+#: View/Timelog/report.ctp:31
+msgid "Year"
+msgstr "Année"
+
+# label_month
+#: View/Timelog/report.ctp:32
+msgid "Month"
+msgstr "Mois"
+
+# label_week
+#: View/Timelog/report.ctp:33
+msgid "Week"
+msgstr "Semaine"
+
+# field_is_in_chlog
+#: View/Trackers/edit.ctp:16 View/Trackers/new.ctp:16
+msgid "Issues displayed in changelog"
+msgstr "Issues displayed in changelog"
+
+# field_is_in_roadmap
+#: View/Trackers/edit.ctp:20 View/Trackers/new.ctp:20
+msgid "Issues displayed in roadmap"
+msgstr "Issues displayed in roadmap"
+
+# label_tracker_new
+#: View/Trackers/list.ctp:9 View/Trackers/new.ctp:8
+msgid "New tracker"
+msgstr "Nouveau tracker"
+
+# text_tracker_no_workflow
+#: View/Trackers/list.ctp:25
+msgid "No workflow defined for this tracker"
+msgstr "Pas de workflow défini pour ce tracker"
+
+# label_user_new
+#: View/Users/add.ctp:8 View/Users/list.ctp:16
+msgid "New user"
+msgstr "Nouvel utilisateur"
+
+# label_send_information
+#: View/Users/add.ctp:16
+msgid "Send account information to the user"
+msgstr "Envoyer les informations du compte à l'utilisateur"
+
+# label_time_tracking
+#: View/Versions/show.ctp:26
+msgid "Time tracking"
+msgstr "Monitoraggio"
+
+# label_home
+#: View/Welcome/index.ctp:1
+msgid "Home"
+msgstr "Home"
+
+# label_project_latest
+#: View/Welcome/index.ctp:18
+msgid "Latest projects"
+msgstr "Ultimi progetti"
+
+# button_annotate
+#: View/Wiki/history.ctp:78
+msgid "Annotate"
+msgstr "Annoter"
+
+# label_view_diff
+#: View/Wiki/history.ctp:90
+msgid "View differences"
+msgstr "Voir les différences"
+
+# button_rename
+#: View/Wiki/rename.ctp:1;32 View/Wiki/show.ctp:46
+msgid "Rename"
+msgstr "Renommer"
+
+# field_title
+#: View/Wiki/rename.ctp:20
+msgid "Title"
+msgstr "Titre"
+
+# field_redirect_existing_links
+#: View/Wiki/rename.ctp:24
+msgid "Redirect existing links"
+msgstr "Rediriger les liens existants"
+
+# field_parent_title
+#: View/Wiki/rename.ctp:29
+msgid "Parent page"
+msgstr "Page parent"
+
+# button_rollback
+#: View/Wiki/show.ctp:72
+msgid "Rollback to this version"
+msgstr "Revenir à cette version"
+
+# label_current_version
+#: View/Wiki/show.ctp:132
+msgid "Current version"
+msgstr "Version actuelle"
+
+# text_wiki_destroy_confirmation
+#: View/Wikis/destroy.ctp:4
+msgid "Are you sure you want to delete this wiki and all its content ?"
+msgstr "Etes vous sûr de vouloir supprimer ce wiki et tout ses contenus ?"
+
+# text_workflow_edit
+#: View/Workflows/edit.ctp:14
+msgid "Select a role and a tracker to edit the workflow"
+msgstr "Seleziona un ruolo ed una traccia per modificare il flusso di lavoro"
+
+# label_current_status
+#: View/Workflows/edit.ctp:48
+msgid "Current status"
+msgstr "Statut actuel"
+
+# label_new_statuses_allowed
+#: View/Workflows/edit.ctp:49
+msgid "New statuses allowed"
+msgstr "Nouveaux statuts autorisés"
+
+#: webroot/test.php:99
+msgid "Debug setting does not allow access to this url."
+msgstr "Les paramètres de debug n'autorisent pas l'accès à cette adresse."
+
+#: Model/CustomField.php:validation for field name
+#: Model/CustomValue.php:validation value Model/Issue.php:validation
+#: subject;validation priority_id;validation project_id;validation
+#: tracker_id;validation author_id;validation status_id
+#: Model/IssueCustomField.php:validation Model/IssueRelation.php:validation
+#: issue_from_id;validation issue_to_id;validation relation_type
+#: Model/IssueStatus.php:validation Model/ProjectCustomField.php:validation
+#: Model/Query.php:validation name;validation filters
+#: Model/TimeEntry.php:validation user_id;validation activity_id;validation
+#: issue_id;validation hours;validation spent_on Model/Watcher.php:validation
+#: user_id Model/Wiki.php:validation start_page Model/WikiPage.php:validation
+#: title Model/WikiRedirect.php:validation title;validation redirects_to
+msgid "validates_presence_of"
+msgstr ""
+
+#: Model/CustomField.php:validation for field name
+#: Model/IssueCustomField.php:validation Model/IssueRelation.php:validation
+#: issue_to_id Model/IssueStatus.php:validation
+#: Model/ProjectCustomField.php:validation Model/Role.php:validation
+#: Model/User.php:validation login Model/Watcher.php:validation user_id
+#: Model/WikiPage.php:validation title
+msgid "validates_uniqueness_of"
+msgstr ""
+
+#: Model/CustomField.php:validation for field name Model/Issue.php:validation
+#: subject Model/IssueCustomField.php:validation
+#: Model/IssueStatus.php:validation Model/ProjectCustomField.php:validation
+#: Model/Query.php:validation Model/Role.php:validation
+#: Model/TimeEntry.php:validation comments Model/WikiRedirect.php:validation
+#: title;validation redirects_to
+msgid "validates_length_of"
+msgstr ""
+
+# setting_date_format
+#: Model/CustomField.php:validation for field name
+#: Model/CustomValue.php:validation value Model/IssueCustomField.php:validation
+#: Model/ProjectCustomField.php:validation Model/Role.php:validation
+#: Model/Wiki.php:validation start_page Model/WikiPage.php:validation title
+#, fuzzy
+msgid "validates_format_of"
+msgstr "Format de date"
+
+#: Model/CustomField.php:validation for field field_format
+#: Model/CustomValue.php:validation value Model/Issue.php:validation done_ratio
+#: Model/IssueCustomField.php:validation
+#: Model/ProjectCustomField.php:validation Model/TimeEntry.php:validation hours
+msgid "validates_inclusion_of"
+msgstr ""
+
+#: Model/CustomField.php:validation for field possible_values
+#: Model/IssueCustomField.php:validation
+#: Model/ProjectCustomField.php:validation Model/User.php:validation
+#: firstname;validation lastname;validation mail
+msgid "validates_not_empty"
+msgstr ""
+
+# activerecord_error_invalid
+#: Model/CustomField.php:validation for field default_value
+#: Model/CustomValue.php:validation value Model/IssueCustomField.php:validation
+#: Model/IssueRelation.php:validation issue_to_id;validation relation_type
+#: Model/ProjectCustomField.php:validation Model/User.php:validation mail
+#, fuzzy
+msgid "validates_invalid_of"
+msgstr "est invalide"
+
+#: Model/Issue.php:validation for field estimated_hours
+#: Model/IssueRelation.php:validation delay Model/TimeEntry.php:validation
+#: hours
+msgid "validates_numericality_of"
+msgstr ""
+
+#: Model/IssueCategory.php:validation for field name
+#: Model/Tracker.php:validation Model/Version.php:validation
+msgid "rule"
+msgstr "règle"
+
+# field_is_required
+#: Model/IssueCategory.php:validation for field name
+#: Model/Tracker.php:validation
+msgid "required"
+msgstr "Obligatoire"
+
+#: Model/IssueCategory.php:validation for field name
+#: Model/Tracker.php:validation
+msgid "allowEmpty"
+msgstr "Champ vide autorisé"
+
+#: Model/IssueRelation.php:validation for field issue_to_id
+msgid "validates_not_same_project"
+msgstr ""
+
+# activerecord_error_circular_dependency
+#: Model/IssueRelation.php:validation for field issue_to_id
+#, fuzzy
+msgid "validates_circular_dependency"
+msgstr "Cette relation peut créer une dépendance circulaire"
+
+# field_max_length
+#: Model/News.php:validation for field title;validation summary
+msgid "maxLength"
+msgstr "Longueur maximale"
+
+# field_min_length
+#: Model/User.php:validation for field password
+msgid "minLength"
+msgstr "Longueur minimale"
+
+#: Model/User.php:validation for field password
+msgid "validates_confirmation_of"
+msgstr "validates_confirmation_of"
+
+msgid "Issue priorities"
+msgstr "Priorità problemi"
+
+msgid "Document categories"
+msgstr "Categorie documenti"
+
+msgid "Activities (time tracking)"
+msgstr "Attività (monitoraggio)"

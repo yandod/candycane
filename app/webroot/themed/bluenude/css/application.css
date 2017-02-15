@@ -1,0 +1,36 @@
+/* 
+    Document   : application.css
+    Created on : 2012/01/05, 1:07:37
+    Author     : kabayaki91
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+}
+
+#wrapper {
+    margin: 0 5px;
+    box-shadow: 0 0 10px #303030;
+    border-left: 1px solid #606060;
+    border-right: 1px solid #606060;
+}
+
+#header {
+    background: #00679D;    
+}
+
+#top-menu {
+    background: #00578D; 
+}
+
+#main-menu li a:hover {
+    background: #00578D;
+    color: #ffffff;
+}
