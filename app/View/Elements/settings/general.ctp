@@ -1,4 +1,4 @@
-<?php echo $this->Form->create('Setting',array('action' => 'edit')) ?>
+<?php echo $this->Form->create('Setting',array('url' => 'edit')) ?>
 <div class="box tabular settings">
 <p><label><?php echo __('Application title')?></label>
 <?php echo $this->Form->input(

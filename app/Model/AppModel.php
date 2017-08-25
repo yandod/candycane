@@ -117,7 +117,7 @@ class AppModel extends Model {
 		} else {
 			return true;
 		}
-		$db =& ConnectionManager::getDataSource($this->useDbConfig);
+		$db = ConnectionManager::getDataSource($this->useDbConfig);
 		foreach ($dateFields as $updateCol) {
 			if ($this->hasField($updateCol) && !in_array($updateCol, $fields)) {
 				$default = array('formatter' => 'date');
@@ -174,10 +174,10 @@ class AppModel extends Model {
  * @return string Full quoted table name
  */
 	public function fullTableName($quote = true) {  
-		$db =& ConnectionManager::getDataSource($this->useDbConfig);
-		$model =& $this;
+		$db = ConnectionManager::getDataSource($this->useDbConfig);
+		$model = $this;
 		if (is_string($quote)) {
-			$model =& ClassRegistry::init($quote);
+			$model =ClassRegistry::init($quote);
 			$quote = true;
 		}
 		return $db->fullTableName($model, $quote);
@@ -190,9 +190,9 @@ class AppModel extends Model {
  * @return string unquoted table name
  */
         public function tableName($alias) {  
-		$db =& ConnectionManager::getDataSource($this->useDbConfig);
-		$model =& $this;
-                $model =& ClassRegistry::init($alias);
+		$db = ConnectionManager::getDataSource($this->useDbConfig);
+		$model = $this;
+                $model = ClassRegistry::init($alias);
                 return "{$db->config['prefix']}{$model->table}";
 	}
         
@@ -204,7 +204,7 @@ class AppModel extends Model {
  * @return string Quoted date
  */
 	public function quoted_date($date, $colname) {
-		$db =& ConnectionManager::getDataSource($this->useDbConfig);
+		$db = ConnectionManager::getDataSource($this->useDbConfig);
 		$default = array('formatter' => 'date');
 		$colType = array_merge($default, $db->columns[$this->getColumnType($colname)]);
 		$time = strtotime($date);

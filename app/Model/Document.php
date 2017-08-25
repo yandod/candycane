@@ -43,7 +43,7 @@ class Document extends AppModel
   function _event_author($data) {
     $attachments = $this->findAttachments($data[$this->alias]['id']);
     if(!empty($attachment)) {
-      $User =& ClassRegistry::init('User');
+      $User = ClassRegistry::init('User');
       return $User->to_string(array('User'=>$attachments[0]['Author']));
     }
      return null;

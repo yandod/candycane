@@ -2,18 +2,18 @@
 /**
  * Memcache storage engine for cache
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @package       Cake.Cache.Engine
  * @since         CakePHP(tm) v 1.2.0.4933
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
@@ -288,5 +288,25 @@ class MemcacheEngine extends CacheEngine {
  */
 	public function clearGroup($group) {
 		return (bool)$this->_Memcache->increment($this->settings['prefix'] . $group);
+	}
+
+/**
+ * Write data for key into cache if it doesn't exist already. When using memcached as your cache engine
+ * remember that the Memcached PECL extension does not support cache expiry times greater
+ * than 30 days in the future. Any duration greater than 30 days will be treated as never expiring.
+ * If it already exists, it fails and returns false.
+ *
+ * @param string $key Identifier for the data.
+ * @param mixed $value Data to be cached.
+ * @param int $duration How long to cache the data, in seconds.
+ * @return bool True if the data was successfully cached, false on failure.
+ * @link http://php.net/manual/en/memcache.add.php
+ */
+	public function add($key, $value, $duration) {
+		if ($duration > 30 * DAY) {
+			$duration = 0;
+		}
+
+		return $this->_Memcache->add($key, $value, $this->settings['compress'], $duration);
 	}
 }

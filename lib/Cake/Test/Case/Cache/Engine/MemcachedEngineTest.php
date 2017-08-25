@@ -4,25 +4,25 @@
  *
  * PHP 5
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <https://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Cache.Engine
  * @since         CakePHP(tm) v 2.5.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Cache', 'Cache');
 App::uses('MemcachedEngine', 'Cache/Engine');
 
 /**
- * Class TestMemcachedEngine
+ * TestMemcachedEngine
  *
  * @package       Cake.Test.Case.Cache.Engine
  */
@@ -63,6 +63,12 @@ class MemcachedEngineTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->skipIf(!class_exists('Memcached'), 'Memcached is not installed or configured properly.');
+
+		// @codingStandardsIgnoreStart
+		$socket = @fsockopen('127.0.0.1', 11211, $errno, $errstr, 1);
+		// @codingStandardsIgnoreEnd
+		$this->skipIf(!$socket, 'Memcached is not running.');
+		fclose($socket);
 
 		Cache::config('memcached', array(
 			'engine' => 'Memcached',
@@ -340,6 +346,7 @@ class MemcachedEngineTest extends CakeTestCase {
  * @return void
  */
 	public function testSaslAuthException() {
+		$this->skipIf(version_compare(PHP_VERSION, '7.0.0', '>='));
 		$Memcached = new TestMemcachedEngine();
 		$settings = array(
 			'engine' => 'Memcached',
@@ -433,7 +440,7 @@ class MemcachedEngineTest extends CakeTestCase {
 	public function testParseServerStringUnix() {
 		$Memcached = new TestMemcachedEngine();
 		$result = $Memcached->parseServerString('unix:///path/to/memcachedd.sock');
-		$this->assertEquals(array('unix:///path/to/memcachedd.sock', 0), $result);
+		$this->assertEquals(array('/path/to/memcachedd.sock', 0), $result);
 	}
 
 /**
@@ -796,5 +803,25 @@ class MemcachedEngineTest extends CakeTestCase {
 		$this->assertTrue(Cache::write('test_groups', 'value2', 'memcached_groups'));
 		$this->assertTrue(Cache::clearGroup('group_b', 'memcached_groups'));
 		$this->assertFalse(Cache::read('test_groups', 'memcached_groups'));
+	}
+
+/**
+ * Test add method.
+ *
+ * @return void
+ */
+	public function testAdd() {
+		Cache::set(array('duration' => 1), null, 'memcached');
+		Cache::delete('test_add_key', 'default');
+
+		$result = Cache::add('test_add_key', 'test data', 'default');
+		$this->assertTrue($result);
+
+		$expected = 'test data';
+		$result = Cache::read('test_add_key', 'default');
+		$this->assertEquals($expected, $result);
+
+		$result = Cache::add('test_add_key', 'test data 2', 'default');
+		$this->assertFalse($result);
 	}
 }

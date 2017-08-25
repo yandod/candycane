@@ -42,7 +42,7 @@ class TimestampBehavior extends ModelBehavior {
  * @param array $config Configuration options
  * @return void
  */
-	public function setup(&$Model, $config) {
+	public function setup(Model $Model, $config = array()) {
 		$this->settings[$Model->alias] = array_merge($this->_defaults, $config);
 	}
 
@@ -87,7 +87,7 @@ class TimestampBehavior extends ModelBehavior {
  * @param Model $Model Model instance
  * @return boolean True if the field should be updated
  */
-	protected function _shouldSetModified(&$Model) {
+	protected function _shouldSetModified(Model $Model) {
 		if ($this->settings[$Model->alias]['forceModified']) {
 			return true;
 		}
@@ -101,7 +101,7 @@ class TimestampBehavior extends ModelBehavior {
  * @param Model $Model Model Instance
  * @return boolean True if save can continue
  */
-	public function beforeSave(&$Model) {
+	public function beforeSave(Model $Model, $options = array()) {
 		$settings = $this->_settings($Model->alias);
 		$schema = $Model->schema();
 
@@ -119,9 +119,9 @@ class TimestampBehavior extends ModelBehavior {
  * @param string $column Column name
  * @return string Formatted time
  */
-	protected function _formatForColumn(&$Model, $column) {
+	protected function _formatForColumn(Model $Model, $column) {
 		$default = array('formatter' => 'date');
-		$db =& ConnectionManager::getDataSource($Model->useDbConfig);
+		$db = ConnectionManager::getDataSource($Model->useDbConfig);
 		$colType = array_merge($default, $db->columns[$Model->getColumnType($column)]);
 		if (!array_key_exists('format', $colType)) {
 			$time = strtotime('now');

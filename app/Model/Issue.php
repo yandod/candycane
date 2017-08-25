@@ -148,7 +148,7 @@ class Issue extends AppModel
     if(!empty($project_id) && $issue['Issue']['project_id'] != $project_id) {
       # delete issue relations (because moveing to difference project is denied by Setting)
       if(empty($Setting->cross_project_issue_relations)) {
-        $IssueRelation = & ClassRegistry::init('IssueRelation');
+        $IssueRelation = ClassRegistry::init('IssueRelation');
         if(!$IssueRelation->deleteAll(array('or'=>
           array('issue_from_id'=>$issue['Issue']['id']),
           array('issue_to_id'=>$issue['Issue']['id'])
@@ -172,7 +172,7 @@ class Issue extends AppModel
     }
     if($this->save($issue)) {
       # Manually update project_id on related time entries
-      $TimeEntry = & ClassRegistry::init('TimeEntry');
+      $TimeEntry = ClassRegistry::init('TimeEntry');
       if($TimeEntry->updateAll(array("project_id"=>$project_id), array('issue_id'=>$issue['Issue']['id']))) {
         $db->commit($this);
       } else {
@@ -195,7 +195,7 @@ class Issue extends AppModel
     }
   }
 #  
-  function validates() {
+  function validates($options = array()) {
     // convert database format.
     $this->estimated_hours();
 
@@ -265,7 +265,7 @@ class Issue extends AppModel
     if($this->Journal) {
       # attributes changes
       $issue_column_names = array_keys($this->data['Issue']);
-      $JournalDetail = & ClassRegistry::init('JournalDetail');
+      $JournalDetail = ClassRegistry::init('JournalDetail');
       $journalDetails = array();
       foreach ($this->data['Issue'] as $c=>$v) {
         if(in_array($c, array('id', 'description', 'created_on', 'updated_on', 'custom_field_values'))) {
@@ -315,7 +315,7 @@ class Issue extends AppModel
     return $result;
   }
 
-  function afterSave($created) {
+  function afterSave($created, $options = array()) {
     parent::afterSave($created);
     # Reload is needed in order to get the right status
     if($created) {
@@ -326,7 +326,7 @@ class Issue extends AppModel
     $issue = $this->find('first', array('conditions'=>array('Issue.id'=>$id)));
     
     # Update start/due dates of following issues
-    $IssueRelation =& ClassRegistry::init('IssueRelation');
+    $IssueRelation = ClassRegistry::init('IssueRelation');
     $relations = $IssueRelation->find('list', array('conditions'=>array('issue_from_id'=>$issue['Issue']['id']), 'fields'=>array('id','id')));
     foreach($relations as $relation_id) {
       $IssueRelation->read(null, $relation_id);
@@ -336,7 +336,7 @@ class Issue extends AppModel
     # Close duplicates if the issue was closed
     if(!empty($this->issue_before_change['Status']) && !$this->issue_before_change['Status']['is_closed'] && $issue['Status']['is_closed']) {
       foreach($this->duplicates($issue) as $duplicate) {
-        $Duplicate =& ClassRegistry::init('Issue');
+        $Duplicate = ClassRegistry::init('Issue');
         # Reload is need in case the duplicate was updated by a previous duplicate
         $Duplicate->read(null, $duplicate['IssueFrom']['id']);
         # Don't re-close it if it's already closed
@@ -363,7 +363,7 @@ class Issue extends AppModel
    */
   function init_journal($issue, $user, $notes = "") {
     if(empty($this->Journal)) {
-      $this->Journal = & ClassRegistry::init('Journal');
+      $this->Journal = ClassRegistry::init('Journal');
       $this->Journal->create();
       $defaults = array(
         'journalized_id'=>$issue['Issue']['id'], 
@@ -430,14 +430,14 @@ class Issue extends AppModel
   }
 
   function findRssJournal() {
-    $Journal = & ClassRegistry::init('Journal');
+    $Journal = ClassRegistry::init('Journal');
     $conditions = array('journalized_type'=>'Issue', 'journalized_id'=>$this->data['Issue']['id']);
     $journals = $Journal->find('all', array('conditions'=>$conditions, 'limit'=>25, 'recursive'=>1, 'order'=>'Journal.created_on DESC'));
     $journals = array_reverse($journals);
     return $journals;
   }
   function findAllJournal($current_user) {
-    $Journal = & ClassRegistry::init('Journal');
+    $Journal = ClassRegistry::init('Journal');
 
     $conditions = array('journalized_type'=>'Issue', 'journalized_id'=>$this->data['Issue']['id']);
 
@@ -578,7 +578,7 @@ class Issue extends AppModel
     if(!$data) {
       $data = $this->data;
     }
-    $IssueRelation =& ClassRegistry::init('IssueRelation');
+    $IssueRelation = ClassRegistry::init('IssueRelation');
     $conditions = array(
       'relation_type' => ISSUERELATION_TYPE_DUPLICATES,
       'issue_to_id' => $data['Issue']['id'],

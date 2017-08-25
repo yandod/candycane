@@ -2,18 +2,18 @@
 /**
  * ValidationTest file
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <https://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://book.cakephp.org/2.0/en/development/testing.html CakePHP(tm) Tests
  * @package       Cake.Test.Case.Utility
  * @since         CakePHP(tm) v 1.2.0.4206
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Validation', 'Utility');
@@ -89,6 +89,25 @@ class TestDeValidation {
 }
 
 /**
+ * ValidationStub
+ *
+ * @package       Cake.Test.Case.Utility
+ */
+class ValidationStub extends Validation {
+
+/**
+ * Stub out is_uploaded_file check
+ *
+ * @param string $path
+ * @return void
+ */
+	protected static function _isUploadedFile($path) {
+		return file_exists($path);
+	}
+
+}
+
+/**
  * Test Case for Validation Class
  *
  * @package       Cake.Test.Case.Utility
@@ -129,6 +148,10 @@ class ValidationTest extends CakeTestCase {
  * @return void
  */
 	public function testNotBlank() {
+		$this->assertTrue(Validation::notBlank(0), 'zero should not be blank');
+		$this->assertTrue(Validation::notBlank(0.0), 'zero should not be blank');
+		$this->assertTrue(Validation::notBlank(0.0 * -1), 'negative 0 should not be blank');
+		$this->assertTrue(Validation::notBlank(-0.0), 'negative 0 should not be blank');
 		$this->assertTrue(Validation::notBlank('abcdefg'));
 		$this->assertTrue(Validation::notBlank('fasdf '));
 		$this->assertTrue(Validation::notBlank('fooo' . chr(243) . 'blabla'));
@@ -184,25 +207,6 @@ class ValidationTest extends CakeTestCase {
 	}
 
 /**
- * testAlphaNumericPassedAsArray method
- *
- * @return void
- */
-	public function testAlphaNumericPassedAsArray() {
-		$this->assertTrue(Validation::alphaNumeric(array('check' => 'frferrf')));
-		$this->assertTrue(Validation::alphaNumeric(array('check' => '12234')));
-		$this->assertTrue(Validation::alphaNumeric(array('check' => '1w2e2r3t4y')));
-		$this->assertTrue(Validation::alphaNumeric(array('check' => '0')));
-		$this->assertFalse(Validation::alphaNumeric(array('check' => '12 234')));
-		$this->assertFalse(Validation::alphaNumeric(array('check' => 'dfd 234')));
-		$this->assertFalse(Validation::alphaNumeric(array('check' => "\n")));
-		$this->assertFalse(Validation::alphaNumeric(array('check' => "\t")));
-		$this->assertFalse(Validation::alphaNumeric(array('check' => "\r")));
-		$this->assertFalse(Validation::alphaNumeric(array('check' => ' ')));
-		$this->assertFalse(Validation::alphaNumeric(array('check' => '')));
-	}
-
-/**
  * testLengthBetween method
  *
  * @return void
@@ -229,21 +233,6 @@ class ValidationTest extends CakeTestCase {
 		$this->assertTrue(Validation::blank("\r"));
 		$this->assertFalse(Validation::blank('    Blank'));
 		$this->assertFalse(Validation::blank('Blank'));
-	}
-
-/**
- * testBlankAsArray method
- *
- * @return void
- */
-	public function testBlankAsArray() {
-		$this->assertTrue(Validation::blank(array('check' => '')));
-		$this->assertTrue(Validation::blank(array('check' => ' ')));
-		$this->assertTrue(Validation::blank(array('check' => "\n")));
-		$this->assertTrue(Validation::blank(array('check' => "\t")));
-		$this->assertTrue(Validation::blank(array('check' => "\r")));
-		$this->assertFalse(Validation::blank(array('check' => '    Blank')));
-		$this->assertFalse(Validation::blank(array('check' => 'Blank')));
 	}
 
 /**
@@ -418,6 +407,12 @@ class ValidationTest extends CakeTestCase {
 		$this->assertTrue(Validation::cc('5467639122779531', array('mc')));
 		$this->assertTrue(Validation::cc('5297350261550024', array('mc')));
 		$this->assertTrue(Validation::cc('5162739131368058', array('mc')));
+		//Mastercard (additional 2016 BIN)
+		$this->assertTrue(Validation::cc('2221000000000009', array('mc')));
+		$this->assertTrue(Validation::cc('2720999999999996', array('mc')));
+		$this->assertTrue(Validation::cc('2223000010005798', array('mc')));
+		$this->assertTrue(Validation::cc('2623430710235708', array('mc')));
+		$this->assertTrue(Validation::cc('2420452519835723', array('mc')));
 		//Solo 16
 		$this->assertTrue(Validation::cc('6767432107064987', array('solo')));
 		$this->assertTrue(Validation::cc('6334667758225411', array('solo')));
@@ -952,42 +947,6 @@ class ValidationTest extends CakeTestCase {
 	}
 
 /**
- * testComparisonAsArray method
- *
- * @return void
- */
-	public function testComparisonAsArray() {
-		$this->assertTrue(Validation::comparison(array('check1' => 7, 'operator' => 'is greater', 'check2' => 6)));
-		$this->assertTrue(Validation::comparison(array('check1' => 7, 'operator' => '>', 'check2' => 6)));
-		$this->assertTrue(Validation::comparison(array('check1' => 6, 'operator' => 'is less', 'check2' => 7)));
-		$this->assertTrue(Validation::comparison(array('check1' => 6, 'operator' => '<', 'check2' => 7)));
-		$this->assertTrue(Validation::comparison(array('check1' => 7, 'operator' => 'greater or equal', 'check2' => 7)));
-		$this->assertTrue(Validation::comparison(array('check1' => 7, 'operator' => '>=', 'check2' => 7)));
-		$this->assertTrue(Validation::comparison(array('check1' => 7, 'operator' => 'greater or equal', 'check2' => 6)));
-		$this->assertTrue(Validation::comparison(array('check1' => 7, 'operator' => '>=', 'check2' => 6)));
-		$this->assertTrue(Validation::comparison(array('check1' => 6, 'operator' => 'less or equal', 'check2' => 7)));
-		$this->assertTrue(Validation::comparison(array('check1' => 6, 'operator' => '<=', 'check2' => 7)));
-		$this->assertTrue(Validation::comparison(array('check1' => 7, 'operator' => 'equal to', 'check2' => 7)));
-		$this->assertTrue(Validation::comparison(array('check1' => 7, 'operator' => '==', 'check2' => 7)));
-		$this->assertTrue(Validation::comparison(array('check1' => 7, 'operator' => 'not equal', 'check2' => 6)));
-		$this->assertTrue(Validation::comparison(array('check1' => 7, 'operator' => '!=', 'check2' => 6)));
-		$this->assertFalse(Validation::comparison(array('check1' => 6, 'operator' => 'is greater', 'check2' => 7)));
-		$this->assertFalse(Validation::comparison(array('check1' => 6, 'operator' => '>', 'check2' => 7)));
-		$this->assertFalse(Validation::comparison(array('check1' => 7, 'operator' => 'is less', 'check2' => 6)));
-		$this->assertFalse(Validation::comparison(array('check1' => 7, 'operator' => '<', 'check2' => 6)));
-		$this->assertFalse(Validation::comparison(array('check1' => 6, 'operator' => 'greater or equal', 'check2' => 7)));
-		$this->assertFalse(Validation::comparison(array('check1' => 6, 'operator' => '>=', 'check2' => 7)));
-		$this->assertFalse(Validation::comparison(array('check1' => 6, 'operator' => 'greater or equal', 'check2' => 7)));
-		$this->assertFalse(Validation::comparison(array('check1' => 6, 'operator' => '>=', 'check2' => 7)));
-		$this->assertFalse(Validation::comparison(array('check1' => 7, 'operator' => 'less or equal', 'check2' => 6)));
-		$this->assertFalse(Validation::comparison(array('check1' => 7, 'operator' => '<=', 'check2' => 6)));
-		$this->assertFalse(Validation::comparison(array('check1' => 7, 'operator' => 'equal to', 'check2' => 6)));
-		$this->assertFalse(Validation::comparison(array('check1' => 7, 'operator' => '==', 'check2' => 6)));
-		$this->assertFalse(Validation::comparison(array('check1' => 7, 'operator' => 'not equal', 'check2' => 7)));
-		$this->assertFalse(Validation::comparison(array('check1' => 7, 'operator' => '!=', 'check2' => 7)));
-	}
-
-/**
  * testCustom method
  *
  * @return void
@@ -997,17 +956,6 @@ class ValidationTest extends CakeTestCase {
 		$this->assertFalse(Validation::custom('Text', '/(?<!\\S)\\d++(?!\\S)/'));
 		$this->assertFalse(Validation::custom('123.45', '/(?<!\\S)\\d++(?!\\S)/'));
 		$this->assertFalse(Validation::custom('missing regex'));
-	}
-
-/**
- * testCustomAsArray method
- *
- * @return void
- */
-	public function testCustomAsArray() {
-		$this->assertTrue(Validation::custom(array('check' => '12345', 'regex' => '/(?<!\\S)\\d++(?!\\S)/')));
-		$this->assertFalse(Validation::custom(array('check' => 'Text', 'regex' => '/(?<!\\S)\\d++(?!\\S)/')));
-		$this->assertFalse(Validation::custom(array('check' => '123.45', 'regex' => '/(?<!\\S)\\d++(?!\\S)/')));
 	}
 
 /**
@@ -1882,6 +1830,20 @@ class ValidationTest extends CakeTestCase {
 	}
 
 /**
+ * maxLengthBytes method
+ *
+ * @return void
+ */
+	public function testMaxLengthBytes() {
+		$this->assertTrue(Validation::maxLengthBytes('ab', 3));
+		$this->assertTrue(Validation::maxLengthBytes('abc', 3));
+		$this->assertTrue(Validation::maxLengthBytes('ÆΔΩЖÇ', 10));
+		$this->assertTrue(Validation::maxLengthBytes('ÆΔΩЖÇ', 11));
+		$this->assertFalse(Validation::maxLengthBytes('abcd', 3));
+		$this->assertFalse(Validation::maxLengthBytes('ÆΔΩЖÇ', 9));
+	}
+
+/**
  * testMinLength method
  *
  * @return void
@@ -1896,13 +1858,27 @@ class ValidationTest extends CakeTestCase {
 	}
 
 /**
+ * minLengthBytes method
+ *
+ * @return void
+ */
+	public function testMinLengthBytes() {
+		$this->assertFalse(Validation::minLengthBytes('ab', 3));
+		$this->assertFalse(Validation::minLengthBytes('ÆΔΩЖÇ', 11));
+		$this->assertTrue(Validation::minLengthBytes('abc', 3));
+		$this->assertTrue(Validation::minLengthBytes('abcd', 3));
+		$this->assertTrue(Validation::minLengthBytes('ÆΔΩЖÇ', 10));
+		$this->assertTrue(Validation::minLengthBytes('ÆΔΩЖÇ', 9));
+	}
+
+/**
  * testUrl method
  *
  * @return void
  */
 	public function testUrl() {
 		$this->assertTrue(Validation::url('http://www.cakephp.org'));
-		$this->assertTrue(Validation::url('http://cakephp.org'));
+		$this->assertTrue(Validation::url('https://cakephp.org'));
 		$this->assertTrue(Validation::url('http://www.cakephp.org/somewhere#anchor'));
 		$this->assertTrue(Validation::url('http://192.168.0.1'));
 		$this->assertTrue(Validation::url('https://www.cakephp.org'));
@@ -1953,10 +1929,10 @@ class ValidationTest extends CakeTestCase {
 		$this->assertTrue(Validation::url('http://äüö.eräume.foo'));
 
 		$this->assertTrue(Validation::url('http://cakephp.org:80'));
-		$this->assertTrue(Validation::url('http://cakephp.org:443'));
-		$this->assertTrue(Validation::url('http://cakephp.org:2000'));
-		$this->assertTrue(Validation::url('http://cakephp.org:27000'));
-		$this->assertTrue(Validation::url('http://cakephp.org:65000'));
+		$this->assertTrue(Validation::url('https://cakephp.org:443'));
+		$this->assertTrue(Validation::url('https://cakephp.org:2000'));
+		$this->assertTrue(Validation::url('https://cakephp.org:27000'));
+		$this->assertTrue(Validation::url('https://cakephp.org:65000'));
 
 		$this->assertTrue(Validation::url('[2001:0db8::1428:57ab]'));
 		$this->assertTrue(Validation::url('[::1]'));
@@ -2223,9 +2199,6 @@ class ValidationTest extends CakeTestCase {
 		$this->assertFalse(Validation::phone('1-(511)-999-9999'));
 		$this->assertFalse(Validation::phone('1-(555)-999-9999'));
 
-		// invalid exhange
-		$this->assertFalse(Validation::phone('1-(222)-511-9999'));
-
 		// invalid phone number
 		$this->assertFalse(Validation::phone('1-(222)-555-0199'));
 		$this->assertFalse(Validation::phone('1-(222)-555-0122'));
@@ -2248,6 +2221,7 @@ class ValidationTest extends CakeTestCase {
 		$this->assertTrue(Validation::phone('1.(333).333-4444'));
 		$this->assertTrue(Validation::phone('1.(333).333.4444'));
 		$this->assertTrue(Validation::phone('1-333-333-4444'));
+		$this->assertTrue(Validation::phone('1-800-211-4511'));
 	}
 
 /**
@@ -2454,6 +2428,12 @@ class ValidationTest extends CakeTestCase {
 		$this->assertFalse(Validation::uploadError(2));
 		$this->assertFalse(Validation::uploadError(array('error' => 2)));
 		$this->assertFalse(Validation::uploadError(array('error' => '2')));
+
+		$this->assertFalse(Validation::uploadError(UPLOAD_ERR_NO_FILE));
+		$this->assertFalse(Validation::uploadError(UPLOAD_ERR_FORM_SIZE, true));
+		$this->assertFalse(Validation::uploadError(UPLOAD_ERR_INI_SIZE, true));
+		$this->assertFalse(Validation::uploadError(UPLOAD_ERR_NO_TMP_DIR, true));
+		$this->assertTrue(Validation::uploadError(UPLOAD_ERR_NO_FILE, true));
 	}
 
 /**
@@ -2474,4 +2454,126 @@ class ValidationTest extends CakeTestCase {
 		$this->assertFalse(Validation::fileSize(array('tmp_name' => $image), '>', '1KB'));
 	}
 
+/**
+ * Test uploaded file validation.
+ *
+ * @return void
+ */
+	public function testUploadedFileErrorCode() {
+		$this->assertFalse(ValidationStub::uploadedFile('derp'));
+		$invalid = array(
+			'name' => 'testing'
+		);
+		$this->assertFalse(ValidationStub::uploadedFile($invalid));
+		$file = array(
+			'name' => 'cake.power.gif',
+			'tmp_name' => CORE_PATH . 'Cake' . DS . 'Test' . DS . 'test_app' . DS . 'webroot/img/cake.power.gif',
+			'error' => UPLOAD_ERR_OK,
+			'type' => 'image/gif',
+			'size' => 201
+		);
+		$this->assertTrue(ValidationStub::uploadedFile($file));
+		$file['error'] = UPLOAD_ERR_NO_FILE;
+		$this->assertFalse(ValidationStub::uploadedFile($file), 'Error upload should fail.');
+	}
+
+/**
+ * Test uploaded file validation.
+ *
+ * @return void
+ */
+	public function testUploadedFileMimeType() {
+		$file = array(
+			'name' => 'cake.power.gif',
+			'tmp_name' => CORE_PATH . 'Cake' . DS . 'Test' . DS . 'test_app' . DS . 'webroot/img/cake.power.gif',
+			'error' => UPLOAD_ERR_OK,
+			'type' => 'text/plain',
+			'size' => 201
+		);
+		$options = array(
+			'types' => array('text/plain')
+		);
+		$this->assertFalse(ValidationStub::uploadedFile($file, $options), 'Incorrect mimetype.');
+		$options = array(
+			'types' => array('image/gif', 'image/png')
+		);
+		$this->assertTrue(ValidationStub::uploadedFile($file, $options));
+	}
+
+/**
+ * Test uploaded file validation.
+ *
+ * @return void
+ */
+	public function testUploadedFileSize() {
+		$file = array(
+			'name' => 'cake.power.gif',
+			'tmp_name' => CORE_PATH . 'Cake' . DS . 'Test' . DS . 'test_app' . DS . 'webroot/img/cake.power.gif',
+			'error' => UPLOAD_ERR_OK,
+			'type' => 'text/plain',
+			'size' => 201
+		);
+		$options = array(
+			'minSize' => 500
+		);
+		$this->assertFalse(ValidationStub::uploadedFile($file, $options), 'Too small');
+		$options = array(
+			'maxSize' => 100
+		);
+		$this->assertFalse(ValidationStub::uploadedFile($file, $options), 'Too big');
+		$options = array(
+			'minSize' => 100,
+		);
+		$this->assertTrue(ValidationStub::uploadedFile($file, $options));
+		$options = array(
+			'maxSize' => 500,
+		);
+		$this->assertTrue(ValidationStub::uploadedFile($file, $options));
+		$options = array(
+			'minSize' => 100,
+			'maxSize' => 500
+		);
+		$this->assertTrue(ValidationStub::uploadedFile($file, $options));
+	}
+
+/**
+ * Test uploaded file validation.
+ *
+ * @return void
+ */
+	public function testUploadedFileNoFile() {
+		$file = array(
+			'name' => '',
+			'tmp_name' => CORE_PATH . 'Cake' . DS . 'Test' . DS . 'test_app' . DS . 'webroot/img/cake.power.gif',
+			'error' => UPLOAD_ERR_NO_FILE,
+			'type' => '',
+			'size' => 0
+		);
+		$options = array(
+			'optional' => true,
+			'minSize' => 500,
+			'types' => array('image/gif', 'image/png')
+		);
+		$this->assertTrue(Validation::uploadedFile($file, $options), 'No file should be ok.');
+		$options = array(
+			'optional' => false
+		);
+		$this->assertFalse(Validation::uploadedFile($file, $options), 'File is required.');
+	}
+/**
+ * Test uploaded file validation.
+ *
+ * @return void
+ */
+	public function testUploadedFileWithDifferentFileParametersOrder() {
+		$file = array(
+			'name' => 'cake.power.gif',
+			'error' => UPLOAD_ERR_OK,
+			'tmp_name' => CORE_PATH . 'Cake' . DS . 'Test' . DS . 'test_app' . DS . 'webroot/img/cake.power.gif',
+			'type' => 'text/plain',
+			'size' => 201
+		);
+		$options = array();
+		$this->assertTrue(ValidationStub::uploadedFile($file, $options), 'Wrong order');
+	}
 }

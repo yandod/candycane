@@ -82,9 +82,9 @@ class Query extends AppModel
     if(!empty($this->available_filters)) {
       return $this->available_filters;
     }    
-    //$Status = & ClassRegistry::init('Status');
-    $IssueStatus = & ClassRegistry::init('IssueStatus');
-    $Enumeration = & ClassRegistry::init('Enumeration');
+    //$Status = ClassRegistry::init('Status');
+    $IssueStatus = ClassRegistry::init('IssueStatus');
+    $Enumeration = ClassRegistry::init('Enumeration');
     $user_values = array();
     $tracker_values = array();
     $version_values = array();
@@ -99,7 +99,7 @@ class Query extends AppModel
       foreach ($project['Tracker'] as $tracker) $tracker_values[$tracker['id']] = $tracker['name'];
     }
     if (isset($project['Project']['id'])) {
-      $Version = & ClassRegistry::init('Version');
+      $Version = ClassRegistry::init('Version');
       $version_values = $Version->find('list', array(
         'fields' => array(
           'Version.id',
@@ -829,7 +829,7 @@ class Query extends AppModel
 #    s.join(' AND ')
 #  end
 #end
-  function beforeSave()
+  function beforeSave($options = array())
   {
     if (isset($this->filters)) {
       $rb_filters = array();

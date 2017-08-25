@@ -8,7 +8,7 @@ class CustomizableBehavior extends ModelBehavior {
   var $custom_field_values = null;
   var $available_custom_fields = array();
   
-  function setup(&$Model, $config = array()) {
+  function setup(Model $Model, $config = array()) {
     $settings = $config;
     $this->settings[$Model->alias] = $settings;
     return true;
@@ -17,7 +17,7 @@ class CustomizableBehavior extends ModelBehavior {
   /**
    * Check between Model->data[modelname][custom_field_values][] and Database values
    */
-  function beforeValidate(&$Model){
+  function beforeValidate(Model $Model, $options = array()){
     if(empty($this->available_custom_fields[$Model->alias])) {
       return true;
     }
@@ -77,21 +77,21 @@ class CustomizableBehavior extends ModelBehavior {
    * Create save data
    * Create data from Model->data[modelname][custom_field_values] 
    */
-  function beforeSave(&$Model) {
+  function beforeSave(Model $Model, $options = array()) {
     $this->custom_field_values = $this->_create_save_data($Model);
     return true;
   }
   /**
    * Save custom field values after Main Model
    */
-  function afterSave(&$Model, $created) {
+  function afterSave(Model $Model, $created = array(), $options = array()) {
     return $this->_save_custom_field_values($Model, $created);
   }
 
   /**
    * Add relation of CustomValues
    */
-  function afterFind(&$Model, $results, $primary = false) {
+  function afterFind(Model $Model, $results, $primary = false) {
     if(isset($Model->_customFieldAfterFindDisable)) {
       return $results;
     }
@@ -103,7 +103,7 @@ class CustomizableBehavior extends ModelBehavior {
     if(is_array($results)) {
       foreach($results as $index => $result) {
         if(!empty($result[$Model->name]) && !empty($result[$Model->name]['id'])) {
-          $customValueModel = & ClassRegistry::init('CustomValue');
+          $customValueModel = ClassRegistry::init('CustomValue');
           $conditions = array('customized_type'=> $Model->name, 'customized_id'=>$result[$Model->name]['id']);
           $order = 'CustomField.position';
           $values = $customValueModel->find('all', compact('conditions', 'order'));
@@ -123,14 +123,14 @@ class CustomizableBehavior extends ModelBehavior {
     return $results;
   }
   
-  function cached_available_custom_fields(&$Model) {
+  function cached_available_custom_fields(Model $Model) {
     return $this->available_custom_fields[$Model->alias];
   }
   /**
    * Get available field values 
    */
-  function available_custom_fields(&$Model, $project_id=false, $tracker_id=false) {
-    $customValueModel = & ClassRegistry::init('CustomValue');
+  function available_custom_fields(Model $Model, $project_id=false, $tracker_id=false) {
+    $customValueModel = ClassRegistry::init('CustomValue');
     $is_for_all = true;
     if(isset($this->settings[$Model->alias]['is_for_all'])) { 
       $is_for_all = $this->settings[$Model->alias]['is_for_all'];
@@ -138,7 +138,7 @@ class CustomizableBehavior extends ModelBehavior {
     $for_alls = $customValueModel->CustomField->find('all', 
         array('conditions' => array('type'=> $Model->name.'CustomField', 'is_for_all'=>$is_for_all), 'order'=>'position'));
     if(!empty($project_id)) {
-      $CustomFieldsProject = & ClassRegistry::init('CustomFieldsProject');
+      $CustomFieldsProject = ClassRegistry::init('CustomFieldsProject');
       $for_projects = $CustomFieldsProject->find('all', 
         array('conditions' => array('CustomField.type'=> $Model->name.'CustomField', 'project_id'=>$project_id), 'order'=>'CustomField.position'));
     } else {
@@ -157,7 +157,7 @@ class CustomizableBehavior extends ModelBehavior {
       foreach($availables as $available) {
         $ids[] = $available['CustomField']['id'];
       }
-      $CustomFieldsTracker = & ClassRegistry::init('CustomFieldsTracker');
+      $CustomFieldsTracker = ClassRegistry::init('CustomFieldsTracker');
       $for_tracker_ids = $CustomFieldsTracker->find('all', array(
         'conditions' => array('CustomField.type'=> $Model->name.'CustomField', 'tracker_id'=>$tracker_id, 'CustomField.id'=>$ids), 
         'fields'=>array('CustomField.position'),
@@ -175,15 +175,15 @@ class CustomizableBehavior extends ModelBehavior {
     $this->available_custom_fields[$Model->alias] = $result;
     return $this->available_custom_fields[$Model->alias];
   }
-  function findCustomFieldById(&$Model, $id) {
-    $CustomField = & ClassRegistry::init('CustomField');
+  function findCustomFieldById(Model $Model, $id) {
+    $CustomField = ClassRegistry::init('CustomField');
     return $CustomField->read(null, $id); 
   }
   /**
    * Filter only available fields.
    * @note : Before call this function, must be call available_custom_fields.
    */
-  function filterCustomFieldValue(&$Model, $values) {
+  function filterCustomFieldValue(Model $Model, $values) {
     $result = array();
     foreach($this->available_custom_fields[$Model->alias] as $available) {
       $id = $available['CustomField']['id'];
@@ -193,7 +193,7 @@ class CustomizableBehavior extends ModelBehavior {
     }
     return $result;
   }
-  function custom_value_for(&$Model, $custom_field, $data=false) {
+  function custom_value_for(Model $Model, $custom_field, $data=false) {
     if(!$data) {
       $data = $Model->data;
     }
@@ -213,7 +213,7 @@ class CustomizableBehavior extends ModelBehavior {
 
    // ==== privates 
 
-  function _create_save_data(&$Model) {
+  function _create_save_data(Model $Model) {
     $data = array();
     if(!empty($Model->data[$Model->name]['custom_field_values'])) {
       // Create save data from POST data.
@@ -229,11 +229,11 @@ class CustomizableBehavior extends ModelBehavior {
     return $data;
   }
 
-  function _save_custom_field_values(&$Model, $created) {
+  function _save_custom_field_values(Model $Model, $created) {
     if($created) {
       $insertId = $Model->getLastInsertID();
     }
-    $customValueModel = & ClassRegistry::init('CustomValue');
+    $customValueModel = ClassRegistry::init('CustomValue');
     if(!empty($this->custom_field_values)) {
       foreach($this->custom_field_values as $custom_value) {
         $customValueModel->create();

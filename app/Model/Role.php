@@ -176,7 +176,7 @@ class Role extends AppModel {
 #  
 #private
   function _allowed_permissions($role) {
-    $Permission =& ClassRegistry::init('Permission');
+    $Permission = ClassRegistry::init('Permission');
     $names = array();
     $publics = $Permission->public_permissions();
     foreach ($publics as $perms) {
@@ -191,7 +191,7 @@ class Role extends AppModel {
     if (!$role) {
       $role = $this->data;
     }
-    $Permission =& ClassRegistry::init('Permission');
+    $Permission = ClassRegistry::init('Permission');
     $actions = array();
     foreach($this->_allowed_permissions($role) as $permission) {
       $actions[] = $Permission->allowed_actions($permission);

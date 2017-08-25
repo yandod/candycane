@@ -36,7 +36,7 @@ class WatchersController extends AppController
             $this->RequestHandler->isPost() &&
             !empty($this->request->data['Watcher']['user_id'])
         ) {
-            $Model = & ClassRegistry::init(ucfirst($this->request->params['named']['object_type']));
+            $Model = ClassRegistry::init(ucfirst($this->request->params['named']['object_type']));
             if (
                 $Model->read(null, $this->request->params['named']['object_id']) &&
                 $this->Watcher->User->read(null, $this->request->data['Watcher']['user_id'])
@@ -47,7 +47,7 @@ class WatchersController extends AppController
         }
         //Configure::write('debug', 0);
         extract($this->request->params['named']);
-        $Model = & ClassRegistry::init(Inflector::camelize($object_type));
+        $Model = ClassRegistry::init(Inflector::camelize($object_type));
         $data = $Model->read(null, $object_id);
         $project_id = $Model->get_watched_project_id();
         $project = $this->Project->read('identifier', $project_id);
@@ -74,7 +74,7 @@ class WatchersController extends AppController
     function _set_watcher($user, $watching)
     {
         Configure::write('debug', 0);
-        $Model = & ClassRegistry::init($this->request->params['named']['object_type']);
+        $Model = ClassRegistry::init($this->request->params['named']['object_type']);
         $Model->read(null, $this->request->params['named']['object_id']);
         $this->set('data', $Model->data);
         $result = $Model->set_watcher(array('User' => $user), $watching);

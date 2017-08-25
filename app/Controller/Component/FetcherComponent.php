@@ -11,7 +11,7 @@ class FetcherComponent extends Component
 
   public function initialize(Controller $controller) {
     $this->controller = $controller;
-    App::import('Vendor', 'candycane/Activity');
+    App::import('Vendor', 'Activity', array('file' => 'candycane' . DS . 'Activity.php'));
     foreach(Activity::getInstance()->providers as $k=>$t) {
       $this->__constantized_providers[$k] = array();
       foreach($t as $model) {
@@ -116,17 +116,17 @@ class FetcherComponent extends Component
 
   /**
    * Returns an array of events for the given date range
-   * Sorting order is date DESCDING
+   * Sorting order is date DESCENDING
    */
-  function events($from = null, $to = null, $options=array()) {
+  function events($from = null, $to = null, $options = array()) {
     $e = array();
-    $options = array_merge(array('limit'=>0), $options);
+    $options = array_merge(array('limit' => 0), $options);
     $this->_options['limit'] = $options['limit'];
     foreach ($this->scope as $event_type) {
       foreach ($this->_constantized_providers($event_type) as $provider) {
         $results = $provider->find_events($event_type, $this->user, $from, $to, $this->_options);
-        foreach($results as $day=>$times) {
-          foreach($times as $time=>$events) {
+        foreach($results as $day => $times) {
+          foreach($times as $time => $events) {
             foreach ($events as $result) {
               $e[] = $provider->create_event_data($result);
             }

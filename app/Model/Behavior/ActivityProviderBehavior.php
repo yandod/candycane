@@ -96,7 +96,7 @@ class ActivityProviderBehavior extends ModelBehavior {
  * @param array $config Configuration options
  * @return boolean
  */
-	public function setup(&$Model, $config = array()) {
+	public function setup(Model $Model, $config = array()) {
 		$this->addActivityProvider($Model, $config);
 		return true;
 	}
@@ -108,7 +108,7 @@ class ActivityProviderBehavior extends ModelBehavior {
  * @param array $config Configuration options
  * @return mixed
  */
-	public function addActivityProvider(&$Model, $config = array()) {
+	public function addActivityProvider(Model $Model, $config = array()) {
 		$config = array_intersect_key($config, $this->_defaults);
 
 		$alias = Inflector::pluralize(Inflector::underscore($Model->alias));
@@ -135,7 +135,7 @@ class ActivityProviderBehavior extends ModelBehavior {
 	}
 
  	// Returns events of type event_type visible by user that occured between from and to
-	public function find_events(&$Model, $event_type, $user, $from, $to, $options) {
+	public function find_events(Model $Model, $event_type, $user, $from, $to, $options) {
 		if (is_numeric($from)) {
 			$from = date('Y-m-d H:i:s', $from);
 		}
@@ -159,7 +159,7 @@ class ActivityProviderBehavior extends ModelBehavior {
 			$cond->add(array($provider_options['author_key'] => $options['author']['id']));
 		}
 		if (isset($provider_options['permission'])) {
-			$project =& ClassRegistry::init('Project');
+			$project = ClassRegistry::init('Project');
 			$cond->add($project->allowed_to_condition($user, $provider_options['permission'], $options));
 		}
 		$scope_options['conditions'] = $cond->conditions;

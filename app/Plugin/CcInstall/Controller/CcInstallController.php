@@ -266,7 +266,7 @@ class CcInstallController extends CcInstallAppController {
         );
         foreach ($data as $model_name => $map) {
             app::import('model',$model_name);
-            $obj =& ClassRegistry::init($model_name);
+            $obj = ClassRegistry::init($model_name);
             foreach ($map as $id => $name) {
                 $obj->id = $id;
                 $obj->saveField('name',$name);

@@ -2,9 +2,9 @@
     <h2><?php echo $pageTitle; ?></h2>
 
     <p>
-        Welcome page: <?php echo $this->Html->link(Router::url('/', true), Router::url('/', true)); ?><br />
-        Username: admin<br />
-        Password: admin
+        <?php echo __('Home page'); ?> : <?php echo $this->Html->link(Router::url('/', true), Router::url('/', true)); ?><br />
+        <?php echo __('Username'); ?> : admin<br />
+        <?php echo __('Password'); ?> : admin
     </p>
 
     <br />

@@ -1,6 +1,6 @@
 <h2><?php echo __('Permissions report'); ?></h2>
 
-<?php echo $this->Form->create('Role', array('action' => 'report','id' => 'permissions_form')); ?>
+<?php echo $this->Form->create('Role', array('url' => 'report','id' => 'permissions_form')); ?>
 <!-- <input name="data[permissions][0]" type="hidden" value="" /> -->
 
 <table class="list">

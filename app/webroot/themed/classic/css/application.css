@@ -22,7 +22,7 @@ body{ color:#303030; background:#e8eaec; }
 #content { background: #fff; }
 #content .tabs ul { bottom:-1px; }
 
-h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { border-bottom: 0px; color:#606060; font-family: Trebuchet MS,Georgia,"Times New Roman",serif; }
+h2, h3, h4, .wiki h1, .wiki h2, .wiki h3 { border-bottom: 0px; color:#606060; font-family: "Trebuchet MS",Verdana,sans-serif; }
 h2, .wiki h1 { letter-spacing:-1px; }
 h4 { border-bottom: dotted 1px #c0c0c0; }
 

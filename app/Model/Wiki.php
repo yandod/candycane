@@ -134,6 +134,6 @@ class Wiki extends AppModel {
 		// replace spaces with _ and remove unwanted caracter
 		$title = preg_replace('/\s+/', '_', $title);
 		// upcase the first letter
-		return preg_replace('/^([a-z])/e', 'strtoupper("\\1")', $title);
+		return preg_replace('/^([a-z])/', 'strtoupper("\\1")', $title);
 	}
 }

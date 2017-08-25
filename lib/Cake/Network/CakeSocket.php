@@ -2,18 +2,18 @@
 /**
  * CakePHP Socket connection class.
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @package       Cake.Network
  * @since         CakePHP(tm) v 1.2.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Validation', 'Utility');
@@ -28,7 +28,7 @@ App::uses('Validation', 'Utility');
 class CakeSocket {
 
 /**
- * Object description
+ * CakeSocket description
  *
  * @var string
  */
@@ -44,7 +44,8 @@ class CakeSocket {
 		'host' => 'localhost',
 		'protocol' => 'tcp',
 		'port' => 80,
-		'timeout' => 30
+		'timeout' => 30,
+		'cryptoType' => 'tls',
 	);
 
 /**
@@ -96,7 +97,7 @@ class CakeSocket {
 		'sslv2_server' => STREAM_CRYPTO_METHOD_SSLv2_SERVER,
 		'sslv3_server' => STREAM_CRYPTO_METHOD_SSLv3_SERVER,
 		'sslv23_server' => STREAM_CRYPTO_METHOD_SSLv23_SERVER,
-		'tls_server' => STREAM_CRYPTO_METHOD_TLS_SERVER
+		'tls_server' => STREAM_CRYPTO_METHOD_TLS_SERVER,
 		// @codingStandardsIgnoreEnd
 	);
 
@@ -116,6 +117,44 @@ class CakeSocket {
  */
 	public function __construct($config = array()) {
 		$this->config = array_merge($this->_baseConfig, $config);
+
+		$this->_addTlsVersions();
+	}
+
+/**
+ * Add TLS versions that are dependent on specific PHP versions.
+ *
+ * These TLS versions are not supported by older PHP versions,
+ * so we have to conditionally set them if they are supported.
+ *
+ * As of PHP5.6.6, STREAM_CRYPTO_METHOD_TLS_CLIENT does not include
+ * TLS1.1 or 1.2. If we have TLS1.2 support we need to update the method map.
+ *
+ * @see https://bugs.php.net/bug.php?id=69195
+ * @see https://github.com/php/php-src/commit/10bc5fd4c4c8e1dd57bd911b086e9872a56300a0
+ * @return void
+ */
+	protected function _addTlsVersions() {
+		$conditionalCrypto = array(
+			'tlsv1_1_client' => 'STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT',
+			'tlsv1_2_client' => 'STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT',
+			'tlsv1_1_server' => 'STREAM_CRYPTO_METHOD_TLSv1_1_SERVER',
+			'tlsv1_2_server' => 'STREAM_CRYPTO_METHOD_TLSv1_2_SERVER'
+		);
+		foreach ($conditionalCrypto as $key => $const) {
+			if (defined($const)) {
+				$this->_encryptMethods[$key] = constant($const);
+			}
+		}
+
+		// @codingStandardsIgnoreStart
+		if (isset($this->_encryptMethods['tlsv1_2_client'])) {
+			$this->_encryptMethods['tls_client'] = STREAM_CRYPTO_METHOD_TLS_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT | STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+		}
+		if (isset($this->_encryptMethods['tlsv1_2_server'])) {
+			$this->_encryptMethods['tls_server'] = STREAM_CRYPTO_METHOD_TLS_SERVER | STREAM_CRYPTO_METHOD_TLSv1_1_SERVER | STREAM_CRYPTO_METHOD_TLSv1_2_SERVER;
+		}
+		// @codingStandardsIgnoreEnd
 	}
 
 /**
@@ -129,10 +168,23 @@ class CakeSocket {
 			$this->disconnect();
 		}
 
+		$hasProtocol = strpos($this->config['host'], '://') !== false;
+		if ($hasProtocol) {
+			list($this->config['protocol'], $this->config['host']) = explode('://', $this->config['host']);
+		}
 		$scheme = null;
-		if (!empty($this->config['protocol']) && strpos($this->config['host'], '://') === false && empty($this->config['proxy'])) {
+		if (!empty($this->config['protocol'])) {
 			$scheme = $this->config['protocol'] . '://';
 		}
+		if (!empty($this->config['proxy'])) {
+			$scheme = 'tcp://';
+		}
+
+		$host = $this->config['host'];
+		if (isset($this->config['request']['uri']['host'])) {
+			$host = $this->config['request']['uri']['host'];
+		}
+		$this->_setSslContext($host);
 
 		if (!empty($this->config['context'])) {
 			$context = stream_context_create($this->config['context']);
@@ -179,6 +231,9 @@ class CakeSocket {
 					$this->config['request']['uri']['port'] . ' HTTP/1.1';
 				$req[] = 'Host: ' . $this->config['host'];
 				$req[] = 'User-Agent: php proxy';
+				if (!empty($this->config['proxyauth'])) {
+					$req[] = 'Proxy-Authorization: ' . $this->config['proxyauth'];
+				}
 
 				fwrite($this->connection, implode("\r\n", $req) . "\r\n\r\n");
 
@@ -189,10 +244,50 @@ class CakeSocket {
 					}
 				}
 
-				$this->enableCrypto('tls', 'client');
+				$this->enableCrypto($this->config['cryptoType'], 'client');
 			}
 		}
 		return $this->connected;
+	}
+
+/**
+ * Configure the SSL context options.
+ *
+ * @param string $host The host name being connected to.
+ * @return void
+ */
+	protected function _setSslContext($host) {
+		foreach ($this->config as $key => $value) {
+			if (substr($key, 0, 4) !== 'ssl_') {
+				continue;
+			}
+			$contextKey = substr($key, 4);
+			if (empty($this->config['context']['ssl'][$contextKey])) {
+				$this->config['context']['ssl'][$contextKey] = $value;
+			}
+			unset($this->config[$key]);
+		}
+		if (version_compare(PHP_VERSION, '5.3.2', '>=')) {
+			if (!isset($this->config['context']['ssl']['SNI_enabled'])) {
+				$this->config['context']['ssl']['SNI_enabled'] = true;
+			}
+			if (version_compare(PHP_VERSION, '5.6.0', '>=')) {
+				if (empty($this->config['context']['ssl']['peer_name'])) {
+					$this->config['context']['ssl']['peer_name'] = $host;
+				}
+			} else {
+				if (empty($this->config['context']['ssl']['SNI_server_name'])) {
+					$this->config['context']['ssl']['SNI_server_name'] = $host;
+				}
+			}
+		}
+		if (empty($this->config['context']['ssl']['cafile'])) {
+			$this->config['context']['ssl']['cafile'] = CAKE . 'Config' . DS . 'cacert.pem';
+		}
+		if (!empty($this->config['context']['ssl']['verify_host'])) {
+			$this->config['context']['ssl']['CN_match'] = $host;
+		}
+		unset($this->config['context']['ssl']['verify_host']);
 	}
 
 /**
@@ -354,7 +449,7 @@ class CakeSocket {
 	}
 
 /**
- * Resets the state of this Socket instance to it's initial state (before Object::__construct got executed)
+ * Resets the state of this Socket instance to it's initial state (before CakeObject::__construct got executed)
  *
  * @param array $state Array with key and values to reset
  * @return bool True on success
@@ -377,7 +472,7 @@ class CakeSocket {
 /**
  * Encrypts current stream socket, using one of the defined encryption methods.
  *
- * @param string $type Type which can be one of 'sslv2', 'sslv3', 'sslv23' or 'tls'.
+ * @param string $type Type which can be one of 'sslv2', 'sslv3', 'sslv23', 'tls', 'tlsv1_1' or 'tlsv1_2'.
  * @param string $clientOrServer Can be one of 'client', 'server'. Default is 'client'.
  * @param bool $enable Enable or disable encryption. Default is true (enable)
  * @return bool True on success
@@ -405,6 +500,4 @@ class CakeSocket {
 		$this->setLastError(null, $errorMessage);
 		throw new SocketException($errorMessage);
 	}
-
 }
-

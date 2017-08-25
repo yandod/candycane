@@ -127,7 +127,7 @@ class SearchableBehavior extends ModelBehavior {
 			list($type, $query) = array($conditions, $fields);
 		}
 
-		$db =& ConnectionManager::getDataSource($model->useDbConfig);
+		$db = ConnectionManager::getDataSource($model->useDbConfig);
 		$model->findQueryType = $type;
 		$model->id = $model->getID();
 
@@ -305,7 +305,7 @@ class SearchableBehavior extends ModelBehavior {
  * @param integer $recursive
  */
 	private function __queryGet(Model $model, $queryData = array(), $recursive = null) {
-		$db =& ConnectionManager::getDataSource($model->useDbConfig);
+		$db = ConnectionManager::getDataSource($model->useDbConfig);
 		$db->__scrubQueryData($queryData);
 		$null = null;
 		$array = array();
@@ -332,7 +332,7 @@ class SearchableBehavior extends ModelBehavior {
 		foreach ($model->__associations as $type) {
 			foreach ($model->{$type} as $assoc => $assocData) {
 				if ($model->recursive > -1) {
-					$linkModel =& $model->{$assoc};
+					$linkModel = $model->{$assoc};
 
 					$external = isset($assocData['external']);
 					if ($model->alias == $linkModel->alias && $type != 'hasAndBelongsToMany' && $type != 'hasMany') {

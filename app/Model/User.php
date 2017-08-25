@@ -373,7 +373,7 @@ class User extends AppModel {
         $project = $Project->findById($project);
       }
       if(!empty($project)) {
-      $Project = & ClassRegistry::init('Project');
+      $Project = ClassRegistry::init('Project');
       # No action allowed on archived projects
       if(!$Project->is_active($project)) return false;
       # No action allowed on disabled modules
@@ -383,7 +383,7 @@ class User extends AppModel {
       
       $role_id = $this->role_for_project($user, $project);
       if(empty($role_id)) return false;
-      $Role = & ClassRegistry::init('Role');
+      $Role = ClassRegistry::init('Role');
       if(empty($this->_map_role[$role_id])) {
         $role = $Role->read(null, $role_id);
         $this->_map_role[$role_id] = $role;
@@ -393,7 +393,7 @@ class User extends AppModel {
       return $Role->is_allowed_to($role, $action) && ($project['Project']['is_public'] || $Role->is_member($role));
     } elseif(!empty($options['global'])) {
       # authorize if user has at least one role that has this permission
-      $Role = & ClassRegistry::init('Role');
+      $Role = ClassRegistry::init('Role');
       $role_ids = $this->Membership->find('all', array('fields'=>array('role_id'), 'group'=>'role_id', 'recursive'=>-1));
       $roles = $this->Membership->Role->find('all', array('conditions'=>array('id'=>Set::extract('{n}.Membership.role_id', $role_ids))));
       foreach($roles as $role) {
@@ -448,7 +448,7 @@ class User extends AppModel {
    * beforeSave
    *
    */
-  function beforeSave()
+  function beforeSave($options = array())
   {
     if (!empty($this->data['User']['password'])) {
       $this->data['User']['hashed_password'] = $this->hash_password($this->data['User']['password']);
@@ -539,7 +539,7 @@ class User extends AppModel {
    */
   function role_for_project($user, $project) {
     $role_id = false;
-    $role = & ClassRegistry::init('Role');
+    $role = ClassRegistry::init('Role');
     if(!empty($user) && $user['status'] != USER_STATUS_ANONYMOUS) {
       # Find project membership
       $no_member_role = $role->non_member();

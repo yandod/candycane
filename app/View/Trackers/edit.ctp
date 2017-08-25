@@ -7,7 +7,7 @@ if( $currentuser[ 'admin' ] )
 
 <h2><?php echo __('Tracker'); ?></h2>
 
-<?php echo $this->Form->create(null, array('action'=>'edit', 'class'=>"tabular")); ?>
+<?php echo $this->Form->create(null, array('class'=>"tabular")); ?>
   <div class="box">
     <p>
       <?php echo $this->Form->label('name', __('Name').'<span class="required"> *</span>'); ?>

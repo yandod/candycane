@@ -119,7 +119,7 @@ class CustomField extends AppModel
         return true;
     }
 
-    public function afterSave($created)
+    public function afterSave($created, $options = array())
     {
         $id = $this->id;
         if ($created) {

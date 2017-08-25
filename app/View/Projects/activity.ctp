@@ -34,7 +34,7 @@
 	);
   unset($get_params['url']);
   echo $this->AppAjax->link(('&#171; '.__('Previous')),
-                    array('project_id'=>$this->request->params['project_id'], '?'=>array_merge($get_params, array('from' => date('Y-m-d', strtotime("-{$days} day", $date_to) - 1)))),
+                    array('?'=>array_merge($get_params, array('from' => date('Y-m-d', strtotime("-{$days} day", $date_to) - 1)))),
                     array(
                       'update' => "content", 
                       'complete' => 'window.scrollTo(0,0)', 
@@ -48,7 +48,7 @@
 <?php 
   if(date("Ymd") > date("Ymd",$date_to)) {
     echo $this->AppAjax->link((__('Next').' &#187;'),
-                    array('project_id'=>$this->request->params['project_id'], '?'=>array_merge($get_params, array('from' => date('Y-m-d', strtotime("$days day", $date_to) - 1)))),
+                    array('?'=>array_merge($get_params, array('from' => date('Y-m-d', strtotime("$days day", $date_to) - 1)))),
                     array(
                       'update' => "content", 
                       'complete' => 'window.scrollTo(0,0)', 
@@ -65,7 +65,7 @@
     <?php echo $this->Html->link(
 		'Atom',
 		array(
-			'project_id' => $this->request->params['project_id'],
+			// 'project_id' => $this->request->params['project_id'],
 			'?' => array_merge(
 				$this->request->query,
 				array(

@@ -13,7 +13,7 @@ if( $currentuser[ 'admin' ] )
 
 <p><?php echo __('Select a role and a tracker to edit the workflow'); ?>:</p>
 
-<?php echo $this->Form->create('Workflow', array('type' => 'get','action' => 'edit')); ?>
+<?php echo $this->Form->create('Workflow', array('type' => 'get')); ?>
 <p><label for="role_id"><?php echo __('Role'); ?>:</label>
 <?php
 echo $this->Form->input('role_id',
@@ -39,7 +39,7 @@ echo $this->Form->input('tracker_id',
 <!-- <% unless @tracker.nil? or @role.nil? or @statuses.empty? %> -->
 <?php if (! (empty($tracker) || empty($role) || empty($statuses)) ): ?>
 
-<?php echo $this->Form->create('Workflow',array('action' => 'edit', 'id' => 'workflow_form')); ?>
+<?php echo $this->Form->create('Workflow',array('url' => 'edit', 'id' => 'workflow_form')); ?>
 <?php echo $this->Form->input('tracker_id', array('type' => 'hidden', 'value' => $tracker['Tracker']['id'])); ?>
 <?php echo $this->Form->input('role_id', array('type' => 'hidden', 'value' => $role['Role']['id'])); ?>
 <table class="list">

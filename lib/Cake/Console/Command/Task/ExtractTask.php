@@ -2,17 +2,17 @@
 /**
  * Language string extractor
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.5012
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('AppShell', 'Console/Command');
@@ -151,7 +151,7 @@ class ExtractTask extends AppShell {
  */
 	public function execute() {
 		if (!empty($this->params['exclude'])) {
-			$this->_exclude = explode(',', $this->params['exclude']);
+			$this->_exclude = explode(',', str_replace('/', DS, $this->params['exclude']));
 		}
 		if (isset($this->params['files']) && !is_array($this->params['files'])) {
 			$this->_files = explode(',', $this->params['files']);
@@ -316,6 +316,10 @@ class ExtractTask extends AppShell {
 		))->addOption('merge', array(
 			'help' => __d('cake_console', 'Merge all domain and category strings into the default.po file.'),
 			'choices' => array('yes', 'no')
+		))->addOption('no-location', array(
+			'boolean' => true,
+			'default' => false,
+			'help' => __d('cake_console', 'Do not write lines with locations'),
 		))->addOption('output', array(
 			'help' => __d('cake_console', 'Full path to output directory.')
 		))->addOption('files', array(
@@ -567,19 +571,27 @@ class ExtractTask extends AppShell {
 	protected function _buildFiles() {
 		$paths = $this->_paths;
 		$paths[] = realpath(APP) . DS;
+
+		usort($paths, function ($a, $b) {
+			return strlen($b) - strlen($a);
+		});
+
 		foreach ($this->_translations as $category => $domains) {
 			foreach ($domains as $domain => $translations) {
 				foreach ($translations as $msgid => $contexts) {
 					foreach ($contexts as $context => $details) {
 						$plural = $details['msgid_plural'];
-						$files = $details['references'];
-						$occurrences = array();
-						foreach ($files as $file => $lines) {
-							$lines = array_unique($lines);
-							$occurrences[] = $file . ':' . implode(';', $lines);
+						$header = '';
+						if (empty($this->params['no-location'])) {
+							$files = $details['references'];
+							$occurrences = array();
+							foreach ($files as $file => $lines) {
+								$lines = array_unique($lines);
+								$occurrences[] = $file . ':' . implode(';', $lines);
+							}
+							$occurrences = implode("\n#: ", $occurrences);
+							$header = '#: ' . str_replace(DS, '/', str_replace($paths, '', $occurrences)) . "\n";
 						}
-						$occurrences = implode("\n#: ", $occurrences);
-						$header = '#: ' . str_replace(DS, '/', str_replace($paths, '', $occurrences)) . "\n";
 
 						$sentence = '';
 						if ($context) {
@@ -799,19 +811,17 @@ class ExtractTask extends AppShell {
 			}
 			$pattern = '/' . implode('|', $exclude) . '/';
 		}
-		foreach ($this->_paths as $path) {
-			$Folder = new Folder($path);
+		foreach ($this->_paths as $i => $path) {
+			$this->_paths[$i] = realpath($path) . DS;
+			$Folder = new Folder($this->_paths[$i]);
 			$files = $Folder->findRecursive('.*\.(php|ctp|thtml|inc|tpl)', true);
 			if (!empty($pattern)) {
-				foreach ($files as $i => $file) {
-					if (preg_match($pattern, $file)) {
-						unset($files[$i]);
-					}
-				}
+				$files = preg_grep($pattern, $files, PREG_GREP_INVERT);
 				$files = array_values($files);
 			}
 			$this->_files = array_merge($this->_files, $files);
 		}
+		$this->_files = array_unique($this->_files);
 	}
 
 /**

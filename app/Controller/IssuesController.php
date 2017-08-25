@@ -594,7 +594,7 @@ class IssuesController extends AppController
         }
         Configure::write('debug', 0);
         $issue = $this->_find_issue($this->request->params['issue_id']);
-        $Journal =& ClassRegistry::init('Journal');
+        $Journal =ClassRegistry::init('Journal');
         // $Journal->bindModel(array('belongsTo'=>array('User'), 'hasMany'=>array('JournalDetail')),false);
         $journal = false;
         if (isset($this->request->params['pass'][0]) && $this->request->params['pass'][0]) {
@@ -703,7 +703,7 @@ class IssuesController extends AppController
         }
 
         // Find potential statuses the user could be allowed to switch issues to
-        $workflow = & ClassRegistry::init('Workflow');
+        $workflow = ClassRegistry::init('Workflow');
         $workflow->bindModel(array('belongsTo' => array('Status' => array('className' => 'IssueStatus', 'foreignKey' => 'new_status_id', 'order' => 'position'))), false);
         $available_statuses = $workflow->find('all', array('conditions' => array('role_id' => $role_id), 'fields' => 'Status.*'));
         $this->set('available_statuses', $available_statuses);
@@ -748,7 +748,7 @@ class IssuesController extends AppController
             // admin is allowed to move issues to any active (visible) project
             $allowed_projects = $this->Issue->Project->find('list', array('conditions' => $this->Issue->Project->visible_by($this->current_user), 'order' => 'name'));
         } else {
-            $Role = & ClassRegistry::init('Role');
+            $Role = ClassRegistry::init('Role');
             foreach ($this->current_user['memberships'] as $member) {
                 if ($Role->is_allowed_to($member, ':move_issues')) {
                     $allowed_projects[$member['Project']['id']] = $member['Project']['name'];
@@ -824,7 +824,7 @@ class IssuesController extends AppController
 
         $this->request->params['project_id'] = $issues[0]['Project']['identifier'];
         $this->set('issue_datas', $issues);
-        $TimeEntry = & ClassRegistry::init('TimeEntry');
+        $TimeEntry = ClassRegistry::init('TimeEntry');
         $hours = $TimeEntry->sum('hours', array('issue_id' => $issue_ids));
         $this->set(compact('hours'));
         if ($hours > 0) {
@@ -1103,7 +1103,7 @@ class IssuesController extends AppController
             $attachments = $this->Issue->findAttachments($this->Issue->data['Issue']['id']);
             $attachments_deletable = $this->Issue->is_attachments_deletable($this->current_user, $this->_project);
 
-            $IssueRelation = & ClassRegistry::init('IssueRelation');
+            $IssueRelation = ClassRegistry::init('IssueRelation');
             $issue_relations = $IssueRelation->findRelations($this->Issue->data);
 
             $this->set(compact(

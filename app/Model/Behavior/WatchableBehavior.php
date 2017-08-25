@@ -73,7 +73,7 @@ end
 
 */
 class WatchableBehavior extends ModelBehavior {
-  function setup(&$Model, $config = array()) {
+  function setup(Model $Model, $config = array()) {
     $settings = $config;
     //  *** proc on afterFind   
     //  has_many :watcher_users, :through => :watchers, :source => :user
@@ -82,13 +82,13 @@ class WatchableBehavior extends ModelBehavior {
   }
   # Returns an array of users that are proposed as watchers
   # TODO maybe not use...
-  //function addable_watcher_users(&$Model) {
+  //function addable_watcher_users(Model $Model) {
   //  project.users.sort - self.watcher_users
   //}
   /**
    * Save watcheable values after Main Model
    */
-  function afterSave(&$Model, $created) {
+  function afterSave(Model $Model, $created, $options = array()) {
     if(empty($Model->data[$Model->name]['watcher_user_ids'])) {
       return true;
     }
@@ -106,7 +106,7 @@ class WatchableBehavior extends ModelBehavior {
   /**
    * Add relation of Watchable
    */
-  function afterFind(&$Model, $results, $primary = false) {
+  function afterFind(Model $Model, $results, $primary = false) {
     $single = false;
     if(empty($results[0])) {
       $results = array($results);
@@ -115,7 +115,7 @@ class WatchableBehavior extends ModelBehavior {
     if(is_array($results)) {
       foreach($results as $index => $result) {
         if(!empty($result[$Model->name]) && !empty($result[$Model->name]['id'])) {
-          $Watcher = & ClassRegistry::init('Watcher');
+          $Watcher = ClassRegistry::init('Watcher');
           $conditions = array('watchable_type'=> $Model->name, 'watchable_id'=>$result[$Model->name]['id']);
           $order = 'Watcher.user_id';
           $values = $Watcher->find('all', compact('conditions', 'order'));
@@ -136,31 +136,31 @@ class WatchableBehavior extends ModelBehavior {
   }
 
   # Adds user as a watcher
-  function add_watcher(&$Model, $user) {
-    $model = & ClassRegistry::init('Watcher');
+  function add_watcher(Model $Model, $user) {
+    $model = ClassRegistry::init('Watcher');
     $model->create();
     $data = array('watchable_type'=>$Model->name, 'watchable_id'=>$Model->id, 'user_id'=>$user['User']['id']);
     return $model->save(array('Watcher'=>$data));
   }
 
   # Removes user from the watchers list
-  function remove_watcher(&$Model, $user) {
+  function remove_watcher(Model $Model, $user) {
     if(empty($user)) {
       return false;
     }
-    $model = & ClassRegistry::init('Watcher');
+    $model = ClassRegistry::init('Watcher');
     $conditions = array('watchable_type'=>$Model->name, 'watchable_id '=>$Model->id, 'user_id'=>$user['User']['id']);
     return $model->deleteAll($conditions);
   }
 
   # Adds/removes watcher
-  function set_watcher(&$Model, $user, $watching=true) {
+  function set_watcher(Model $Model, $user, $watching=true) {
     return $watching ? $this->add_watcher($Model, $user) : $this->remove_watcher($Model, $user);
   }
 
   # Returns if object is watched by user
-  function is_watched_by(&$Model, $user) {
-    $model = & ClassRegistry::init('Watcher');
+  function is_watched_by(Model $Model, $user) {
+    $model = ClassRegistry::init('Watcher');
     $watcher = $model->find('first',array('conditions' => array("Watcher.user_id"=>$user['User']['id'])));
     if(!$watcher) {
       return false;
@@ -169,8 +169,8 @@ class WatchableBehavior extends ModelBehavior {
   }
 
   # Returns an array of watchers' email addresses
-  function watcher_recipients(&$Model) {
-    $model = & ClassRegistry::init('Watcher');
+  function watcher_recipients(Model $Model) {
+    $model = ClassRegistry::init('Watcher');
     $model->bindModel(array('belongsTo'=>array('User')), false);
     $watchers = $model->find('all', array('conditions' => array('watchable_type'=>$Model->name, 'watchable_id'=>$Model->id)));
     if(empty($watchers)) {
@@ -184,12 +184,12 @@ class WatchableBehavior extends ModelBehavior {
     }
     return $mails;
   }
-  function watched_by(&$Model, $user, $object=false) {
+  function watched_by(Model $Model, $user, $object=false) {
     if(!$object) {
       $object = $Model->data;
     }
     $type = key($object);
-    $model = & ClassRegistry::init('Watcher');
+    $model = ClassRegistry::init('Watcher');
     $watcher = $model->find('first',array('conditions' => array(
       "Watcher.user_id"=>$user['User']['id'],
       'Watcher.watchable_type'=>$type,
@@ -204,7 +204,7 @@ class WatchableBehavior extends ModelBehavior {
    * This is default implement.
    * If not exist project_id, must be overwrite this function and return belongs to project_id
    */
-  function get_watched_project_id(&$Model) {
+  function get_watched_project_id(Model $Model) {
     if(!empty($Model->data[$Model->alias]['project_id'])) {
       return $Model->data[$Model->alias]['project_id'];
     }

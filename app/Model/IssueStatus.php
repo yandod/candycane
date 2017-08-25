@@ -96,7 +96,7 @@ class IssueStatus extends AppModel
      * @param tracker_id : selected tracker id
      */
     function find_new_statuses_allowed_to($default_status_id, $role_id, $tracker_id) {
-        $workflow = & ClassRegistry::init('Workflow');
+        $workflow = ClassRegistry::init('Workflow');
         $workflow->bindModel(array('belongsTo'=>array('Status'=>array('className'=>'IssueStatus', 'foreignKey'=>'new_status_id', 'order'=>'position'))), false);
         $conditions = array();
         if(!empty($role_id) && !empty($tracker_id)) {
@@ -117,7 +117,7 @@ class IssueStatus extends AppModel
     }
 
     function is_new_status_allowed_to($status_id, $role_id, $tracker_id) {
-        $workflow = & ClassRegistry::init('Workflow');
+        $workflow = ClassRegistry::init('Workflow');
         $workflow->bindModel(array('belongsTo'=>array('Status'=>array('className'=>'IssueStatus', 'foreignKey'=>'new_status_id', 'order'=>'position'))), false);
 
         if($status_id && $role_id && $tracker_id) {
@@ -128,7 +128,7 @@ class IssueStatus extends AppModel
     function beforeDelete($cascade = true) {
         return $this->check_integrity();
     }
-    function afterSave($created) {
+    function afterSave($created, $options = array()) {
         if(!empty($this->data[$this->alias]['is_default'])) {
             if($created) {
                 $id = $this->getLastInsertID();
@@ -141,7 +141,7 @@ class IssueStatus extends AppModel
 
     #private
     function check_integrity() {
-        $Issue =& ClassRegistry::init('Issue');
+        $Issue = ClassRegistry::init('Issue');
         return !$Issue->hasAny(array("status_id"=>$this->id));
     }
 

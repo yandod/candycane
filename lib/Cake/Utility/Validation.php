@@ -1,16 +1,16 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.3830
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Multibyte', 'I18n');
@@ -66,20 +66,14 @@ class Validation {
  *
  * Returns true if string contains something other than whitespace
  *
- * $check can be passed as an array:
- * array('check' => 'valueToCheck');
- *
- * @param string|array $check Value to check
+ * @param string $check Value to check
  * @return bool Success
  */
 	public static function notBlank($check) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
-
-		if (empty($check) && (string)$check !== '0') {
+		if (empty($check) && !is_bool($check) && !is_numeric($check)) {
 			return false;
 		}
+
 		return static::_check($check, '/[^\s]+/m');
 	}
 
@@ -95,10 +89,6 @@ class Validation {
  * @return bool Success
  */
 	public static function alphaNumeric($check) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
-
 		if (empty($check) && $check != '0') {
 			return false;
 		}
@@ -145,9 +135,6 @@ class Validation {
  * @return bool Success
  */
 	public static function blank($check) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
 		return !static::_check($check, '/[^\\s]/');
 	}
 
@@ -166,8 +153,8 @@ class Validation {
  * @see Validation::luhn()
  */
 	public static function cc($check, $type = 'fast', $deep = false, $regex = null) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
+		if (!is_scalar($check)) {
+			return false;
 		}
 
 		$check = str_replace(array('-', ' '), '', $check);
@@ -190,7 +177,7 @@ class Validation {
 				'enroute'	=> '/^2(?:014|149)\\d{11}$/',
 				'jcb'		=> '/^(3\\d{4}|2100|1800)\\d{11}$/',
 				'maestro'	=> '/^(?:5020|6\\d{3})\\d{12}$/',
-				'mc'		=> '/^5[1-5]\\d{14}$/',
+				'mc'		=> '/^(5[1-5]\\d{14})|(2(?:22[1-9]|2[3-9][0-9]|[3-6][0-9]{2}|7[0-1][0-9]|720)\\d{12})$/',
 				'solo'		=> '/^(6334[5-9][0-9]|6767[0-9]{2})\\d{10}(\\d{2,3})?$/',
 				'switch'	=>
 				'/^(?:49(03(0[2-9]|3[5-9])|11(0[1-2]|7[4-9]|8[1-2])|36[0-9]{2})\\d{10}(\\d{2,3})?)|(?:564182\\d{10}(\\d{2,3})?)|(6(3(33[0-4][0-9])|759[0-9]{2})\\d{10}(\\d{2,3})?)$/',
@@ -239,10 +226,6 @@ class Validation {
  * @return bool Success
  */
 	public static function comparison($check1, $operator = null, $check2 = null) {
-		if (is_array($check1)) {
-			extract($check1, EXTR_OVERWRITE);
-		}
-
 		if ((float)$check1 != $check1) {
 			return false;
 		}
@@ -300,8 +283,8 @@ class Validation {
  * @return bool Success
  */
 	public static function custom($check, $regex = null) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
+		if (!is_scalar($check)) {
+			return false;
 		}
 		if ($regex === null) {
 			static::$errors[] = __d('cake_dev', 'You must define a regular expression for %s', 'Validation::custom()');
@@ -480,10 +463,6 @@ class Validation {
  * @return bool Success
  */
 	public static function email($check, $deep = false, $regex = null) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
-
 		if ($regex === null) {
 			$regex = '/^[\p{L}0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[\p{L}0-9!#$%&\'*+\/=?^_`{|}~-]+)*@' . static::$_pattern['hostname'] . '$/ui';
 		}
@@ -555,7 +534,7 @@ class Validation {
 	}
 
 /**
- * Checks whether the length of a string is greater or equal to a minimal length.
+ * Checks whether the length of a string (in characters) is greater or equal to a minimal length.
  *
  * @param string $check The string to test
  * @param int $min The minimal string length
@@ -566,7 +545,7 @@ class Validation {
 	}
 
 /**
- * Checks whether the length of a string is smaller or equal to a maximal length..
+ * Checks whether the length of a string (in characters) is smaller or equal to a maximal length..
  *
  * @param string $check The string to test
  * @param int $max The maximal string length
@@ -574,6 +553,28 @@ class Validation {
  */
 	public static function maxLength($check, $max) {
 		return mb_strlen($check) <= $max;
+	}
+
+/**
+ * Checks whether the length of a string (in bytes) is greater or equal to a minimal length.
+ *
+ * @param string $check The string to test
+ * @param int $min The minimal string length
+ * @return bool Success
+ */
+	public static function minLengthBytes($check, $min) {
+		return strlen($check) >= $min;
+	}
+
+/**
+ * Checks whether the length of a string (in bytes) is smaller or equal to a maximal length..
+ *
+ * @param string $check The string to test
+ * @param int $max The maximal string length
+ * @return bool Success
+ */
+	public static function maxLengthBytes($check, $max) {
+		return strlen($check) <= $max;
 	}
 
 /**
@@ -670,10 +671,6 @@ class Validation {
  * @return bool Success
  */
 	public static function phone($check, $regex = null, $country = 'all') {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
-
 		if ($regex === null) {
 			switch ($country) {
 				case 'us':
@@ -692,7 +689,7 @@ class Validation {
 					// Exchange and 555-XXXX numbers
 					$regex .= '(?!(555(?:\s*(?:[.\-\s]\s*))(01([0-9][0-9])|1212)))';
 					$regex .= '(?!(555(01([0-9][0-9])|1212)))';
-					$regex .= '([2-9]1[02-9]|[2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)';
+					$regex .= '([2-9]1[02-9]|[2-9][02-9]1|[2-9][0-9]{2})\s*(?:[.-]\s*)';
 
 					// Local number and extension
 					$regex .= '?([0-9]{4})';
@@ -715,10 +712,6 @@ class Validation {
  * @return bool Success
  */
 	public static function postal($check, $regex = null, $country = 'us') {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
-
 		if ($regex === null) {
 			switch ($country) {
 				case 'uk':
@@ -780,10 +773,6 @@ class Validation {
  * @deprecated Deprecated 2.6. Will be removed in 3.0.
  */
 	public static function ssn($check, $regex = null, $country = null) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
-		}
-
 		if ($regex === null) {
 			switch ($country) {
 				case 'dk':
@@ -905,33 +894,10 @@ class Validation {
  * @return bool Success of match
  */
 	protected static function _check($check, $regex) {
-		if (is_string($regex) && preg_match($regex, $check)) {
+		if (is_string($regex) && is_scalar($check) && preg_match($regex, $check)) {
 			return true;
 		}
 		return false;
-	}
-
-/**
- * Get the values to use when value sent to validation method is
- * an array.
- *
- * @param array $params Parameters sent to validation method
- * @return void
- */
-	protected static function _defaults($params) {
-		static::_reset();
-		$defaults = array(
-			'check' => null,
-			'regex' => null,
-			'country' => null,
-			'deep' => false,
-			'type' => null
-		);
-		$params += $defaults;
-		if ($params['country'] !== null) {
-			$params['country'] = mb_strtolower($params['country']);
-		}
-		return $params;
 	}
 
 /**
@@ -943,8 +909,8 @@ class Validation {
  * @see http://en.wikipedia.org/wiki/Luhn_algorithm
  */
 	public static function luhn($check, $deep = false) {
-		if (is_array($check)) {
-			extract(static::_defaults($check));
+		if (!is_scalar($check)) {
+			return false;
 		}
 		if ($deep !== true) {
 			return true;
@@ -1022,15 +988,82 @@ class Validation {
  * Checking for upload errors
  *
  * @param string|array $check Value to check.
+ * @param bool $allowNoFile Set to true to allow UPLOAD_ERR_NO_FILE as a pass.
  * @return bool
  * @see http://www.php.net/manual/en/features.file-upload.errors.php
  */
-	public static function uploadError($check) {
+	public static function uploadError($check, $allowNoFile = false) {
 		if (is_array($check) && isset($check['error'])) {
 			$check = $check['error'];
 		}
+		if ($allowNoFile) {
+			return in_array((int)$check, array(UPLOAD_ERR_OK, UPLOAD_ERR_NO_FILE), true);
+		}
 
 		return (int)$check === UPLOAD_ERR_OK;
+	}
+
+/**
+ * Validate an uploaded file.
+ *
+ * Helps join `uploadError`, `fileSize` and `mimeType` into
+ * one higher level validation method.
+ *
+ * ### Options
+ *
+ * - `types` - A list of valid mime types. If empty all types
+ *   will be accepted. The `type` will not be looked at, instead
+ *   the file type will be checked with ext/finfo.
+ * - `minSize` - The minimum file size. Defaults to not checking.
+ * - `maxSize` - The maximum file size. Defaults to not checking.
+ * - `optional` - Whether or not this file is optional. Defaults to false.
+ *   If true a missing file will pass the validator regardless of other constraints.
+ *
+ * @param array $file The uploaded file data from PHP.
+ * @param array $options An array of options for the validation.
+ * @return bool
+ */
+	public static function uploadedFile($file, $options = array()) {
+		$options += array(
+			'minSize' => null,
+			'maxSize' => null,
+			'types' => null,
+			'optional' => false,
+		);
+		if (!is_array($file)) {
+			return false;
+		}
+		$keys = array('error', 'name', 'size', 'tmp_name', 'type');
+		ksort($file);
+		if (array_keys($file) != $keys) {
+			return false;
+		}
+		if (!static::uploadError($file, $options['optional'])) {
+			return false;
+		}
+		if ($options['optional'] && (int)$file['error'] === UPLOAD_ERR_NO_FILE) {
+			return true;
+		}
+		if (isset($options['minSize']) && !static::fileSize($file, '>=', $options['minSize'])) {
+			return false;
+		}
+		if (isset($options['maxSize']) && !static::fileSize($file, '<=', $options['maxSize'])) {
+			return false;
+		}
+		if (isset($options['types']) && !static::mimeType($file, $options['types'])) {
+			return false;
+		}
+		return static::_isUploadedFile($file['tmp_name']);
+	}
+
+/**
+ * Helper method that can be stubbed in testing.
+ *
+ * @param string $path The path to check.
+ * @return bool Whether or not the file is an uploaded file.
+ */
+	protected static function _isUploadedFile($path) {
+		return is_uploaded_file($path);
 	}
 
 /**

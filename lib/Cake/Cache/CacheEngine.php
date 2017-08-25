@@ -1,17 +1,17 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @package       Cake.Cache
  * @since         CakePHP(tm) v 1.2.0.4933
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
@@ -82,6 +82,17 @@ abstract class CacheEngine {
  * @return bool True if the data was successfully cached, false on failure
  */
 	abstract public function write($key, $value, $duration);
+
+/**
+ * Write value for a key into cache if it doesn't already exist
+ *
+ * @param string $key Identifier for the data
+ * @param mixed $value Data to be cached
+ * @param int $duration How long to cache for.
+ * @return bool True if the data was successfully cached, false on failure
+ */
+	public function add($key, $value, $duration) {
+	}
 
 /**
  * Read a key from the cache
@@ -176,5 +187,4 @@ abstract class CacheEngine {
 		$key = preg_replace('/[\s]+/', '_', strtolower(trim(str_replace(array(DS, '/', '.'), '_', strval($key)))));
 		return $prefix . $key;
 	}
-
 }

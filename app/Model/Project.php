@@ -322,7 +322,7 @@ class Project extends AppModel {
     $base_statement[] = array($this->alias.".status" => PROJECT_STATUS_ACTIVE);
     $exists_statement = false;
     $projectTable = $this->alias;
-    $Permission = & ClassRegistry::init('Permission');
+    $Permission = ClassRegistry::init('Permission');
     $perm = $Permission->findByName($permission);
     if(!empty($perm['project_module'])) {
       # If the permission belongs to a project module, make sure the module is enabled
@@ -345,7 +345,7 @@ class Project extends AppModel {
     if(isset($user['admin']) && $user['admin']) {
       # no restriction
     } else {
-      $role = & ClassRegistry::init('Role');
+      $role = ClassRegistry::init('Role');
       $statements = array();
       $statements[] = array("1=0");
       if(is_array($user) && array_key_exists('logged', $user) && $user['logged']) {
@@ -378,7 +378,7 @@ class Project extends AppModel {
     $this->bindModel(array('hasMany' => array('EnabledModule')), false);
     $enabled_module_table_name = $this->EnabledModule->fullTableName();
     $base_statement = "Project.status=".PROJECT_STATUS_ACTIVE;
-    $Permission = & ClassRegistry::init('Permission');
+    $Permission = ClassRegistry::init('Permission');
     $perm = $Permission->findByName($permission);
     if(!empty($perm['project_module'])) {
       # If the permission belongs to a project module, make sure the module is enabled
@@ -393,7 +393,7 @@ class Project extends AppModel {
     if($user['admin']) {
       # no restriction
     } else {
-      $role = & ClassRegistry::init('Role');
+      $role = ClassRegistry::init('Role');
       $statements[] = "1=0";
       if($user['logged']) {
         if($role->non_member_allowed_to($permission)) {
@@ -716,7 +716,7 @@ class Project extends AppModel {
     if (!$project) {
       $project = $this->data;
     }
-    $Permission =& ClassRegistry::init('Permission');
+    $Permission = ClassRegistry::init('Permission');
     $allowed_permissions = array();
     $module_names = array();
     if (array_key_exists('EnabledModule', $project)) {
@@ -733,7 +733,7 @@ class Project extends AppModel {
   }
 
   function _allowed_actions($project) {
-    $Permission =& ClassRegistry::init('Permission');
+    $Permission = ClassRegistry::init('Permission');
     $actions = array();
     foreach($this->_allowed_permissions($project) as $permission) {
       $actions[] = $Permission->allowed_actions($permission);

@@ -29,7 +29,7 @@ class WikiController extends AppController
         }
         $wiki_pages = $this->Session->read('Wiki_pages');
         $new_page = array($page['WikiPage']['title'], $this->request->params['project_id']);
-        if (($key = array_search($new_page, $wiki_pages)) !== false) {
+        if ($wiki_pages && ($key = array_search($new_page, $wiki_pages)) !== false) {
             unset($wiki_pages[$key]);
         }
         $wiki_pages[] = $new_page;

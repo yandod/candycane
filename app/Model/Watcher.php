@@ -18,7 +18,7 @@ class Watcher extends AppModel
         return $this->User->is_active($this->data[$this->name]['user_id']);
     }
 
-    function isUnique($field, $data)
+    function isUnique($field, $or = true)
     {
         return parent::isUnique(array('user_id', 'watchable_type', 'watchable_id'), false);
     }

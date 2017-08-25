@@ -191,7 +191,7 @@ div#activity dt, #search-results dt { margin-bottom: 0px; padding-left: 20px; li
 div#activity dt.me .time { border-bottom: 1px solid #999; }
 div#activity dt .time { color: #777; font-size: 80%; }
 div#activity dd .description, #search-results dd .description { font-style: italic; }
-div#activity span.project:after, #search-results span.project:after { content: " -"; }
+div#activity span.project:after, #search-results span.project:after { content: " - "; }
 div#activity dd span.description, #search-results dd span.description { display:block; }
 
 #search-results dd { margin-bottom: 1em; padding-left: 20px; margin-left:0px; }
@@ -301,7 +301,7 @@ div.attachments img { vertical-align: middle; }
 div.attachments span.author { font-size: 0.9em; color: #888; }
 
 p.other-formats { text-align: right; font-size:0.9em; color: #666; }
-.other-formats span + span:before { content: "| "; }
+.other-formats span + span:before { content: " | "; }
 
 a.feed { background: url(../img/feed.png) no-repeat 1px 50%; padding: 2px 0px 3px 16px; }
 

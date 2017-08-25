@@ -2,18 +2,18 @@
 /**
  * AppTest file.
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @package       Cake.Test.Case.Core
  * @since         CakePHP(tm) v 2.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
@@ -576,7 +576,6 @@ class AppTest extends CakeTestCase {
  * test that building helper paths actually works.
  *
  * @return void
- * @link https://cakephp.lighthouseapp.com/projects/42648/tickets/410
  */
 	public function testImportingHelpersFromAlternatePaths() {
 		$this->assertFalse(class_exists('BananaHelper', false), 'BananaHelper exists, cannot test importing it.');
@@ -828,5 +827,37 @@ class AppTest extends CakeTestCase {
 		$this->assertFalse(class_exists('TestPluginOtherLibrary', false));
 		App::uses('TestPluginOtherLibrary', 'TestPlugin.Lib');
 		$this->assertTrue(class_exists('TestPluginOtherLibrary'));
+	}
+
+/**
+ * Test that increaseMemoryLimit increases the maximum amount of memory actually
+ *
+ * @dataProvider memoryVariationProvider
+ * @return void
+ */
+	public function testIncreaseMemoryLimit($memoryLimit, $additionalKb, $expected) {
+		$this->skipIf(!function_exists('ini_set'));
+
+		$originalMemoryLimit = ini_get('memory_limit');
+
+		ini_set('memory_limit', $memoryLimit);
+		App::increaseMemoryLimit($additionalKb);
+		$this->assertEquals($expected, ini_get('memory_limit'));
+
+		ini_set('memory_limit', $originalMemoryLimit);
+	}
+
+/**
+ * Data provider function for testIncreaseMemoryLimit 
+ *
+ * @return void
+ */
+	public function memoryVariationProvider() {
+		return array(
+			array('131072K', 100000, '231072K'),
+			array('256M', 1, '262145K'),
+			array('1G', 1, '1048577K'),
+			array('-1', 100000, '-1')
+		);
 	}
 }

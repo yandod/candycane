@@ -138,7 +138,24 @@ class AdminController extends AppController
      */
     public function info()
     {
-        $db =& ConnectionManager::getDataSource($this->Project->useDbConfig);
+        $db = ConnectionManager::getDataSource($this->Project->useDbConfig);
+        switch ($db->config['datasource']) {
+            case (strpos($db->config['datasource'], 'Sqlite') !== false) :
+                if(extension_loaded('sqlite3')) {
+                    $this->set('db_version', SQLite3::version()['versionString']);
+                } else {
+                    $this->set('db_version', __('SQLite3 extension not loaded in your php.ini'));
+                }
+                break;
+            case (strpos($db->config['datasource'], 'Mysql') !== false || strpos($db->config['datasource'], 'Postgres') !== false) :
+                $info = ConnectionManager::getDataSource($this->Project->useDbConfig)->query('SELECT version() as version');
+                $this->set('db_version', $info[0][0]['version']);
+                break;
+            default :
+                $this->set('db_version', '');
+        }
         $this->set('db_driver', $db->config['datasource']);
+        $this->set('db_driver_description', $db->description);
+        $this->set('db_name', $db->config['database']);
     }
 }

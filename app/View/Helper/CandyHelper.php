@@ -113,7 +113,7 @@ class CandyHelper extends AppHelper {
                 $title[] = $project['Project']['name'];
             }
 
-            $Settings =& ClassRegistry::getObject('Setting');
+            $Settings = ClassRegistry::getObject('Setting');
             $title[] = $Settings->app_title;
 
             $str = implode(' - ', $title);

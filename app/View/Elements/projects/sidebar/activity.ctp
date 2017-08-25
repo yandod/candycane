@@ -1,8 +1,8 @@
-<?php echo $this->Form->create('Project', array('url'=>array('action'=>'activity', 'project_id'=>$this->request->params['project_id']), 'type'=>'get')) ?>
+<?php echo $this->Form->create('Project', array('url'=>array('action'=>'activity', /*'project_id'=>$this->request->params['project_id']*/), 'type'=>'get')) ?>
 <h3><?php echo __('Activity') ?></h3>
 <p><?php foreach ($activity_event_types as $t) : ?>
   <?php echo $this->Form->checkbox("show_{$t}", array('value'=>1, 'checked'=>in_array($t, $activity_scope)?'checked':null)); ?>
-  <?php echo $this->Html->link(__(Inflector::classify($t)), array('project_id'=>$this->request->params['project_id'], '?'=>array("show_{$t}"=>1))); ?><br />
+  <?php echo $this->Html->link(__(Inflector::classify($t)), array(/*'project_id'=>$this->request->params['project_id'],*/ '?'=>array("show_{$t}"=>1))); ?><br />
 <?php endforeach; ?></p>
 <?php if (!empty($active_children)) : ?>
 <p>

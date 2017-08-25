@@ -89,7 +89,7 @@ class TimeEntry extends AppModel
     return $this->data;
   }
   
-  function beforeValidate() {
+  function beforeValidate($options = array()) {
     if(!empty($this->data['Issue']) && empty($this->data[$this->name]['project_id'])) {
       $this->set('project_id', $issue['Issue']['project_id']);
     }
@@ -123,7 +123,7 @@ class TimeEntry extends AppModel
       $this->data[$this->name]['tweek'] = date('W', strtotime($this->data[$this->name]['spent_on']));
     }
   }
-  function validates() {
+  function validates($options = array()) {
     // convert database format.
     $this->hours();
     $this->spent_on();
@@ -132,7 +132,7 @@ class TimeEntry extends AppModel
   }
   # Returns true if the time entry can be edited by usr, otherwise false
   function is_editable_by($current_user, $project) {
-    $User = & ClassRegistry::init('User');
+    $User = ClassRegistry::init('User');
     $user_id = !empty($this->data['User']['id']) ? $this->data['User']['id'] : '';
     return (($user_id == $current_user['id']) && $User->is_allowed_to($current_user, 'edit_own_time_entries', $project)) || $User->is_allowed_to($current_user, 'edit_time_entries', $project);
   }
@@ -291,7 +291,7 @@ class TimeEntry extends AppModel
                            'klass' => $this->Issue,
                            'label' => 'Issue'),
     );
-    $CustomValue = & ClassRegistry::init('CustomValue');
+    $CustomValue = ClassRegistry::init('CustomValue');
     $custom_value_table_name = $CustomValue->fullTableName();
     $project_table_name = $this->Project->fullTableName();
     $issue_table_name = $this->Issue->fullTableName();

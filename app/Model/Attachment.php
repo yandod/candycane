@@ -236,7 +236,7 @@ class Attachment extends AppModel {
  * @return boolean True if visible
  */
 	public function is_visible($user, $project) {
-		$Container = & ClassRegistry::init($this->data[$this->name]['container_type']);
+		$Container = ClassRegistry::init($this->data[$this->name]['container_type']);
 		return $Container->is_attachments_visible($user, $project);
 	}
 
@@ -248,7 +248,7 @@ class Attachment extends AppModel {
  * @return boolean True if deletable
  */
 	public function is_deletable($user, $project) {
-		$Container = & ClassRegistry::init($this->data[$this->name]['container_type']);
+		$Container = ClassRegistry::init($this->data[$this->name]['container_type']);
 		return $Container->is_attachments_deletable($user, $project);
 	}
 
@@ -267,7 +267,7 @@ class Attachment extends AppModel {
  * @return array Project data
  */
 	public function project() {
-		$Container = & ClassRegistry::init($this->data[$this->name]['container_type']);
+		$Container = ClassRegistry::init($this->data[$this->name]['container_type']);
 		$project = null;
 		if(method_exists($Container, 'project')){
 			$Container->read(null, $this->data[$this->name]['container_id']);
