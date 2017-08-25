@@ -16,7 +16,7 @@ vendors/simpletest
 nbproject
 .idea
 .DS_Store
-.sublime-project
+*.sublime-*
 
 ## Allow 'empty' files
 !empty
