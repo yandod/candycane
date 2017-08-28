@@ -143,7 +143,7 @@ class Issue extends AppModel
 #  
 #  # Move an issue to a new project and tracker
   function move_to($Setting, $issue, $project_id, $tracker_id=false) {
-    $db =& ConnectionManager::getDataSource($this->useDbConfig);
+    $db = ConnectionManager::getDataSource($this->useDbConfig);
     $db->begin($this);
     if(!empty($project_id) && $issue['Issue']['project_id'] != $project_id) {
       # delete issue relations (because moveing to difference project is denied by Setting)
