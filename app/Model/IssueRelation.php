@@ -35,7 +35,7 @@ class IssueRelation extends AppModel
     'issue_to_id' => array(
       'validates_presence_of'=>array('rule'=>array('existsIssue', 'IssueTo')),
       'validates_invalid_of'=>array('rule'=>array('sameId')),
-      'validates_uniqueness_of'=>array('rule'=>array('isUnique')),
+      'validates_uniqueness_of'=>array('rule'=>array('checkUnique', false)),
       'validates_not_same_project'=>array('rule'=>array('sameProject')),
       'validates_circular_dependency'=>array('rule'=>array('circularDependency')),
     ),
@@ -56,8 +56,8 @@ class IssueRelation extends AppModel
     $this->$model->recursive = $recursive;
     return $result;
   }
-  function isUnique($field, $data) {
-    return parent::isUnique(array('issue_from_id', 'issue_to_id'), false);
+  function checkUnique($field, $data) {
+    return parent::checkUnique(array('issue_from_id', 'issue_to_id'), false);
   }
   function sameId($data) {
     return $this->data[$this->name]['issue_to_id'] != $this->data[$this->name]['issue_from_id'];
