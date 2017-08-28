@@ -58,7 +58,8 @@ class MenuContainer extends Object {
 				'class' => 'help',
 				'caption' => 'Help',
 				'logged' => false,
-				'admin' => false
+				'admin' => false,
+				'target' => '_blank'
 			),
 		);
 	}

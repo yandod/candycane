@@ -90,13 +90,13 @@
 		date('Y')
 	); ?><br/>
 	
-	<?php echo $this->Html->link(__('Report Bug'),'http://my.candycane.jp/'); ?> -
+	<?php echo $this->Html->link(__('Report Bug'),'http://my.candycane.jp/', array('target' => '_blank')); ?> -
 	<?php echo $this->Html->link(
 		__('Contributors'),
 		'https://github.com/yandod/candycane/contributors',
-		array('class' => 'staffroll')
+		array('class' => 'staffroll', 'target' => '_blank')
 	); ?> -
-	<?php echo $this->Html->link(__('Discussion'),'https://groups.google.com/group/candycane-users'); ?><br/>
+	<?php echo $this->Html->link(__('Discussion'),'https://groups.google.com/group/candycane-users', array('target' => '_blank')); ?><br/>
 	
 <?php
 echo $this->Html->link(
