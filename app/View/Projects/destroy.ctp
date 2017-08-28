@@ -12,8 +12,8 @@
 <?php echo $this->Form->create(
 	'Project',
 	array(
-		'action'=>'destroy',
 		'url' => array(
+			'action' => 'destroy',
 			'project_id' => $main_project['Project']['identifier']
 		)
 	)
