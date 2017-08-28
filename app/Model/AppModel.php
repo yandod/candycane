@@ -258,30 +258,17 @@ class AppModel extends Model {
 			$this->unbindModel($unbind, $reset);
 		}
 	}
+
+	function checkUnique($fields, $data) { 
+        if (!is_array($fields)) {
+            $fields = array($fields); 
+        }
+        foreach($fields as $key) {
+            $tmp[$key] = $this->data[$this->name][$key]; 
+        }
+        if (isset($this->data[$this->name][$this->primaryKey])) {
+            $tmp[$this->primaryKey] = "<>".$this->data[$this->name][$this->primaryKey]; 
+        }
+        return $this->isUnique($tmp, false); 
+    }
 }
-
-/*
-class ARCondition
-  attr_reader :conditions
-
-  def initialize(condition=nil)
-    @conditions = ['1=1']
-    add(condition) if condition
-  end
-
-  def add(condition)
-    if condition.is_a?(Array)
-      @conditions.first << " AND (#{condition.first})"
-      @conditions += condition[1..-1]
-    elsif condition.is_a?(String)
-      @conditions.first << " AND (#{condition})"
-    else
-      raise "Unsupported #{condition.class} condition: #{condition}"
-    end
-    self
-  end
-
-  def <<(condition)
-    add(condition)
-  end
-end*/
