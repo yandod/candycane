@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Candycane 0.9.6\n"
-"POT-Creation-Date: 2017-08-25 13:45+0200\n"
-"PO-Revision-Date: 2017-08-25 13:52+0200\n"
+"POT-Creation-Date: 2017-08-28 22:44+0200\n"
+"PO-Revision-Date: 2017-08-28 22:45+0200\n"
 "Last-Translator: J. BUTRYN - www.eliou.net - Resources Managment Consulting "
 "<nyrtub@gmail.com>\n"
 "Language-Team: J. BUTRYN - www.eliou.net - Resources Managment Consulting\n"
@@ -179,7 +179,7 @@ msgstr "Installer CandyCane"
 
 #: Plugin/CcInstall/View/Layouts/install.ctp:34
 msgid "CandyCane Installer"
-msgstr "Installeur "
+msgstr "Installeur"
 
 # field_login
 #: View/Account/login.ctp:10 View/Account/register.ctp:12
@@ -391,7 +391,7 @@ msgstr "Plugins"
 
 # label_information
 #: View/Admin/index.ctp:57 View/Elements/admin/sidebar.ctp:46
-#: View/My/account.ctp:18 Vendor/candycane/MenuContainer.php:141
+#: View/My/account.ctp:18 Vendor/candycane/MenuContainer.php:142
 msgid "Information"
 msgstr "Information"
 
@@ -416,10 +416,8 @@ msgstr "Environnement"
 
 # label_version_new
 #: View/Admin/info.ctp:25
-#, fuzzy
-#| msgid "New version"
 msgid "PHP version"
-msgstr "Nouvelle version"
+msgstr "Version PHP"
 
 #: View/Admin/info.ctp:29
 msgid "Database driver"
@@ -540,7 +538,7 @@ msgstr "Statut"
 #: View/Elements/users/memberships.ctp:16 View/Issues/move.ctp:15
 #: View/Timelog/details_csv.ctp:7 Model/Project.php:709
 msgid "Project"
-msgstr "Projects"
+msgstr "Project"
 
 # button_apply
 #: View/Admin/projects.ctp:34 View/Elements/projects/sidebar/activity.ctp:15
@@ -1048,7 +1046,6 @@ msgstr "Assigné à"
 # label_version
 #: View/Elements/mailer/issue_text_html.ctp:12
 #: View/Elements/mailer/issue_text_plain.ctp:8
-#, fuzzy
 msgid "Fixed Version"
 msgstr "Version"
 
@@ -1220,7 +1217,7 @@ msgstr "Créer"
 # label_version_plural
 #: View/Elements/projects/sidebar/changelog.ctp:10
 #: View/Elements/projects/sidebar/roadmap.ctp:16
-#: Vendor/candycane/MenuContainer.php:156
+#: Vendor/candycane/MenuContainer.php:157
 msgid "Versions"
 msgstr "Versions"
 
@@ -1587,7 +1584,7 @@ msgstr "Pas de demande pour cette version"
 
 # label_wiki
 #: View/Elements/wiki/sidebar.ctp:1 Model/WikiPage.php:92
-#: Vendor/candycane/MenuContainer.php:166
+#: Vendor/candycane/MenuContainer.php:167
 msgid "Wiki"
 msgstr "Wiki"
 
@@ -1645,7 +1642,7 @@ msgid "New value"
 msgstr "Nouvelle valeur"
 
 # label_issue_category_plural
-#: View/IssueCategories/destroy.ctp:1 Vendor/candycane/MenuContainer.php:161
+#: View/IssueCategories/destroy.ctp:1 Vendor/candycane/MenuContainer.php:162
 msgid "Issue categories"
 msgstr "Catégories de demande"
 
@@ -1908,7 +1905,7 @@ msgid "Add a comment"
 msgstr "Ajouter un commentaire"
 
 # label_module_plural
-#: View/Projects/add.ctp:19 Vendor/candycane/MenuContainer.php:146
+#: View/Projects/add.ctp:19 Vendor/candycane/MenuContainer.php:147
 msgid "Modules"
 msgstr "Modules"
 
@@ -1951,7 +1948,7 @@ msgstr "D/L"
 
 # label_member_plural
 #: View/Projects/list_members.ctp:1 View/Projects/show.ctp:56
-#: Vendor/candycane/MenuContainer.php:151
+#: Vendor/candycane/MenuContainer.php:152
 msgid "Members"
 msgstr "Membres"
 
@@ -2569,12 +2566,12 @@ msgstr "Sujet"
 # field_author
 #: Model/Query.php:590
 msgid "author"
-msgstr "Auteur"
+msgstr "auteur"
 
 # field_assigned_to
 #: Model/Query.php:596
 msgid "assigned_to"
-msgstr "Assigné à"
+msgstr "assigné à"
 
 # field_updated_on
 #: Model/Query.php:602
@@ -2584,7 +2581,7 @@ msgstr "Mis à jour"
 # field_category
 #: Model/Query.php:608
 msgid "category"
-msgstr "Catégorie"
+msgstr "catégorie"
 
 # label_version_new
 #: Model/Query.php:614
@@ -2599,7 +2596,7 @@ msgstr "Date de démarrage"
 # field_due_date
 #: Model/Query.php:626
 msgid "due_date"
-msgstr "Date d'échéance"
+msgstr "date d'échéance"
 
 #: Model/Query.php:632
 msgid "estimated_hours"
@@ -2958,39 +2955,3 @@ msgstr "Ne plus observer"
 #: View/Helper/WatchersHelper.php:44
 msgid "Watch"
 msgstr "Surveiller"
-
-#~ msgid "Debug setting does not allow access to this url."
-#~ msgstr "Les paramètres de debug n'autorisent pas l'accès à cette adresse."
-
-# setting_date_format
-#, fuzzy
-#~ msgid "validates_format_of"
-#~ msgstr "Format de date"
-
-# activerecord_error_invalid
-#, fuzzy
-#~ msgid "validates_invalid_of"
-#~ msgstr "est invalide"
-
-#~ msgid "rule"
-#~ msgstr "règle"
-
-# field_is_required
-#~ msgid "required"
-#~ msgstr "Obligatoire"
-
-#~ msgid "allowEmpty"
-#~ msgstr "Champ vide autorisé"
-
-# activerecord_error_circular_dependency
-#, fuzzy
-#~ msgid "validates_circular_dependency"
-#~ msgstr "Cette relation peut créer une dépendance circulaire"
-
-# field_max_length
-#~ msgid "maxLength"
-#~ msgstr "Longueur maximale"
-
-# field_min_length
-#~ msgid "minLength"
-#~ msgstr "Longueur minimale"
