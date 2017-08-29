@@ -83,7 +83,7 @@ class ProjectsController extends AppController
     {
         parent::beforeFilter();
 
-        $except = array('index', 'list', 'add', 'activity');
+        $except = array('index', 'list', 'add', 'activity', 'add_issue_category');
         if (!in_array($this->request->action, $except)) {
             $this->find_project();
         }
@@ -477,9 +477,10 @@ class ProjectsController extends AppController
         } else {
             $data = $this->request->data;
         }
+        $project_id = $this->Project->findByIdentifier($this->request->params['project_id']);
         $members = $this->Project->Member->find('all', array(
             'conditions' => array(
-                'project_id' => $this->request->data['Project']['id'],
+                'project_id' => $project_id['Project']['id'],
             ),
         ));
         $project_users = array(null => '');
@@ -498,14 +499,14 @@ class ProjectsController extends AppController
                         array(
                             'controller' => 'projects',
                             'action' => 'settings',
-                            'project_id' => $this->request->data['Project']['project_id'],
+                            'project_id' => $this->request->params['project_id'],
                             '?' => 'tab=categories'
                         )
                     );
                 } else {
                     $this->layout = 'ajax';
                     $issue_categories = $this->IssueCategory->find('list', array(
-                        'conditions' => array('project_id' => $this->request->data['Project']['id']),
+                        'conditions' => array('project_id' => $project_id['Project']['id']),
                         'order' => "IssueCategory.name",
                     ));
                     $this->set(compact('issue_categories'));
