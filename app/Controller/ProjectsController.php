@@ -445,7 +445,7 @@ class ProjectsController extends AppController
     {
         $subprojects = $this->Project->findSubprojects($this->_project['Project']['id']);
         $this->set('subprojects', $subprojects);
-        if ($this->RequestHandler->isPost()) {
+        if ($this->request->is('put')) {
             if ($this->request->data['Project']['confirm'] == 1) {
                 $this->Project->delete($this->request->data['Project']['id']);
                 foreach ($subprojects as $row) {
@@ -453,8 +453,6 @@ class ProjectsController extends AppController
                 }
                 $this->Session->setFlash(__('Successful deletion.'), 'default', array('class' => 'flash flash_notice'));
                 $this->redirect(array('controller' => 'admin', 'action' => 'projects'));
-            } else {
-                // Nothing
             }
         }
     }
