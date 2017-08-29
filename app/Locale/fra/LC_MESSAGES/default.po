@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Candycane 0.9.6\n"
-"POT-Creation-Date: 2017-08-28 22:44+0200\n"
-"PO-Revision-Date: 2017-08-29 17:51+0200\n"
+"POT-Creation-Date: 2017-08-29 21:51+0200\n"
+"PO-Revision-Date: 2017-08-29 21:51+0200\n"
 "Last-Translator: J. BUTRYN - www.eliou.net - Resources Managment Consulting "
 "<nyrtub@gmail.com>\n"
 "Language-Team: J. BUTRYN - www.eliou.net - Resources Managment Consulting\n"
@@ -307,7 +307,7 @@ msgstr "Projets"
 #: View/Elements/projects/sidebar/activity.ctp:2
 #: View/Elements/timelog/list.ctp:6 View/Projects/activity.ctp:1
 #: View/Projects/activity.ctp:88 View/Timelog/details_csv.ctp:6
-#: View/Timelog/edit.ctp:27 Controller/ProjectsController.php:817
+#: View/Timelog/edit.ctp:27 Controller/ProjectsController.php:816
 msgid "Activity"
 msgstr "Activité"
 
@@ -669,6 +669,7 @@ msgstr "Déplacer en bas"
 
 # text_are_you_sure
 #: View/CustomFields/list.ctp:54 View/Elements/attachments/links.ctp:11
+#: View/Elements/issues/relations.ctp:33
 #: View/Elements/projects/settings/issue_categories.ctp:41
 #: View/Elements/projects/settings/versions.ctp:45
 #: View/Elements/timelog/list.ctp:34 View/Enumerations/edit.ctp:17
@@ -950,7 +951,7 @@ msgid "Uncheck all"
 msgstr "Décocher tous"
 
 # button_add
-#: View/Elements/issues/relations.ctp:4 View/Elements/issues/relations.ctp:64
+#: View/Elements/issues/relations.ctp:4 View/Elements/issues/relations.ctp:63
 #: View/Elements/projects/settings/members.ctp:115
 #: View/Elements/users/memberships.ctp:71 View/Elements/watchers/watchers.ctp:5
 #: View/Elements/watchers/watchers.ctp:49 View/News/show.ctp:85
@@ -971,18 +972,18 @@ msgid "Delete relation"
 msgstr "Supprimer la relation"
 
 # label_issue
-#: View/Elements/issues/relations.ctp:59 View/Elements/timelog/list.ctp:8
+#: View/Elements/issues/relations.ctp:58 View/Elements/timelog/list.ctp:8
 #: View/Timelog/details_csv.ctp:8 View/Timelog/edit.ctp:9
 msgid "Issue"
 msgstr "Demande"
 
 # field_delay
-#: View/Elements/issues/relations.ctp:62
+#: View/Elements/issues/relations.ctp:61
 msgid "Delay"
 msgstr "Délai"
 
 # label_day_plural
-#: View/Elements/issues/relations.ctp:62 View/Elements/queries/filters.ctp:117
+#: View/Elements/issues/relations.ctp:61 View/Elements/queries/filters.ctp:118
 #: View/Elements/settings/authentication.ctp:21
 #: View/Elements/settings/authentication.ctp:22
 #: View/Elements/settings/authentication.ctp:23
@@ -993,7 +994,7 @@ msgid "days"
 msgstr "jours"
 
 # button_cancel
-#: View/Elements/issues/relations.ctp:65
+#: View/Elements/issues/relations.ctp:64
 #: View/Elements/journals/notes_form.ctp:45
 #: View/Elements/watchers/watchers.ctp:50 View/Enumerations/destroy.ctp:25
 #: View/IssueCategories/destroy.ctp:51 View/News/index.ctp:34
@@ -1208,7 +1209,7 @@ msgstr "Caractères non autorisés"
 # button_create
 #: View/Elements/projects/settings/wiki.ctp:60 View/Enumerations/new.ctp:12
 #: View/IssueStatuses/new.ctp:24 View/Issues/new.ctp:42 View/News/add.ctp:7
-#: View/News/index.ctp:10 View/Projects/add_issue_category.ctp:17
+#: View/News/index.ctp:10 View/Projects/add_issue_category.ctp:16
 #: View/Projects/add_version.ctp:35 View/Trackers/new.ctp:28
 #: View/Users/add.ctp:12
 msgid "Create"
@@ -1246,7 +1247,7 @@ msgid "Report"
 msgstr "Rapport"
 
 # label_filter_add
-#: View/Elements/queries/filters.ctp:141
+#: View/Elements/queries/filters.ctp:142
 msgid "Add filter"
 msgstr "Ajouter le filtre"
 
@@ -2292,8 +2293,8 @@ msgstr "Votre mot de passe"
 #: Controller/IssueCategoriesController.php:11
 #: Controller/IssueStatusesController.php:69
 #: Controller/IssueStatusesController.php:85
-#: Controller/IssuesController.php:403 Controller/IssuesController.php:559
-#: Controller/IssuesController.php:692 Controller/IssuesController.php:770
+#: Controller/IssuesController.php:402 Controller/IssuesController.php:558
+#: Controller/IssuesController.php:691 Controller/IssuesController.php:769
 #: Controller/MyController.php:200 Controller/NewsController.php:192
 #: Controller/ProjectsController.php:375 Controller/ProjectsController.php:406
 #: Controller/RolesController.php:142 Controller/RolesController.php:214
@@ -2308,7 +2309,7 @@ msgstr "Mis à jour avec succès."
 # notice_successful_delete
 #: Controller/CustomFieldsController.php:135
 #: Controller/IssueStatusesController.php:101
-#: Controller/IssuesController.php:858 Controller/NewsController.php:253
+#: Controller/IssuesController.php:857 Controller/NewsController.php:253
 #: Controller/ProjectsController.php:454 Controller/RolesController.php:157
 #: Controller/TimelogController.php:215
 msgid "Successful deletion."
@@ -2337,8 +2338,8 @@ msgstr "Merci de corriger les erreurs ci-dessous."
 msgid "There was an error deleting with id: %1$d"
 msgstr "Erreur lors de la suppression avec l'id: %1$d"
 
-#: Controller/IssuesController.php:260 Controller/IssuesController.php:356
-#: Controller/IssuesController.php:453
+#: Controller/IssuesController.php:260 Controller/IssuesController.php:355
+#: Controller/IssuesController.php:452
 msgid ""
 "No default issue status is defined. Please check your configuration (Go to "
 "\"Administration -> Issue statuses\")."
@@ -2352,28 +2353,32 @@ msgid "Missing TCPDF library, please install on your server."
 msgstr ""
 "Extension TCPDF manquante, veuillez l'installer sur votre votre serveur"
 
-#: Controller/IssuesController.php:345
+#: Controller/IssuesController.php:344
 msgid ""
 "No tracker is associated to this project. Please check the Project settings."
 msgstr ""
 "Aucun tracker n'est associé au projet. Merci de vérifier la configuration du "
 "projet."
 
+#: Controller/IssuesController.php:383
+msgid "Can not save Issue."
+msgstr "Impossible d'enregistrer la demande."
+
 # warning_attachments_not_saved
-#: Controller/IssuesController.php:521 Controller/WikiController.php:431
+#: Controller/IssuesController.php:520 Controller/WikiController.php:431
 #, php-format
 msgid "%d file(s) could not be saved."
 msgstr "%d fichier(s) n'a(ont) pas pu être sauvé(s)."
 
 # notice_failed_to_save_issues
-#: Controller/IssuesController.php:695 Controller/IssuesController.php:772
-#: Controller/IssuesController.php:860
+#: Controller/IssuesController.php:694 Controller/IssuesController.php:771
+#: Controller/IssuesController.php:859
 #, php-format
 msgid "\"Failed to save %d issue(s) on %d selected"
 msgstr "\"Echec dans l'enregistrement de %d demande(s) sur %d selectionnées"
 
 # error_issue_not_found_in_project
-#: Controller/IssuesController.php:846
+#: Controller/IssuesController.php:845
 msgid "'The issue was not found or does not belong to this project'"
 msgstr "'La demande n'a pas été trouvée ou n'appartient pas à ce projet.'"
 
@@ -2418,8 +2423,8 @@ msgstr "\"Seulement pour ce que je suis ou qui me concerne\""
 
 # notice_successful_create
 #: Controller/NewsController.php:162 Controller/NewsController.php:227
-#: Controller/ProjectsController.php:208 Controller/ProjectsController.php:498
-#: Controller/ProjectsController.php:562 Controller/QueriesController.php:65
+#: Controller/ProjectsController.php:208 Controller/ProjectsController.php:497
+#: Controller/ProjectsController.php:561 Controller/QueriesController.php:65
 #: Controller/QueriesController.php:97 Controller/RolesController.php:98
 #: Controller/UsersController.php:221
 msgid "Successful creation."
@@ -2485,7 +2490,7 @@ msgstr "fermé"
 # label_in_less_than
 #: Model/Query.php:44
 msgid "in less than"
-msgstr "moins que"
+msgstr "dans moins de"
 
 # label_in_more_than
 #: Model/Query.php:45
@@ -2511,17 +2516,17 @@ msgstr "cette semaine"
 # label_less_than_ago
 #: Model/Query.php:49
 msgid "less than days ago"
-msgstr "moins d'un jour"
+msgstr "moins de"
 
 # label_more_than_ago
 #: Model/Query.php:50
 msgid "more than days ago"
-msgstr "more than days ago"
+msgstr "Il y a plus de"
 
 # label_ago
 #: Model/Query.php:51
 msgid "days ago"
-msgstr "jours"
+msgstr "il y a"
 
 # label_contains
 #: Model/Query.php:52
@@ -2538,79 +2543,109 @@ msgstr "ne contient pas"
 msgid "me"
 msgstr "moi"
 
+# field_status
+#: Model/Query.php:116
+msgid "status_id"
+msgstr "Statut"
+
+# label_version_new
+#: Model/Query.php:127
+msgid "fixed_version_id"
+msgstr "Version"
+
+# label_start_to_end
+#: Model/Query.php:133 Model/Query.php:633
+msgid "start_date"
+msgstr "Date de démarrage"
+
+#: Model/Query.php:138 Model/Query.php:645
+msgid "estimated_hours"
+msgstr "Nombre d'heures estimé"
+
+# field_created_on
+#: Model/Query.php:143 Model/Query.php:657
+msgid "created_on"
+msgstr "Créé le"
+
+# field_priority
+#: Model/Query.php:148
+msgid "priority_id"
+msgstr "Priorité"
+
+# field_assigned_to
+#: Model/Query.php:163
+msgid "assigned_to_id"
+msgstr "Assigné à"
+
+# field_password_confirmation
+#: Model/Query.php:169 Model/Query.php:651
+msgid "done_ratio"
+msgstr "Ratio effectué"
+
+# field_updated_on
+#: Model/Query.php:174 Model/Query.php:615
+msgid "updated_on"
+msgstr "Mis à jour"
+
+# field_subject
+#: Model/Query.php:179 Model/Query.php:597
+msgid "subject"
+msgstr "Sujet"
+
+# field_tracker
+#: Model/Query.php:184
+msgid "tracker_id"
+msgstr "Tracker"
+
+# field_due_date
+#: Model/Query.php:190 Model/Query.php:639
+msgid "due_date"
+msgstr "Date d'échéance"
+
+# field_author
+#: Model/Query.php:195
+msgid "author_id"
+msgstr "Auteur"
+
 # general_first_day_of_week
-#: Model/Query.php:395
+#: Model/Query.php:408
 msgid "'7'"
 msgstr "'1'"
 
 # field_tracker
-#: Model/Query.php:566
+#: Model/Query.php:579
 msgid "tracker"
 msgstr "Tracker"
 
 # field_status
-#: Model/Query.php:572
+#: Model/Query.php:585
 msgid "status"
 msgstr "Statut"
 
 # field_priority
-#: Model/Query.php:578
+#: Model/Query.php:591
 msgid "priority"
 msgstr "Priorité"
 
-# field_subject
-#: Model/Query.php:584
-msgid "subject"
-msgstr "Sujet"
-
 # field_author
-#: Model/Query.php:590
+#: Model/Query.php:603
 msgid "author"
 msgstr "Auteur"
 
 # field_assigned_to
-#: Model/Query.php:596
+#: Model/Query.php:609
 msgid "assigned_to"
 msgstr "Assigné à"
 
-# field_updated_on
-#: Model/Query.php:602
-msgid "updated_on"
-msgstr "Mis à jour"
-
 # field_category
-#: Model/Query.php:608
+#: Model/Query.php:621
 msgid "category"
 msgstr "catégorie"
 
 # label_version_new
-#: Model/Query.php:614
+#: Model/Query.php:627
 msgid "fixed_version"
 msgstr "Nouvelle version"
-
-# label_start_to_end
-#: Model/Query.php:620
-msgid "start_date"
-msgstr "Date de démarrage"
-
-# field_due_date
-#: Model/Query.php:626
-msgid "due_date"
-msgstr "Date d'échéance"
-
-#: Model/Query.php:632
-msgid "estimated_hours"
-msgstr "Nombre d'heures estimé"
-
-# field_password_confirmation
-#: Model/Query.php:638
-msgid "done_ratio"
-msgstr "Ratio effectué"
-
-# field_created_on
-#: Model/Query.php:644
-msgid "created_on"
-msgstr "Créé le"
 
 #: Plugin/CcInstall/Controller/CcInstallController.php:59
 msgid "Installation: Welcome"
@@ -2955,3 +2990,9 @@ msgstr "Ne plus observer"
 #: View/Helper/WatchersHelper.php:44
 msgid "Watch"
 msgstr "Surveiller"
+
+# label_start_to_end
+#, fuzzy
+#~| msgid "start_date"
+#~ msgid "strat_date"
+#~ msgstr "Date de démarrage"

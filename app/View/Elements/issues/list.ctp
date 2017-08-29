@@ -41,12 +41,6 @@
                     );
                 endforeach;
             ?>
-            <!--
-            <%= sort_header_tag('id', :caption => '#', :default_order => 'desc') %>
-            <% query.columns.each do |column| %>
-            <%= column_header(column) %>
-            <% end %>
-            -->
         </tr>
     </thead>
     <tbody>
