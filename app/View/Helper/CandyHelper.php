@@ -447,7 +447,7 @@ class CandyHelper extends AppHelper {
  * @return string Formatted title
  */
 	public function format_activity_title($text) {
-		return h($this->truncate_single_line($text, 100));
+		return htmlspecialchars_decode($this->truncate_single_line($text, 100));
 	}
 
 /**
