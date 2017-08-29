@@ -40,9 +40,10 @@ class IssueRelationsController extends AppController
             }
         }
         if ($this->request->is('ajax')) {
-            $issue_relations = $this->IssueRelation->findRelations($this->_issue);
+            $issue_relations = $this->IssueRelation->findRelations($this->_issue['Issue']['id']);
             $this->set(compact('issue_relations'));
             $this->layout = 'ajax';
+            $this->render('/Elements/issues/relations');
         } else {
             $this->redirect(array('controller' => 'issues', 'action' => 'show', $this->_issue['Issue']['id']));
         }

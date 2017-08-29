@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Candycane 0.9.6\n"
 "POT-Creation-Date: 2017-08-28 22:44+0200\n"
-"PO-Revision-Date: 2017-08-28 22:45+0200\n"
+"PO-Revision-Date: 2017-08-29 17:51+0200\n"
 "Last-Translator: J. BUTRYN - www.eliou.net - Resources Managment Consulting "
 "<nyrtub@gmail.com>\n"
 "Language-Team: J. BUTRYN - www.eliou.net - Resources Managment Consulting\n"
@@ -2566,12 +2566,12 @@ msgstr "Sujet"
 # field_author
 #: Model/Query.php:590
 msgid "author"
-msgstr "auteur"
+msgstr "Auteur"
 
 # field_assigned_to
 #: Model/Query.php:596
 msgid "assigned_to"
-msgstr "assigné à"
+msgstr "Assigné à"
 
 # field_updated_on
 #: Model/Query.php:602
@@ -2596,7 +2596,7 @@ msgstr "Date de démarrage"
 # field_due_date
 #: Model/Query.php:626
 msgid "due_date"
-msgstr "date d'échéance"
+msgstr "Date d'échéance"
 
 #: Model/Query.php:632
 msgid "estimated_hours"
@@ -2830,12 +2830,12 @@ msgstr "Non"
 # label_relates_to
 #: View/Helper/IssuesHelper.php:15
 msgid "related to"
-msgstr "relatif à"
+msgstr "Relatif à"
 
 # label_duplicates
 #: View/Helper/IssuesHelper.php:16
 msgid "duplicates"
-msgstr "dupliquer"
+msgstr "Doublon avec"
 
 # label_duplicated_by
 #: View/Helper/IssuesHelper.php:16
@@ -2845,22 +2845,22 @@ msgstr "dupliqué par"
 # label_blocks
 #: View/Helper/IssuesHelper.php:17
 msgid "blocks"
-msgstr "blocs"
+msgstr "Bloque"
 
 # label_blocked_by
 #: View/Helper/IssuesHelper.php:17
 msgid "blocked by"
-msgstr "bloqué par"
+msgstr "Bloqué par"
 
 # label_precedes
 #: View/Helper/IssuesHelper.php:18
 msgid "precedes"
-msgstr "précédés"
+msgstr "Précède"
 
 # label_follows
 #: View/Helper/IssuesHelper.php:18
 msgid "follows"
-msgstr "Suivis"
+msgstr "Suit"
 
 # text_journal_changed
 #: View/Helper/IssuesHelper.php:119

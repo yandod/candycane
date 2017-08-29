@@ -338,7 +338,6 @@ class IssuesController extends AppController
             $issue = $this->Issue->copy_from($this->_get_param('copy_from'));
             $this->request->data = $issue;
         }
-
         // Tracker must be set before custom field values
         $trackers = $this->Issue->findProjectsTrackerList($this->_project['Project']['id']);
         if (empty($trackers)) {
@@ -381,7 +380,7 @@ class IssuesController extends AppController
             $save_data = $event->data['issue'];
 
             if (!$this->Issue->save($save_data) && empty($this->Issue->validationErrors)) {
-                return $this->cakeError('error', array('message' => 'Can not save Issue.'));
+                return $this->cakeError('error', array('message' => __('Can not save Issue.')));
             }
 
             if (empty($this->Issue->validationErrors)) {
@@ -1100,11 +1099,12 @@ class IssuesController extends AppController
             $time_entry_custom_fields = $this->Issue->TimeEntry->available_custom_fields();
             $time_entry_activities = $this->Issue->findTimeEntryActivities();
             $rss_token = $this->User->rss_key($this->current_user['id']);
-            $attachments = $this->Issue->findAttachments($this->Issue->data['Issue']['id']);
+
+            $attachments = $this->Issue->findAttachments($this->Issue->id);
             $attachments_deletable = $this->Issue->is_attachments_deletable($this->current_user, $this->_project);
 
             $IssueRelation = ClassRegistry::init('IssueRelation');
-            $issue_relations = $IssueRelation->findRelations($this->Issue->data);
+            $issue_relations = $IssueRelation->findRelations($this->Issue->id);
 
             $this->set(compact(
                 'time_entry_custom_fields', 'time_entry_activities', 'rss_token',
