@@ -8,11 +8,13 @@
 <?php echo $this->Html->css('application'); ?>
 <?php echo $this->element('ui_theme'); ?>
 <?php echo $this->Html->script(array('prototype','effects','dragdrop','controls','application')); ?>
-<?php echo $this->Html->script('https://raw.github.com/cognitom/StaffRoll.net-Libraries-and-Themes/master/include.staffroll.net/github/script/1.0/load.js?theme=underground');?>
 <?php echo $this->Html->css('jstoolbar');  ?>
 <?php if (isset($header_tags)) echo $header_tags; ?>
 <?php echo $this->fetch('meta'); ?>
 <?php echo $this->fetch('css'); ?>
+<script>
+	window.locale = "<?php echo Configure::read('Config.language_short');?>";
+</script>
 <?php echo $this->fetch('script'); ?>
 </head>
 <body>
