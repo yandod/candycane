@@ -1,6 +1,6 @@
 <div class="contextual">
   <?php echo $this->Html->link(__('Personalize this page'), '/my/page_layout',array(
-	'onclick' => 'alert("not yet");return false;')); ?>
+	'onclick' => 'alert("' . __('Not yet') . '");return false;')); ?>
 </div>
 
 <h2><?php echo $this->Candy->html_title(__('My page'), true); ?></h2>

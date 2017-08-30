@@ -120,10 +120,18 @@ class AdminController extends AppController
 
     public function test_email()
     {
-        if ($this->Mailer->deliver_test($this->current_user)) {
-            $this->Session->setFlash(sprintf(__('An email was sent to %s'), $this->current_user['mail']), 'default', array('class' => 'flash flash_notice'));
-        } else {
-            $this->Session->setFlash(sprintf(__('An error occurred while sending mail (%s)'), $this->current_user['mail']), 'default', array('class' => 'flash flash_error'));
+        // if ($this->Mailer->deliver_test($this->current_user)) {
+        //     $this->Session->setFlash(sprintf(__('An email was sent to %s'), $this->current_user['mail']), 'default', array('class' => 'flash flash_notice'));
+        // } else {
+        //     $this->Session->setFlash(sprintf(__('An error occurred while sending mail (%s)'), $this->current_user['mail']), 'default', array('class' => 'flash flash_error'));
+        // }
+        try {
+            if ($this->Mailer->deliver_test($this->current_user)) {
+                $this->Session->setFlash(sprintf(__('An email was sent to %s'), $this->current_user['mail']), 'default', array('class' => 'flash flash_notice'));
+            }
+        }
+        catch (Exception $e) {
+          $this->Session->setFlash(sprintf(__('An error occurred while sending mail (%s). Please check your settings. Think to restart/reload webserver if hosting configuration changed.') . '<br>' . $e->getMessage(), $this->current_user['mail']), 'default', array('class' => 'flash flash_error'));
         }
         $this->redirect(array(
             'controller' => 'settings',

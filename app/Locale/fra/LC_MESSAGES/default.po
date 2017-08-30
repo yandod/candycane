@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Candycane 0.9.6\n"
-"POT-Creation-Date: 2017-08-29 21:51+0200\n"
-"PO-Revision-Date: 2017-08-29 21:51+0200\n"
+"POT-Creation-Date: 2017-08-30 16:33+0200\n"
+"PO-Revision-Date: 2017-08-30 16:40+0200\n"
 "Last-Translator: J. BUTRYN - www.eliou.net - Resources Managment Consulting "
 "<nyrtub@gmail.com>\n"
 "Language-Team: J. BUTRYN - www.eliou.net - Resources Managment Consulting\n"
@@ -508,8 +508,8 @@ msgid ""
 "Do you want to create your own plugin? Run command bellow to create your "
 "plugin."
 msgstr ""
-"Voulez-vous créer votre propre plugin ? Lancer la commande ci-dessous pour "
-"créer votre plugin."
+"Voulez-vous créer votre propre extension ? Lancer la commande ci-dessous "
+"pour la créer."
 
 # label_project_new
 #: View/Admin/projects.ctp:9 View/Elements/users/memberships.ctp:58
@@ -1626,6 +1626,10 @@ msgstr "Pour modifier votre mot de passe, cliquez sur le lien suivant:"
 msgid "To activate your account, click on the following link:"
 msgstr "Pour activer votre compte, cliquez sur ce lien:"
 
+#: View/Emails/text/test.ctp:1
+msgid "This is a test email sent by CandyCane."
+msgstr "Ceci est un email test envoyé par Candycane."
+
 # text_enumeration_destroy_question
 #: View/Enumerations/destroy.ctp:13
 #, php-format
@@ -1864,6 +1868,10 @@ msgstr "Préférences"
 msgid "Personalize this page"
 msgstr "Personnaliser cette page"
 
+#: View/My/page.ctp:3
+msgid "Not yet"
+msgstr "Fonctionnalité non disponible pour le moment"
+
 # label_my_page
 #: View/My/page.ctp:6
 msgid "My page"
@@ -1995,7 +2003,7 @@ msgstr "Filtre personalisé"
 
 #: View/Reports/_details.ctp:7
 msgid "label_no_data"
-msgstr ""
+msgstr "Aucune donnée disponible"
 
 # field_subproject
 #: View/Reports/issue_report.ctp:54
@@ -2174,7 +2182,9 @@ msgstr "Nouveaux statuts autorisés"
 
 #: Console/Command/CcPluginShell.php:49
 msgid "Enter the name of the plugin in CamelCase format start with \"Cc\""
-msgstr "Entrer le nom du plugin au format CamelCase qui commence par \"Cc\""
+msgstr ""
+"Entrer le nom de l'extension (plugin) au format CamelCase qui commence par "
+"\"Cc\""
 
 #: Console/Command/CcPluginShell.php:80
 msgid "Do you want verbose output?"
@@ -2238,13 +2248,12 @@ msgstr "actif"
 #: Controller/AdminController.php:88
 #, php-format
 msgid "Installed plugin: %s"
-msgstr "Installed plugin: %s"
+msgstr "Extension installée: %s"
 
 #: Controller/AdminController.php:99
-#, fuzzy, php-format
-#| msgid "Uninstalled plugin: %s"
+#, php-format
 msgid "Upgrade plugin: %s"
-msgstr "Plugin non installé: %s"
+msgstr "Mise à jour de l'extension: %s"
 
 #: Controller/AdminController.php:112
 #, php-format
@@ -2252,18 +2261,22 @@ msgid "Uninstalled plugin: %s"
 msgstr "Plugin non installé: %s"
 
 # notice_email_sent
-#: Controller/AdminController.php:124
+#: Controller/AdminController.php:130
 #, php-format
 msgid "An email was sent to %s"
 msgstr "Un email a été envoyé à %s"
 
-# notice_email_error
-#: Controller/AdminController.php:126
+#: Controller/AdminController.php:134
 #, php-format
-msgid "An error occurred while sending mail (%s)"
-msgstr "Une erreur est survenue lors de l'envoi de l'email (%s)."
+msgid ""
+"An error occurred while sending mail (%s). Please check your settings. Think "
+"to restart/reload webserver if hosting configuration changed."
+msgstr ""
+"Une erreur est surveue pendant l'envoi du mail (%s). Veuillez vérifier les "
+"réglages. Pensez à redémarrer/recharger votre serveur web si la "
+"configuration de celui-ci a changé."
 
-#: Controller/AdminController.php:147
+#: Controller/AdminController.php:155
 msgid "SQLite3 extension not loaded in your php.ini"
 msgstr "L'extension SQLite3 n'est pas activé dans votre php.ini"
 
@@ -2990,6 +3003,10 @@ msgstr "Ne plus observer"
 #: View/Helper/WatchersHelper.php:44
 msgid "Watch"
 msgstr "Surveiller"
+
+# notice_email_error
+#~ msgid "An error occurred while sending mail (%s)"
+#~ msgstr "Une erreur est survenue lors de l'envoi de l'email (%s)."
 
 # label_start_to_end
 #, fuzzy

@@ -323,7 +323,7 @@ class Issue extends AppModel
     } else {
       $id = $this->id;
     }
-    $issue = $this->find('first', array('conditions'=>array('IssueTo.id'=>$id)));
+    $issue = $this->find('first', array('conditions'=>array('Issue.id'=>$id)));
     
     # Update start/due dates of following issues
     $IssueRelation = ClassRegistry::init('IssueRelation');
