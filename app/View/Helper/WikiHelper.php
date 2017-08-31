@@ -22,7 +22,7 @@ class WikiHelper extends AppHelper
     // replace spaces with _ and remove unwanted caracter
     $title = preg_replace('/\s+/', '_', $title);
     // upcase the first letter
-    $title = preg_replace('/^([a-z])/e', 'strtoupper("\\1")', $title);
+    $title = preg_replace('/^([a-z])/s', 'strtoupper("\\1")', $title);
     return $title;
   }
   

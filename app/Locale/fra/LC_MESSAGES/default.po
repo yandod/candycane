@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Candycane 0.9.6\n"
-"POT-Creation-Date: 2017-08-30 16:33+0200\n"
-"PO-Revision-Date: 2017-08-30 16:40+0200\n"
+"POT-Creation-Date: 2017-08-31 11:54+0200\n"
+"PO-Revision-Date: 2017-08-31 11:54+0200\n"
 "Last-Translator: J. BUTRYN - www.eliou.net - Resources Managment Consulting "
 "<nyrtub@gmail.com>\n"
 "Language-Team: J. BUTRYN - www.eliou.net - Resources Managment Consulting\n"
@@ -306,7 +306,7 @@ msgstr "Projets"
 #: View/Account/show.ctp:46 View/Elements/issues/edit.ctp:32
 #: View/Elements/projects/sidebar/activity.ctp:2
 #: View/Elements/timelog/list.ctp:6 View/Projects/activity.ctp:1
-#: View/Projects/activity.ctp:88 View/Timelog/details_csv.ctp:6
+#: View/Projects/activity.ctp:89 View/Timelog/details_csv.ctp:6
 #: View/Timelog/edit.ctp:27 Controller/ProjectsController.php:816
 msgid "Activity"
 msgstr "Activité"
@@ -318,7 +318,7 @@ msgstr "Demandes rapportées"
 
 # label_export_to
 #: View/Account/show.ctp:77 View/News/index.ctp:70
-#: View/Projects/activity.ctp:64 View/Wiki/show.ctp:187
+#: View/Projects/activity.ctp:65 View/Wiki/show.ctp:187
 msgid "Also available in:"
 msgstr "Disponible aussi dans:"
 
@@ -494,9 +494,9 @@ msgstr "Installation"
 #: View/Elements/projects/settings/issue_categories.ctp:50
 #: View/Elements/projects/settings/members.ctp:73
 #: View/Elements/projects/settings/versions.ctp:54
-#: View/Elements/reports/_details.ctp:7 View/Elements/users/memberships.ctp:52
+#: View/Elements/reports/_details.ctp:7 View/Elements/users/memberships.ctp:70
 #: View/Issues/index.ctp:47 View/News/index.ctp:43
-#: View/Projects/activity.ctp:26 View/Projects/changelog.ctp:7
+#: View/Projects/activity.ctp:27 View/Projects/changelog.ctp:7
 #: View/Projects/list_members.ctp:4 View/Projects/roadmap.ctp:4
 #: View/Wiki/special_date_index.ctp:4 View/Wiki/special_page_index.ctp:4
 #: View/Workflows/index.ctp:11
@@ -512,7 +512,7 @@ msgstr ""
 "pour la créer."
 
 # label_project_new
-#: View/Admin/projects.ctp:9 View/Elements/users/memberships.ctp:58
+#: View/Admin/projects.ctp:9 View/Elements/users/memberships.ctp:79
 #: View/Projects/add.ctp:8 View/Projects/index.ctp:13
 msgid "New project"
 msgstr "Nouveau projet"
@@ -535,15 +535,15 @@ msgstr "Statut"
 # field_project
 #: View/Admin/projects.ctp:32 View/Admin/projects.ctp:55
 #: View/Elements/roles/form.ctp:21 View/Elements/timelog/list.ctp:7
-#: View/Elements/users/memberships.ctp:16 View/Issues/move.ctp:15
+#: View/Elements/users/memberships.ctp:56 View/Issues/move.ctp:15
 #: View/Timelog/details_csv.ctp:7 Model/Project.php:709
 msgid "Project"
 msgstr "Project"
 
 # button_apply
-#: View/Admin/projects.ctp:34 View/Elements/projects/sidebar/activity.ctp:15
-#: View/Elements/projects/sidebar/changelog.ctp:7
-#: View/Elements/projects/sidebar/roadmap.ctp:13
+#: View/Admin/projects.ctp:34 View/Elements/projects/sidebar/activity.ctp:26
+#: View/Elements/projects/sidebar/changelog.ctp:16
+#: View/Elements/projects/sidebar/roadmap.ctp:32
 #: View/Elements/timelog/date_range.ctp:53 View/Enumerations/destroy.ctp:24
 #: View/IssueCategories/destroy.ctp:49 View/Issues/destroy.ctp:16
 #: View/Issues/index.ctp:10 View/My/password.ctp:43 View/Users/list.ctp:45
@@ -551,7 +551,7 @@ msgid "Apply"
 msgstr "Appliquer"
 
 # label_subproject_plural
-#: View/Admin/projects.ctp:57 View/Elements/projects/sidebar/activity.ctp:10
+#: View/Admin/projects.ctp:57 View/Elements/projects/sidebar/activity.ctp:18
 #: View/Projects/index.ctp:39 View/Projects/show.ctp:12
 msgid "Subprojects"
 msgstr "Sous-projets"
@@ -585,7 +585,7 @@ msgstr "Désarchiver"
 #: View/Elements/projects/settings/members.ctp:52
 #: View/Elements/projects/settings/versions.ctp:38
 #: View/Elements/projects/settings/wiki.ctp:47
-#: View/Elements/timelog/list.ctp:34 View/Elements/users/memberships.ctp:38
+#: View/Elements/timelog/list.ctp:34 View/Elements/users/memberships.ctp:39
 #: View/Enumerations/edit.ctp:17 View/Enumerations/list.ctp:33
 #: View/IssueStatuses/list.ctp:37 View/Issues/context_menu.ctp:113
 #: View/Issues/index.ctp:32 View/Issues/show.ctp:38 View/News/show.ctp:3
@@ -672,11 +672,12 @@ msgstr "Déplacer en bas"
 #: View/Elements/issues/relations.ctp:33
 #: View/Elements/projects/settings/issue_categories.ctp:41
 #: View/Elements/projects/settings/versions.ctp:45
-#: View/Elements/timelog/list.ctp:34 View/Enumerations/edit.ctp:17
-#: View/Enumerations/list.ctp:33 View/IssueStatuses/list.ctp:37
-#: View/Issues/index.ctp:32 View/Issues/show.ctp:38 View/News/show.ctp:7
-#: View/News/show.ctp:66 View/Projects/list_files.ctp:54
-#: View/Roles/list.ctp:105 View/Trackers/list.ctp:35 View/Wiki/show.ctp:64
+#: View/Elements/timelog/list.ctp:34 View/Elements/users/memberships.ctp:45
+#: View/Enumerations/edit.ctp:17 View/Enumerations/list.ctp:33
+#: View/IssueStatuses/list.ctp:37 View/Issues/index.ctp:32
+#: View/Issues/show.ctp:38 View/News/show.ctp:7 View/News/show.ctp:66
+#: View/Projects/list_files.ctp:54 View/Roles/list.ctp:105
+#: View/Trackers/list.ctp:35 View/Wiki/show.ctp:64
 msgid "Are you sure ?"
 msgstr "Êtes-vous sûr ?"
 
@@ -907,7 +908,7 @@ msgid "File"
 msgstr "Fichier"
 
 # label_preview
-#: View/Elements/issues/edit.ctp:64 View/Issues/new.ctp:44 View/News/add.ctp:9
+#: View/Elements/issues/edit.ctp:64 View/Issues/new.ctp:16 View/News/add.ctp:9
 #: View/News/index.ctp:12 View/News/show.ctp:31 View/Wiki/edit.ctp:32
 #: View/common/_preview.ctp:1
 msgid "Preview"
@@ -940,20 +941,20 @@ msgstr "Mis à jour par %s il y a %s"
 
 # button_check_all
 #: View/Elements/issues/list.ctp:12 View/Roles/report.ctp:20
-#: View/Roles/report.ctp:40 View/Helper/CandyHelper.php:1536
+#: View/Roles/report.ctp:40 View/Helper/CandyHelper.php:991
 msgid "Check all"
 msgstr "Sélectionner tous"
 
 # button_uncheck_all
 #: View/Elements/issues/list.ctp:12 View/Roles/report.ctp:20
-#: View/Roles/report.ctp:40 View/Helper/CandyHelper.php:1538
+#: View/Roles/report.ctp:40 View/Helper/CandyHelper.php:993
 msgid "Uncheck all"
 msgstr "Décocher tous"
 
 # button_add
 #: View/Elements/issues/relations.ctp:4 View/Elements/issues/relations.ctp:63
 #: View/Elements/projects/settings/members.ctp:115
-#: View/Elements/users/memberships.ctp:71 View/Elements/watchers/watchers.ctp:5
+#: View/Elements/users/memberships.ctp:92 View/Elements/watchers/watchers.ctp:5
 #: View/Elements/watchers/watchers.ctp:49 View/News/show.ctp:85
 #: View/Projects/add_file.ctp:22 View/Timelog/report.ctp:53
 #: View/Wiki/show.ctp:179
@@ -989,7 +990,7 @@ msgstr "Délai"
 #: View/Elements/settings/authentication.ctp:23
 #: View/Elements/settings/authentication.ctp:24
 #: View/Elements/settings/general.ctp:115 View/Timelog/report.ctp:34
-#: View/Helper/CandyHelper.php:516
+#: View/Helper/CandyHelper.php:421
 msgid "days"
 msgstr "jours"
 
@@ -1160,7 +1161,7 @@ msgstr "Rôle"
 
 # button_change
 #: View/Elements/projects/settings/members.ctp:37
-#: View/Elements/users/memberships.ctp:33
+#: View/Elements/users/memberships.ctp:34
 msgid "Change"
 msgstr "Change"
 
@@ -1199,7 +1200,7 @@ msgstr "Page wiki"
 #: View/Elements/projects/settings/versions.ctp:58
 #: View/Projects/add_version.ctp:1
 msgid "New version"
-msgstr "Nouvelle version"
+msgstr "Version"
 
 # text_unallowed_characters
 #: View/Elements/projects/settings/wiki.ctp:41
@@ -1208,7 +1209,7 @@ msgstr "Caractères non autorisés"
 
 # button_create
 #: View/Elements/projects/settings/wiki.ctp:60 View/Enumerations/new.ctp:12
-#: View/IssueStatuses/new.ctp:24 View/Issues/new.ctp:42 View/News/add.ctp:7
+#: View/IssueStatuses/new.ctp:24 View/Issues/new.ctp:14 View/News/add.ctp:7
 #: View/News/index.ctp:10 View/Projects/add_issue_category.ctp:16
 #: View/Projects/add_version.ctp:35 View/Trackers/new.ctp:28
 #: View/Users/add.ctp:12
@@ -1216,20 +1217,20 @@ msgid "Create"
 msgstr "Créer"
 
 # label_version_plural
-#: View/Elements/projects/sidebar/changelog.ctp:10
-#: View/Elements/projects/sidebar/roadmap.ctp:16
+#: View/Elements/projects/sidebar/changelog.ctp:19
+#: View/Elements/projects/sidebar/roadmap.ctp:36
 #: Vendor/candycane/MenuContainer.php:157
 msgid "Versions"
 msgstr "Versions"
 
 # label_roadmap
-#: View/Elements/projects/sidebar/roadmap.ctp:6 View/Projects/roadmap.ctp:1
+#: View/Elements/projects/sidebar/roadmap.ctp:7 View/Projects/roadmap.ctp:1
 #: View/Projects/roadmap.ctp:36
 msgid "Roadmap"
 msgstr "Feuille de route"
 
 # label_show_completed_versions
-#: View/Elements/projects/sidebar/roadmap.ctp:12
+#: View/Elements/projects/sidebar/roadmap.ctp:25
 msgid "Show completed versions"
 msgstr "Montrer les versions complétées"
 
@@ -1538,13 +1539,13 @@ msgstr "Date range"
 
 # label_date_from
 #: View/Elements/timelog/date_range.ctp:25 View/Projects/activity.ctp:2
-#: View/Projects/activity.ctp:41 View/Projects/activity.ctp:55
+#: View/Projects/activity.ctp:42 View/Projects/activity.ctp:56
 msgid "From"
 msgstr "Du"
 
 # label_date_to
 #: View/Elements/timelog/date_range.ctp:35 View/Projects/activity.ctp:2
-#: View/Projects/activity.ctp:41 View/Projects/activity.ctp:55
+#: View/Projects/activity.ctp:42 View/Projects/activity.ctp:56
 msgid "To"
 msgstr "au"
 
@@ -1573,8 +1574,8 @@ msgid "Authentication"
 msgstr "Authentification"
 
 # label_role_plural
-#: View/Elements/users/memberships.ctp:17
-#: View/Elements/users/memberships.ctp:65 View/Roles/list.ctp:12
+#: View/Elements/users/memberships.ctp:57
+#: View/Elements/users/memberships.ctp:86 View/Roles/list.ctp:12
 msgid "Roles"
 msgstr "Rôles"
 
@@ -1774,12 +1775,12 @@ msgid "Files"
 msgstr "Fichiers"
 
 # label_issue_new
-#: View/Issues/new.ctp:29
+#: View/Issues/new.ctp:1
 msgid "New issue"
 msgstr "Nouvelle demande"
 
 # button_create_and_continue
-#: View/Issues/new.ctp:43
+#: View/Issues/new.ctp:15
 msgid "Create and continue"
 msgstr "Créer et continuer"
 
@@ -1815,36 +1816,36 @@ msgid "'Also available in:'"
 msgstr "'Disponible aussi dans :'"
 
 # label_logged_as
-#: View/Layouts/base.ctp:24 View/Themed/kuma/Layouts/base.ctp:24
+#: View/Layouts/base.ctp:26 View/Themed/kuma/Layouts/base.ctp:24
 msgid "Logged in as"
 msgstr "Connecté en tant que"
 
 # label_search
-#: View/Layouts/base.ctp:31 View/Search/index.ctp:1
+#: View/Layouts/base.ctp:33 View/Search/index.ctp:1
 #: View/Themed/kuma/Layouts/base.ctp:31
 msgid "Search"
 msgstr "Rechercher"
 
 # label_loading
-#: View/Layouts/base.ctp:84 View/Themed/kuma/Layouts/base.ctp:84
+#: View/Layouts/base.ctp:86 View/Themed/kuma/Layouts/base.ctp:84
 msgid "Loading..."
 msgstr "Chargement..."
 
 # label_report
-#: View/Layouts/base.ctp:93 View/Themed/kuma/Layouts/base.ctp:93
+#: View/Layouts/base.ctp:95 View/Themed/kuma/Layouts/base.ctp:93
 msgid "Report Bug"
 msgstr "Déclarer un bug"
 
 # label_attribute_plural
-#: View/Layouts/base.ctp:95 View/Themed/kuma/Layouts/base.ctp:95
+#: View/Layouts/base.ctp:97 View/Themed/kuma/Layouts/base.ctp:95
 msgid "Contributors"
 msgstr "Contributeurs"
 
-#: View/Layouts/base.ctp:99 View/Themed/kuma/Layouts/base.ctp:99
+#: View/Layouts/base.ctp:101 View/Themed/kuma/Layouts/base.ctp:99
 msgid "Discussion"
 msgstr "Discussion"
 
-#: View/Layouts/base.ctp:106 View/Themed/kuma/Layouts/base.ctp:106
+#: View/Layouts/base.ctp:108 View/Themed/kuma/Layouts/base.ctp:106
 msgid "CakePHP: the rapid development php framework"
 msgstr "CakePHP: Le framework de développement rapide en php"
 
@@ -1884,7 +1885,7 @@ msgstr "Ajouter des annonces"
 
 # label_news
 #: View/News/index.ctp:40 View/News/index.ctp:81
-#: Controller/Component/MailerComponent.php:207
+#: Controller/Component/MailerComponent.php:209
 msgid "News"
 msgstr "Annonces"
 
@@ -1895,16 +1896,16 @@ msgid "Comments"
 msgstr "Commentaires"
 
 # label_previous
-#: View/News/index.ctp:66 View/Projects/activity.ctp:36
+#: View/News/index.ctp:66 View/Projects/activity.ctp:37
 #: View/Wiki/history.ctp:98 View/Wiki/show.ctp:102
-#: View/Helper/CandyHelper.php:671
+#: View/Helper/CandyHelper.php:520
 msgid "Previous"
 msgstr "Précédent"
 
 # label_next
-#: View/News/index.ctp:66 View/Projects/activity.ctp:50
+#: View/News/index.ctp:66 View/Projects/activity.ctp:51
 #: View/Wiki/history.ctp:102 View/Wiki/show.ctp:126
-#: View/Helper/CandyHelper.php:680
+#: View/Helper/CandyHelper.php:529
 msgid "Next"
 msgstr "Suivant"
 
@@ -2095,6 +2096,39 @@ msgstr "Nouvel utilisateur"
 msgid "Send account information to the user"
 msgstr "Envoyer les informations du compte à l'utilisateur"
 
+# field_login
+#: View/Users/list.ctp:67
+msgid "login"
+msgstr "Identifiant"
+
+# field_firstname
+#: View/Users/list.ctp:67
+msgid "firstname"
+msgstr "Prénom"
+
+# field_lastname
+#: View/Users/list.ctp:67
+msgid "lastname"
+msgstr "Nom"
+
+# field_mail
+#: View/Users/list.ctp:67
+msgid "mail"
+msgstr "E-Mail"
+
+#: View/Users/list.ctp:67
+msgid "admin"
+msgstr ""
+
+# field_created_on
+#: View/Users/list.ctp:67 Model/Query.php:143 Model/Query.php:657
+msgid "created_on"
+msgstr "Créé le"
+
+#: View/Users/list.ctp:67
+msgid "last_login_on"
+msgstr "Dernière connexion"
+
 # label_time_tracking
 #: View/Versions/show.ctp:26
 msgid "Time tracking"
@@ -2281,19 +2315,19 @@ msgid "SQLite3 extension not loaded in your php.ini"
 msgstr "L'extension SQLite3 n'est pas activé dans votre php.ini"
 
 # mail_subject_register
-#: Controller/Component/MailerComponent.php:132
+#: Controller/Component/MailerComponent.php:134
 #, php-format
 msgid "Your %s account activation"
 msgstr "L'activation de votre compte %s"
 
 # mail_subject_account_activation_request
-#: Controller/Component/MailerComponent.php:162
+#: Controller/Component/MailerComponent.php:164
 #, php-format
 msgid "%s account activation request"
 msgstr "%s demande d'activation du compte"
 
 # mail_subject_lost_password
-#: Controller/Component/MailerComponent.php:180
+#: Controller/Component/MailerComponent.php:182
 msgid "Your password"
 msgstr "Votre mot de passe"
 
@@ -2314,7 +2348,7 @@ msgstr "Votre mot de passe"
 #: Controller/SettingsController.php:39 Controller/TimelogController.php:194
 #: Controller/TrackersController.php:46 Controller/TrackersController.php:59
 #: Controller/UsersController.php:68 Controller/VersionsController.php:53
-#: Controller/VersionsController.php:72 Controller/WikiController.php:269
+#: Controller/VersionsController.php:72 Controller/WikiController.php:226
 #: Controller/WorkflowsController.php:90
 msgid "Successful update."
 msgstr "Mis à jour avec succès."
@@ -2378,7 +2412,7 @@ msgid "Can not save Issue."
 msgstr "Impossible d'enregistrer la demande."
 
 # warning_attachments_not_saved
-#: Controller/IssuesController.php:520 Controller/WikiController.php:431
+#: Controller/IssuesController.php:520 Controller/WikiController.php:388
 #, php-format
 msgid "%d file(s) could not be saved."
 msgstr "%d fichier(s) n'a(ont) pas pu être sauvé(s)."
@@ -2516,7 +2550,7 @@ msgid "in"
 msgstr "dans"
 
 # label_today
-#: Model/Query.php:47 View/Helper/CandyHelper.php:460
+#: Model/Query.php:47 View/Helper/CandyHelper.php:380
 #: View/Helper/TimelogHelper.php:90
 msgid "today"
 msgstr "aujourd'hui"
@@ -2574,11 +2608,6 @@ msgstr "Date de démarrage"
 #: Model/Query.php:138 Model/Query.php:645
 msgid "estimated_hours"
 msgstr "Nombre d'heures estimé"
-
-# field_created_on
-#: Model/Query.php:143 Model/Query.php:657
-msgid "created_on"
-msgstr "Créé le"
 
 # field_priority
 #: Model/Query.php:148
@@ -2658,7 +2687,7 @@ msgstr "catégorie"
 # label_version_new
 #: Model/Query.php:627
 msgid "fixed_version"
-msgstr "Nouvelle version"
+msgstr "Version"
 
 #: Plugin/CcInstall/Controller/CcInstallController.php:59
 msgid "Installation: Welcome"
@@ -2793,79 +2822,79 @@ msgid "Support"
 msgstr "Support"
 
 # general_fmt_date
-#: View/Helper/CandyHelper.php:423
+#: View/Helper/CandyHelper.php:343
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
 
 # general_fmt_time
-#: View/Helper/CandyHelper.php:429
+#: View/Helper/CandyHelper.php:349
 msgid "%I:%M %p"
 msgstr "%H:%M"
 
 # label_roadmap_overdue
-#: View/Helper/CandyHelper.php:518
+#: View/Helper/CandyHelper.php:423
 #, php-format
 msgid "%s late"
 msgstr "%s retard"
 
 # label_roadmap_due_in
-#: View/Helper/CandyHelper.php:520
+#: View/Helper/CandyHelper.php:425
 #, php-format
 msgid "Due in %s"
 msgstr "Echéance dans %s "
 
 # label_per_page
-#: View/Helper/CandyHelper.php:756
+#: View/Helper/CandyHelper.php:572
 msgid "Per page "
 msgstr "Par page"
 
 # label_less_than_ago
-#: View/Helper/CandyHelper.php:1555 View/Helper/CandyHelper.php:1566
+#: View/Helper/CandyHelper.php:1010 View/Helper/CandyHelper.php:1021
 msgid "less than a minute"
 msgstr "moins d'une minute"
 
-#: View/Helper/CandyHelper.php:1555 View/Helper/CandyHelper.php:1568
+#: View/Helper/CandyHelper.php:1010 View/Helper/CandyHelper.php:1023
 msgid "1 minute"
 msgstr "1 minute"
 
 # label_less_than_ago
-#: View/Helper/CandyHelper.php:1558
+#: View/Helper/CandyHelper.php:1013
 msgid "less than a second"
 msgstr "moins d'une seconde"
 
 # label_less_than_ago
-#: View/Helper/CandyHelper.php:1558 View/Helper/CandyHelper.php:1560
-#: View/Helper/CandyHelper.php:1562
+#: View/Helper/CandyHelper.php:1013 View/Helper/CandyHelper.php:1015
+#: View/Helper/CandyHelper.php:1017
 #, php-format
 msgid "less than %d seconds"
 msgstr "moins de %d secondes"
 
-#: View/Helper/CandyHelper.php:1564
+#: View/Helper/CandyHelper.php:1019
 msgid "half a minute"
 msgstr "une demi-minute"
 
 # permission_add_issue_notes
-#: View/Helper/CandyHelper.php:1571
+#: View/Helper/CandyHelper.php:1026
 #, php-format
 msgid "%d minutes"
 msgstr "%d minutes"
 
-#: View/Helper/CandyHelper.php:1573 View/Helper/CandyHelper.php:1575
+#: View/Helper/CandyHelper.php:1028 View/Helper/CandyHelper.php:1030
 msgid "about an hour"
 msgstr "environ une heure"
 
-#: View/Helper/CandyHelper.php:1575
+#: View/Helper/CandyHelper.php:1030
 #, php-format
 msgid "about %d hours"
 msgstr "environ %d heures"
 
 # label_day_plural
-#: View/Helper/CandyHelper.php:1577
+#: View/Helper/CandyHelper.php:1032
 msgid "1 day"
 msgstr "1 jour"
 
 # general_fmt_age_plural
-#: View/Helper/CandyHelper.php:1579 View/Helper/IssuesHelper.php:161
+#: View/Helper/CandyHelper.php:1034 View/Helper/IssuesHelper.php:161
 #, php-format
 msgid "%d days"
 msgstr "%d jours"

@@ -64,7 +64,7 @@ echo $ajax->link(__('login'),
   <thead>
   <?php echo $this->Html->tableHeaders(
   array(
-    'login', 'firstname', 'lastname', 'mail', 'admin', 'created_on', 'last_login_on', ''
+    __('login'), __('firstname'), __('lastname'), __('mail'), __('admin'), __('created_on'), __('last_login_on'), ''
   )
   ); ?>
   </thead>
