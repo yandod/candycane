@@ -187,29 +187,30 @@ class MailerComponent extends Component {
 		#    redmine_headers 'Project' => news.project.identifier
 		$news->read();
 		$news->Project->read();
+		if($this->_toNoSelfFilter($Issue->recipients())) {
+			if ($this->Controller->Setting->bcc_recipients) {
+				$this->Email->to($this->Controller->Setting->mail_from);
+				$this->Email->bcc($this->_toNoSelfFilter($news->Project->recipients()));
+			} else {
+				$this->Email->to($this->_toNoSelfFilter($news->Project->recipients()));
+			}
 
-		if ($this->Controller->Setting->bcc_recipients) {
-			$this->Email->to($this->Controller->Setting->mail_from);
-			$this->Email->bcc($this->_toNoSelfFilter($news->Project->recipients()));
-		} else {
-			$this->Email->to($this->_toNoSelfFilter($news->Project->recipients()));
+			return $this->Email->template('news_added')
+				->viewVars(array(
+					'news' => $news->data,
+					'news_url' => Router::url(array(
+						'controller' => 'news',
+						'action' => 'show',
+						'id' => $news->id
+					), true),
+				))
+				->subject(vsprintf('[%s] %s: %s', array(
+					$news->Project->data['Project']['name'],
+					__('News'),
+					$news->data['News']['title']
+				)))
+				->send();
 		}
-
-		return $this->Email->template('news_added')
-			->viewVars(array(
-				'news' => $news->data,
-				'news_url' => Router::url(array(
-					'controller' => 'news',
-					'action' => 'show',
-					'id' => $news->id
-				), true),
-			))
-			->subject(vsprintf('[%s] %s: %s', array(
-				$news->Project->data['Project']['name'],
-				__('News'),
-				$news->data['News']['title']
-			)))
-			->send();
 	}
 
 	public function deliver_test($user) {
