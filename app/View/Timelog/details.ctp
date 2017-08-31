@@ -45,7 +45,7 @@ echo $this->Form->end();
 <?php echo $this->element('timelog/list', array('entries' => $entries, 'main_project'=>$main_project, 'issue'=>$issue)); ?>
 <p class="pagination"><?php echo $this->Candy->pagination_links_full(); ?></p>
 <p class="other-formats">
-<?php echo __("'Also available in:'") ?>
+<?php echo __('Also available in:') ?>
 <span>
 <?php 
   if(!empty($this->request->query['issue_id'])) {
