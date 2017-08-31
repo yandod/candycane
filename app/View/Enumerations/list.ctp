@@ -8,15 +8,15 @@ if( $currentuser[ 'admin' ] )
 <h2><?php echo $this->Candy->html_title(__('Enumerations')) ?></h2>
 
 <?php $Enumeration = ClassRegistry::getObject('Enumeration'); ?>
-<?php foreach($Enumeration->OPTIONS as $option => $params  ): ?>
+
+<?php foreach($Enumeration->get_options() as $option => $params  ): ?>
 <h3><?php echo __($params['label']) ?></h3>
 
-<!-- <% enumerations = Enumeration.get_values(option) %> -->
 <?php $enumerations = $Enumeration->get_values($option) ?>
-<!-- <% if enumerations.any? %> -->
+
 <?php if(!empty($enumerations)): ?>
 <table class="list">
-<!-- <% enumerations.each do |enumeration| %> -->
+
 <?php foreach($enumerations as $enumeration): ?>
 <tr class="<?php echo $this->Candy->cycle() ?>">
     <td><?php echo $this->Html->link($enumeration['Enumeration']['name'],array('action'=>'edit',$enumeration['Enumeration']['id']),array('id'=>'enumeration')) ?></td>
