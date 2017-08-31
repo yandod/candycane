@@ -121,7 +121,7 @@ echo $this->Form->create('TimeEntry', array(
 </table>
 
 <p class="other-formats">
-<?php echo __("'Also available in:'") ?>
+<?php echo __('Also available in:') ?>
 <span><?php 
 echo $this->Html->link('CSV', array('?'=>array_merge(
     array(

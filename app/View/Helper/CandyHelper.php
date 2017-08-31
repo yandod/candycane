@@ -483,7 +483,7 @@ class CandyHelper extends AppHelper {
 			)
 		);
 
-		return $this->lwr('Added by %s %s ago',$author_tag, $time_tag);
+		return $this->lwr(__('Added by %s %s ago',$author_tag, $time_tag));
 	}
 
   function syntax_highlight($name, $content) {

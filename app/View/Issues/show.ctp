@@ -183,7 +183,7 @@ if (
 <?php endif; ?>
 
 <p class="other-formats">
-<?php echo __("'Also available in:'") ?>
+<?php echo __('Also available in:') ?>
 <span><?php echo $this->Html->link('Atom', array('action'=>'show', $issue['Issue']['id'], 'format'=>'atom', 'key'=>$rss_token), array('class'=>'feed'));?></span>
 <span><?php echo $this->Html->link('PDF', array('action'=>'show', $issue['Issue']['id'], 'format'=>'pdf'), array('class'=>'pdf')); ?></span>
 </p>

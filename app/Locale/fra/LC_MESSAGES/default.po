@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Candycane 0.9.6\n"
-"POT-Creation-Date: 2017-08-31 11:54+0200\n"
-"PO-Revision-Date: 2017-08-31 11:54+0200\n"
+"POT-Creation-Date: 2017-08-31 18:35+0200\n"
+"PO-Revision-Date: 2017-08-31 18:35+0200\n"
 "Last-Translator: J. BUTRYN - www.eliou.net - Resources Managment Consulting "
 "<nyrtub@gmail.com>\n"
 "Language-Team: J. BUTRYN - www.eliou.net - Resources Managment Consulting\n"
@@ -296,7 +296,7 @@ msgstr "Dernière connexion"
 
 # label_project_plural
 #: View/Account/show.ctp:30 View/Admin/index.ctp:15 View/Admin/projects.ctp:12
-#: View/Elements/admin/sidebar.ctp:4 View/Projects/index.ctp:18
+#: View/Elements/admin/sidebar.ctp:4 View/Projects/index.ctp:14
 #: Controller/UsersController.php:84 Vendor/candycane/SettingContainer.php:34
 #: View/Helper/CustomFieldHelper.php:39
 msgid "Projects"
@@ -317,10 +317,13 @@ msgid "Reported issues"
 msgstr "Demandes rapportées"
 
 # label_export_to
-#: View/Account/show.ctp:77 View/News/index.ctp:70
-#: View/Projects/activity.ctp:65 View/Wiki/show.ctp:187
+#: View/Account/show.ctp:77 View/Issues/show.ctp:186 View/News/index.ctp:70
+#: View/Projects/activity.ctp:65 View/Projects/index.ctp:39
+#: View/Timelog/details.ctp:48 View/Timelog/report.ctp:124
+#: View/Wiki/show.ctp:187 View/Wiki/special_date_index.ctp:22
+#: View/Wiki/special_page_index.ctp:20
 msgid "Also available in:"
-msgstr "Disponible aussi dans:"
+msgstr "Format(s) disponibles(s) : "
 
 # label_administration
 #: View/Admin/index.ctp:1 View/Elements/admin/sidebar.ctp:1
@@ -375,7 +378,7 @@ msgstr "Champs personnalisés"
 #: View/Admin/index.ctp:39 View/Elements/admin/sidebar.ctp:34
 #: View/Enumerations/edit.ctp:8 View/Enumerations/list.ctp:8
 msgid "Enumerations"
-msgstr "Enumérations"
+msgstr "Listes de valeurs"
 
 # label_settings
 #: View/Admin/index.ctp:43 View/Elements/admin/sidebar.ctp:38
@@ -513,7 +516,7 @@ msgstr ""
 
 # label_project_new
 #: View/Admin/projects.ctp:9 View/Elements/users/memberships.ctp:79
-#: View/Projects/add.ctp:8 View/Projects/index.ctp:13
+#: View/Projects/add.ctp:8 View/Projects/index.ctp:8
 msgid "New project"
 msgstr "Nouveau projet"
 
@@ -552,7 +555,7 @@ msgstr "Appliquer"
 
 # label_subproject_plural
 #: View/Admin/projects.ctp:57 View/Elements/projects/sidebar/activity.ctp:18
-#: View/Projects/index.ctp:39 View/Projects/show.ctp:12
+#: View/Projects/index.ctp:26 View/Projects/show.ctp:12
 msgid "Subprojects"
 msgstr "Sous-projets"
 
@@ -1012,7 +1015,7 @@ msgstr "Demandes"
 # label_issue_view_all
 #: View/Elements/issues/sidebar.ctp:2
 #: View/Elements/my/blocks/issuesassignedtome.ctp:23
-#: View/Elements/my/blocks/issuesreportedbyme.ctp:14 View/Projects/index.ctp:14
+#: View/Elements/my/blocks/issuesreportedbyme.ctp:14 View/Projects/index.ctp:10
 #: View/Projects/show.ctp:49
 msgid "View all issues"
 msgstr "Voir toutes les demandes"
@@ -1173,7 +1176,7 @@ msgstr "Nouveau membre"
 # text_select_project_modules
 #: View/Elements/projects/settings/modules.ctp:14
 msgid "Select modules to enable for this project:"
-msgstr "'Sélectionner les modules à activer pour ce projet:'"
+msgstr "Sélectionner les modules à activer pour ce projet :"
 
 # label_version
 #: View/Elements/projects/settings/versions.ctp:4 View/Projects/add_file.ctp:11
@@ -1808,13 +1811,6 @@ msgstr "%.2f heure"
 msgid "Quote"
 msgstr "Citer"
 
-# label_export_to
-#: View/Issues/show.ctp:186 View/Projects/index.ctp:61
-#: View/Timelog/details.ctp:48 View/Timelog/report.ctp:124
-#: View/Wiki/special_date_index.ctp:22 View/Wiki/special_page_index.ctp:20
-msgid "'Also available in:'"
-msgstr "'Disponible aussi dans :'"
-
 # label_logged_as
 #: View/Layouts/base.ctp:26 View/Themed/kuma/Layouts/base.ctp:24
 msgid "Logged in as"
@@ -1937,12 +1933,12 @@ msgid "Yes"
 msgstr "Oui"
 
 # label_overall_activity
-#: View/Projects/index.ctp:15
+#: View/Projects/index.ctp:11
 msgid "Overall activity"
 msgstr "Activité globale"
 
 # label_my_projects
-#: View/Projects/index.ctp:56 View/Helper/SearchHelper.php:32
+#: View/Projects/index.ctp:38 View/Helper/SearchHelper.php:32
 msgid "My projects"
 msgstr "Mes projets"
 
@@ -2197,7 +2193,7 @@ msgstr "Version actuelle"
 # text_wiki_destroy_confirmation
 #: View/Wikis/destroy.ctp:4
 msgid "Are you sure you want to delete this wiki and all its content ?"
-msgstr "Etes vous sûr de vouloir supprimer ce wiki et tout ses contenus ?"
+msgstr "Etes vous sûr de vouloir supprimer ce wiki et tous ses contenus ?"
 
 # text_workflow_edit
 #: View/Workflows/edit.ctp:14
@@ -2509,6 +2505,21 @@ msgstr "Impossible de supprimer la version."
 #: Model/Document.php:41
 msgid "Document"
 msgstr "Document"
+
+# label_issue_category_plural
+#: Model/Enumeration.php:18
+msgid "Issue priorities"
+msgstr "Priorités des demandes"
+
+# label_issue_category_plural
+#: Model/Enumeration.php:19
+msgid "Document categories"
+msgstr "Catégories des documents"
+
+# label_time_tracking
+#: Model/Enumeration.php:20
+msgid "Activities (time tracking)"
+msgstr "Activités (Suivi du temps)"
 
 #: Model/Project.php:115
 msgid ""
@@ -2843,10 +2854,16 @@ msgstr "%s retard"
 msgid "Due in %s"
 msgstr "Echéance dans %s "
 
+# label_updated_time_by
+#: View/Helper/CandyHelper.php:486
+#, php-format
+msgid "Added by %s %s ago"
+msgstr "Ajouté par %s il y a %s"
+
 # label_per_page
 #: View/Helper/CandyHelper.php:572
 msgid "Per page "
-msgstr "Par page"
+msgstr "Par page "
 
 # label_less_than_ago
 #: View/Helper/CandyHelper.php:1010 View/Helper/CandyHelper.php:1021
@@ -3032,6 +3049,10 @@ msgstr "Ne plus observer"
 #: View/Helper/WatchersHelper.php:44
 msgid "Watch"
 msgstr "Surveiller"
+
+# label_export_to
+#~ msgid "'Also available in:'"
+#~ msgstr "'Disponible aussi dans :'"
 
 # notice_email_error
 #~ msgid "An error occurred while sending mail (%s)"

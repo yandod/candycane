@@ -19,7 +19,7 @@
 
 <?php if (sizeof($pages) !== 0) : ?>
 <p class="other-formats">
-<?php echo __("'Also available in:'") ?>
+<?php echo __('Also available in:') ?>
 <span><?php echo $this->Html->link('Atom', array('controller' => 'projects', 'action' => 'activity', 'project_id' => $main_project['Project']['identifier'], '?show_wiki_pages=1&format=atom'  /*key User.current.rss_key*/), array('class' => 'feed')) ?></span>
 <span><?php echo $this->Html->link('HTML', array('action' => 'special', 'project_id' => $main_project['Project']['identifier'] ,'wikipage' => 'export'), array('class' => 'html')); ?></span>
 </p>
