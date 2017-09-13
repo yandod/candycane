@@ -147,7 +147,7 @@ class ProjectsController extends AppController
         $projects = $this->Project->find('all', array(
             'conditions' => $cond
         ));
-        $sub_project_tree = array();
+        $project_tree = $sub_project_tree = array();
         foreach ($projects as $key => $val) {
             foreach ($val as $key2 => $val2) {
                 if ($key2 == 'Project') {
