@@ -139,10 +139,10 @@ class EnumerationTestCase extends CakeTestCase
         $row = $data[3];
         $enumerationId = $row['Enumeration']['id'];
 
-        $model = ClassRegistry::init($this->Enumeration->OPTIONS[$row['Enumeration']['opt']]['model']);
+        $model = ClassRegistry::init($this->Enumeration->get_options()[$row['Enumeration']['opt']]['model']);
 
         // reassign前
-        $foreignKeyColumnName = $this->Enumeration->OPTIONS[$row['Enumeration']['opt']]['foreign_key'];
+        $foreignKeyColumnName = $this->Enumeration->get_options()[$row['Enumeration']['opt']]['foreign_key'];
         $modelData = $model->find('all', array('conditions' => array(
             $foreignKeyColumnName => $enumerationId
         )));

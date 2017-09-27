@@ -83,7 +83,7 @@ class ProjectsController extends AppController
     {
         parent::beforeFilter();
 
-        $except = array('index', 'list', 'add', 'activity');
+        $except = array('index', 'list', 'add', 'activity', 'add_issue_category');
         if (!in_array($this->request->action, $except)) {
             $this->find_project();
         }
@@ -147,7 +147,7 @@ class ProjectsController extends AppController
         $projects = $this->Project->find('all', array(
             'conditions' => $cond
         ));
-        $sub_project_tree = array();
+        $project_tree = $sub_project_tree = array();
         foreach ($projects as $key => $val) {
             foreach ($val as $key2 => $val2) {
                 if ($key2 == 'Project') {
@@ -445,7 +445,7 @@ class ProjectsController extends AppController
     {
         $subprojects = $this->Project->findSubprojects($this->_project['Project']['id']);
         $this->set('subprojects', $subprojects);
-        if ($this->RequestHandler->isPost()) {
+        if ($this->request->is('put')) {
             if ($this->request->data['Project']['confirm'] == 1) {
                 $this->Project->delete($this->request->data['Project']['id']);
                 foreach ($subprojects as $row) {
@@ -453,8 +453,6 @@ class ProjectsController extends AppController
                 }
                 $this->Session->setFlash(__('Successful deletion.'), 'default', array('class' => 'flash flash_notice'));
                 $this->redirect(array('controller' => 'admin', 'action' => 'projects'));
-            } else {
-                // Nothing
             }
         }
     }
@@ -479,9 +477,10 @@ class ProjectsController extends AppController
         } else {
             $data = $this->request->data;
         }
+        $project_id = $this->Project->findByIdentifier($this->request->params['project_id']);
         $members = $this->Project->Member->find('all', array(
             'conditions' => array(
-                'project_id' => $this->request->data['Project']['id'],
+                'project_id' => $project_id['Project']['id'],
             ),
         ));
         $project_users = array(null => '');
@@ -500,14 +499,14 @@ class ProjectsController extends AppController
                         array(
                             'controller' => 'projects',
                             'action' => 'settings',
-                            'project_id' => $this->request->data['Project']['project_id'],
+                            'project_id' => $this->request->params['project_id'],
                             '?' => 'tab=categories'
                         )
                     );
                 } else {
                     $this->layout = 'ajax';
                     $issue_categories = $this->IssueCategory->find('list', array(
-                        'conditions' => array('project_id' => $this->request->data['Project']['id']),
+                        'conditions' => array('project_id' => $project_id['Project']['id']),
                         'order' => "IssueCategory.name",
                     ));
                     $this->set(compact('issue_categories'));

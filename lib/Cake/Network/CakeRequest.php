@@ -2,17 +2,17 @@
 /**
  * CakeRequest
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 2.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Hash', 'Utility');
@@ -97,6 +97,7 @@ class CakeRequest implements ArrayAccess {
  */
 	protected $_detectors = array(
 		'get' => array('env' => 'REQUEST_METHOD', 'value' => 'GET'),
+		'patch' => array('env' => 'REQUEST_METHOD', 'value' => 'PATCH'),
 		'post' => array('env' => 'REQUEST_METHOD', 'value' => 'POST'),
 		'put' => array('env' => 'REQUEST_METHOD', 'value' => 'PUT'),
 		'delete' => array('env' => 'REQUEST_METHOD', 'value' => 'DELETE'),
@@ -165,7 +166,7 @@ class CakeRequest implements ArrayAccess {
 		if ($_POST) {
 			$this->data = $_POST;
 		} elseif (($this->is('put') || $this->is('delete')) &&
-			strpos(env('CONTENT_TYPE'), 'application/x-www-form-urlencoded') === 0
+			strpos($this->contentType(), 'application/x-www-form-urlencoded') === 0
 		) {
 				$data = $this->_readInput();
 				parse_str($data, $this->data);
@@ -173,9 +174,13 @@ class CakeRequest implements ArrayAccess {
 		if (ini_get('magic_quotes_gpc') === '1') {
 			$this->data = stripslashes_deep($this->data);
 		}
+
+		$override = null;
 		if (env('HTTP_X_HTTP_METHOD_OVERRIDE')) {
 			$this->data['_method'] = env('HTTP_X_HTTP_METHOD_OVERRIDE');
+			$override = $this->data['_method'];
 		}
+
 		$isArray = is_array($this->data);
 		if ($isArray && isset($this->data['_method'])) {
 			if (!empty($_SERVER)) {
@@ -183,8 +188,14 @@ class CakeRequest implements ArrayAccess {
 			} else {
 				$_ENV['REQUEST_METHOD'] = $this->data['_method'];
 			}
+			$override = $this->data['_method'];
 			unset($this->data['_method']);
 		}
+
+		if ($override && !in_array($override, array('POST', 'PUT', 'PATCH', 'DELETE'))) {
+			$this->data = array();
+		}
+
 		if ($isArray && isset($this->data['data'])) {
 			$data = $this->data['data'];
 			if (count($this->data) <= 1) {
@@ -212,7 +223,7 @@ class CakeRequest implements ArrayAccess {
 		unset($query[$unsetUrl]);
 		unset($query[$this->base . $unsetUrl]);
 		if (strpos($this->url, '?') !== false) {
-			list(, $querystr) = explode('?', $this->url);
+			list($this->url, $querystr) = explode('?', $this->url);
 			parse_str($querystr, $queryArgs);
 			$query += $queryArgs;
 		}
@@ -278,7 +289,6 @@ class CakeRequest implements ArrayAccess {
  * the unnecessary part from $base to prevent issue #3318.
  *
  * @return string Base URL
- * @link https://cakephp.lighthouseapp.com/projects/42648-cakephp/tickets/3318
  */
 	protected function _base() {
 		$dir = $webroot = null;
@@ -386,6 +396,19 @@ class CakeRequest implements ArrayAccess {
 	}
 
 /**
+ * Get the content type used in this request.
+ *
+ * @return string
+ */
+	public function contentType() {
+		$type = env('CONTENT_TYPE');
+		if ($type) {
+			return $type;
+		}
+		return env('HTTP_CONTENT_TYPE');
+	}
+
+/**
  * Get the IP the client is using, or says they are using.
  *
  * @param bool $safe Use safe = false when you think the user might manipulate their HTTP_CLIENT_IP
@@ -395,20 +418,10 @@ class CakeRequest implements ArrayAccess {
 	public function clientIp($safe = true) {
 		if (!$safe && env('HTTP_X_FORWARDED_FOR')) {
 			$ipaddr = preg_replace('/(?:,.*)/', '', env('HTTP_X_FORWARDED_FOR'));
+		} elseif (!$safe && env('HTTP_CLIENT_IP')) {
+			$ipaddr = env('HTTP_CLIENT_IP');
 		} else {
-			if (env('HTTP_CLIENT_IP')) {
-				$ipaddr = env('HTTP_CLIENT_IP');
-			} else {
-				$ipaddr = env('REMOTE_ADDR');
-			}
-		}
-
-		if (env('HTTP_CLIENTADDRESS')) {
-			$tmpipaddr = env('HTTP_CLIENTADDRESS');
-
-			if (!empty($tmpipaddr)) {
-				$ipaddr = preg_replace('/(?:,.*)/', '', $tmpipaddr);
-			}
+			$ipaddr = env('REMOTE_ADDR');
 		}
 		return trim($ipaddr);
 	}
@@ -426,6 +439,9 @@ class CakeRequest implements ArrayAccess {
 		if (!empty($ref) && !empty($base)) {
 			if ($local && strpos($ref, $base) === 0) {
 				$ref = substr($ref, strlen($base));
+				if (empty($ref)) {
+					$ref = '/';
+				}
 				if ($ref[0] !== '/') {
 					$ref = '/' . $ref;
 				}
@@ -685,7 +701,7 @@ class CakeRequest implements ArrayAccess {
  * This modifies the parameters available through `$request->params`.
  *
  * @param array $params Array of parameters to merge in
- * @return $this
+ * @return self
  */
 	public function addParams($params) {
 		$this->params = array_merge($this->params, (array)$params);
@@ -697,7 +713,7 @@ class CakeRequest implements ArrayAccess {
  * Provides an easy way to modify, here, webroot and base.
  *
  * @param array $paths Array of paths to merge in
- * @return $this
+ * @return self
  */
 	public function addPaths($paths) {
 		foreach (array('webroot', 'here', 'base') as $element) {
@@ -732,7 +748,12 @@ class CakeRequest implements ArrayAccess {
  * @return mixed Either false on no header being set or the value of the header.
  */
 	public static function header($name) {
-		$name = 'HTTP_' . strtoupper(str_replace('-', '_', $name));
+		$httpName = 'HTTP_' . strtoupper(str_replace('-', '_', $name));
+		if (isset($_SERVER[$httpName])) {
+			return $_SERVER[$httpName];
+		}
+		// Use the provided value, in some configurations apache will
+		// pass Authorization with no prefix and in Titlecase.
 		if (isset($_SERVER[$name])) {
 			return $_SERVER[$name];
 		}
@@ -938,7 +959,7 @@ class CakeRequest implements ArrayAccess {
  * will be created for you.
  *
  * @param string $name Dot separated name of the value to read/write, one or more args.
- * @return mixed|$this Either the value being read, or $this so you can chain consecutive writes.
+ * @return mixed|self Either the value being read, or $this so you can chain consecutive writes.
  */
 	public function data($name) {
 		$args = func_get_args();
@@ -985,7 +1006,7 @@ class CakeRequest implements ArrayAccess {
  * @param string $callback A decoding callback that will convert the string data to another
  *     representation. Leave empty to access the raw input data. You can also
  *     supply additional parameters for the decoding callback using var args, see above.
- * @return The decoded/processed request data.
+ * @return mixed The decoded/processed request data.
  */
 	public function input($callback = null) {
 		$input = $this->_readInput();
@@ -1109,6 +1130,9 @@ class CakeRequest implements ArrayAccess {
  * @return bool
  */
 	public function offsetExists($name) {
+		if ($name === 'url' || $name === 'data') {
+			return true;
+		}
 		return isset($this->params[$name]);
 	}
 

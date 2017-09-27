@@ -82,9 +82,9 @@ class Query extends AppModel
     if(!empty($this->available_filters)) {
       return $this->available_filters;
     }    
-    //$Status = & ClassRegistry::init('Status');
-    $IssueStatus = & ClassRegistry::init('IssueStatus');
-    $Enumeration = & ClassRegistry::init('Enumeration');
+    //$Status = ClassRegistry::init('Status');
+    $IssueStatus = ClassRegistry::init('IssueStatus');
+    $Enumeration = ClassRegistry::init('Enumeration');
     $user_values = array();
     $tracker_values = array();
     $version_values = array();
@@ -99,7 +99,7 @@ class Query extends AppModel
       foreach ($project['Tracker'] as $tracker) $tracker_values[$tracker['id']] = $tracker['name'];
     }
     if (isset($project['Project']['id'])) {
-      $Version = & ClassRegistry::init('Version');
+      $Version = ClassRegistry::init('Version');
       $version_values = $Version->find('list', array(
         'fields' => array(
           'Version.id',
@@ -113,6 +113,7 @@ class Query extends AppModel
     
     $available_filters = array(
       'status_id' => array(
+        'caption' => __('status_id'),
         'type'   => 'list_status',
         'values' => $IssueStatus->find('list', array(
           'fields' => array(
@@ -123,23 +124,28 @@ class Query extends AppModel
         'order' => 1,
       ),
       'fixed_version_id' => array(
+        'caption' => __('fixed_version_id'),
         'type' => 'list',
         'values' => $version_values,
         'order' => 10
       ),
       'start_date' => array(
+        'caption' => __('start_date'),
         'type'  => 'date',
         'order' => 11,
       ),
       'estimated_hours' => array(
+        'caption' => __('estimated_hours'),
         'type'  => 'integer',
         'order' => 13,
       ),
       'created_on' => array(
+        'caption' => __('created_on'),
         'type'  => 'date_past',
         'order' => 9,
       ),
       'priority_id' => array(
+        'caption' => __('priority_id'),
         'type'   => 'list',
         'values' => $Enumeration->find('list', array(
           'fields' => array(
@@ -154,32 +160,39 @@ class Query extends AppModel
         'order' => 3,
       ),
       'assigned_to_id' => array(
+        'caption' => __('assigned_to_id'),
         'type'   => 'list_optional',
         'values' => $user_values,
         'order' => 4,
       ),
       'done_ratio' => array(
+        'caption' => __('done_ratio'),
         'type'  => 'integer',
         'order' => 14,
       ),
       'updated_on' => array(
+        'caption' => __('updated_on'),
         'type'  => 'date_past',
         'order' => 10,
       ),
       'subject' => array(
+        'caption' => __('subject'),
         'type'  => 'text',
         'order' => 8,
       ),
       'tracker_id' => array(
+        'caption' => __('tracker_id'),
         'type' => 'list',
         'values' => $tracker_values,
         'order' => 2,
       ),
       'due_date' => array(
+        'caption' => __('due_date'),
         'type'  => 'date',
         'order' => 12,
       ),
       'author_id' => array(
+        'caption' => __('author_id'),
         'type'   => 'list',
         'values' => $user_values,
         'order' => 5,
@@ -829,7 +842,7 @@ class Query extends AppModel
 #    s.join(' AND ')
 #  end
 #end
-  function beforeSave()
+  function beforeSave($options = array())
   {
     if (isset($this->filters)) {
       $rb_filters = array();

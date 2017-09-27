@@ -50,7 +50,7 @@
         // allow_url_fopen
         $allow_url_fopen = ini_get('allow_url_fopen');
         if ($allow_url_fopen === '1') {
-            echo '<p class="success">' . __('Your allow_url_fopen  is working well.').'</p>';
+            echo '<p class="success">' . __('Your allow_url_fopen is working well.').'</p>';
         } else {
             $check = false;
             echo '<p class="error">' . __('Your allow_url_fopen is NOT working well.').'<br/>';
@@ -59,7 +59,7 @@
         }
 
 		// routing
-        echo '<p class="success" id="routing-success" style="display:none">' . __('Your routing  is working well.').'</p>';
+        echo '<p class="success" id="routing-success" style="display:none">' . __('Your routing is working well.').'</p>';
         echo '<p class="error" id="routing-error">' . __('Your routing is NOT working well.').'<br/>';
         echo __('Please activate mod_rewrite and .htaccess.').'<br/>';
         echo __('Or uncomment "//Configure::write(\'App.baseUrl\', env(\'SCRIPT_NAME\'));" in app/Config/core.php and remove all .htaccess.').'</p>';

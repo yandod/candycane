@@ -1,9 +1,9 @@
 <?php echo $this->Form->create(
 	'Setting',
 	array(
-		'action' => 'edit',
 		'url' => array(
-			'?' => 'tab=projects'
+			'action' => 'edit',
+			'tab' => 'projects'
 		)
 	)
 ); ?>

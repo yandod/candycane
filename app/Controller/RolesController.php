@@ -129,6 +129,8 @@ class RolesController extends AppController
             $permissions = $this->Role->convert_permissions($this->request->data['Role']['permissions']);
             $this->request->data['Role']['permissions'] = $permissions;
 
+            // debug($this->request->data['Role']);die;
+
             $data = array('id' => $id,
                 'name' => $this->request->data['Role']['name'],
                 'assignable' => $this->request->data['Role']['assignable'],

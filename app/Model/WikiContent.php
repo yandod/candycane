@@ -22,7 +22,7 @@ class WikiContent extends AppModel
                                            ),
                          );
   var $validate = array('text' => 'notBlank');
-  function beforeSave(){
+  function beforeSave($options = array()){
     if ($this->id) {
       $this->oldData = $this->find('first',array(
           'conditions' => array('WikiContent.id' => $this->id)
@@ -32,7 +32,7 @@ class WikiContent extends AppModel
     return true;
   }
 
-  function afterSave(){
+  function afterSave($created, $options = array()){
     if (!empty($this->oldData)) {
       $data['WikiContentVersion'] = $this->oldData['WikiContent'];
       $data['WikiContentVersion']['wiki_content_id'] = $data['WikiContentVersion']['id'];

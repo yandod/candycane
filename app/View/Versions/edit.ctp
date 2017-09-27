@@ -1,6 +1,6 @@
 <h2><?php echo __('Version') ?></h2>
 
-<?php echo $this->Form->create('Version', array('action'=>'edit','class'=>'tabular')) ?>
+<?php echo $this->Form->create('Version', array('url'=> array('action' => 'edit'), 'class'=>'tabular')) ?>
 
 <?php /*
 <% labelled_tabular_form_for :version, @version, :url => { :action => 'edit' } do |f| %>

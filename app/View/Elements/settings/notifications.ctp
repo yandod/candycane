@@ -1,8 +1,9 @@
 <?php echo $this->Form->create(
 	'Setting',
 	array(
-		'action' => 'edit',
-		'url' => array('?' => 'tab=notifications')
+		'url' => array(
+			'action' => 'edit',
+			'tab' => 'notifications')
 	)
 ); ?>
 

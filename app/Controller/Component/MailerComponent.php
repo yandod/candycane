@@ -29,11 +29,11 @@ class MailerComponent extends Component {
 
 		$this->Email = new CakeEmail(array(
 			'transport' => $this->Controller->Setting->mail_transport,
-			'from' => $email,
-			'host' => $this->Controller->Setting->mail_host,
-			'port' => $this->Controller->Setting->mail_port,
-			'username' => $this->Controller->Setting->mail_username,
-			'password' => $this->Controller->Setting->mail_password,
+			'from' 		=> $email,
+			'host' 		=> $this->Controller->Setting->mail_host,
+			'port' 		=> $this->Controller->Setting->mail_port,
+			'username' 	=> $this->Controller->Setting->mail_username,
+			'password' 	=> $this->Controller->Setting->mail_password,
 
 		));
 		$this->Email->viewVars(array(
@@ -47,7 +47,7 @@ class MailerComponent extends Component {
 	}
 
 	protected function _toNoSelfFilter($emails) {
-		if (!empty($this->Controller->current_user['UserPreference']['pref']['no_self_notified'])) {
+		if ($this->Controller->current_user['UserPreference']['pref']['no_self_notified']) {
 			foreach ($emails as $key => $email) {
 				if ($this->Controller->current_user['mail'] === $email) {
 					unset($emails[$key]);
@@ -59,62 +59,64 @@ class MailerComponent extends Component {
 
 	public function deliver_issue_add($Issue) {
 		$issue_data = $Issue->findById($Issue->id);
+		if($this->_toNoSelfFilter($Issue->recipients())) {
+			if ($this->Controller->Setting->bcc_recipients) {
+				$this->Email->to($this->Controller->Setting->mail_from);
+				$this->Email->bcc($this->_toNoSelfFilter($Issue->recipients()));
+			} else {
+				$this->Email->to($this->_toNoSelfFilter($Issue->recipients()));
+			}
 
-		if ($this->Controller->Setting->bcc_recipients) {
-			$this->Email->to($this->Controller->Setting->mail_from);
-			$this->Email->bcc($this->_toNoSelfFilter($Issue->recipients()));
-		} else {
-			$this->Email->to($this->_toNoSelfFilter($Issue->recipients()));
+			return $this->Email->template('issue_add')
+				->viewVars(array(
+					'issue' 	=> $issue_data,
+					'issueurl' 	=> Router::url(array(
+						'controller' 	=> 'issues',
+						'action' 		=> 'show',
+						'issue_id' 		=> $Issue->id
+					), true),
+				))
+				->subject(vsprintf('%s - %s #%s %s %s', array(
+					$issue_data['Project']['name'],
+					$issue_data['Tracker']['name'],
+					$issue_data['Issue']['id'],
+					$issue_data['Status']['name'],
+					$issue_data['Issue']['subject']
+				)))
+				->send();
 		}
-
-		return $this->Email->template('issue_add')
-			->viewVars(array(
-				'issue' => $issue_data,
-				'issueurl' => Router::url(array(
-					'controller' => 'issues',
-					'action' => 'show',
-					'issue_id' => $Issue->id
-				), true),
-			))
-			->subject(vsprintf('%s - %s #%s %s %s', array(
-				$issue_data['Project']['name'],
-				$issue_data['Tracker']['name'],
-				$issue_data['Issue']['id'],
-				$issue_data['Status']['name'],
-				$issue_data['Issue']['subject']
-			)))
-			->send();
 	}
 
 	public function deliver_issue_edit($Journal, $Issue) {
 		$issue_data = $Issue->findById($Issue->id);
 		$journal_data = $Journal->findById($Journal->getLastInsertID());
+		if($this->_toNoSelfFilter($Issue->recipients())) {
+			if ($this->Controller->Setting->bcc_recipients) {
+				$this->Email->to($this->Controller->Setting->mail_from);
+				$this->Email->bcc($this->_toNoSelfFilter($Issue->recipients()));
+			} else {
+				$this->Email->to($this->_toNoSelfFilter($Issue->recipients()));
+			}
 
-		if ($this->Controller->Setting->bcc_recipients) {
-			$this->Email->to($this->Controller->Setting->mail_from);
-			$this->Email->bcc($this->_toNoSelfFilter($Issue->recipients()));
-		} else {
-			$this->Email->to($this->_toNoSelfFilter($Issue->recipients()));
+			return $this->Email->template('issue_edit')
+				->viewVars(array(
+					'issue' => $issue_data,
+					'journal' => $journal_data,
+					'issueurl' => Router::url(array(
+						'controller' => 'issues',
+						'action' => 'show',
+						'issue_id' => $Issue->id
+					), true),
+				))
+				->subject(vsprintf('%s - %s #%s %s %s', array(
+					$issue_data['Project']['name'],
+					$issue_data['Tracker']['name'],
+					$issue_data['Issue']['id'],
+					$issue_data['Status']['name'],
+					$issue_data['Issue']['subject']
+				)))
+				->send();
 		}
-
-		return $this->Email->template('issue_edit')
-			->viewVars(array(
-				'issue' => $issue_data,
-				'journal' => $journal_data,
-				'issueurl' => Router::url(array(
-					'controller' => 'issues',
-					'action' => 'show',
-					'issue_id' => $Issue->id
-				), true),
-			))
-			->subject(vsprintf('%s - %s #%s %s %s', array(
-				$issue_data['Project']['name'],
-				$issue_data['Tracker']['name'],
-				$issue_data['Issue']['id'],
-				$issue_data['Status']['name'],
-				$issue_data['Issue']['subject']
-			)))
-			->send();
 	}
 
 	public function deliver_register($token, $user) {
@@ -185,29 +187,30 @@ class MailerComponent extends Component {
 		#    redmine_headers 'Project' => news.project.identifier
 		$news->read();
 		$news->Project->read();
+		if($this->_toNoSelfFilter($Issue->recipients())) {
+			if ($this->Controller->Setting->bcc_recipients) {
+				$this->Email->to($this->Controller->Setting->mail_from);
+				$this->Email->bcc($this->_toNoSelfFilter($news->Project->recipients()));
+			} else {
+				$this->Email->to($this->_toNoSelfFilter($news->Project->recipients()));
+			}
 
-		if ($this->Controller->Setting->bcc_recipients) {
-			$this->Email->to($this->Controller->Setting->mail_from);
-			$this->Email->bcc($this->_toNoSelfFilter($news->Project->recipients()));
-		} else {
-			$this->Email->to($this->_toNoSelfFilter($news->Project->recipients()));
+			return $this->Email->template('news_added')
+				->viewVars(array(
+					'news' => $news->data,
+					'news_url' => Router::url(array(
+						'controller' => 'news',
+						'action' => 'show',
+						'id' => $news->id
+					), true),
+				))
+				->subject(vsprintf('[%s] %s: %s', array(
+					$news->Project->data['Project']['name'],
+					__('News'),
+					$news->data['News']['title']
+				)))
+				->send();
 		}
-
-		return $this->Email->template('news_added')
-			->viewVars(array(
-				'news' => $news->data,
-				'news_url' => Router::url(array(
-					'controller' => 'news',
-					'action' => 'show',
-					'id' => $news->id
-				), true),
-			))
-			->subject(vsprintf('[%s] %s: %s', array(
-				$news->Project->data['Project']['name'],
-				__('News'),
-				$news->data['News']['title']
-			)))
-			->send();
 	}
 
 	public function deliver_test($user) {

@@ -4,18 +4,18 @@
  *
  * Provides the Model validation logic.
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model.Validator
  * @since         CakePHP(tm) v 2.2.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('CakeValidationRule', 'Model/Validator');
@@ -25,14 +25,14 @@ App::uses('CakeValidationRule', 'Model/Validator');
  * methods to dynamically add or remove validation rules
  *
  * @package       Cake.Model.Validator
- * @link          http://book.cakephp.org/2.0/en/data-validation.html
+ * @link          https://book.cakephp.org/2.0/en/data-validation.html
  */
 class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 
 /**
  * Holds the CakeValidationRule objects
  *
- * @var array
+ * @var CakeValidationRule[]
  */
 	protected $_rules = array();
 
@@ -172,7 +172,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
 /**
  * Returns all rules for this validation set
  *
- * @return array
+ * @return CakeValidationRule[]
  */
 	public function getRules() {
 		return $this->_rules;
@@ -191,7 +191,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  *
  * @param string $name The name under which the rule should be set
  * @param CakeValidationRule|array $rule The validation rule to be set
- * @return $this
+ * @return self
  */
 	public function setRule($name, $rule) {
 		if (!($rule instanceof CakeValidationRule)) {
@@ -213,7 +213,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  * ```
  *
  * @param string $name The name under which the rule should be unset
- * @return $this
+ * @return self
  */
 	public function removeRule($name) {
 		unset($this->_rules[$name]);
@@ -234,7 +234,7 @@ class CakeValidationSet implements ArrayAccess, IteratorAggregate, Countable {
  *
  * @param array $rules The rules to be set
  * @param bool $mergeVars [optional] If true, merges vars instead of replace. Defaults to true.
- * @return $this
+ * @return self
  */
 	public function setRules($rules = array(), $mergeVars = true) {
 		if ($mergeVars === false) {

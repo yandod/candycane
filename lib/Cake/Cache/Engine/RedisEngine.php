@@ -2,18 +2,18 @@
 /**
  * Redis storage engine for cache
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @package       Cake.Cache.Engine
  * @since         CakePHP(tm) v 2.2
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
@@ -113,6 +113,11 @@ class RedisEngine extends CacheEngine {
 		if (!is_int($value)) {
 			$value = serialize($value);
 		}
+
+		if (!$this->_Redis->isConnected()) {
+			$this->_connect();
+		}
+
 		if ($duration === 0) {
 			return $this->_Redis->set($key, $value);
 		}
@@ -128,11 +133,11 @@ class RedisEngine extends CacheEngine {
  */
 	public function read($key) {
 		$value = $this->_Redis->get($key);
-		if (ctype_digit($value)) {
-			$value = (int)$value;
+		if (preg_match('/^[-]?\d+$/', $value)) {
+			return (int)$value;
 		}
 		if ($value !== false && is_string($value)) {
-			$value = unserialize($value);
+			return unserialize($value);
 		}
 		return $value;
 	}
@@ -226,5 +231,28 @@ class RedisEngine extends CacheEngine {
 		if (!$this->settings['persistent']) {
 			$this->_Redis->close();
 		}
+	}
+
+/**
+ * Write data for key into cache if it doesn't exist already.
+ * If it already exists, it fails and returns false.
+ *
+ * @param string $key Identifier for the data.
+ * @param mixed $value Data to be cached.
+ * @param int $duration How long to cache the data, in seconds.
+ * @return bool True if the data was successfully cached, false on failure.
+ * @link https://github.com/phpredis/phpredis#setnx
+ */
+	public function add($key, $value, $duration) {
+		if (!is_int($value)) {
+			$value = serialize($value);
+		}
+
+		$result = $this->_Redis->setnx($key, $value);
+		// setnx() doesn't have an expiry option, so overwrite the key with one
+		if ($result) {
+			return $this->_Redis->setex($key, $duration, $value);
+		}
+		return false;
 	}
 }

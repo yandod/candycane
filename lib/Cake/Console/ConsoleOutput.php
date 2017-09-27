@@ -2,17 +2,17 @@
 /**
  * ConsoleOutput file.
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 2.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
@@ -78,6 +78,14 @@ class ConsoleOutput {
  * @var resource
  */
 	protected $_output;
+
+/**
+ * The number of bytes last written to the output stream
+ * used when overwriting the previous message.
+ *
+ * @var int
+ */
+	protected $_lastWritten = 0;
 
 /**
  * The current output type. Manipulated with ConsoleOutput::outputAs();
@@ -185,6 +193,35 @@ class ConsoleOutput {
 	}
 
 /**
+ * Overwrite some already output text.
+ *
+ * Useful for building progress bars, or when you want to replace
+ * text already output to the screen with new text.
+ *
+ * **Warning** You cannot overwrite text that contains newlines.
+ *
+ * @param array|string $message The message to output.
+ * @param int $newlines Number of newlines to append.
+ * @param int|null $size The number of bytes to overwrite. Defaults to the
+ *    length of the last message output.
+ * @return void
+ */
+	public function overwrite($message, $newlines = 1, $size = null) {
+		$size = $size ?: $this->_lastWritten;
+		// Output backspaces.
+		$this->write(str_repeat("\x08", $size), 0);
+		$newBytes = $this->write($message, 0);
+		// Fill any remaining bytes with spaces.
+		$fill = $size - $newBytes;
+		if ($fill > 0) {
+			$this->write(str_repeat(' ', $fill), 0);
+		}
+		if ($newlines) {
+			$this->write("", $newlines);
+		}
+	}
+
+/**
  * Apply styling to text.
  *
  * @param string $text Text with styling tags.
@@ -238,7 +275,8 @@ class ConsoleOutput {
  * @return bool success
  */
 	protected function _write($message) {
-		return fwrite($this->_output, $message);
+		$this->_lastWritten = fwrite($this->_output, $message);
+		return $this->_lastWritten;
 	}
 
 /**

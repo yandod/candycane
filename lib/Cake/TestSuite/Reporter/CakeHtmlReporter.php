@@ -2,17 +2,17 @@
 /**
  * CakeHtmlReporter
  *
- * CakePHP(tm) Tests <http://book.cakephp.org/2.0/en/development/testing.html>
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) Tests <https://book.cakephp.org/2.0/en/development/testing.html>
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 1.2.0.4433
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('CakeBaseReporter', 'TestSuite/Reporter');
@@ -58,7 +58,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
  */
 	public function paintDocumentStart() {
 		ob_start();
-		$this->params['baseDir'];
+		$baseDir = $this->params['baseDir'];
 		include CAKE . 'TestSuite' . DS . 'templates' . DS . 'header.php';
 	}
 
@@ -69,7 +69,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
  * @return void
  */
 	public function paintTestMenu() {
-		$this->baseUrl() . '?show=cases';
+		$cases = $this->baseUrl() . '?show=cases';
 		$plugins = App::objects('plugin', null, false);
 		sort($plugins);
 		include CAKE . 'TestSuite' . DS . 'templates' . DS . 'menu.php';
@@ -265,7 +265,16 @@ class CakeHtmlReporter extends CakeBaseReporter {
 		echo "<div class='msg'><pre>" . $this->_htmlEntities($message->toString());
 
 		if ((is_string($actualMsg) && is_string($expectedMsg)) || (is_array($actualMsg) && is_array($expectedMsg))) {
-			echo "<br />" . $this->_htmlEntities(PHPUnit_Util_Diff::diff($expectedMsg, $actualMsg));
+
+			$diffs = "";
+			if (class_exists('PHPUnit_Util_Diff')) {
+				$diffs = PHPUnit_Util_Diff::diff($expectedMsg, $actualMsg);
+			} elseif (class_exists('SebastianBergmann\Diff\Differ')) {
+				$differ = new SebastianBergmann\Diff\Differ();
+				$diffs = $differ->diff($expectedMsg, $actualMsg);
+			}
+
+			echo "<br />" . $this->_htmlEntities($diffs);
 		}
 
 		echo "</pre></div>\n";

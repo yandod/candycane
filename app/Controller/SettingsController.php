@@ -41,12 +41,12 @@ class SettingsController extends AppController
                 array('class' => 'flash notice')
             );
             $tab = 'general';
-            if (isset($this->request->params['url']['tab'])) {
-                $tab = $this->request->params['url']['tab'];
+            if (isset($this->request->params['named']['tab'])) {
+                $tab = $this->request->params['named']['tab'];
             }
             $this->redirect(array(
                 'action' => 'edit',
-                '?' => 'tab=' . $tab
+                'tab' => $tab
             ));
             return;
         }

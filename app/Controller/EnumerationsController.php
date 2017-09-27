@@ -35,7 +35,7 @@ class EnumerationsController extends AppController
                 $this->redirect('index');
             }
         }
-        $this->set('options', $this->Enumeration->OPTIONS);
+        $this->set('options', $this->Enumeration->get_options());
         $this->set('opt', $this->request->params['named']['opt']);
         $this->render('new');
     }
@@ -89,7 +89,7 @@ class EnumerationsController extends AppController
             )
         );
         $enumeration = $this->Enumeration->find('first', $param);
-        $this->set('options', $this->Enumeration->OPTIONS);
+        $this->set('options', $this->Enumeration->get_options());
         $this->set('enumeration', $enumeration);
         $count = $this->Enumeration->objects_count($enumeration);
         $this->set('objects_count', $count);

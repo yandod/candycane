@@ -19,11 +19,11 @@
  */
 class PolymorphicBehavior extends ModelBehavior {
 	
-	function setup(&$model, $config = array()) {
+	function setup(Model $model, $config = array()) {
 		$this->settings[$model->name] = am (array('classField' => 'class', 'foreignKey' => 'foreign_id'),$config);
 	}
 
-	function afterFind (&$model, $results, $primary = false) {
+	function afterFind (Model $model, $results, $primary = false) {
 		extract($this->settings[$model->name]);
 		if ($primary && isset($results[0][$model->alias][$classField]) && $model->recursive > 0) {
 			foreach ($results as $key => $result) {

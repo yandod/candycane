@@ -7,14 +7,14 @@
 <tr>
   <td align="right" colspan="2">
     <p>
-    <?php echo $this->Form->input('username', array('size' => '40','id' => 'username','label' => array('text' => __('Login').':'))); ?>
+    <?php echo $this->Form->input('username', array('size' => '40','id' => 'username','label' => array('text' => __('Login').' : '))); ?>
     </p>
   </td>
 </tr>
 
 <tr>
   <td align="right" colspan="2">
-    <p><?php echo $this->Form->input('password', array('type' => 'password', 'size' => '40','label' => array('text' => __('Password').':'))); ?></p>
+    <p><?php echo $this->Form->input('password', array('type' => 'password', 'size' => '40','label' => array('text' => __('Password').' : '))); ?></p>
   </td>
 </tr>
 

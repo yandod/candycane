@@ -19,7 +19,7 @@ class AppController extends Controller
         'Session',
         'Cookie',
         'MenuManager',
-        //'DebugKit.Toolbar'
+        // 'DebugKit.Toolbar'
     );
 
     public $uses = array('User', 'Setting', 'Project');
@@ -206,20 +206,6 @@ class AppController extends Controller
      */
     public function set_localization()
     {
-        #    User.current.language = nil unless User.current.logged?
-        #    lang = begin
-        #      if !User.current.language.blank? && GLoc.valid_language?(User.current.language)
-        #        User.current.language
-        #      elsif request.env['HTTP_ACCEPT_LANGUAGE']
-        #        accept_lang = parse_qvalues(request.env['HTTP_ACCEPT_LANGUAGE']).first.downcase
-        #        if !accept_lang.blank? && (GLoc.valid_language?(accept_lang) || GLoc.valid_language?(accept_lang = accept_lang.split('-').first))
-        #          User.current.language = accept_lang
-        #        end
-        #      end
-        #    rescue
-        #      nil
-        #    end || Setting.default_language
-        #    set_language_if_valid(lang)
         $lang = null;
         if (!empty($this->current_user['language'])) {
             $lang = $this->current_user['language'];
@@ -229,6 +215,10 @@ class AppController extends Controller
         $this->L10n = new L10n();
         $this->L10n->get($lang);
         Configure::write('Config.language', $lang);
+
+        $locale = str_replace('-', '_', substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 5)) . '.UTF-8';
+        Configure::write('Config.language_short', substr($locale, 0, 2));
+        Configure::write('Config.language_locale', $locale);
     }
 
     /**

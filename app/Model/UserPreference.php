@@ -26,7 +26,7 @@ class UserPreference extends AppModel
    * beforeSave
    *
    */
-  function beforeSave()
+  function beforeSave($optins = array())
   {
     //pr($this->data);
     if (isset($this->data['UserPreference']['pref'])) {

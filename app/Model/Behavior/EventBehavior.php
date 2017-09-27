@@ -33,13 +33,14 @@ class EventBehavior extends ModelBehavior {
   var $default_options = array(
     'datetime'    => 'created_on',
     'title'       => 'title',
+    'subject'     => 'subject',
     'description' => 'description',
-    'author'      => '',
+    'author'      => 'author',
     'url'         => array('controller' => 'welcome'),
     'type'        => ''
   );
   
-  function setup(&$Model, $config = array()) {
+  function setup(Model $Model, $config = array()) {
     $this->default_options['type'] = $this->_dasherize(Inflector::underscore($Model->name));
     if(isset($Model->Author)) {
       $this->default_options['author'] = $Model->Author;
@@ -51,7 +52,7 @@ class EventBehavior extends ModelBehavior {
     return str_replace('_', '-', $text);
   }
 
-  function create_event_data(&$Model, $data=false) {
+  function create_event_data(Model $Model, $data = false) {
     if(empty($data)) $data = $Model->data;
     $event_data = array(
       'date'         => $this->event_date($Model, $data),
@@ -67,41 +68,45 @@ class EventBehavior extends ModelBehavior {
     return $event_data;
   }
 
-  function event_date(&$Model, $data=false) {
+  function event_date(Model $Model, $data = false) {
     if(empty($data)) $data = $Model->data;
     return date('Y-m-d', strtotime($this->event_datetime($Model, $data)));
   }
-  function event_url(&$Model, $data=false, $options = array()) {
+  function event_url(Model $Model, $data = false, $options = array()) {
     if(empty($data)) $data = $Model->data;
     $option = $this->settings[$Model->alias]['url'];
-    $result = (is_array($option) && array_key_exists('Proc', $option)) ? @$Model->$option['Proc']($data) : $option;
+    $result = (is_array($option) && array_key_exists('Proc', $option)) ? @$Model->{$option['Proc']}($data) : $option;
     return array_merge($result, $options);
   }
-  function event_datetime(&$Model, $data=false) {
+  function event_datetime(Model $Model, $data = false) {
     if(empty($data)) $data = $Model->data;
     return $this->_event($Model, 'datetime', $data);
   }
-  function event_title(&$Model, $data=false) {
+  function event_title(Model $Model, $data = false) {
     if(empty($data)) $data = $Model->data;
-    return $this->_event($Model, 'title', $data);
+    if(array_key_exists('subject', $data[$Model->alias])) {
+      return $this->_event($Model, 'subject', $data);
+    } else {
+      return $this->_event($Model, 'title', $data);
+    }
   }
-  function event_description(&$Model, $data=false) {
+  function event_description(Model $Model, $data = false) {
     if(empty($data)) $data = $Model->data;
     return $this->_event($Model, 'description', $data);
   }
-  function event_author(&$Model, $data=false) {
+  function event_author(Model $Model, $data = false) {
     if(empty($data)) $data = $Model->data;
     return $this->_event($Model, 'author', $data);
   }
-  function event_type(&$Model, $data=false) {
+  function event_type(Model $Model, $data = false) {
     if(empty($data)) $data = $Model->data;
     return $this->_event($Model, 'type', $data);
   }
-  function _event(&$Model, $attr, $data) {
+  function _event(Model $Model, $attr, $data) {
     $result = false;
     $option = $this->settings[$Model->alias][$attr];
     if(is_array($option) && array_key_exists('Proc', $option)) {
-      $result = @$Model->$option['Proc']($data);
+      $result = $Model->{$option['Proc']}($data);
     } elseif(is_string($option) && array_key_exists($option, $data[$Model->alias])) {
       $result = $data[$Model->alias][$option];
     } elseif(is_object($option)) {
@@ -111,7 +116,7 @@ class EventBehavior extends ModelBehavior {
     }
     return $result;
   }
-  function cmp_event_datetime(&$Model, $l, $r) {
+  function cmp_event_datetime(Model $Model, $l, $r) {
     return strtotime($Model->event_datetime($l)) - strtotime($Model->event_datetime($r));
   }
 }

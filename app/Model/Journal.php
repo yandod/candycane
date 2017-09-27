@@ -80,7 +80,7 @@ class Journal extends AppModel {
         'author_key'=>'user_id',
         'find_options'=> array(
             'conditions'=>array('Journal.journalized_type'=>'Issue', 'or'=>array('JournalDetail.prop_key'=>'status_id','Journal.notes <>'=>'')),
-            'fields'=> array('Journal.*', 'Issue.*', 'User.*', 'Project.*', 'Tracker.name'),
+            'fields'=> array('Journal.*', 'Issue.*', 'User.*', 'Project.*', 'Tracker.name', 'JournalDetail.*'),
             // Convert include to manual joins.Becase CakePHP can not specify conditions by recursive over 2.
             // 'include'=>array('Issue'=>array('Project'), 'JournalDetail', 'User'),
             'recursive' =>-1,   // use manual join
@@ -167,7 +167,7 @@ class Journal extends AppModel {
   function __new_status($data) {
     $new_status = array();
     foreach($data['JournalDetail'] as $detail) {
-      if($detail['prop_key'] == 'status_id') {
+      if(isset($detail['prop_key']) && $detail['prop_key'] == 'status_id') {
         $new_status = $this->Issue->Status->read(null, $detail['value']);
       }
     }

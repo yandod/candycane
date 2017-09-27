@@ -35,7 +35,7 @@ class IssueRelation extends AppModel
     'issue_to_id' => array(
       'validates_presence_of'=>array('rule'=>array('existsIssue', 'IssueTo')),
       'validates_invalid_of'=>array('rule'=>array('sameId')),
-      'validates_uniqueness_of'=>array('rule'=>array('isUnique')),
+      'validates_uniqueness_of'=>array('rule'=>array('checkUnique', false)),
       'validates_not_same_project'=>array('rule'=>array('sameProject')),
       'validates_circular_dependency'=>array('rule'=>array('circularDependency')),
     ),
@@ -56,8 +56,8 @@ class IssueRelation extends AppModel
     $this->$model->recursive = $recursive;
     return $result;
   }
-  function isUnique($field, $data) {
-    return parent::isUnique(array('issue_from_id', 'issue_to_id'), false);
+  function checkUnique($field, $data) {
+    return parent::checkUnique(array('issue_from_id', 'issue_to_id'), false);
   }
   function sameId($data) {
     return $this->data[$this->name]['issue_to_id'] != $this->data[$this->name]['issue_from_id'];
@@ -118,12 +118,13 @@ class IssueRelation extends AppModel
 #end
   function findRelations($issue) {
     $relations = $this->find('all', array(
-        'conditions'=>array('or'=>array(array('issue_from_id'=>$issue['Issue']['id']),array('issue_to_id'=>$issue['Issue']['id'])))
+        // 'conditions'=>array('or'=>array(array('issue_from_id'=>$issue['Issue']['id']),array('issue_to_id'=>$issue['Issue']['id'])))
+        'conditions'=>array('or'=>array(array('issue_from_id'=>$issue),array('issue_to_id'=>$issue)))
     ));
     $result = array();
     foreach($relations as $key=>$relation) {
-      $body = ($issue['Issue']['id'] == $relation['IssueRelation']['issue_from_id']) ? 'IssueFrom' : 'IssueTo';
-      $rel = ($issue['Issue']['id'] == $relation['IssueRelation']['issue_from_id']) ? 'IssueTo' : 'IssueFrom';
+      $body = ($issue == $relation['IssueRelation']['issue_from_id']) ? 'IssueFrom' : 'IssueTo';
+      $rel = ($issue == $relation['IssueRelation']['issue_from_id']) ? 'IssueTo' : 'IssueFrom';
       $assoc = $this->$rel->find('first', array(
         'conditions'=>array("$rel.id"=>$relation[$rel]['id']),
         'fields'=>array('Project.*', 'Status.*', 'Tracker.*'),
@@ -136,7 +137,7 @@ class IssueRelation extends AppModel
       );
       if(!empty($assoc)) {
         $result[$key][$rel] = array_merge($result[$key][$rel], $assoc);
-        $result[$key][$body] = array_merge($result[$key][$body], $issue);
+        $result[$key][$body] = array_merge($result[$key][$body], array($issue));
       }
     }
     return $result;

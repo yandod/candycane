@@ -127,7 +127,7 @@ class MenuManagerComponent extends Component
   
 	protected function _allowed_items($menu_items) {
 		$allows = array();
-		$User = & ClassRegistry::init('User');
+		$User = ClassRegistry::init('User');
 		foreach ($menu_items as $key => $menu_item) {
 
 			$allow = false;

@@ -17,7 +17,7 @@ array(
       $opt = array('value' => $row['project_id']);
       if (in_array($row['project_id'],$this->request->data['User']['notified_project_ids'])) $opt['checked'] = 'checked';
     ?>
-    <label><?php echo $this->Form->checkbox('notified_project_ids][',$opt) ?> <?php echo h($row['Project']['name']) ?></label><br />
+    <label><?php echo $this->Form->checkbox('notified_project_ids',$opt) ?> <?php echo h($row['Project']['name']) ?></label><br />
     <?php endforeach; ?>
   </p>
 

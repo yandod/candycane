@@ -28,9 +28,9 @@ if($this->Candy->authorize_for(array('controller'=>'issue_relations', 'action'=>
 <td><?php echo $this->Candy->format_date($other_issue['Issue']['due_date']); ?></td>
 <td>
   <?php if($this->Candy->authorize_for(array('controller'=>'issue_relations', 'action'=>'destroy'))) {
-    echo $this->Js->link($this->Html->image('delete.png'), 
+    echo $this->Form->postLink($this->Html->image('link_break.png'), 
       array('controller'=>'issue_relations', 'action'=>'destroy', 'issue_id'=>$issue['Issue']['id'], $relation['IssueRelation']['id']),
-      array('method'=>'post', 'title'=> __('Delete relation'), 'update'=>'relations', 'escape' => false));
+      array('title'=> __('Delete relation'), 'update'=>'relations', 'escape' => false, 'confirm' => __('Are you sure ?'), 'method'=>'post'));
   }?>
 </td>
 </tr>
@@ -41,17 +41,16 @@ if($this->Candy->authorize_for(array('controller'=>'issue_relations', 'action'=>
 $url = array('controller'=>'issue_relations', 'action'=>'add', $issue['Issue']['id']);
 $data = $this->Js->get("#new-relation-form")->serializeForm(array('isForm' => true, 'inline' => true ));
 echo $this->Form->create('IssueRelation', array(
-        'id'=>"new-relation-form", 'url'=>$url,
-        'onsubmit'=> array($this->Js->request($url, array(
-		'evalScripts' => true, 
-		'dataExpression' => true,
-		'data' => $data,
-		'update'=>'relations'
-		)),
-	 'return false;'),
-        'style'=> empty($this->validationErrors['IssueRelation']) ? 'display: none;' : ''
-      )
-    );
+    'id'               =>"new-relation-form", 'url'=>$url,
+    'onsubmit'         => array($this->Js->request($url, array(
+    	'evalScripts'      => true, 
+    	'dataExpression'   => true,
+    	'data'             => $data,
+    	'update'           => 'relations'
+	)),
+	'return false;'),
+    'style' => empty($this->validationErrors['IssueRelation']) ? 'display: none;' : ''
+));
 ?>
 <?php echo $this->element('error_explanation'); ?>
 <p>
@@ -59,7 +58,7 @@ echo $this->Form->create('IssueRelation', array(
   <?php echo __('Issue') ?> #
   <?php echo $this->Form->input('issue_to_id', array('type'=>'text', 'size'=>6, 'div'=>false, 'label'=>false, 'error' => false)); ?>
   <span id="predecessor_fields" style="display:none;">
-    <?php echo __('Delay'); ?>: <?php echo $this->Form->input('delay', array('size'=>3, 'div'=>false, 'label'=>false)); ?> <?php echo __('days'); ?>
+    <?php echo __('Delay'); ?> : <?php echo $this->Form->input('delay', array('size'=>3, 'div'=>false, 'label'=>false)); ?> <?php echo __('days'); ?>
   </span>
   <?php echo $this->Form->submit(__('Add'), array('div'=>false)); ?>
   <?php echo $this->Candy->toggle_link(__('Cancel'), 'new-relation-form'); ?>

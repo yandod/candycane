@@ -20,11 +20,11 @@ class CustomFieldHelper extends AppHelper
   }
 
   var $validationErrors = array();
-  function beforeRender() {
+  function beforeRender($viewFile) {
     $models = ClassRegistry::keys();
     foreach ($models as $currentModel) {
       if (ClassRegistry::isKeySet($currentModel)) {
-        $currentObject =& ClassRegistry::getObject($currentModel);
+        $currentObject = ClassRegistry::getObject($currentModel);
         if (is_a($currentObject, 'Model') && !empty($currentObject->validationErrors)) {
           $this->validationErrors[Inflector::camelize($currentModel)] =& $currentObject->validationErrors;
         }
@@ -192,7 +192,7 @@ class CustomFieldHelper extends AppHelper
     return $out;
   }
 
-  function value($custom_value) {	
+  function value($options = array(), $field = NULL, $custom_value = NULL) {	
     $custom_field = $custom_value['CustomField'];
     return $this->format_value($custom_value['value'], $custom_field['field_format']);
   }

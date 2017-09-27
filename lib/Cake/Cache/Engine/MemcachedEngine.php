@@ -1,16 +1,16 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @since         CakePHP(tm) v 2.5.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 /**
@@ -22,6 +22,8 @@
  * support of binary protocol, and igbibnary serialization
  * (if memcached extension compiled with --enable-igbinary)
  * Compressed keys can also be incremented/decremented
+ *
+ * This cache engine requires at least ext/memcached version 2.0
  *
  * @package       Cake.Cache.Engine
  */
@@ -185,8 +187,9 @@ class MemcachedEngine extends CacheEngine {
  * @return array Array containing host, port
  */
 	protected function _parseServerString($server) {
-		if (strpos($server, 'unix://') === 0) {
-			return array($server, 0);
+		$socketTransport = 'unix://';
+		if (strpos($server, $socketTransport) === 0) {
+			return array(substr($server, strlen($socketTransport)), 0);
 		}
 		if (substr($server, 0, 1) === '[') {
 			$position = strpos($server, ']:');
@@ -207,7 +210,7 @@ class MemcachedEngine extends CacheEngine {
 
 /**
  * Write data for key into cache. When using memcached as your cache engine
- * remember that the Memcached pecl extension does not support cache expiry times greater
+ * remember that the Memcached PECL extension does not support cache expiry times greater
  * than 30 days in the future. Any duration greater than 30 days will be treated as never expiring.
  *
  * @param string $key Identifier for the data
@@ -273,7 +276,8 @@ class MemcachedEngine extends CacheEngine {
  *
  * @param bool $check If true no deletes will occur and instead CakePHP will rely
  *   on key TTL values.
- * @return bool True if the cache was successfully cleared, false otherwise
+ * @return bool True if the cache was successfully cleared, false otherwise. Will
+ *   also return false if you are using a binary protocol.
  */
 	public function clear($check) {
 		if ($check) {
@@ -281,6 +285,9 @@ class MemcachedEngine extends CacheEngine {
 		}
 
 		$keys = $this->_Memcached->getAllKeys();
+		if ($keys === false) {
+			return false;
+		}
 
 		foreach ($keys as $key) {
 			if (strpos($key, $this->settings['prefix']) === 0) {
@@ -334,5 +341,25 @@ class MemcachedEngine extends CacheEngine {
  */
 	public function clearGroup($group) {
 		return (bool)$this->_Memcached->increment($this->settings['prefix'] . $group);
+	}
+
+/**
+ * Write data for key into cache if it doesn't exist already. When using memcached as your cache engine
+ * remember that the Memcached pecl extension does not support cache expiry times greater
+ * than 30 days in the future. Any duration greater than 30 days will be treated as never expiring.
+ * If it already exists, it fails and returns false.
+ *
+ * @param string $key Identifier for the data.
+ * @param mixed $value Data to be cached.
+ * @param int $duration How long to cache the data, in seconds.
+ * @return bool True if the data was successfully cached, false on failure.
+ * @link http://php.net/manual/en/memcached.add.php
+ */
+	public function add($key, $value, $duration) {
+		if ($duration > 30 * DAY) {
+			$duration = 0;
+		}
+
+		return $this->_Memcached->add($key, $value, $duration);
 	}
 }

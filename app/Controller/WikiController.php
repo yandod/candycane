@@ -29,7 +29,7 @@ class WikiController extends AppController
         }
         $wiki_pages = $this->Session->read('Wiki_pages');
         $new_page = array($page['WikiPage']['title'], $this->request->params['project_id']);
-        if (($key = array_search($new_page, $wiki_pages)) !== false) {
+        if ($wiki_pages && ($key = array_search($new_page, $wiki_pages)) !== false) {
             unset($wiki_pages[$key]);
         }
         $wiki_pages[] = $new_page;
@@ -121,49 +121,6 @@ class WikiController extends AppController
         }
     }
 
-#require 'diff'
-#
-#class WikiController < ApplicationController
-#  before_filter :find_wiki, :authorize
-#  before_filter :find_existing_page, :only => [:rename, :protect, :history, :diff, :annotate, :add_attachment, :destroy]
-#  
-#  verify :method => :post, :only => [:destroy, :protect], :redirect_to => { :action => :index }
-#
-#  helper :attachments
-#  include AttachmentsHelper   
-#  
-#  # display a page (in editing mode if it doesn't exist)
-#  def index
-#    page_title = params[:page]
-#    @page = @wiki.find_or_new_page(page_title)
-#    if @page.new_record?
-#      if User.current.allowed_to?(:edit_wiki_pages, @project)
-#        edit
-#        render :action => 'edit'
-#      else
-#        render_404
-#      end
-#      return
-#    end
-#    if params[:version] && !User.current.allowed_to?(:view_wiki_edits, @project)
-#      # Redirects user to the current version if he's not allowed to view previous versions
-#      redirect_to :version => nil
-#      return
-#    end
-#    @content = @page.content_for_version(params[:version])
-#    if params[:export] == 'html'
-#      export = render_to_string :action => 'export', :layout => false
-#      send_data(export, :type => 'text/html', :filename => "#{@page.title}.html")
-#      return
-#    elsif params[:export] == 'txt'
-#      send_data(@content.text, :type => 'text/plain', :filename => "#{@page.title}.txt")
-#      return
-#    end
-#	@editable = editable?
-#    render :action => 'show'
-#  end
-#  
-
     // edit an existing page or a new one
     function edit()
     {
@@ -178,11 +135,11 @@ class WikiController extends AppController
         } else {
             $save_data = array();
             if (!isset($save_data['WikiPage']['id'])) {
-                // wiki_pagesにレコード新規作成
+                // wiki_pages
                 $save_data = $page;
                 $save_data['WikiPage']['wiki_id'] = $this->Wiki->id;
             } else {
-                // wiki_pagesは既に存在
+                // wiki_pages
                 if ($page['WikiContent']['text'] == $this->request->data['WikiContent']['text']) {
                     // don't save if text wasn't changed
                     $this->redirect(array('controller' => 'wiki',
@@ -191,16 +148,16 @@ class WikiController extends AppController
                         'wikipage' => $this->request->params['wikipage']));
                     return;
                 }
-                // fixme: wiki_pagesに更新が無いのにUPDATE文が走ってしまう。
+                // fixme: wiki_pages
                 $save_data['WikiPage']['id'] = $page['WikiPage']['id'];
             }
-            // wiki_contentsにレコード新規作成or更新
+            // wiki_contents
             $save_data['WikiContent'] = $this->request->data['WikiContent'];
             if (isset($page['WikiContent']['id'])) {
                 $save_data['WikiContent']['id'] = $page['WikiContent']['id'];
             }
             if (empty($save_data['WikiContent']['version'])) {
-                $save_data['WikiContent']['version'] = 1; // 暫定
+                $save_data['WikiContent']['version'] = 1;
             }
             if ($this->Wiki->WikiPage->saveAll($save_data)) {
                 $event = new CakeEvent(

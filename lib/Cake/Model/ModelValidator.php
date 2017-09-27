@@ -4,18 +4,18 @@
  *
  * Provides the Model validation logic.
  *
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @package       Cake.Model
  * @since         CakePHP(tm) v 2.2.0
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('CakeValidationSet', 'Model/Validator');
@@ -29,14 +29,14 @@ App::uses('Hash', 'Utility');
  * definition array
  *
  * @package       Cake.Model
- * @link          http://book.cakephp.org/2.0/en/data-validation.html
+ * @link          https://book.cakephp.org/2.0/en/data-validation.html
  */
 class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
 
 /**
  * Holds the CakeValidationSet objects array
  *
- * @var array
+ * @var CakeValidationSet[]
  */
 	protected $_fields = array();
 
@@ -363,7 +363,7 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
  * Sets the I18n domain for validation messages. This method is chainable.
  *
  * @param string $validationDomain [optional] The validation domain to be used.
- * @return $this
+ * @return self
  */
 	public function setValidationDomain($validationDomain = null) {
 		if (empty($validationDomain)) {
@@ -386,7 +386,7 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
  * Processes the passed fieldList and returns the list of fields to be validated
  *
  * @param array $fieldList list of fields to be used for validation
- * @return array List of validation rules to be applied
+ * @return CakeValidationSet[] List of validation rules to be applied
  */
 	protected function _validationList($fieldList = array()) {
 		if (empty($fieldList) || Hash::dimensions($fieldList) > 1) {
@@ -549,7 +549,7 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
  * @param string $field The name of the field where the rule is to be added
  * @param string|array|CakeValidationSet $name name of the rule to be added or list of rules for the field
  * @param array|CakeValidationRule $rule or list of rules to be added to the field's rule set
- * @return $this
+ * @return self
  */
 	public function add($field, $name, $rule = null) {
 		$this->_parseRules();
@@ -588,7 +588,7 @@ class ModelValidator implements ArrayAccess, IteratorAggregate, Countable {
  *
  * @param string $field The name of the field from which the rule will be removed
  * @param string $rule the name of the rule to be removed
- * @return $this
+ * @return self
  */
 	public function remove($field, $rule = null) {
 		$this->_parseRules();

@@ -7,11 +7,17 @@ class Enumeration extends AppModel
         'scope' => 'Enumeration.opt'
     ));
 
-    var $OPTIONS = array(
-        "IPRI" => array('label' => 'Issue priorities', 'model' => 'Issue', 'foreign_key' => 'priority_id'),
-        "DCAT" => array('label' => 'Document categories', 'model' => 'Document', 'foreign_key' => 'category_id'),
-        "ACTI" => array('label' => 'Activities (time tracking)', 'model' => 'TimeEntry', 'foreign_key' => 'activity_id')
-    );
+    function _set_options() {
+        return array(
+            "IPRI" => array('label' => __('Issue priorities'), 'model' => 'Issue', 'foreign_key' => 'priority_id'),
+            "DCAT" => array('label' => __('Document categories'), 'model' => 'Document', 'foreign_key' => 'category_id'),
+            "ACTI" => array('label' => __('Activities (time tracking)'), 'model' => 'TimeEntry', 'foreign_key' => 'activity_id')
+        );
+    }
+
+    function get_options() {
+        return $this->_set_options();
+    }
 
     function get_values($option, $order = 'ASC')
     {

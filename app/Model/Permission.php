@@ -71,7 +71,7 @@ class Permission extends AppModel
         $this->set('commit_access', array(), array(), 'repository');
     }
 
-    function set($name, $hash, $options = array(), $module = null)
+    function set($name, $hash = null , $options = array(), $module = null)
     {
         $permission = array('name' => $name);
         $actions    = array();

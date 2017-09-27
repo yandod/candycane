@@ -7,7 +7,7 @@ if( $currentuser[ 'admin' ] )
 
 <h2><?php echo __('New project') ?></h2>
 
-<?php echo $this->Form->create('Project', array('action'=>'add','class'=>'tabular')) ?>
+<?php echo $this->Form->create('Project', array('url'=>'add','class'=>'tabular')) ?>
 <?php /*
 <% labelled_tabular_form_for :project, @project, :url => { :action => "add" } do |f| %>
  */ ?>

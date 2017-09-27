@@ -262,7 +262,7 @@ class ListBehavior extends ModelBehavior {
     'column' => "position",
     'scope' => '1 = 1',
   );
-  function setup(&$Model, $config = array()) {
+  function setup(Model $Model, $config = array()) {
     if (!is_array($config)) {
       $config = array('type' => $config);
     }
@@ -270,20 +270,20 @@ class ListBehavior extends ModelBehavior {
 
     if (in_array($settings['scope'], $Model->getAssociated('belongsTo'))) {
       $data = $Model->getAssociated($settings['scope']);
-      $parent =& $Model->{$settings['scope']};
+      $parent = $Model->{$settings['scope']};
       $settings['scope'] = $Model->alias . '.' . $data['foreignKey'] . ' = ' . $parent->alias . '.' . $parent->primaryKey;
       $settings['recursive'] = 0;
     }
     $this->settings[$Model->alias] = $settings;
   }
 
-  function move_to_top(&$Model) {
+  function move_to_top(Model $Model) {
     $position_column = $this->settings[$Model->alias]['column'];
     $position = $Model->data[$Model->alias][$position_column];
     if($position == 1) {
       return true;
     }
-    $db =& ConnectionManager::getDataSource($Model->useDbConfig);
+    $db = ConnectionManager::getDataSource($Model->useDbConfig);
     $db->begin($Model);
     $result = $this->increment_positions_on_higher_items($Model, $position);
     if($result) $result = $this->assume_top_position($Model);
@@ -295,7 +295,7 @@ class ListBehavior extends ModelBehavior {
     return $result;
   }
   # Swap positions with the next higher item, if one exists.
-  function move_higher(&$Model) {
+  function move_higher(Model $Model) {
     $position_column = $this->settings[$Model->alias]['column'];
     $position = $Model->data[$Model->alias][$position_column];
     if($position == 1) {
@@ -305,7 +305,7 @@ class ListBehavior extends ModelBehavior {
     if(!$increment) {
       return true;
     }
-    $db =& ConnectionManager::getDataSource($Model->useDbConfig);
+    $db = ConnectionManager::getDataSource($Model->useDbConfig);
     $db->begin($Model);
     $result = $this->increment_position($Model, $increment[$Model->alias]['id']);
     if($result) $result = $this->decrement_position($Model, $Model->id);
@@ -324,7 +324,7 @@ class ListBehavior extends ModelBehavior {
     if(!$decrement) {
       return true;
     }
-    $db =& ConnectionManager::getDataSource($Model->useDbConfig);
+    $db = ConnectionManager::getDataSource($Model->useDbConfig);
     $db->begin($Model);
     $result = $this->decrement_position($Model, $decrement[$Model->alias]['id']);
     if($result) $result = $this->increment_position($Model, $Model->id);
@@ -340,7 +340,7 @@ class ListBehavior extends ModelBehavior {
   function move_to_bottom($Model) {
     $position_column = $this->settings[$Model->alias]['column'];
     $position = $Model->data[$Model->alias][$position_column];
-    $db =& ConnectionManager::getDataSource($Model->useDbConfig);
+    $db = ConnectionManager::getDataSource($Model->useDbConfig);
     $db->begin($Model);
     $result = $this->decrement_positions_on_lower_items($Model, $position);
     if($result) $result = $this->assume_bottom_position($Model);
@@ -354,7 +354,7 @@ class ListBehavior extends ModelBehavior {
 
   
   # This has the effect of moving all the higher items down one.
-  function increment_positions_on_higher_items(&$Model, $position) {
+  function increment_positions_on_higher_items(Model $Model, $position) {
     $position_column = $this->settings[$Model->alias]['column'];
     $scope_condition = $this->settings[$Model->alias]['scope'];
     return $Model->updateAll(
@@ -362,12 +362,12 @@ class ListBehavior extends ModelBehavior {
       "$scope_condition AND $position_column < $position"
     );
   }
-  function assume_top_position(&$Model) {
+  function assume_top_position(Model $Model) {
     $position_column = $this->settings[$Model->alias]['column'];
     return $Model->saveField($position_column, "1");
   }
   # Increase the position of this item without adjusting the rest of the list.
-  function increment_position(&$Model, $id) {
+  function increment_position(Model $Model, $id) {
     $position_column = $this->settings[$Model->alias]['column'];
     $primaryKey = $Model->primaryKey;
     $scope_condition = $this->settings[$Model->alias]['scope'];
@@ -376,7 +376,7 @@ class ListBehavior extends ModelBehavior {
       "$scope_condition AND $primaryKey = $id"
     );
   }
-  function decrement_position(&$Model, $id) {
+  function decrement_position(Model $Model, $id) {
     $position_column = $this->settings[$Model->alias]['column'];
     $primaryKey = $Model->primaryKey;
     $scope_condition = $this->settings[$Model->alias]['scope'];
@@ -386,7 +386,7 @@ class ListBehavior extends ModelBehavior {
     );
   }
   # This has the effect of moving all the lower items up one.
-  function decrement_positions_on_lower_items(&$Model, $position) {
+  function decrement_positions_on_lower_items(Model $Model, $position) {
     $position_column = $this->settings[$Model->alias]['column'];
     $scope_condition = $this->settings[$Model->alias]['scope'];
     return $Model->updateAll(
@@ -415,14 +415,14 @@ class ListBehavior extends ModelBehavior {
     return $result;
   }
   # Forces item to assume the bottom position in the list.
-  function assume_bottom_position(&$Model) {
+  function assume_bottom_position(Model $Model) {
     $position_column = $this->settings[$Model->alias]['column'];
     $position = $this->bottom_position_in_list($Model, $Model->data) + 1;
     return $Model->saveField($position_column, $position);
 
   }
   
-  function beforeSave(&$Model) {
+  function beforeSave(Model $Model, $options = array()) {
     $result = true;
     if(empty($Model->id)) {
       $position_column = $this->settings[$Model->alias]['column'];
@@ -435,7 +435,7 @@ class ListBehavior extends ModelBehavior {
     return true;
   }
  
-  function beforeDelete(&$Model) {
+  function beforeDelete(Model $Model, $cascade = true) {
     $position_column = $this->settings[$Model->alias]['column'];
     $result = $Model->read(null,$Model->id);
     return $this->decrement_positions_on_lower_items($Model, $result[$Model->alias][$position_column]) ;

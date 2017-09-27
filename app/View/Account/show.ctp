@@ -42,14 +42,13 @@
 </div>
 
 <div class="splitcontentright">
-
-<?php if ( !empty($events_by_day_data) ): ?>
+<?php if ( !empty($events_by_day_data) ): $from = array_keys($events_by_day_data); ?>
   <h3><?php echo $this->Html->link(__('Activity'),array(
 	  'controller' => 'projects',
 	  'action' => 'activity',
 	  '?' => array(
 		  'user_id' => $user['User']['id'],
-		  'from' => array_shift(array_keys($events_by_day_data))
+		  'from' => array_shift($from)
 		)
 	)) ?></h3>
 
@@ -62,8 +61,7 @@
   <?php foreach(array_reverse($events_by_day_data) as $day => $row): ?>
   <h4><?php echo $this->Candy->format_activity_day($day) ?></h4>
   <dl>
-<?php
-#    <% @events_by_day[day].sort {|x,y| y.event_datetime <=> x.event_datetime }.each do |e| -%>?><dd>
+    <dd>
   <?php foreach($row as $event): ?>
     <dt class="<?php echo $event['type'] ?>">
     <span class="time"><?php echo $this->Candy->format_time($event['datetime'], false) ?></span>

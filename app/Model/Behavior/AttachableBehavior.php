@@ -27,7 +27,7 @@ class AttachableBehavior extends ModelBehavior {
    * attachable_options[:view_permission] = options.delete(:view_permission) || "view_#{self.name.pluralize.underscore}".to_sym
    * attachable_options[:delete_permission] = options.delete(:delete_permission) || "edit_#{self.name.pluralize.underscore}".to_sym
    */
-  function setup(&$Model, $config = array()) {
+  function setup(Model $Model, $config = array()) {
     $defaults = array(
       ':view_permission'=>'view_'.Inflector::tableize($Model->name),
       ':delete_permission'=>'edit_'.Inflector::tableize($Model->name)
@@ -41,15 +41,15 @@ class AttachableBehavior extends ModelBehavior {
    * @param $user is current user. ex.$user['id']
    * @param $project is current project. ex.$project['Project']['id']
    */
-  function is_attachments_visible(&$Model, $user, $project) {
-    $User = & ClassRegistry::init('User');
+  function is_attachments_visible(Model $Model, $user, $project) {
+    $User = ClassRegistry::init('User');
     return $User->is_allowed_to($user, $this->settings[$Model->alias][':view_permission'], $project);
   }
-  function is_attachments_deletable(&$Model, $user, $project) {
-    $User = & ClassRegistry::init('User');
+  function is_attachments_deletable(Model $Model, $user, $project) {
+    $User = ClassRegistry::init('User');
     return $User->is_allowed_to($user, $this->settings[$Model->alias][':delete_permission'], $project);
   }
-  function findAttachableById(&$Model, $id) {
+  function findAttachableById(Model $Model, $id) {
     $this->__initAttachment();
     return $this->Attachment->find('first', array('conditions'=>array(
       'container_type'=>$Model->name,
@@ -57,7 +57,7 @@ class AttachableBehavior extends ModelBehavior {
       'recursive'=>-1
     ));
   }
-  function findAttachments(&$Model, $id=false) {
+  function findAttachments(Model $Model, $id=false) {
     if(!$id) $id = $Model->id;
     $this->__initAttachment();
     return $this->Attachment->find('all', array('conditions'=>array(
@@ -68,7 +68,7 @@ class AttachableBehavior extends ModelBehavior {
   }
   function __initAttachment() {
     if(!$this->Attachment) {
-      $this->Attachment = & ClassRegistry::init('Attachment');
+      $this->Attachment = ClassRegistry::init('Attachment');
     }
   }
 
@@ -106,7 +106,7 @@ class AttachableBehavior extends ModelBehavior {
 
         )
    */
-  function attach_files(&$Model, $attachments, $current_user) {
+  function attach_files(Model $Model, $attachments, $current_user) {
     $attached = array();
     $unsaved = array();
     if (!empty($attachments) && is_array($attachments)) {

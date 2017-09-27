@@ -1,17 +1,17 @@
 <?php
 /**
- * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
- * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
+ * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
+ * Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
  *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
- * @copyright     Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
- * @link          http://cakephp.org CakePHP(tm) Project
+ * @copyright     Copyright (c) Cake Software Foundation, Inc. (https://cakefoundation.org)
+ * @link          https://cakephp.org CakePHP(tm) Project
  * @package       Cake.Cache
  * @since         CakePHP(tm) v 1.2.0.4933
- * @license       http://www.opensource.org/licenses/mit-license.php MIT License
+ * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
 App::uses('Inflector', 'Utility');
@@ -275,10 +275,10 @@ class Cache {
  *
  * @param string $config [optional] The config name you wish to have garbage collected. Defaults to 'default'
  * @param int $expires [optional] An expires timestamp. Defaults to NULL
- * @return void
+ * @return bool
  */
 	public static function gc($config = 'default', $expires = null) {
-		static::$_engines[$config]->gc($expires);
+		return static::$_engines[$config]->gc($expires);
 	}
 
 /**
@@ -578,4 +578,56 @@ class Cache {
 		return $results;
 	}
 
+/**
+ * Write data for key into a cache engine if it doesn't exist already.
+ *
+ * ### Usage:
+ *
+ * Writing to the active cache config:
+ *
+ * `Cache::add('cached_data', $data);`
+ *
+ * Writing to a specific cache config:
+ *
+ * `Cache::add('cached_data', $data, 'long_term');`
+ *
+ * @param string $key Identifier for the data.
+ * @param mixed $value Data to be cached - anything except a resource.
+ * @param string $config Optional string configuration name to write to. Defaults to 'default'.
+ * @return bool True if the data was successfully cached, false on failure.
+ *   Or if the key existed already.
+ */
+	public static function add($key, $value, $config = 'default') {
+		$settings = self::settings($config);
+
+		if (empty($settings)) {
+			return false;
+		}
+		if (!self::isInitialized($config)) {
+			return false;
+		}
+		$key = self::$_engines[$config]->key($key);
+
+		if (!$key || is_resource($value)) {
+			return false;
+		}
+
+		$success = self::$_engines[$config]->add($settings['prefix'] . $key, $value, $settings['duration']);
+		self::set(null, $config);
+		return $success;
+	}
+
+/**
+ * Fetch the engine attached to a specific configuration name.
+ *
+ * @param string $config Optional string configuration name to get an engine for. Defaults to 'default'.
+ * @return null|CacheEngine Null if the engine has not been initialized or the engine.
+ */
+	public static function engine($config = 'default') {
+		if (self::isInitialized($config)) {
+			return self::$_engines[$config];
+		}
+
+		return null;
+	}
 }

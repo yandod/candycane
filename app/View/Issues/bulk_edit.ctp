@@ -5,7 +5,7 @@
 <?php endforeach; ?>
 </ul>
 
-<?php echo $this->Form->create('Issue', array('action'=>'bulk_edit'));?>
+<?php echo $this->Form->create('Issue', array('url' => array('action'=>'bulk_edit')));?>
 <?php foreach($_issues as $i) { echo $this->Form->hidden('ids', array('name'=>'data[Issue][ids][]', 'value'=>$i['Issue']['id'])); } ?>
 <div class="box">
 <fieldset>

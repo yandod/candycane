@@ -1,9 +1,18 @@
 <?php echo $this->Form->create() ?>
 <h3><?php echo __('Change log') ?></h3>
+<ul>
 <?php foreach($trackers as $tracker): ?>
-  <label><?php echo $this->Form->input('tracker_ids[]', array('type'=>'checkbox', 'value'=>$tracker['Tracker']['id'], /* @selected_tracker_ids.include? tracker.id.to_s */ 'label'=>$tracker['Tracker']['name'])) ?>
-  </label><br />
+  <li>
+  	<?php echo $this->Form->input('tracker_ids[]', 
+  		array(
+  			'type'=>'checkbox', 
+  			'value' => $tracker['Tracker']['id'], 
+  			'label' => $tracker['Tracker']['name'],
+  			'div' => false
+  	)); ?>
+  </li>
 <?php endforeach ?>
+</ul>
 <p><?php echo $this->Form->submit(__('Apply'), array('class' => 'button-small')) ?></p>
 <?php echo $this->Form->end() ?>
 

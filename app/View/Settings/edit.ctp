@@ -29,7 +29,8 @@ if( $currentuser[ 'admin' ] )
 </div>
 
 <?php foreach($settings_tabs as $tab): ?>
-<?php $disp = ($selected_tab !== $tab['name']) ? 'display:none' : ''; ?>
+<?php 
+$disp = ($selected_tab !== $tab['name']) ? 'display:none' : ''; ?>
 <?php echo $this->Html->tag('div',$this->element($tab['partial']),
 	array(
 		'id' => 'tab-content-'.$tab['name'],

@@ -1,2 +1,2 @@
-This is a test email sent by CandyCane.
+<?php echo __('This is a test email sent by CandyCane.');?>
 CandyCane URL: <?php echo $url; ?>

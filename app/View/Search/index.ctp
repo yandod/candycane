@@ -1,7 +1,7 @@
 <h2><?php echo $this->Candy->html_title(__('Search')) ?></h2>
 
 <div class="box">
-<?php echo $this->Form->create(false,array('type'=>'get','action'=>'index'))?>
+<?php echo $this->Form->create(false,array('type'=>'get', 'url' => array('action'=>'index'))); ?>
 <p><?php echo $this->Form->input('q',array(
   'size' => 60,
   'id' => 'search-input',
