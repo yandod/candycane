@@ -99,6 +99,7 @@ CandyCane is using CakePHP v2.3.
 - Sardorbek Pulatov
 - Hisateru Tanaka
 - [Jose Gonzalez](http://josediazgonzalez.com) (savant)
+- [Praveen Kumar Purushothaman](https://praveen.science) (praveenscience)
 
 We will appreciate any pull requests.
 
